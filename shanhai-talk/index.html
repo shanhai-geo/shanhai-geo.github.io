@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>山海智能 - 客户话术</title>
+<title>山海智能 - 产品话术中心V3</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;padding:16px;padding-bottom:80px;max-width:480px;margin:0 auto}
@@ -17,22 +17,93 @@ body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 .tag-s{background:#10b98122;color:#10b981}
 .tag-a{background:#f59e0b22;color:#f59e0b}
 .tag-g{background:#3b82f622;color:#3b82f6}
+.tag-p{background:#8b5cf622;color:#8b5cf6}
 .card-desc{font-size:11px;color:#5a6a80;margin-bottom:10px}
 .card-text{font-size:13px;line-height:1.8;color:#c0c8d4;background:#0a0e17;border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-all}
 .copy-btn{margin-top:10px;width:100%;padding:10px;background:linear-gradient(135deg,#00d4ff,#7b61ff);color:#fff;border:none;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer}
 .copy-btn:active{opacity:.7}
 .copy-btn.copied{background:linear-gradient(135deg,#10b981,#059669)}
 .section-title{font-size:13px;color:#5a6a80;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid #1e293b}
+.product-ref{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:14px;margin-bottom:16px}
+.product-ref h3{font-size:14px;color:#00d4ff;margin-bottom:8px}
+.product-ref .pr-item{font-size:12px;color:#a0aec0;line-height:2;padding-left:8px}
+.product-ref .pr-item b{color:#fff}
 .hint{font-size:11px;color:#3a4a5a;text-align:center;margin-top:20px;line-height:1.6}
 </style>
 </head>
 <body>
 <div class="top-bar">
-<h1>山海智能 话术</h1>
-<a href="https://shanhai-geo.github.io/shanhai-ai">AI客服站</a>
+<h1>山海智能 产品话术V3</h1>
+<a href="https://shanhai-geo.github.io/">AI站</a>
 </div>
 
-<div class="section-title">S级 - 已联系过 最接近成交</div>
+<!-- 产品速查卡 -->
+<div class="product-ref">
+<h3>产品速查（客服必记·不能混）</h3>
+<div class="pr-item"><b>入门版 298元/年</b> — 单模型AI·7×24接客·不限次数 — 小店个体户</div>
+<div class="pr-item"><b>成长版 998元/年</b> — 双引擎路由·品牌话术定制·数据看板 — 多门店品牌</div>
+<div class="pr-item"><b>旗舰版 2998元/年</b> — 全模型·1对1专属服务·深度定制 — 大企业连锁</div>
+</div>
+
+<div class="section-title">产品对标话术（客服精准回答）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">产品总览</span><span class="card-tag tag-p">必背</span></div>
+<div class="card-desc">客户问"你们有什么产品"</div>
+<div class="card-text" id="p1">我们有三个套餐：
+
+入门版298元/年，7×24自动接客，不限次数，最多人选，小店首选。
+成长版998元/年，双引擎不宕机，品牌话术定制，带数据分析，适合多门店。
+旗舰版2998元/年，全模型+1对1专属服务+深度定制，适合大企业。
+
+你是做什么的？我帮你看看哪个合适。</div>
+<button class="copy-btn" onclick="cp('p1',this)">复制话术+链接</button>
+</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">入门版详情</span><span class="card-tag tag-p">必背</span></div>
+<div class="card-desc">客户问"298的有什么用"</div>
+<div class="card-text" id="p2">入门版298元/年：
+
+7×24小时AI自动接客，客户问什么秒回。
+不限调用次数，一天100次和1次一个价。
+付款后秒给密钥，马上就能用。
+不满意7天内全额退，零风险。
+
+算下来一天不到1块钱，比请兼职都便宜。你那边主要想解决什么问题？</div>
+<button class="copy-btn" onclick="cp('p2',this)">复制话术+链接</button>
+</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">成长版详情</span><span class="card-tag tag-p">必背</span></div>
+<div class="card-desc">客户问"998的有什么不同"</div>
+<div class="card-text" id="p3">成长版998元/年，比入门版多了三个核心功能：
+
+1. 双引擎智能路由——通义千问+智谱GLM双模型，一个挂了另一个秒切，保证不掉线
+2. 品牌专属话术定制——按你的产品、风格、客户群体专门配置AI话术
+3. 数据分析看板——每天多少咨询、转化率多少、客户都问什么，一目了然
+
+适合多门店、有品牌意识的商家。你那边有几个店？</div>
+<button class="copy-btn" onclick="cp('p3',this)">复制话术+链接</button>
+</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">旗舰版详情</span><span class="card-tag tag-p">必背</span></div>
+<div class="card-desc">客户问"最高配有什么"</div>
+<div class="card-text" id="p4">旗舰版2998元/年，是全托管式AI服务：
+
+全部最新模型无限调用
+深度业务定制——你的产品、流程、话术全套配置
+专属AI训练师1对1服务
+7×24技术响应
+API完整接入支持
+季度优化报告
+
+适合连锁品牌、中大型企业，需要量身定制的场景。需要我安排顾问跟你详细聊吗？</div>
+<button class="copy-btn" onclick="cp('p4',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">S级 - 已联系过 最接近成交（推298入门版）</div>
 
 <div class="card">
 <div class="card-head"><span class="card-name">李丽</span><span class="card-tag tag-s">S</span></div>
@@ -118,24 +189,25 @@ body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 <div class="card">
 <div class="card-head"><span class="card-name">朋友圈</span><span class="card-tag tag-g">通用</span></div>
 <div class="card-desc">发朋友圈配链接</div>
-<div class="card-text" id="t12">做了个山海智能AI客服，298一年，7x24在线接客，晚上下班客户找你也有人回。做生意的朋友看看有没有需要</div>
+<div class="card-text" id="t12">做了个山海智能AI客服，298起一年，7x24在线接客，晚上下班客户找你也有人回。做生意的朋友看看有没有需要</div>
 <button class="copy-btn" onclick="cp('t12',this)">复制话术+链接</button>
 </div>
 
 <div class="card">
 <div class="card-head"><span class="card-name">微信群/新客户</span><span class="card-tag tag-g">通用</span></div>
 <div class="card-desc">给没聊过的人</div>
-<div class="card-text" id="t13">你好！山海智能AI客服，7x24在线帮商家接客户，一年298。你有在做生意的话可以看看，不满意7天可退</div>
+<div class="card-text" id="t13">你好！山海智能AI客服，7x24在线帮商家接客户，一年298起。你有在做生意的话可以看看，不满意7天可退</div>
 <button class="copy-btn" onclick="cp('t13',this)">复制话术+链接</button>
 </div>
 
 <div class="hint">复制后自动带链接 https://shanhai-geo.github.io/shanhai-ai
-客户点进去直接跟AI客服聊，聊完就能买
-想发语音：照话术念一遍按住语音键发出去更有温度</div>
+客服铁律：298=入门版 998=成长版 2998=旗舰版 不能混
+客户点进去直接跟AI客服聊，聊完就能买</div>
 
 <script>
 function cp(id,btn){
-var text=document.getElementById(id).textContent+'\nhttps://shanhai-geo.github.io/shanhai-ai';
+var text=document.getElementById(id).textContent+'
+https://shanhai-geo.github.io/shanhai-ai';
 navigator.clipboard.writeText(text).then(function(){
 btn.textContent='已复制!';btn.classList.add('copied');
 setTimeout(function(){btn.textContent='复制话术+链接';btn.classList.remove('copied')},1500);
