@@ -305,6 +305,7 @@ body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
   <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('sys')"><span class="sm-icon">&#x2699;</span>系统状态</a>
   <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('port')"><span class="sm-icon">&#x1F6E1;</span>端口管控</a>
   <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('dnaShield')"><span class="sm-icon">&#x1F510;</span>防护盾</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();addAi(buildMonitorPanel())"><span class="sm-icon">&#x1F511;</span>服务监控/密钥备份</a>
   <div class="sm-section">快捷入口</div>
   <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">AI客服页</a>
   <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-shop" target="_blank">商城页</a>
@@ -860,7 +861,16 @@ function applyVisualMod(cmd){
 
 // === API ===
 function checkAll(){return Promise.all(PAGES.map(function(p){return fetch(p.url,{method:'HEAD',mode:'no-cors',cache:'no-store'}).then(function(){return{status:'online'}}).catch(function(){return{status:'offline'}})}))}
-function notify(msg){return fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgtype:'text',text:{content:'[山海指挥中心] '+msg}})}).then(function(r){return r.json()}).catch(function(e){return{errcode:-1,errmsg:e.message}})}
+function notify(msg){
+  // 扣子通知：通过邮件通知主人
+  var subject=encodeURIComponent('[山海通知] '+new Date().toLocaleDateString());
+  var body=encodeURIComponent('[山海智能系统通知]\n\n'+msg+'\n\n时间：'+new Date().toLocaleString());
+  // 尝试打开邮件客户端发送通知
+  try{window.open('mailto:746876121@qq.com?subject='+subject+'&body='+body,'_blank')}catch(e){}
+  // 同时记录到本地日志
+  addLog('通知','扣子通知','[山海通知] '+msg);
+  return Promise.resolve({ok:true});
+}
 function indexNow(){return fetch('https://api.indexnow.org/indexnow',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({host:'shanhai-geo.github.io/shanhai-ai',key:CHIP.INDEXNOW_KEY,keyLocation:'https://shanhai-geo.github.io/shanhai-ai/'+CHIP.INDEXNOW_KEY+'.txt',urlList:PAGES.map(function(p){return p.url})})}).then(function(r){return{status:r.status,ok:r.ok}}).catch(function(e){return{status:0,ok:false}})}
 function addLog(type,action,detail){var logs=JSON.parse(localStorage.getItem('sh_syslog')||'[]');logs.unshift({type:type,action:action,detail:detail,time:new Date().toISOString()});if(logs.length>200)logs=logs.slice(0,200);localStorage.setItem('sh_syslog',JSON.stringify(logs))}
 function getLogs(n){return JSON.parse(localStorage.getItem('sh_syslog')||'[]').slice(0,n||20)}
@@ -881,12 +891,13 @@ function buildOrderPanel(){
     pending.forEach(function(o){
       var oid=o.oid||o.id||'未知';
       var amt=o.amt||o.price||298;
-      var prod=o.product||o.name||'AI客服年度版';
+      var prod=o.product||o.name||'山海智能接口服务';
+      var tier=o.tier||'入门版';
       var time=o.time||'';
       var source=o.source||'';
       h+='<div class="dcard" style="border-color:rgba(245,158,11,.3);margin:6px 0">';
       h+='<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:var(--cyan);font-family:monospace;font-size:13px;font-weight:700">'+oid+'</div>';
-      h+='<div style="color:var(--text2);font-size:11px;margin-top:2px">'+prod+' · '+amt+'元/年 · '+time+'</div>';
+      h+='<div style="color:var(--text2);font-size:11px;margin-top:2px">'+tier+' · '+amt+'元/年 · '+time+'</div>';
       if(source)h+='<div style="color:var(--dim);font-size:10px">来源：'+source+'</div>';
       h+='</div>';
       h+='<button onclick="confirmOrder(\''+oid+'\')" style="padding:8px 16px;background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">确认收款+发Key</button></div>';
@@ -921,6 +932,8 @@ function confirmOrder(oid){
       orders[i].delivered=true;
       orders[i].paid=true;
       orders[i].paidTime=new Date().toLocaleString('zh-CN');
+      orders[i].activateTime=new Date().toISOString();
+      if(!orders[i].tier)orders[i].tier='入门版';
       found=true;
       break;
     }
@@ -929,8 +942,12 @@ function confirmOrder(oid){
   localStorage.setItem('sh_orders',JSON.stringify(orders));
   orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
   var o=orders.find(function(x){return(x.oid||x.id)===oid});
-  addAi('[订单交付成功]\n\n订单号：'+oid+'\nKey：'+o.key+'\n产品：'+(o.product||o.name||'AI客服年度版')+'\n金额：'+(o.amt||o.price||298)+'元/年\n交付时间：'+o.paidTime+'\n\n客户可凭订单号在AI客服站"我的订单"中查询Key。\n\n[同步到AI站] 点击下方链接将Key同步到AI客服站，客户即可查到：\nhttps://shanhai-geo.github.io/shanhai-ai#sync-order:'+oid+':'+o.key+'\n\nKey请同步告知客户(企微/对话/短信)');
-  SH_NOTIFY.push('订单','订单'+oid+'已确认收款并交付Key：'+o.key,'ok');
+  var tier=o.tier||'入门版';
+  var msg='[订单交付成功]\n\n订单号：'+oid+'\n套餐：'+tier+'\nKey：'+o.key+'\n产品：'+(o.product||o.name||'山海智能接口服务')+'\n金额：'+(o.amt||o.price||298)+'元/年\n客户手机：'+(o.phone||'未填写')+'\n交付时间：'+o.paidTime+'\n到期时间：'+new Date(new Date(o.activateTime).getTime()+365*24*3600*1000).toLocaleDateString()+'\n\n--- 密钥备份 ---\nKey: '+o.key+' | 客户: '+o.phone+' | 套餐: '+tier+'\n\n[同步到AI站] 点击下方链接将Key同步到AI客服站：\nhttps://shanhai-geo.github.io/shanhai-ai#sync-order:'+oid+':'+o.key;
+  addAi(msg);
+  SH_NOTIFY.push('订单','订单'+oid+'('+tier+')已交付Key：'+o.key,'ok');
+  // 扣子通知：发送交付通知
+  notify('订单交付成功\n订单号：'+oid+'\n套餐：'+tier+'\nKey：'+o.key+'\n金额：'+(o.amt||298)+'元\n客户手机：'+(o.phone||'无'));
   /* 自动iframe同步到AI客服站 */
   try{
     var syncFrame=document.createElement('iframe');
@@ -945,6 +962,63 @@ function confirmOrder(oid){
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,72)+'px'}
 function toggleSend(){sendBtn.classList.toggle('disabled',!msgInput.value.trim())}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}}
+
+
+function buildMonitorPanel(){
+  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+  var delivered=orders.filter(function(o){return o.status==='delivered'||o.delivered||o.key});
+  var h='<div class="result-box"><div class="rb-title">服务监控 & 密钥备份</div>';
+  
+  // 到期监控
+  var now=Date.now();
+  var active=[], expiring=[], expired=[];
+  delivered.forEach(function(o){
+    var actTime=o.activateTime||o.paidTime||o.time;
+    if(!actTime)return;
+    var exp=new Date(new Date(actTime).getTime()+365*24*3600*1000);
+    var days=Math.ceil((exp.getTime()-now)/(24*3600*1000));
+    var info={oid:o.oid,key:o.key,phone:o.phone||'-',tier:o.tier||'入门版',amt:o.amt||298,expDate:exp,days:days};
+    if(days<=0)expired.push(info);
+    else if(days<=30)expiring.push(info);
+    else active.push(info);
+  });
+  
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">';
+  h+='<div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:8px;padding:10px;text-align:center"><div style="font-size:20px;font-weight:800;color:#10b981">'+active.length+'</div><div style="font-size:10px;color:#5a6a80">正常服务</div></div>';
+  h+='<div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:10px;text-align:center"><div style="font-size:20px;font-weight:800;color:#f59e0b">'+expiring.length+'</div><div style="font-size:10px;color:#5a6a80">即将到期</div></div>';
+  h+='<div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px;text-align:center"><div style="font-size:20px;font-weight:800;color:#ef4444">'+expired.length+'</div><div style="font-size:10px;color:#5a6a80">已过期</div></div>';
+  h+='</div>';
+  
+  if(expiring.length>0){
+    h+='<div style="margin:10px 0 4px;font-size:12px;font-weight:700;color:#f59e0b">[即将到期 - 需跟进续期]</div>';
+    expiring.forEach(function(s){
+      h+='<div class="dcard" style="border-color:rgba(245,158,11,.3);margin:4px 0"><div style="display:flex;justify-content:space-between"><div style="color:#f59e0b;font-size:12px">'+s.tier+' | '+s.phone+'</div><div style="color:#f59e0b;font-size:11px;font-weight:700">剩余'+s.days+'天</div></div><div style="color:#5a6a80;font-size:10px">Key: '+s.key+' | 到期: '+s.expDate.toLocaleDateString()+'</div></div>';
+    });
+  }
+  
+  if(expired.length>0){
+    h+='<div style="margin:10px 0 4px;font-size:12px;font-weight:700;color:#ef4444">[已过期]</div>';
+    expired.forEach(function(s){
+      h+='<div class="dcard" style="border-color:rgba(239,68,68,.3);margin:4px 0"><div style="color:#ef4444;font-size:12px">'+s.tier+' | '+s.phone+'</div><div style="color:#5a6a80;font-size:10px">Key: '+s.key+' | 过期: '+s.expDate.toLocaleDateString()+'</div></div>';
+    });
+  }
+  
+  // 密钥备份
+  h+='<div style="margin:12px 0 4px;font-size:12px;font-weight:700;color:var(--cyan)">[全部密钥备份]</div>';
+  if(delivered.length===0){
+    h+='<div style="color:#5a6a80;font-size:12px;text-align:center;padding:8px">暂无已交付密钥</div>';
+  }else{
+    delivered.forEach(function(o){
+      var actTime=o.activateTime||o.time||'-';
+      h+='<div class="dcard" style="margin:4px 0"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:#00d4ff;font-family:monospace;font-size:13px;font-weight:700">'+o.key+'</div><div style="color:#5a6a80;font-size:10px">'+( o.tier||'入门版')+' | '+(o.phone||'-')+' | '+new Date(actTime).toLocaleDateString()+'</div></div><button onclick="copyKey(''+o.key+'')" style="padding:4px 10px;background:#1e293b;color:#00d4ff;border:1px solid #00d4ff33;border-radius:6px;font-size:10px;cursor:pointer">复制</button></div></div>';
+    });
+  }
+  
+  h+='<div style="margin-top:10px;font-size:10px;color:#5a6a80;line-height:1.6">密钥备份说明：所有已交付密钥存储于Admin本地。每次交付后系统自动记录。如需导出，请联系管理员。</div>';
+  h+='</div>';
+  return h;
+}
+function copyKey(key){navigator.clipboard.writeText(key).then(function(){alert('已复制: '+key)}).catch(function(){prompt('请手动复制:',key)})}
 
 // === 菜单 ===
 function toggleMenu(){document.getElementById('sideMenu').classList.toggle('show');document.getElementById('menuOverlay').classList.toggle('show')}

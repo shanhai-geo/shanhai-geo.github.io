@@ -165,6 +165,30 @@ body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 .svc-indicator.expired{color:#ef4444}
 .svc-indicator.locked{color:#ef4444}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+
+/* 服务面板 */
+.svc-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0e17;z-index:100;overflow-y:auto;max-width:480px;margin:0 auto}
+.svc-panel.show{display:block}
+.svc-panel .sp-header{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #1e293b;position:sticky;top:0;background:#0a0e17;z-index:2}
+.svc-panel .sp-header button{background:none;border:none;color:#00d4ff;font-size:14px;cursor:pointer}
+.svc-panel .sp-header span{flex:1;text-align:center;font-size:15px;font-weight:700;color:#e0e0e0}
+.svc-panel .sp-body{padding:16px}
+.sp-card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:16px;margin-bottom:12px}
+.sp-card h4{font-size:13px;color:#5a6a80;margin-bottom:10px;font-weight:600}
+.sp-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1a2332;font-size:13px}
+.sp-row:last-child{border-bottom:none}
+.sp-row .label{color:#8899aa}
+.sp-row .value{color:#e0e0e0;font-weight:600}
+.sp-row .value.active{color:#10b981}
+.sp-row .value.expiring{color:#f59e0b}
+.sp-row .value.expired{color:#ef4444}
+.sp-progress{height:6px;background:#1e293b;border-radius:3px;margin-top:6px;overflow:hidden}
+.sp-progress-bar{height:100%;border-radius:3px;transition:width .3s}
+.sp-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.sp-stat{background:#0d1220;border-radius:8px;padding:12px;text-align:center}
+.sp-stat .num{font-size:22px;font-weight:800;color:#00d4ff}
+.sp-stat .desc{font-size:10px;color:#5a6a80;margin-top:2px}
+.sp-renew-btn{display:block;width:100%;padding:12px;background:linear-gradient(135deg,#00d4ff,#7b61ff);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;margin-top:12px;text-decoration:none}
 </style>
 </head>
 <body>
@@ -199,11 +223,8 @@ body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 <div class="side-menu" id="sideMenu">
   <button class="sm-close" onclick="toggleMenu()">&#x2715;</button>
-  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();showDetail()"><span class="sm-icon">&#x1F4CB;</span>if(/优势|好在|好处|为什么选|理由|强在哪|厉害|值得|不行|差|靠谱|好不好|怎么样|推荐|产品|卖什么|是什么|哪个产品/.test(s))return'advantage';
-  if(/转介绍|推荐朋友|介绍朋友|朋友也用|推荐给我/.test(s))return'referral';
-  if(/名额|限量|还有吗|还有多少|售罄|下一批|什么时候开放|998什么时候|2998什么时候/.test(s))return'onsales';
-  if(/怎么用|怎么接|怎么接入|不会用|怎么配置|接入方法|使用教程/.test(s))return'delivery';
-  if(/用得怎么样|效果|满意|调整|优化|反馈/.test(s))return'satisfaction';详情</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();showDetail()"><span class="sm-icon">&#x1F4CB;</span>产品详情</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="showServicePanel()"><span class="sm-icon">&#x1F512;</span>我的服务</a>
   <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();showPay()"><span class="sm-icon">&#x1F4B3;</span>购买298元/年</a>
   <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();showOrderCenter()"><span class="sm-icon">&#x1F4E6;</span>我的订单</a>
   <a class="sm-item" href="https://shanhai-geo.github.io/shanhai-shop"><span class="sm-icon">&#x1F6D2;</span>商城</a>
@@ -313,7 +334,7 @@ var SH_KEY={
     var order=orders.find(function(o){return o.key===serviceKey&&(o.status==='delivered'||o.delivered)});
     if(!order){return{success:false,error:'未找到此Key对应的有效订单，请确认Key是否正确'}}
     // 激活服务
-    var data={key:serviceKey,oid:order.oid,activatedAt:new Date().toISOString(),expiryDate:new Date(Date.now()+365*24*3600*1000).toISOString()};
+    var data={key:serviceKey,oid:order.oid,tier:order.tier||'入门版',activatedAt:new Date().toISOString(),expiryDate:new Date(Date.now()+365*24*3600*1000).toISOString()};
     localStorage.setItem(this.STORAGE_KEY,JSON.stringify(data));
     return{success:true,data:data};
   },
@@ -593,7 +614,7 @@ function addUserMsg(text){
   chatArea.appendChild(d);chatArea.scrollTop=chatArea.scrollHeight
 }
 
-function sendMsg(){
+function sendMsg(){incConvCount();
   var text=msgInput.value.trim();
   if(!text)return;
   addUserMsg(text);
@@ -801,6 +822,82 @@ function notifyPaid(){
   setTimeout(function(){addAiMsg('山海智能接口服务：',{title:'接口服务 298元/年',price:'298',unit:'元/年',desc:'多模型路由 · 故障自动切换 · 不限调用次数 · 专属密钥',btn:'立即购买'})},1200);
   updateQuick('greet');
 })();
+
+/* === 服务面板 === */
+var _convCount=parseInt(localStorage.getItem('sh_conv_count')||'0');
+function incConvCount(){_convCount++;localStorage.setItem('sh_conv_count',_convCount.toString())}
+
+function showServicePanel(){
+  var menu=document.getElementById('sideMenu');if(menu)menu.classList.remove('show');
+  var overlay=document.getElementById('menuOverlay');if(overlay)overlay.classList.remove('show');
+  var panel=document.getElementById('svcPanel');
+  var body=document.getElementById('svcPanelBody');
+  var st=SH_KEY.check();
+  
+  if(st.status==='none'){
+    body.innerHTML='<div class="sp-card" style="text-align:center;padding:30px"><div style="font-size:36px;margin-bottom:12px">&#128274;</div><div style="color:#8899aa;font-size:14px">尚未激活服务</div><div style="color:#5a6a80;font-size:12px;margin-top:8px">请先激活服务密钥</div><button class="sp-renew-btn" style="margin-top:16px;max-width:200px" onclick="document.getElementById('svcPanel').classList.remove('show');document.getElementById('keyLockScreen').classList.add('show')">去激活</button></div>';
+    panel.classList.add('show');
+    return;
+  }
+  
+  var data=st.data;
+  var tier=data.tier||'入门版';
+  var tierPrice={'入门版':'298','成长版':'998','旗舰版':'2998'}[tier]||'298';
+  var expDate=new Date(data.expiryDate);
+  var daysLeft=Math.max(0,Math.ceil((expDate.getTime()-Date.now())/(24*3600*1000)));
+  var totalDays=365;
+  var usedDays=totalDays-daysLeft;
+  var pct=Math.min(100,Math.round((usedDays/totalDays)*100));
+  var statusCls=daysLeft<=0?'expired':(daysLeft<=30?'expiring':'active');
+  var statusLabel=daysLeft<=0?'已过期':(daysLeft<=30?'即将到期':'服务中');
+  
+  var h='<div class="sp-card"><h4>服务信息</h4>';
+  h+='<div class="sp-row"><span class="label">套餐</span><span class="value">'+tier+'</span></div>';
+  h+='<div class="sp-row"><span class="label">年费</span><span class="value">'+tierPrice+'元/年</span></div>';
+  h+='<div class="sp-row"><span class="label">订单号</span><span class="value" style="font-family:monospace;font-size:11px">'+(data.oid||'-')+'</span></div>';
+  h+='<div class="sp-row"><span class="label">服务密钥</span><span class="value" style="font-family:monospace;font-size:11px;word-break:break-all">'+data.key+'</span></div>';
+  h+='<div class="sp-row"><span class="label">激活时间</span><span class="value">'+new Date(data.activatedAt).toLocaleDateString()+'</span></div>';
+  h+='<div class="sp-row"><span class="label">到期时间</span><span class="value">'+expDate.toLocaleDateString()+'</span></div>';
+  h+='<div class="sp-row"><span class="label">状态</span><span class="value '+statusCls+'">'+statusLabel+'</span></div>';
+  h+='<div class="sp-progress"><div class="sp-progress-bar" style="width:'+pct+'%;background:'+(daysLeft<=0?'#ef4444':(daysLeft<=30?'#f59e0b':'#10b981'))+'"></div></div>';
+  h+='<div style="font-size:10px;color:#5a6a80;margin-top:4px;text-align:right">已用'+usedDays+'天 / 剩余'+daysLeft+'天</div>';
+  h+='</div>';
+  
+  h+='<div class="sp-card"><h4>使用统计</h4>';
+  h+='<div class="sp-stat-grid">';
+  h+='<div class="sp-stat"><div class="num">'+_convCount+'</div><div class="desc">累计对话</div></div>';
+  h+='<div class="sp-stat"><div class="num">'+daysLeft+'</div><div class="desc">剩余天数</div></div>';
+  h+='</div></div>';
+  
+  h+='<div class="sp-card"><h4>套餐功能</h4>';
+  if(tier==='成长版'||tier==='旗舰版'){
+    h+='<div class="sp-row"><span class="label">AI引擎</span><span class="value active">'+(tier==='成长版'?'双引擎路由':'全模型无限')+'</span></div>';
+    h+='<div class="sp-row"><span class="label">品牌定制</span><span class="value active">'+(tier==='成长版'?'专属话术':'深度定制')+'</span></div>';
+    h+='<div class="sp-row"><span class="label">数据看板</span><span class="value active">'+(tier==='成长版'?'已开通':'季度报告')+'</span></div>';
+  }else{
+    h+='<div class="sp-row"><span class="label">AI引擎</span><span class="value">通义千问7B</span></div>';
+    h+='<div class="sp-row"><span class="label">调用次数</span><span class="value">不限</span></div>';
+    h+='<div class="sp-row"><span class="label">服务时间</span><span class="value">7x24</span></div>';
+  }
+  h+='</div>';
+  
+  if(daysLeft<=30){
+    h+='<a class="sp-renew-btn" href="https://shanhai-geo.github.io/shanhai-shop/">立即续期 '+tierPrice+'元/年</a>';
+  }
+  
+  body.innerHTML=h;
+  panel.classList.add('show');
+}
 </script>
+
+<div class="svc-panel" id="svcPanel">
+<div class="sp-header">
+<button onclick="document.getElementById('svcPanel').classList.remove('show')">返回</button>
+<span>我的服务</span>
+<div style="width:36px"></div>
+</div>
+<div class="sp-body" id="svcPanelBody">
+</div>
+</div>
 </body>
 </html>
