@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>山海智能 - 产品话术中心V3</title>
+<title>山海智能 - 全闭环话术中心V4</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;padding:16px;padding-bottom:80px;max-width:480px;margin:0 auto}
@@ -18,89 +18,209 @@ body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 .tag-a{background:#f59e0b22;color:#f59e0b}
 .tag-g{background:#3b82f622;color:#3b82f6}
 .tag-p{background:#8b5cf622;color:#8b5cf6}
+.tag-loop{background:#ec489922;color:#ec4899}
 .card-desc{font-size:11px;color:#5a6a80;margin-bottom:10px}
 .card-text{font-size:13px;line-height:1.8;color:#c0c8d4;background:#0a0e17;border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-all}
 .copy-btn{margin-top:10px;width:100%;padding:10px;background:linear-gradient(135deg,#00d4ff,#7b61ff);color:#fff;border:none;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer}
 .copy-btn:active{opacity:.7}
 .copy-btn.copied{background:linear-gradient(135deg,#10b981,#059669)}
 .section-title{font-size:13px;color:#5a6a80;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid #1e293b}
+.loop-step{display:inline-block;background:#1e293b;color:#00d4ff;font-size:10px;padding:2px 8px;border-radius:10px;margin-right:4px;margin-bottom:4px;font-weight:700}
+.loop-step.active{background:#00d4ff;color:#0a0e17}
 .product-ref{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:14px;margin-bottom:16px}
 .product-ref h3{font-size:14px;color:#00d4ff;margin-bottom:8px}
 .product-ref .pr-item{font-size:12px;color:#a0aec0;line-height:2;padding-left:8px}
 .product-ref .pr-item b{color:#fff}
 .hint{font-size:11px;color:#3a4a5a;text-align:center;margin-top:20px;line-height:1.6}
+.flow-arrow{color:#3a4a5a;font-size:11px;text-align:center;margin:8px 0;letter-spacing:2px}
 </style>
 </head>
 <body>
 <div class="top-bar">
-<h1>山海智能 产品话术V3</h1>
+<h1>山海智能 全闭环话术V4</h1>
 <a href="https://shanhai-geo.github.io/">AI站</a>
 </div>
 
 <!-- 产品速查卡 -->
 <div class="product-ref">
-<h3>产品速查（客服必记·不能混）</h3>
-<div class="pr-item"><b>入门版 298元/年</b> — 单模型AI·7×24接客·不限次数 — 小店个体户</div>
-<div class="pr-item"><b>成长版 998元/年</b> — 双引擎路由·品牌话术定制·数据看板 — 多门店品牌</div>
-<div class="pr-item"><b>旗舰版 2998元/年</b> — 全模型·1对1专属服务·深度定制 — 大企业连锁</div>
+<h3>产品速查（客服铁律·不能混）</h3>
+<div class="pr-item"><b>入门版 298元/年</b> — 单模型AI·7×24接客·不限次数 — 小店个体户 — 开放中</div>
+<div class="pr-item"><b>成长版 998元/年</b> — 双引擎路由·品牌话术定制·数据看板 — 多门店品牌 — 待开放</div>
+<div class="pr-item"><b>旗舰版 2998元/年</b> — 全模型·1对1专属·深度定制 — 大企业连锁 — 待开放</div>
 </div>
 
-<div class="section-title">产品对标话术（客服精准回答）</div>
+<!-- 全闭环链路图 -->
+<div class="product-ref">
+<h3>全闭环链路（9阶段·不掉链）</h3>
+<div style="text-align:center;line-height:2.5">
+<span class="loop-step active">1打招呼</span>→<span class="loop-step active">2识别需求</span>→<span class="loop-step active">3产品对标</span>→<span class="loop-step active">4异议处理</span>→<span class="loop-step active">5成交</span><br>
+→<span class="loop-step active">6交付</span>→<span class="loop-step active">7使用指导</span>→<span class="loop-step active">8满意确认</span>→<span class="loop-step active">9转介绍</span>
+</div>
+</div>
+
+<div class="section-title">阶段1 — 打招呼（第一句话决定客户留不留）</div>
 
 <div class="card">
-<div class="card-head"><span class="card-name">产品总览</span><span class="card-tag tag-p">必背</span></div>
-<div class="card-desc">客户问"你们有什么产品"</div>
-<div class="card-text" id="p1">我们有三个套餐：
+<div class="card-head"><span class="card-name">AI站自动欢迎</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">客户进AI站，AI自动说</div>
+<div class="card-text" id="s1">你好，我是小海，山海智能的服务顾问。你现在就在跟我们的AI对话，回复速度和质量你直接感受。
 
-入门版298元/年，7×24自动接客，不限次数，最多人选，小店首选。
-成长版998元/年，双引擎不宕机，品牌话术定制，带数据分析，适合多门店。
-旗舰版2998元/年，全模型+1对1专属服务+深度定制，适合大企业。
+我们有三个套餐：入门版298/年、成长版998/年、旗舰版2998/年。你最想了解哪个？或者直接说说你是做什么的，我帮你看看哪个合适。</div>
+<button class="copy-btn" onclick="cp('s1',this)">复制话术+链接</button>
+</div>
 
-你是做什么的？我帮你看看哪个合适。</div>
-<button class="copy-btn" onclick="cp('p1',this)">复制话术+链接</button>
+<div class="section-title">阶段2 — 需求识别（先问再推，不念菜单）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">问需求</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">客户进来不知道选哪个</div>
+<div class="card-text" id="s2">你是做什么行业的？主要想解决什么问题？比如夜间没人接客、咨询太多回不过来、想省客服成本，跟我说说，我帮你看看哪个套餐合适。</div>
+<button class="copy-btn" onclick="cp('s2',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">阶段3 — 产品对标（精准推荐·不混淆）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">推荐入门版298</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">小店/个体户/咨询量不大</div>
+<div class="card-text" id="s3">你这种情况，入门版298就够了。
+
+7×24小时AI自动接客，客户问什么秒回。不限调用次数，一天100次和1次一个价。付款后秒给密钥，马上就能用。
+
+算下来一天不到1块钱，比请兼职都便宜。不满意7天内全额退，零风险。</div>
+<button class="copy-btn" onclick="cp('s3',this)">复制话术+链接</button>
 </div>
 
 <div class="card">
-<div class="card-head"><span class="card-name">入门版详情</span><span class="card-tag tag-p">必背</span></div>
-<div class="card-desc">客户问"298的有什么用"</div>
-<div class="card-text" id="p2">入门版298元/年：
+<div class="card-head"><span class="card-name">推荐成长版998</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">多门店/品牌/需要数据</div>
+<div class="card-text" id="s4">你有多个店/品牌，成长版998更适合你。
 
-7×24小时AI自动接客，客户问什么秒回。
-不限调用次数，一天100次和1次一个价。
-付款后秒给密钥，马上就能用。
-不满意7天内全额退，零风险。
+比入门版多三个核心功能：
+双引擎智能路由——两个AI模型互为备份，一个挂了另一个秒切，保证不掉线
+品牌专属话术定制——按你的产品、风格专门配置AI话术
+数据分析看板——每天多少咨询、转化率多少，一目了然
 
-算下来一天不到1块钱，比请兼职都便宜。你那边主要想解决什么问题？</div>
-<button class="copy-btn" onclick="cp('p2',this)">复制话术+链接</button>
+等通知开放，可以先登记，开放了第一时间通知你。</div>
+<button class="copy-btn" onclick="cp('s4',this)">复制话术+链接</button>
 </div>
 
 <div class="card">
-<div class="card-head"><span class="card-name">成长版详情</span><span class="card-tag tag-p">必背</span></div>
-<div class="card-desc">客户问"998的有什么不同"</div>
-<div class="card-text" id="p3">成长版998元/年，比入门版多了三个核心功能：
+<div class="card-head"><span class="card-name">推荐旗舰版2998</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">大企业/连锁/需要定制</div>
+<div class="card-text" id="s5">你们是连锁/大企业，旗舰版2998最合适。
 
-1. 双引擎智能路由——通义千问+智谱GLM双模型，一个挂了另一个秒切，保证不掉线
-2. 品牌专属话术定制——按你的产品、风格、客户群体专门配置AI话术
-3. 数据分析看板——每天多少咨询、转化率多少、客户都问什么，一目了然
+全托管式AI服务：全部最新模型无限调用，深度业务定制，专属AI训练师1对1，7×24技术响应。
 
-适合多门店、有品牌意识的商家。你那边有几个店？</div>
-<button class="copy-btn" onclick="cp('p3',this)">复制话术+链接</button>
+等通知开放，我帮你登记，开放了优先安排。</div>
+<button class="copy-btn" onclick="cp('s5',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">阶段4 — 异议处理（说实话·不忽悠）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">靠谱吗</span><span class="card-tag tag-s">异议</span></div>
+<div class="card-desc">客户不信任</div>
+<div class="card-text" id="s6">你现在就在跟接口生成的内容对话，回复速度和质量你亲眼看到了。
+
+7天无理由退款，不满意全额退，0风险。支付走持牌机构乐刷，不是个人收款码。
+
+试试不亏，不试才亏。</div>
+<button class="copy-btn" onclick="cp('s6',this)">复制话术+链接</button>
 </div>
 
 <div class="card">
-<div class="card-head"><span class="card-name">旗舰版详情</span><span class="card-tag tag-p">必背</span></div>
-<div class="card-desc">客户问"最高配有什么"</div>
-<div class="card-text" id="p4">旗舰版2998元/年，是全托管式AI服务：
+<div class="card-head"><span class="card-name">跟贵的有什么区别</span><span class="card-tag tag-s">异议</span></div>
+<div class="card-desc">客户觉得便宜没好货</div>
+<div class="card-text" id="s7">核心功能一样，就是成本结构不同。
 
-全部最新模型无限调用
-深度业务定制——你的产品、流程、话术全套配置
-专属AI训练师1对1服务
-7×24技术响应
-API完整接入支持
-季度优化报告
+别人1980起步，我们298起。不是功能缩水，是轻资产运营——不需要养服务器团队，API直接调现成的模型。
 
-适合连锁品牌、中大型企业，需要量身定制的场景。需要我安排顾问跟你详细聊吗？</div>
-<button class="copy-btn" onclick="cp('p4',this)">复制话术+链接</button>
+省下来的钱全让利给你。7天无理由退，不好用直接退。</div>
+<button class="copy-btn" onclick="cp('s7',this)">复制话术+链接</button>
+</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">再想想/考虑下</span><span class="card-tag tag-s">异议</span></div>
+<div class="card-desc">客户犹豫</div>
+<div class="card-text" id="s8">理解。不过入门版298首批只开放了10个名额，7天无理由退，试错成本为零。
+
+你花298试一周，觉得不好用全额退，一分钱不亏。觉得好用，一年省下几万客服费。
+
+你怎么想的？有什么顾虑跟我说。</div>
+<button class="copy-btn" onclick="cp('s8',this)">复制话术+链接</button>
+</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">不需要/算了</span><span class="card-tag tag-s">异议</span></div>
+<div class="card-desc">客户拒绝</div>
+<div class="card-text" id="s9">没关系。如果以后有夜间接客、省客服成本的需求，随时来找我。
+
+我把链接留给你，需要的时候点进去就行：shanhai-geo.github.io</div>
+<button class="copy-btn" onclick="cp('s9',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">阶段5 — 成交引导（自然引导·不生硬）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">引导下单</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">客户有意向</div>
+<div class="card-text" id="s10">点右上角菜单→购买→微信扫码付款，298元就行。
+
+付款后密钥秒出，马上就能用。7天内不满意全额退。
+
+你去付吧，付完跟我说一声，我帮你确认。</div>
+<button class="copy-btn" onclick="cp('s10',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">阶段6 — 支付交付（秒交付·不掉链）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">交付确认</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">付款后</div>
+<div class="card-text" id="s11">密钥已经到你账户了，点菜单→我的订单就能看到。
+
+复制密钥填到你的系统里，10分钟就能接入。如果在网站上用，复制一段代码粘贴就行。在公众号用，填到后台配置里。
+
+不确定怎么接？告诉我你用的是什么平台，我一步步教你。</div>
+<button class="copy-btn" onclick="cp('s11',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">阶段7 — 使用指导（确保客户会用）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">接入指导</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">客户不会用</div>
+<div class="card-text" id="s12">接入很简单。你现在用的是网站还是公众号？
+
+网站的话：把密钥填到配置里就行，5分钟搞定。
+公众号的话：在后台设置里填密钥，自动接管客户消息。
+企微的话：也有对应的接入方式。
+
+你现在用的是什么平台？我帮你看看怎么接最快。</div>
+<button class="copy-btn" onclick="cp('s12',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">阶段8 — 满意确认（主动关心·不等到客户找上门）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">跟进满意度</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">用了一周后</div>
+<div class="card-text" id="s13">用了一段时间了，效果怎么样？有没有什么问题需要调整？
+
+如果客户咨询量大、回复质量需要优化，跟我说，我帮你调整话术配置。如果觉得好用，也可以推荐给身边做生意的朋友。</div>
+<button class="copy-btn" onclick="cp('s13',this)">复制话术+链接</button>
+</div>
+
+<div class="section-title">阶段9 — 转介绍（自然引导·不硬推）</div>
+
+<div class="card">
+<div class="card-head"><span class="card-name">引导转介绍</span><span class="card-tag tag-loop">闭环</span></div>
+<div class="card-desc">客户满意后</div>
+<div class="card-text" id="s14">你觉得好用的话，身边有没有做生意的朋友也需要省客服成本的？推荐给我就行。
+
+入门版298一年，你朋友肯定用得起。7天无理由退，零风险。你推荐过来的我优先安排。</div>
+<button class="copy-btn" onclick="cp('s14',this)">复制话术+链接</button>
 </div>
 
 <div class="section-title">S级 - 已联系过 最接近成交（推298入门版）</div>
@@ -115,7 +235,7 @@ API完整接入支持
 <div class="card">
 <div class="card-head"><span class="card-name">梁娟</span><span class="card-tag tag-s">S</span></div>
 <div class="card-desc">零售门店 咨询量大</div>
-<div class="card-text" id="t2">梁姐，你店里有客户晚上找你没人回的情况吧？我做了个山海智能AI客服，298一年7x24在线接客，常见问题自动回复。你那边咨询量不小，装一个晚上不漏客。你看看适不适合。</div>
+<div class="card-text" id="t2">梁姐，你店里有客户晚上找你没人回的情况吧？我做了个山海智能AI客服，298一年7x24在线接客，常见问题自动回复。你那边咨询量不小，装一个晚上不漏客。</div>
 <button class="copy-btn" onclick="cp('t2',this)">复制话术+链接</button>
 </div>
 
@@ -177,13 +297,6 @@ API完整接入支持
 <button class="copy-btn" onclick="cp('t10',this)">复制话术+链接</button>
 </div>
 
-<div class="card">
-<div class="card-head"><span class="card-name">陈小萍/杨碧云/林玉姿</span><span class="card-tag tag-a">A</span></div>
-<div class="card-desc">已首触待回复 批量跟推</div>
-<div class="card-text" id="t11">之前跟你提过的山海智能AI客服做好了，298一年，客户咨询自动回，晚上也有人接。你看看合不合适</div>
-<button class="copy-btn" onclick="cp('t11',this)">复制话术+链接</button>
-</div>
-
 <div class="section-title">通用 - 朋友圈/群/新客户</div>
 
 <div class="card">
@@ -201,8 +314,8 @@ API完整接入支持
 </div>
 
 <div class="hint">复制后自动带链接 https://shanhai-geo.github.io/shanhai-ai
-客服铁律：298=入门版 998=成长版 2998=旗舰版 不能混
-客户点进去直接跟AI客服聊，聊完就能买</div>
+全闭环链路：打招呼→识别需求→产品对标→异议处理→成交→交付→使用指导→满意确认→转介绍
+客服铁律：298=入门版 998=成长版 2998=旗舰版 不能混 · 不说假话 · 不说大话</div>
 
 <script>
 function cp(id,btn){
