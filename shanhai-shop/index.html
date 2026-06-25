@@ -1,23 +1,292 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<script>var SH={shop:'https://shanhai-geo.github.io/shanhai-shop',admin:'https://shanhai-geo.github.io/shanhai-admin',ai:'https://shanhai-geo.github.io/shanhai-ai',pay:'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145'};</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>商城_山海智能服务开通</title>
-<meta name="description" content="山海智能服务商城,AI客服、SEO优化、智能话术等一站式开通">
-<meta name="keywords" content="AI客服商城,SEO服务,智能话术,山海商城">
-<link rel="canonical" href="https://shanhai-geo.github.io/shanhai-shop/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Store","name":"山海智能商城","description":"AI智能服务一站式开通"}</script>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}.c{max-width:600px;text-align:center;padding:2rem}h1{font-size:2rem;color:#f5af19}p{color:#ccc;margin:1rem 0;line-height:1.6}.card{background:#1a1a1a;border-radius:12px;padding:1.5rem;margin:1rem 0;text-align:left}.card h3{color:#f5af19;margin-bottom:.5rem}a.btn{display:inline-block;background:linear-gradient(135deg,#f5af19,#f12711);color:#fff;padding:1rem 2rem;border-radius:8px;text-decoration:none;margin-top:1rem}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>山海智能接口服务 - 298元/年 大模型能力即开即用</title>
+<meta name="description" content="山海智能接口服务：提供大模型API接入能力，多模型路由，故障自动切换，298元/年不限调用次数。竞品按量计费1980-5000元/年，10倍价差。">
+<meta name="keywords" content="接口服务,298元,大模型接口,API接入,多模型路由,故障切换,中小企业,山海智能,服务密钥">
+<link rel="canonical" href="https://shanhai-geo.github.io/shanhai-shop">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-text-size-adjust:100%}
+:root{--bg:#faf6f0;--card:#fff;--gold:#c8963e;--gold-d:#a67c2e;--red:#e05a4a;--green:#5a9e6f;--txt:#3a2e22;--txt2:#7a6e5e;--txt3:#a89880;--bdr:rgba(200,150,62,0.15);--r:14px}
+body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;max-width:480px;margin:0 auto}
+.top-bar{background:linear-gradient(135deg,#f8eed8,#f5e6c8);padding:8px 16px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--bdr);font-size:12px;color:var(--txt2)}
+
+/* 主产品区 */
+.hero{background:linear-gradient(180deg,#f8eed8 0%,var(--bg) 100%);text-align:center;padding:28px 16px 20px}
+.hero .logo{font-size:26px;font-weight:800;color:var(--gold-d);letter-spacing:4px}
+.hero .tagline{font-size:13px;color:var(--txt2);margin-top:6px;letter-spacing:1px}
+.hero .price-hero{margin-top:18px;display:inline-block;background:linear-gradient(135deg,var(--red),#d04030);color:#fff;border-radius:50px;padding:10px 32px;font-size:28px;font-weight:900;letter-spacing:2px;box-shadow:0 4px 18px rgba(224,90,74,.35)}
+.hero .price-hero small{font-size:13px;font-weight:400;opacity:.85}
+.hero .vs{margin-top:10px;font-size:11px;color:var(--txt3)}
+.hero .vs b{color:var(--red)}
+
+/* 产品卡 */
+.prod-card{margin:0 12px 16px;background:var(--card);border:2px solid var(--gold);border-radius:var(--r);overflow:hidden;position:relative}
+.prod-card .ribbon{position:absolute;top:16px;right:-28px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:4px 32px;transform:rotate(45deg);letter-spacing:1px}
+.prod-card .inner{padding:20px 18px}
+.prod-card h2{font-size:18px;color:var(--gold-d);margin-bottom:6px}
+.prod-card .desc{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:14px}
+.feat-list{list-style:none;margin-bottom:14px}
+.feat-list li{font-size:12px;color:var(--txt);padding:5px 0;border-bottom:1px solid var(--bdr);display:flex;align-items:flex-start;gap:6px}
+.feat-list li:last-child{border-bottom:none}
+.feat-list .ck{color:var(--green);font-weight:700;flex-shrink:0}
+.calc-box{background:linear-gradient(135deg,#fdf6ec,#f5e6c8);border-radius:10px;padding:12px;margin-bottom:14px;font-size:11px;line-height:1.8;color:var(--txt2)}
+.calc-box b{color:var(--red)}
+.buy-cta{display:block;width:100%;padding:14px;background:linear-gradient(135deg,var(--gold-d),#dbb36a);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:2px}
+.buy-cta:active{transform:scale(.98)}
+
+/* 竞品对比 */
+.compare-sec{margin:0 12px 16px;background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px}
+.compare-sec h3{font-size:14px;color:var(--gold-d);margin-bottom:10px;padding-left:8px;border-left:3px solid var(--gold)}
+.compare-table{width:100%;font-size:11px;border-collapse:collapse}
+.compare-table th{background:linear-gradient(135deg,#f8eed8,#f5e6c8);padding:8px 6px;color:var(--gold-d);font-weight:700;text-align:center;border:1px solid var(--bdr)}
+.compare-table td{padding:7px 6px;text-align:center;border:1px solid var(--bdr);color:var(--txt2)}
+.compare-table .highlight{background:#fdf6ec;color:var(--red);font-weight:700}
+
+/* 山海灵 */
+.sh-lin{margin:0 12px 16px;background:var(--card);border:1px dashed var(--bdr);border-radius:var(--r);padding:20px;text-align:center}
+.sh-lin .brand{font-size:16px;color:var(--txt3);font-weight:700;letter-spacing:2px;margin-bottom:6px}
+.sh-lin .wait{font-size:12px;color:var(--txt3);line-height:1.6}
+.sh-lin .divider{width:40px;height:1px;background:var(--bdr);margin:10px auto}
+
+/* 付款区 */
+.pay-sec{background:var(--card);border:1px solid var(--gold);border-radius:var(--r);padding:20px;margin:16px 12px;text-align:center;display:none}
+.pay-sec h3{color:var(--gold-d);font-size:16px;margin-bottom:12px}
+.pay-box{background:linear-gradient(135deg,#f8eed8,#f5e6c8);border:2px solid var(--gold);border-radius:12px;padding:20px 16px;text-align:center;position:relative;z-index:10}
+.pay-box .label{font-size:11px;color:var(--txt2);margin-bottom:4px}
+.pay-box .code{font-size:26px;color:var(--gold-d);font-weight:700;letter-spacing:2px;font-family:monospace;margin:8px 0}
+.pay-box .bank{font-size:10px;color:var(--txt3);margin-top:4px}
+.pay-box .hint{font-size:10px;color:var(--green);margin-top:6px}
+.field{margin-bottom:8px;text-align:left}
+.field label{display:block;font-size:11px;color:var(--txt2);margin-bottom:2px}
+.field input{width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:13px;outline:none}
+.confirm-btn{display:block;width:100%;padding:11px;background:linear-gradient(135deg,var(--gold-d),#dbb36a);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+.confirm-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* 交付追踪 */
+.delivery-sec{display:none;background:#fff;border:2px solid var(--green);border-radius:var(--r);padding:20px;margin:16px 12px}
+.delivery-sec h3{color:var(--green);font-size:15px;margin-bottom:12px}
+.delivery-sec .order-info{background:linear-gradient(135deg,#f0faf2,#e8f5e9);border-radius:10px;padding:14px;margin-bottom:12px;font-size:12px;line-height:2}
+.delivery-sec .order-info b{color:var(--gold-d)}
+.delivery-sec .steps{font-size:12px;line-height:2;color:var(--txt)}
+.delivery-sec .steps .done{color:var(--green)}
+.delivery-sec .steps .pending{color:var(--gold)}
+.delivery-sec .steps .wait{color:var(--txt3)}
+.delivery-sec .note{font-size:11px;color:var(--txt2);margin-top:10px;line-height:1.6}
+
+/* 订单列表 */
+.order-list-sec{display:none;background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin:0 12px 16px}
+.order-list-sec h3{color:var(--gold-d);font-size:14px;margin-bottom:10px}
+.order-item{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:8px;font-size:12px;line-height:1.8}
+.order-item .status-pending{color:var(--gold);font-weight:700}
+.order-item .status-confirmed{color:var(--green);font-weight:700}
+.order-item .key-display{color:var(--gold-d);font-weight:800;font-family:monospace;font-size:14px;background:#fff;padding:8px;border-radius:6px;border:1px dashed var(--gold);word-break:break-all;margin-top:6px}
+
+/* 合规声明 */
+.ft{text-align:center;padding:16px 12px;color:var(--txt3);font-size:10px;border-top:1px solid var(--bdr);margin-top:8px;line-height:1.7}
+.ft a{color:var(--gold);text-decoration:none}
+
+/* 弹窗 */
+.pay-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
+.pay-modal.show{display:flex}
+.pay-modal img{width:250px;height:250px;border-radius:12px;margin-bottom:12px}
+.pay-modal .tip{color:#fff;font-size:12px;opacity:.7;text-align:center;line-height:1.6}
+.pay-modal .close-btn{margin-top:16px;padding:8px 24px;background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:20px;font-size:13px;cursor:pointer}
+
+/* 接口服务浮窗 */
+@keyframes aiPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,150,62,.5)}50%{box-shadow:0 0 0 10px rgba(200,150,62,0)}}
+#aiFloat{position:fixed;bottom:20px;right:12px;z-index:9999;display:flex;align-items:center;gap:8px;text-decoration:none}
+#aiBtn{display:flex;align-items:center;gap:6px;padding:12px 20px;background:linear-gradient(135deg,var(--gold-d),#dbb36a);color:#fff;border-radius:24px;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(200,150,62,.45);animation:aiPulse 2s infinite}
+</style>
 </head>
 <body>
-<div class="c">
-<h1>山海智能商城</h1>
-<p>AI智能服务·一站式开通</p>
-<div class="card"><h3>AI智能客服</h3><p>7×24小时自动接待·¥298/年</p></div>
-<div class="card"><h3>GEO收录优化</h3><p>搜索引擎全收录·¥498/次</p></div>
-<div class="card"><h3>智能话术库</h3><p>行业定制话术·¥198/套</p></div>
-<a class="btn" href="https://shanhai-geo.github.io/shanhai-ai/">查看AI客服</a>
+<div class="top-bar">山海智能 | 接口服务298元/年 大模型能力即开即用</div>
+
+<div class="hero">
+<div class="logo">山海智能</div>
+<div class="tagline">中小企业大模型接口服务方案</div>
+<div class="price-hero">298<small>元/年</small></div>
+<div class="vs">竞品 <b>1980-5000</b> 元/年 | 10倍价差 | 同样品质</div>
 </div>
+
+<div class="prod-card">
+<div class="ribbon">爆款</div>
+<div class="inner">
+<h2>山海智能接口服务</h2>
+<div class="desc">付款确认后专属密钥即时交付，拿到密钥即可调用大模型能力，10分钟接入</div>
+<ul class="feat-list">
+<li><span class="ck">&#10003;</span>多模型路由，自动选择最优路径</li>
+<li><span class="ck">&#10003;</span>故障自动切换，保证服务不中断</li>
+<li><span class="ck">&#10003;</span>不限调用次数，包年不加价</li>
+<li><span class="ck">&#10003;</span>搜索收录优化，让智能搜索引擎收录你</li>
+<li><span class="ck">&#10003;</span>拿到密钥直接调用，10分钟接入</li>
+<li><span class="ck">&#10003;</span>零部署成本，零服务器，零运维</li>
+<li><span class="ck">&#10003;</span>7天无理由退款，0风险试用</li>
+</ul>
+<div class="calc-box">
+<b>算账：</b>298元/年 = 每天0.81元 = 不到一杯咖啡<br>
+自己部署模型一年几千到几万 | 山海298元 = 十分之一的成本<br>
+<b>不限调用次数，用得越多越划算</b>
+</div>
+<button class="buy-cta" onclick="startBuy()">立即购买 298元/年</button>
+</div>
+</div>
+
+<div class="compare-sec">
+<h3>竞品对比</h3>
+<table class="compare-table">
+<tr><th></th><th>山海智能</th><th>竞品A</th><th>竞品B</th></tr>
+<tr><td>年费</td><td class="highlight">298元</td><td>1980元</td><td>5000元</td></tr>
+<tr><td>多模型路由</td><td class="highlight">&#10003;</td><td>-</td><td>部分</td></tr>
+<tr><td>故障自动切换</td><td class="highlight">&#10003;</td><td>-</td><td>-</td></tr>
+<tr><td>搜索收录优化</td><td class="highlight">&#10003;</td><td>-</td><td>加钱</td></tr>
+<tr><td>部署成本</td><td class="highlight">零</td><td>500+</td><td>2000+</td></tr>
+<tr><td>接入时间</td><td class="highlight">10分钟</td><td>1-3天</td><td>3-7天</td></tr>
+<tr><td>7天退款</td><td class="highlight">&#10003;</td><td>&#10003;</td><td>看条款</td></tr>
+</table>
+</div>
+
+<div class="sh-lin">
+<div class="brand">山海灵</div>
+<div class="divider"></div>
+<div class="wait">白茶甄选 / 养生佳酿 / 茶酒果酒<br>敬请期待，即将开放</div>
+</div>
+
+<div class="pay-sec" id="paySec">
+<h3>确认付款</h3>
+<div class="pay-box">
+<a href="javascript:void(0)" onclick="showPayQR()" style="display:block;padding:16px 0;background:linear-gradient(135deg,#d4a04a,#b8860b);color:#fff;border-radius:22px;font-size:16px;font-weight:700;text-decoration:none;text-align:center;letter-spacing:3px;">山海智能 · 支付入口</a>
+<div class="bank">兴业银行福鼎支行 尾号9515</div>
+<div class="hint">仅支持微信扫一扫 / 长按识别</div>
+</div>
+<div class="field"><label>订单号</label><input id="fOid" readonly></div>
+<div class="field"><label>手机号（接收密钥交付通知）</label><input id="fPhone" placeholder="11位手机号" maxlength="11"></div>
+<div class="field"><label>付款金额</label><input id="fAmt" value="298" readonly></div>
+<div style="font-size:11px;color:var(--txt2);line-height:1.6;margin:8px 0;padding:8px;background:var(--bg);border-radius:8px">
+<b style="color:var(--gold-d)">重要说明：</b>点击"我已付款"后，系统将确认您的付款。确认通过后密钥即时交付至您的订单中。请确保已完成微信扫码支付后再点击。
+</div>
+<button class="confirm-btn" id="confirmBtn" onclick="confirmPay()">我已付款</button>
+</div>
+
+<div class="delivery-sec" id="deliverySec">
+<h3>订单状态</h3>
+<div class="order-info" id="orderInfo"></div>
+<div class="steps">
+<div id="step1" class="done">&#10003; 1. 付款通知已提交</div>
+<div id="step2" class="pending">&#9675; 2. 付款确认中（通常1小时内）</div>
+<div id="step3" class="wait">&#9675; 3. 密钥交付</div>
+</div>
+<div class="note">确认付款后密钥即时交付。您可随时通过菜单"我的订单"查询状态。如超时未收到密钥，请联系接口顾问。</div>
+</div>
+
+<div class="order-list-sec" id="orderListSec">
+<h3>我的订单</h3>
+<div id="orderList"></div>
+</div>
+
+<div class="ft">
+山海智能商城 | 合规经营主体 | 接口服务298元/年 大模型能力即开即用<br>
+【合规声明】<br>
+1. 经营主体为合规注册个体工商户，商品信息以页面描述为准<br>
+2. 本页标注价格均为人民币含税价，由持牌支付机构乐刷提供支付通道服务<br>
+3. 技术服务依据《消费者权益保护法》支持7天无理由退款<br>
+4. 付款确认后24小时内交付服务密钥，数据存储于中国境内<br>
+5. 本页面信息仅供展示参考，不构成任何收益承诺、投资建议或担保<br>
+6. 经营者不对因使用本产品产生的间接损失承担责任<br>
+<a href="https://shanhai-geo.github.io/shanhai-admin">管理后台</a> | <a href="https://shanhai-geo.github.io/shanhai-ai">接口服务</a>
+</div>
+
+<a id="aiFloat" href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">
+<div id="aiBtn">接口服务咨询</div>
+</a>
+
+<div class="pay-modal" id="payModal" onclick="if(event.target===this)this.classList.remove('show')">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https%3A%2F%2Flhsd.leshuazf.com%2Fpay%2Fqrc.do%3Fqr%3DVSDB201242145" alt="收款码">
+<div class="tip">微信扫码支付（仅支持微信扫一扫或长按识别）<br>点击下方链接可在微信中打开支付</div>
+<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" style="display:inline-block;margin-top:8px;padding:10px 28px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:20px;font-size:14px;font-weight:700;text-decoration:none;">直接支付</a>
+<button class="close-btn" onclick="document.getElementById('payModal').classList.remove('show')">关闭</button>
+</div>
+
+<script>
+var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+function saveOrders(){localStorage.setItem('sh_orders',JSON.stringify(orders))}
+
+// 检测Admin同步Key(hash协议)
+(function(){
+  try{
+    var h=window.location.hash;
+    if(h&&h.startsWith('#sync-order:')){
+      var parts=h.substring(12).split(':');
+      if(parts.length>=2){
+        var syncOid=parts[0],syncKey=parts[1];
+        for(var i=0;i<orders.length;i++){
+          if(orders[i].oid===syncOid){
+            orders[i].key=syncKey;orders[i].status='delivered';
+            break;
+          }
+        }
+        saveOrders();
+        history.replaceState(null,null,window.location.pathname);
+      }
+    }
+  }catch(e){}
+})();
+
+function startBuy(){
+  document.getElementById('paySec').style.display='block';
+  var oid='SH'+Date.now().toString(36).toUpperCase();
+  document.getElementById('fOid').value=oid;
+  document.getElementById('fPhone').value='';
+  document.getElementById('confirmBtn').disabled=false;
+  document.getElementById('confirmBtn').textContent='我已付款';
+  document.getElementById('paySec').scrollIntoView({behavior:'smooth'});
+}
+
+function showPayQR(){document.getElementById('payModal').classList.add('show')}
+
+function confirmPay(){
+  var phone=document.getElementById('fPhone').value.trim();
+  var oid=document.getElementById('fOid').value.trim();
+  if(!phone||phone.length!==11){alert('请输入11位手机号');return}
+  
+  // 创建待确认订单，不生成Key
+  var order={oid:oid,name:'山海智能接口服务',amt:'298',phone:phone,key:'',status:'pending',time:new Date().toISOString(),source:'商城站'};
+  orders.push(order);
+  saveOrders();
+  
+  // 禁用按钮防止重复点击
+  var btn=document.getElementById('confirmBtn');
+  btn.disabled=true;
+  btn.textContent='已提交，确认中...';
+  
+  // 显示交付追踪
+  document.getElementById('deliverySec').style.display='block';
+  document.getElementById('orderInfo').innerHTML='订单号：<b>'+oid+'</b><br>商品：山海智能接口服务 298元/年<br>手机：'+phone+'<br>状态：<span style="color:var(--gold);font-weight:700">付款确认中</span>';
+  document.getElementById('deliverySec').scrollIntoView({behavior:'smooth'});
+  
+  // 发送订单通知邮件
+  var subject=encodeURIComponent('[山海订单-待确认]'+oid);
+  var body=encodeURIComponent('订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n手机：'+phone+'\n状态：待确认付款\n时间：'+new Date().toLocaleString()+'\n\n请确认收款后，在Admin后台确认订单并交付密钥。');
+  window.open('mailto:shanhai-fd@coze.email?subject='+subject+'&body='+body,'_blank');
+  
+  renderOrders();
+}
+
+function renderOrders(){
+  if(!orders.length){document.getElementById('orderListSec').style.display='none';return}
+  document.getElementById('orderListSec').style.display='block';
+  document.getElementById('orderList').innerHTML=orders.map(function(o){
+    var statusClass=o.status==='delivered'||o.status==='confirmed'?'status-confirmed':'status-pending';
+    var statusText=o.status==='delivered'||o.status==='confirmed'?'已交付':o.status==='pending'?'付款确认中':'待确认';
+    var keyInfo=o.key?'<div class="key-display">Key: '+o.key+'</div>':'<div style="color:var(--txt3);font-size:11px;margin-top:4px">密钥将在付款确认后交付</div>';
+    return '<div class="order-item"><div style="display:flex;justify-content:space-between"><span style="font-weight:600">'+o.name+'</span><span class="'+statusClass+'">'+statusText+'</span></div><div>订单号: '+o.oid+' | '+o.amt+'元/年</div>'+keyInfo+'</div>';
+  }).join('');
+}
+
+renderOrders();
+</script>
 </body>
 </html>

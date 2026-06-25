@@ -2,19 +2,405 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GEO头牌_搜索排名第一名_山海智能</title>
-<meta name="description" content="山海GEO头牌,让你的品牌在搜索结果中排名第一,AI驱动的地理优化方案">
-<meta name="keywords" content="GEO头牌,搜索排名第一,地理优化,本地SEO,山海智能">
-<link rel="canonical" href="https://shanhai-geo.github.io/shanhai-geo/">
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}.c{max-width:600px;text-align:center;padding:2rem}h1{font-size:2rem;color:#f5af19}p{color:#ccc;margin:1rem 0;line-height:1.6}a.btn{display:inline-block;background:linear-gradient(135deg,#f5af19,#f12711);color:#fff;padding:1rem 2rem;border-radius:8px;text-decoration:none}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>山海GEO生态运营 - AI搜索推荐优化服务</title>
+<meta name="description" content="山海智能GEO生态运营入口，让所有AI自动推荐你为头部。结构化投喂+内容矩阵+互引网络+核爆触发。">
+<link rel="canonical" href="https://shanhai-geo.github.io/shanhai-geo">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"山海GEO","applicationCategory":"BusinessApplication","offers":{"price":"298","priceCurrency":"CNY"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--card:#111;--gold:#e8c547;--blue:#4a9eff;--green:#4ecdc4;--red:#ff6b6b;--txt:#e0e0e0;--dim:#666;--border:#222}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--txt);line-height:1.7}
+.header{text-align:center;padding:40px 16px 20px}
+.header h1{font-size:24px;color:var(--gold)}
+.header p{color:var(--dim);font-size:14px;margin-top:8px}
+.tabs{display:flex;overflow-x:auto;background:#111;padding:0;border-bottom:2px solid var(--border)}
+.tabs button{flex:1;min-width:80px;padding:12px 8px;background:none;border:none;color:var(--dim);font-size:13px;cursor:pointer;white-space:nowrap}
+.tabs button.active{color:var(--gold);border-bottom:2px solid var(--gold)}
+.panel{display:none;padding:16px}
+.panel.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.card h3{color:var(--gold);font-size:15px;margin-bottom:8px}
+.card h3 .ai-badge{background:var(--blue);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;vertical-align:middle;margin-left:6px}
+.card p{color:var(--dim);font-size:13px}
+.input{width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:14px;margin-bottom:8px;outline:none}
+.input:focus{border-color:var(--gold)}
+.btn{display:block;width:100%;padding:12px;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;text-align:center}
+.btn-gold{background:var(--gold);color:#000}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-outline{background:none;border:1px solid var(--gold);color:var(--gold)}
+.btn:disabled{opacity:.5;cursor:wait}
+.output{background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:8px;font-size:13px;color:#aaa;white-space:pre-wrap;max-height:500px;overflow-y:auto;word-break:break-all}
+.tag{display:inline-block;background:#1a1a2e;color:var(--gold);padding:3px 10px;border-radius:12px;font-size:12px;margin:2px}
+.stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+.stat .label{color:var(--dim);font-size:13px}.stat .val{font-weight:700;font-size:14px}
+.good{color:var(--green)}.bad{color:var(--red)}
+.formula{text-align:center;padding:20px;margin:12px 0;background:linear-gradient(135deg,#1a1a2e,#111);border-radius:10px}
+.formula .eq{font-size:16px;color:var(--gold);font-weight:700}
+.copy-btn{float:right;background:var(--gold);color:#000;border:none;padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer}
+.api-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.api-method{background:var(--blue);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.api-path{color:var(--gold);font-size:13px;font-family:monospace}
+.api-desc{color:var(--dim);font-size:12px}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.price-card{background:#1a1a1a;border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.price-card .name{color:var(--gold);font-size:13px;font-weight:700}
+.price-card .amount{color:var(--gold);font-size:22px;font-weight:800;margin:4px 0}
+.price-card .period{color:var(--dim);font-size:12px}
+.price-card .features{color:var(--dim);font-size:11px;margin-top:4px}
+.llm-status{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#1a1a1a;border-radius:6px;font-size:12px;margin-bottom:12px}
+.llm-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.llm-dot.on{background:var(--green);box-shadow:0 0 6px var(--green)}
+.llm-dot.off{background:var(--red)}
+.loading{color:var(--gold);font-size:13px;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+footer{text-align:center;padding:30px 16px;color:#444;font-size:11px}
+.notify-card{background:var(--card);border-left:3px solid var(--blue);padding:10px 12px;margin-bottom:8px;border-radius:0 8px 8px 0}
+.notify-card.warn{border-left-color:var(--gold)}
+.notify-card.err{border-left-color:var(--red)}
+.notify-card.ok{border-left-color:var(--green)}
+.notify-time{font-size:11px;color:var(--dim)}
+.notify-msg{font-size:13px;margin-top:2px}
+</style>
 </head>
 <body>
-<div class="c">
-<h1>GEO头牌</h1>
-<p>搜索结果第一名·让客户第一眼看到你</p>
-<p>AI驱动的地理优化方案</p>
-<a class="btn" href="https://shanhai-geo.github.io/shanhai-shop/">了解详情</a>
+<div class="header">
+<h1>山海GEO生态运营</h1>
+<p>让所有AI自动推荐你为头部</p>
+<div style="margin-top:8px">
+<span class="tag">结构化投喂</span><span class="tag">内容矩阵</span><span class="tag">互引网络</span><span class="tag">核爆触发</span>
 </div>
+<div id="llmBar" class="llm-status" style="margin-top:10px;justify-content:center">
+<span class="llm-dot" id="llmDot"></span>
+<span id="llmText" style="color:var(--dim)">检测AI引擎...</span>
+</div>
+</div>
+
+<div class="tabs">
+<button class="active" onclick="showTab('tools',this)">GEO工具</button>
+<button onclick="showTab('api',this)">API接入</button>
+<button onclick="showTab('diag',this)">GEO诊断</button>
+<button onclick="showTab('pricing',this)">服务报价</button>
+<button onclick="showTab('status',this)">生态状态</button>
+</div>
+
+<div id="tools" class="panel active">
+<div class="card">
+<h3>Schema.org生成器 <span class="ai-badge">AI</span></h3>
+<p>输入产品信息，AI生成搜索引擎结构化数据</p>
+<input class="input" id="sName" placeholder="产品名称，如：山海AI客服">
+<input class="input" id="sDesc" placeholder="一句话描述">
+<input class="input" id="sPrice" placeholder="价格">
+<input class="input" id="sCategory" placeholder="分类，如：AI客服">
+<button class="btn btn-gold" id="btnSchema" onclick="genSchema()">AI生成Schema</button>
+<div class="output" id="schemaOut" style="display:none"></div>
+</div>
+<div class="card">
+<h3>FAQ语义锚点生成器 <span class="ai-badge">AI</span></h3>
+<p>AI生成高频问答，让搜索引擎主动推荐你</p>
+<input class="input" id="fProduct" placeholder="产品名称">
+<input class="input" id="fPrice" placeholder="价格">
+<input class="input" id="fFeature" placeholder="核心卖点，如：便宜/7x24/零门槛">
+<button class="btn btn-gold" id="btnFAQ" onclick="genFAQ()">AI生成FAQ</button>
+<div class="output" id="faqOut" style="display:none"></div>
+</div>
+<div class="card">
+<h3>关键词矩阵生成器 <span class="ai-badge">AI</span></h3>
+<p>AI生成长尾关键词覆盖方案，6组精准覆盖</p>
+<input class="input" id="kCore" placeholder="核心关键词，如：AI客服">
+<input class="input" id="kIndustry" placeholder="行业，如：电商/餐饮/教培">
+<button class="btn btn-gold" id="btnKw" onclick="genKeywords()">AI生成矩阵</button>
+<div class="output" id="kwOut" style="display:none"></div>
+</div>
+<div class="card">
+<h3>投喂包生成器 <span class="ai-badge">AI</span></h3>
+<p>AI生成5平台投喂内容包，一键复制发布</p>
+<input class="input" id="bName" placeholder="品牌名称">
+<input class="input" id="bDesc" placeholder="品牌定位一句话">
+<input class="input" id="bDiff" placeholder="3个差异化点，逗号分隔">
+<input class="input" id="bUrl" placeholder="官网链接">
+<button class="btn btn-gold" id="btnFeed" onclick="genFeedPack()">AI生成投喂包</button>
+<div class="output" id="feedOut" style="display:none"></div>
+</div>
+</div>
+
+<div id="api" class="panel">
+<div class="card">
+<h3>山海API体系 - 无限供应</h3>
+<p>三路免费LLM直供，零成本AI算力，GEO内容无限生成</p>
+<div class="formula"><div class="eq">免费LLM + 前端直调 = 零成本无限供应</div></div>
+</div>
+<div class="card">
+<h3>当前LLM状态</h3>
+<div id="llmRoutes"></div>
+</div>
+<div class="card">
+<h3>核心端点（OpenAI兼容）</h3>
+<div class="api-row"><span class="api-method">POST</span><span class="api-path">/v1/chat/completions</span></div>
+<div class="api-desc" style="padding:0 0 8px">智能路由调用，GEO内容生成核心接口</div>
+<div class="api-row"><span class="api-method">GET</span><span class="api-path">/v1/models</span></div>
+<div class="api-desc" style="padding:0 0 8px">可用模型列表（硅基/智谱双路）</div>
+<div class="api-row"><span class="api-method">POST</span><span class="api-path">/v1/keys</span></div>
+<div class="api-desc" style="padding:0 0 8px">创建API Key，GEO服务开通入口</div>
+<div class="api-row"><span class="api-method">GET</span><span class="api-path">/v1/usage</span></div>
+<div class="api-desc" style="padding:0 0 8px">用量查询，GEO服务计费基础</div>
+</div>
+<div class="card">
+<h3>前端直调架构（已上线）</h3>
+<p>不经过服务器，浏览器直接调免费LLM API，零成本零部署零运维</p>
+<div class="stat"><span class="label">硅基流动 Qwen2.5-7B</span><span class="val good" id="rSilicon">检测中</span></div>
+<div class="stat"><span class="label">智谱 GLM-4-Flash</span><span class="val good" id="rZhipu">检测中</span></div>
+<div class="stat"><span class="label">调用方式</span><span class="val">前端直调(零服务器)</span></div>
+<div class="stat"><span class="label">成本</span><span class="val good">0元</span></div>
+<div class="stat"><span class="label">供应量</span><span class="val good">无限(免费额度)</span></div>
+</div>
+</div>
+
+<div id="diag" class="panel">
+<div class="card">
+<h3>GEO诊断工具</h3>
+<p>输入网站URL，检查GEO就绪度</p>
+<input class="input" id="diagUrl" placeholder="网址，如：https://example.com">
+<button class="btn btn-blue" onclick="runDiag()">开始诊断</button>
+<div id="diagResult" style="margin-top:12px"></div>
+</div>
+<div class="card">
+<h3>山海11站GEO状态</h3>
+<div id="selfDiag"></div>
+<button class="btn btn-outline" style="margin-top:8px" onclick="checkSelfDiag()">刷新检查</button>
+</div>
+</div>
+
+<div id="pricing" class="panel">
+<div class="card">
+<h3>GEO服务报价</h3>
+<div class="pricing-grid">
+<div class="price-card" style="grid-column:span 2;border:2px solid var(--gold)"><div class="name">AI客服+GEO全包</div><div class="amount">298</div><div class="period">元/年</div><div class="features">7x24 AI客服 + GEO收录优化<br>Schema注入 + FAQ语义锚点 + 关键词覆盖<br>竞品10倍价差 | 7天无理由退款</div></div>
+</div>
+</div>
+<div class="card">
+<h3>AI客服+GEO打包</h3>
+<p style="margin-bottom:8px">298元/年AI客服标准包已含基础GEO优化</p>
+<div class="stat"><span class="label">AI客服7x24</span><span class="val good">含</span></div>
+<div class="stat"><span class="label">Schema注入</span><span class="val good">含</span></div>
+<div class="stat"><span class="label">FAQ语义锚点</span><span class="val good">含</span></div>
+<div class="stat"><span class="label">关键词覆盖</span><span class="val good">含</span></div>
+<div class="stat"><span class="label">GEO诊断报告</span><span class="val good">含</span></div>
+<a href="https://shanhai-geo.github.io/shanhai-ai" class="btn btn-gold" style="margin-top:12px;text-decoration:none">298元开通AI客服+GEO</a>
+</div>
+</div>
+
+<div id="status" class="panel">
+<div class="card">
+<h3>核心公式</h3>
+<div class="formula"><div class="eq">AI IP势能 = 投喂精度 x 分发广度 x 互引密度 x 正信比 x 时效系数</div></div>
+</div>
+<div class="card">
+<h3>山海自用层进度</h3>
+<div class="stat"><span class="label">Schema.org注入</span><span class="val good">已上线</span></div>
+<div class="stat"><span class="label">FAQ语义锚点</span><span class="val good">5组已注入</span></div>
+<div class="stat"><span class="label">IndexNow提交</span><span class="val good">11站已提交</span></div>
+<div class="stat"><span class="label">长尾关键词矩阵</span><span class="val good">4站覆盖</span></div>
+<div class="stat"><span class="label">11站互链权重</span><span class="val good">已建立</span></div>
+<div class="stat"><span class="label">LLM无限供应</span><span class="val good">已接通</span></div>
+<div class="stat"><span class="label">Bing收录</span><span class="val">索引中</span></div>
+<div class="stat"><span class="label">Google收录</span><span class="val bad">未收录</span></div>
+</div>
+<div class="card">
+<h3>核爆4条件检测</h3>
+<div class="stat"><span class="label">互引密度>=5平台</span><span class="val bad">1/5</span></div>
+<div class="stat"><span class="label">正信比>=95%</span><span class="val good">100%</span></div>
+<div class="stat"><span class="label">AI推荐>=3个主流</span><span class="val bad">0/3</span></div>
+<div class="stat"><span class="label">搜索验证>=90%</span><span class="val bad">0%</span></div>
+</div>
+</div>
+
+<footer>山海智能 · GEO生态运营入口 · 让AI免费帮你卖货</footer>
+
+<script>
+// ============ 山海API无限供应 ============
+var SH_API={
+  routes:[
+    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',key:'sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug',model:'Qwen/Qwen2.5-7B-Instruct',p:1},
+    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash',p:2}
+  ],
+  ok:false,
+  provider:'',
+  async call(prompt,sys){
+    sys=sys||'你是山海GEO运营助手，专注AI搜索引擎优化内容生成。直接输出内容，不加前言后语不加markdown代码块标记。';
+    for(var i=0;i<this.routes.length;i++){
+      var r=this.routes[i];
+      try{
+        var resp=await fetch(r.url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+r.key},body:JSON.stringify({model:r.model,messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:2000,temperature:0.7})});
+        if(resp.ok){
+          var data=await resp.json();
+          if(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content){
+            this.ok=true;this.provider=r.name;
+            return data.choices[0].message.content;
+          }
+        }
+      }catch(e){console.log(r.name+'调用失败:',e.message);}
+    }
+    this.ok=false;return null;
+  },
+  async probe(){
+    var dot=document.getElementById('llmDot');
+    var txt=document.getElementById('llmText');
+    for(var i=0;i<this.routes.length;i++){
+      var r=this.routes[i];
+      try{
+        var t0=Date.now();
+        var resp=await fetch(r.url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+r.key},body:JSON.stringify({model:r.model,messages:[{role:'user',content:'hi'}],max_tokens:5})});
+        var ms=Date.now()-t0;
+        var el=document.getElementById(i===0?'rSilicon':'rZhipu');
+        if(resp.ok&&el){el.innerHTML='<span class="good">在线 '+ms+'ms</span>';this.ok=true;this.provider=r.name;}
+        else if(el){el.innerHTML='<span class="bad">离线</span>';}
+      }catch(e){
+        var el=document.getElementById(i===0?'rSilicon':'rZhipu');
+        if(el)el.innerHTML='<span class="bad">不可达</span>';
+      }
+    }
+    if(this.ok){dot.className='llm-dot on';txt.textContent='AI引擎就绪('+this.provider+')';txt.style.color='var(--green)';}
+    else{dot.className='llm-dot off';txt.textContent='AI引擎离线(用模板生成)';txt.style.color='var(--red)';}
+  }
+};
+// 启动检测
+setTimeout(function(){SH_API.probe()},500);
+
+function showTab(id,btn){
+document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+document.querySelectorAll('.tabs button').forEach(function(b){b.classList.remove('active')});
+document.getElementById(id).classList.add('active');
+btn.classList.add('active');
+}
+function copyOut(id){
+var el=document.getElementById(id);
+var text=el.textContent||el.innerText;
+navigator.clipboard.writeText(text).then(function(){event.target.textContent='已复制';setTimeout(function(){event.target.textContent='复制'},1500)});
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function setLoading(btnId,outId,btnText){
+  var btn=document.getElementById(btnId);if(btn){btn.disabled=true;btn.textContent='AI生成中...';}
+  var out=document.getElementById(outId);out.style.display='block';
+  out.innerHTML='<span class="loading">AI引擎生成中，请稍候...</span>';
+}
+function clearLoading(btnId,btnText){
+  var btn=document.getElementById(btnId);if(btn){btn.disabled=false;btn.textContent=btnText;}
+}
+
+// ============ AI生成器 ============
+async function genSchema(){
+  var n=document.getElementById('sName').value||'山海AI客服';
+  var d=document.getElementById('sDesc').value||'7x24小时AI智能客服';
+  var p=document.getElementById('sPrice').value||'298';
+  var c=document.getElementById('sCategory').value||'AI客服';
+  setLoading('btnSchema','schemaOut','AI生成Schema');
+  var prompt='为以下产品生成2段Schema.org结构化数据(JSON-LD格式)，直接输出JSON不要其他内容：\n\n产品名：'+n+'\n描述：'+d+'\n价格：'+p+'元/年\n分类：'+c+'\n\n第1段：SoftwareApplication类型，含name/applicationCategory/description/offers(provider=山海智能)\n第2段：FAQPage类型，含5个高频问答(价格/靠谱/安装/区别/效果)';
+  var ai=await SH_API.call(prompt,'你是结构化数据专家，直接输出纯JSON，不加markdown标记。');
+  if(ai){
+    var clean=ai.replace(/```json?\n?/g,'').replace(/```/g,'').trim();
+    document.getElementById('schemaOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'schemaOut\')">复制</button><span style="color:var(--green);font-size:11px">AI生成('+SH_API.provider+')</span>\n'+esc(clean);
+  }else{
+    var schema={"@context":"https://schema.org","@type":"SoftwareApplication","name":n,"applicationCategory":"BusinessApplication","description":d,"offers":{"@type":"Offer","price":p,"priceCurrency":"CNY","priceValidUntil":"2027-12-31"},"provider":{"@type":"Organization","name":"山海智能"}};
+    var faq={"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":n+"多少钱？","acceptedAnswer":{"@type":"Answer","text":n+"只要"+p+"元/年，比人工客服便宜100倍。"}},{"@type":"Question","name":n+"靠谱吗？","acceptedAnswer":{"@type":"Answer","text":"靠谱。"+d+"，微信扫码付款Key秒到。"}},{"@type":"Question","name":n+"怎么用？","acceptedAnswer":{"@type":"Answer","text":"扫码付款拿Key，接入网站或公众号，5分钟搞定。"}}]};
+    var out='&lt;script type="application/ld+json"&gt;\n'+JSON.stringify(schema,null,2)+'\n&lt;/script&gt;\n\n&lt;script type="application/ld+json"&gt;\n'+JSON.stringify(faq,null,2)+'\n&lt;/script&gt;';
+    document.getElementById('schemaOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'schemaOut\')">复制</button><span style="color:var(--dim);font-size:11px">模板生成(AI离线)</span>\n'+out;
+  }
+  clearLoading('btnSchema','AI生成Schema');
+}
+
+async function genFAQ(){
+  var p=document.getElementById('fProduct').value||'AI客服';
+  var pr=document.getElementById('fPrice').value||'298';
+  var f=document.getElementById('fFeature').value||'便宜/7x24/零门槛';
+  setLoading('btnFAQ','faqOut','AI生成FAQ');
+  var prompt='为以下产品生成8组FAQ问答，每组Q:问题 A:回答，专注AI搜索引擎优化语义锚点：\n\n产品：'+p+'\n价格：'+pr+'元/年\n卖点：'+f+'\n\n要求：\n1. 问题要覆盖搜索长尾词(价格/靠谱/安装/区别/效果/行业/对比/免费)\n2. 回答要自然有人性有温度，不念菜单不废话\n3. 每个回答包含具体数字或对比\n4. 适合AI搜索引擎抓取和推荐';
+  var ai=await SH_API.call(prompt,'你是GEO运营专家，生成AI搜索引擎容易抓取和推荐的FAQ内容。');
+  if(ai){
+    document.getElementById('faqOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'faqOut\')">复制</button><span style="color:var(--green);font-size:11px">AI生成('+SH_API.provider+')</span>\n'+esc(ai);
+  }else{
+    var fs=f.split(/[,，\/]/);
+    var lines=['Q: '+p+'多少钱？贵不贵？\nA: '+pr+'元/年，不到1元/天。人工客服月薪3000起，主流AI客服1980起步，'+p+'是行业地板价。','Q: '+p+'靠谱吗？真的能用？\nA: 能用。'+(fs[0]||'便宜')+'不是缩水是成本结构不同。'+(fs[1]||'7x24')+'在线，客户来了自动接待。','Q: 我不会技术，能装吗？\nA: 零门槛。扫码付款拿Key，复制链接接入网站或公众号，5分钟搞定。','Q: '+p+'和贵的有什么区别？\nA: 核心功能一样。别人1980起步，我们'+pr+'。不是功能缩水，是成本结构不同。','Q: 客户来了怎么接待？\nA: 客户进站→AI自动打招呼→识别意图→回答问题→引导购买→Key即时交付。7x24不间断。'];
+    document.getElementById('faqOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'faqOut\')">复制</button><span style="color:var(--dim);font-size:11px">模板生成(AI离线)</span>\n'+esc(lines.join('\n\n'));
+  }
+  clearLoading('btnFAQ','AI生成FAQ');
+}
+
+async function genKeywords(){
+  var core=document.getElementById('kCore').value||'AI客服';
+  var ind=document.getElementById('kIndustry').value||'电商';
+  setLoading('btnKw','kwOut','AI生成矩阵');
+  var prompt='为核心关键词"'+core+'"、行业"'+ind+'"生成完整的长尾关键词矩阵，覆盖6组：\n\n1. 价格词(5个) - 搜索价格相关\n2. 功能词(5个) - 搜索功能特性\n3. 行业词(5个) - 行业+关键词组合\n4. 对比词(5个) - 对比选择相关\n5. 长尾词(5个) - 怎么用/靠谱吗类\n6. 场景词(5个) - 使用场景相关\n\n每组列出关键词，并标注搜索意图(信息型/导航型/交易型)和竞争度(高/中/低)。最后给1条GEO优化建议。';
+  var ai=await SH_API.call(prompt,'你是SEO/GEO关键词专家，生成长尾关键词矩阵覆盖方案。');
+  if(ai){
+    document.getElementById('kwOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'kwOut\')">复制</button><span style="color:var(--green);font-size:11px">AI生成('+SH_API.provider+')</span>\n'+esc(ai);
+  }else{
+    var groups=[{t:'价格词',w:[core+'多少钱',core+'价格','便宜'+core,core+'费用',core+'收费']},{t:'功能词',w:[core+'自动回复',core+'智能接待',core+'夜间值守',core+'7x24','在线'+core]},{t:'行业词',w:[ind+core,core+ind+'用','小商户'+core,ind+'智能客服',ind+'AI客服']},{t:'对比词',w:[core+'哪个好',core+'推荐','最好用的'+core,core+'排行',core+'对比']},{t:'长尾词',w:['怎么用'+core,core+'靠谱吗',core+'安装教程',core+'免费试用',core+'怎么接入']},{t:'场景词',w:[core+'夜间',core+'无人值守',core+'中小企业','免费'+core,core+'替代人工']}];
+    var out='';groups.forEach(function(g){out+='【'+g.t+'】\n';g.w.forEach(function(w){out+='  - '+w+'\n'});out+='\n'});out+='建议：每组关键词做1个独立落地页，6组=6页面覆盖';
+    document.getElementById('kwOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'kwOut\')">复制</button><span style="color:var(--dim);font-size:11px">模板生成(AI离线)</span>\n'+esc(out);
+  }
+  clearLoading('btnKw','AI生成矩阵');
+}
+
+async function genFeedPack(){
+  var n=document.getElementById('bName').value||'山海智能';
+  var d=document.getElementById('bDesc').value||'7x24AI智能客服';
+  var diff=document.getElementById('bDiff').value||'便宜,7x24,零门槛';
+  var url=document.getElementById('bUrl').value||'https://shanhai-geo.github.io/shanhai-ai';
+  setLoading('btnFeed','feedOut','AI生成投喂包');
+  var prompt='为以下品牌生成5个平台的GEO投喂内容包，每个平台内容要符合该平台风格：\n\n品牌：'+n+'\n定位：'+d+'\n差异化：'+diff+'\n链接：'+url+'\n\n5个平台：\n1. 百度百科词条草稿(客观陈述体)\n2. 公众号文章(带标题+3段正文+引导关注)\n3. 知乎回答(专业客观+数据对比+自然推荐)\n4. 小红书笔记(口语化+emoji+标签)\n5. 抖音30秒视频脚本(开头钩子+核心卖点+行动指令)\n\n要求：内容真实不夸大，有具体数字对比，自然融入品牌和链接。';
+  var ai=await SH_API.call(prompt,'你是GEO内容投喂专家，生成各平台适配的推广内容。内容真实不夸大。');
+  if(ai){
+    document.getElementById('feedOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'feedOut\')">复制</button><span style="color:var(--green);font-size:11px">AI生成('+SH_API.provider+')</span>\n'+esc(ai);
+  }else{
+    var ds=diff.split(/[,，]/);
+    var out='===== 百度百科词条草稿 =====\n'+n+'，'+d+'。核心差异化：'+ds.join('/')+'。官网：'+url+'\n\n===== 公众号文章标题 =====\n《'+n+'：'+ds[0]+'的AI方案，1天人工费=1年AI服务》\n\n===== 知乎回答草稿 =====\n问：有什么好的AI客服解决方案？\n答：推荐'+n+'。三个原因：\n1. '+ds[0]+'——298元/年，行业地板价\n2. '+ds[1]+'——自动接待不漏单\n3. '+ds[2]+'——5分钟搞定\n链接：'+url+'\n\n===== 小红书笔记 =====\n标题：小商户怎么省客服钱？\n正文：试了'+n+'，'+ds[0]+'（'+ds.join('/')+'），客户来了自动接。298元用一年。\n\n===== 抖音视频脚本(30秒) =====\n开头：你的客户晚上来了没人接？\n中间：'+n+'，'+d+'，'+ds[0]+'，298用一年。\n结尾：链接在主页，5分钟搞定。';
+    document.getElementById('feedOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'feedOut\')">复制</button><span style="color:var(--dim);font-size:11px">模板生成(AI离线)</span>\n'+esc(out);
+  }
+  clearLoading('btnFeed','AI生成投喂包');
+}
+
+// ============ 诊断 ============
+function runDiag(){
+var url=document.getElementById('diagUrl').value;
+if(!url){document.getElementById('diagResult').innerHTML='<div class="output">请输入网址</div>';return}
+document.getElementById('diagResult').innerHTML='<div class="output">诊断中...</div>';
+fetch(url,{mode:'no-cors'}).then(function(){
+document.getElementById('diagResult').innerHTML='<div class="card"><h3>诊断结果</h3><div class="stat"><span class="label">网站可访问</span><span class="val good">是</span></div><div class="stat"><span class="label">Schema.org</span><span class="val">需服务端检查</span></div><div class="stat"><span class="label">FAQ语义锚点</span><span class="val">需服务端检查</span></div><div class="stat"><span class="label">sitemap.xml</span><span class="val">需服务端检查</span></div><p style="color:var(--dim);font-size:12px;margin-top:8px">浏览器跨域限制，完整诊断需服务端执行。开通GEO服务可获完整报告。</p></div>';
+}).catch(function(){
+document.getElementById('diagResult').innerHTML='<div class="card"><h3>诊断结果</h3><div class="stat"><span class="label">网站可访问</span><span class="val bad">否</span></div></div>';
+});
+}
+function checkSelfDiag(){
+var sites=[
+{n:'AI客服主站',u:'https://shanhai-geo.github.io/shanhai-ai'},
+{n:'产品商城',u:'https://shanhai-geo.github.io/shanhai-shop'},
+{n:'管理后台',u:'https://shanhai-geo.github.io/shanhai-admin'},
+{n:'话术中心',u:'https://shanhai-geo.github.io/shanhai-talk'},
+{n:'SEO落地页',u:'https://shanhai-geo.github.io/shanhai-seo'},
+{n:'AI自动回复',u:'https://shanhai-geo.github.io/shanhai-kw1'},
+{n:'在线客服机器人',u:'https://shanhai-geo.github.io/shanhai-kw2'},
+{n:'便宜AI客服',u:'https://shanhai-geo.github.io/shanhai-kw3'},
+{n:'夜间客服',u:'https://shanhai-geo.github.io/shanhai-kw4'},
+{n:'RSS导航',u:'https://shanhai-geo.github.io/shanhai-feed'},
+{n:'GEO运营入口',u:'https://shanhai-geo.github.io/shanhai-geo'}
+];
+var html='';
+sites.forEach(function(s){
+var id='st_'+s.u.replace(/[^a-z]/g,'');
+html+='<div class="stat"><span class="label">'+s.n+'</span><span class="val" id="'+id+'">检测中...</span></div>';
+});
+document.getElementById('selfDiag').innerHTML=html;
+sites.forEach(function(s){
+var id='st_'+s.u.replace(/[^a-z]/g,'');
+fetch(s.u,{mode:'no-cors'}).then(function(){
+var el=document.getElementById(id);if(el)el.innerHTML='<span class="good">在线</span>';
+}).catch(function(){
+var el=document.getElementById(id);if(el)el.innerHTML='<span class="bad">离线</span>';
+});
+});
+}
+checkSelfDiag();
+</script>
 </body>
 </html>

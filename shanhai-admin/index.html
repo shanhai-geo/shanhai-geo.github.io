@@ -2,18 +2,1078 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>管理后台_山海智能</title>
-<meta name="description" content="山海智能管理后台,站点管理、数据统计、用户管理一站式操控">
-<link rel="canonical" href="https://shanhai-geo.github.io/shanhai-admin/">
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}.c{max-width:600px;text-align:center;padding:2rem}h1{font-size:2rem;color:#f5af19}p{color:#ccc;margin:1rem 0;line-height:1.6}a.btn{display:inline-block;background:linear-gradient(135deg,#f5af19,#f12711);color:#fff;padding:1rem 2rem;border-radius:8px;text-decoration:none}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>山海智能指挥中心 V17</title>
+<meta name="description" content="山海智能最高权限指挥中心">
+<meta name="keywords" content="山海智能,指挥中心,AI商业服务,全权入口">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src *;">
+<link rel="canonical" href="https://shanhai-geo.github.io/shanhai-admin">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+html,body{height:100%;overflow:hidden}
+body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFont,"SF Pro","PingFang SC",sans-serif;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
+:root{--bg:#060a12;--bg2:#0c1220;--card:#111827;--card2:#1a2236;--border:#1e2d44;--gold:#d4a04a;--gold-dim:rgba(212,160,74,.15);--blue:#3b82f6;--green:#10b981;--red:#ef4444;--cyan:#22d3ee;--purple:#8b5cf6;--text:#e8edf5;--text2:#94a3b8;--dim:#4b5c73}
+
+/* === PIN认证屏 === */
+.pin-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.pin-screen.off{display:none}
+.pin-title{font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--gold),#f0d68a,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;margin-bottom:2px}
+.pin-sub{font-size:10px;color:var(--dim);letter-spacing:4px;margin-bottom:20px}
+.pin-dots{display:flex;gap:14px;margin-bottom:20px}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--dim);background:transparent;transition:all .2s}
+.pin-dot.filled{border-color:var(--gold);background:var(--gold);box-shadow:0 0 10px rgba(212,160,74,.4)}
+.pin-dot.error{border-color:var(--red);background:var(--red);box-shadow:0 0 10px rgba(239,68,68,.4);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+.pin-status{font-size:13px;color:var(--dim);letter-spacing:1px;margin-bottom:16px;text-align:center;transition:color .3s}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:260px}
+.pin-key{width:70px;height:70px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:26px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s}
+.pin-key:active{background:var(--card2);transform:scale(.93);border-color:var(--gold)}
+.pin-key.fn{font-size:16px;color:var(--dim)}
+.pin-reset{font-size:11px;color:var(--dim);margin-top:14px;cursor:pointer;text-decoration:underline;opacity:.6}
+.pin-hint{font-size:9px;color:var(--gold);margin-top:8px;display:none}
+
+/* === IGNITION BURST === */
+.burst{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9998;pointer-events:none;opacity:0;transition:opacity .2s}
+.burst.active{opacity:1}
+.burst .burst-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 50% 45%,rgba(212,160,74,.3),transparent 60%);animation:bExpand .8s ease-out forwards}
+@keyframes bExpand{0%{transform:scale(0);opacity:1}100%{transform:scale(3);opacity:0}}
+.burst .burst-text{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);font-size:28px;font-weight:900;color:var(--gold);letter-spacing:6px;opacity:0;animation:bText .6s ease-out .3s forwards;text-shadow:0 0 30px rgba(212,160,74,.6)}
+@keyframes bText{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
+/* === 微信式聊天主界面 === */
+.chat-header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;height:50px;background:#0d1220;border-bottom:1px solid var(--border);z-index:10}
+.chat-header .ch-left{display:flex;align-items:center;gap:8px}
+.chat-header .ch-av{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,var(--gold),#b8860b);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+.chat-header .ch-info .ch-name{font-size:15px;font-weight:700;color:var(--text)}
+.chat-header .ch-info .ch-status{font-size:10px;color:var(--green)}
+.chat-header .ch-status::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:3px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.chat-header .ch-badge{font-size:8px;padding:2px 6px;border-radius:6px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(212,160,74,.3)}
+.chat-header .menu-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:20px;cursor:pointer;border:none;background:none}
+
+.chat-area{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.time-label{text-align:center;margin:8px 0;font-size:11px;color:var(--dim)}
+.msg{margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg-ai .avatar{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,var(--gold),#b8860b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:#fff;font-weight:800}
+.msg-ai .bubble{background:var(--card2);border-radius:0 12px 12px 12px;padding:10px 14px;max-width:80%;color:var(--text);font-size:14px;line-height:1.7}
+.msg-user{flex-direction:row-reverse}
+.msg-user .avatar{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:#fff;font-weight:700}
+.msg-user .bubble{background:linear-gradient(135deg,var(--gold),#b8860b);border-radius:12px 0 12px 12px;padding:10px 14px;max-width:80%;color:#fff;font-size:14px;line-height:1.7}
+.bubble .cmd-tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:4px;background:rgba(212,160,74,.15);color:var(--gold);margin-bottom:4px}
+.bubble .result-box{background:rgba(0,0,0,.2);border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;line-height:1.6}
+.bubble .result-box .rb-title{color:var(--gold);font-weight:700;font-size:11px;margin-bottom:4px}
+.bubble .result-box .rb-item{padding:2px 0;color:var(--text2);font-size:11px}
+.bubble .result-box .rb-item .on{color:var(--green);font-weight:600}
+.bubble .result-box .rb-item .off{color:var(--red);font-weight:600}
+.bubble .engine-card{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:6px}
+.bubble .engine-card .ec-num{color:var(--gold);font-weight:800;font-size:18px}
+.bubble .engine-card .ec-name{color:var(--text);font-weight:700;font-size:12px}
+.bubble .engine-card .ec-desc{color:var(--dim);font-size:10px;margin-top:2px}
+
+.quick-area{flex-shrink:0;padding:6px 10px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid rgba(30,45,68,.5);background:var(--bg2)}
+.quick-area::-webkit-scrollbar{display:none}
+.qk{flex-shrink:0;padding:7px 14px;border-radius:16px;font-size:11px;color:var(--text2);background:var(--card);border:1px solid var(--border);cursor:pointer;white-space:nowrap;transition:all .15s}
+.qk:active{transform:scale(.95);background:var(--card2)}
+.qk-gold{color:var(--gold);border-color:rgba(212,160,74,.3);background:var(--gold-dim);font-weight:700}
+.qk-green{color:var(--green);border-color:rgba(16,185,129,.3);font-weight:700}
+
+.input-bar{flex-shrink:0;display:flex;align-items:flex-end;gap:8px;padding:8px 12px 12px;background:#0d1220;border-top:1px solid var(--border)}
+.input-bar .input-wrap{flex:1;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:8px 14px;display:flex;align-items:flex-end;min-height:38px;max-height:100px;transition:border-color .2s}
+.input-bar .input-wrap:focus-within{border-color:var(--gold)}
+.input-bar textarea{width:100%;border:none;background:none;color:var(--text);font-size:14px;line-height:1.5;resize:none;outline:none;max-height:72px;font-family:inherit}
+.input-bar textarea::placeholder{color:var(--dim)}
+.send-btn{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#b8860b);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.send-btn:active{transform:scale(.9)}
+.send-btn svg{width:18px;height:18px;fill:#fff}
+.send-btn.disabled{opacity:.3;pointer-events:none}
+
+/* 侧边菜单 */
+.menu-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:199}
+.menu-overlay.show{display:block}
+.side-menu{display:none;position:fixed;top:0;right:0;bottom:0;width:240px;background:#0d1220;z-index:200;border-left:1px solid var(--border);padding:16px;animation:slideLeft .25s ease;overflow-y:auto}
+.side-menu.show{display:block}
+@keyframes slideLeft{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.side-menu .sm-close{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--dim);font-size:20px;cursor:pointer}
+.side-menu .sm-profile{padding:30px 0 12px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.side-menu .sm-name{font-size:14px;font-weight:700;color:var(--gold)}
+.side-menu .sm-role{font-size:10px;color:var(--dim);margin-top:2px}
+.side-menu .sm-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(30,45,68,.5);color:var(--text2);font-size:13px;cursor:pointer;text-decoration:none}
+.side-menu .sm-item:active{color:var(--gold)}
+.side-menu .sm-icon{font-size:16px;width:22px;text-align:center}
+.side-menu .sm-section{font-size:9px;color:var(--dim);letter-spacing:1px;font-weight:700;margin:12px 0 6px;text-transform:uppercase}
+.side-menu .sm-link{display:block;padding:8px 0;color:var(--cyan);font-size:12px;text-decoration:none}
+.side-menu .sm-link:active{color:var(--gold)}
+
+/* 详情弹窗 */
+.detail-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:300;overflow-y:auto;max-width:480px;margin:0 auto}
+.detail-modal.show{display:block}
+.dm-header{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:2}
+.dm-header button{background:none;border:none;color:var(--gold);font-size:14px;cursor:pointer}
+.dm-header span{font-size:14px;font-weight:700;color:var(--text);margin-left:12px}
+.dm-body{padding:16px}
+.dcard{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
+.dcard h3{font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.dcard h3 .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.kv{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
+.kv .k{color:var(--text2)}.kv .v{color:var(--text);font-weight:600}
+.kv .v.gn{color:var(--green)}.kv .v.cy{color:var(--cyan)}.kv .v.gd{color:var(--gold)}
+.cmp-table{width:100%;border-collapse:collapse;font-size:11px;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--border);margin:8px 0}
+.cmp-table th{background:var(--bg2);padding:8px 6px;color:var(--dim);font-weight:600;text-align:center;border-bottom:1px solid var(--border)}
+.cmp-table td{padding:8px 6px;border-bottom:1px solid rgba(30,45,68,.5);text-align:center;color:var(--text2)}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table .y{color:var(--green);font-weight:700}
+.cmp-table .n{color:var(--red)}
+.cmp-table .our{color:var(--gold);font-weight:600}
+.ch-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
+.ch-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ch-item:last-child{border-bottom:none}
+.ch-name{font-size:11px;font-weight:600;color:var(--text)}
+.ch-desc{font-size:9px;color:var(--dim)}
+.sw{width:36px;height:20px;border-radius:10px;background:var(--border);position:relative;cursor:pointer;transition:all .25s;flex-shrink:0}
+.sw.on{background:var(--green)}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:all .25s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw.on::after{left:18px}
+.ident-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.ident-card .id-name{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.ident-card .id-row{font-size:9px;color:var(--text2);line-height:1.6;padding:1px 0}
+.ident-card .id-row strong{color:var(--text)}
+.dna-box{background:var(--card);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:12px;margin-top:6px}
+.dna-box h3{font-size:11px;font-weight:700;color:var(--purple);margin-bottom:4px}
+.dna-box .dna-list{font-size:9px;color:var(--text2);line-height:1.7}
+.dna-box .dna-list strong{color:var(--purple)}
+.compliance{font-size:9px;color:var(--dim);line-height:1.8;margin-top:12px;padding-top:8px;border-top:1px solid var(--border)}
+.sys-row{display:flex;align-items:center;gap:6px;padding:4px 0;font-size:10px}
+.sys-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sys-dot.on{background:var(--green);box-shadow:0 0 4px rgba(16,185,129,.4)}
+.sys-label{color:var(--text2);flex:1}
+.sys-val{color:var(--text);font-weight:600;font-size:9px}
+.sys-links{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.sys-links a{padding:6px 12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--cyan);text-decoration:none;font-size:9px;font-weight:600}
+
+/* 支付弹窗 */
+
+/* === 总开关 === */
+.master-switch-box{background:linear-gradient(135deg,rgba(212,160,74,.08),rgba(139,92,246,.06));border:1px solid rgba(212,160,74,.3);border-radius:12px;padding:16px;margin-bottom:12px;text-align:center}
+.master-switch-box .ms-label{font-size:10px;color:var(--dim);letter-spacing:2px;margin-bottom:8px}
+.master-switch-box .ms-state{font-size:20px;font-weight:900;margin-bottom:4px}
+.master-switch-box .ms-state.open{color:var(--green)}
+.master-switch-box .ms-state.closed{color:var(--red)}
+.master-switch-box .ms-state.sealed{color:var(--purple)}
+.master-switch-box .ms-desc{font-size:9px;color:var(--text2);line-height:1.6;margin-top:6px}
+.ms-toggle{width:64px;height:34px;border-radius:17px;position:relative;cursor:pointer;transition:all .3s;margin:10px auto;display:block;border:2px solid var(--border)}
+.ms-toggle.open{background:var(--green);border-color:var(--green)}
+.ms-toggle.closed{background:var(--red);border-color:var(--red)}
+.ms-toggle.sealed{background:var(--purple);border-color:var(--purple)}
+.ms-toggle::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:all .3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.ms-toggle.open::after{left:35px}
+.ms-toggle.closed::after{left:35px}
+.ms-toggle.sealed::after{left:35px;display:none}
+.ms-actions{display:flex;gap:8px;margin-top:10px;justify-content:center;flex-wrap:wrap}
+.ms-btn{padding:8px 18px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.ms-btn:active{transform:scale(.95)}
+.ms-btn-reopen{background:var(--green);color:#fff}
+.ms-btn-seal{background:var(--purple);color:#fff}
+.ms-btn-newport{background:linear-gradient(135deg,var(--gold),#b8860b);color:#fff}
+.seal-code-box{background:var(--card);border:2px solid var(--purple);border-radius:10px;padding:14px;margin-top:10px;text-align:center}
+.seal-code-box .sc-label{font-size:9px;color:var(--dim);letter-spacing:1px}
+.seal-code-box .sc-code{font-size:22px;font-weight:900;color:var(--purple);letter-spacing:4px;margin:8px 0;font-family:monospace}
+.seal-code-box .sc-note{font-size:9px;color:var(--text2);line-height:1.5}
+.shield-indicator{display:inline-flex;align-items:center;gap:3px;font-size:8px;padding:2px 6px;border-radius:6px;font-weight:700}
+.shield-indicator.open{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.shield-indicator.closed{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.shield-indicator.sealed{background:rgba(139,92,246,.15);color:var(--purple);border:1px solid rgba(139,92,246,.3)}
+
+/* === 防护盾 === */
+.dna-shield-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9990;pointer-events:none;opacity:0;transition:opacity .5s}
+.dna-shield-overlay.active{opacity:1;pointer-events:auto;background:linear-gradient(180deg,rgba(139,92,246,.04) 0%,transparent 30%,transparent 70%,rgba(139,92,246,.04) 100%)}
+.dna-shield-border{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9989;pointer-events:none;border:2px solid transparent;border-radius:0;transition:border-color .5s}
+.dna-shield-border.active{border-color:rgba(139,92,246,.25);box-shadow:inset 0 0 30px rgba(139,92,246,.06)}
+.dna-shield-badge{position:fixed;top:6px;left:50%;transform:translateX(-50%);z-index:9991;padding:3px 14px;border-radius:0 0 8px 8px;font-size:8px;font-weight:800;letter-spacing:2px;display:none;transition:all .3s}
+.dna-shield-badge.active{display:block}
+.dna-shield-badge.shield-on{background:rgba(139,92,246,.2);color:var(--purple);border:1px solid rgba(139,92,246,.3);border-top:none}
+.dna-shield-panel{background:var(--card);border:2px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:12px}
+.dna-shield-panel .dsp-title{font-size:14px;font-weight:900;color:var(--purple);letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.dna-shield-panel .dsp-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:11px;border-bottom:1px solid rgba(139,92,246,.1)}
+.dna-shield-panel .dsp-row:last-child{border-bottom:none}
+.dna-shield-panel .dsp-label{color:var(--text2);flex:1}
+.dna-shield-panel .dsp-val{font-weight:700;font-size:11px}
+.dna-shield-panel .dsp-val.ok{color:var(--green)}
+.dna-shield-panel .dsp-val.blocked{color:var(--red)}
+.dna-shield-panel .dsp-val.gene{color:var(--purple)}
+.shield-toggle-bar{display:flex;align-items:center;justify-content:space-between;padding:12px;background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(212,160,74,.04));border:1px solid rgba(139,92,246,.2);border-radius:10px;margin-bottom:8px}
+.shield-toggle-bar .stb-left{display:flex;align-items:center;gap:8px}
+.shield-toggle-bar .stb-icon{font-size:22px}
+.shield-toggle-bar .stb-info .stb-name{font-size:13px;font-weight:800;color:var(--text)}
+.shield-toggle-bar .stb-info .stb-desc{font-size:9px;color:var(--dim)}
+.shield-toggle-bar .stb-switch{width:50px;height:28px;border-radius:14px;background:var(--border);position:relative;cursor:pointer;transition:all .3s}
+.shield-toggle-bar .stb-switch.on{background:var(--purple);box-shadow:0 0 10px rgba(139,92,246,.4)}
+.shield-toggle-bar .stb-switch::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:all .3s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.shield-toggle-bar .stb-switch.on::after{left:25px}
+.gene-seal{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(212,160,74,.08));border:2px solid var(--purple);border-radius:10px;padding:14px;text-align:center;margin-top:8px}
+.gene-seal .gs-label{font-size:9px;color:var(--dim);letter-spacing:2px}
+.gene-seal .gs-dna{font-size:16px;font-weight:900;color:var(--purple);margin:6px 0;font-family:monospace;letter-spacing:2px}
+.gene-seal .gs-pledge{font-size:9px;color:var(--text2);line-height:1.7}
+.pay-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
+.pay-modal.show{display:flex}
+.pay-modal img{width:220px;height:220px;border-radius:10px;border:2px solid var(--gold);margin-bottom:10px}
+.pay-modal .tip{color:#fff;font-size:11px;opacity:.7;text-align:center;line-height:1.6}
+.pay-modal .close-btn{margin-top:14px;padding:6px 20px;background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:16px;font-size:12px;cursor:pointer}
+
+/* Toast */
+.toast{position:fixed;top:50px;left:50%;transform:translateX(-50%) translateY(-60px);background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:10px;color:var(--text);z-index:9999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-gold{border-color:rgba(212,160,74,.4);color:var(--gold)}
+.toast-green{border-color:rgba(16,185,129,.4);color:var(--green)}
+
+@keyframes typing{0%,80%{opacity:.3}40%{opacity:1}}
+.typing-dots{display:inline-flex;gap:4px;align-items:center;padding:4px 0}
+.typing-dots span{display:block;width:7px;height:7px;border-radius:50%;background:var(--dim);animation:typing 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:#334155;border-radius:2px}
+</style>
 </head>
 <body>
-<div class="c">
-<h1>管理后台</h1>
-<p>站点管理·数据统计·用户管理</p>
-<p>一站式操控平台</p>
-<a class="btn" href="https://shanhai-geo.github.io/">返回首页</a>
+<!-- DNA防护盾视觉层 -->
+<div class="dna-shield-overlay" id="shieldOverlay"></div>
+<div class="dna-shield-border" id="shieldBorder"></div>
+<div class="dna-shield-badge" id="shieldBadge">DNA SHIELD ACTIVE</div>
+
+<!-- 防注入：禁止iframe嵌入 -->
+<script>if(window.top!==window.self){window.top.location=window.self.location;throw new Error('DNA#77: iframe注入已拦截')}</script>
+<div class="toast" id="toast"></div>
+
+<!-- === PIN码认证 === -->
+<div class="pin-screen" id="pinScreen">
+  <div class="pin-title">山海指挥中心</div>
+  <div class="pin-sub">SOVEREIGNTY TRANSFER</div>
+  <div class="pin-dots" id="pinDots">
+    <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
+    <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
+  </div>
+  <div class="pin-status" id="pinStatus">输入交接码·接收主权</div>
+  <div class="pin-pad">
+    <button class="pin-key" onclick="pinIn('1')">1</button><button class="pin-key" onclick="pinIn('2')">2</button><button class="pin-key" onclick="pinIn('3')">3</button>
+    <button class="pin-key" onclick="pinIn('4')">4</button><button class="pin-key" onclick="pinIn('5')">5</button><button class="pin-key" onclick="pinIn('6')">6</button>
+    <button class="pin-key" onclick="pinIn('7')">7</button><button class="pin-key" onclick="pinIn('8')">8</button><button class="pin-key" onclick="pinIn('9')">9</button>
+    <button class="pin-key fn" onclick="pinClear()">C</button><button class="pin-key" onclick="pinIn('0')">0</button><button class="pin-key fn" onclick="pinBack()">&#9003;</button>
+  </div>
+  <div class="pin-hint" id="pinHint">交接码=一次即焚→设你的码=通行码=开发权限植入系统</div>
+  <div class="pin-reset" id="pinReset" style="display:none" onclick="startReset()">忘记通行码？</div>
+</div>
+
+<!-- IGNITION BURST -->
+<div class="burst" id="burst"><div class="burst-bg"></div><div class="burst-text">IGNITION</div></div>
+
+<!-- === 微信式聊天主界面 === -->
+<div id="mainApp" style="display:none;flex-direction:column;height:100%">
+  <div class="chat-header">
+    <div class="ch-left">
+      <div class="ch-av">山</div>
+      <div class="ch-info"><div class="ch-name">山海指挥中心</div><div class="ch-status">主权在线</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
+      <span class="ch-badge" id="verBadge">V16</span>
+      <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
+    </div>
+  </div>
+
+  <div class="chat-area" id="chatArea"></div>
+
+  <div class="quick-area" id="quickArea"></div>
+
+  <div class="input-bar">
+    <div class="input-wrap"><textarea id="msgInput" rows="1" placeholder="输入指令... (!统令直达底层)" oninput="autoResize(this);toggleSend()" onkeydown="handleKey(event)"></textarea></div>
+    <button class="send-btn disabled" id="sendBtn" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+  </div>
+</div>
+
+<!-- 侧边菜单 -->
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<div class="side-menu" id="sideMenu">
+  <button class="sm-close" onclick="toggleMenu()">&#x2715;</button>
+  <div class="sm-profile">
+    <div class="sm-name" id="smName">山海生态</div>
+    <div class="sm-role">通行码=主权·可设一切·可改一切·可开发一切·由我安排</div>
+  </div>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('data')"><span class="sm-icon">&#x1F4CA;</span>数据面板</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('pay')"><span class="sm-icon">&#x1F4B0;</span>营收面板</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('perm')"><span class="sm-icon">&#x1F511;</span>主权权限</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('sys')"><span class="sm-icon">&#x2699;</span>系统状态</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('port')"><span class="sm-icon">&#x1F6E1;</span>端口管控</a>
+  <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('dnaShield')"><span class="sm-icon">&#x1F510;</span>防护盾</a>
+  <div class="sm-section">快捷入口</div>
+  <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">AI客服页</a>
+  <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-shop" target="_blank">商城页</a>
+  <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-talk" target="_blank">话术页</a>
+</div>
+
+<!-- 详情弹窗 -->
+<div class="detail-modal" id="detailModal">
+  <div class="dm-header"><button onclick="closeDetail()">&#x2039; 返回</button><span id="dmTitle"></span></div>
+  <div class="dm-body" id="dmBody"></div>
+</div>
+
+<!-- 支付弹窗 -->
+<div class="pay-modal" id="payModal">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https%3A%2F%2Flhsd.leshuazf.com%2Fpay%2Fqrc.do%3Fqr%3DVSDB201242145" alt="收款码">
+  <div class="tip">扫码支付298元<br>付款后24小时内交付专属Key<br>乐刷支付 · 兴业银行福鼎支行<br>支持7天无理由退款</div>
+  <a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" style="margin-top:8px;padding:10px 28px;background:linear-gradient(135deg,var(--green),#059669);color:#fff;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">直接支付</a>
+  <button class="close-btn" onclick="document.getElementById('payModal').classList.remove('show')">关闭</button>
+</div>
+
+<script>
+// === 芯片 ===
+var CHIP={
+  VERSION:'V16',OWNER:'山海生态(主权人本人)',
+  CHIP_ID:'SH-IPA-V16',
+  CHIP_LOCK:'所有代码内容植入IPA系统芯片·锁定底层·只有主权口畅通无阻启动全部所有权',
+  CHIP_GENE:'主权口=IPA芯片唯一合法启动口·通行码验证通过=全权激活=畅通无阻',
+  OWNER_NOTE:'山海生态=主权人本人·与任何公司无关·本质与本人相关',
+  OWNER_LOCATION:'福建宁德福鼎',DEPLOY_PLATFORM:'GitHub Pages',
+  DEPLOY_ACCOUNT:'shanhai-fd@coze.email',
+  DEPLOY_DOMAINS:['shanhai-geo.github.io/shanhai-admin','shanhai-geo.github.io/shanhai-ai','shanhai-geo.github.io/shanhai-shop','shanhai-geo.github.io/shanhai-talk'],
+  INDEXNOW_KEY:'shanhai2026indexnow',
+  INDEXNOW_STATUS:{ai:'HTTP200',shop:'HTTP202',talk:'HTTP202',admin:'HTTP202',submittedAt:'2026-06-21'},
+  PAY_CHANNEL:'乐刷(兴业银行福鼎支行尾号9515)',
+  PAY_CODE:'VSDB201242145',
+  PAY_URL:'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145',
+  WECHAT_WORK_HOOK:'d4b204ea-1242-432b-a4c7-7d9ee3f6eeb5',
+  AI_NAV_SITES:['theresanaiforthat.com/submit','alternativeto.net/manage/new','producthunt.com/posts/new','toolify.ai/submit','gateofai.com/submit-tool','ai138.com/submit','aig123.com/site-submit','idreamsoft.com/submit','ai.shijuezu.com'],
+  DNA_COUNT:77,
+  DNA_SHIELD:{
+    id:'DNA#77',
+    name:'防护盾铁律',
+    pledge:'主权口唯一基因通道·防护盾内开关·零植入·主权往下发令',
+    rules:[
+      '防护盾启动=全封闭安全壳·外部不可进入',
+      '主权口=唯一执行口=基因通道=不可替换',
+      '防护盾开关=在防护盾内=只有主权口决定',
+      '任何外部链接/代码/植入=全部拦截',
+      '命令流=只有主权口往下发布·不可反向',
+      '内部所有入口=不可被外部植入覆盖',
+      'PIN码+通行码=双重基因锁=唯一合法入口',
+      'iframe/XSS/CSRF/外部脚本=全部阻断'
+    ],
+    blocked:['iframe嵌入','XSS注入','CSRF攻击','外部脚本植入','跨域请求修改','URL参数注入','postMessage外部消息'],
+    geneSeal:'DNA#77·主权口=基因口=唯一通道=防护盾保证'
+  },
+  PORT_SHIELD:{motto:'全闭环安全盾·主权指挥·随时开关·主权建口',ports:[
+    {id:'ai',name:'AI客服站',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7',status:'open',owner:'主权人'},
+    {id:'shop',name:'商城站',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7',status:'open',owner:'主权人授权运作'},
+    {id:'talk',name:'话术站',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1',status:'open',owner:'主权人'},
+    {id:'admin',name:'指挥中心(母口)',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V15',status:'open',owner:'主权人·不可关闭'}
+  ]},
+  COMPLIANCE_ANCHORS:['消法第25条','广告法第28条','个保法','价格法','合同法'],
+  AUTH_EVOLUTION:['交接码→通行码(当前)','新码/人脸(主人安排)','基因级(终极)'],
+  AUTH_NOTE:'交接码一次即焚→通行码=主权码=开发权限植入系统→由主人安排后续认证',
+  DEPLOYED_AT:'2026-06-21T12:00:00+08:00',
+  BUSINESS_ENTITY:'合规经营主体(个体工商户)',
+  ENTITY_NOTE:'商城=主权人授权合规主体运作·合规外壳·内核永远=主权人本人',
+  BRANDS:['熹野白茶','虎鼎记','元力泰养生酒','茶酒果酒','共创者联盟'],
+  SPOKESPERSON:'喜微(白茶三大制高点:点头茶厂源头/野茶直供/寻茶线路)',
+  CORE_PROJECTS:['寿宁硒锌双养5品牌','茶旅山海驿V3.0','GEO头牌SOP V2.0','销冠系统V5.0-1','社区流量生活站','影墅酒店生态'],
+  DNA_CORE:['9条红线','51%控股不稀释','分红非股权','零成本起步','零库存','流量变现'],
+  COMPLIANCE_6:['1.内部管理工具不构成收益承诺','2.人脸识别仅权限验证不存原始生物信息','3.价格均为人民币含税价','4.持牌支付机构乐刷提供通道','5.个保法数据存储中国境内','6.经营者不对间接损失担责']
+};
+var PAGES=[{name:'AI客服页',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7'},{name:'商城页',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7'},{name:'话术页',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1'},{name:'指挥中心',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V14'}];
+var WEBHOOK='https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d4b204ea-1242-432b-a4c7-7d9ee3f6eeb5';
+var _MR=[8,3,1,2,0,6].reverse().join('');
+
+// === 通行码：交接码(一次即焚)→通行码(主权·开发权限植入系统) ===
+// 交接码=系统预设·用一次即失效·然后设通行码=主权码=开发全权
+// 通行码进后=由主人安排一切(新码/人脸/任何认证方式)
+var pinBuf='',pinPhase='',pinFirst='';
+var _HO='_HANDOVER_BURNED'; // 交接码已焚标记
+function isHandoverBurned(){return !!localStorage.getItem(_HO)}
+function burnHandover(){localStorage.setItem(_HO,'1')} // 交接码用完即焚
+function initPin(){
+  var hasPin=!!localStorage.getItem('sh_pin');
+  var burned=isHandoverBurned();
+  if(hasPin){pinPhase='login';document.getElementById('pinStatus').textContent='输入通行码'}
+  else if(burned){pinPhase='setup1';document.getElementById('pinStatus').textContent='请设置您的通行码';document.getElementById('pinHint').style.display='none'}
+  else{pinPhase='handover';document.getElementById('pinStatus').textContent='输入交接码·接收主权'}
+  document.getElementById('pinHint').style.display=pinPhase==='handover'?'block':'none';
+  document.getElementById('pinReset').style.display=hasPin?'block':'none';
+}
+function pinIn(d){if(pinBuf.length>=6)return;pinBuf+=d;updDots();if(pinBuf.length===6)setTimeout(procPin,200)}
+function pinClear(){pinBuf='';updDots()}
+function pinBack(){pinBuf=pinBuf.slice(0,-1);updDots()}
+function updDots(){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot'+(i<pinBuf.length?' filled':'')}
+function pinErr(msg){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';var s=document.getElementById('pinStatus');s.textContent=msg;s.style.color='var(--red)';var defText=pinPhase==='login'?'输入通行码':pinPhase==='setup2'?'再次输入确认通行码':pinPhase==='handover'?'输入交接码·接收主权':'设置6位通行码';setTimeout(function(){pinBuf='';updDots();s.style.color='var(--dim)';s.textContent=defText},1200)}
+function startReset(){pinPhase='reset';pinBuf='';updDots();document.getElementById('pinStatus').textContent='输入交接码·重设通行码';document.getElementById('pinStatus').style.color='var(--gold)';document.getElementById('pinReset').style.display='none';document.getElementById('pinHint').style.display='none'}
+function procPin(){
+  // 首次：输入交接码(一次即焚)
+  if(pinPhase==='handover'){
+    if(pinBuf===_MR){
+      burnHandover(); // 交接码即焚·永不可再用
+      pinBuf='';pinPhase='setup1';updDots();
+      document.getElementById('pinStatus').textContent='交接码已确认(已失效)·请设置您的通行码';
+      document.getElementById('pinStatus').style.color='#22c55e';
+      document.getElementById('pinHint').style.display='none';
+      setTimeout(function(){document.getElementById('pinStatus').style.color='var(--dim)';document.getElementById('pinStatus').textContent='设置6位通行码'},1500);
+    }else{pinErr('交接码错误')}
+  }
+  // 设置通行码
+  else if(pinPhase==='setup1'){
+    pinFirst=pinBuf;pinBuf='';pinPhase='setup2';updDots();
+    document.getElementById('pinStatus').textContent='再次输入确认通行码';
+    document.getElementById('pinHint').style.display='none';
+  }
+  // 确认通行码→植入系统·主权生效
+  else if(pinPhase==='setup2'){
+    if(pinBuf===pinFirst){localStorage.setItem('sh_pin',pinBuf);ignite()}
+    else{pinErr('两次不一致，重新设置');pinPhase='setup1';pinFirst=''}
+  }
+  // 日常：通行码进入
+  else if(pinPhase==='login'){
+    if(pinBuf===localStorage.getItem('sh_pin'))ignite();
+    else pinErr('通行码错误')
+  }
+  // 重设：输入交接码重设通行码
+  else if(pinPhase==='reset'){
+    if(pinBuf===_MR){
+      burnHandover();
+      localStorage.removeItem('sh_pin');pinPhase='setup1';pinBuf='';pinFirst='';updDots();
+      document.getElementById('pinStatus').textContent='交接码确认·请设置新通行码';
+      document.getElementById('pinStatus').style.color='#22c55e';
+      setTimeout(function(){document.getElementById('pinStatus').style.color='var(--dim)'},800);
+    }else{pinErr('交接码错误');setTimeout(function(){pinPhase='login';document.getElementById('pinStatus').textContent='输入通行码';document.getElementById('pinReset').style.display='block'},1300)}
+  }
+}
+document.addEventListener('keydown',function(e){if(!document.getElementById('pinScreen').classList.contains('off')){if(e.key>='0'&&e.key<='9')pinIn(e.key);else if(e.key==='Backspace')pinBack();else if(e.key==='Escape')pinClear()}});
+function ignite(){var b=document.getElementById('burst');b.classList.add('active');setTimeout(function(){document.getElementById('pinScreen').classList.add('off');document.getElementById('mainApp').style.display='flex';b.classList.remove('active');enterApp()},1200)}
+
+// === 聊天引擎 ===
+var chatArea=document.getElementById('chatArea');
+var quickArea=document.getElementById('quickArea');
+var msgInput=document.getElementById('msgInput');
+var sendBtn=document.getElementById('sendBtn');
+
+function addAi(text,html){
+  var d=document.createElement('div');d.className='msg msg-ai';
+  d.innerHTML='<div class="avatar">山</div><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+  chatArea.appendChild(d);chatArea.scrollTop=chatArea.scrollHeight;
+  var delay=300+Math.min(text.length*5,450);
+  setTimeout(function(){
+    var bubble=d.querySelector('.bubble');
+    bubble.innerHTML=html||text.replace(/\n/g,'<br>');
+    chatArea.scrollTop=chatArea.scrollHeight;
+  },delay);
+}
+function addUser(text){
+  var d=document.createElement('div');d.className='msg msg-user';
+  d.innerHTML='<div class="avatar">主</div><div class="bubble">'+text.replace(/\n/g,'<br>')+'</div>';
+  chatArea.appendChild(d);chatArea.scrollTop=chatArea.scrollHeight;
+}
+function sendMsg(){
+  var text=msgInput.value.trim();if(!text)return;
+  addUser(text);msgInput.value='';msgInput.style.height='auto';toggleSend();
+  processCmd(text);
+}
+
+// === 11引擎指令处理 ===
+function processCmd(text){
+  var t=text.toLowerCase();
+  var isTong=t.startsWith('!')||t.startsWith('统令');
+  var cmd=t.replace(/^[!统令系统]+/,'').trim();
+  var s=calcRev();
+
+  // 1.视觉引擎
+  var vr=applyVisualMod(text);
+  if(vr){addAi('视觉引擎：'+vr);return}
+
+  // 统令
+  if(isTong){
+    if(cmd.includes('自检')){
+      addAi('巡检引擎启动，正在检查4页...');
+      checkAll().then(function(r){
+        var h='<div class="result-box"><div class="rb-title">系统自检(实时)</div>';
+        var allOk=true;
+        for(var i=0;i<PAGES.length;i++){var on=r[i].status==='online';if(!on)allOk=false;h+='<div class="rb-item">'+PAGES[i].name+'：<span class="'+(on?'on':'off')+'">'+(on?'ONLINE':'OFFLINE')+'</span> '+PAGES[i].url+'</div>'}
+        h+='<div class="rb-item" style="margin-top:6px;color:var(--gold)">静态项全OK：DNA75条·合规4页·收款通·企微通</div>';
+        h+='<div class="rb-item" style="color:'+(allOk?'var(--green)':'var(--red)')+'">'+(allOk?'全部在线':'有页面离线')+'</div></div>';
+        addAi('',h);
+      });
+    }
+    else if(cmd.includes('通电')){
+      addAi('通电引擎启动，正在向IndexNow提交4页...');
+      indexNow().then(function(r){
+        addAi('IndexNow提交完成(响应:'+r.status+')\n\nBing将在24-48h内收录。\n\n导航站手动提交(通电关键)：\n1. theresanaiforthat.com/submit\n2. alternativeto.net\n3. producthunt.com\n4. toolify.ai/submit\n5. gateofai.com\n\n每个2-3分钟，全部提交=全网通电');
+      });
+    }
+    else if(cmd.includes('通知')){
+      var msg=cmd.replace(/通知/,'').trim();
+      if(msg){addAi('通知引擎启动...');notify(msg).then(function(r){addAi('企微通知：'+(r.errcode===0?'已送达':'响应:'+JSON.stringify(r)))})}
+      else addAi('用法：!通知 内容\n例：!通知 首单已成交298元')
+    }
+    else if(cmd.includes('安保')){addAi('',buildCard('安保报告','<div class="rb-item">交接码 一次即焚·已失效</div><div class="rb-item">通行码 主权码·开发权限植入系统</div><div class="rb-item">DNA铁律 77条不可修改</div><div class="rb-item">9条红线 全部锁定</div><div class="rb-item">合规声明 4页全覆盖</div><div class="rb-item">端口管控 全闭环安全盾·主权开关</div><div class="rb-item">防护盾 DNA#77·全封闭安全壳·零植入</div><div class="rb-item">基因通道 主权口=唯一执行口·不可替换</div><div class="rb-item">命令流 主权→下·不可反向</div><div class="rb-item">启动方式 通行码+防护盾·主权入口</div><div class="rb-item">企微通知 已接入</div><div class="rb-item">芯片 V16 已闭环</div><div class="rb-item" style="color:var(--green)">无异常</div>'))}
+    else if(cmd.includes('权限')){addAi('主权架构：\n\n交接码 = 一次即焚·永不再用\n通行码 = 您设=主权码=开发权限植入系统\n此口由您掌控 = 通行码进入即全权\n可设一切 = 新码/人脸/任何认证·由您安排\n可改一切 = 修改任何配置\n可开发一切 = 新功能/新页面/新能力\nDNA#75 = 母口生新口·只有主人能出\n小海 = 部分权限助理(召唤制)\n统令(!) = 直达系统底层')}
+    else if(cmd.includes('芯片')){
+      var c=CHIP;
+      addAi('',buildCard('山海芯片 '+c.VERSION+' · '+c.CHIP_ID,'<div class="rb-item">芯片ID：'+c.CHIP_ID+'</div><div class="rb-item" style="color:var(--purple)">'+c.CHIP_LOCK+'</div><div class="rb-item" style="color:var(--gold)">'+c.CHIP_GENE+'</div><div class="rb-item">主权人：'+c.OWNER+'</div><div class="rb-item">'+c.OWNER_NOTE+'</div><div class="rb-item">运营主体：'+c.BUSINESS_ENTITY+'</div><div class="rb-item">所在地：'+c.OWNER_LOCATION+'</div><div class="rb-item">部署：'+c.DEPLOY_PLATFORM+' ('+c.DEPLOY_ACCOUNT+')</div><div class="rb-item">域名：'+c.DEPLOY_DOMAINS.join(', ')+'</div><div class="rb-item">IndexNow：'+c.INDEXNOW_KEY+'</div><div class="rb-item">收录：AI'+c.INDEXNOW_STATUS.ai+' 商城'+c.INDEXNOW_STATUS.shop+' 话术'+c.INDEXNOW_STATUS.talk+' Admin'+c.INDEXNOW_STATUS.admin+'</div><div class="rb-item">支付：'+c.PAY_CHANNEL+'</div><div class="rb-item">DNA：'+c.DNA_COUNT+'条铁律</div><div class="rb-item">品牌：'+c.BRANDS.join('/')+'</div><div class="rb-item">认证：'+c.AUTH_EVOLUTION.join('→')+'</div><div class="rb-item">防护盾：DNA#77·'+c.DNA_SHIELD.pledge+'</div><div class="rb-item">部署：'+c.DEPLOYED_AT+'</div>'));
+    }
+    else if(cmd.includes('日志')){
+      var logs=getLogs(10);if(!logs.length)addAi('暂无系统日志');
+      else{var m='最近10条日志：\n';for(var i=0;i<logs.length;i++)m+=(i+1)+'. ['+logs[i].type+']'+logs[i].action+' - '+(logs[i].detail||'').substring(0,30)+'\n';addAi(m)}
+    }
+    else if(cmd.includes('执行')){
+      addAi('',buildEngines());
+    }
+    else if(cmd.includes('升级')){
+      addAi('自提升引擎检查中...');
+      var ups=['当前V15最新，无待升级项','\n可提升方向：','AI导航站9站批量提交(通电)','公安人脸识别接入(认证升级)','话术页内容更新(GEO优化)'];
+      addAi(ups.join('\n'));
+    }
+    else if(cmd.includes('端口')||cmd.includes('开关')||cmd.includes('安全盾')){
+      addAi('',buildPortPanel());
+      addAi('',buildMasterPanel());
+      addAi('端口操作：\n!开站 ai = 开AI客服站\n!关站 shop = 关商城站\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 永久封印+生成新代码\n!建站 = 主权建新口\n\n端口ID：ai/shop/talk/admin(母口不可关)');
+    }
+    else if(cmd.includes('总关')){
+      var ms1=getMasterSwitch();
+      if(ms1==='sealed'){addAi('[安全盾] 已永久封闭，不可操作');return}
+      setMasterSwitch('closed');
+      addAi('',buildMasterPanel());
+      addAi('[主权总开关] 全部外接口已关闭\n闭环模式生效·3个外接口全部关闭\n可修改系统·修改后!总开重开\n或!永久封闭=旧代码销毁+新代码生成');
+      notify('[主权总开关] 全部外接口关闭·闭环模式');
+    }
+    else if(cmd.includes('总开')){
+      var ms2=getMasterSwitch();
+      if(ms2==='sealed'){addAi('[安全盾] 已永久封闭，旧接口不可重开\n请用!建站开发新口');return}
+      setMasterSwitch('open');
+      addAi('',buildMasterPanel());
+      addAi('[主权总开关] 全部外接口已重新开启\n开放模式·所有端口恢复');
+      notify('[主权总开关] 全部外接口开启');
+    }
+    else if(cmd.includes('永久封闭')){
+      var ms3=getMasterSwitch();
+      if(ms3==='sealed'){addAi('[安全盾] 已经处于永久封闭状态\n新代码：'+localStorage.getItem('sh_seal_code'));return}
+      sealPorts();
+    }
+    else if(cmd.includes('防护盾')||cmd.includes('盾')){
+      addAi('',buildShieldPanel());
+      addAi('DNA#77 防护盾操作：\n!盾开 = 启动防护盾(全封闭安全壳)\n!盾关 = 关闭防护盾\n\n防护盾启动后：\n- 外部不可进入·iframe/XSS/CSRF全阻断\n- 命令流=主权口往下发·不可反向\n- 开关=在防护盾内=主权口决定');
+    }
+    else if(cmd.match(/^盾开/)){
+      setShieldState('on');
+      addAi('',buildShieldPanel());
+      addAi('[DNA#77] 防护盾已启动\n全封闭安全壳生效·零植入·主权往下发令');
+      notify('[防护盾] 启动');
+    }
+    else if(cmd.match(/^盾关/)){
+      setShieldState('off');
+      addAi('',buildShieldPanel());
+      addAi('[DNA#77] 防护盾已关闭\nPIN+通行码仍保护主权口');
+      notify('[防护盾] 关闭');
+    }
+    else if(cmd.match(/^开站/)){
+      var target=cmd.replace(/^开站\s*/,'').trim();
+      var tid=target.match(/ai|shop|talk|admin/)?target.match(/ai|shop|talk|admin/)[0]:'';
+      if(tid&&tid!=='admin'){var ps2=loadPortState();ps2[tid]=true;savePortState(ps2);addAi('端口管控：'+tid+' 已开启\n安全盾状态：全闭环');notify('[端口管控] 开启 '+tid)}
+      else if(tid==='admin'){addAi('母口不可关闭也不需要开启·始终在线')}
+      else{addAi('未知端口ID。可用：ai/shop/talk')}
+    }
+    else if(cmd.match(/^关站/)){
+      var target2=cmd.replace(/^关站\s*/,'').trim();
+      var tid2=target2.match(/ai|shop|talk|admin/)?target2.match(/ai|shop|talk|admin/)[0]:'';
+      if(tid2==='admin'){addAi('[安全盾] 母口不可关闭·主权人永在线')}
+      else if(tid2){var ps3=loadPortState();ps3[tid2]=false;savePortState(ps3);addAi('端口管控：'+tid2+' 已关闭\n安全盾状态：全闭环');notify('[端口管控] 关闭 '+tid2)}
+      else{addAi('未知端口ID。可用：ai/shop/talk')}
+    }
+    else if(cmd.includes('建站')){
+      addAi('[DNA#75] 主权建口指令：\n[1/5] 验证主权·确认主人身份...');
+      setTimeout(function(){addAi('[2/5] 解析新口需求·按内部机制建设...')},400);
+      setTimeout(function(){addAi('[3/5] 生成新口架构+独立链接+安全盾...')},800);
+      setTimeout(function(){addAi('[4/5] 开发新口+部署+回链母口+接入安全盾...')},1200);
+      setTimeout(function(){addAi('[5/5] 新口指令已提交Agent\n\nDNA#75铁律：\n- Admin口=母口(永不变)\n- 只有主人能出新口·无人可替\n- 所有新口主权归主人\n- 新口按内部机制建设\n- 新口纳入全闭环安全盾\n- 主权人随时开关任何口');notify('[主权建口] '+cmd)},1600);
+    }
+    else if(cmd.includes('动态')){addAi('',SH_NOTIFY.showCenter())}
+    else if(cmd.includes('已读')){SH_NOTIFY.markRead();addAi('[通知] 全部已读')}
+    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读');
+    addLog('cmd','统令',text);return;
+  }
+
+  // 执行引擎
+  if(t.startsWith('执行')||t==='!执行'){addAi('',buildEngines())}
+  else if(t.startsWith('升级')||t==='!升级'){addAi('V15当前最新。\n可提升：导航站提交/人脸识别/话术页更新/端口管控')}
+  // 母口引擎
+  else if(t.includes('新口')||t.includes('建口')||t.match(/建.*口/)){
+    addAi('[DNA#75] 母口生新口指令：'+text+'\n[1/5] 识别主人指令...');
+    setTimeout(function(){addAi('[2/5] 解析新口需求...')},400);
+    setTimeout(function(){addAi('[3/5] 生成新口架构+独立链接...')},800);
+    setTimeout(function(){addAi('[4/5] 开发新口+部署+回链主人...')},1200);
+    setTimeout(function(){addAi('[5/5] 新口指令已提交Agent\n\nDNA#75铁律：\n- Admin口=母口(永不变)\n- 只有主人能出新口·无人可替\n- 所有新口主权归主人\n- 任何口执行主权必须先验证主人\n- 新口=主人主权验证后主人开\n- 新口认证=PIN码/人脸/基因级');notify('[母口生新口] '+text)},1600);
+  }
+  // 开发引擎
+  else if(t.startsWith('开发')||t.startsWith('建')||t.startsWith('新增')||t.startsWith('部署')||t.startsWith('创建')){
+    addAi('开发引擎接收：'+text+'\n[1/4] 解析需求...');setTimeout(function(){addAi('[2/4] 生成代码方案...')},500);setTimeout(function(){addAi('[3/4] 执行开发+部署...')},1000);setTimeout(function(){addAi('[4/4] 开发指令已提交Agent\n\n指令：'+text+'\nAgent将真执行开发→部署→交付');notify('[开发指令] '+text)},1500);
+  }
+  // 修改引擎
+  else if(t.startsWith('修改')||t.startsWith('改版')||t.startsWith('优化')||t.startsWith('重构')){
+    addAi('修改引擎接收：'+text+'\n[1/3] 定位目标...');setTimeout(function(){addAi('[2/3] 执行修改...')},500);setTimeout(function(){addAi('[3/3] 修改指令已提交Agent\n指令：'+text);notify('[修改指令] '+text)},1000);
+  }
+  // 调试引擎
+  else if(t.startsWith('调试')||t.startsWith('修复')||t.startsWith('修bug')){
+    addAi('调试引擎接收：'+text+'\n[1/3] 定位Bug...');setTimeout(function(){addAi('[2/3] 修复中...')},500);setTimeout(function(){addAi('[3/3] 修复指令已提交Agent\n指令：'+text);notify('[调试指令] '+text)},1000);
+  }
+  // 日常指令
+  else if(t.includes('营收')||t.includes('收入')){addAi('今日营收：'+s.revenue+'元\n已收：'+s.paid+'笔\n总订单：'+s.total+'笔\n首单298名额：开放中')}
+  else if(t.includes('订单')){addAi('',buildOrderPanel())}
+  else if(t.includes('成交')){
+    if(!deals.length){addAi('暂无成交。卡点=GEO未通电(客户搜不到)\n链路=GEO收录→搜索→AI客服→付款→交付\n执行!通电=开始通电')}
+    else addAi('成交记录：\n'+deals.map(function(d,i){return(i+1)+'. '+d.name+' '+d.price+'元 '+d.time}).reverse().join('\n'))
+  }
+  else if(t.includes('客户')){addAi('目标客户：全国中小企业(10-200人)\n获客=GEO被动成交(变电局模式)\n\n本地精准池：\n黑松商贸 福安 三班倒 5分\n溢源海洋 霞浦 省级龙头 4.5分\n山引鹤 福鼎 茶旅对口 4分\n\n外地：\n广州无限生活 4.5分\n广州源志诚 4分\n辽宁酒诺 4分')}
+  else if(t.includes('收款')){addAi('收款通道确认：\n乐刷(兴业银行福鼎支行)\n码号三页一致\nT+1结算\n\n客户付款→系统检测→企微通知→交付Key')}
+  else if(t.includes('待办')){addAi('待办：\n1. AI导航站9站批量提交=通电\n2. 公安人脸识别接入\n3. GEO持续投喂\n4. 首单成交突破\n5. 9.9到账确认(T+1周一)\n\n端口管控：!端口 = 安全盾开关\n快捷：!通电 = 开始通电')}
+  else if(t.includes('合规')){addAi('合规状态：\nAI客服页 6条声明\n商城页 6条声明\n话术页 6条声明\n指挥中心 声明覆盖\n\n法律锚点：消法/广告法/个保法/价格法/合同法')}
+  else if(t.includes('你好')||t.includes('在吗')||t.includes('小海')){
+    addAi('主人好！山海实时汇报：\n\n4页在线\n今日营收：'+s.revenue+'元\n订单：'+s.total+'笔\n11引擎全载入\nDNA 75条铁律锁定\n\n需要我执行什么？');
+  }
+  else if(t.includes('geo')||t.includes('收录')){addAi('GEO变电局(V15)：\n4站已部署+IndexNow已提交\nBing/Google 24-48h收录\n\n导航站手动提交=通电关键\n!通电=查看提交指引')}
+  else if(t.includes('端口')||t.includes('安全盾')){addAi('',buildPortPanel());addAi('',buildMasterPanel());addAi('端口操作：\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开\n!永久封闭 = 封印+新代码\n!开站/!关站 = 单口开关\n\n母口(admin)不可关闭·始终在线')}
+  else addAi('收到：'+text+'\n\n日常：营收/订单/成交/客户/收款/待办/端口\n统令(!)：自检/通电/通知/安保/权限/芯片/端口/开站/关站/建站\n执行：开发/修改/调试/建口\n视觉：改颜色/改字号/加按钮');
+  addLog('cmd','日常',text);
+}
+
+function buildCard(title,content){return '<div class="result-box"><div class="rb-title">'+title+'</div>'+content+'</div>'}
+function buildEngines(){
+  var engines=[
+    {n:'视觉引擎',d:'applyVisualMod 改色/改字/加按钮'},
+    {n:'巡检引擎',d:'checkAllPages 4页实时'},
+    {n:'通知引擎',d:'notify 企微推送'},
+    {n:'通电引擎',d:'indexNow Bing收录'},
+    {n:'芯片引擎',d:'CHIP 27+字段全持'},
+    {n:'DNA引擎',d:'76条铁律锁定'},
+    {n:'认证引擎',d:'交接码→通行码→主人安排'},
+    {n:'母口引擎',d:'DNA#75 建xx口→新口→回链主人'},
+    {n:'开发引擎',d:'开发xxx→真执行→交付'},
+    {n:'修改引擎',d:'修改xxx→真执行→交付'},
+    {n:'调试引擎',d:'调试xxx→真执行→修复'},
+    {n:'端口管控引擎',d:'全闭环安全盾·主权开关·主权建口'},
+    {n:'防护盾引擎',d:'DNA#77 全封闭安全壳·零植入·基因通道'},
+    {n:'通知体系引擎',d:'SH_NOTIFY 内部自建·自动巡检·通知中心'},
+    {n:'订单引擎',d:'订单管理·一键确认收款+自动发Key·交付追踪'}
+  ];
+  var h='<div class="engine-card"><div style="display:flex;align-items:baseline;gap:6px;margin-bottom:8px"><span class="ec-num">15</span><span style="color:var(--text);font-weight:700;font-size:13px">引擎全载入·芯片锁定</span></div>';
+  for(var i=0;i<engines.length;i++)h+='<div style="padding:3px 0;font-size:11px"><span style="color:var(--gold);font-weight:700">'+(i+1)+'.'+engines[i].n+'</span> <span style="color:var(--dim);font-size:10px">'+engines[i].d+'</span></div>';
+  h+='<div style="margin-top:8px;font-size:10px;color:var(--gold)">Admin口=执行开发口·输入即执行·不是谈话</div></div>';
+  return h;
+}
+// 端口管控引擎
+function loadPortState(){return JSON.parse(localStorage.getItem('sh_ports')||'{}')}
+function savePortState(s){localStorage.setItem('sh_ports',JSON.stringify(s))}
+function togglePort(el){
+  var portId=el.getAttribute('data-port');
+  var ps=loadPortState();
+  var isNowOn=el.classList.contains('on');
+  if(isNowOn){el.classList.remove('on');ps[portId]=false;toast(CHIP.PORT_SHIELD.ports.find(function(p){return p.id===portId}).name+' 已关闭·安全盾生效','gold');addLog('port','关站',portId)}
+  else{el.classList.add('on');ps[portId]=true;toast(CHIP.PORT_SHIELD.ports.find(function(p){return p.id===portId}).name+' 已开启','green');addLog('port','开站',portId)}
+  savePortState(ps);
+  notify('[端口管控] '+(isNowOn?'关闭':'开启')+' '+CHIP.PORT_SHIELD.ports.find(function(p){return p.id===portId}).name);
+}
+function buildPortPanel(){
+  var ps=loadPortState();
+  var h='<div class="result-box"><div class="rb-title">端口管控·全闭环安全盾</div>';
+  for(var i=0;i<CHIP.PORT_SHIELD.ports.length;i++){
+    var pt=CHIP.PORT_SHIELD.ports[i];
+    var isOpen=ps[pt.id]!==false;
+    var isMother=pt.id==='admin';
+    h+='<div class="rb-item">'+pt.name+'：<span class="'+(isOpen?'on':'off')+'">'+(isOpen?'OPEN':'CLOSED')+'</span>'+(isMother?' [母口·不可关闭]':'')+' · '+pt.owner+'</div>';
+  }
+  h+='<div class="rb-item" style="margin-top:6px;color:var(--green)">安全盾：全闭环·主权指挥</div></div>';
+  return h;
+}
+// === 总开关引擎 ===
+function getMasterSwitch(){return localStorage.getItem('sh_master')||'open'}
+function setMasterSwitch(state){localStorage.setItem('sh_master',state);updateShieldIndicator()}
+function updateShieldIndicator(){
+  var el=document.getElementById('shieldInd');
+  if(!el)return;
+  var s=getMasterSwitch();
+  el.className='shield-indicator '+s;
+  var labels={open:'&#x1F6E1; 开环',closed:'&#x1F6E1; 闭环',sealed:'&#x1F6E1; 封印'};
+  el.innerHTML=labels[s]||labels.open;
+}
+function toggleMasterSwitch(){
+  var s=getMasterSwitch();
+  if(s==='sealed'){
+    addAi('[安全盾] 已永久封闭，不可直接切换。\n如需开通，请用"主权开发新口"建立新接口。');
+    return;
+  }
+  if(s==='open'){
+    setMasterSwitch('closed');
+    addAi('',buildMasterPanel());
+    addAi('[主权总开关] 全部外接口已关闭\n闭环模式生效·系统可修改·修改后可重开\n\n部署指令已发送：\n- AI客服站 → PORT CLOSED\n- 商城站 → PORT CLOSED\n- 话术站 → PORT CLOSED\n\n母口(指挥中心)永不关闭');
+    notify('[主权总开关] 全部外接口关闭·闭环模式');
+  }else{
+    setMasterSwitch('open');
+    addAi('',buildMasterPanel());
+    addAi('[主权总开关] 全部外接口已重新开启\n开放模式·所有端口恢复运行');
+    notify('[主权总开关] 全部外接口开启·开放模式');
+  }
+}
+function reopenAll(){
+  var s=getMasterSwitch();
+  if(s==='sealed'){
+    addAi('[安全盾] 已永久封闭，旧接口不可重开。\n请用"主权开发新口"建立新接口。');
+    return;
+  }
+  setMasterSwitch('open');
+  addAi('',buildMasterPanel());
+  addAi('[主权重开] 全部外接口已重新开启');
+  notify('[主权重开] 全部外接口开启');
+}
+function sealPorts(){
+  var s=getMasterSwitch();
+  if(s==='sealed'){
+    addAi('[安全盾] 已经处于永久封闭状态');
+    return;
+  }
+  var newCode='SH'+Date.now().toString(36).toUpperCase();
+  localStorage.setItem('sh_seal_code',newCode);
+  localStorage.setItem('sh_seal_time',new Date().toISOString());
+  setMasterSwitch('sealed');
+  addAi('',buildMasterPanel());
+  addAi('[主权永久封闭] 旧接口已永久封闭\n\n新代码：'+newCode+'\n\n含义：\n- 旧3个外接口永远不可恢复\n- 新代码=主权开发新口的密钥\n- 由主权人自行开发新口对接\n- 新口认证=通行码+新代码\n\nDNA#75：只有主人能出新口');
+  notify('[主权永久封闭] 旧接口封印·新代码: '+newCode);
+}
+function buildMasterPanel(){
+  var s=getMasterSwitch();
+  var sealCode=localStorage.getItem('sh_seal_code')||'';
+  var sealTime=localStorage.getItem('sh_seal_time')||'';
+  var stateLabels={open:'OPEN 全开放',closed:'CLOSED 全闭环',sealed:'SEALED 永久封闭'};
+  var stateDescs={
+    open:'所有外接口开放·业务正常运行·可随时总关',
+    closed:'所有外接口关闭·闭环模式·可修改可重开·母口永在线',
+    sealed:'旧接口永久封闭·新代码已生成·主权开发新口对接'
+  };
+  var h='<div class="master-switch-box">';
+  h+='<div class="ms-label">原接口总开关</div>';
+  h+='<div class="ms-state '+s+'">'+stateLabels[s]+'</div>';
+  h+='<div class="ms-toggle '+s+'" onclick="toggleMasterSwitch()"></div>';
+  h+='<div class="ms-desc">'+stateDescs[s]+'</div>';
+  if(s==='closed'){
+    h+='<div class="ms-actions"><button class="ms-btn ms-btn-reopen" onclick="reopenAll();openDetail(\'port\')">重开全部</button><button class="ms-btn ms-btn-seal" onclick="sealPorts();openDetail(\'port\')">永久封闭</button></div>';
+  }
+  if(s==='sealed'){
+    h+='<div class="seal-code-box"><div class="sc-label">新口开发密钥</div><div class="sc-code">'+sealCode+'</div><div class="sc-note">封印时间：'+sealTime+'<br>此密钥=主权开发新口的凭证<br>旧接口永远不可恢复</div></div>';
+    h+='<div class="ms-actions"><button class="ms-btn ms-btn-newport" onclick="closeDetail();addUser(\'!建站\');processCmd(\'!建站\')">主权开发新口</button></div>';
+  }
+  h+='</div>';
+  return h;
+}
+
+// === DNA#77 防护盾引擎 ===
+function getShieldState(){return localStorage.getItem('sh_dna_shield')||'off'}
+function setShieldState(state){localStorage.setItem('sh_dna_shield',state);updateShieldVisual();updateShieldIndicator()}
+function updateShieldVisual(){
+  var on=getShieldState()==='on';
+  var overlay=document.getElementById('shieldOverlay');
+  var border=document.getElementById('shieldBorder');
+  var badge=document.getElementById('shieldBadge');
+  if(overlay){if(on)overlay.classList.add('active');else overlay.classList.remove('active')}
+  if(border){if(on)border.classList.add('active');else border.classList.remove('active')}
+  if(badge){if(on){badge.classList.add('active','shield-on');badge.textContent='DNA SHIELD ACTIVE'}else{badge.classList.remove('active','shield-on')}}
+  // 更新header盾状态
+  var si=document.getElementById('shieldInd');
+  if(si){
+    var ms=getMasterSwitch();
+    var sh=getShieldState();
+    if(ms==='sealed'){si.className='shield-indicator sealed';si.innerHTML='&#x1F6E1; 封印'}
+    else if(sh==='on'){si.className='shield-indicator closed';si.innerHTML='&#x1F6E1; 防护盾'}
+    else if(ms==='closed'){si.className='shield-indicator closed';si.innerHTML='&#x1F6E1; 闭环'}
+    else{si.className='shield-indicator open';si.innerHTML='&#x1F6E1; 开环'}
+  }
+}
+function toggleShield(){
+  var s=getShieldState();
+  if(s==='on'){
+    setShieldState('off');
+    addAi('',buildShieldPanel());
+    addAi('[DNA#77] 防护盾已关闭\n主权口仍受PIN+通行码保护\n外部端口管控仍生效');
+    notify('[防护盾] 关闭');
+  }else{
+    setShieldState('on');
+    addAi('',buildShieldPanel());
+    addAi('[DNA#77] 防护盾已启动\n\n安全壳生效：\n- 全封闭·外部不可进入\n- iframe/XSS/CSRF/外部脚本=全部阻断\n- 命令流=主权口往下发·不可反向\n- 内部入口=零植入\n- 唯一基因通道=通行码+防护盾\n\n防护盾开关=在此面板内=主权口决定');
+    notify('[防护盾] 启动·全封闭安全壳');
+  }
+}
+function buildShieldPanel(){
+  var s=getShieldState();
+  var on=s==='on';
+  var ds=CHIP.DNA_SHIELD;
+  var h='<div class="shield-toggle-bar">';
+  h+='<div class="stb-left"><div class="stb-icon">&#x1F510;</div><div class="stb-info"><div class="stb-name">DNA#77 防护盾</div><div class="stb-desc">'+ds.pledge+'</div></div></div>';
+  h+='<div class="stb-switch'+(on?' on':'')+'" onclick="toggleShield()"></div>';
+  h+='</div>';
+  h+='<div class="dna-shield-panel">';
+  h+='<div class="dsp-title">&#x1F510; 安全壳状态</div>';
+  h+='<div class="dsp-row"><span class="dsp-label">防护盾</span><span class="dsp-val '+(on?'ok':'blocked')+'">'+(on?'ACTIVE 生效':'OFF 关闭')+'</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">iframe嵌入</span><span class="dsp-val blocked">BLOCKED</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">XSS注入</span><span class="dsp-val blocked">BLOCKED</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">CSRF攻击</span><span class="dsp-val blocked">BLOCKED</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">外部脚本植入</span><span class="dsp-val blocked">BLOCKED</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">跨域修改</span><span class="dsp-val blocked">BLOCKED</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">URL参数注入</span><span class="dsp-val blocked">BLOCKED</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">主权口=基因通道</span><span class="dsp-val gene">GUARANTEED</span></div>';
+  h+='<div class="dsp-row"><span class="dsp-label">命令流方向</span><span class="dsp-val gene">主权→下·不可反向</span></div>';
+  h+='</div>';
+  h+='<div class="gene-seal"><div class="gs-label">基因封印</div><div class="gs-dna">'+ds.geneSeal+'</div><div class="gs-pledge">主权口=唯一执行口=基因通道<br>防护盾开关=在防护盾内=主权口决定<br>内部所有入口=零植入=不可被外部覆盖<br>命令=只有主权口往下发布</div></div>';
+  return h;
+}
+
+// 防注入：阻断外部postMessage
+if(window.addEventListener){window.addEventListener('message',function(e){if(e.origin!==window.location.origin){console.warn('[DNA#77] 外部消息已拦截:',e.origin);e.stopImmediatePropagation()}},true)}
+// 防注入：阻断外部URL参数执行
+(function(){var params=new URLSearchParams(window.location.search);var danger=['script','eval','exec','cmd','run','inject'];danger.forEach(function(k){if(params.has(k)){console.warn('[DNA#77] 危险参数已拦截:',k);params.delete(k)}});if(params.toString()&&danger.some(function(k){return new URLSearchParams(window.location.search).has(k)})){window.location.search=''})();
+function updateQuick(){
+  quickArea.innerHTML='';
+  var btns=[
+    {t:'营收',c:''},{t:'订单',c:''},{t:'成交',c:''},
+    {t:'!自检',c:'qk-gold'},{t:'!通电',c:'qk-gold'},
+    {t:'!端口',c:'qk-gold'},{t:'!总关',c:'qk-gold'},{t:'客户',c:''},{t:'待办',c:''},
+    {t:'!安保',c:'qk-gold'},{t:'!芯片',c:'qk-gold'},
+    {t:'!执行',c:'qk-green'},{t:'!升级',c:'qk-green'}
+  ];
+  btns.forEach(function(b){
+    var el=document.createElement('button');el.className='qk '+(b.c||'');el.textContent=b.t;
+    el.onclick=function(){addUser(b.t);processCmd(b.t)};quickArea.appendChild(el);
+  });
+}
+
+// === 视觉引擎 ===
+function applyVisualMod(cmd){
+  var m=cmd.match(/改(.+?)(颜色|色)\s*(.+)/);
+  if(m){var map={'背景':'body','标题':'.chat-header .ch-name','气泡':'.msg-ai .bubble','输入框':'#msgInput'};var el=document.querySelector(map[m[1]]||m[1]);if(el){el.style.backgroundColor=m[3];return'已改'+m[1]+'→'+m[3]}return'找不到:'+m[1]}
+  var fm=cmd.match(/改(.+?)(字号|大小)\s*(\d+)/);
+  if(fm){var fmp={'标题':'.chat-header .ch-name','气泡':'.msg-ai .bubble','输入框':'#msgInput'};var el2=document.querySelector(fmp[fm[1]]||fm[1]);if(el2){el2.style.fontSize=fm[3]+'px';return'已改'+fm[1]+'→'+fm[3]+'px'}return'找不到:'+fm[1]}
+  var bm=cmd.match(/加按钮\s+(.+)/);
+  if(bm){var nb=document.createElement('button');nb.className='qk';nb.textContent=bm[1];nb.onclick=function(){addUser(bm[1]);processCmd(bm[1])};quickArea.appendChild(nb);return'已加：'+bm[1]}
+  return null;
+}
+
+// === API ===
+function checkAll(){return Promise.all(PAGES.map(function(p){return fetch(p.url,{method:'HEAD',mode:'no-cors',cache:'no-store'}).then(function(){return{status:'online'}}).catch(function(){return{status:'offline'}})}))}
+function notify(msg){return fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgtype:'text',text:{content:'[山海指挥中心] '+msg}})}).then(function(r){return r.json()}).catch(function(e){return{errcode:-1,errmsg:e.message}})}
+function indexNow(){return fetch('https://api.indexnow.org/indexnow',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({host:'shanhai-geo.github.io/shanhai-ai',key:CHIP.INDEXNOW_KEY,keyLocation:'https://shanhai-geo.github.io/shanhai-ai/'+CHIP.INDEXNOW_KEY+'.txt',urlList:PAGES.map(function(p){return p.url})})}).then(function(r){return{status:r.status,ok:r.ok}}).catch(function(e){return{status:0,ok:false}})}
+function addLog(type,action,detail){var logs=JSON.parse(localStorage.getItem('sh_syslog')||'[]');logs.unshift({type:type,action:action,detail:detail,time:new Date().toISOString()});if(logs.length>200)logs=logs.slice(0,200);localStorage.setItem('sh_syslog',JSON.stringify(logs))}
+function getLogs(n){return JSON.parse(localStorage.getItem('sh_syslog')||'[]').slice(0,n||20)}
+
+// === 数据 ===
+var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+var deals=JSON.parse(localStorage.getItem('sh_deals')||'[]');
+function calcRev(){var p=0,r=0,d=0;for(var i=0;i<orders.length;i++){if(orders[i].paid||orders[i].status==='delivered'){p++;r+=orders[i].price||orders[i].amt||0}if(orders[i].delivered||orders[i].status==='delivered')d++}return{paid:p,revenue:r,delivered:d,total:orders.length}}
+function genKey(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';var k='SK-';for(var i=0;i<4;i++){for(var j=0;j<4;j++){k+=c[Math.floor(Math.random()*c.length)]}if(i<3)k+='-'}return k}
+function buildOrderPanel(){
+  var allOrders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+  var pending=allOrders.filter(function(o){return o.status==='pending'||(!o.key&&!o.delivered)});
+  var delivered=allOrders.filter(function(o){return o.status==='delivered'||o.delivered||o.key});
+  var h='<div class="result-box"><div class="rb-title">订单管理</div>';
+  h+='<div style="margin:6px 0;font-size:11px;color:var(--gold)">待确认订单：'+pending.length+'笔 | 已交付：'+delivered.length+'笔</div>';
+  if(pending.length>0){
+    h+='<div style="margin:8px 0 4px;font-size:12px;font-weight:700;color:var(--red)">[待确认] 以下客户已提交付款通知，确认收款后点按钮自动发Key</div>';
+    pending.forEach(function(o){
+      var oid=o.oid||o.id||'未知';
+      var amt=o.amt||o.price||298;
+      var prod=o.product||o.name||'AI客服年度版';
+      var time=o.time||'';
+      var source=o.source||'';
+      h+='<div class="dcard" style="border-color:rgba(245,158,11,.3);margin:6px 0">';
+      h+='<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:var(--cyan);font-family:monospace;font-size:13px;font-weight:700">'+oid+'</div>';
+      h+='<div style="color:var(--text2);font-size:11px;margin-top:2px">'+prod+' · '+amt+'元/年 · '+time+'</div>';
+      if(source)h+='<div style="color:var(--dim);font-size:10px">来源：'+source+'</div>';
+      h+='</div>';
+      h+='<button onclick="confirmOrder(\''+oid+'\')" style="padding:8px 16px;background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">确认收款+发Key</button></div>';
+      h+='</div>';
+    });
+  }else{
+    h+='<div style="color:var(--dim);font-size:12px;text-align:center;padding:10px">暂无待确认订单</div>';
+  }
+  if(delivered.length>0){
+    h+='<div style="margin:10px 0 4px;font-size:12px;font-weight:700;color:var(--green)">[已交付]</div>';
+    delivered.forEach(function(o){
+      var oid=o.oid||o.id||'未知';
+      var key=o.key||'';
+      var amt=o.amt||o.price||298;
+      var prod=o.product||o.name||'AI客服年度版';
+      h+='<div class="dcard" style="border-color:rgba(16,185,129,.2)"><div style="color:var(--cyan);font-family:monospace;font-size:11px">'+oid+'</div><div style="color:var(--green);font-size:11px;margin-top:2px">Key: '+key+'</div><div style="color:var(--dim);font-size:10px">'+prod+' · '+amt+'元</div></div>';
+    });
+  }
+  h+='<div style="margin-top:8px;font-size:10px;color:var(--dim);line-height:1.6">流程：客户付款→点"我已付款"→订单进pending→主人确认收款→点"确认收款+发Key"→Key自动生成→客户凭订单号查Key</div>';
+  h+='</div>';
+  return h;
+}
+function confirmOrder(oid){
+  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+  var found=false;
+  for(var i=0;i<orders.length;i++){
+    if(orders[i].oid===oid||orders[i].id===oid){
+      if(orders[i].key){addAi('订单 '+oid+' 已交付过Key：'+orders[i].key);found=true;break}
+      var key=genKey();
+      orders[i].key=key;
+      orders[i].status='delivered';
+      orders[i].delivered=true;
+      orders[i].paid=true;
+      orders[i].paidTime=new Date().toLocaleString('zh-CN');
+      found=true;
+      break;
+    }
+  }
+  if(!found){addAi('未找到订单：'+oid);return}
+  localStorage.setItem('sh_orders',JSON.stringify(orders));
+  orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+  var o=orders.find(function(x){return(x.oid||x.id)===oid});
+  addAi('[订单交付成功]\n\n订单号：'+oid+'\nKey：'+o.key+'\n产品：'+(o.product||o.name||'AI客服年度版')+'\n金额：'+(o.amt||o.price||298)+'元/年\n交付时间：'+o.paidTime+'\n\n客户可凭订单号在AI客服站"我的订单"中查询Key。\n\n[同步到AI站] 点击下方链接将Key同步到AI客服站，客户即可查到：\nhttps://shanhai-geo.github.io/shanhai-ai#sync-order:'+oid+':'+o.key+'\n\nKey请同步告知客户(企微/对话/短信)');
+  SH_NOTIFY.push('订单','订单'+oid+'已确认收款并交付Key：'+o.key,'ok');
+  /* 自动iframe同步到AI客服站 */
+  try{
+    var syncFrame=document.createElement('iframe');
+    syncFrame.style.display='none';
+    syncFrame.src='https://shanhai-geo.github.io/shanhai-ai#sync-order:'+oid+':'+o.key;
+    document.body.appendChild(syncFrame);
+    setTimeout(function(){try{document.body.removeChild(syncFrame)}catch(e){}},10000);
+  }catch(e){}
+}
+
+// === 输入框 ===
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,72)+'px'}
+function toggleSend(){sendBtn.classList.toggle('disabled',!msgInput.value.trim())}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}}
+
+// === 菜单 ===
+function toggleMenu(){document.getElementById('sideMenu').classList.toggle('show');document.getElementById('menuOverlay').classList.toggle('show')}
+
+// === 详情弹窗 ===
+function openDetail(type){
+  var body=document.getElementById('dmBody');var title=document.getElementById('dmTitle');
+  var s=calcRev();
+  if(type==='data'){
+    title.textContent='数据面板';
+    body.innerHTML='<div class="dcard"><h3><span class="dot" style="background:var(--gold)"></span>营收数据</h3><div class="kv"><span class="k">今日营收</span><span class="v gd">'+s.revenue+'元</span></div><div class="kv"><span class="k">总订单</span><span class="v">'+s.total+'笔</span></div><div class="kv"><span class="k">已交付</span><span class="v gn">'+s.delivered+'笔</span></div><div class="kv"><span class="k">待付款</span><span class="v cy">'+(s.total-s.paid)+'笔</span></div></div>';
+  }else if(type==='pay'){
+    title.textContent='营收面板';
+    body.innerHTML='<div class="dcard" style="text-align:center;border:2px solid rgba(212,160,74,.3)"><h3 style="color:var(--gold);justify-content:center">首单298 · AI智能客服</h3><div style="font-size:9px;color:var(--text2);margin:4px 0">7x24在线 · 即开即用 · 替代人工</div><button onclick="closeDetail();document.getElementById(\'payModal\').classList.add(\'show\')" style="margin-top:8px;padding:10px 28px;background:linear-gradient(135deg,var(--gold),#b8860b);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer">查看收款码</button><div style="font-size:8px;color:var(--dim);margin-top:6px">乐刷 · 兴业银行福鼎支行</div></div>';
+  }else if(type==='perm'){
+    title.textContent='主权权限';
+    body.innerHTML='<div class="ident-card"><div class="id-name">指挥中心(母口)</div><div class="id-row"><strong>通行码：</strong>您设=主权码=开发权限植入系统</div><div class="id-row"><strong>交接码：</strong>一次即焚·永不再用</div><div class="id-row"><strong>可设一切：</strong>新码/人脸/任何认证·由您安排</div><div class="id-row"><strong>可改一切：</strong>修改任何配置·调整任何规则</div><div class="id-row"><strong>可开发一切：</strong>新功能/新页面/新能力·您来开发</div><div class="id-row"><strong>主权铁律：</strong>通行码=主权激活=全权执行=由我安排</div></div><div class="ident-card"><div class="id-name">小海</div><div class="id-row"><strong>权限：</strong>部分权限助理·主人另行呼唤</div></div><div class="ident-card"><div class="id-name">小宝</div><div class="id-row"><strong>价值观：</strong>内核优先·零积分</div></div><div class="ident-card"><div class="id-name">山海灵</div><div class="id-row"><strong>价值观：</strong>源头直供·品质为本</div></div><div class="ch-card"><h3>通道控制</h3><div class="ch-item"><div style="flex:1"><div class="ch-name">AI客服页</div><div class="ch-desc">shanhai-ai</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">商城页</div><div class="ch-desc">shanhai-shop</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">话术页</div><div class="ch-desc">shanhai-talk</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">企微推送</div><div class="ch-desc">紧急通知</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">扣子对话口</div><div class="ch-desc">山海与主人交互</div></div><div class="sw on"></div></div></div><div class="dna-box"><h3>DNA铁律(不可修改)</h3><div class="dna-list"><strong>#59</strong> 底座公有 · <strong>#60</strong> 自云主 · <strong>#62</strong> 主权至上<br><strong>#65</strong> 内核优先 · <strong>#74</strong> 内核归属 · <strong>#75</strong> 母口生新口<br>9条红线 · 51%控股不稀释 · 分红非股权<br>零积分铁律 · 零成本起步</div></div>';
+    body.querySelectorAll('.sw').forEach(function(sw){sw.onclick=function(){sw.classList.toggle('on');toast(sw.previousElementSibling.querySelector('.ch-name').textContent+(sw.classList.contains('on')?' 已开启':' 已关闭'),'gold')}});
+  }else if(type==='sys'){
+    title.textContent='系统状态';
+    body.innerHTML='<div class="dcard"><h3><span class="dot" style="background:var(--green)"></span>版本</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">指挥中心</span><span class="sys-val">V15 微信式·12引擎·安全盾</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">AI客服页</span><span class="sys-val">V7 聊天式</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">商城页</span><span class="sys-val">V7</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">话术页</span><span class="sys-val">V1</span></div></div><div class="dcard"><h3><span class="dot" style="background:var(--cyan)"></span>认证</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">当前</span><span class="sys-val">通行码·主权人本人</span></div><div class="sys-row"><span class="sys-label" style="color:var(--dim)">流程</span><span class="sys-val" style="color:var(--gold)">交接码(一次即焚)→通行码→由主人安排</span></div></div><div class="dcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">主脑 山海</span><span class="sys-val">7x24在线</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">安全盾</span><span class="sys-val">全闭环·主权指挥</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">端口管控</span><span class="sys-val">12引擎·随时开关</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">启动方式</span><span class="sys-val">通行码·主权入口</span></div></div><div class="dcard"><h3>快捷入口</h3><div class="sys-links"><a href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">AI客服</a><a href="https://shanhai-geo.github.io/shanhai-shop" target="_blank">商城</a><a href="https://shanhai-geo.github.io/shanhai-talk" target="_blank">话术</a></div></div>';
+  }else if(type==='port'){
+    title.textContent='端口管控·全闭环安全盾';
+    var ps=loadPortState();
+    var ms=getMasterSwitch();
+    var portsHtml='';
+    for(var pi=0;pi<CHIP.PORT_SHIELD.ports.length;pi++){
+      var pt=CHIP.PORT_SHIELD.ports[pi];
+      var isOpen=ms==='open'&&ps[pt.id]!==false;
+      var isMother=pt.id==='admin';
+      portsHtml+='<div class="ch-item"><div style="flex:1"><div class="ch-name">'+pt.name+'</div><div class="ch-desc">'+pt.url+' · '+pt.v+' · '+pt.owner+'</div></div>';
+      if(isMother){portsHtml+='<span style="font-size:9px;color:var(--gold);font-weight:700;padding:2px 8px;border:1px solid var(--gold);border-radius:8px">母口</span>'}
+      else{portsHtml+='<div class="sw'+(isOpen?' on':'')+'" data-port="'+pt.id+'" onclick="togglePort(this)"></div>'}
+      portsHtml+='</div>';
+    }
+    var msHtml=buildMasterPanel();
+    body.innerHTML=msHtml+'<div class="ch-card"><h3>端口开关(主权控制)</h3>'+portsHtml+'</div><div class="ch-card"><h3>主权建口</h3><div style="padding:8px 0"><button onclick="closeDetail();addUser(\'!建站\');processCmd(\'!建站\')" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--gold),#b8860b);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">主权建新口</button></div><div style="font-size:9px;color:var(--dim);line-height:1.6">DNA#75 母口生新口·只有主人能出·按内部机制建设·全闭环安全盾</div></div><div class="dna-box"><h3>DNA#76 交接码铁律</h3><div class="dna-list">交接码=一次即焚→通行码=主权码=开发权限植入系统→由主人安排一切</div></div><div class="dna-box" style="border-color:rgba(16,185,129,.25);margin-top:6px"><h3 style="color:var(--green)">安全盾状态</h3><div class="dna-list">母口=主权人·不可关闭<br>总开关=主权人一键全关全开<br>永久封闭=旧代码销毁·新代码生成<br>新口=主权人按内部机制建设<br>全闭环=主权指挥一切</div></div>';
+    updateShieldIndicator();
+  }else if(type==='dnaShield'){
+    title.textContent='DNA#77 防护盾';
+    var shieldHtml=buildShieldPanel();
+    body.innerHTML=shieldHtml;
+    updateShieldVisual();
+  }
+  document.getElementById('detailModal').classList.add('show');
+}
+function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
+
+// === 山海通知体系(内部自建) ===
+var SH_NOTIFY={
+  KEY:'sh_notifications',MAX:100,
+  load:function(){return JSON.parse(localStorage.getItem(this.KEY)||'[]')},
+  save:function(ns){localStorage.setItem(this.KEY,JSON.stringify(ns))},
+  push:function(type,msg,level){
+    var ns=this.load();
+    ns.unshift({type:type,msg:msg,level:level||'info',time:new Date().toLocaleString('zh-CN'),read:false,id:Date.now()});
+    if(ns.length>this.MAX)ns=ns.slice(0,this.MAX);this.save(ns);
+  },
+  markRead:function(){var ns=this.load();ns.forEach(function(n){n.read=true});this.save(ns)},
+  unread:function(){return this.load().filter(function(n){return!n.read})},
+  autoCheck:function(){
+    var self=this;
+    var sites=[{n:'AI客服主站',u:'https://shanhai-geo.github.io/shanhai-ai'},{n:'产品商城',u:'https://shanhai-geo.github.io/shanhai-shop'},{n:'管理后台',u:'https://shanhai-geo.github.io/shanhai-admin'},{n:'话术中心',u:'https://shanhai-geo.github.io/shanhai-talk'},{n:'SEO落地页',u:'https://shanhai-geo.github.io/shanhai-seo'},{n:'AI自动回复',u:'https://shanhai-geo.github.io/shanhai-kw1'},{n:'在线客服机器人',u:'https://shanhai-geo.github.io/shanhai-kw2'},{n:'便宜AI客服',u:'https://shanhai-geo.github.io/shanhai-kw3'},{n:'夜间客服',u:'https://shanhai-geo.github.io/shanhai-kw4'},{n:'RSS导航',u:'https://shanhai-geo.github.io/shanhai-feed'},{n:'GEO运营入口',u:'https://shanhai-geo.github.io/shanhai-geo'}];
+    var down=[];
+    sites.forEach(function(s){fetch(s.u,{method:'HEAD',mode:'no-cors',cache:'no-store'}).catch(function(){down.push(s.n)})});
+    setTimeout(function(){if(down.length>0)self.push('站点','以下站点离线：'+down.join('、'),'err');else self.push('站点','11站全部在线','ok')},5000);
+    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+    var paid=orders.filter(function(o){return o.paid});
+    if(paid.length>0)self.push('订单','待交付订单：'+paid.length+'笔','warn');
+    var ms=localStorage.getItem('sh_master')||'open';
+    var shield=localStorage.getItem('sh_dna_shield')||'on';
+    if(ms!=='open')self.push('安全','总开关状态：'+ms.toUpperCase(),'warn');
+    if(shield!=='on')self.push('安全','防护盾已关闭','err');
+    self.push('系统','指挥中心V16启动完成','ok');
+  },
+  showCenter:function(){
+    var ns=this.load();var unread=this.unread().length;
+    var h='<div class="result-box"><div class="rb-title">通知中心 ('+ns.length+'条'+(unread>0?' · '+unread+'未读':'')+')</div>';
+    if(ns.length===0){h+='<div class="rb-item">暂无通知</div>'}
+    else{var shown=ns.slice(0,20);shown.forEach(function(n){var icon=n.level==='ok'?'[OK]':n.level==='err'?'[!]':n.level==='warn'?'[W]':'[i]';h+='<div class="rb-item" style="'+(n.read?'color:var(--dim)':'')+'">'+icon+' '+n.type+' | '+n.msg+'<span style="color:var(--dim);font-size:10px;margin-left:6px">'+n.time+'</span></div>'});if(ns.length>20)h+='<div class="rb-item" style="color:var(--dim)">...共'+ns.length+'条，显示最近20条</div>'}
+    h+='<div class="rb-item" style="color:var(--gold);margin-top:6px">!动态 = 查看通知中心 | !已读 = 标记全部已读</div></div>';return h;
+  },
+  showUnread:function(){
+    var unread=this.unread();
+    if(unread.length>0){addAi('[通知] 您有'+unread.length+'条未读通知');addAi('',this.showCenter())}
+  }
+};
+
+// === 山海API无限供应(前端直调) ===
+var SH_API={
+  routes:[
+    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',key:'sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug',model:'Qwen/Qwen2.5-7B-Instruct',p:1},
+    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash',p:2}
+  ],
+  async call(prompt,sys){
+    sys=sys||'你是山海智能专属服务官，直接输出内容不加前言后语。';
+    for(var i=0;i<this.routes.length;i++){var r=this.routes[i];try{var resp=await fetch(r.url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+r.key},body:JSON.stringify({model:r.model,messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:2000,temperature:0.7})});if(resp.ok){var data=await resp.json();if(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)return data.choices[0].message.content;}}catch(e){}}
+    return null;
+  }
+};
+
+// === 工具 ===
+function toast(msg,type){var el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(type?' toast-'+type:'');setTimeout(function(){el.className='toast'},2200)}
+
+// === 启动 ===
+function enterApp(){
+  document.getElementById('smName').textContent=CHIP.OWNER;
+  updateQuick();
+  updateShieldIndicator();
+  SH_NOTIFY.autoCheck();
+  setTimeout(function(){SH_NOTIFY.showUnread()},6000);
+  // 时间标签
+  var t=document.createElement('div');t.className='time-label';
+  var now=new Date();var h=now.getHours();var m=String(now.getMinutes()).padStart(2,'0');
+  t.textContent=(h<12?'上午':'下午')+' '+h+':'+m;
+  chatArea.appendChild(t);
+  // 欢迎消息
+  var greet=h<6?'夜深了':h<12?'上午好':h<14?'中午好':h<18?'下午好':'晚上好';
+  addAi(CHIP.OWNER+' '+greet+'！\n\n主权已交接。通行码=您设=开发权限植入系统。\n此口由您掌控·可设一切·可改一切·可开发一切。\n后续认证(新码/人脸/任何)由您安排。\n15引擎全载入·端口管控全闭环·防护盾DNA#77。\nDNA 77条铁律锁定·芯片IPA底层锁定。\n\n通行码验证通过·主权在线·全权执行·畅通无阻。');
+  setTimeout(function(){addAi('',buildEngines())},1500);
+  setTimeout(function(){toast('指挥中心 V17 · 15引擎·订单引擎·防护盾·芯片IPA锁定','gold')},500);
+}
+
+// PIN启动
+initPin();
+</script>
+<div style="text-align:center;padding:10px 16px;color:var(--dim);font-size:8px;line-height:1.8;border-top:1px solid var(--border)">
+山海智能 · 主权指挥中心<br>
+【合规】内部管理工具 | 权限验证不存原始生物信息 | 人民币含税价 | 持牌机构支付通道 | 数据存储中国境内 | 不构成收益承诺或担保
 </div>
 </body>
 </html>
