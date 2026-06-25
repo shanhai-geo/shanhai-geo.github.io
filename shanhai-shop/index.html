@@ -100,6 +100,47 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 @keyframes aiPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,150,62,.5)}50%{box-shadow:0 0 0 10px rgba(200,150,62,0)}}
 #aiFloat{position:fixed;bottom:20px;right:12px;z-index:9999;display:flex;align-items:center;gap:8px;text-decoration:none}
 #aiBtn{display:flex;align-items:center;gap:6px;padding:12px 20px;background:linear-gradient(135deg,var(--gold-d),#dbb36a);color:#fff;border-radius:24px;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(200,150,62,.45);animation:aiPulse 2s infinite}
+
+/* V5 视觉升级 */
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes floatUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(200,150,62,.3)}50%{box-shadow:0 0 40px rgba(200,150,62,.6)}}
+.hero{animation:floatUp .8s ease}
+.prod-card{animation:floatUp .8s ease;animation-fill-mode:both}
+.prod-card:nth-child(2){animation-delay:.1s}
+.prod-card:nth-child(3){animation-delay:.2s}
+.prod-card:nth-child(4){animation-delay:.3s}
+.buy-cta{position:relative;overflow:hidden}
+.buy-cta::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 3s infinite}
+.hero .logo{text-shadow:0 2px 10px rgba(200,150,62,.3)}
+.price-hero{animation:glow 2s infinite}
+
+/* V5 路演引导弹窗 */
+.roadshow-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:99998;justify-content:center;align-items:center;padding:20px}
+.roadshow-modal.show{display:flex}
+.roadshow-box{background:linear-gradient(180deg,#fffdf8,#faf6f0);border-radius:20px;padding:28px 24px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.roadshow-box h3{font-size:20px;color:var(--gold-d);text-align:center;margin-bottom:6px}
+.roadshow-box .rs-sub{font-size:13px;color:var(--txt2);text-align:center;margin-bottom:20px}
+.rs-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;padding:12px;background:#fff;border-radius:12px;border:1px solid var(--bdr)}
+.rs-step .rs-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#dbb36a);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:#fff}
+.rs-step .rs-text{flex:1}
+.rs-step .rs-text b{display:block;font-size:13px;color:var(--txt);margin-bottom:2px}
+.rs-step .rs-text span{font-size:11px;color:var(--txt2);line-height:1.5}
+.rs-guarantee{background:linear-gradient(135deg,#f0faf2,#e8f5e9);border-radius:12px;padding:14px;margin:16px 0;text-align:center}
+.rs-guarantee b{color:var(--green);font-size:13px}
+.rs-guarantee span{display:block;font-size:11px;color:var(--txt2);margin-top:4px}
+.rs-cta{display:block;width:100%;padding:14px;background:linear-gradient(135deg,var(--gold-d),#dbb36a);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:2px;margin-top:12px}
+.rs-cta:active{transform:scale(.98)}
+.rs-skip{display:block;text-align:center;margin-top:10px;font-size:12px;color:var(--txt3);cursor:pointer;text-decoration:underline}
+
+/* V5 客服气泡 */
+@keyframes bubbleIn{0%{opacity:0;transform:scale(.8) translateY(10px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes bubbleBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.cs-bubble{position:fixed;bottom:80px;right:12px;z-index:99997;max-width:260px;background:#fff;border:2px solid var(--gold);border-radius:16px 16px 4px 16px;padding:14px 16px;box-shadow:0 8px 24px rgba(200,150,62,.25);animation:bubbleIn .5s ease;font-size:13px;color:var(--txt);line-height:1.6;display:none}
+.cs-bubble.show{display:block}
+.cs-bubble .cs-name{font-size:11px;color:var(--gold-d);font-weight:700;margin-bottom:4px}
+.cs-bubble .cs-close{position:absolute;top:6px;right:10px;font-size:14px;color:var(--txt3);cursor:pointer;background:none;border:none}
+.cs-bubble .cs-btn{display:inline-block;margin-top:8px;padding:6px 16px;background:linear-gradient(135deg,var(--gold-d),#dbb36a);color:#fff;border:none;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none}
 </style>
 </head>
 <body>
@@ -152,7 +193,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 <b>护城河：</b>全网最低价AI客服，一杯咖啡钱用一年<br>
 <b style="color:var(--red)">限量：首批仅开放10单，售完即止</b>
 </div>
-<button class="buy-cta" onclick="startBuy()">立即购买 298元/年</button>
+<button class="buy-cta" onclick="showRoadshow()">立即购买 298元/年</button>
 </div>
 </div>
 
@@ -239,6 +280,42 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 <div class="wait">白茶甄选 / 养生佳酿 / 茶酒果酒<br>敬请期待，即将开放</div>
 </div>
 
+
+<div class="roadshow-modal" id="roadshowModal">
+<div class="roadshow-box">
+<h3>您即将获得</h3>
+<div class="rs-sub">山海智能 · 入门版 AI客服</div>
+
+<div class="rs-step">
+<div class="rs-icon">1</div>
+<div class="rs-text"><b>完成付款</b><span>微信扫码支付298元/年（每天不到1块钱）</span></div>
+</div>
+
+<div class="rs-step">
+<div class="rs-icon">2</div>
+<div class="rs-text"><b>填写手机号</b><span>用于接收密钥交付通知和订单查询</span></div>
+</div>
+
+<div class="rs-step">
+<div class="rs-icon">3</div>
+<div class="rs-text"><b>秒级交付密钥</b><span>付款确认后，系统即时交付专属服务密钥</span></div>
+</div>
+
+<div class="rs-step">
+<div class="rs-icon">4</div>
+<div class="rs-text"><b>立即使用</b><span>拿到密钥后，前往AI客服站激活，7x24自动接客</span></div>
+</div>
+
+<div class="rs-guarantee">
+<b>7天无理由退款保障</b>
+<span>不满意随时退，零风险</span>
+</div>
+
+<button class="rs-cta" onclick="proceedToPay()">我知道了，去付款</button>
+<div class="rs-skip" onclick="closeRoadshow()">跳过，直接付款</div>
+</div>
+</div>
+
 <div class="pay-sec" id="paySec">
 <h3>确认付款</h3>
 <div class="pay-box">
@@ -293,6 +370,14 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 5. 本页面信息仅供展示参考，不构成任何收益承诺、投资建议或担保<br>
 6. 经营者不对因使用本产品产生的间接损失承担责任<br>
 <a href="https://shanhai-geo.github.io/shanhai-admin">管理后台</a> | <a href="https://shanhai-geo.github.io/shanhai-ai">接口服务</a>
+</div>
+
+
+<div class="cs-bubble" id="csBubble">
+<button class="cs-close" onclick="closeCsBubble()">x</button>
+<div class="cs-name">服务顾问 小海</div>
+您好，我是山海智能的服务顾问小海。看到您在了解我们的AI客服产品，有任何问题都可以问我，我来帮您解答。
+<br><a class="cs-btn" href="https://shanhai-geo.github.io/" target="_blank">咨询客服</a>
 </div>
 
 <a id="aiFloat" href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">
@@ -424,6 +509,27 @@ startBuy=function(){
 }
 
 renderOrders();
+
+// V5 路演引导
+function showRoadshow(){document.getElementById('roadshowModal').classList.add('show')}
+function closeRoadshow(){document.getElementById('roadshowModal').classList.remove('show')}
+function proceedToPay(){closeRoadshow();startBuy()}
+
+// V5 客服气泡主动打招呼
+function closeCsBubble(){document.getElementById('csBubble').classList.remove('show')}
+setTimeout(function(){
+  // 如果用户已经关闭过，不再弹出
+  if(localStorage.getItem('sh_cs_bubble_closed'))return;
+  var bubble=document.getElementById('csBubble');
+  if(bubble)bubble.classList.add('show');
+},3000);
+// 记录关闭状态
+var _origCloseCs=closeCsBubble;
+closeCsBubble=function(){
+  localStorage.setItem('sh_cs_bubble_closed','1');
+  _origCloseCs();
+};
+
 </script>
 </body>
 </html>

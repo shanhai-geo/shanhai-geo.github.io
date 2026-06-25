@@ -574,7 +574,7 @@ function matchIntent(t){
 }
 
 function getKBReply(i){
-  if(i==='greet')return'你好！我是山海接口顾问小海。我们卖的是接口服务，298元/年，付款拿密钥直接用。想了解什么直接问。';
+  if(i==='greet')return'你好呀！我是小海，很高兴认识你。\n\n我们做的是AI客服服务，298元/年，付款后秒交付，7x24自动帮你接客。\n\n你想了解哪方面？直接问我就好。';
   if(i==='default'){
     var lastMsgs=document.querySelectorAll('.msg-user .bubble');
     var lastText=lastMsgs.length>0?lastMsgs[lastMsgs.length-1].textContent:'';
@@ -817,9 +817,9 @@ function notifyPaid(){
   if(keyStatus.active){
     addAiMsg('接口服务已激活！\n\n当前密钥：'+keyStatus.data.key+'\n有效期至：'+new Date(keyStatus.data.expiryDate).toLocaleDateString()+'\n\n多模型路由已就绪，支持通义千问7B和智谱GLM。',null);
   }else{
-    addAiMsg('欢迎了解山海智能接口服务！\n\n我们提供大模型接口接入能力，298元/年，不限调用次数。支持多模型路由、故障自动切换。\n\n如需激活服务，请输入您的服务密钥。还没有Key？点右上角菜单→购买。',null);
+    addAiMsg('你好呀，我是小海，山海智能的服务顾问。\n\n你现在就在跟我们的AI对话，回复速度和内容你可以直接感受。\n\n我这边是298元/年的AI客服服务，7x24自动接客，不限次数，付款后秒交付。\n\n你想了解什么？直接问我就好，不用客气。',null);
   }
-  setTimeout(function(){addAiMsg('山海智能接口服务：',{title:'接口服务 298元/年',price:'298',unit:'元/年',desc:'多模型路由 · 故障自动切换 · 不限调用次数 · 专属密钥',btn:'立即购买'})},1200);
+  setTimeout(function(){addAiMsg('对了，这是我们最受欢迎的方案，你可以看看：',{title:'智能客服 298元/年',price:'298',unit:'元/年（每天0.81元）',desc:'7x24自动接客 · 多模型路由 · 不限次数 · 秒交付 · 7天退款',btn:'了解详情'})},1500);
   updateQuick('greet');
 })();
 
