@@ -82,6 +82,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   transition:all .15s;backdrop-filter:blur(4px);
   -webkit-user-select:none;user-select:none;
 }
+.pin-key{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .pin-key:active{background:rgba(46,204,113,0.2);border-color:var(--accent);transform:scale(0.92)}
 .pin-key.fn{font-size:15px;color:rgba(255,255,255,0.4)}
 .pin-key.fn:active{background:rgba(255,255,255,0.1)}
@@ -802,14 +803,18 @@ var PIN={
 function resetInactivity(){SESSION.lastActive=Date.now()}
 
 // PIN 键盘事件绑定 (V28: 用事件委托，更可靠)
-document.getElementById('pinPad').addEventListener('click',function(e){
+var padEl=document.getElementById('pinPad');
+function handlePinKey(e){
   var btn=e.target.closest('.pin-key');
   if(!btn)return;
+  e.preventDefault();
   var k=btn.dataset.k;
   if(k==='clear'){PIN.clearInput();return}
   if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
   pinIn(k);
-});
+}
+padEl.addEventListener('touchend',handlePinKey,{passive:false});
+padEl.addEventListener('click',handlePinKey);
 
 function pinIn(d){
   if(PIN.input.length>=6)return;
