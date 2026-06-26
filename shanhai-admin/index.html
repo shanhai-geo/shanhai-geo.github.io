@@ -261,7 +261,16 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
     <button class="pin-key fn" onclick="pinClear()">C</button><button class="pin-key" onclick="pinIn('0')">0</button><button class="pin-key fn" onclick="pinBack()">&#9003;</button>
   </div>
   <div class="pin-hint" id="pinHint">交接码=一次即焚→设你的码=通行码=开发权限植入系统</div>
-  <div class="pin-reset" id="pinReset" style="display:none" onclick="startReset()">忘记通行码？</div>
+  <div class="pin-reset" id="pinReset" style="display:none" onclick="showResetOptions()">忘记通行码？</div>
+  <div id="resetOptions" style="display:none;font-size:11px;color:var(--dim);margin-top:8px;text-align:center">
+    <div style="margin-bottom:6px;color:var(--gold)">选择验证方式</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <span class="reset-opt" onclick="chooseReset('agent')">Agent验证</span>
+      <span class="reset-opt" onclick="chooseReset('email')">邮箱验证</span>
+      <span class="reset-opt" onclick="chooseReset('sms')">手机验证</span>
+    </div>
+  </div>
+  <style>.reset-opt{padding:4px 10px;border:1px solid var(--dim);border-radius:10px;cursor:pointer;font-size:10px}.reset-opt:active{background:var(--gold);color:#000}</style>
 </div>
 
 
@@ -449,7 +458,44 @@ function pinClear(){pinBuf='';updDots()}
 function pinBack(){pinBuf=pinBuf.slice(0,-1);updDots()}
 function updDots(){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot'+(i<pinBuf.length?' filled':'')}
 function pinErr(msg){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';var s=document.getElementById('pinStatus');s.textContent=msg;s.style.color='var(--red)';var defText=pinPhase==='login'?'输入通行码':pinPhase==='setup2'?'再次输入确认通行码':pinPhase==='handover'?'输入交接码·接收主权':'设置6位通行码';setTimeout(function(){pinBuf='';updDots();s.style.color='var(--dim)';s.textContent=defText},1200)}
-function startReset(){pinPhase='reset';pinBuf='';updDots();document.getElementById('pinStatus').textContent='输入交接码·重设通行码';document.getElementById('pinStatus').style.color='var(--gold)';document.getElementById('pinReset').style.display='none';document.getElementById('pinHint').style.display='none'}
+function startReset(){showResetOptions()}
+function showResetOptions(){
+  document.getElementById('resetOptions').style.display='block';
+  document.getElementById('pinReset').style.display='none';
+  document.getElementById('pinStatus').textContent='选择验证方式';
+}
+function chooseReset(method){
+  document.getElementById('resetOptions').style.display='none';
+  if(method==='agent'){
+    // Agent验证：通过对话确认身份后生成临时码
+    pinPhase='reset';pinBuf='';updDots();
+    document.getElementById('pinStatus').textContent='通过Agent获取重置码';
+    document.getElementById('pinStatus').style.color='var(--gold)';
+    var hint3 = document.createElement('div');
+    hint3.style.cssText = 'font-size:11px;color:var(--dim);margin-top:10px;text-align:center;line-height:1.6';
+    hint3.innerHTML = '在主对话中输入：<br><span style="color:var(--gold)">"生成重置码"</span><br>获取6位临时码后输入';
+    document.getElementById('pinReset').parentNode.appendChild(hint3);
+  } else if(method==='email'){
+    // 邮箱验证
+    pinPhase='reset';pinBuf='';updDots();
+    document.getElementById('pinStatus').textContent='等待邮箱验证';
+    document.getElementById('pinStatus').style.color='var(--gold)';
+    var hint4 = document.createElement('div');
+    hint4.style.cssText = 'font-size:11px;color:var(--dim);margin-top:10px;text-align:center;line-height:1.6';
+    hint4.innerHTML = '验证码将发送到：<br><span style="color:var(--gold)">746876121@qq.com</span><br>（通过Agent邮件发送）';
+    document.getElementById('pinReset').parentNode.appendChild(hint4);
+    // 这里可以触发Agent发送邮件
+  } else if(method==='sms'){
+    // 手机验证
+    pinPhase='reset';pinBuf='';updDots();
+    document.getElementById('pinStatus').textContent='等待手机验证';
+    document.getElementById('pinStatus').style.color='var(--gold)';
+    var hint5 = document.createElement('div');
+    hint5.style.cssText = 'font-size:11px;color:var(--dim);margin-top:10px;text-align:center;line-height:1.6';
+    hint5.innerHTML = '验证码将发送到：<br><span style="color:var(--gold)">188****5368</span><br>（需要短信API支持）';
+    document.getElementById('pinReset').parentNode.appendChild(hint5);
+  }
+}
 function procPin(){
   // 首次：输入交接码(一次即焚)
   if(pinPhase==='handover'){
