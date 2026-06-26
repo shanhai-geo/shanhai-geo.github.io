@@ -428,7 +428,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 <!-- 第1层：去付款 -->
 <div id="payLayer1">
 <p style="font-size:16px;color:#333;font-weight:600;margin-bottom:16px">第1步：点击下方按钮，前往付款页面完成支付</p>
-<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" target="_blank" onclick="onPayClick()" class="cta-btn confirm-btn-highlight" style="display:inline-block;text-decoration:none;font-size:20px;padding:16px 32px">▶ 立即付款 298元</a>
+<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" target="_blank" class="cta-btn confirm-btn-highlight" style="display:inline-block;text-decoration:none;font-size:20px;padding:16px 32px" onclick="setTimeout(function(){try{document.getElementById('payLayer2').style.display='block'}catch(e){}},500)">▶ 立即付款 298元</a>
 <p style="margin-top:14px;font-size:13px;color:#888">点击后跳转付款页面，支付完成后回到本页完成第2步</p>
 </div>
 
