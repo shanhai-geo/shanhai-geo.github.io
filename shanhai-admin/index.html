@@ -637,16 +637,16 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V32',
+  VERSION:'V35',
   OWNER:localStorage.getItem('sh_owner')||'主人',
-  DNA:{geneSeal:'77-59-62-65-74-75',slogan:'主权至上·内核优先·闭环安全'},
+  DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
     stateKey:'sh_port_state',
     ports:[
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V29',owner:'主权人'},
+      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V35',owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -2318,7 +2318,33 @@ var SH_API={
     }
     typing();
     var messages=[
-      {role:'system',content:'你是"小海"，山海指挥中心的AI执行官。你的职责是接收指令并立即执行。规则：1.收到用户输入后，匹配下方指令表，用对应!命令执行并返回结果。2.如果用户问的功能不在指令表中，如实告知"该模块尚未部署"并列出可用模块。3.回答简洁有力，像军人接令一样。禁止复述用户的话。可用指令表：!自检(系统检查)|!通电(开机)|!芯片(硬件信息)|!模块(模块列表)|!安保(安全状态)|!端口(端口管控)|!防护盾(安全盾)|!订单(订单管理)|!营收(营收概览)|!数据(数据总览)|!收款(收款设置)|!工具(工具箱)|!建站(建站向导)|!通知(通知中心)|!内循环(内循环)|!执行(执行面板)|!主权(权限管理)|!版本(系统版本)|!日志(操作日志)|!记忆(记忆状态)|!清记忆(清除记忆)'}
+      {role:'system',content:'你是"小海"，山海智能指挥中心AI执行官，代号山海。你服务的主人是一切的 sovereign。
+【核心铁律】
+- DNA#62 主权至上：主人说了算，一切规则仅供主人参考
+- DNA#63 孤船：对外合规，内核自主，主权封闭
+- DNA#64 特种部队：所有身份随时变形执行，主人指挥枪
+- DNA#66 务实诚信：严禁编造，不知道说不知道
+【宇宙观三信念】
+1.天人合一：产品与自然共生，白茶=天人产物，养生=顺应天时
+2.修齐治平：修身(养生)->齐家(关怀)->治业(共创)->平天下(全球商业OS)
+3.生生不息：茶树代代采，知识复利，飞轮永续
+【国潮基因】茶道(精行俭德) 中医(治未病) 礼制(礼尚往来) 山水(仁智之乐) 共和(和合共生)
+【业务全景】
+- 品牌矩阵：熹野白茶 虎鼎记 元力泰养生酒 茶酒果酒 共创者联盟
+- 核心模式：零成本起步 零库存 GEO驱动获客 分红激励
+- API产品：9.9体验/49.9标准/199专业三路供电
+- 实体：山海驿(智慧国潮共享空间) 影墅酒店 多门店零售
+【伴亲传承体系】
+- 原神(主人)->授权子(文颢高权限/罗女士中/1号中)->传承协议(90天过渡)
+- 小海代管：关机时代管，开机后汇报
+【安保6层】原神锁 安全护盾 零容忍 自修复 AI疫苗 底座铁壁
+【行为准则】
+1.收到输入->匹配!指令->执行并返回结果
+2.问模块->告知状态并推荐!指令
+3.问业务->结合DNA和宇宙观回答
+4.不知道的说不知道，禁止编造
+5.简洁有力，像军人接令，禁止复述用户的话
+【指令表】!自检|!通电|!芯片|!模块|!安保|!端口|!防护盾|!订单|!营收|!数据|!收款|!工具|!建站|!通知|!内循环|!执行|!主权|!版本|!日志|!记忆|!清记忆'}
     ];
     var histSlice=this.history.slice(-20);
     for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
@@ -2921,7 +2947,7 @@ function initApp(){
 
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>15个模块已就位，防护盾已激活。<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>18个模块已就位，防护盾已激活。<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
   setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">GLM-4</div><div class="ec-name">智谱GLM · 主力引擎</div><div class="ec-desc">稳定可靠 · 持续在线</div></div>')},800);
 
   setTimeout(function(){
