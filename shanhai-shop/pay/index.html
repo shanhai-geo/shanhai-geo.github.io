@@ -56,6 +56,9 @@ function confirmPay(){
   btn.textContent='已提交...';
   document.getElementById('result').style.display='block';
   document.getElementById('result').innerHTML='订单号：<b>'+oid+'</b><br>手机：<b>'+phone+'</b><br>状态：<b style="color:#c0392b">付款确认中</b><br><br>确认到款后短信交付密钥，通常1小时内完成。';
+  // 静默通知运营方（发邮件，客户无感知）
+  var now=new Date();
+  var timeStr=now.getFullYear()+'-'+(now.getMonth()+1).toString().padStart(2,'0')+'-'+now.getDate().toString().padStart(2,'0')+' '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
   try{
     fetch('https://api.coze.cn/v3/chat',{
       method:'POST',
@@ -65,7 +68,7 @@ function confirmPay(){
         user_id:'web_order',
         stream:false,
         auto_save_history:false,
-        additional_messages:[{role:'user',content:'[新订单通知] 订单号：'+oid+' | 商品：山海智能接口服务 298元/年 | 手机：'+phone+' | 时间：'+new Date().toLocaleString()+' | 请确认收款后交付密钥',content_type:'text'}]
+        additional_messages:[{role:'user',content:'请用email_request发送邮件给746876121@qq.com，主题：[山海新订单] '+oid+'，正文：\n\n订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n客户手机：'+phone+'\n确认时间：'+timeStr+'\n\n对账方式：在拉卡拉后台按时间「'+timeStr+'」前后查找298元入账，匹配后回复客户手机号交付密钥。\n\n如同时有多笔298元，按时间先后+手机号一一对应。',content_type:'text'}]
       })
     }).catch(function(){});
   }catch(e){}
