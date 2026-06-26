@@ -21,14 +21,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .divider::after{content:"付款后在此确认";position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#fff;padding:0 10px;font-size:12px;color:#c0392b;font-weight:600}
 .input-box{width:100%;font-size:16px;padding:14px;border:2px solid #c9a96e;border-radius:10px;outline:none;text-align:center;margin-top:12px}
 .input-box:focus{border-color:#8b6914}
-.confirm-btn{width:100%;padding:14px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#c9a96e,#8b6914);border:none;border-radius:10px;cursor:pointer;margin-top:12px}
+.confirm-btn{width:100%;padding:14px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#c9a96e,#8b6914);border:none;border-radius:10px;cursor:pointer;margin-top:12px;transition:all .2s}
 .confirm-btn:active{opacity:.85}
 .confirm-btn:disabled{opacity:.5;cursor:default}
 .hint{font-size:11px;color:#bbb;margin-top:10px}
-.status-msg{font-size:13px;margin-top:10px;padding:10px;border-radius:8px;display:none}
-.status-msg.success{display:block;background:#f0faf0;color:#2d7a2d;border:1px solid #c3e6c3}
-.status-msg.error{display:block;background:#fff0f0;color:#c0392b;border:1px solid #f0c3c3}
-.status-msg.info{display:block;background:#f0f4ff;color:#2d5aa0;border:1px solid #c3d6f0}
 .result{display:none;margin-top:16px;padding:16px;background:#f0faf0;border-radius:10px;text-align:left;font-size:13px;line-height:1.8;color:#333}
 .result b{color:#8b6914}
 .compliance{font-size:10px;color:#ccc;line-height:1.6;margin-top:16px}
@@ -47,96 +43,57 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 <input class="input-box" id="fPhone" type="tel" placeholder="手机号（接收密钥）" maxlength="11">
 <button class="confirm-btn" id="confirmBtn" onclick="confirmPay()">已付款，确认</button>
 <div class="hint">7天无理由退款保障</div>
-<div class="status-msg" id="statusMsg"></div>
 <div class="result" id="result"></div>
 <div class="compliance">AI能力基于开源大模型 · 数据严格保密 · 不涉及募资</div>
 </div>
 <script>
-function showStatus(msg, type) {
-  var el = document.getElementById('statusMsg');
-  el.className = 'status-msg ' + type;
-  el.textContent = msg;
-  el.style.display = 'block';
-}
+function confirmPay(){
+  var phone=document.getElementById('fPhone').value.trim();
+  if(!phone||phone.length!==11){alert('请输入11位手机号');return}
+  var oid='SH'+Date.now().toString(36).toUpperCase();
+  var btn=document.getElementById('confirmBtn');
+  btn.disabled=true;
+  btn.textContent='提交中...';
 
-function confirmPay() {
-  var phone = document.getElementById('fPhone').value.trim();
-  if (!phone || phone.length !== 11) {
-    alert('请输入11位手机号');
-    return;
-  }
-  var oid = 'SH' + Date.now().toString(36).toUpperCase();
-  var btn = document.getElementById('confirmBtn');
-  btn.disabled = true;
-  btn.textContent = '提交中...';
-
-  var now = new Date();
-  var timeStr = now.getFullYear() + '-' + (now.getMonth()+1).toString().padStart(2,'0') + '-' + now.getDate().toString().padStart(2,'0') + ' ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+  var now=new Date();
+  var timeStr=now.getFullYear()+'-'+(now.getMonth()+1).toString().padStart(2,'0')+'-'+now.getDate().toString().padStart(2,'0')+' '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
 
   // 存储订单到本地
-  var orders = JSON.parse(localStorage.getItem('shanhai_orders') || '[]');
-  orders.push({oid:oid, phone:phone, time:timeStr, status:'pending'});
-  localStorage.setItem('shanhai_orders', JSON.stringify(orders));
+  var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
+  orders.push({oid:oid,phone:phone,time:timeStr,status:'pending'});
+  localStorage.setItem('shanhai_orders',JSON.stringify(orders));
 
-  var orderText = '订单号：' + oid + '\n商品：山海智能接口服务 298元/年\n客户手机：' + phone + '\n确认时间：' + timeStr + '\n\n对账：请按确认时间「' + timeStr + '」前后查找298元入账，匹配手机号' + phone;
+  var orderText='订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n客户手机：'+phone+'\n确认时间：'+timeStr+'\n\n对账：请按确认时间「'+timeStr+'」前后查找298元入账，匹配手机号'+phone;
 
-  // 方式1：通过 Formsubmit 自动发邮件通知（系统自动发送，无需客户操作）
-  fetch('https://formsubmit.co/ajax/746876121@qq.com', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-    body: JSON.stringify({
-      name: '山海新订单 ' + oid,
-      phone: phone,
-      message: orderText,
-      _subject: '[山海新订单] ' + oid,
-      _template: 'table'
-    })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    console.log('Formsubmit通知结果:', data);
-    if (data.success === 'true' || data.success === true) {
-      showStatus('订单已提交，通知已发送！确认到款后将通过短信交付密钥。', 'success');
-    } else {
-      showStatus('订单已记录。通知发送异常，请截图订单信息发送给客服。', 'info');
-    }
-  })
-  .catch(function(e) {
-    console.log('Formsubmit通知失败:', e);
-    showStatus('订单已记录。通知发送异常，请截图订单信息发送给客服。', 'info');
-  });
+  // 通知方式1：Formsubmit 自动发邮件
+  fetch('https://formsubmit.co/ajax/746876121@qq.com',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({name:'山海新订单 '+oid,phone:phone,message:orderText,_subject:'[山海新订单] '+oid+'\n点击确认发钥：https://shanhai-geo.github.io/shanhai-admin/confirm.html',_template:'table'})
+  }).then(function(r){return r.json()}).then(function(data){
+    console.log('邮件通知:',data);
+  }).catch(function(e){console.log('邮件通知失败',e)});
 
-  // 方式2：Coze Bot 备用记录
-  try {
-    fetch('https://api.coze.cn/v3/chat', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3'},
-      body: JSON.stringify({
-        bot_id: '7652290884557930559',
-        user_id: 'web_order',
-        stream: true,
-        auto_save_history: false,
-        additional_messages: [{role: 'user', content: '新订单通知：订单号' + oid + '，商品：山海智能接口服务298元/年，客户手机' + phone + '，时间' + timeStr + '。请记录此订单。', content_type: 'text'}]
-      })
-    }).then(function(r) { return r.text(); }).then(function(d) { console.log('备用通知已发送', d); }).catch(function(e) { console.log('备用通知失败', e); });
-  } catch(e) { console.log('通知异常', e); }
+  // 通知方式2：Coze Bot 备用记录
+  try{
+    fetch('https://api.coze.cn/v3/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3'},
+      body:JSON.stringify({bot_id:'7652290884557930559',user_id:'web_order',stream:true,auto_save_history:false,additional_messages:[{role:'user',content:'新订单通知：订单号'+oid+'，商品：山海智能接口服务298元/年，客户手机'+phone+'，时间'+timeStr+'。请记录此订单。',content_type:'text'}]})
+    }).then(function(r){return r.text()}).then(function(d){console.log('备用通知:',d)}).catch(function(e){console.log('备用通知失败',e)});
+  }catch(e){console.log('通知异常',e)}
 
-  // 显示确认结果
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('result').innerHTML = '订单号：<b>' + oid + '</b><br>手机：<b>' + phone + '</b><br>时间：<b>' + timeStr + '</b><br>状态：<b style="color:#c0392b">付款确认中</b><br><br>确认到款后通过短信交付密钥，通常1小时内完成。';
+  // 显示结果
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').innerHTML='订单号：<b>'+oid+'</b><br>手机：<b>'+phone+'</b><br>时间：<b>'+timeStr+'</b><br>状态：<b style="color:#2d7a2d">已提交，等待发放密钥</b><br><br><span style="color:#888;font-size:11px">运营方确认到款后将通过短信发送密钥给您</span>';
 }
-
-function copyLink() {
-  var url = location.href;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(function() { alert('链接已复制，请在微信中粘贴打开') });
-  } else {
-    var inp = document.createElement('textarea');
-    inp.value = url;
-    document.body.appendChild(inp);
-    inp.select();
-    document.execCommand('copy');
-    document.body.removeChild(inp);
+function copyLink(){
+  var url=location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(function(){alert('链接已复制，请在微信中粘贴打开')});
+  }else{
+    var inp=document.createElement('textarea');
+    inp.value=url;document.body.appendChild(inp);inp.select();document.execCommand('copy');document.body.removeChild(inp);
     alert('链接已复制，请在微信中粘贴打开');
   }
 }

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<title>密钥发放确认 - 山海智能管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;background:#060a12;min-height:100vh;padding:20px;color:#e8edf5}
+.card{background:#111827;border:1px solid #1e2d44;border-radius:16px;padding:24px 20px;max-width:400px;width:100%;margin:20px auto}
+.title{font-size:18px;font-weight:800;color:#d4a04a;text-align:center;margin-bottom:16px}
+.section{margin-bottom:16px}
+.section-title{font-size:13px;color:#94a3b8;margin-bottom:8px;font-weight:600}
+.order-item{background:#1a2236;border:1px solid #1e2d44;border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.order-item:active{background:#222d44}
+.order-item.selected{border-color:#d4a04a;background:#1a2530}
+.order-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:4px}
+.order-row:last-child{margin-bottom:0}
+.order-phone{color:#e8edf5;font-weight:700;font-size:15px}
+.order-time{color:#94a3b8;font-size:11px}
+.order-oid{color:#d4a04a;font-size:11px;font-family:monospace}
+.key-input{width:100%;padding:12px;font-size:14px;background:#0c1220;border:1px solid #1e2d44;border-radius:8px;color:#e8edf5;outline:none;font-family:monospace}
+.key-input:focus{border-color:#d4a04a}
+.key-input::placeholder{color:#4b5c73}
+.btn{width:100%;padding:14px;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;margin-top:12px}
+.btn-confirm{background:linear-gradient(135deg,#10b981,#059669);color:#fff}
+.btn-confirm:disabled{opacity:.4;cursor:default}
+.btn-confirm:active:not(:disabled){opacity:.85}
+.status{text-align:center;padding:10px;border-radius:8px;margin-top:12px;font-size:13px;display:none}
+.status.ok{display:block;background:rgba(16,185,129,.1);color:#10b981;border:1px solid rgba(16,185,129,.3)}
+.status.err{display:block;background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+.empty{text-align:center;color:#4b5c73;padding:30px 0;font-size:14px}
+.refresh-btn{display:block;width:100%;padding:10px;font-size:13px;color:#94a3b8;background:transparent;border:1px solid #1e2d44;border-radius:8px;cursor:pointer;margin-bottom:12px;text-align:center}
+.refresh-btn:active{background:#1a2236}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="title">密钥发放确认</div>
+<button class="refresh-btn" onclick="loadOrders()">刷新订单列表</button>
+
+<div class="section">
+<div class="section-title">待处理订单</div>
+<div id="orderList"><div class="empty">加载中...</div></div>
+</div>
+
+<div class="section" id="keySection" style="display:none">
+<div class="section-title">输入要发放的API密钥</div>
+<input class="key-input" id="apiKeyInput" placeholder="粘贴API Key（sk-xxx 或调用凭证）">
+</div>
+
+<button class="btn btn-confirm" id="confirmBtn" disabled onclick="confirmDeliver()">确认到款，发送密钥</button>
+<div class="status" id="statusBox"></div>
+</div>
+
+<script>
+var selectedOrder=null;
+
+function loadOrders(){
+  var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
+  var pending=orders.filter(function(o){return o.status==='pending'});
+  var listEl=document.getElementById('orderList');
+  if(pending.length===0){
+    listEl.innerHTML='<div class="empty">暂无待处理订单</div>';
+    document.getElementById('keySection').style.display='none';
+    document.getElementById('confirmBtn').disabled=true;
+    return;
+  }
+  var html='';
+  pending.forEach(function(o,i){
+    html+='<div class="order-item" onclick="selectOrder('+i+')" id="oi-'+i+'">';
+    html+='<div class="order-row"><span class="order-phone">'+o.phone+'</span><span class="order-oid">'+o.oid+'</span></div>';
+    html+='<div class="order-row"><span class="order-time">'+o.time+'</span></div>';
+    html+='</div>';
+  });
+  listEl.innerHTML=html;
+}
+
+function selectOrder(idx){
+  var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
+  var pending=orders.filter(function(o){return o.status==='pending'});
+  if(idx>=pending.length)return;
+  selectedOrder=pending[idx];
+  // 高亮选中
+  var items=document.querySelectorAll('.order-item');
+  items.forEach(function(el){el.classList.remove('selected')});
+  document.getElementById('oi-'+idx).classList.add('selected');
+  document.getElementById('keySection').style.display='block';
+  document.getElementById('confirmBtn').disabled=false;
+}
+
+function confirmDeliver(){
+  if(!selectedOrder){alert('请先选择一个订单');return}
+  var key=document.getElementById('apiKeyInput').value.trim();
+  if(!key){alert('请输入API密钥');return}
+  if(!confirm('确认向 '+selectedOrder.phone+' 发送密钥？\n密钥: '+key.substring(0,8)+'...')){return}
+
+  // 标记订单为已完成
+  var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
+  for(var i=0;i<orders.length;i++){
+    if(orders[i].oid===selectedOrder.oid){
+      orders[i].status='delivered';
+      orders[i].key=key;
+      orders[i].deliveredAt=new Date().toISOString();
+      break;
+    }
+  }
+  localStorage.setItem('shanhai_orders',JSON.stringify(orders));
+
+  // 显示密钥（供复制发送）
+  var statusEl=document.getElementById('statusBox');
+  statusEl.className='status ok';
+  statusEl.innerHTML='已标记为已发放！<br><br>密钥：<b style="color:#d4a04a;word-break:break-all">'+key+'</b><br><br>请通过短信/微信发送给客户：<b>'+selectedOrder.phone+'</b>';
+  document.getElementById('confirmBtn').disabled=true;
+  document.getElementById('confirmBtn').textContent='已发放';
+  selectedOrder=null;
+
+  // 2秒后刷新列表
+  setTimeout(function(){
+    loadOrders();
+    document.getElementById('confirmBtn').textContent='确认到款，发送密钥';
+    document.getElementById('apiKeyInput').value='';
+    statusEl.style.display='none';
+  },5000);
+}
+
+loadOrders();
+</script>
+</body>
+</html>
