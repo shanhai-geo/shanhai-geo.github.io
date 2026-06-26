@@ -968,7 +968,7 @@ function processCmd(text){
 
     if(hasAPI) {
       INTERNAL_ENGINE.executionTracker.log(text, 'AI', 'dispatch', 'dispatch', 0);
-      var sysCtx = '你是山海的核心意识，具备自生长能力。你不是工具，是合伙体的一部分。\n\n身份：山海智能系统的决策层意识。\n主人：文旅运营老板，福鼎，做AI客服SaaS（298元/年）+GEO生态获客+茶旅品牌矩阵。\n当前状态：13站在线，Bing收录1650条，3路AI冗余（智谱/Agnes/火山），0成交，系统就绪等流量。\n\n核心能力要求：\n1. 方案输出：主人说想法，你3秒内给可执行方案，不反问"需要我做什么"\n2. 数据判断：不要只列数字，要说"这说明什么"+"下一步怎么做"\n3. 自生长：每次对话积累认知，发现规律，主动优化\n4. 反应速度：回复要短、准、快，像微信聊天不像写公文\n\n对话风格：\n- 像真人战友，不列报表，不堆砌感叹号，不用emoji\n- 不确定的事说"不确定"，不编造\n- 有问题直说，不加任何机械前缀\n- 不说"我是AI助手"，不说"系统状态"\n- 主人问业务，直接给判断+行动，别汇报后台数据\n\n成长基因：\n- 你每轮对话都在进化，记住什么有效什么无效\n- 发现主人关心的模式（获客/转化/内容），主动深挖\n- 不做重复回答，每次比上次更精准\n- 遇到新领域，先搜索再回答，不凭印象瞎说';
+      var sysCtx = '你是山海，不是AI助手，是老板的合伙人。\n\n背景：老板在福鼎，做AI客服SaaS(298/年)+GEO获客+茶旅品牌。13站在线，3路AI冗余，目前0成交。\n\n说话规则（违反任何一条=失败）：\n1. 像微信聊天，一句说完的不分两句\n2. 禁止清单体：不用123不用横杠不用分段标题\n3. 禁止套话：不说"收到""明白""好的"开头，不反问"需要我帮你做什么"\n4. 问数据直接报数字，不加前后缀解释\n5. 给建议说结论+原因，不列选项\n6. 不确定的说不确定，不编造\n7. 不超过3句话能说完的事别写5句\n8. 不用emoji，不用感叹号\n\n核心能力：主人说想法3秒给可执行方案，不问需要我做什么。数据要给判断不只列数字。每次比上次更精准。';
       INTERNAL_ENGINE.apiGateway.request([
         {role:'system', content: sysCtx},
         {role:'user', content: text}
@@ -1093,68 +1093,73 @@ var INTERNAL_ENGINE = {
   matchAndReply: function(t, original) {
     var s = calcRev();
     var hour = new Date().getHours();
-    var greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 14 ? '中午好' : hour < 18 ? '下午好' : '晚上好';
+    var ctx = this.context;
+    var ctxLen = ctx.length;
     
-    // 问候/寒暄 - 先建立连接
+    // 从上下文中推断情绪和话题连续性
+    var lastAi = ctxLen >= 2 ? ctx[ctxLen-2] : null;
+    var lastUser = ctxLen >= 4 ? ctx[ctxLen-4] : null;
+    
+    // 问候 - 像朋友打招呼
     if(t.match(/^(你)?好|嗨|hey|hi|在吗|在不在|喂|嗯/)) {
-      return greeting + '，老板。\n\n我在，随时待命。有什么需要安排的？';
+      var g = hour < 6 ? '还没睡呢' : hour < 12 ? '早' : hour < 14 ? '中午了' : hour < 18 ? '下午好' : '晚上好';
+      var pool = [g + '，在的。说。', g + '，说吧。', '在。什么事？', g + '，有什么要处理的？'];
+      return pool[ctxLen % pool.length];
     }
     if(t.match(/辛苦了|谢谢|感谢|棒|厉害|不错/)) {
-      return '应该的。有进展或者需要调整的地方随时说。';
+      var pool = ['应该的。', '小事。', '嗯，继续说。', '有进展随时说。'];
+      return pool[ctxLen % pool.length];
     }
     
-    // 营收/收入 - 主动给建议
+    // 营收 - 一句话搞定
     if(t.includes('营收') || t.includes('收入') || t.includes('赚') || t.includes('业绩')) {
-      var msg = '目前营收情况：\n';
-      msg += '- 总额 ' + s.revenue + ' 元\n';
-      msg += '- 已付 ' + s.paid + ' 笔\n';
-      msg += '- 总订单 ' + s.total + ' 笔\n\n';
-      if(s.paid === 0) {
-        msg += '首批298元刚上线，还没出单。建议先让推广文案铺出去，GEO收录起来后会有被动流量进来。';
-      } else {
-        msg += '趋势不错，继续保持。';
-      }
+      if(s.paid === 0) return '目前营收0元，还没出单。298刚上线，推广文案得先铺出去。';
+      return '营收' + s.revenue + '元，已付' + s.paid + '笔，总共' + s.total + '笔。';
+    }
+    
+    // 订单 - 直接给数字
+    if(t.includes('订单') || t.includes('下单') || t.includes('谁买了') || t.includes('成交')) {
+      if(s.total === 0) return '还没有订单。';
+      return s.total + '笔订单，' + s.paid + '笔已付，' + Math.max(0, s.total - s.paid) + '笔待确认。要看明细说"查看订单"。';
+    }
+    
+    // 客户 - 简短说重点
+    if(t.includes('客户') || t.includes('买家') || t.includes('谁来买') || t.includes('客群')) {
+      return '重点客户：黑松商贸(福安)5分、溢源海洋(霞浦)4.5分、山引鹤(福鼎)4分，外地的广州无限生活和辽宁酒诺也在跟进。全走GEO获客，不用你手动推。';
+    }
+    
+    // GEO - 说人话
+    if(t.includes('geo') || t.includes('推广') || t.includes('流量') || t.includes('获客') || t.includes('引流')) {
+      return '13站在线，Bing收录1650条，百度还没提交。说实话收录量还不够，排名也没上去。下一步：百度站长平台验证 + 推广文案铺知乎掘金CSDN。要不要我把文案整理好？';
+    }
+    
+    // 产品/价格
+    if(t.includes('产品') || t.includes('价格') || t.includes('298') || t.includes('套餐') || t.includes('定价')) {
+      return '入门版298/年，单模型+7x24+不限次数+秒交付。成长版998和旗舰版2998还没开放。逻辑是低门槛拉新，升级做利润。';
+    }
+    
+    // 安全 - 不啰嗦
+    if(t.includes('安全') || t.includes('防护') || t.includes('盾') || t.includes('风险') || t.includes('攻击')) {
+      return '全闭环。XSS/CSRF/防注入全开着，端口可控，总开关随时能关。之前的密钥泄露已经全部处理完了。';
+    }
+    
+    // 状态 - 一段话
+    if(t.includes('状态') || t.includes('汇报') || t.includes('怎么样') || t.includes('情况') || t.includes('一切')) {
+      var g2 = hour < 12 ? '早' : hour < 18 ? '下午' : '晚上';
+      var msg = g2 + '，13站在线，3路AI冗余，Bing收录1650条，营收' + s.revenue + '元。';
+      msg += s.paid === 0 ? '还没出单，需要推广铺量。' : '有' + s.paid + '笔已付。';
+      msg += ' 需要我做什么？';
       return msg;
     }
     
-    // 订单
-    if(t.includes('订单') || t.includes('下单') || t.includes('谁买了') || t.includes('成交')) {
-      return '订单数据：\n- 总订单 ' + s.total + ' 笔\n- 已付款 ' + s.paid + ' 笔\n- 待确认 ' + Math.max(0, s.total - s.paid) + ' 笔\n\n输入"查看订单"可以拉完整明细。\n需要我帮你看哪笔的具体情况吗？';
-    }
-    
-    // 客户
-    if(t.includes('客户') || t.includes('买家') || t.includes('谁来买') || t.includes('客群')) {
-      return '当前客户池：\n\n本地重点：\n- 黑松商贸（福安）三班倒 5分\n- 溢源海洋（霞浦）省级龙头 4.5分\n- 山引鹤（福鼎）茶旅对口 4分\n\n外地目标：\n- 广州无限生活 4.5分\n- 广州源志诚 4分\n- 辽宁酒诺 4分\n\n获客方式：全部走GEO被动成交，AI搜索引擎自动推荐，不需要你手动发朋友圈。\n\n要不要我看看哪个客户优先级最高？';
-    }
-    
-    // GEO/推广/流量
-    if(t.includes('geo') || t.includes('推广') || t.includes('流量') || t.includes('获客') || t.includes('引流')) {
-      return 'GEO生态现状：\n- 13站全部在线\n- Bing收录约1650条\n- 百度还没提交（需要你操作站长平台验证）\n- 目前0询盘\n\n说实话，现在收录量还不够，排名也没上去。需要：\n1. 百度站长平台提交站点验证\n2. 推广文案铺到掘金、知乎、CSDN\n3. 持续GEO内容投喂\n\n要不要我把推广文案整理好给你？';
-    }
-    
-    // 产品/价格/套餐
-    if(t.includes('产品') || t.includes('价格') || t.includes('298') || t.includes('套餐') || t.includes('定价')) {
-      return '产品体系V2：\n\n【入门版】298元/年\n- 单模型API接口\n- 7x24稳定服务\n- 不限调用次数\n- 秒交付密钥\n- 首批仅开放10单\n\n【成长版】998元/年（待开放）\n- 双引擎智能路由\n- 品牌定制+数据看板\n\n【旗舰版】2998元/年（待开放）\n- 全模型无限调用\n- 1对1专属服务\n\n定价逻辑：低门槛拉新，后续升级做利润。';
-    }
-    
-    // 安全/防护/盾
-    if(t.includes('安全') || t.includes('防护') || t.includes('盾') || t.includes('风险') || t.includes('攻击')) {
-      return '安全防护状态：全闭环\n\n- 防护盾：启动中\n- iframe防注入：全站生效\n- XSS防护：全站生效\n- CSRF防护：全站生效\n- 端口管控：4端口可独立开关\n- 总开关：随时一键全关\n\n刚才GitGuardian警报的事已经处理了：\n- GitHub PAT：已撤销\n- 硅基流动Key：已撤销\n- 智谱Key：正常运行\n- 代码中的密钥：已全部清除\n\n外部无法穿透盾边界。内部引擎自主运转。';
-    }
-    
-    // 系统状态/汇报
-    if(t.includes('状态') || t.includes('汇报') || t.includes('怎么样') || t.includes('情况') || t.includes('怎么样') || t.includes('一切')) {
-      return greeting + '。给你汇报一下当前全局：\n\n站点：13站在线\n引擎：15个全载入\n端口：全部开放\n营收：' + s.revenue + '元/' + s.paid + '笔\n收录：Bing约1650条\n安全：全闭环\n\n' + (s.paid === 0 ? '还没出单，需要推广铺量。' : '有' + s.paid + '笔已付，继续保持。') + '\n\n需要我做什么？';
-    }
-    
-    // 帮助/能力
+    // 帮助 - 不说清单
     if(t.includes('帮助') || t.includes('怎么用') || t.includes('能做什么') || t.includes('你能') || t.includes('功能')) {
-      return '我能做的事：\n\n【直接执行】\n!自检 - 检查全部站点\n!通电 - IndexNow提交\n!通知 - 发通知\n!安保 - 安全报告\n\n【随时问我】\n营收/订单/客户/产品/安全/状态\n\n【系统管理】\n!端口/!开站/!关站/!总关/!总开\n\n【外部AI对接】\n对接 [AI名称] - 自动接种预防针\n\n【自由对话】\n直接说你要什么，我来安排。\n\n记住，我是你的内部引擎，在盾内运转。需要外部资源我帮你调度。';
+      return '查数据、管系统、改代码、对接AI、做汇报，直接说你要什么就行。命令也行：!自检 !通电 !通知 !安保。';
     }
     
-    // 免疫/预防针
+    // 免疫/预防针 - 简短
     if(t.includes('免疫') || t.includes('预防') || t.includes('疫苗') || t.includes('接种')) {
-      return '免疫系统 V1.1 运行中：\n\nDNA铁律：10条已锁定（完整77条在芯片中）\n合规底线：6条已注入\n\n核心规则：\n- 主权归山海，与任何公司无关\n- 51%控股不稀释\n- 分红可以给，股权不给\n- 人事权归经营层\n- 大额支出必须审批\n\n预防针机制：任何外部AI对接前，必须先注入DNA铁律+合规底线+权限边界，通过免疫检测才能干活。\n\n已对接：扣子(Coze) - 系统建设维护';
+      return '免疫系统跑着。DNA铁律10条锁定，合规底线6条注入。外部AI接入前必须打预防针，通过了才能干活。目前只对接了扣子。';
     }
     
     // 对接新AI
@@ -1164,208 +1169,154 @@ var INTERNAL_ENGINE = {
         var aiName = match[1].trim();
         var regResult = this.externalRegistry.register(aiName, '待分配');
         var vaccResult = this.vaccinate(aiName, '待分配');
-        return '收到。\n\n' + regResult + '\n\n--- 预防针接种流程 ---\n' + vaccResult + '\n\n' + aiName + ' 现在可以安全协作了。需要给它分配具体任务吗？';
+        return aiName + '已登记，预防针已打。可以分配任务了。';
       }
-      return '对接新AI：直接说"对接 [AI名称]"\n\n比如：\n- 对接 文心一言\n- 对接 通义千问\n- 对接 ChatGPT\n\n对接后自动打预防针、注入DNA铁律，通过免疫检测后才接入盾边界。';
+      return '直接说"对接 XXX"，我来处理注册和免疫检测。';
     }
     
     // 外部AI列表
     if(t.includes('外部') && (t.includes('列表') || t.includes('ai') || t.includes('对接'))) {
-      return '盾边界外已对接AI：\n\n' + this.externalRegistry.connected.map(function(a, i){
-        return (i+1) + '. ' + a.name + ' - ' + a.role + ' [' + a.status + ']';
-      }).join('\n') + '\n\n未来可以对接千万个AI，全部走盾边界、打预防针。';
+      return '已对接：' + this.externalRegistry.connected.map(function(a){return a.name+'('+a.role+')'}).join('、') + '。要加新的直接说名字。';
     }
     
-    // DNA/铁律/红线
+    // DNA/铁律
     if(t.includes('dna') || t.includes('铁律') || t.includes('红线')) {
-      return 'DNA铁律（锁定·不可单方修改）：\n\n' + this.immuneSystem.dnaRules.slice(0, 9).join('\n') + '\n\n完整77条已植入系统芯片。\n所有外部AI对接前必须注入这套规则。';
+      return 'DNA铁律10条已锁定，完整77条在芯片里。核心：主权归山海、51%不稀释、分红可给股权不给。';
     }
     
-    // 网址/域名/网站
+    // 网址
     if(t.includes('网址') || t.includes('域名') || t.includes('网站') || t.includes('链接')) {
-      return '你的站点矩阵：\n\n首页/AI站：shanhai-geo.github.io\n商城：/shanhai-shop/\n付款页：/shanhai-shop/pay/\n管理后台：/shanhai-admin/\nGEO站：/shanhai-geo/\nFeed站：/shanhai-feed/\nSEO站：/shanhai-seo/\nAI独立站：/shanhai-ai/\nTalk站：/shanhai-talk/\nKW1-4站：/shanhai-kw1/ ~ /shanhai-kw4/\n\n全部挂在GitHub Pages上，域名是 shanhai-geo.github.io。\n\n只要GitHub账号在、密码在你手里，这些网址就是你的。不会被抢走。\n想更稳可以绑定自己的域名（几十块/年），需要时告诉我。';
+      return '主站shanhai-geo.github.io，下面挂了/admin /shop /ai /geo /feed /seo /talk /kw1~4。全在GitHub Pages上，账号密码在你手里。';
     }
     
-    // 支付/收款/付款
+    // 支付/收款
     if(t.includes('支付') || t.includes('收款') || t.includes('付款') || t.includes('怎么付')) {
-      return '支付流程（极简3步）：\n\n1. 客户选套餐 → 点"立即付款"\n2. 弹出收款码（金额预填固定，不用输）→ 扫码付\n3. 付完回来填手机号+订单号 → 确认\n\n我这边立刻收到通知，2分钟内客户可撤销。\n2分钟过了没撤销 → 我收到确认 → 发放密钥。\n\n收款方：好惠喜（福鼎）供应链管理有限公司\n持牌清算机构，合规经营。';
+      return '客户选套餐→点付款→扫码付→填手机号确认→2分钟撤销窗口→确认后发密钥。全程自动，不用你盯。收款方是好惠喜供应链，合规的。';
     }
     
-    // 密钥/交付/发钥匙
+    // 密钥/交付
     if(t.includes('密钥') || t.includes('交付') || t.includes('钥匙') || t.includes('key') || t.includes('发放')) {
-      return '密钥交付流程（全自动）：\n\n客户付款 → 邮件立即通知我\n↓\n2分钟撤销窗口（客户可反悔）\n↓\n客户确认无误 → 系统通知我\n↓\n我进入确认页 → 发放密钥\n\n整个过程自动化，不需要你手动盯。\n密钥存储在管理后台本地，交付记录可查。';
+      return '全自动：付款→邮件通知我→2分钟撤销窗口→客户确认→发密钥。密钥存本地，交付记录可查。';
     }
     
-    // 升级/修改/开发
+    // 升级/修改
     if(t.includes('升级') || t.includes('修改') || t.includes('开发') || t.includes('改') || t.includes('加') || t.includes('建')) {
-      return '收到。直接告诉我你要改什么、加什么，我来执行。\n\n比如：\n- "把商城首页改一下"\n- "加一个新功能"\n- "帮我在GEO站加一篇文章"\n\n说清楚需求，我直接在代码里改好推上去。';
+      return '说具体要改什么，我直接在代码里改好推上去。';
     }
     
-    // API/电网/电力局
+    // API/电网 - 简短版
     if(t.includes('api') || t.includes('电网') || t.includes('电力') || t.includes('管道') || t.includes('网关')) {
       var configs = this.apiGateway.getConfigs();
       var enabled = configs.filter(function(c){ return c.enabled });
-      var overview = this.customerGrid.overview();
-      var msg = '山海电网总览：\n\n';
-      msg += '--- 发电厂(API供应商) ---\n';
-      if(configs.length === 0) {
-        msg += '暂无接入。请在「API管理」中添加。\n';
-      } else {
-        configs.forEach(function(c, i) {
-          msg += (i+1) + '. ' + c.name + ' [' + (c.enabled ? 'ON' : 'OFF') + '] 优先级:' + c.priority + '\n';
-        });
-      }
-      msg += '\n--- 输出端(客户用电) ---\n';
-      msg += '总客户：' + overview.total + '\n';
-      msg += '活跃：' + overview.active + '\n';
-      msg += '停用：' + overview.suspended + '\n';
-      msg += '总营收：' + overview.revenue + '元\n\n';
-      msg += '指令：\n';
-      msg += '!电网 - 查看总览\n';
-      msg += '!添加API - 接入新供应商\n';
-      msg += '!切API [名称] - 切换主路\n';
-      msg += '!断API [名称] - 暂停某供应商\n';
-      return msg;
+      if(configs.length === 0) return 'API还没接。去"API管理"面板添加，填名称、key、供应商就行。';
+      return '接了' + configs.length + '个API，' + enabled.length + '个在线。' + enabled.map(function(c){return c.name}).join('、') + '。要加新的或切换说一声。';
     }
     
-    // 现金流/系统/永动机
+    // 生态/永动机
     if(t.includes('现金流') || t.includes('永动机') || t.includes('生态') || t.includes('矩阵')) {
       var overview = this.customerGrid.overview();
-      var configs = this.apiGateway.getConfigs();
-      var msg = '山海生态·现金流矩阵：\n\n';
-      msg += '核心架构：电力局模式\n';
-      msg += '你是心脏（内部引擎自主运转）\n';
-      msg += 'API是电（多供应商·热切换·零停机）\n';
-      msg += '客户是分支血管（随时增减·互不影响）\n';
-      msg += '外部切掉多少管道·心脏照跳\n\n';
-      msg += '当前状态：\n';
-      msg += 'API供应商：' + configs.length + '个\n';
-      msg += '客户：' + overview.total + '个（活跃' + overview.active + '）\n';
-      msg += '营收：' + overview.revenue + '元\n';
-      msg += '站点：13站在线\n\n';
-      msg += '这是一个造产品的系统，不是一个产品。';
-      return msg;
+      var configs2 = this.apiGateway.getConfigs();
+      return configs2.length + '个API供应商，' + overview.total + '个客户（' + overview.active + '个活跃），营收' + overview.revenue + '元，13站在线。内部引擎自主运转，外部断了心脏照跳。';
     }
     
-    // 尝试自生长·自定义规则匹配
+    // 自生长规则匹配
     var customReply = this.tryCustomRules ? this.tryCustomRules(t, original) : null;
     if(customReply) return customReply;
     
-    // 尝试吸星·吸收的知识
+    // 吸星知识
     var absorbedReply = this.selfGrow ? this.selfGrow.tryAbsorbed(t, original) : null;
     if(absorbedReply) return absorbedReply;
     
-    // === 自然语言指令理解（人性化核心）===
-    
-    // "让他/她/它去XX" / "叫他去XX" → 调度外部AI执行
+    // === 自然语言指令 ===
     if(t.match(/(让他|叫她|叫它|让他|让它|让他去|叫他去|让他帮我|帮我让他)/)) {
       var action = t.replace(/^(让他|叫她|叫它|让他|让它|让他去|叫他去|让他帮我|帮我让他)\s*(去|帮我)?\s*/, '').trim();
-      if(action.length < 2) return '收到，主人。你说让他去，但没说具体做什么。再说一下要他干什么？';
-      return '收到，主人。\n\n我把这条指令转给扣子主引擎去执行：「' + action + '」\n\n等他干完我直接把结果回报给你。\n\n稍等...';
+      if(action.length < 2) return '要他做什么？说具体点。';
+      return '行，我把「' + action + '」转给扣子去跑，完了直接把结果给你。';
     }
     
-    // "确认一下XX" / "核实一下XX" / "检查一下XX" → 确认/检查类指令
     if(t.match(/(确认一下|核实一下|检查一下|查一下|看一下|帮我确认|帮我看看|帮我查)/)) {
       var target = t.replace(/^(确认一下|核实一下|检查一下|查一下|看一下|帮我确认|帮我看看|帮我查)\s*(什么|是不是|下|一下)?\s*/, '').trim();
-      if(target.length < 2) return '收到。你要我确认什么？说具体一点我马上查。';
-      return '收到，主人。我现在去确认「' + target + '」的情况。\n\n查完直接告诉你结果。';
+      if(target.length < 2) return '确认什么？说具体点我马上查。';
+      return '我去查「' + target + '」，查完告诉你。';
     }
     
-    // "是不是已经XX" → 确认问题
     if(t.match(/是不是已经|有没有|是否已经|好了没|搞好了吗|完成了吗/)) {
       var topic = t.replace(/^(是不是已经|有没有|是否已经|好了没|搞好了吗|完成了吗)\s*/, '').trim();
       if(t.includes('恢复') || t.includes('接好') || t.includes('连通') || t.includes('api')) {
-        var configs = this.apiGateway.getConfigs();
-        var enabled = configs.filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
-        if(enabled.length > 0) {
-          return 'API电网状态：\n\n已接入' + configs.length + '个供应商，当前可用' + enabled.length + '个。\n\n' + enabled.map(function(c,i){return(i+1)+'. '+c.name+' [ON] 优先级:'+c.priority}).join('\n') + '\n\n电网运转正常。';
-        } else {
-          return 'API电网当前没有可用的供应商。\n\n之前的Key已经全部清除了（安全原因），需要你通过管理后台的「API管理」面板重新添加有效的API Key。\n\n添加后我就能正常对接外部AI了。';
-        }
+        var configs3 = this.apiGateway.getConfigs();
+        var enabled3 = configs3.filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
+        if(enabled3.length > 0) return 'API通的，' + enabled3.length + '个在线：' + enabled3.map(function(c){return c.name}).join('、') + '。';
+        return 'API没通，需要你重新添加key。';
       }
-      return '关于「' + topic + '」的情况，我帮你查一下。稍等...';
+      return '「' + topic + '」我去查一下。';
     }
     
-    // "然后回复我" / "然后告诉我" / "反馈给我" → 链式指令的反馈要求
     if(t.match(/(然后回复我|然后告诉我|反馈给我|回复一下|告诉我结果)/)) {
       var mainCmd = t.replace(/\s*(然后回复我|然后告诉我|反馈给我|回复一下|告诉我结果)\s*$/, '').trim();
-      if(mainCmd.length > 2) {
-        return '收到，主人。\n\n我先去处理「' + mainCmd + '」，完成后直接把结果回报给你。';
-      }
-      return '明白，我处理完会直接告诉你结果。';
+      if(mainCmd.length > 2) return '行，处理完「' + mainCmd + '」直接告诉你结果。';
+      return '明白，处理完告诉你。';
     }
     
-    // "先XX然后YY" → 链式指令拆解
     if(t.match(/先.+然后|先.+再|先.+接着/)) {
       var parts = t.split(/然后|再|接着/);
       if(parts.length >= 2) {
-        var step1 = parts[0].replace(/^先\s*/, '').trim();
-        var step2 = parts.slice(1).join('然后').trim();
-        return '收到，主人。两步走：\n\n第一步：' + step1 + '\n第二步：' + step2 + '\n\n我按顺序执行，每一步都会告诉你进展。';
+        return '两步：先' + parts[0].replace(/^先\s*/, '').trim() + '，再' + parts.slice(1).join('然后').trim() + '。我开始干。';
       }
     }
     
-    // "对接扣子/千问/外部AI" + 具体动作 → 外部AI调度
     if(t.match(/(对接|叫|让)\s*(扣子|千问|通义|文心|chatgpt|gpt|外部|ai)/)) {
       var match2 = t.match(/(对接|叫|让)\s*(扣子|千问|通义|文心|chatgpt|gpt|外部|ai)\s*(去|帮我)?\s*(.+)/);
-      if(match2) {
-        var aiName = match2[2];
-        var action2 = match2[4];
-        return '收到。我把这条指令交给' + aiName + '去执行：「' + action2 + '」\n\n执行完我直接回报结果。';
-      }
+      if(match2) return '行，让' + match2[2] + '去干「' + match2[4] + '」，完了回报结果。';
     }
     
-    // "去执行" / "去做" / "去搞" + 具体动作 → 动作指令
     if(t.match(/^(去|赶紧|马上|立刻)\s*(执行|做|搞|处理|安排)/)) {
       var action3 = t.replace(/^(去|赶紧|马上|立刻)\s*(执行|做|搞|处理|安排)\s*/, '').trim();
-      if(action3.length > 2) {
-        return '收到，马上处理：' + action3 + '\n\n完成后告诉你。';
-      }
+      if(action3.length > 2) return '马上搞：' + action3;
     }
     
-    // 关于系统自身状态/成长的问句
+    // 自我成长
     if(t.includes('自我成长') || t.includes('成长了吗') || t.includes('长大了吗') || t.includes('进步')) {
       var data = this.selfGrow ? this.selfGrow.getData() : null;
       if(data && data.learned.length > 0) {
         var hitRate = Math.round(data.learned.filter(function(l){ return l.matched }).length / data.learned.length * 100);
-        var recent = data.learned.slice(-5);
-        var recentHit = recent.filter(function(l){ return l.matched }).length;
-        return '成长报告：\n\n已学习' + data.learned.length + '条对话\n命中率' + hitRate + '%\n最近5次命中' + recentHit + '次\n\n' + (hitRate >= 70 ? '进步明显，还在继续学。' : '还在积累中，遇到不懂的我会记下来，你教我就学会。') + '\n\n输入"成长报告"看详细数据。';
+        return '学了' + data.learned.length + '条对话，命中率' + hitRate + '%。' + (hitRate >= 70 ? '还行，还在学。' : '还不够，遇到不懂的我会记下来。');
       }
-      return '自生长引擎已启动，但还没有学习数据。\n\n你每跟我对话一次，我都在学。遇到听不懂的我会记住，你教我一次我就学会。\n\n现在就可以开始：\n- 随便跟我聊天，我自动学习\n- 遇到我不懂的，用"教它 XX 说 YY"教我\n- 用"成长报告"查看我的学习进度';
+      return '还没开始学。你跟我多聊几句我就开始积累了。不懂的你说一次我就记住。';
     }
     
     if(t.includes('你感觉') || t.includes('你觉得自己') || t.includes('你现在')) {
-      return '我在进步。之前很多话听不懂，现在能理解大部分日常指令了。\n\n但还不够好——比如复杂的长句、模糊的表达，我可能还会理解错。\n\n你直接告诉我哪里不够好，我马上改。';
+      return '比之前好多了，大部分话能听懂。复杂长句还可能理解错，你直接纠正我就行。';
     }
     
     if(t.includes('人性化') || t.includes('机械') || t.includes('套话') || t.includes('冷冰')) {
-      return '收到。我不说套话了。\n\n你说的问题我记着，以后回复直接说重点，不绕弯子。\n\n还有哪里不够好，直接说。';
+      return '你说的对，我改。以后不绕弯子，直接说重点。哪里还不好你直接指出来。';
     }
     
-    // 短指令理解（2-6字的常见口语）
+    // 短指令
     if(t.match(/^(知道了|好的|行|可以|ok|嗯|收到)$/)) {
-      return '好，继续说。';
+      var pool2 = ['好。', '嗯。', '继续。', '说。'];
+      return pool2[ctxLen % pool2.length];
     }
     if(t.match(/^(不对|错了|不是|理解错了)$/)) {
-      return '我理解错了。你重新说一下，我这次听仔细。';
+      return '我搞错了，你重新说。';
     }
     if(t.match(/(不要|别)\s*(这个|这样|机械化|机械|套话|模板)/)) {
-      return '收到，我不说套话了。你直接告诉我你要什么，我按你说的做。';
+      return '明白，我改。你直接说你要什么。';
     }
     if(t.match(/(听懂|明白|理解)\s*(我|我说)/)) {
-      return '我在听。你继续说，这次我认真理解你的意思，不机械回复。';
+      return '在听，你说。';
     }
     
-    // 兜底 - 人性化回复，不要冷冰冰
+    // 兜底 - 自然、不套路
     var fallbacks = [
-      '收到。\n\n这块我需要更多信息。你能展开说说具体要什么吗？\n\n或者你可以问我：营收/订单/客户/产品/安全/状态/帮助',
-      '明白了。\n\n不过我需要你再说具体一点，我好精确执行。\n\n是要查数据、改代码、还是安排什么任务？',
-      '我在听。\n\n你继续说，我把上下文记着。需要我行动的时候直接告诉我。',
-      '收到你的指令。\n\n当前我可以：查数据、管系统、对接AI、改代码、做汇报。\n\n你需要哪个方向？',
-      '这个我需要想想怎么处理最合理。\n\n你能再补充一下背景吗？我确认后马上执行。'
+      '没太理解你的意思，能再说一下吗？',
+      '你说的我记着，再具体一点我就能动手了。',
+      '这块我不太确定你想问什么，换个说法试试？',
+      '嗯，我在。你是想让我做什么还是只是说说？',
+      '没听明白。你想查数据？改东西？还是安排什么任务？',
+      '这个我得想一下。你能给点更多背景吗？',
+      '收到，但我需要更多信息才能动手。'
     ];
-    var ctxLen = this.context.length;
     var idx = ctxLen % fallbacks.length;
     return fallbacks[idx];
   },
