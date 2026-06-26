@@ -423,42 +423,26 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 </div>
 
 <div class="pay-sec" id="paySec">
-<h3>▶ 请按以下3步完成购买</h3>
+<h3>▶ 购买流程</h3>
 
-<div class="pay-steps">
-<div class="pay-step">
-<div class="pay-step-num">1</div>
-<div class="pay-step-text"><b>微信扫码付款 298元</b><br>打开微信扫一扫，扫描下方二维码完成支付</div>
-</div>
-</div>
-
-<div class="qr-inline">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Flhsd.leshuazf.com%2Fpay%2Fqrc.do%3Fqr%3DVSDB201242145" alt="付款二维码">
-<div class="qr-label">▲ 微信扫一扫付款 298元 ▲</div>
-</div>
-<div style="font-size:11px;color:var(--txt3);margin-bottom:12px">如扫码失败，请在微信中打开此链接付款：<br><a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" style="color:var(--gold);word-break:break-all;font-size:10px">https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145</a></div>
-
-<div class="pay-steps">
-<div class="pay-step">
-<div class="pay-step-num">2</div>
-<div class="pay-step-text"><b>填写手机号</b><br>用于接收密钥交付通知和查询订单</div>
-</div>
+<!-- 第1层：去付款 -->
+<div id="payLayer1">
+<p style="font-size:16px;color:#333;font-weight:600;margin-bottom:16px">第1步：点击下方按钮，前往付款页面完成支付</p>
+<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" target="_blank" onclick="onPayClick()" class="cta-btn confirm-btn-highlight" style="display:inline-block;text-decoration:none;font-size:20px;padding:16px 32px">▶ 立即付款 298元</a>
+<p style="margin-top:14px;font-size:13px;color:#888">点击后跳转付款页面，支付完成后回到本页完成第2步</p>
 </div>
 
-<div class="field"><label>订单号（自动生成）</label><input id="fOid" readonly></div>
+<!-- 第2层：确认已付款（付款按钮点击后显示） -->
+<div id="payLayer2" style="display:none;border-top:2px solid var(--gold);margin-top:20px;padding-top:20px">
+<p style="font-size:16px;color:var(--red);font-weight:800;margin-bottom:16px;text-align:center">第2步：确认已付款，填写信息提交订单</p>
+<div class="field"><label>订单号</label><input id="fOid" readonly></div>
+<div class="field"><label>付款页面显示的订单号</label><input id="fPayOrderNo" placeholder="请输入付款后的订单号" style="font-size:15px;padding:12px;border:2px solid var(--gold)"></div>
 <div class="field"><label>手机号（必填，用于接收密钥）</label><input id="fPhone" placeholder="请输入11位手机号" maxlength="11" style="font-size:16px;padding:12px;border:2px solid var(--gold)"></div>
 <div class="field"><label>产品套餐</label><input id="fProd" value="入门版 298元/年" readonly></div>
 <div class="field"><label>付款金额</label><input id="fAmt" value="298元" readonly style="color:var(--red);font-weight:700;font-size:16px"></div>
-
-<div class="pay-steps" style="margin-top:8px">
-<div class="pay-step">
-<div class="pay-step-num">3</div>
-<div class="pay-step-text"><b>点击下方按钮确认</b><br>付款完成后点击下方按钮，系统即时交付密钥</div>
+<button class="confirm-btn-highlight" id="confirmBtn" onclick="confirmPay()">✓ 确认已付款，提交订单</button>
+<p style="font-size:13px;color:#888;text-align:center;margin-top:10px">提交后密钥将在工作时间内30分钟内交付 | 7天无理由退款</p>
 </div>
-</div>
-
-<button class="confirm-btn-highlight" id="confirmBtn" onclick="confirmPay()">✓ 我已付款，立即交付密钥</button>
-<div style="font-size:11px;color:var(--txt2);text-align:center;margin-top:8px">确认付款后密钥秒级交付 | 7天无理由退款</div>
 </div>
 
 <div class="delivery-sec" id="deliverySec">
@@ -539,18 +523,28 @@ function startBuy(){
   var oid='SH'+Date.now().toString(36).toUpperCase();
   document.getElementById('fOid').value=oid;
   document.getElementById('fPhone').value='';
+  document.getElementById('fPayOrderNo').value='';
   document.getElementById('confirmBtn').disabled=false;
-  document.getElementById('confirmBtn').textContent='✓ 我已付款，立即交付密钥';
+  // Reset to layer 1
+  document.getElementById('payLayer1').style.display='block';
+  document.getElementById('payLayer2').style.display='none';
   setTimeout(function(){paySec.scrollIntoView({behavior:'smooth'})},100);
+}
+function onPayClick(){
+  // After clicking pay button, reveal layer 2
+  document.getElementById('payLayer2').style.display='block';
+  setTimeout(function(){document.getElementById('payLayer2').scrollIntoView({behavior:'smooth',block:'center'})},300);
 }
 
 function confirmPay(){
   var phone=document.getElementById('fPhone').value.trim();
   var oid=document.getElementById('fOid').value.trim();
+  var payOrderNo=document.getElementById('fPayOrderNo').value.trim();
   if(!phone||phone.length!==11){alert('请输入11位手机号');return}
+  if(!payOrderNo){alert('请输入付款页面显示的订单号');return}
   
   // 创建待确认订单，不生成Key
-  var order={oid:oid,name:'山海智能接口服务',amt:document.getElementById('fAmt').value,phone:phone,key:'',status:'pending',time:new Date().toISOString(),source:'商城站',tier:document.getElementById('fProd').value};
+  var order={oid:oid,payOrderNo:payOrderNo,name:'山海智能接口服务',amt:document.getElementById('fAmt').value,phone:phone,key:'',status:'pending',time:new Date().toISOString(),source:'商城站',tier:document.getElementById('fProd').value};
   orders.push(order);
   saveOrders();
   
@@ -561,12 +555,12 @@ function confirmPay(){
   
   // 显示交付追踪
   document.getElementById('deliverySec').style.display='block';
-  document.getElementById('orderInfo').innerHTML='订单号：<b>'+oid+'</b><br>商品：山海智能接口服务 298元/年<br>手机：'+phone+'<br>状态：<span style="color:var(--gold);font-weight:700">付款确认中</span>';
+  document.getElementById('orderInfo').innerHTML='订单号：<b>'+oid+'</b><br>付款单号：<b>'+payOrderNo+'</b><br>商品：山海智能接口服务 298元/年<br>手机：'+phone+'<br>状态：<span style="color:var(--gold);font-weight:700">付款确认中</span>';
   document.getElementById('deliverySec').scrollIntoView({behavior:'smooth'});
   
   // 系统自动通知运营方（客户无需操作）
   var subject=encodeURIComponent('[山海订单-待确认]'+oid);
-  var body=encodeURIComponent('订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n手机：'+phone+'\n状态：待确认付款\n时间：'+new Date().toLocaleString()+'\n\n请确认收款后，在Admin后台确认订单并交付密钥。');
+  var body=encodeURIComponent('订单号：'+oid+'\n付款单号：'+payOrderNo+'\n商品：山海智能接口服务 298元/年\n手机：'+phone+'\n状态：待确认付款\n时间：'+new Date().toLocaleString()+'\n\n请确认收款后，在Admin后台确认订单并交付密钥。');
   // 静默发送通知（不弹窗，不干扰客户体验）
   try{
     var notifyUrl='mailto:shanhai-fd@coze.email?subject='+subject+'&body='+body;
@@ -595,6 +589,7 @@ function renderOrders(){
 function lookupByPhone(){
   var phone=document.getElementById('lookupPhone').value.trim();
   if(!phone||phone.length!==11){alert('请输入11位手机号');return}
+  if(!payOrderNo){alert('请输入付款页面显示的订单号');return}
   var found=orders.filter(function(o){return o.phone===phone});
   var el=document.getElementById('lookupResult');
   if(!found.length){
