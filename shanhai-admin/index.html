@@ -623,12 +623,12 @@ function trackExec(cmd, engineName, fn) {
         var resStr = typeof res === 'string' ? res : '完成';
         INTERNAL_ENGINE.executionTracker.log(cmd, engineName, resStr, 'ok', dur);
         // 执行反馈
-        addAi('[执行完成] ' + cmd.substring(0, 30) + '\n引擎：' + engineName + ' | 耗时：' + dur + 'ms\n状态：已完成');
+        addAi(typeof res === 'string' ? res : '已完成');
         return res;
       }).catch(function(err) {
         var dur = Date.now() - start;
         INTERNAL_ENGINE.executionTracker.log(cmd, engineName, String(err).substring(0, 100), 'fail', dur);
-        addAi('[执行异常] ' + cmd.substring(0, 30) + '\n引擎：' + engineName + '\n问题：' + String(err).substring(0, 80) + '\n\n已记录异常，可以对我说"执行历史"查看。');
+        addAi('出了点问题：' + String(err).substring(0, 120) + '\n已经记下来了，你随时可以查执行历史。');
       });
     }
     // 同步执行，立即反馈
@@ -639,7 +639,7 @@ function trackExec(cmd, engineName, fn) {
   } catch(err) {
     var dur = Date.now() - start;
     INTERNAL_ENGINE.executionTracker.log(cmd, engineName, String(err).substring(0, 100), 'fail', dur);
-    addAi('[执行异常] ' + cmd.substring(0, 30) + '\n引擎：' + engineName + '\n问题：' + String(err).substring(0, 80));
+    addAi('执行异常：' + String(err).substring(0, 120));
     return null;
   }
 }
@@ -960,74 +960,32 @@ function processCmd(text){
     }
   }
   else {
-    // === 内部引擎优先·外联兜底（盾内决策·人性化核心）===
-    // 核心原则：先用内部NLU理解主人意图，能内部处理的立即处理
-    // 只有真正需要外部执行（且API可用）时才外联
+    // === 外部AI优先·关键词直出·零机械感 ===
+    // 自然对话→直接走AI，!命令→内部引擎直出，API不可用→关键词兜底
     var execStart = Date.now();
-    
-    // 先尝试内部引擎处理（包含NLU自然语言理解）
-    var reply = INTERNAL_ENGINE.respond(text);
-    
-    // 判断内部引擎是否真正理解（不是fallback）
-    var isFallback = reply.includes('这块我需要更多信息') || 
-                     reply.includes('你需要哪个方向') || 
-                     reply.includes('你需要再') || 
-                     reply.includes('你能展开说说') ||
-                     reply.includes('API电网暂无可用供应商') ||
-                     reply.includes('暂未配置') ||
-                     reply === '收到';
-    
-    if(!isFallback) {
-      // 内部引擎已理解，直接回复
-      INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(盾内)', typeof reply === 'string' ? reply.substring(0,100) : '完成', 'ok', Date.now() - execStart);
-      addAi(reply.replace(/\n/g,'<br>'));
+    var apiInfo = INTERNAL_ENGINE.apiGateway.getBestAPI();
+    var hasAPI = apiInfo && apiInfo.key && apiInfo.key.length > 5;
+
+    if(hasAPI) {
+      INTERNAL_ENGINE.executionTracker.log(text, 'AI', 'dispatch', 'dispatch', 0);
+      var sysCtx = '你是山海的管理助手，和主人（文旅运营老板）对话。主人做AI客服SaaS（298元/年）+GEO生态+茶旅品牌。13个GitHub Pages站点已上线，Bing收录约1650条。所有回复像真人、简洁、务实、不用emoji。数据要真实，不确定就说不知道，不编造。主人问什么答什么，不加机械前缀，不报告系统状态。';
+      INTERNAL_ENGINE.apiGateway.request([
+        {role:'system', content: sysCtx},
+        {role:'user', content: text}
+      ]).then(function(result){
+        var dur = Date.now() - execStart;
+        INTERNAL_ENGINE.executionTracker.log(text, 'AI', 'ok', 'ok', dur);
+        addAi(result.text.replace(/\n/g,'<br>'));
+      }).catch(function(err){
+        var dur = Date.now() - execStart;
+        INTERNAL_ENGINE.executionTracker.log(text, 'AI', String(err).substring(0,80), 'fail', dur);
+        var fb = INTERNAL_ENGINE.respond(text);
+        addAi(fb.replace(/\n/g,'<br>'));
+      });
     } else {
-      // 内部引擎没理解，尝试外联
-      var route = INTERNAL_ENGINE.smartRoute(text);
-      
-      if(route === 'coze' || route === 'external_ai') {
-        // 检查API是否可用
-        var apiInfo = INTERNAL_ENGINE.apiGateway.getBestAPI();
-        if(apiInfo && apiInfo.key && apiInfo.key.length > 5) {
-          // API可用，外联执行
-          var engineName = route === 'coze' ? '扣子主引擎' : '外部AI(' + apiInfo.name + ')';
-          INTERNAL_ENGINE.executionTracker.log(text, engineName, '调度中...', 'dispatch', 0);
-          addAi('[执行调度] 内部引擎 → ' + engineName + '<br>指令：' + text.substring(0,60));
-          
-          var dispatchFn = route === 'coze' ? INTERNAL_ENGINE.dispatchToCoze(text) : INTERNAL_ENGINE.dispatchExternal(text);
-          dispatchFn.then(function(reply2){
-            var dur = Date.now() - execStart;
-            INTERNAL_ENGINE.executionTracker.log(text, engineName, '回传完成', 'ok', dur);
-            addAi('[执行回报] ' + engineName + ' 完成<br>耗时：' + dur + 'ms<br><br>' + reply2.replace(/\n/g,'<br>'));
-          }).catch(function(err){
-            var dur = Date.now() - execStart;
-            INTERNAL_ENGINE.executionTracker.log(text, engineName, String(err).substring(0,100), 'fail', dur);
-            addAi('外部API暂时不通，不过没关系——你直接说要做啥，能内部处理的我先处理。');
-          });
-        } else {
-          // API不可用，用人性化回复+操作指引
-          INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(盾内)', '外联不可用·内部处理', 'ok', Date.now() - execStart);
-          var humanReply = '';
-          if(text.match(/确认|检查|核实|查看/)) {
-            humanReply = '收到。不过目前API还没配上，我暂时没法自动查数据。\n\n你直接告诉我要查什么，能处理的我先处理。需要配API的话，点「API管理」加一个Key就行。';
-          } else if(text.match(/对接|叫|让/)) {
-            humanReply = '明白。不过现在外部API还没配好，调度不了。\n\n你直接说需求，内部能做的我先做。要恢复API的话，点右上角「API管理」→ 添加Key。';
-          } else if(text.match(/成长|进步|学会|听懂|自我/)) {
-            humanReply = '我一直在记。每次对话都会学习，教我的东西下次遇到同类问题就能直接答。\n\n你可以：\n- 点「成长报告」看我学了什么\n- "教它 XX 说 YY"教我新规则\n- "吸星 平台: 回复"吸收别人的优势';
-          } else if(text.match(/客服|接待|回复|客户/)) {
-            humanReply = '客服页面那边火山引擎的API还通着，客户来消息能自动回复。\n\n但管理后台这边没配API，所以跟你聊天时只能靠内部规则匹配。配上一个API Key就能解锁全部智能回复。';
-          } else if(text.match(/询盘|流量|收录|geo|GEO|搜索/)) {
-            humanReply = '目前站点还没被搜索引擎收录，所以暂时没有询盘。\n\n需要做的：\n1. 百度站长平台提交（需要你手机验证）\n2. Google Search Console验证（需翻墙）\n3. 继续在各平台发推广内容\n\nIndexNow已经提交过了，Bing那边在等收录。';
-          } else {
-            humanReply = '收到了。这条我没完全理解，你再说具体点？\n\n或者你直接告诉我目标是什么，我来想办法安排。';
-          }
-          addAi(humanReply.replace(/\n/g,'<br>'));
-        }
-      } else {
-        // 内部路由，直接用内部引擎的回复
-        INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(盾内)', typeof reply === 'string' ? reply.substring(0,100) : '完成', 'ok', Date.now() - execStart);
-        addAi(reply.replace(/\n/g,'<br>'));
-      }
+      var reply = INTERNAL_ENGINE.respond(text);
+      INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(关键词)', typeof reply === 'string' ? reply.substring(0,100) : '完成', 'ok', Date.now() - execStart);
+      addAi(reply.replace(/\n/g,'<br>'));
     }
   }
   addLog('cmd','日常',text);
@@ -1658,12 +1616,12 @@ var INTERNAL_ENGINE = {
       {role:'system', content: sysPrompt},
       {role:'user', content: msg}
     ]).then(function(result){
-      return '[AI:' + result.provider + '] ' + result.text;
+      return result.text;
     }).catch(function(err){
       if(err === 'NO_API_AVAILABLE') {
-        return '[网关提示] 当前无可用API。请在管理后台「API管理」中添加密钥。';
+        return 'API还没配置，点右上角「API管理」添加一个Key就行。';
       }
-      return '[网关提示] 所有API暂不可用，内部引擎自主处理中。';
+      return 'AI暂时不通，稍后再试。';
     });
   },
   
