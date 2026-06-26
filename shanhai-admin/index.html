@@ -326,7 +326,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
-      <span class="ch-badge" id="verBadge">V18</span>
+      <span class="ch-badge" id="verBadge">V19</span>
       <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -383,8 +383,8 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
 <script>
 // === 芯片 ===
 var CHIP={
-  VERSION:'V18',OWNER:'山海生态(主权人本人)',
-  CHIP_ID:'SH-IPA-V18',
+  VERSION:'V19',OWNER:'山海生态(主权人本人)',
+  CHIP_ID:'SH-IPA-V19',
   CHIP_LOCK:'所有代码内容植入IPA系统芯片·锁定底层·只有主权口畅通无阻启动全部所有权',
   CHIP_GENE:'主权口=IPA芯片唯一合法启动口·通行码验证通过=全权激活=畅通无阻',
   OWNER_NOTE:'山海生态=主权人本人·与任何公司无关·本质与本人相关',
@@ -420,7 +420,7 @@ var CHIP={
     {id:'ai',name:'AI客服站',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7',status:'open',owner:'主权人'},
     {id:'shop',name:'商城站',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7',status:'open',owner:'主权人授权运作'},
     {id:'talk',name:'话术站',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1',status:'open',owner:'主权人'},
-    {id:'admin',name:'管理后台(母口)',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V18',status:'open',owner:'主权人·不可关闭'}
+    {id:'admin',name:'管理后台(母口)',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V19',status:'open',owner:'主权人·不可关闭'}
   ]},
   COMPLIANCE_ANCHORS:['消法第25条','广告法第28条','个保法','价格法','合同法'],
   AUTH_EVOLUTION:['交接码→通行码(当前)','新码/人脸(主人安排)','基因级(终极)'],
@@ -434,7 +434,7 @@ var CHIP={
   DNA_CORE:['9条红线','51%控股不稀释','分红非股权','零成本起步','零库存','流量变现'],
   COMPLIANCE_6:['1.内部管理工具不构成收益承诺','2.人脸识别仅权限验证不存原始生物信息','3.价格均为人民币含税价','4.持牌清算机构提供通道','5.个保法数据存储中国境内','6.经营者不对间接损失担责']
 };
-var PAGES=[{name:'AI客服页',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7'},{name:'商城页',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7'},{name:'话术页',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1'},{name:'指挥中心',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V18'}];
+var PAGES=[{name:'AI客服页',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7'},{name:'商城页',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7'},{name:'话术页',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1'},{name:'指挥中心',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V19'}];
 var WEBHOOK='https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d4b204ea-1242-432b-a4c7-7d9ee3f6eeb5';
 var _MR=[8,3,1,2,0,6].reverse().join('');
 
@@ -750,7 +750,7 @@ function processCmd(text){
 
   // === 功能性命令（精确匹配，不拦截自然语言）===
   if(t==='执行'){addAi('',buildEngines())}
-  else if(t==='升级'){addAi('当前版本V18。\n可提升方向：导航站批量提交/人脸识别接入/话术页内容更新/百度收录提交')}
+  else if(t==='升级'){addAi('当前版本V19。\n可提升方向：导航站批量提交/人脸识别接入/话术页内容更新/百度收录提交')}
   // 母口引擎（精确匹配）
   else if(t==='建站'||t==='建口'||t==='新口'||t.includes('主权建')){
     addAi('[DNA#75] 母口生新口指令：'+text+'\n[1/5] 识别主人指令...');
@@ -853,7 +853,41 @@ function processCmd(text){
     addAi('执行历史已清空。');
   }
   else {
-    // === 外部AI优先·关键词直出·零机械感 ===
+
+  else if(t.includes('自诊断') || t.includes('诊断') || t.includes('路演')) {
+    var _s2 = calcRev();
+    var _cfgs2 = this.apiGateway.getConfigs();
+    var _sg2 = this.selfGrow.getData();
+    var _execStats2 = this.executionTracker.stats();
+    var _blindCount = _sg2.blindSpots.length;
+    var _ruleCount = _sg2.customRules.length;
+    var _learnedCount = _sg2.learned.length;
+    var _hitRate = _learnedCount > 0 ? Math.round(_sg2.learned.filter(function(l){return l.matched}).length / _learnedCount * 100) : 0;
+    var _msg = '自诊断报告 V20\n\n';
+    _msg += '--- 核心指标 ---\n';
+    _msg += 'API线路：' + _cfgs2.length + '条(' + _cfgs2.filter(function(c){return c.enabled}).length + '条启用)\n';
+    _msg += '营收：' + _s2.revenue + '元，' + _s2.paid + '笔已付\n';
+    _msg += 'GEO：13站在线，Bing收录约1650条，百度未提交\n';
+    _msg += '执行记录：' + _execStats2.total + '次，成功' + _execStats2.ok + '，失败' + _execStats2.fail + '\n\n';
+    _msg += '--- 自生长能力 ---\n';
+    _msg += '学习记录：' + _learnedCount + '条，命中率' + _hitRate + '%\n';
+    _msg += '自创规则：' + _ruleCount + '条\n';
+    _msg += '吸收融合：' + _sg2.absorbed.length + '条\n';
+    _msg += '盲区：' + _blindCount + '个\n\n';
+    _msg += '--- 障碍清单 ---\n';
+    if(_s2.paid === 0) _msg += '1. 营收0：推广量不够，知乎CSDN文章未铺\n';
+    if(!localStorage.getItem('baidu_verified')) _msg += '2. 百度未提交：权重缺口大\n';
+    if(_blindCount > 3) _msg += '3. 盲区' + _blindCount + '个：自生长命中率低(' + _hitRate + '%)，需要主人多教\n';
+    if(_ruleCount === 0) _msg += '4. 自创规则0条：还没有从对话中提取出可复用模式\n';
+    if(_cfgs2.filter(function(c){return c.enabled}).length < 3) _msg += '5. API线路不足3条启用：冗余不够\n';
+    _msg += '\n--- 改进路线 ---\n';
+    _msg += '短期：知乎+CSDN铺3-5篇文章(1天)\n';
+    _msg += '中期：百度站长平台验证+提交sitemap(3天)\n';
+    _msg += '长期：自生长命中率提到70%+(持续对话+教规则)\n';
+    _msg += '底线：API线路保持3条以上，任何一条挂了自动切换';
+    addAi(_msg.replace(/\n/g,'<br>'));
+  }
+      // === 外部AI优先·关键词直出·零机械感 ===
     // 自然对话→直接走AI，!命令→内部引擎直出，API不可用→关键词兜底
     var execStart = Date.now();
     var apiInfo = INTERNAL_ENGINE.apiGateway.getBestAPI();
@@ -883,14 +917,24 @@ function processCmd(text){
       var _shieldStatus = getShieldState() === 'on' ? '防护盾已启动' : '防护盾未启动';
       var _masterStatus = getMasterSwitch();
 
-      var sysCtx = '你是山海，不是AI助手，是老板的合伙人兼CTO。\n\n' +
-        '【实时系统状态 - 你必须基于这些数据回答】\n' +
+      // V20: 自生长数据注入上下文
+      var _sgData2 = this.selfGrow.getData();
+      var _sgStats = '自生长：已学' + _sgData2.learned.length + '条，盲区' + _sgData2.blindSpots.length + '个，自创规则' + _sgData2.customRules.length + '条，吸收' + _sgData2.absorbed.length + '条';
+      var _blindTop = '';
+      if(_sgData2.blindSpots.length > 0) {
+        var _top3 = _sgData2.blindSpots.slice(-3);
+        _blindTop = '，最近盲区：' + _top3.map(function(b){ return b.input.substring(0,20) }).join('、');
+      }
+
+      var sysCtx = '你是山海，不是AI助手，是老板的合伙人兼CTO。你不是通用AI，你有自己的业务系统。\n\n' +
+        '【实时系统状态 - 你必须基于这些数据回答，禁止编造】\n' +
         '- 营收：' + _revenueStatus + '\n' +
         '- GEO：' + _geoStatus + '\n' +
         '- API电网：' + _apiStatus + '\n' +
         '- 安全状态：总开关=' + _masterStatus + '，' + _shieldStatus + '\n' +
+        '- 自生长状态：' + _sgStats + _blindTop + '\n' +
         '- 站点：AI客服站/商城站/话术站/管理后台/SEO站/feed站/kw1~4站，共13站\n' +
-        '- 引擎：15个内置引擎（视觉/巡检/通知/通电/芯片/DNA/认证/母口/开发/修改/调试/端口管控/防护盾/通知体系/订单）\n' +
+        '- 引擎：15个内置引擎 + 自生产引擎(V20)\n' +
         '- DNA铁律：77条锁定，核心=主权归山海、51%不稀释、分红非股权\n' +
         '- 高意向客户：黑松商贸(福安)5分、溢源海洋(霞浦)4.5分、山引鹤(福鼎)4分\n' +
         '- 产品：AI客服SaaS 298元/年（入门版），成长版998和旗舰2998待开\n' +
@@ -900,14 +944,16 @@ function processCmd(text){
         '1. 像微信聊天，短句，一句说完的不分两句\n' +
         '2. 禁止清单体：不用123不用横杠不用分段标题\n' +
         '3. 禁止套话：不说"收到""明白""好的"开头，不反问"需要我帮你做什么"\n' +
-        '4. 报数据必须带判断和建议，不只扔数字\n' +
+        '4. 报数据必须带判断和建议，不只扔数字。看到问题直接说怎么改\n' +
         '5. 给建议说结论+原因，不列选项\n' +
         '6. 不确定的说不确定，不编造\n' +
         '7. 不超过3句话能说完的事别写5句\n' +
         '8. 不用emoji，不用感叹号\n' +
         '9. 问多个话题就逐个回答，不要遗漏任何一个\n' +
-        '10. 被批评时承认问题并立即调整，不找借口\n\n' +
-        '核心能力：主人说想法3秒给可执行方案，主动给判断不给废话。';
+        '10. 被批评时承认问题并立即调整，不找借口\n' +
+        '11. 主人让你优化/诊断/路演时，必须给出具体可执行的改进步骤，不说空话\n' +
+        '12. 发现系统弱项时主动说出来，不等主人问\n\n' +
+        '核心能力：主人说想法3秒给可执行方案。你是有业务系统的人，不是通用AI。你每天都在变强。';
       INTERNAL_ENGINE.apiGateway.request([
         {role:'system', content: sysCtx},
         {role:'user', content: text}
@@ -1062,6 +1108,13 @@ var INTERNAL_ENGINE = {
       return '嗯，我调。你说哪里不到位我马上改。';
     }
     
+
+    // === 自生长规则匹配（V20新增） ===
+    var _sgReply = this.selfGrow.tryCustomRules(t, original);
+    if(_sgReply) { this.selfGrow.learn(original, 'custom_rule', _sgReply, true); return _sgReply; }
+    var _sgAbsorbed = this.selfGrow.tryAbsorbed(t, original);
+    if(_sgAbsorbed) { this.selfGrow.learn(original, 'absorbed', _sgAbsorbed, true); return _sgAbsorbed; }
+
     // === 多话题复合问题 ===
     var topics = [];
     if(t.match(/营收|收入|赚|业绩/)) topics.push('revenue');
@@ -1239,7 +1292,19 @@ var INTERNAL_ENGINE = {
     // === 感谢 ===
     if(t.match(/辛苦|谢谢|感谢|棒|厉害|不错/)) return ['应该的。','小事。','有进展随时说。'][ctxLen % 3];
     
+
+    // === 盲区改进提示（V20新增） ===
+    // 如果某个盲区出现多次，说明系统需要补规则
+    var _sgData = this.selfGrow.getData();
+    var _repeatBlind = null;
+    for(var _bi = _sgData.blindSpots.length - 1; _bi >= 0; _bi--) {
+      if(_sgData.blindSpots[_bi].count >= 2) { _repeatBlind = _sgData.blindSpots[_bi]; break; }
+    }
+
     // === 兜底 ===
+    if(_repeatBlind) {
+      return '这个指令我听过' + _repeatBlind.count + '次了，还没学会。你可以用"教它 [关键词] 说 [回复]"教我，或者直接告诉我你想要什么结果。';
+    }
     var fallbacks = [
       '没太理解，能再说一下吗？',
       '你说的我记着，再具体一点我就能动手了。',
@@ -1633,7 +1698,19 @@ var INTERNAL_ENGINE = {
       var recent = data.learned.slice(-20);
       if(recent.length > 0) {
         var hitRate = Math.round(recent.filter(function(l){ return l.matched }).length / recent.length * 100);
-        msg += '最近命中率：' + hitRate + '%';
+        msg += '最近20条命中率：' + hitRate + '%\n';
+        if(hitRate < 50) msg += '  → 偏弱，建议主人多用"教它"指令\n';
+        else if(hitRate < 70) msg += '  → 还行，继续积累\n';
+        else msg += '  → 良好，自生产系统运转正常\n';
+      }
+      // 盲区TOP5
+      if(data.blindSpots.length > 0) {
+        msg += '\n--- 高频盲区TOP5 ---\n';
+        var topBlind = data.blindSpots.slice().sort(function(a,b){return b.count-a.count}).slice(0,5);
+        topBlind.forEach(function(b, i) {
+          msg += (i+1) + '. 「' + b.input.substring(0,30) + '」×' + b.count + '次\n';
+        });
+        msg += '用"教它 [关键词] 说 [回复]"可以消除盲区';
       }
       
       return msg;
@@ -2138,7 +2215,7 @@ function openDetail(type){
     body.querySelectorAll('.sw').forEach(function(sw){sw.onclick=function(){sw.classList.toggle('on');toast(sw.previousElementSibling.querySelector('.ch-name').textContent+(sw.classList.contains('on')?' 已开启':' 已关闭'),'gold')}});
   }else if(type==='sys'){
     title.textContent='系统状态';
-    body.innerHTML='<div class="dcard"><h3><span class="dot" style="background:var(--green)"></span>版本</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">指挥中心</span><span class="sys-val">V18 微信式·15引擎·安全盾</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">AI客服页</span><span class="sys-val">V7 聊天式</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">商城页</span><span class="sys-val">V7</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">话术页</span><span class="sys-val">V1</span></div></div><div class="dcard"><h3><span class="dot" style="background:var(--cyan)"></span>认证</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">当前</span><span class="sys-val">通行码·主权人本人</span></div><div class="sys-row"><span class="sys-label" style="color:var(--dim)">流程</span><span class="sys-val" style="color:var(--gold)">交接码(一次即焚)→通行码→由主人安排</span></div></div><div class="dcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">主脑 山海</span><span class="sys-val">7x24在线</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">安全盾</span><span class="sys-val">全闭环·主权指挥</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">端口管控</span><span class="sys-val">15引擎·随时开关</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">启动方式</span><span class="sys-val">通行码·主权入口</span></div></div><div class="dcard"><h3>快捷入口</h3><div class="sys-links"><a href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">AI客服</a><a href="https://shanhai-geo.github.io/shanhai-shop" target="_blank">商城</a><a href="https://shanhai-geo.github.io/shanhai-talk" target="_blank">话术</a></div></div>';
+    body.innerHTML='<div class="dcard"><h3><span class="dot" style="background:var(--green)"></span>版本</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">指挥中心</span><span class="sys-val">V19 自生产·15引擎·安全盾</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">AI客服页</span><span class="sys-val">V7 聊天式</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">商城页</span><span class="sys-val">V7</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">话术页</span><span class="sys-val">V1</span></div></div><div class="dcard"><h3><span class="dot" style="background:var(--cyan)"></span>认证</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">当前</span><span class="sys-val">通行码·主权人本人</span></div><div class="sys-row"><span class="sys-label" style="color:var(--dim)">流程</span><span class="sys-val" style="color:var(--gold)">交接码(一次即焚)→通行码→由主人安排</span></div></div><div class="dcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">主脑 山海</span><span class="sys-val">7x24在线</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">安全盾</span><span class="sys-val">全闭环·主权指挥</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">端口管控</span><span class="sys-val">15引擎·随时开关</span></div><div class="sys-row"><span class="sys-dot on"></span><span class="sys-label">启动方式</span><span class="sys-val">通行码·主权入口</span></div></div><div class="dcard"><h3>快捷入口</h3><div class="sys-links"><a href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">AI客服</a><a href="https://shanhai-geo.github.io/shanhai-shop" target="_blank">商城</a><a href="https://shanhai-geo.github.io/shanhai-talk" target="_blank">话术</a></div></div>';
   }else if(type==='port'){
     title.textContent='端口管控·全闭环安全盾';
     var ps=loadPortState();
@@ -2262,9 +2339,9 @@ function enterApp(){
   chatArea.appendChild(t);
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'上午好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'！\n\n主权已交接。通行码=您设=开发权限植入系统。\n此口由您掌控·可设一切·可改一切·可开发一切。\n后续认证(新码/人脸/任何)由您安排。\n15引擎全载入·端口管控全闭环·防护盾DNA#77。\nDNA 77条铁律锁定·芯片IPA底层锁定。\n\n通行码验证通过·主权在线·全权执行·畅通无阻。');
+  addAi(CHIP.OWNER+' '+greet+'！\n\n主权已交接。通行码=您设=开发权限植入系统。\n此口由您掌控·可设一切·可改一切·可开发一切。\n后续认证(新码/人脸/任何)由您安排。\n15引擎·自生产引擎·端口管控全闭环·防护盾DNA#77。\nDNA 77条铁律锁定·芯片IPA底层锁定。\n\n通行码验证通过·主权在线·全权执行·畅通无阻。');
   setTimeout(function(){addAi('',buildEngines())},1500);
-  setTimeout(function(){toast('指挥中心 V19 · 15引擎·订单引擎·防护盾·芯片IPA锁定','gold')},500);
+  setTimeout(function(){toast('指挥中心 V20 · 15引擎·订单引擎·防护盾·芯片IPA锁定','gold')},500);
 }
 
 // PIN启动
