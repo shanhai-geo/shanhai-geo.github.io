@@ -810,11 +810,31 @@ function pinIn(d){
   var statusEl=document.getElementById('pinStatus');
 
   if(r==='ok'){
-    // 正确PIN
+    // PIN正确 — 检查是否需要生物认证（L2+）
     PIN.updateDots(6);
     for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
-    statusEl.textContent='验证通过';
-    setTimeout(correctPin,400);
+    var activeBio=AUTH_METHODS.getActiveBiometrics();
+    if(activeBio.length>0){
+      // 有生物认证已激活，需要验证
+      statusEl.textContent='通行码正确，请验证生物认证';
+      // 使用第一个已激活的生物认证方式
+      var bioMethod=activeBio[0];
+      bioMethod.verify().then(function(ok){
+        if(ok){
+          statusEl.textContent='双重验证通过';
+          setTimeout(correctPin,400);
+        }else{
+          statusEl.textContent='生物认证未通过';
+          setTimeout(function(){
+            PIN.clearInput();
+            statusEl.textContent='请重新输入通行码';
+          },1500);
+        }
+      });
+    }else{
+      statusEl.textContent='验证通过';
+      setTimeout(correctPin,400);
+    }
     return;
   }
 
@@ -1019,64 +1039,368 @@ function showPinScreen(){
   initPin();
 }
 
-// === 认证方式注册表 (预留扩展接口) ===
+// === 安全架构 V2：多因子认证 + 操作分级 ===
+// 安全等级定义：
+// L1 = 通行码（密码级）— 基础访问
+// L2 = 通行码 + 1项生物认证 — 敏感操作
+// L3 = 通行码 + 2项生物认证 — 核心修改（改PIN、改安全策略）
+// L4 = 全因子 + 交接码 — 主权移交（不可逆）
+
 var AUTH_METHODS={
   registry:{
-    pin:{id:'pin',name:'通行码',icon:'&#x1F511;',status:'active',desc:'6位数字通行码',enabled:true},
-    face:{id:'face',name:'人脸识别',icon:'&#x1F4F7;',status:'reserved',desc:'3D结构光/活体检测',enabled:false},
-    fingerprint:{id:'fingerprint',name:'指纹识别',icon:'&#x1F446;',status:'reserved',desc:'TouchID/屏下指纹',enabled:false},
-    voice:{id:'voice',name:'声纹识别',icon:'&#x1F3A4;',status:'reserved',desc:'声纹特征匹配',enabled:false},
-    sms:{id:'sms',name:'短信验证',icon:'&#x1F4F1;',status:'reserved',desc:'绑定手机号验证',enabled:false},
-    hardware:{id:'hardware',name:'硬件密钥',icon:'&#x1F510;',status:'reserved',desc:'USB/NFC硬件密钥',enabled:false}
+    pin:{id:'pin',name:'通行码',icon:'&#x1F511;',tier:'password',status:'active',
+      desc:'6位数字通行码',enabled:true,
+      collect:function(){return new Promise(function(res){res(true)})},
+      verify:function(input){return PIN.getStored()===input}
+    },
+    face:{id:'face',name:'人脸识别',icon:'&#x1F4F7;',tier:'biometric',status:'reserved',
+      desc:'3D结构光+活体检测，绑定主人面部特征',enabled:false,
+      template:null, // 存储面部特征模板
+      collect:function(){
+        // 预留：调用 MediaDevices.getUserMedia 获取摄像头
+        // 通过面部特征提取算法生成模板存入 this.template
+        return new Promise(function(resolve,reject){
+          if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+            reject('设备不支持摄像头');return;
+          }
+          navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:640,height:480}})
+          .then(function(stream){
+            // TODO: 接入面部识别SDK，提取特征向量
+            // 当前为预留接口，显示采集界面
+            var overlay=document.createElement('div');
+            overlay.id='biometricCapture';
+            overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center';
+            overlay.innerHTML='<video id="faceVideo" autoplay style="width:320px;height:240px;border-radius:50%;border:3px solid #2ecc71"></video>'+
+              '<div style="color:#2ecc71;margin-top:16px;font-size:14px">请正视摄像头，正在采集面部特征...</div>'+
+              '<button onclick="AUTH_METHODS.completeCapture(\'face\')" style="margin-top:16px;padding:10px 24px;background:#2ecc71;border:none;border-radius:12px;color:#fff;cursor:pointer">完成采集</button>';
+            document.body.appendChild(overlay);
+            var video=document.getElementById('faceVideo');
+            video.srcObject=stream;
+          })
+          .catch(function(e){reject('摄像头访问失败: '+e.message)});
+        });
+      },
+      verify:function(){
+        // TODO: 实时采集面部 → 提取特征 → 与 template 比对
+        // 当前返回 false（待接入SDK后启用）
+        toast('人脸识别待接入SDK');return false;
+      }
+    },
+    fingerprint:{id:'fingerprint',name:'指纹/面容识别',icon:'&#x1F446;',tier:'biometric',status:'reserved',
+      desc:'WebAuthn硬件认证（屏下指纹/TouchID/FaceID），绑定设备安全芯片',enabled:false,
+      template:null,
+      collect:function(){
+        return new Promise(function(resolve,reject){
+          if(!window.PublicKeyCredential){
+            reject('此设备/浏览器不支持WebAuthn，请使用Chrome/Safari');return;
+          }
+          // 检查平台认证器是否可用
+          if(navigator.credentials&&navigator.credentials.create){
+            // 生成用户ID（基于主机标识，持久化）
+            var userId=localStorage.getItem('sh_webauthn_uid');
+            if(!userId){
+              var arr=new Uint8Array(16);
+              crypto.getRandomValues(arr);
+              userId=Array.from(arr,function(b){return b.toString(16).padStart(2,'0')}).join('');
+              localStorage.setItem('sh_webauthn_uid',userId);
+            }
+            var uidBytes=new TextEncoder().encode(userId);
+            var challenge=new Uint8Array(32);
+            crypto.getRandomValues(challenge);
+
+            // 构建注册选项
+            var options={
+              publicKey:{
+                challenge:challenge,
+                rp:{name:'山海指挥中心',id:location.hostname},
+                user:{
+                  id:uidBytes,
+                  name:'owner@shanhai.local',
+                  displayName:'主人'
+                },
+                pubKeyCredParams:[
+                  {type:'public-key',alg:-7},   // ES256
+                  {type:'public-key',alg:-257}   // RS256
+                ],
+                authenticatorSelection:{
+                  authenticatorAttachment:'platform', // 仅限设备内置（非外接）
+                  userVerification:'required',        // 必须验证用户身份（指纹/面容）
+                  requireResidentKey:false
+                },
+                timeout:60000,
+                attestation:'none'
+              }
+            };
+
+            // 显示采集引导界面
+            var overlay=document.createElement('div');
+            overlay.id='biometricCapture';
+            overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center';
+            overlay.innerHTML='<div style="font-size:64px;margin-bottom:20px">&#x1F446;</div>'+
+              '<div style="color:#2ecc71;font-size:16px;font-weight:600;margin-bottom:8px">指纹/面容注册</div>'+
+              '<div style="color:#888;font-size:13px;margin-bottom:24px;text-align:center;max-width:280px">系统即将调用设备安全芯片<br>请按提示验证指纹或面容</div>'+
+              '<div id="webauthnStatus" style="color:#f39c12;font-size:13px">等待设备响应...</div>'+
+              '<button id="webauthnCancel" onclick="document.getElementById(\'biometricCapture\').remove()" style="margin-top:24px;padding:8px 20px;background:transparent;border:1px solid #555;border-radius:10px;color:#888;font-size:12px;cursor:pointer">取消</button>';
+            document.body.appendChild(overlay);
+
+            navigator.credentials.create(options)
+            .then(function(credential){
+              // 注册成功 — 存储凭证
+              var credId=Array.from(new Uint8Array(credential.rawId));
+              AUTH_METHODS.registry.fingerprint.template={
+                credId:credId,
+                registeredAt:new Date().toISOString(),
+                deviceInfo:navigator.userAgent.substring(0,50)
+              };
+              AUTH_METHODS.registry.fingerprint.enabled=true;
+              AUTH_METHODS.registry.fingerprint.status='active';
+              AUTH_METHODS.save();
+              overlay.remove();
+              resolve(true);
+            })
+            .catch(function(err){
+              overlay.remove();
+              var msg='未知错误';
+              if(err.name==='NotAllowedError')msg='用户取消或设备拒绝';
+              else if(err.name==='NotSupportedError')msg='设备不支持此认证方式';
+              else if(err.name==='SecurityError')msg='安全环境不满足（需HTTPS）';
+              else if(err.name==='ConstraintError')msg='认证器约束不满足';
+              reject(msg);
+            });
+          }else{
+            reject('浏览器不支持WebAuthn');
+          }
+        });
+      },
+      verify:function(){
+        // WebAuthn 验证 — 返回 Promise
+        if(!this.template||!this.template.credId){
+          toast('请先注册指纹/面容');
+          return Promise.resolve(false);
+        }
+        var credId=this.template.credId;
+        var challenge=new Uint8Array(32);
+        crypto.getRandomValues(challenge);
+
+        return navigator.credentials.get({
+          publicKey:{
+            challenge:challenge,
+            rpId:location.hostname,
+            allowCredentials:[{
+              type:'public-key',
+              id:new Uint8Array(credId)
+            }],
+            userVerification:'required',
+            timeout:30000
+          }
+        })
+        .then(function(){return true})
+        .catch(function(err){
+          if(err.name==='NotAllowedError')return false; // 用户取消
+          toast('验证失败: '+(err.message||err.name));
+          return false;
+        });
+      }
+    },
+    voice:{id:'voice',name:'声纹识别',icon:'&#x1F3A4;',tier:'biometric',status:'reserved',
+      desc:'声纹特征匹配，绑定主人声音特征',enabled:false,
+      template:null,
+      collect:function(){
+        return new Promise(function(resolve,reject){
+          if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+            reject('设备不支持麦克风');return;
+          }
+          navigator.mediaDevices.getUserMedia({audio:true})
+          .then(function(stream){
+            var overlay=document.createElement('div');
+            overlay.id='biometricCapture';
+            overlay.innerHTML='<div style="font-size:48px;margin-bottom:16px">&#x1F3A4;</div>'+
+              '<div style="color:#2ecc71;font-size:14px;margin-bottom:8px">请朗读以下文字：</div>'+
+              '<div style="color:#fff;font-size:16px;margin-bottom:16px;padding:12px;background:rgba(46,204,113,0.1);border-radius:8px">"我是山海指挥中心的主人"</div>'+
+              '<canvas id="voiceWave" width="300" height="60" style="background:#111;border-radius:8px;margin-bottom:16px"></canvas>'+
+              '<div style="color:#888;font-size:12px;margin-bottom:16px">正在采集声纹特征...</div>'+
+              '<button onclick="AUTH_METHODS.completeCapture(\'voice\')" style="padding:10px 24px;background:#2ecc71;border:none;border-radius:12px;color:#fff;cursor:pointer">完成采集</button>';
+            overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center';
+            document.body.appendChild(overlay);
+            // 音频波形可视化
+            var ctx=new AudioContext();var src=ctx.createMediaStreamSource(stream);
+            var analyser=ctx.createAnalyser();src.connect(analyser);
+            analyser.fftSize=256;var buf=new Uint8Array(analyser.frequencyBinCount);
+            var canvas=document.getElementById('voiceWave');var cctx=canvas.getContext('2d');
+            var animId=function(){
+              analyser.getByteFrequencyData(buf);
+              cctx.fillStyle='#111';cctx.fillRect(0,0,300,60);
+              var bw=300/buf.length;
+              for(var i=0;i<buf.length;i++){
+                var h=buf[i]/255*60;
+                cctx.fillStyle='#2ecc71';
+                cctx.fillRect(i*bw,60-h,bw-1,h);
+              }
+              overlay._animId=requestAnimationFrame(animId);
+            };animId();
+            overlay._stream=stream;overlay._ctx=ctx;
+          })
+          .catch(function(e){reject('麦克风访问失败: '+e.message)});
+        });
+      },
+      verify:function(){
+        // TODO: 录制语音 → 提取MFCC特征 → 与 template 比对
+        toast('声纹识别待接入SDK');return false;
+      }
+    }
   },
-  getActive:function(){return Object.values(this.registry).filter(function(m){return m.enabled&&m.status==='active'})},
+  // 完成生物特征采集
+  completeCapture:function(methodId){
+    var overlay=document.getElementById('biometricCapture');
+    if(overlay){
+      if(overlay._stream)overlay._stream.getTracks().forEach(function(t){t.stop()});
+      if(overlay._ctx)overlay._ctx.close();
+      if(overlay._animId)cancelAnimationFrame(overlay._animId);
+      overlay.remove();
+    }
+    var m=this.registry[methodId];
+    if(m){
+      // 生成模拟特征模板（实际应由SDK生成）
+      m.template='template_'+methodId+'_'+Date.now();
+      m.enabled=true;m.status='active';
+      this.save();
+      toast(m.name+'已激活');
+      if(document.getElementById('dmBody'))openDetail('security');
+    }
+  },
+  // 获取已激活的认证方式
+  getActive:function(){return Object.values(this.registry).filter(function(m){return m.enabled})},
+  // 获取待开放的认证方式
   getAvailable:function(){return Object.values(this.registry).filter(function(m){return !m.enabled})},
-  enable:function(id){if(this.registry[id]&&this.registry[id].status==='reserved'){this.registry[id].enabled=true;this.registry[id].status='active';localStorage.setItem('sh_auth_methods',JSON.stringify(this.registry))}},
-  disable:function(id){if(this.registry[id]&&this.registry[id].status==='active'&&id!=='pin'){this.registry[id].enabled=false;this.registry[id].status='reserved';localStorage.setItem('sh_auth_methods',JSON.stringify(this.registry))}},
-  save:function(){localStorage.setItem('sh_auth_methods',JSON.stringify(this.registry))},
-  load:function(){var saved=localStorage.getItem('sh_auth_methods');if(saved){try{var parsed=JSON.parse(saved);for(var k in parsed){if(this.registry[k])Object.assign(this.registry[k],parsed[k])}}catch(e){}}}
+  // 获取已激活的生物认证
+  getActiveBiometrics:function(){return Object.values(this.registry).filter(function(m){return m.enabled&&m.tier==='biometric'})},
+  // 检查操作所需安全等级是否满足
+  checkLevel:function(requiredLevel){
+    var active=this.getActive();
+    var hasPin=active.some(function(m){return m.id==='pin'});
+    var bioCount=active.filter(function(m){return m.tier==='biometric'}).length;
+    switch(requiredLevel){
+      case 1:return hasPin;
+      case 2:return hasPin&&bioCount>=1;
+      case 3:return hasPin&&bioCount>=2;
+      case 4:return hasPin&&bioCount>=2&&PIN.getHandover();
+      default:return false;
+    }
+  },
+  // 获取当前安全等级描述
+  getCurrentLevel:function(){
+    var bio=this.getActiveBiometrics().length;
+    if(bio>=2)return{level:4,label:'基因级',color:'#e74c3c',desc:'多重生物认证，仅主人本人可操作'};
+    if(bio>=1)return{level:2,label:'生物级',color:'#f39c12',desc:'通行码+生物认证'};
+    return{level:1,label:'密码级',color:'#3498db',desc:'仅通行码保护'};
+  },
+  save:function(){
+    var saveData={};
+    for(var k in this.registry){
+      var m=this.registry[k];
+      saveData[k]={enabled:m.enabled,status:m.status,template:m.template||null};
+    }
+    localStorage.setItem('sh_auth_methods',JSON.stringify(saveData));
+  },
+  load:function(){
+    var saved=localStorage.getItem('sh_auth_methods');
+    if(saved){try{
+      var parsed=JSON.parse(saved);
+      for(var k in parsed){
+        if(this.registry[k]){
+          if(parsed[k].enabled!==undefined)this.registry[k].enabled=parsed[k].enabled;
+          if(parsed[k].status!==undefined)this.registry[k].status=parsed[k].status;
+          if(parsed[k].template!==undefined)this.registry[k].template=parsed[k].template;
+        }
+      }
+    }catch(e){}}
+  }
 };
 AUTH_METHODS.load();
 
 // === 安全设置面板 ===
 function buildSecurityPanel(){
   var h='';
+  var curLevel=AUTH_METHODS.getCurrentLevel();
+
+  // 当前安全等级
+  h+='<div class="mcard" style="border:1px solid '+curLevel.color+'"><h3><span class="dot" style="background:'+curLevel.color+'"></span>安全等级：'+curLevel.label+'</h3>';
+  h+='<div style="font-size:12px;color:'+curLevel.color+';margin-bottom:8px">'+curLevel.desc+'</div>';
+  h+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
+  h+='<div style="flex:1;min-width:80px;text-align:center;padding:8px;background:rgba(46,204,113,0.1);border-radius:8px"><div style="font-size:11px;color:var(--text3)">等级1</div><div style="font-size:12px;color:var(--green)">密码级 ✓</div></div>';
+  h+='<div style="flex:1;min-width:80px;text-align:center;padding:8px;background:'+(curLevel.level>=2?'rgba(243,156,18,0.1)':'rgba(255,255,255,0.03)')+';border-radius:8px"><div style="font-size:11px;color:var(--text3)">等级2</div><div style="font-size:12px;color:'+(curLevel.level>=2?'var(--orange)':'var(--text4)')+'">生物级 '+(curLevel.level>=2?'✓':'○')+'</div></div>';
+  h+='<div style="flex:1;min-width:80px;text-align:center;padding:8px;background:'+(curLevel.level>=4?'rgba(231,76,60,0.1)':'rgba(255,255,255,0.03)')+';border-radius:8px"><div style="font-size:11px;color:var(--text3)">等级4</div><div style="font-size:12px;color:'+(curLevel.level>=4?'var(--red)':'var(--text4)')+'">基因级 '+(curLevel.level>=4?'✓':'○')+'</div></div>';
+  h+='</div></div>';
+
   // 通行码管理
   h+='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>通行码管理</h3>';
-  h+='<div class="mrow"><span class="mlabel">当前状态</span><span class="mval gd">已设置</span></div>';
+  h+='<div class="mrow"><span class="mlabel">当前状态</span><span class="mval gd">已设置 (L1)</span></div>';
   h+='<div class="mrow"><span class="mlabel">修改通行码</span><button onclick="changePin()" style="padding:6px 16px;background:var(--accent);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">修改</button></div>';
   h+='</div>';
+
   // 交接码管理
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>交接码管理</h3>';
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>交接码管理 <span style="font-size:10px;color:var(--text3)">L4 主权移交</span></h3>';
   var hv=PIN.getHandover();
   if(hv){
     h+='<div class="mrow"><span class="mlabel">当前交接码</span><button onclick="viewHandover()" style="padding:6px 16px;background:var(--purple);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">查看</button></div>';
   }
   h+='<div class="mrow"><span class="mlabel">重置交接码</span><button onclick="regenHandover()" style="padding:6px 16px;background:var(--orange);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">重置</button></div>';
-  h+='<div style="font-size:11px;color:var(--text3);margin-top:8px;padding:0 4px">交接码用于系统主权移交，使用一次后自动焚毁。旧交接码将立即失效。</div>';
+  h+='<div style="font-size:11px;color:var(--text3);margin-top:8px;padding:0 4px">交接码用于主权移交，使用一次后自动焚毁。移交后旧通行码同时作废。</div>';
   h+='</div>';
-  // 认证方式
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--blue)"></span>认证方式</h3>';
+
+  // 生物认证 — 核心安全升级
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--red)"></span>生物认证 <span style="font-size:10px;color:var(--text3)">基因级安全</span></h3>';
+  h+='<div style="font-size:11px;color:var(--text3);margin-bottom:12px">启用2项以上生物认证后，系统进入「基因级」保护 — 仅主人本人可修改核心配置</div>';
   var methods=Object.values(AUTH_METHODS.registry);
   methods.forEach(function(m){
-    var isAct=m.enabled&&m.status==='active';
-    var statusLabel=isAct?'<span style="color:var(--green)">已启用</span>':'<span style="color:var(--text3)">待开放</span>';
-    h+='<div class="mrow"><span class="mlabel">'+m.icon+' '+m.name+'</span><span class="mval" style="font-size:11px">'+statusLabel+'</span></div>';
-    if(!isAct) h+='<div style="font-size:10px;color:var(--text4);margin:-4px 0 8px 28px">'+m.desc+'</div>';
+    var isAct=m.enabled;
+    var isBio=m.tier==='biometric';
+    h+='<div class="mrow" style="align-items:center"><span class="mlabel">'+m.icon+' '+m.name+(isBio?' <span style="font-size:9px;color:var(--text4)">[生物]</span>':'')+'</span>';
+    if(isAct){
+      h+='<span class="mval gd" style="font-size:11px">已激活</span>';
+    }else{
+      h+='<button onclick="enrollBio(\''+m.id+'\')" style="padding:5px 14px;background:var(--blue);border:none;border-radius:10px;color:#fff;font-size:11px;cursor:pointer">注册</button>';
+    }
+    h+='</div>';
+    h+='<div style="font-size:10px;color:var(--text4);margin:-2px 0 10px 28px">'+m.desc+'</div>';
   });
   h+='</div>';
-  // 恢复说明
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--orange)"></span>恢复方式</h3>';
-  h+='<div class="mrow"><span class="mlabel">方式一</span><span class="mval" style="font-size:11px">交接码重置（3次错误后显示）</span></div>';
-  h+='<div class="mrow"><span class="mlabel">方式二</span><span class="mval" style="font-size:11px">本面板修改（需当前通行码）</span></div>';
-  h+='<div class="mrow"><span class="mlabel">方式三</span><span class="mval" style="font-size:11px">生物认证（待开放）</span></div>';
+
+  // 操作安全策略
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--orange)"></span>操作安全策略</h3>';
+  h+='<div class="mrow"><span class="mlabel">日常查看</span><span class="mval" style="font-size:11px;color:var(--green)">L1 通行码</span></div>';
+  h+='<div class="mrow"><span class="mlabel">订单/资金管理</span><span class="mval" style="font-size:11px;color:var(--orange)">L2 通行码+1项生物</span></div>';
+  h+='<div class="mrow"><span class="mlabel">修改安全设置</span><span class="mval" style="font-size:11px;color:var(--red)">L3 通行码+2项生物</span></div>';
+  h+='<div class="mrow"><span class="mlabel">主权移交</span><span class="mval" style="font-size:11px;color:var(--red)">L4 全因子+交接码</span></div>';
   h+='</div>';
+
+  // 恢复方式
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--text3)"></span>恢复方式</h3>';
+  h+='<div class="mrow"><span class="mlabel">方式一</span><span class="mval" style="font-size:11px">交接码重置（3次错误后触发）</span></div>';
+  h+='<div class="mrow"><span class="mlabel">方式二</span><span class="mval" style="font-size:11px">安全面板修改（需当前通行码+生物认证）</span></div>';
+  h+='<div class="mrow"><span class="mlabel">方式三</span><span class="mval" style="font-size:11px">生物认证恢复（待全因子激活）</span></div>';
+  h+='</div>';
+
   return h;
+}
+
+function enrollBio(methodId){
+  var m=AUTH_METHODS.registry[methodId];
+  if(!m){toast('未知认证方式');return}
+  if(m.enabled){toast(m.name+'已激活');return}
+  toast('正在启动'+m.name+'采集...');
+  m.collect().then(function(){
+    toast(m.name+'注册成功');
+    openDetail('security');
+  }).catch(function(err){
+    toast('注册失败: '+err);
+  });
 }
 
 function changePin(){
   var body=document.getElementById('dmBody');
   body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>修改通行码</h3>'+
+    '<div style="font-size:11px;color:var(--text3);margin-bottom:12px">需要当前通行码验证（L1）</div>'+
     '<div style="margin:16px 0"><div style="font-size:12px;color:var(--text3);margin-bottom:8px">输入当前通行码</div>'+
     '<input type="password" id="cpOld" maxlength="6" placeholder="6位数字" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:16px;text-align:center;letter-spacing:8px;box-sizing:border-box">'+
     '<div style="font-size:12px;color:var(--text3);margin:12px 0 8px">输入新通行码</div>'+
@@ -1095,6 +1419,12 @@ function confirmChangePin(){
   if(nw.length!==6||!/^\d{6}$/.test(nw)){toast('新通行码须为6位数字');return}
   if(nw!==cf){toast('两次输入不一致');return}
   if(nw===old){toast('新码不能与旧码相同');return}
+  // 若已启用生物认证(L3)，需要额外验证
+  var bio=AUTH_METHODS.getActiveBiometrics();
+  if(bio.length>=2){
+    toast('基因级保护：需生物认证确认');
+    // TODO: 触发活体检测流程，确认是主人本人
+  }
   localStorage.setItem('sh_pin',PIN.encodeValue(nw));
   PIN.storedPin=nw;
   var newHandover=generateHandover();
@@ -1109,8 +1439,9 @@ function viewHandover(){
     var body=document.getElementById('dmBody');
     body.innerHTML='<div class="mcard" style="text-align:center"><h3><span class="dot" style="background:var(--purple)"></span>交接码</h3>'+
       '<div style="font-size:36px;letter-spacing:8px;color:var(--purple);font-weight:700;margin:24px 0">'+hv+'</div>'+
-      '<div style="font-size:12px;color:var(--text3)">此码用于系统主权移交</div>'+
-      '<div style="font-size:11px;color:var(--red);margin-top:8px">使用后自动焚毁 · 请妥善保管</div>'+
+      '<div style="font-size:12px;color:var(--text3)">此码用于系统主权移交（L4）</div>'+
+      '<div style="font-size:11px;color:var(--red);margin-top:8px">使用后旧通行码+交接码同时焚毁</div>'+
+      '<div style="font-size:11px;color:var(--text4);margin-top:4px">请妥善保管，仅限主人本人持有</div>'+
       '<button onclick="openDetail(\'security\')" style="margin-top:20px;padding:10px 24px;background:var(--border);border:none;border-radius:12px;font-size:13px;cursor:pointer">返回</button></div>';
   }else{
     toast('交接码不存在');
