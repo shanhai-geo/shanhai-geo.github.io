@@ -122,11 +122,6 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 .price-hero{animation:glow 2s infinite}
 
 /* V5 路演引导弹窗 */
-.roadshow-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:99998;justify-content:center;align-items:center;padding:20px}
-.roadshow-modal.show{display:flex}
-.roadshow-box{background:linear-gradient(180deg,#fffdf8,#faf6f0);border-radius:20px;padding:28px 24px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.roadshow-box h3{font-size:20px;color:var(--gold-d);text-align:center;margin-bottom:6px}
-.roadshow-box .rs-sub{font-size:13px;color:var(--txt2);text-align:center;margin-bottom:20px}
 .rs-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;padding:12px;background:#fff;border-radius:12px;border:1px solid var(--bdr)}
 .rs-step .rs-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#dbb36a);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:#fff}
 .rs-step .rs-text{flex:1}
@@ -610,9 +605,7 @@ startBuy=function(){
 renderOrders();
 
 // V5 路演引导
-function showRoadshow(){document.getElementById('roadshowModal').classList.add('show')}
-function closeRoadshow(){document.getElementById('roadshowModal').classList.remove('show')}
-function proceedToPay(){closeRoadshow();startBuy()}
+// 路演弹窗已移除，购买按钮直接跳转付款页
 
 // V5 客服气泡主动打招呼
 function closeCsBubble(){document.getElementById('csBubble').classList.remove('show')}
