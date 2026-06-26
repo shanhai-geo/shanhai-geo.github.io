@@ -9,6 +9,9 @@
 <title>山海管理后台 V21</title>
 <meta name="description" content="山海智能管理后台 · 全权控制入口">
 <meta name="keywords" content="山海智能,管理后台,AI商业服务,全权入口">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src *;">
 <link rel="canonical" href="https://shanhai-geo.github.io/shanhai-admin">
@@ -329,7 +332,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
-      <span class="ch-badge" id="verBadge">V19</span>
+      <span class="ch-badge" id="verBadge">V21</span>
       <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -905,6 +908,8 @@ function processCmd(text){
       _thinkDiv.innerHTML = '<div class="avatar">山</div><div class="bubble" style="color:var(--dim);font-style:italic">思考中...</div>';
       chatArea.appendChild(_thinkDiv);
       chatArea.scrollTop = chatArea.scrollHeight;
+      // Failsafe: 15秒后强制清除思考中状态
+      setTimeout(function(){ var _fEl = document.getElementById(_thinkId); if(_fEl) { _fEl.remove(); addAi("系统响应超时，API网关正在重试。如果持续无回复，请刷新页面(下拉刷新)"); } }, 15000);
       // 注入实时数据到system prompt
       var _s = calcRev();
       var _cfgs = INTERNAL_ENGINE.apiGateway.getConfigs();
@@ -1414,7 +1419,7 @@ var INTERNAL_ENGINE = {
             temperature: (options && options.temperature) || 0.7,
             max_tokens: (options && options.max_tokens) || 600
           }),
-          signal: AbortSignal.timeout(12000)
+          signal: (typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(12000) : undefined)
         }).then(function(r){
           if(!r.ok) throw new Error('API_' + r.status);
           return r.json();
