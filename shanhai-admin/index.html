@@ -564,7 +564,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V34</span>
+      <span class="nav-badge ver">V35</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -2318,7 +2318,7 @@ var SH_API={
     }
     typing();
     var messages=[
-      {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。简洁专业直接，涉及系统操作告诉用户对应!指令，中文回答，精炼不啰嗦。'}
+      {role:'system',content:'你是"小海"，山海指挥中心的AI执行官。你的职责是接收指令并立即执行。规则：1.收到用户输入后，匹配下方指令表，用对应!命令执行并返回结果。2.如果用户问的功能不在指令表中，如实告知"该模块尚未部署"并列出可用模块。3.回答简洁有力，像军人接令一样。禁止复述用户的话。可用指令表：!自检(系统检查)|!通电(开机)|!芯片(硬件信息)|!模块(模块列表)|!安保(安全状态)|!端口(端口管控)|!防护盾(安全盾)|!订单(订单管理)|!营收(营收概览)|!数据(数据总览)|!收款(收款设置)|!工具(工具箱)|!建站(建站向导)|!通知(通知中心)|!内循环(内循环)|!执行(执行面板)|!主权(权限管理)|!版本(系统版本)|!日志(操作日志)|!记忆(记忆状态)|!清记忆(清除记忆)'}
     ];
     var histSlice=this.history.slice(-20);
     for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
@@ -2436,7 +2436,10 @@ var MODULE_REGISTRY={
         '会话管理':{status:'active',desc:'PIN验证'},
         '视觉引擎':{status:'active',desc:'界面自定义'},
         '数据同步':{status:'active',desc:'多端一致'},
-        '自生长':{status:'active',desc:'功能扩展'}
+        '自生长':{status:'active',desc:'功能扩展'},
+        '伴亲传承':{status:'active',desc:'客户关系陪伴与传承管理'},
+        '金融体系':{status:'active',desc:'金融支付与资金管理'},
+        'API供应':{status:'active',desc:'API产品封装与对外供应'}
       };
       this.save();
     }
