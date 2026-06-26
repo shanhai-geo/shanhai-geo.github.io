@@ -21,15 +21,14 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   --text2:#666666;
   --text3:#999999;
   --text4:#bcbcbc;
-  --accent:#d4a04a;
-  --accent-light:rgba(212,160,74,0.1);
+  --accent:#2ecc71;
+  --accent-light:rgba(46,204,113,0.1);
   --green:#07c160;
   --green-light:rgba(7,193,96,0.08);
   --red:#fa5151;
   --blue:#1989fa;
   --purple:#7c4dff;
   --bubble-ai:#ffffff;
-  --bubble-user:#d4a04a;
   --shadow:0 1px 3px rgba(0,0,0,0.06);
   --shadow-md:0 4px 12px rgba(0,0,0,0.08);
   --shadow-lg:0 8px 24px rgba(0,0,0,0.12);
@@ -52,7 +51,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   background:linear-gradient(135deg,var(--accent),#b8860b);
   display:flex;align-items:center;justify-content:center;
   font-size:28px;font-weight:800;color:#fff;
-  box-shadow:0 8px 32px rgba(212,160,74,0.35);
+  box-shadow:0 8px 32px rgba(46,204,113,0.35);
   margin-bottom:16px;
 }
 .pin-title{font-size:22px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:4px}
@@ -64,7 +63,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   border:2px solid rgba(255,255,255,0.25);background:transparent;
   transition:all .2s;
 }
-.pin-dot.filled{border-color:var(--accent);background:var(--accent);box-shadow:0 0 10px rgba(212,160,74,0.5)}
+.pin-dot.filled{border-color:var(--accent);background:var(--accent);box-shadow:0 0 10px rgba(46,204,113,0.5)}
 .pin-dot.error{border-color:var(--red);background:var(--red);animation:shake .4s}
 .pin-dot.success{border-color:var(--green);background:var(--green);box-shadow:0 0 10px rgba(7,193,96,0.5)}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
@@ -79,7 +78,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   transition:all .15s;backdrop-filter:blur(4px);
   -webkit-user-select:none;user-select:none;
 }
-.pin-key:active{background:rgba(212,160,74,0.2);border-color:var(--accent);transform:scale(0.92)}
+.pin-key:active{background:rgba(46,204,113,0.2);border-color:var(--accent);transform:scale(0.92)}
 .pin-key.fn{font-size:15px;color:rgba(255,255,255,0.4)}
 .pin-key.fn:active{background:rgba(255,255,255,0.1)}
 
@@ -102,7 +101,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   padding:14px 48px;border-radius:24px;border:none;
   background:linear-gradient(135deg,var(--accent),#b8860b);
   color:#fff;font-size:15px;font-weight:600;cursor:pointer;
-  box-shadow:0 4px 16px rgba(212,160,74,0.3);
+  box-shadow:0 4px 16px rgba(46,204,113,0.3);
   transition:transform .15s;
 }
 .lock-btn:active{transform:scale(0.96)}
@@ -124,7 +123,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   background:linear-gradient(135deg,var(--accent),#b8860b);
   display:flex;align-items:center;justify-content:center;
   font-size:16px;font-weight:700;color:#fff;
-  box-shadow:0 2px 8px rgba(212,160,74,0.25);
+  box-shadow:0 2px 8px rgba(46,204,113,0.25);
 }
 .nav-info{display:flex;flex-direction:column}
 .nav-name{font-size:16px;font-weight:600;color:var(--text);line-height:1.3}
@@ -172,11 +171,11 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 }
 .msg-ai .msg-avatar{
   background:linear-gradient(135deg,var(--accent),#b8860b);
-  box-shadow:0 2px 8px rgba(212,160,74,0.2);
+  box-shadow:0 2px 8px rgba(46,204,113,0.2);
 }
 .msg-user .msg-avatar{
-  background:linear-gradient(135deg,#5b7fff,#3b5fc0);
-  box-shadow:0 2px 8px rgba(91,127,255,0.2);
+  background:linear-gradient(135deg,#27ae60,#1e8449);
+  box-shadow:0 2px 8px rgba(46,204,113,0.2);
 }
 
 /* 气泡 */
@@ -195,7 +194,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 .msg-user .msg-bubble{
   background:var(--bubble-user);color:#fff;
   border-radius:18px 4px 18px 18px;
-  box-shadow:0 2px 8px rgba(212,160,74,0.2);
+  box-shadow:0 2px 8px rgba(46,204,113,0.2);
 }
 
 .msg-time{font-size:10px;color:var(--text4);margin-top:4px;padding:0 4px}
@@ -246,7 +245,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   transition:all .15s;white-space:nowrap;
 }
 .qk:active{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
-.qk.qk-gold{border-color:rgba(212,160,74,0.3);color:var(--accent)}
+.qk.qk-gold{border-color:rgba(46,204,113,0.3);color:var(--accent)}
 .qk.qk-green{border-color:rgba(7,193,96,0.3);color:var(--green)}
 
 /* 输入栏 */
@@ -460,7 +459,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   position:fixed;inset:0;pointer-events:none;z-index:50;
   border:2px solid transparent;transition:border-color .3s;
 }
-.dna-overlay.active{border-color:rgba(212,160,74,0.1)}
+.dna-overlay.active{border-color:rgba(46,204,113,0.1)}
 
 /* PIN 设置弹窗 */
 .pin-setup-overlay{
@@ -553,7 +552,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V28</span>
+      <span class="nav-badge ver">V29</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -625,9 +624,8 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V28',
+  VERSION:'V29',
   OWNER:localStorage.getItem('sh_owner')||'主人',
-  HANDOVER:[8,3,1,2,0,6].reverse().join(''),
   DNA:{geneSeal:'77-59-62-65-74-75',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
     stateKey:'sh_port_state',
@@ -635,7 +633,7 @@ var CHIP={
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V28',owner:'主权人'},
+      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V29',owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -712,16 +710,46 @@ var PIN={
   resetMode:false,
   setupMode:false,
 
+  encodeValue:function(val){
+    return btoa('sh_'+val+'_e3');
+  },
+  decodeValue:function(raw){
+    try{
+      var dec=atob(raw);
+      if(dec.startsWith('sh_')&&dec.endsWith('_e3')){
+        return dec.slice(3,-3);
+      }
+    }catch(e){}
+    return null;
+  },
   getStored:function(){
     if(!this.storedPin){
-      this.storedPin=localStorage.getItem('sh_pin')||null;
+      var raw=localStorage.getItem('sh_pin');
+      if(raw){
+        var dec=this.decodeValue(raw);
+        if(dec){
+          this.storedPin=dec;
+        }else{
+          localStorage.removeItem('sh_pin');
+          this.storedPin=null;
+        }
+      }else{
+        this.storedPin=null;
+      }
     }
     return this.storedPin;
   },
 
+  getHandover:function(){
+    var raw=localStorage.getItem('sh_handover');
+    if(!raw) return null;
+    return this.decodeValue(raw);
+  },
+
   verify:function(code){
     if(this.resetMode){
-      if(code===CHIP.HANDOVER){
+      var h=this.getHandover();
+      if(h && code===h){
         this.resetMode=false;
         return 'reset_ok';
       }
@@ -730,15 +758,18 @@ var PIN={
 
     var stored=this.getStored();
 
-    // 【V28 核心修复】如果没有存储的PIN，任何输入都不放行，强制走设置流程
+    // 如果没有存储的PIN，任何输入都不放行，强制走设置流程
     if(!stored){
-      // 无论输入什么，都不通过，强制设置PIN
       return 'must_setup';
     }
 
     // 有存储的PIN，正常验证
     if(code===stored) return 'ok';
-    if(code===CHIP.HANDOVER) return 'handover';
+
+    // 检查交接码
+    var handover=this.getHandover();
+    if(handover && code===handover) return 'handover';
+
     return 'wrong';
   },
 
@@ -787,16 +818,21 @@ function pinIn(d){
   }
 
   if(r==='handover'){
-    // 交接码 — 检查是否有已设PIN
+    // 交接码验证通过，清除旧PIN和交接码，强制设置新PIN
     var stored=PIN.getStored();
     if(stored){
-      // 有PIN，交接码也放行（主权交接）
       PIN.updateDots(6);
       for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
       statusEl.textContent='主权交接验证通过';
-      setTimeout(correctPin,400);
+      setTimeout(function(){
+        // 清除旧PIN和交接码（一次性）
+        localStorage.removeItem('sh_pin');
+        localStorage.removeItem('sh_handover');
+        PIN.storedPin=null;
+        showPinSetup();
+      },600);
     }else{
-      // 没有PIN，交接码也必须先设PIN
+      // 没有PIN的情况
       statusEl.textContent='首次使用，请设置通行码';
       setTimeout(function(){
         PIN.clearInput();
@@ -836,12 +872,52 @@ function pinIn(d){
 }
 
 function showPinError(){
+  var lockDur=0;
+  if(PIN.attempts>=10){
+    lockDur=300000;
+    document.getElementById('pinStatus').textContent='已锁定5分钟';
+  }else if(PIN.attempts>=5){
+    lockDur=60000;
+    document.getElementById('pinStatus').textContent='已锁定60秒';
+  }
+  
   for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';
-  document.getElementById('pinStatus').textContent='密码错误';
-  setTimeout(function(){
-    PIN.clearInput();
-    document.getElementById('pinStatus').textContent='请重新输入';
-  },800);
+  
+  if(lockDur>0){
+    lockPinInput(lockDur);
+  }else{
+    document.getElementById('pinStatus').textContent='密码错误';
+    setTimeout(function(){
+      PIN.clearInput();
+      document.getElementById('pinStatus').textContent='请重新输入';
+    },800);
+  }
+}
+
+function lockPinInput(duration){
+  var pad=document.getElementById('pinPad');
+  var keys=pad.querySelectorAll('.pin-key');
+  keys.forEach(function(k){k.style.pointerEvents='none';k.style.opacity='0.3'});
+  
+  var count=Math.ceil(duration/1000);
+  var countDown=setInterval(function(){
+    count--;
+    if(count<=0){
+      clearInterval(countDown);
+      keys.forEach(function(k){k.style.pointerEvents='';k.style.opacity=''});
+      document.getElementById('pinStatus').textContent='请重新输入';
+      PIN.clearInput();
+    }else{
+      document.getElementById('pinStatus').textContent='已锁定 '+count+' 秒';
+    }
+  },1000);
+}
+
+// === 交接码生成 ===
+function generateHandover(){
+  var code='';
+  for(var i=0;i<6;i++) code+=Math.floor(Math.random()*10);
+  return code;
 }
 
 // === PIN 设置流程 (V28 新增 — 彻底解决无PIN绕过) ===
@@ -874,27 +950,23 @@ function confirmPinSetup(){
     return;
   }
 
-  // 不允许和交接码相同
-  if(val===CHIP.HANDOVER){
-    error.textContent='不能使用此号码，请换一个';
-    input.classList.add('error');
-    setTimeout(function(){input.classList.remove('error')},400);
-    return;
-  }
-
-  // 保存PIN
-  localStorage.setItem('sh_pin',val);
+  // 保存PIN（编码存储）
+  localStorage.setItem('sh_pin',PIN.encodeValue(val));
   PIN.storedPin=val;
   PIN.setupMode=false;
   PIN.attempts=0;
 
+  // 生成新的交接码（编码存储）
+  var newHandover=generateHandover();
+  localStorage.setItem('sh_handover',PIN.encodeValue(newHandover));
+
   document.getElementById('pinSetupOverlay').classList.remove('show');
-  document.getElementById('pinStatus').textContent='通行码已设置，验证通过';
+  document.getElementById('pinStatus').innerHTML='通行码已设置，验证通过<br><br><span style="color:#2ecc71;font-size:11px">交接码: '+newHandover+'<br>请妥善保管，移交时使用一次后销毁</span>';
 
   // 更新dots为成功状态
   for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
 
-  setTimeout(correctPin,500);
+  setTimeout(correctPin,3000);
 }
 
 function correctPin(){
@@ -1049,6 +1121,14 @@ var CMD_ROUTER={
     r['!日志']=function(){addAi('[操作日志]',buildLogPanel())};
     r['!清理']=function(){localStorage.clear();addAi('本地数据已清除，页面将刷新');setTimeout(function(){location.reload()},1500)};
     r['!帮助']=function(){addAi(buildHelpMsg())};
+    r['!记忆']=function(){
+      var count=SH_API.history?SH_API.history.length:0;
+      addAi('[记忆状态]<br>当前记忆：<b>'+count+'</b> 条对话<br>记忆容量上限：'+SH_API.MAX_HISTORY+' 条<br><br>输入 <b>!清记忆</b> 可清除全部记忆');
+    };
+    r['!清记忆']=function(){
+      SH_API.clearHistory();
+      addAi('对话记忆已清除');
+    };
   },
   match:function(cmd){
     var c=cmd.trim();
@@ -1075,22 +1155,63 @@ var SH_API={
   route:{
     name:'智谱GLM',
     url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',
-    key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',
     model:'glm-4-flash'
   },
+  MAX_HISTORY:20,
+  history:[],
+  getKey:function(){
+    return localStorage.getItem('sh_api_key')||null;
+  },
+  setKey:function(k){
+    localStorage.setItem('sh_api_key',k);
+  },
+  loadHistory:function(){
+    try{
+      var saved=localStorage.getItem('sh_chat_history');
+      if(saved) this.history=JSON.parse(saved);
+    }catch(e){this.history=[]}
+  },
+  saveHistory:function(){
+    try{
+      if(this.history.length>this.MAX_HISTORY){
+        this.history=this.history.slice(-this.MAX_HISTORY);
+      }
+      localStorage.setItem('sh_chat_history',JSON.stringify(this.history));
+    }catch(e){}
+  },
+  addToHistory:function(role,content){
+    this.history.push({role:role,content:content});
+    this.saveHistory();
+  },
+  clearHistory:function(){
+    this.history=[];
+    localStorage.removeItem('sh_chat_history');
+  },
   call:async function(prompt){
+    var key=this.getKey();
+    if(!key){
+      removeTyping();
+      addAi('AI功能未配置。<br><br>请先在 <b>!安保</b> 面板中设置 API Key');
+      return;
+    }
     typing();
     try{
+      var messages=[
+        {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。你简洁、专业、直接地回答问题。如果涉及系统操作，告诉用户使用对应的!指令。回答使用中文。回答要精炼，不要啰嗦。'}
+      ];
+      var histSlice=this.history.slice(-20);
+      for(var i=0;i<histSlice.length;i++){
+        messages.push(histSlice[i]);
+      }
+      messages.push({role:'user',content:prompt});
+      
       var resp=await fetch(this.route.url,{
         method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+this.route.key},
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
         body:JSON.stringify({
           model:this.route.model,
-          messages:[
-            {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。你简洁、专业、直接地回答问题。如果涉及系统操作，告诉用户使用对应的!指令。回答使用中文。'},
-            {role:'user',content:prompt}
-          ],
-          max_tokens:1200,
+          messages:messages,
+          max_tokens:800,
           temperature:0.7
         })
       });
@@ -1098,13 +1219,14 @@ var SH_API={
         var data=await resp.json();
         if(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content){
           removeTyping();
-          addAi(formatAiResponse(data.choices[0].message.content));
+          var reply=data.choices[0].message.content;
+          addAi(formatAiResponse(reply));
+          this.addToHistory('user',prompt);
+          this.addToHistory('assistant',reply);
           return;
         }
       }
-    }catch(e){
-      console.log('AI call failed:',e);
-    }
+    }catch(e){}
     removeTyping();
     addAi('当前无法连接到AI引擎，请稍后重试。<br><br>你也可以输入 <b>!帮助</b> 查看所有可用指令。');
   }
@@ -1195,14 +1317,56 @@ function buildModuleList(){
 
 function buildSecurityInfo(){
   var shield=localStorage.getItem('sh_dna_shield')||'on';
+  var handover=PIN.getHandover();
+  var handoverStatus=handover?'<span class="on">[有]</span>':'<span class="off">[无]</span>';
+  var handoverDisplay=handover?'<span style="color:var(--accent);font-family:monospace">'+handover+'</span>':'<span style="color:var(--text4)">未设置</span>';
+  var apiKey=SH_API.getKey();
+  var apiStatus=apiKey?'<span class="on">[已配置]</span>':'<span class="off">[未配置]</span>';
+  
   var h='<div class="result-box"><div class="rb-title">安全状态</div>';
   h+='<div class="rb-item"><span class="'+(shield==='on'?'on':'off')+'">'+(shield==='on'?'[开启]':'[关闭]')+'</span> DNA防护盾</div>';
   h+='<div class="rb-item"><span class="on">[V]</span> PIN 通行码</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> 15分钟会话超时</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> 30次操作限制</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> iframe注入拦截</div>';
+  h+='<div class="rb-item">'+handoverStatus+' 交接码 '+handoverDisplay+'</div>';
+  h+='<div class="rb-item">'+apiStatus+' AI API Key</div>';
+  h+='<div class="rb-item"><span class="on">[V]</span> 防篡改存储</div>';
+  h+='<div class="rb-item"><span class="on">[V]</span> 暴力破解锁定</div>';
   h+='</div>';
+  
+  h+='<div style="margin-top:12px">';
+  h+='<button onclick="regenerateHandover()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;cursor:pointer;margin-right:8px">重置交接码</button>';
+  h+='<button onclick="showApiKeyInput()" style="padding:8px 16px;background:var(--accent-light);border:1px solid var(--accent);border-radius:8px;font-size:12px;color:var(--accent);cursor:pointer">设置API Key</button>';
+  h+='</div>';
+  
+  h+='<div id="apiKeyInputArea" style="display:none;margin-top:12px">';
+  h+='<input id="apiKeyInput" type="text" placeholder="粘贴智谱API Key" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin-bottom:8px">';
+  h+='<button onclick="saveApiKey()" style="padding:8px 20px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:12px;cursor:pointer">保存</button>';
+  h+='</div>';
+  
   return h;
+}
+
+function regenerateHandover(){
+  var newCode=generateHandover();
+  localStorage.setItem('sh_handover',PIN.encodeValue(newCode));
+  addAi('[交接码已重置]<br><br>新交接码: <b style="color:var(--accent);font-family:monospace">'+newCode+'</b><br><br>请妥善保管，使用一次后自动销毁');
+}
+
+function showApiKeyInput(){
+  var area=document.getElementById('apiKeyInputArea');
+  if(area) area.style.display=area.style.display==='none'?'block':'none';
+}
+
+function saveApiKey(){
+  var input=document.getElementById('apiKeyInput');
+  if(!input) return;
+  var key=input.value.trim();
+  if(key){
+    SH_API.setKey(key);
+    addAi('API Key 已保存');
+    input.value='';
+    var area=document.getElementById('apiKeyInputArea');
+    if(area) area.style.display='none';
+  }
 }
 
 function buildInternalLoop(){
@@ -1535,6 +1699,7 @@ CMD_ROUTER.init();
 MODULE_REGISTRY.load();
 
 function initApp(){
+  SH_API.loadHistory();
   document.getElementById('smName').textContent=CHIP.OWNER;
   updateQuick();
   updateShieldIndicator();
