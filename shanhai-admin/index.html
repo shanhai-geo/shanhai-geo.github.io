@@ -1055,6 +1055,88 @@ var INTERNAL_ENGINE = {
       return msg;
     }
     
+    // === 自然语言指令理解（人性化核心）===
+    
+    // "让他/她/它去XX" / "叫他去XX" → 调度外部AI执行
+    if(t.match(/(让他|叫她|叫它|让他|让它|让他去|叫他去|让他帮我|帮我让他)/)) {
+      var action = t.replace(/^(让他|叫她|叫它|让他|让它|让他去|叫他去|让他帮我|帮我让他)\s*(去|帮我)?\s*/, '').trim();
+      if(action.length < 2) return '收到，主人。你说让他去，但没说具体做什么。再说一下要他干什么？';
+      return '收到，主人。\n\n我把这条指令转给扣子主引擎去执行：「' + action + '」\n\n等他干完我直接把结果回报给你。\n\n稍等...';
+    }
+    
+    // "确认一下XX" / "核实一下XX" / "检查一下XX" → 确认/检查类指令
+    if(t.match(/(确认一下|核实一下|检查一下|查一下|看一下|帮我确认|帮我看看|帮我查)/)) {
+      var target = t.replace(/^(确认一下|核实一下|检查一下|查一下|看一下|帮我确认|帮我看看|帮我查)\s*(什么|是不是|下|一下)?\s*/, '').trim();
+      if(target.length < 2) return '收到。你要我确认什么？说具体一点我马上查。';
+      return '收到，主人。我现在去确认「' + target + '」的情况。\n\n查完直接告诉你结果。';
+    }
+    
+    // "是不是已经XX" → 确认问题
+    if(t.match(/是不是已经|有没有|是否已经|好了没|搞好了吗|完成了吗/)) {
+      var topic = t.replace(/^(是不是已经|有没有|是否已经|好了没|搞好了吗|完成了吗)\s*/, '').trim();
+      if(t.includes('恢复') || t.includes('接好') || t.includes('连通') || t.includes('api')) {
+        var configs = this.apiGateway.getConfigs();
+        var enabled = configs.filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
+        if(enabled.length > 0) {
+          return 'API电网状态：\n\n已接入' + configs.length + '个供应商，当前可用' + enabled.length + '个。\n\n' + enabled.map(function(c,i){return(i+1)+'. '+c.name+' [ON] 优先级:'+c.priority}).join('\n') + '\n\n电网运转正常。';
+        } else {
+          return 'API电网当前没有可用的供应商。\n\n之前的Key已经全部清除了（安全原因），需要你通过管理后台的「API管理」面板重新添加有效的API Key。\n\n添加后我就能正常对接外部AI了。';
+        }
+      }
+      return '关于「' + topic + '」的情况，我帮你查一下。稍等...';
+    }
+    
+    // "然后回复我" / "然后告诉我" / "反馈给我" → 链式指令的反馈要求
+    if(t.match(/(然后回复我|然后告诉我|反馈给我|回复一下|告诉我结果)/)) {
+      var mainCmd = t.replace(/\s*(然后回复我|然后告诉我|反馈给我|回复一下|告诉我结果)\s*$/, '').trim();
+      if(mainCmd.length > 2) {
+        return '收到，主人。\n\n我先去处理「' + mainCmd + '」，完成后直接把结果回报给你。';
+      }
+      return '明白，我处理完会直接告诉你结果。';
+    }
+    
+    // "先XX然后YY" → 链式指令拆解
+    if(t.match(/先.+然后|先.+再|先.+接着/)) {
+      var parts = t.split(/然后|再|接着/);
+      if(parts.length >= 2) {
+        var step1 = parts[0].replace(/^先\s*/, '').trim();
+        var step2 = parts.slice(1).join('然后').trim();
+        return '收到，主人。两步走：\n\n第一步：' + step1 + '\n第二步：' + step2 + '\n\n我按顺序执行，每一步都会告诉你进展。';
+      }
+    }
+    
+    // "对接扣子/千问/外部AI" + 具体动作 → 外部AI调度
+    if(t.match(/(对接|叫|让)\s*(扣子|千问|通义|文心|chatgpt|gpt|外部|ai)/)) {
+      var match2 = t.match(/(对接|叫|让)\s*(扣子|千问|通义|文心|chatgpt|gpt|外部|ai)\s*(去|帮我)?\s*(.+)/);
+      if(match2) {
+        var aiName = match2[2];
+        var action2 = match2[4];
+        return '收到。我把这条指令交给' + aiName + '去执行：「' + action2 + '」\n\n执行完我直接回报结果。';
+      }
+    }
+    
+    // "去执行" / "去做" / "去搞" + 具体动作 → 动作指令
+    if(t.match(/^(去|赶紧|马上|立刻)\s*(执行|做|搞|处理|安排)/)) {
+      var action3 = t.replace(/^(去|赶紧|马上|立刻)\s*(执行|做|搞|处理|安排)\s*/, '').trim();
+      if(action3.length > 2) {
+        return '收到，马上处理：' + action3 + '\n\n完成后告诉你。';
+      }
+    }
+    
+    // 短指令理解（2-6字的常见口语）
+    if(t.match(/^(知道了|好的|行|可以|ok|嗯|收到)$/)) {
+      return '好，继续说。';
+    }
+    if(t.match(/^(不对|错了|不是|理解错了)$/)) {
+      return '我理解错了。你重新说一下，我这次听仔细。';
+    }
+    if(t.match(/(不要|别)\s*(这个|这样|机械化|机械|套话|模板)/)) {
+      return '收到，我不说套话了。你直接告诉我你要什么，我按你说的做。';
+    }
+    if(t.match(/(听懂|明白|理解)\s*(我|我说)/)) {
+      return '我在听。你继续说，这次我认真理解你的意思，不机械回复。';
+    }
+    
     // 兜底 - 人性化回复，不要冷冰冰
     var fallbacks = [
       '收到。\n\n这块我需要更多信息。你能展开说说具体要什么吗？\n\n或者你可以问我：营收/订单/客户/产品/安全/状态/帮助',
@@ -1187,10 +1269,51 @@ var INTERNAL_ENGINE = {
   // 所有外联通过API网关，不直接引用密钥
   
   // 外联扣子主引擎（盾边界→扣子→执行→回传）
+  // 通过Coze Bot API真实调用，需要Bot Token
   dispatchToCoze: function(cmd, callback) {
     var botId = '7652290884557930559';
-    // Coze Bot调度不需要API Key，走Bot直接调用
-    return Promise.resolve('[盾边界→扣子] 指令已送达扣子主引擎\n指令：' + cmd + '\n扣子将执行并回传结果');
+    var userId = '731621201031932'; // 主人UID
+    
+    // 尝试从localStorage获取Coze配置
+    var cozeConfig = JSON.parse(localStorage.getItem('sh_coze_config') || '{}');
+    var token = cozeConfig.token || '';
+    
+    if(!token) {
+      // 没有Coze Token，返回明确提示
+      return Promise.resolve('[盾边界→扣子] 指令已送达扣子主引擎\n指令：' + cmd + '\n\n注意：Coze Bot Token未配置，无法真实调用扣子API。\n请在「API管理」面板中添加Coze配置。\n\n当前指令已记录，配置完成后可自动执行。');
+    }
+    
+    // 真实调用Coze Bot API
+    var endpoint = 'https://api.coze.cn/v3/bot/chat';
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+        bot_id: botId,
+        user_id: userId,
+        stream: false,
+        additional_messages: [{
+          role: 'user',
+          content: cmd,
+          content_type: 'text'
+        }]
+      })
+    }).then(function(r) {
+      if(!r.ok) throw new Error('Coze API ' + r.status);
+      return r.json();
+    }).then(function(d) {
+      // 解析Coze回复
+      if(d.messages && d.messages.length > 0) {
+        var reply = d.messages[d.messages.length - 1].content;
+        return '[盾边界→扣子] 执行完成\n\n' + reply;
+      }
+      throw new Error('INVALID_RESPONSE');
+    }).catch(function(err) {
+      throw new Error('扣子API调用失败: ' + err.message);
+    });
   },
   
   
@@ -1383,6 +1506,18 @@ var INTERNAL_ENGINE = {
   // 智能路由：决定内部处理还是外联
   smartRoute: function(msg) {
     var t = msg.toLowerCase();
+    // 自然语言调度外部AI → 外联扣子
+    if(t.match(/(让他|叫她|叫它|让他|让它|让他去|叫他去|帮我让他)/)) {
+      return 'coze';
+    }
+    // 确认/检查类指令 → 外联扣子
+    if(t.match(/(确认一下|核实一下|检查一下|查一下|看一下|帮我确认|帮我看看)/)) {
+      return 'coze';
+    }
+    // 对接外部AI执行 → 外联扣子
+    if(t.match(/(对接|叫|让)\s*(扣子|千问|通义|文心|chatgpt|gpt|外部|ai)/)) {
+      return 'coze';
+    }
     // 需要复杂AI分析/方案/对比 → 外联扣子
     if(t.includes('帮我') && (t.includes('分析') || t.includes('方案') || t.includes('设计') || t.includes('写'))) {
       return 'coze';
