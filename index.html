@@ -421,9 +421,9 @@ function updateServiceStatus(){
 /* === SH_API 零成本AI引擎（3路冗余） === */
 var SH_API={
   // 主路:硅基流动·永久免费
-  primary:{url:'https://api.siliconflow.cn/v1/chat/completions',key:'sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug',model:'Qwen/Qwen2.5-7B-Instruct'},
+  primary:{url:'https://api.siliconflow.cn/v1/chat/completions',key:'YOUR_SILICONFLOW_KEY',model:'Qwen/Qwen2.5-7B-Instruct'},
   // 备路1:智谱·永久免费
-  fallback1:{url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash'},
+  fallback1:{url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'YOUR_BIGMODEL_KEY',model:'glm-4-flash'},
   // 备路2:火山引擎·50万token免费额度
   fallback2:{url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',key:'ark-4362705d-b89f-4c42-a90f-8f1484051e01-1fe58',model:'doubao-seed-2-0-lite-260428'},
   async chat(messages){
@@ -775,7 +775,7 @@ var NOTIFY_CONFIG={
   coze:{
     endpoint:'https://api.coze.cn/v3/chat',
     bot_id:'',              // ← 待配置：扣子智能体ID（发布为API后填入）
-    pat:'pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3',
+    pat:'YOUR_COZE_PAT',
     user_id:'web_order'
   },
   email:'shanhai-fd@coze.email'
