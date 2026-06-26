@@ -157,7 +157,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 }
 
 /* 消息行 */
-.msg{display:flex;gap:10px;margin-bottom:16px;animation:msgIn .3s ease}
+.msg{display:flex;gap:10px;margin-bottom:16px;animation:msgIn .3s ease;will-change:transform;content-visibility:auto;contain-intrinsic-size:auto 80px}
 @keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 .msg-ai{flex-direction:row;align-items:flex-start}
@@ -196,6 +196,14 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   border-radius:18px 4px 18px 18px;
   box-shadow:0 2px 8px rgba(46,204,113,0.2);
 }
+
+/* 流式输出光标 */
+.msg-bubble.streaming::after{
+  content:'';display:inline-block;width:2px;height:14px;
+  background:var(--accent);margin-left:2px;vertical-align:middle;
+  animation:blink .6s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 .msg-time{font-size:10px;color:var(--text4);margin-top:4px;padding:0 4px}
 
@@ -552,7 +560,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V29</span>
+      <span class="nav-badge ver">V31</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -625,7 +633,7 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V29',
+  VERSION:'V31',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'77-59-62-65-74-75',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -975,12 +983,18 @@ function confirmPinSetup(){
   localStorage.setItem('sh_handover',PIN.encodeValue(newHandover));
 
   document.getElementById('pinSetupOverlay').classList.remove('show');
-  document.getElementById('pinStatus').innerHTML='通行码已设置，验证通过<br><br><span style="color:#2ecc71;font-size:11px">交接码: '+newHandover+'<br>请妥善保管，移交时使用一次后销毁</span>';
+  
+  // 醒目展示交接码
+  var statusEl=document.getElementById('pinStatus');
+  statusEl.innerHTML='<span style="color:#2ecc71">通行码已设置</span><br><br>'+
+    '<span style="font-size:10px;color:rgba(255,255,255,0.5)">交接码(主权移交凭证):</span><br>'+
+    '<span style="font-size:24px;letter-spacing:6px;color:#e74c3c;font-weight:700;font-family:monospace">'+newHandover+'</span><br>'+
+    '<span style="font-size:10px;color:rgba(255,255,255,0.4)">请立即记录，使用后焚毁</span>';
 
   // 更新dots为成功状态
   for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
 
-  setTimeout(correctPin,3000);
+  setTimeout(correctPin,4000);
 }
 
 function correctPin(){
@@ -1009,7 +1023,8 @@ function initPin(){
 
   if(stored){
     statusEl.textContent='请输入通行码';
-    hintEl.textContent='';
+    resetEl.style.display='block';
+    hintEl.textContent='忘记通行码可用交接码恢复';
   }else{
     var burned=localStorage.getItem('sh_handover_burned');
     if(burned){
@@ -1318,6 +1333,25 @@ var AUTH_METHODS={
 };
 AUTH_METHODS.load();
 
+// 安全门禁：敏感操作前调用，返回Promise<boolean>
+function securityGate(requiredLevel,actionName){
+  if(AUTH_METHODS.checkLevel(requiredLevel)){
+    return Promise.resolve(true);
+  }
+  var bio=AUTH_METHODS.getActiveBiometrics();
+  var need=requiredLevel===2?'1项生物认证':requiredLevel===3?'2项生物认证':'全因子认证';
+  if(bio.length===0){
+    // 无生物认证，降级到PIN确认
+    var pin=prompt('[安全验证] '+actionName+'\n需要'+need+'\n当前仅有密码级保护\n\n请输入通行码确认身份:');
+    if(pin&&pin===PIN.getStored())return Promise.resolve(true);
+    toast('身份验证失败，操作取消');
+    return Promise.resolve(false);
+  }
+  // 有生物认证但未达等级要求，提示注册更多
+  toast('需要'+need+'，当前已激活'+bio.length+'项');
+  return Promise.resolve(false);
+}
+
 // === 安全设置面板 ===
 function buildSecurityPanel(){
   var h='';
@@ -1419,12 +1453,21 @@ function confirmChangePin(){
   if(nw.length!==6||!/^\d{6}$/.test(nw)){toast('新通行码须为6位数字');return}
   if(nw!==cf){toast('两次输入不一致');return}
   if(nw===old){toast('新码不能与旧码相同');return}
-  // 若已启用生物认证(L3)，需要额外验证
+  // 若已启用生物认证，需额外生物验证确认本人
   var bio=AUTH_METHODS.getActiveBiometrics();
-  if(bio.length>=2){
-    toast('基因级保护：需生物认证确认');
-    // TODO: 触发活体检测流程，确认是主人本人
+  if(bio.length>=1){
+    var bioMethod=bio[0];
+    toast('需'+bioMethod.name+'验证本人身份');
+    bioMethod.verify().then(function(ok){
+      if(!ok){toast('生物认证未通过，拒绝修改');return}
+      doChangePin(nw);
+    });
+  }else{
+    doChangePin(nw);
   }
+}
+
+function doChangePin(nw){
   localStorage.setItem('sh_pin',PIN.encodeValue(nw));
   PIN.storedPin=nw;
   var newHandover=generateHandover();
@@ -1631,18 +1674,16 @@ var SH_API={
     var key=this.getKey();
     if(!key){
       removeTyping();
-      addAi('AI功能未配置。<br><br>请先在 <b>!安保</b> 面板中设置 API Key');
+      addAi('AI功能未配置<br>输入 !安保 设置API Key');
       return;
     }
     typing();
     try{
       var messages=[
-        {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。你简洁、专业、直接地回答问题。如果涉及系统操作，告诉用户使用对应的!指令。回答使用中文。回答要精炼，不要啰嗦。'}
+        {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。简洁专业直接，涉及系统操作告诉用户对应!指令，中文回答，精炼不啰嗦。'}
       ];
       var histSlice=this.history.slice(-20);
-      for(var i=0;i<histSlice.length;i++){
-        messages.push(histSlice[i]);
-      }
+      for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
       messages.push({role:'user',content:prompt});
       
       var resp=await fetch(this.route.url,{
@@ -1652,23 +1693,75 @@ var SH_API={
           model:this.route.model,
           messages:messages,
           max_tokens:800,
-          temperature:0.7
+          temperature:0.7,
+          stream:true
         })
       });
-      if(resp.ok){
-        var data=await resp.json();
-        if(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content){
-          removeTyping();
-          var reply=data.choices[0].message.content;
-          addAi(formatAiResponse(reply));
-          this.addToHistory('user',prompt);
-          this.addToHistory('assistant',reply);
-          return;
+      if(!resp.ok){throw new Error('HTTP '+resp.status)}
+      
+      var reader=resp.body.getReader();
+      var decoder=new TextDecoder();
+      var fullReply='';
+      var msgEl=null;
+      var buffer='';
+      var lastRender=0;
+      
+      while(true){
+        var {done,value}=await reader.read();
+        if(done)break;
+        buffer+=decoder.decode(value,{stream:true});
+        var lines=buffer.split('\n');
+        buffer=lines.pop();
+        for(var li=0;li<lines.length;li++){
+          var line=lines[li].trim();
+          if(!line.startsWith('data:'))continue;
+          var data=line.slice(5).trim();
+          if(data==='[DONE]')continue;
+          try{
+            var p=JSON.parse(data);
+            var delta=p.choices&&p.choices[0]&&p.choices[0].delta&&p.choices[0].delta.content;
+            if(delta){
+              fullReply+=delta;
+              var now=Date.now();
+              if(!msgEl||now-lastRender>30){
+                if(!msgEl){
+                  removeTyping();
+                  var t=new Date();
+                  var hh=t.getHours(),mm=t.getMinutes();
+                  var ts=(hh<10?'0'+hh:hh)+':'+(mm<10?'0'+mm:mm);
+                  msgEl=document.createElement('div');
+                  msgEl.className='msg msg-ai';
+                  msgEl.innerHTML='<div class="msg-avatar">山</div><div class="msg-content"><div class="msg-bubble streaming"></div><div class="msg-time">'+ts+'</div></div>';
+                  chatArea.appendChild(msgEl);
+                }
+                msgEl.querySelector('.msg-bubble').innerHTML=formatAiResponse(fullReply);
+                chatArea.scrollTop=chatArea.scrollHeight;
+                lastRender=now;
+              }
+            }
+          }catch(pe){}
         }
       }
-    }catch(e){}
-    removeTyping();
-    addAi('当前无法连接到AI引擎，请稍后重试。<br><br>你也可以输入 <b>!帮助</b> 查看所有可用指令。');
+      
+      if(!fullReply){
+        removeTyping();
+        addAi('AI引擎无响应，请检查API Key或稍后重试');
+        return;
+      }
+      if(msgEl){
+        var bubble=msgEl.querySelector('.msg-bubble');
+        if(bubble)bubble.classList.remove('streaming');
+        chatArea.scrollTop=chatArea.scrollHeight;
+      }else{
+        removeTyping();
+        addAi(formatAiResponse(fullReply));
+      }
+      this.addToHistory('user',prompt);
+      this.addToHistory('assistant',fullReply);
+    }catch(e){
+      removeTyping();
+      addAi('连接异常: '+(e.message||'未知错误')+'<br>输入 !帮助 查看离线指令');
+    }
   }
 };
 
@@ -1786,9 +1879,12 @@ function buildSecurityInfo(){
 }
 
 function regenerateHandover(){
-  var newCode=generateHandover();
-  localStorage.setItem('sh_handover',PIN.encodeValue(newCode));
-  addAi('[交接码已重置]<br><br>新交接码: <b style="color:var(--accent);font-family:monospace">'+newCode+'</b><br><br>请妥善保管，使用一次后自动销毁');
+  securityGate(2,'重置交接码').then(function(ok){
+    if(!ok)return;
+    var newCode=generateHandover();
+    localStorage.setItem('sh_handover',PIN.encodeValue(newCode));
+    addAi('[交接码已重置]<br><br>新交接码: <b style="color:var(--accent);font-family:monospace">'+newCode+'</b><br><br>请立即记录，使用一次后自动销毁');
+  });
 }
 
 function showApiKeyInput(){
@@ -1890,7 +1986,8 @@ function buildMasterPanel(){
   h+='<div class="ms-toggle '+ms+'" onclick="toggleMaster()"></div>';
   h+='<div class="ms-actions">';
   if(ms!=='open')h+='<button onclick="setMaster(\'open\')" style="background:var(--green)">重启</button>';
-  h+='<button onclick="setMaster(\'sealed\')" style="background:var(--purple)">封存</button>';
+  if(ms==='sealed')h+='<button onclick="unsealSystem()" style="background:var(--red)">解封(需交接码)</button>';
+  if(ms!=='sealed')h+='<button onclick="sealSystem()" style="background:var(--purple)">封存</button>';
   h+='</div></div>';
   return h;
 }
@@ -1905,6 +2002,25 @@ function setMaster(state){
   updateShieldIndicator();
   toast('系统'+{open:'已开启',closed:'已关闭',sealed:'已封存'}[state]);
   openDetail('port');
+}
+
+function sealSystem(){
+  if(!confirm('封存将关闭所有端口，系统进入不可操作状态\n解封需要交接码，确认封存？')){return}
+  setMaster('sealed');
+  addAi('[系统已封存]<br>所有端口已关闭，进入不可操作状态<br>解封需输入交接码验证身份');
+}
+
+function unsealSystem(){
+  var code=prompt('请输入交接码解封系统');
+  if(!code)return;
+  var handover=PIN.getHandover();
+  if(handover&&code===handover){
+    setMaster('open');
+    addAi('[系统已解封]<br>所有端口恢复正常运转');
+  }else{
+    toast('交接码错误，解封失败');
+    addLog('security','解封失败','交接码错误');
+  }
 }
 
 function togglePort(el){
@@ -1945,12 +2061,15 @@ function buildShieldPanel(){
 }
 
 function toggleShield(){
-  var shield=localStorage.getItem('sh_dna_shield')||'on';
-  var newState=shield==='on'?'off':'on';
-  localStorage.setItem('sh_dna_shield',newState);
-  updateShieldVisual();
-  toast('防护盾'+(newState==='on'?'已开启':'已关闭'));
-  updateShieldIndicator();
+  securityGate(2,'防护盾开关').then(function(ok){
+    if(!ok)return;
+    var shield=localStorage.getItem('sh_dna_shield')||'on';
+    var newState=shield==='on'?'off':'on';
+    localStorage.setItem('sh_dna_shield',newState);
+    updateShieldVisual();
+    toast('防护盾'+(newState==='on'?'已开启':'已关闭'));
+    updateShieldIndicator();
+  });
 }
 
 function updateShieldVisual(){
