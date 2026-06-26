@@ -2236,20 +2236,22 @@ function processCmd(cmd){
   callAI(cmd);
 }
 
-// === AI 神经系统 (V28: 正式接入) ===
+// === AI 神经系统 (V32: 三路供电) ===
 var SH_API={
-  route:{
-    name:'智谱GLM',
-    url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',
-    model:'glm-4-flash'
-  },
+  routes:[
+    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',lsKey:'sh_api_key'},
+    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',model:'Qwen/Qwen2.5-7B-Instruct',key:'sk-tzdkhzazjcboslsdywjhavwhyogrlpxmbidneaycfatwajvw',lsKey:'sh_api_key_2'},
+    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:'',lsKey:'sh_api_key_3'}
+  ],
+  currentRoute:0,
   MAX_HISTORY:20,
   history:[],
-  getKey:function(){
-    return localStorage.getItem('sh_api_key')||'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt';
+  getKey:function(idx){
+    var r=this.routes[idx||0];
+    return localStorage.getItem(r.lsKey)||r.key||null;
   },
   setKey:function(k){
-    localStorage.setItem('sh_api_key',k);
+    localStorage.setItem(this.routes[this.currentRoute].lsKey,k);
   },
   loadHistory:function(){
     try{
@@ -2273,42 +2275,57 @@ var SH_API={
     this.history=[];
     localStorage.removeItem('sh_chat_history');
   },
+  callRoute:async function(routeIdx,prompt,messages){
+    var r=this.routes[routeIdx];
+    var key=this.getKey(routeIdx);
+    if(!key) throw new Error(r.name+' 未配置Key');
+    var resp=await fetch(r.url,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model:r.model,messages:messages,max_tokens:800,temperature:0.7,stream:true})
+    });
+    if(!resp.ok) throw new Error(r.name+' HTTP '+resp.status);
+    return {resp:resp,route:r};
+  },
   call:async function(prompt){
-    var key=this.getKey();
-    if(!key){
+    var hasAnyKey=false;
+    for(var i=0;i<this.routes.length;i++){if(this.getKey(i)){hasAnyKey=true;break;}}
+    if(!hasAnyKey){
       removeTyping();
-      addAi('AI功能未配置<br>输入 !安保 设置API Key');
+      addAi('AI功能未配置<br>输入 !设置Key 配置API Key');
       return;
     }
     typing();
+    var messages=[
+      {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。简洁专业直接，涉及系统操作告诉用户对应!指令，中文回答，精炼不啰嗦。'}
+    ];
+    var histSlice=this.history.slice(-20);
+    for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
+    messages.push({role:'user',content:prompt});
+    var result=null;
+    var triedRoutes=[];
+    for(var ri=0;ri<this.routes.length;ri++){
+      try{
+        result=await this.callRoute(ri,prompt,messages);
+        this.currentRoute=ri;
+        break;
+      }catch(e){
+        triedRoutes.push(this.routes[ri].name+':'+e.message);
+        continue;
+      }
+    }
+    if(!result){
+      removeTyping();
+      addAi('三路引擎均不可用<br>'+triedRoutes.join('<br>'));
+      return;
+    }
     try{
-      var messages=[
-        {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。简洁专业直接，涉及系统操作告诉用户对应!指令，中文回答，精炼不啰嗦。'}
-      ];
-      var histSlice=this.history.slice(-20);
-      for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
-      messages.push({role:'user',content:prompt});
-      
-      var resp=await fetch(this.route.url,{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-        body:JSON.stringify({
-          model:this.route.model,
-          messages:messages,
-          max_tokens:800,
-          temperature:0.7,
-          stream:true
-        })
-      });
-      if(!resp.ok){throw new Error('HTTP '+resp.status)}
-      
-      var reader=resp.body.getReader();
+      var reader=result.resp.body.getReader();
       var decoder=new TextDecoder();
       var fullReply='';
       var msgEl=null;
       var buffer='';
       var lastRender=0;
-      
       while(true){
         var {done,value}=await reader.read();
         if(done)break;
@@ -2345,10 +2362,9 @@ var SH_API={
           }catch(pe){}
         }
       }
-      
       if(!fullReply){
         removeTyping();
-        addAi('AI引擎无响应，请检查API Key或稍后重试');
+        addAi(result.route.name+' 无响应，尝试其他引擎...');
         return;
       }
       if(msgEl){
