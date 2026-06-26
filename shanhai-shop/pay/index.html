@@ -19,8 +19,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .wx-btn:active{opacity:.85}
 .divider{height:1px;background:#e8e0d6;margin:18px 0;position:relative}
 .divider::after{content:"付款后在此确认";position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#fff;padding:0 10px;font-size:12px;color:#c0392b;font-weight:600}
-.input-box{width:100%;font-size:16px;padding:14px;border:2px solid #c9a96e;border-radius:10px;margin-top:12px;outline:none;text-align:center}
+.row{display:flex;gap:8px;margin-top:12px}
+.input-box{width:100%;font-size:16px;padding:14px;border:2px solid #c9a96e;border-radius:10px;outline:none;text-align:center}
 .input-box:focus{border-color:#8b6914}
+.input-box.full{margin-top:12px}
 .confirm-btn{width:100%;padding:14px;font-size:16px;font-weight:700;color:#fff;background:linear-gradient(135deg,#c9a96e,#8b6914);border:none;border-radius:10px;cursor:pointer;margin-top:12px}
 .confirm-btn:active{opacity:.85}
 .confirm-btn:disabled{opacity:.5;cursor:default}
@@ -40,7 +42,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 <div class="scan-sub">金额已固定298元，扫码输密码即可</div>
 <button class="wx-btn" onclick="copyLink()">分享到微信付款</button>
 <div class="divider"></div>
-<input class="input-box" id="fPhone" type="tel" placeholder="输入手机号（接收密钥用）" maxlength="11">
+<input class="input-box full" id="fPhone" type="tel" placeholder="手机号（接收密钥）" maxlength="11">
+<div class="row">
+<input class="input-box" id="fTail" type="tel" placeholder="付款账号后4位" maxlength="4">
+</div>
+<div style="font-size:10px;color:#bbb;margin-top:4px;text-align:left;padding-left:4px">付款账号后4位：微信/支付宝/银行卡尾号，用于核对付款人</div>
 <button class="confirm-btn" id="confirmBtn" onclick="confirmPay()">已付款，确认</button>
 <div class="hint">7天无理由退款保障</div>
 <div class="result" id="result"></div>
@@ -49,14 +55,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 <script>
 function confirmPay(){
   var phone=document.getElementById('fPhone').value.trim();
+  var tail=document.getElementById('fTail').value.trim();
   if(!phone||phone.length!==11){alert('请输入11位手机号');return}
+  if(!tail||tail.length!==4){alert('请输入付款账号后4位');return}
   var oid='SH'+Date.now().toString(36).toUpperCase();
   var btn=document.getElementById('confirmBtn');
   btn.disabled=true;
   btn.textContent='已提交...';
   document.getElementById('result').style.display='block';
-  document.getElementById('result').innerHTML='订单号：<b>'+oid+'</b><br>手机：<b>'+phone+'</b><br>状态：<b style="color:#c0392b">付款确认中</b><br><br>确认到款后短信交付密钥，通常1小时内完成。';
-  // 静默通知运营方（发邮件，客户无感知）
+  document.getElementById('result').innerHTML='订单号：<b>'+oid+'</b><br>手机：<b>'+phone+'</b><br>付款尾号：<b>'+tail+'</b><br>状态：<b style="color:#c0392b">付款确认中</b><br><br>确认到款后短信交付密钥，通常1小时内完成。';
   var now=new Date();
   var timeStr=now.getFullYear()+'-'+(now.getMonth()+1).toString().padStart(2,'0')+'-'+now.getDate().toString().padStart(2,'0')+' '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
   try{
@@ -68,7 +75,7 @@ function confirmPay(){
         user_id:'web_order',
         stream:false,
         auto_save_history:false,
-        additional_messages:[{role:'user',content:'请用email_request发送邮件给746876121@qq.com，主题：[山海新订单] '+oid+'，正文：\n\n订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n客户手机：'+phone+'\n确认时间：'+timeStr+'\n\n对账方式：在拉卡拉后台按时间「'+timeStr+'」前后查找298元入账，匹配后回复客户手机号交付密钥。\n\n如同时有多笔298元，按时间先后+手机号一一对应。',content_type:'text'}]
+        additional_messages:[{role:'user',content:'请用email_request发送邮件给746876121@qq.com，主题：[山海新订单] '+oid+'，正文：\n\n订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n客户手机：'+phone+'\n付款尾号：'+tail+'\n确认时间：'+timeStr+'\n\n对账方式：在拉卡拉后台按时间「'+timeStr+'」前后查找298元入账，核对付款账号后4位是否为「'+tail+'」，匹配后短信交付密钥。\n\n如同时有多笔298元，按时间+付款尾号+手机号三重匹配。',content_type:'text'}]
       })
     }).catch(function(){});
   }catch(e){}
