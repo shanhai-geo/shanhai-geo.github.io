@@ -852,6 +852,8 @@ function processCmd(text){
     INTERNAL_ENGINE.executionTracker.clear();
     addAi('执行历史已清空。');
   }
+  else {
+
   else if(t.includes('自诊断') || t.includes('诊断') || t.includes('路演')) {
     var _s2 = calcRev();
     var _cfgs2 = this.apiGateway.getConfigs();
@@ -885,7 +887,6 @@ function processCmd(text){
     _msg += '底线：API线路保持3条以上，任何一条挂了自动切换';
     addAi(_msg.replace(/\n/g,'<br>'));
   }
-  else {
       // === 外部AI优先·关键词直出·零机械感 ===
     // 自然对话→直接走AI，!命令→内部引擎直出，API不可用→关键词兜底
     var execStart = Date.now();
