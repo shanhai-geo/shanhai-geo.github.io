@@ -2,69 +2,102 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
 <title>付款 - 山海智能</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#1a1a2e 0%%,#16213e 50%%,#0f3460 100%%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#fff}
-.卡片{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border:1px solid rgba(200,168,78,0.3);border-radius:20px;padding:32px 24px;max-width:400px;width:100%%;text-align:center}
-.标题{font-size:24px;font-weight:900;background:linear-gradient(135deg,#e8c547,#f5af19);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
-.产品名{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:20px}
-.金额框{background:rgba(200,168,78,0.1);border:2px solid rgba(200,168,78,0.4);border-radius:16px;padding:16px;margin-bottom:20px}
-.金额{font-size:52px;font-weight:900;color:#e8c547;line-height:1.2}
-.金额 .单位{font-size:22px}
-.金额 .周期{display:block;font-size:13px;color:rgba(255,255,255,0.4);font-weight:400;margin-top:4px}
-.二维码区{margin:24px 0}
-.扫码提示{font-size:15px;color:rgba(255,255,255,0.8);margin-bottom:14px;font-weight:600}
-.二维码框{display:inline-block;padding:16px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(232,197,71,0.3)}
-.二维码框 img{display:block;width:220px;height:220px}
-.扫码指引{margin-top:14px;font-size:14px;color:#07c160;font-weight:700}
-.扫码说明{font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px}
-.流程{margin:24px 0;text-align:left;background:rgba(255,255,255,0.05);border-radius:12px;padding:16px}
-.流程项{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:14px;line-height:1.5}
-.流程项:last-child{margin-bottom:0}
-.流程号{width:26px;height:26px;border-radius:50%%;background:linear-gradient(135deg,#e8c547,#d4a437);color:#1a1a2e;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0}
-.流程文字{color:rgba(255,255,255,0.8);padding-top:2px}
-.流程文字 b{color:#e8c547}
-.返回按钮{display:inline-block;margin-top:20px;padding:12px 32px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:12px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;font-weight:600}
-.返回按钮:active{background:rgba(255,255,255,0.2)}
-.保障{margin-top:14px;font-size:11px;color:rgba(255,255,255,0.25);line-height:1.6}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;background:#f5f0eb;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;border-radius:16px;padding:32px 24px;max-width:360px;width:100%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.1)}
+.amount{font-size:36px;font-weight:900;color:#c0392b;margin:16px 0 4px}
+.unit{font-size:14px;color:#888}
+.pay-btn{display:block;width:100%;padding:16px;font-size:18px;font-weight:700;color:#fff;background:linear-gradient(135deg,#b8860b,#d4a028);border:none;border-radius:12px;cursor:pointer;text-decoration:none;margin-top:24px}
+.pay-btn:active{opacity:.85}
+.hint{font-size:12px;color:#bbb;margin-top:12px}
+.wechat-tip{background:#07c160;color:#fff;padding:12px 16px;border-radius:8px;margin-top:16px;font-size:13px;display:none}
+.wechat-tip a{color:#fff;font-weight:700;text-decoration:underline}
+.err{color:#c0392b;font-size:14px;margin-top:16px;display:none}
 </style>
 </head>
 <body>
-<div class="卡片">
-<div class="标题">山海智能</div>
-<div class="产品名" id="产品名">接口服务 · 入门版</div>
-
-<div class="金额框">
-<div class="金额"><span class="单位">¥</span><span id="金额数">298</span><span class="周期">/年 · 每天不到1块钱</span></div>
+<div class="card">
+<div style="font-size:14px;color:#888">山海智能</div>
+<div class="amount" id="amtShow">298<span class="unit">元/年</span></div>
+<div style="font-size:13px;color:#666;margin-top:4px" id="prodShow">入门版 · 智能接口服务</div>
+<button class="pay-btn" id="payBtn" onclick="goPay()">立即付款</button>
+<div class="hint">7天无理由退款保障</div>
+<div class="wechat-tip" id="wxTip">请在微信中打开本页面完成付款<br><a href="javascript:copyLink()">点此复制链接，到微信中粘贴打开</a></div>
+<div class="err" id="errMsg"></div>
 </div>
-
-<div class="二维码区">
-<div class="扫码提示">打开微信扫一扫</div>
-<div class="二维码框">
-<img src="data:image/png;base64,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" alt="付款二维码">
-</div>
-<div class="扫码指引">对准上方二维码扫描 → 直接付款</div>
-<div class="扫码说明">金额已固定，输入支付密码即可完成</div>
-</div>
-
-<div class="流程">
-<div class="流程项"><div class="流程号">1</div><div class="流程文字">打开微信 <b>扫一扫</b>，扫描上方二维码</div></div>
-<div class="流程项"><div class="流程号">2</div><div class="流程文字">进入付款页面，金额已固定，<b>输入支付密码</b></div></div>
-<div class="流程项"><div class="流程号">3</div><div class="流程文字">付款完成后，点下方按钮 <b>回到商城确认订单</b></div></div>
-</div>
-
-<a class="返回按钮" href="https://shanhai-geo.github.io/shanhai-shop/">← 已付款？点这里确认订单</a>
-<div class="保障">7天无理由退款 · 支付由持牌支付机构乐刷提供安全保障</div>
-</div>
-
 <script>
-var 参数 = new URLSearchParams(window.location.search);
-var 金额 = 参数.get('amt');
-var 产品 = 参数.get('prod');
-if(金额) document.getElementById('金额数').textContent = 金额;
-if(产品) document.getElementById('产品名').textContent = '接口服务 · ' + 产品;
+var PAY_URL='https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145';
+var isWeChat=/MicroMessenger/i.test(navigator.userAgent);
+
+// 读取URL参数
+var params=new URLSearchParams(location.search);
+var amt=params.get('amt')||'298';
+var prod=params.get('prod')||'入门版';
+document.getElementById('amtShow').innerHTML=amt+'<span class="unit">元/年</span>';
+document.getElementById('prodShow').textContent=prod+' · 智能接口服务';
+
+function goPay(){
+  if(isWeChat){
+    // 微信内直接跳转，乐刷会正常处理
+    location.href=PAY_URL;
+  }else{
+    // 非微信浏览器：尝试唤起微信
+    // 方案1：尝试通过scheme唤起微信
+    var wxUrl='weixin://dl/business/?url='+encodeURIComponent(PAY_URL);
+    var opened=false;
+    var start=Date.now();
+    
+    // 尝试用iframe唤起
+    var ifr=document.createElement('iframe');
+    ifr.src=wxUrl;
+    ifr.style.display='none';
+    document.body.appendChild(ifr);
+    
+    // 如果2秒后页面还在，说明唤起失败
+    setTimeout(function(){
+      document.body.removeChild(ifr);
+      if(Date.now()-start<3000){
+        // 唤起成功
+        opened=true;
+      }
+      if(!opened){
+        // 唤起失败，提示用户
+        document.getElementById('wxTip').style.display='block';
+        document.getElementById('payBtn').textContent='已复制链接，请到微信打开';
+        document.getElementById('payBtn').onclick=copyLink;
+      }
+    },2000);
+    
+    // 同时也尝试直接跳转（某些安卓浏览器支持）
+    window.location.href=wxUrl;
+  }
+}
+
+function copyLink(){
+  var url=location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(function(){alert('链接已复制，请打开微信粘贴访问')});
+  }else{
+    var inp=document.createElement('textarea');
+    inp.value=url;
+    document.body.appendChild(inp);
+    inp.select();
+    document.execCommand('copy');
+    document.body.removeChild(inp);
+    alert('链接已复制，请打开微信粘贴访问');
+  }
+}
+
+// 如果在微信中，自动跳转
+if(isWeChat){
+  document.getElementById('payBtn').textContent='正在跳转付款页...';
+  setTimeout(function(){location.href=PAY_URL},500);
+}
 </script>
 </body>
 </html>
