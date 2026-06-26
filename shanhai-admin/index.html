@@ -804,17 +804,29 @@ function resetInactivity(){SESSION.lastActive=Date.now()}
 
 // PIN 键盘事件绑定 (V28: 用事件委托，更可靠)
 var padEl=document.getElementById('pinPad');
-function handlePinKey(e){
-  var btn=e.target.closest('.pin-key');
-  if(!btn)return;
-  e.preventDefault();
+var pinTouchHandled=false;
+function doPinAction(btn){
   var k=btn.dataset.k;
   if(k==='clear'){PIN.clearInput();return}
   if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
   pinIn(k);
 }
-padEl.addEventListener('touchend',handlePinKey,{passive:false});
-padEl.addEventListener('click',handlePinKey);
+padEl.addEventListener('touchstart',function(e){
+  var btn=e.target.closest('.pin-key');
+  if(!btn)return;
+  e.preventDefault();
+  pinTouchHandled=true;
+  btn.style.background='rgba(46,204,113,0.3)';
+  btn.style.borderColor='#2ecc71';
+  doPinAction(btn);
+  setTimeout(function(){btn.style.background='';btn.style.borderColor='';},150);
+},{passive:false});
+padEl.addEventListener('click',function(e){
+  if(pinTouchHandled){pinTouchHandled=false;return;}
+  var btn=e.target.closest('.pin-key');
+  if(!btn)return;
+  doPinAction(btn);
+});
 
 function pinIn(d){
   if(PIN.input.length>=6)return;
