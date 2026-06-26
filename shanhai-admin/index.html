@@ -20,7 +20,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   --surface2:#f8f9fa;
   --border:#e8e8e8;
   --border-light:#f0f0f0;
-  --text:#1a1a1a;
+  --text:#1b2838;
   --text2:#666666;
   --text3:#999999;
   --text4:#bcbcbc;
@@ -187,7 +187,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 
 .msg-bubble{
   position:relative;padding:11px 15px;
-  font-size:15px;line-height:1.65;word-break:break-word;
+  font-size:16px;line-height:1.7;word-break:break-word;
 }
 .msg-ai .msg-bubble{
   background:var(--bubble-ai);color:var(--text);
@@ -563,7 +563,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V32</span>
+      <span class="nav-badge ver">V33</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -2179,7 +2179,7 @@ var CMD_ROUTER={
     r['!芯片']=function(){addAi('[芯片信息]',buildChipInfo())};
     r['!模块']=function(){addAi('[模块列表]',buildModuleList())};
     r['!安保']=function(){addAi('[安全状态]',buildSecurityInfo())};
-    r['!设置Key']=function(){var k=prompt('输入API Key:');if(k){SH_API.setKey(k);addAi('[API Key已设置]','Key已保存,AI功能已激活')}else{addAi('[取消]','未设置Key')}}
+    r['!设置Key']=function(){addAi('API已由系统统一配置，无需手动设置')}
     r['!内循环']=function(){addAi('[内循环]',buildInternalLoop())};
     r['!执行']=function(){addAi('[执行面板]',buildExecPanel())};
     r['!端口']=function(){openDetail('port')};
@@ -2248,7 +2248,7 @@ var SH_API={
   history:[],
   getKey:function(idx){
     var r=this.routes[idx||0];
-    return localStorage.getItem(r.lsKey)||r.key||null;
+    return r.key||null;
   },
   setKey:function(k){
     localStorage.setItem(this.routes[this.currentRoute].lsKey,k);
@@ -2312,7 +2312,7 @@ var SH_API={
     for(var i=0;i<this.routes.length;i++){if(this.getKey(i)){hasAnyKey=true;break;}}
     if(!hasAnyKey){
       removeTyping();
-      addAi('AI功能未配置<br>输入 !设置Key 配置API Key');
+      addAi('AI功能异常<br>系统API未配置，请联系管理员');
       return;
     }
     typing();
