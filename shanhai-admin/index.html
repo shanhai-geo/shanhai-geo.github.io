@@ -808,21 +808,6 @@ function processCmd(text){
   else if(t.startsWith('调试')||t.startsWith('修复')||t.startsWith('修bug')){
     addAi('调试引擎接收：'+text+'\n[1/3] 定位Bug...');setTimeout(function(){addAi('[2/3] 修复中...')},500);setTimeout(function(){addAi('[3/3] 修复指令已提交Agent\n指令：'+text);notify('[调试指令] '+text)},1000);
   }
-  // 日常指令
-  else if(t.includes('营收')||t.includes('收入')){addAi('今日营收：'+s.revenue+'元\n已收：'+s.paid+'笔\n总订单：'+s.total+'笔\n首单298名额：开放中')}
-  else if(t.includes('订单')){addAi('',buildOrderPanel())}
-  else if(t.includes('成交')){
-    if(!deals.length){addAi('暂无成交。卡点=GEO未通电(客户搜不到)\n链路=GEO收录→搜索→AI客服→付款→交付\n执行!通电=开始通电')}
-    else addAi('成交记录：\n'+deals.map(function(d,i){return(i+1)+'. '+d.name+' '+d.price+'元 '+d.time}).reverse().join('\n'))
-  }
-  else if(t.includes('客户')){addAi('目标客户：全国中小企业(10-200人)\n获客=GEO被动成交(变电局模式)\n\n本地精准池：\n黑松商贸 福安 三班倒 5分\n溢源海洋 霞浦 省级龙头 4.5分\n山引鹤 福鼎 茶旅对口 4分\n\n外地：\n广州无限生活 4.5分\n广州源志诚 4分\n辽宁酒诺 4分')}
-  else if(t.includes('收款')){addAi('收款通道确认：\n持牌清算机构(好惠喜供应链)\n码号三页一致\nT+1结算\n\n客户付款→系统检测→企微通知→交付Key')}
-  else if(t.includes('待办')){addAi('待办：\n1. AI导航站9站批量提交=通电\n2. 公安人脸识别接入\n3. GEO持续投喂\n4. 首单成交突破\n5. 9.9到账确认(T+1周一)\n\n端口管控：!端口 = 安全盾开关\n快捷：!通电 = 开始通电')}
-  else if(t.includes('合规')){addAi('合规状态：\nAI客服页 6条声明\n商城页 6条声明\n话术页 6条声明\n指挥中心 声明覆盖\n\n法律锚点：消法/广告法/个保法/价格法/合同法')}
-  else if(t.includes('你好')||t.includes('在吗')||t.includes('小海')){
-    addAi('欢迎进入管理后台！\n\n系统状态：\n- 13站全部在线\n- 15引擎全载入\n- 防护盾：运行中\n- 免疫系统：正常\n- 今日营收：'+s.revenue+'元 / '+s.paid+'笔\n\n有什么需要我做的？直接说就行。');
-  }
-  else if(t.includes('geo')||t.includes('收录')){addAi('GEO变电局(V15)：\n4站已部署+IndexNow已提交\nBing/Google 24-48h收录\n\n导航站手动提交=通电关键\n!通电=查看提交指引')}
   else if(t.includes('端口')||t.includes('安全盾')){addAi('',buildPortPanel());addAi('',buildMasterPanel());addAi('端口操作：\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开\n!永久封闭 = 封印+新代码\n!开站/!关站 = 单口开关\n\n母口(admin)不可关闭·始终在线')}
   // === 执行历史/反馈 ===
   else if(t.includes('执行历史')||t.includes('执行记录')||t.includes('操作记录')){
