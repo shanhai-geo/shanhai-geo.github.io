@@ -26,6 +26,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 <div class="amount" id="amtShow">298<span class="unit">元/年</span></div>
 <div style="font-size:13px;color:#666;margin-top:4px" id="prodShow">入门版 · 智能接口服务</div>
 <button class="pay-btn" id="payBtn" onclick="goPay()">立即付款</button>
+<div style="margin-top:10px">
+<button onclick="copyToWx()" style="background:#07c160;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;width:100%">分享到微信付款</button>
+</div>
 <div class="hint">7天无理由退款保障</div>
 <div class="wechat-tip" id="wxTip">请在微信中打开本页面完成付款<br><a href="javascript:copyLink()">点此复制链接，到微信中粘贴打开</a></div>
 <div class="err" id="errMsg"></div>
@@ -78,6 +81,20 @@ function goPay(){
   }
 }
 
+function copyToWx(){
+  var url=location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(function(){alert('链接已复制，请打开微信粘贴发给任意好友，再点开即可付款')});
+  }else{
+    var inp=document.createElement('textarea');
+    inp.value=url;
+    document.body.appendChild(inp);
+    inp.select();
+    document.execCommand('copy');
+    document.body.removeChild(inp);
+    alert('链接已复制，请打开微信粘贴发给任意好友，再点开即可付款');
+  }
+}
 function copyLink(){
   var url=location.href;
   if(navigator.clipboard){
