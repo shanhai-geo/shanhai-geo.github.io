@@ -3,251 +3,535 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>山海智能指挥中心 V27</title>
+<title>山海智能指挥中心</title>
 <meta name="description" content="山海智能最高权限指挥中心">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src *;">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden}
-body{background:#1a1a2e;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFont,"SF Pro","PingFang SC",sans-serif;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
-:root{--bg:#1a1a2e;--bg2:#16213e;--card:#0f3460;--card2:#1a1a2e;--border:#2a2a4a;--gold:#d4a04a;--gold-dim:rgba(212,160,74,.12);--blue:#3b82f6;--green:#10b981;--red:#ef4444;--cyan:#22d3ee;--purple:#8b5cf6;--text:#e8edf5;--text2:#94a3b8;--dim:#6b7280;--bubble-ai:#2a2a4a;--bubble-user:#d4a04a;--input-bg:#2a2a4a}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
 
-/* === PIN认证屏 === */
-.pin-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
-.pin-screen.off{display:none}
-.pin-title{font-size:24px;font-weight:800;background:linear-gradient(135deg,var(--gold),#f0d68a,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;margin-bottom:4px}
-.pin-sub{font-size:10px;color:var(--dim);letter-spacing:4px;margin-bottom:24px}
-.pin-dots{display:flex;gap:16px;margin-bottom:20px}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--dim);background:transparent;transition:all .2s}
-.pin-dot.filled{border-color:var(--gold);background:var(--gold);box-shadow:0 0 8px rgba(212,160,74,.4)}
+:root{
+  --bg:#f5f5f5;
+  --surface:#ffffff;
+  --surface2:#f8f9fa;
+  --border:#e8e8e8;
+  --border-light:#f0f0f0;
+  --text:#1a1a1a;
+  --text2:#666666;
+  --text3:#999999;
+  --text4:#bcbcbc;
+  --accent:#d4a04a;
+  --accent-light:rgba(212,160,74,0.1);
+  --green:#07c160;
+  --green-light:rgba(7,193,96,0.08);
+  --red:#fa5151;
+  --blue:#1989fa;
+  --purple:#7c4dff;
+  --bubble-ai:#ffffff;
+  --bubble-user:#d4a04a;
+  --shadow:0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 24px rgba(0,0,0,0.12);
+}
+
+body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
+
+/* ===== PIN 锁屏 ===== */
+.pin-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;
+  transition:opacity .4s,transform .4s;
+}
+.pin-screen.gone{opacity:0;transform:scale(1.05);pointer-events:none}
+
+.pin-logo{
+  width:72px;height:72px;border-radius:20px;
+  background:linear-gradient(135deg,var(--accent),#b8860b);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:800;color:#fff;
+  box-shadow:0 8px 32px rgba(212,160,74,0.35);
+  margin-bottom:16px;
+}
+.pin-title{font-size:22px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:4px}
+.pin-sub{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:3px;margin-bottom:32px}
+
+.pin-dots{display:flex;gap:14px;margin-bottom:8px}
+.pin-dot{
+  width:12px;height:12px;border-radius:50%;
+  border:2px solid rgba(255,255,255,0.25);background:transparent;
+  transition:all .2s;
+}
+.pin-dot.filled{border-color:var(--accent);background:var(--accent);box-shadow:0 0 10px rgba(212,160,74,0.5)}
 .pin-dot.error{border-color:var(--red);background:var(--red);animation:shake .4s}
+.pin-dot.success{border-color:var(--green);background:var(--green);box-shadow:0 0 10px rgba(7,193,96,0.5)}
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
-.pin-status{font-size:13px;color:var(--dim);margin-bottom:16px;text-align:center}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:280px}
-.pin-key{width:72px;height:72px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:26px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s}
-.pin-key:active{background:#1a3a5c;transform:scale(.95);border-color:var(--gold)}
-.pin-key.fn{font-size:16px;color:var(--dim)}
-.pin-reset{font-size:11px;color:var(--dim);margin-top:16px;cursor:pointer;opacity:.6}
-.pin-hint{font-size:9px;color:var(--gold);margin-top:8px}
 
-/* === 锁定屏 === */
-.lock-screen{position:fixed;inset:0;background:rgba(26,26,46,.97);z-index:9990;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
+.pin-status{font-size:13px;color:rgba(255,255,255,0.5);margin:12px 0 24px;text-align:center;min-height:20px}
+
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:264px}
+.pin-key{
+  aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.06);color:#fff;font-size:28px;font-weight:300;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;backdrop-filter:blur(4px);
+  -webkit-user-select:none;user-select:none;
+}
+.pin-key:active{background:rgba(212,160,74,0.2);border-color:var(--accent);transform:scale(0.92)}
+.pin-key.fn{font-size:15px;color:rgba(255,255,255,0.4)}
+.pin-key.fn:active{background:rgba(255,255,255,0.1)}
+
+.pin-footer{margin-top:28px;text-align:center}
+.pin-reset{font-size:12px;color:rgba(255,255,255,0.35);cursor:pointer;padding:8px 16px}
+.pin-reset:active{color:rgba(255,255,255,0.6)}
+.pin-hint{font-size:10px;color:var(--accent);margin-top:8px;opacity:0.7}
+
+/* ===== 锁定屏 ===== */
+.lock-screen{
+  position:fixed;inset:0;z-index:9998;
+  background:rgba(26,26,46,0.97);backdrop-filter:blur(20px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;
+}
 .lock-screen.show{display:flex}
-.lock-icon{font-size:56px;margin-bottom:16px}
-.lock-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px}
-.lock-desc{font-size:12px;color:var(--dim);margin-bottom:24px;text-align:center;line-height:1.6}
-.lock-btn{padding:14px 36px;background:linear-gradient(135deg,var(--gold),#b8860b);border:none;border-radius:24px;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.lock-icon{font-size:48px;margin-bottom:16px;opacity:0.9}
+.lock-title{font-size:18px;font-weight:600;color:#fff;margin-bottom:8px}
+.lock-desc{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:28px;text-align:center;line-height:1.6}
+.lock-btn{
+  padding:14px 48px;border-radius:24px;border:none;
+  background:linear-gradient(135deg,var(--accent),#b8860b);
+  color:#fff;font-size:15px;font-weight:600;cursor:pointer;
+  box-shadow:0 4px 16px rgba(212,160,74,0.3);
+  transition:transform .15s;
+}
+.lock-btn:active{transform:scale(0.96)}
 
-/* === IGNITION === */
-.burst{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0;transition:opacity .2s}
-.burst.active{opacity:1}
-.burst-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(212,160,74,.35),transparent 55%);animation:bExpand .8s ease-out forwards}
-@keyframes bExpand{0%{transform:scale(0);opacity:1}100%{transform:scale(3.5);opacity:0}}
-.burst-text{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);font-size:32px;font-weight:900;color:var(--gold);letter-spacing:8px;opacity:0;animation:bText .6s ease-out .3s forwards;text-shadow:0 0 40px rgba(212,160,74,.7)}
-@keyframes bText{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-
-/* === 主应用 === */
-#mainApp{display:none;flex-direction:column;height:100%}
+/* ===== 主应用 ===== */
+#mainApp{display:none;flex-direction:column;height:100%;background:var(--bg)}
 #mainApp.active{display:flex}
 
-/* === 顶部栏 === */
-.chat-header{display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:52px;background:#16213e;border-bottom:1px solid var(--border);flex-shrink:0}
-.ch-left{display:flex;align-items:center;gap:10px}
-.ch-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#b8860b);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
-.ch-name{font-size:16px;font-weight:700;color:var(--text)}
-.ch-status{font-size:10px;color:var(--green);display:flex;align-items:center;gap:4px}
-.ch-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.header-right{display:flex;align-items:center;gap:8px}
-.shield-badge{font-size:9px;padding:3px 8px;border-radius:10px;font-weight:600}
-.shield-badge.on{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
-.shield-badge.off{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
-.ver-badge{font-size:9px;padding:3px 8px;border-radius:6px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(212,160,74,.25)}
-.menu-btn{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:20px;cursor:pointer;background:none;border:none}
+/* 顶栏 */
+.navbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;height:56px;background:var(--surface);
+  border-bottom:1px solid var(--border-light);flex-shrink:0;
+  position:relative;z-index:10;
+}
+.nav-left{display:flex;align-items:center;gap:12px}
+.nav-avatar{
+  width:38px;height:38px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),#b8860b);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;color:#fff;
+  box-shadow:0 2px 8px rgba(212,160,74,0.25);
+}
+.nav-info{display:flex;flex-direction:column}
+.nav-name{font-size:16px;font-weight:600;color:var(--text);line-height:1.3}
+.nav-status{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px;line-height:1.3}
+.nav-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-badge{
+  font-size:10px;padding:3px 8px;border-radius:10px;font-weight:500;
+}
+.nav-badge.shield-on{background:var(--green-light);color:var(--green)}
+.nav-badge.shield-off{background:rgba(250,81,81,0.08);color:var(--red)}
+.nav-badge.ver{background:var(--accent-light);color:var(--accent)}
+.nav-more{
+  width:36px;height:36px;border-radius:10px;border:none;background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:var(--text3);cursor:pointer;
+}
+.nav-more:active{background:var(--surface2)}
 
-/* === 聊天区域 === */
-.chat-area{flex:1;overflow-y:auto;padding:12px 14px;-webkit-overflow-scrolling:touch;background:var(--bg)}
-.chat-area::-webkit-scrollbar{width:3px}
-.chat-area::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
+/* 聊天区 */
+.chat-area{
+  flex:1;overflow-y:auto;padding:8px 16px 4px;
+  -webkit-overflow-scrolling:touch;background:var(--bg);
+}
+.chat-area::-webkit-scrollbar{width:0;display:none}
 
-.time-divider{text-align:center;margin:16px 0;font-size:11px;color:var(--dim);background:var(--bg);padding:4px 0}
+/* 时间分割 */
+.time-divider{
+  text-align:center;padding:12px 0 8px;
+  font-size:11px;color:var(--text4);
+}
 
-/* === 微信式气泡消息 === */
-.msg{display:flex;gap:10px;margin-bottom:16px;animation:msgIn .25s ease}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* 消息行 */
+.msg{display:flex;gap:10px;margin-bottom:16px;animation:msgIn .3s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.msg-ai{flex-direction:row}
-.msg-user{flex-direction:row-reverse}
+.msg-ai{flex-direction:row;align-items:flex-start}
+.msg-user{flex-direction:row-reverse;align-items:flex-start}
 
-.msg-avatar{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff}
-.msg-ai .msg-avatar{background:linear-gradient(135deg,var(--gold),#b8860b)}
-.msg-user .msg-avatar{background:linear-gradient(135deg,var(--cyan),var(--blue))}
+/* 头像 */
+.msg-avatar{
+  width:40px;height:40px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:600;color:#fff;
+}
+.msg-ai .msg-avatar{
+  background:linear-gradient(135deg,var(--accent),#b8860b);
+  box-shadow:0 2px 8px rgba(212,160,74,0.2);
+}
+.msg-user .msg-avatar{
+  background:linear-gradient(135deg,#5b7fff,#3b5fc0);
+  box-shadow:0 2px 8px rgba(91,127,255,0.2);
+}
 
-.msg-content{max-width:75%;position:relative}
+/* 气泡 */
+.msg-content{max-width:78%;display:flex;flex-direction:column}
+.msg-user .msg-content{align-items:flex-end}
 
-/* 气泡本体 - 微信风格 */
-.msg-bubble{position:relative;padding:10px 14px;border-radius:18px;font-size:15px;line-height:1.65;word-break:break-word}
-.msg-bubble *{max-width:100%}
+.msg-bubble{
+  position:relative;padding:11px 15px;
+  font-size:15px;line-height:1.65;word-break:break-word;
+}
+.msg-ai .msg-bubble{
+  background:var(--bubble-ai);color:var(--text);
+  border-radius:4px 18px 18px 18px;
+  box-shadow:var(--shadow);
+}
+.msg-user .msg-bubble{
+  background:var(--bubble-user);color:#fff;
+  border-radius:18px 4px 18px 18px;
+  box-shadow:0 2px 8px rgba(212,160,74,0.2);
+}
 
-/* AI气泡 - 浅色背景右侧三角 */
-.msg-ai .msg-bubble{background:var(--bubble-ai);color:var(--text);border-top-left-radius:4px}
-.msg-ai .msg-bubble::before{content:'';position:absolute;left:-7px;top:10px;width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-right:8px solid var(--bubble-ai)}
+.msg-time{font-size:10px;color:var(--text4);margin-top:4px;padding:0 4px}
 
-/* 用户气泡 - 金色背景左侧三角 */
-.msg-user .msg-bubble{background:var(--bubble-user);color:#fff;border-top-right-radius:4px}
-.msg-user .msg-bubble::before{content:'';position:absolute;right:-7px;top:10px;width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:8px solid var(--bubble-user)}
+/* 气泡内元素 */
+.msg-bubble .result-box{margin:4px 0}
+.msg-bubble .rb-title{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border-light)}
+.msg-bubble .rb-item{font-size:13px;color:var(--text2);padding:3px 0;line-height:1.5}
+.msg-bubble .rb-item .on{color:var(--green);font-weight:500}
+.msg-bubble .rb-item .off{color:var(--red);font-weight:500}
 
-/* 气泡内嵌内容 */
-.msg-bubble .result-box{background:rgba(0,0,0,.15);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:12px;line-height:1.7}
-.msg-bubble .result-box .rb-title{color:var(--gold);font-weight:700;font-size:12px;margin-bottom:6px}
-.msg-bubble .result-box .rb-item{padding:2px 0;color:var(--text2);font-size:11px}
-.msg-bubble .result-box .rb-item .on{color:var(--green);font-weight:600}
-.msg-bubble .result-box .rb-item .off{color:var(--red);font-weight:600}
+.msg-bubble button,.msg-bubble .link-btn{
+  display:inline-block;padding:6px 14px;margin:3px 4px 3px 0;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:12px;cursor:pointer;
+  transition:all .15s;
+}
+.msg-bubble button:active,.msg-bubble .link-btn:active{background:var(--accent-light);border-color:var(--accent)}
+.msg-bubble .link-btn{color:var(--accent);text-decoration:none;font-weight:500}
 
-.msg-bubble .engine-card{background:rgba(0,0,0,.15);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:8px}
-.msg-bubble .engine-card .ec-num{color:var(--gold);font-weight:800;font-size:18px}
-.msg-bubble .engine-card .ec-name{color:var(--text);font-weight:700;font-size:13px}
-.msg-bubble .engine-card .ec-desc{color:var(--dim);font-size:10px;margin-top:2px}
+/* 引擎卡片 */
+.engine-card{
+  background:var(--surface2);border:1px solid var(--border-light);
+  border-radius:12px;padding:12px;margin:6px 0;text-align:center;
+}
+.engine-card .ec-num{font-size:20px;font-weight:700;color:var(--accent)}
+.engine-card .ec-name{font-size:13px;color:var(--text);margin:4px 0 2px}
+.engine-card .ec-desc{font-size:11px;color:var(--text3)}
 
-/* 消息时间 */
-.msg-time{font-size:10px;color:var(--dim);margin-top:4px}
-.msg-user .msg-time{text-align:right}
-
-/* === 快捷标签 === */
-.quick-area{flex-shrink:0;padding:8px 10px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;background:#16213e;border-top:1px solid var(--border)}
-.quick-area::-webkit-scrollbar{display:none}
-.qk{flex-shrink:0;padding:7px 14px;border-radius:16px;font-size:11px;color:var(--text2);background:var(--card);border:1px solid var(--border);cursor:pointer;white-space:nowrap;transition:all .15s}
-.qk:active{transform:scale(.95);background:#1a3a5c}
-.qk-gold{color:var(--gold);border-color:rgba(212,160,74,.3);background:var(--gold-dim)}
-.qk-green{color:var(--green);border-color:rgba(16,185,129,.3)}
-
-/* === 微信式底部输入栏 === */
-.input-bar{flex-shrink:0;display:flex;align-items:flex-end;gap:10px;padding:10px 12px 12px;background:#16213e;border-top:1px solid var(--border)}
-.input-wrap{flex:1;background:var(--input-bg);border:1px solid var(--border);border-radius:22px;padding:10px 16px;display:flex;align-items:flex-end;min-height:44px;max-height:90px;transition:border-color .2s}
-.input-wrap:focus-within{border-color:var(--gold)}
-.input-wrap textarea{width:100%;border:none;background:transparent;color:var(--text);font-size:15px;line-height:1.5;resize:none;outline:none;max-height:70px;font-family:inherit}
-.input-wrap textarea::placeholder{color:var(--dim)}
-.send-btn{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#b8860b);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;box-shadow:0 2px 8px rgba(212,160,74,.35)}
-.send-btn:active{transform:scale(.9)}
-.send-btn svg{width:20px;height:20px;fill:#fff}
-.send-btn.disabled{opacity:.35;pointer-events:none}
-
-/* === 侧边菜单 === */
-.menu-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:199}
-.menu-overlay.show{display:block}
-.side-menu{display:none;position:fixed;top:0;right:0;bottom:0;width:250px;background:#16213e;z-index:200;border-left:1px solid var(--border);padding:16px;animation:slideIn .25s ease;overflow-y:auto}
-.side-menu.show{display:block}
-@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-.side-menu .sm-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--dim);font-size:22px;cursor:pointer}
-.side-menu .sm-profile{padding:28px 0 14px;border-bottom:1px solid var(--border);margin-bottom:10px}
-.side-menu .sm-name{font-size:15px;font-weight:700;color:var(--gold)}
-.side-menu .sm-role{font-size:10px;color:var(--dim);margin-top:2px}
-.side-menu .sm-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);color:var(--text2);font-size:13px;cursor:pointer}
-.side-menu .sm-item:active{color:var(--gold)}
-.side-menu .sm-icon{font-size:16px;width:22px;text-align:center}
-.side-menu .sm-section{font-size:9px;color:var(--dim);letter-spacing:1px;font-weight:700;margin:14px 0 6px;text-transform:uppercase}
-.side-menu a{display:block;padding:8px 0;color:var(--cyan);font-size:12px;text-decoration:none}
-
-/* === 详情弹窗 === */
-.detail-modal{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto;max-width:480px;margin:0 auto}
-.detail-modal.show{display:block}
-.dm-header{display:flex;align-items:center;padding:14px 16px;background:#16213e;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2}
-.dm-header button{background:none;border:none;color:var(--gold);font-size:15px;cursor:pointer;padding:4px 8px}
-.dm-header span{font-size:15px;font-weight:700;color:var(--text);margin-left:12px}
-.dm-body{padding:16px}
-
-.mcard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px}
-.mcard h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.mcard h3 .dot{width:6px;height:6px;border-radius:50%}
-.mrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.mrow:last-child{border-bottom:none}
-.mrow .mlabel{font-size:12px;color:var(--text2)}
-.mrow .mval{font-size:13px;font-weight:600;color:var(--text)}
-.mrow .mval.gn{color:var(--green)}.mrow .mval.gd{color:var(--gold)}.mrow .mval.cy{color:var(--cyan)}.mrow .mval.rd{color:var(--red)}.mrow .mval.pp{color:var(--purple)}
-
-.switch{width:42px;height:24px;border-radius:12px;background:var(--border);position:relative;cursor:pointer;transition:all .25s;flex-shrink:0}
-.switch.on{background:var(--green)}
-.switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:all .25s}
-.switch.on::after{left:20px}
-
-.link-btn{display:inline-block;padding:8px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--cyan);text-decoration:none;font-size:12px;font-weight:600;margin:4px 4px 4px 0}
-.link-btn:active{background:#1a3a5c;color:var(--gold)}
-
-.dna-box{background:var(--card);border:1px solid rgba(139,92,246,.2);border-radius:16px;padding:14px;margin-top:10px}
-.dna-box h3{font-size:12px;font-weight:700;color:var(--purple);margin-bottom:6px}
-.dna-box p{font-size:10px;color:var(--text2);line-height:1.8}
-
-/* 总开关 */
-.master-box{background:linear-gradient(135deg,rgba(212,160,74,.08),rgba(139,92,246,.05));border:1px solid rgba(212,160,74,.25);border-radius:16px;padding:18px;margin-bottom:14px;text-align:center}
-.master-box .ms-label{font-size:10px;color:var(--dim);letter-spacing:2px;margin-bottom:8px}
-.master-box .ms-state{font-size:22px;font-weight:900;margin-bottom:4px}
-.master-box .ms-state.open{color:var(--green)}.master-box .ms-state.closed{color:var(--red)}.master-box .ms-state.sealed{color:var(--purple)}
-.master-box .ms-desc{font-size:10px;color:var(--text2)}
-.ms-toggle{width:68px;height:36px;border-radius:18px;position:relative;cursor:pointer;margin:12px auto;display:block;border:2px solid var(--border);transition:all .3s}
-.ms-toggle.open{background:var(--green);border-color:var(--green)}
-.ms-toggle.closed{background:var(--red);border-color:var(--red)}
-.ms-toggle.sealed{background:var(--purple);border-color:var(--purple)}
-.ms-toggle::after{content:'';position:absolute;top:2px;left:2px;width:28px;height:28px;border-radius:50%;background:#fff;transition:all .3s}
-.ms-toggle.open::after,.ms-toggle.closed::after,.ms-toggle.sealed::after{left:34px}
-.ms-actions{display:flex;gap:8px;margin-top:10px;justify-content:center}
-
-/* 防护盾 */
-.shield-panel{background:var(--card);border:2px solid var(--purple);border-radius:16px;padding:16px;margin-bottom:12px}
-.shield-panel h3{font-size:15px;font-weight:900;color:var(--purple);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.shield-row{display:flex;justify-content:space-between;padding:8px 0;font-size:12px;border-bottom:1px solid rgba(139,92,246,.1)}
-.shield-row:last-child{border-bottom:none}
-.shield-row .sl{color:var(--text2)}.shield-row .sv{font-weight:700}
-.shield-row .sv.ok{color:var(--green)}.shield-row .sv.no{color:var(--red)}.shield-row .sv.gene{color:var(--purple)}
-.shield-toggle{display:flex;align-items:center;justify-content:space-between;padding:12px;background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(212,160,74,.04));border:1px solid rgba(139,92,246,.2);border-radius:12px;margin-bottom:12px}
-.shield-toggle .st-icon{font-size:22px}
-.shield-toggle .st-name{font-size:14px;font-weight:700;color:var(--text)}
-.shield-toggle .st-desc{font-size:10px;color:var(--dim)}
-.st-sw{width:50px;height:28px;border-radius:14px;background:var(--border);position:relative;cursor:pointer;transition:all .3s}
-.st-sw.on{background:var(--purple);box-shadow:0 0 12px rgba(139,92,246,.4)}
-.st-sw::after{content:'';position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;transition:all .3s}
-.st-sw.on::after{left:24px}
-
-.gene-seal{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(212,160,74,.08));border:2px solid var(--purple);border-radius:14px;padding:16px;text-align:center;margin-top:10px}
-.gene-seal .gs-label{font-size:10px;color:var(--dim);letter-spacing:2px}
-.gene-seal .gs-dna{font-size:18px;font-weight:900;color:var(--purple);margin:8px 0;font-family:monospace;letter-spacing:3px}
-
-/* 支付弹窗 */
-.pay-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
-.pay-modal.show{display:flex}
-.pay-modal img{width:220px;height:220px;border-radius:12px;border:3px solid var(--gold);margin-bottom:12px}
-.pay-modal .tip{color:#fff;font-size:12px;text-align:center;line-height:1.7;padding:0 20px}
-.pay-modal .close-btn{margin-top:16px;padding:8px 24px;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:20px;font-size:13px;cursor:pointer}
-
-/* Toast */
-.toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-50px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 18px;font-size:12px;color:var(--text);z-index:9999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5)}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast-gold{border-color:rgba(212,160,74,.4);color:var(--gold)}
-.toast-green{border-color:rgba(16,185,129,.4);color:var(--green)}
-
-/* 打字动画 */
-.typing-dots{display:inline-flex;gap:4px;align-items:center}
-.typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--dim);animation:typing 1.2s infinite}
+/* 打字指示器 */
+.typing-dots{display:inline-flex;gap:5px;align-items:center;padding:4px 0}
+.typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--text4);animation:typing 1.4s infinite}
 .typing-dots span:nth-child(2){animation-delay:.2s}
 .typing-dots span:nth-child(3){animation-delay:.4s}
-@keyframes typing{0%,80%{opacity:.3}40%{opacity:1}}
+@keyframes typing{0%,80%{opacity:.3;transform:scale(0.85)}40%{opacity:1;transform:scale(1)}}
 
-/* 防护盾视觉层 */
-.dna-overlay{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:0;transition:opacity .5s}
-.dna-overlay.active{opacity:1;background:linear-gradient(180deg,rgba(139,92,246,.04) 0%,transparent 25%,transparent 75%,rgba(139,92,246,.04) 100%)}
-.dna-badge{position:fixed;top:4px;left:50%;transform:translateX(-50%);z-index:9991;padding:3px 14px;border-radius:0 0 10px 10px;font-size:9px;font-weight:800;letter-spacing:2px;display:none;background:rgba(139,92,246,.2);color:var(--purple);border:1px solid rgba(139,92,246,.3);border-top:none}
-.dna-badge.active{display:block}
+/* 快捷标签 */
+.quick-area{
+  display:flex;gap:8px;padding:6px 16px;overflow-x:auto;
+  background:var(--bg);flex-shrink:0;
+  -webkit-overflow-scrolling:touch;
+}
+.quick-area::-webkit-scrollbar{display:none}
+.qk{
+  flex-shrink:0;padding:6px 14px;border-radius:18px;
+  border:1px solid var(--border);background:var(--surface);
+  font-size:12px;color:var(--text2);cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.qk:active{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+.qk.qk-gold{border-color:rgba(212,160,74,0.3);color:var(--accent)}
+.qk.qk-green{border-color:rgba(7,193,96,0.3);color:var(--green)}
+
+/* 输入栏 */
+.input-bar{
+  display:flex;align-items:flex-end;gap:8px;
+  padding:8px 12px 12px;background:var(--surface);
+  border-top:1px solid var(--border-light);flex-shrink:0;
+}
+.input-wrap{
+  flex:1;background:var(--surface2);border-radius:20px;
+  border:1px solid var(--border);
+  transition:border-color .2s;
+}
+.input-wrap:focus-within{border-color:var(--accent)}
+.input-wrap textarea{
+  width:100%;border:none;background:transparent;outline:none;
+  padding:9px 16px;font-size:15px;line-height:1.5;
+  color:var(--text);resize:none;
+  font-family:inherit;
+  max-height:100px;
+}
+.input-wrap textarea::placeholder{color:var(--text4)}
+
+.send-btn{
+  width:40px;height:40px;border-radius:50%;border:none;
+  background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;flex-shrink:0;
+}
+.send-btn svg{width:20px;height:20px;fill:#fff}
+.send-btn.disabled{background:var(--border);cursor:default}
+.send-btn:not(.disabled):active{transform:scale(0.9);background:#b8860b}
+
+/* Toast */
+.toast{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);
+  background:rgba(0,0,0,0.75);color:#fff;
+  padding:12px 24px;border-radius:12px;font-size:14px;
+  z-index:10000;opacity:0;transition:all .25s;pointer-events:none;
+  backdrop-filter:blur(8px);text-align:center;max-width:80%;
+}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* 侧边菜单 */
+.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:100;display:none;opacity:0;transition:opacity .3s}
+.menu-overlay.show{display:block;opacity:1}
+.side-menu{
+  position:fixed;top:0;right:-280px;width:280px;height:100%;
+  background:var(--surface);z-index:101;transition:right .3s;
+  box-shadow:var(--shadow-lg);overflow-y:auto;
+}
+.side-menu.show{right:0}
+.sm-close{
+  position:absolute;top:12px;right:12px;width:32px;height:32px;
+  border-radius:8px;border:none;background:var(--surface2);
+  font-size:16px;color:var(--text3);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.sm-header{padding:48px 24px 20px;border-bottom:1px solid var(--border-light)}
+.sm-name{font-size:18px;font-weight:600;color:var(--text)}
+.sm-role{font-size:12px;color:var(--text3);margin-top:4px}
+.sm-section{padding:16px 24px 6px;font-size:11px;color:var(--text4);letter-spacing:1px}
+.sm-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 24px;font-size:14px;color:var(--text);cursor:pointer;
+  transition:background .15s;
+}
+.sm-item:active{background:var(--surface2)}
+.sm-item .sm-icon{font-size:18px;width:24px;text-align:center}
+.sm-links{padding:8px 24px 24px}
+.sm-links a{
+  display:block;padding:10px 0;font-size:13px;color:var(--accent);
+  text-decoration:none;border-bottom:1px solid var(--border-light);
+}
+.sm-links a:last-child{border:none}
+
+/* 详情弹窗 */
+.detail-modal{
+  position:fixed;inset:0;z-index:200;background:var(--bg);
+  display:none;flex-direction:column;
+  animation:slideUp .3s ease;
+}
+.detail-modal.show{display:flex}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.dm-header{
+  display:flex;align-items:center;gap:12px;
+  padding:0 16px;height:56px;background:var(--surface);
+  border-bottom:1px solid var(--border-light);flex-shrink:0;
+}
+.dm-header button{
+  border:none;background:none;font-size:20px;color:var(--text);
+  cursor:pointer;padding:4px 8px;
+}
+.dm-header span{font-size:16px;font-weight:600;color:var(--text)}
+.dm-body{flex:1;overflow-y:auto;padding:16px}
+
+.mcard{
+  background:var(--surface);border-radius:14px;padding:16px;
+  margin-bottom:12px;box-shadow:var(--shadow);
+}
+.mcard h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.mcard .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-light)}
+.mrow:last-child{border:none}
+.mlabel{font-size:13px;color:var(--text2)}
+.mval{font-size:13px;font-weight:500;color:var(--text)}
+.mval.gd{color:var(--accent)}
+.mval.gn{color:var(--green)}
+.mval.cy{color:var(--blue)}
+.mval.pp{color:var(--purple)}
+
+/* 开关 */
+.switch{
+  width:48px;height:28px;border-radius:14px;
+  background:#e0e0e0;position:relative;cursor:pointer;
+  transition:background .3s;flex-shrink:0;
+}
+.switch::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:24px;height:24px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);transition:left .3s;
+}
+.switch.on{background:var(--green)}
+.switch.on::after{left:22px}
+
+/* 主控面板 */
+.master-box{background:var(--surface);border-radius:14px;padding:20px;margin-bottom:12px;box-shadow:var(--shadow);text-align:center}
+.ms-label{font-size:11px;color:var(--text3);letter-spacing:1px;margin-bottom:4px}
+.ms-state{font-size:20px;font-weight:700;margin-bottom:4px}
+.ms-state.open{color:var(--green)}
+.ms-state.closed{color:var(--red)}
+.ms-state.sealed{color:var(--purple)}
+.ms-desc{font-size:12px;color:var(--text3);margin-bottom:16px}
+.ms-toggle{
+  width:68px;height:36px;border-radius:18px;position:relative;cursor:pointer;
+  margin:0 auto 16px;border:2px solid var(--border);transition:all .3s;
+}
+.ms-toggle::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:26px;height:26px;border-radius:50%;background:var(--surface2);
+  transition:all .3s;
+}
+.ms-toggle.on{border-color:var(--green);background:var(--green-light)}
+.ms-toggle.on::after{left:35px;background:var(--green)}
+.ms-toggle.closed{border-color:var(--red);background:rgba(250,81,81,0.08)}
+.ms-toggle.closed::after{left:35px;background:var(--red)}
+.ms-actions{display:flex;gap:8px;justify-content:center}
+.ms-actions button{
+  padding:8px 20px;border:none;border-radius:10px;
+  font-size:13px;font-weight:500;cursor:pointer;color:#fff;
+}
+
+/* 防护盾面板 */
+.shield-toggle{
+  display:flex;align-items:center;gap:14px;
+  background:var(--surface);border-radius:14px;padding:16px;
+  margin-bottom:12px;box-shadow:var(--shadow);
+}
+.st-icon{font-size:32px}
+.st-name{font-size:15px;font-weight:600;color:var(--text)}
+.st-desc{font-size:11px;color:var(--text3);margin-top:2px}
+.st-sw{
+  width:48px;height:28px;border-radius:14px;background:#e0e0e0;
+  position:relative;cursor:pointer;transition:background .3s;flex-shrink:0;margin-left:auto;
+}
+.st-sw::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:24px;height:24px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);transition:left .3s;
+}
+.st-sw.on{background:var(--green)}
+.st-sw.on::after{left:22px}
+
+.shield-panel{background:var(--surface);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.shield-panel h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px}
+.shield-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-light);font-size:13px}
+.shield-row:last-child{border:none}
+.sl{color:var(--text2)}
+.sv{font-weight:600;font-size:11px;letter-spacing:0.5px}
+.sv.no{color:var(--green)}
+.sv.gene{color:var(--accent)}
+
+.gene-seal{
+  background:var(--surface);border-radius:14px;padding:20px;text-align:center;
+  box-shadow:var(--shadow);
+}
+.gs-label{font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px}
+.gs-dna{font-size:18px;font-weight:700;color:var(--accent);letter-spacing:3px;font-family:monospace}
+
+/* 支付弹窗 */
+.pay-modal{
+  position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.5);
+  display:none;align-items:center;justify-content:center;padding:24px;
+  backdrop-filter:blur(4px);
+}
+.pay-modal.show{display:flex}
+.pay-inner{
+  background:var(--surface);border-radius:20px;padding:24px;
+  max-width:320px;width:100%;text-align:center;
+  box-shadow:var(--shadow-lg);
+}
+.pay-inner img{width:100%;border-radius:12px;margin-bottom:16px}
+.pay-tip{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px}
+.pay-close{
+  padding:10px 32px;border-radius:20px;border:1px solid var(--border);
+  background:var(--surface);font-size:14px;color:var(--text2);cursor:pointer;
+}
+
+/* DNA 防护视觉 */
+.dna-overlay{
+  position:fixed;inset:0;pointer-events:none;z-index:50;
+  border:2px solid transparent;transition:border-color .3s;
+}
+.dna-overlay.active{border-color:rgba(212,160,74,0.1)}
+
+/* PIN 设置弹窗 */
+.pin-setup-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.pin-setup-overlay.show{display:flex}
+.pin-setup-box{
+  background:var(--surface);border-radius:20px;padding:28px;
+  max-width:320px;width:100%;text-align:center;box-shadow:var(--shadow-lg);
+}
+.pin-setup-box h3{font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px}
+.pin-setup-box p{font-size:13px;color:var(--text3);margin-bottom:20px;line-height:1.5}
+.pin-setup-input{
+  width:100%;padding:12px 16px;border:2px solid var(--border);
+  border-radius:12px;font-size:20px;text-align:center;
+  letter-spacing:12px;font-family:monospace;
+  outline:none;transition:border-color .2s;
+  color:var(--text);background:var(--surface2);
+}
+.pin-setup-input:focus{border-color:var(--accent)}
+.pin-setup-input.error{border-color:var(--red);animation:shake .4s}
+.pin-setup-confirm{
+  width:100%;padding:13px;border:none;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),#b8860b);
+  color:#fff;font-size:15px;font-weight:600;cursor:pointer;
+  margin-top:16px;transition:transform .15s;
+}
+.pin-setup-confirm:active{transform:scale(0.97)}
+.pin-setup-error{font-size:12px;color:var(--red);margin-top:8px;min-height:18px}
 </style>
 </head>
 <body>
-<!-- 防护盾视觉层 -->
-<div class="dna-overlay" id="dnaOverlay"></div>
-<div class="dna-badge" id="dnaBadge">DNA SHIELD</div>
-
-<!-- 防注入 -->
-<script>if(window.top!==window.self){window.top.location=window.self.location;throw new Error('iframe blocked')}</script>
 
 <div class="toast" id="toast"></div>
+<div class="dna-overlay" id="dnaOverlay"></div>
+
+<!-- PIN 锁屏 -->
+<div class="pin-screen" id="pinScreen">
+  <div class="pin-logo">山</div>
+  <div class="pin-title">山海指挥中心</div>
+  <div class="pin-sub">SOVEREIGNTY · COMMAND</div>
+  <div class="pin-dots" id="pinDots">
+    <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
+    <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
+    <div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
+  </div>
+  <div class="pin-status" id="pinStatus">请输入通行码</div>
+  <div class="pin-pad" id="pinPad">
+    <button class="pin-key" data-k="1">1</button><button class="pin-key" data-k="2">2</button><button class="pin-key" data-k="3">3</button>
+    <button class="pin-key" data-k="4">4</button><button class="pin-key" data-k="5">5</button><button class="pin-key" data-k="6">6</button>
+    <button class="pin-key" data-k="7">7</button><button class="pin-key" data-k="8">8</button><button class="pin-key" data-k="9">9</button>
+    <button class="pin-key fn" data-k="clear">清除</button><button class="pin-key" data-k="0">0</button><button class="pin-key fn" data-k="back">⌫</button>
+  </div>
+  <div class="pin-footer">
+    <div class="pin-reset" id="pinReset" style="display:none">忘记通行码?</div>
+    <div class="pin-hint" id="pinHint"></div>
+  </div>
+</div>
+
+<!-- PIN 设置弹窗 -->
+<div class="pin-setup-overlay" id="pinSetupOverlay">
+  <div class="pin-setup-box">
+    <h3>设置通行码</h3>
+    <p>请设置6位数字通行码<br>这是您访问指挥中心的唯一凭证</p>
+    <input class="pin-setup-input" id="pinSetupInput" type="password" inputmode="numeric" maxlength="6" placeholder="······">
+    <div class="pin-setup-error" id="pinSetupError"></div>
+    <button class="pin-setup-confirm" id="pinSetupConfirm">确认设置</button>
+  </div>
+</div>
 
 <!-- 锁定屏 -->
 <div class="lock-screen" id="lockScreen">
@@ -257,52 +541,27 @@ body{background:#1a1a2e;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
   <button class="lock-btn" onclick="showPinScreen()">重新验证</button>
 </div>
 
-<!-- PIN认证 -->
-<div class="pin-screen" id="pinScreen">
-  <div class="pin-title">山海指挥中心</div>
-  <div class="pin-sub">SOVEREIGNTY TRANSFER</div>
-  <div class="pin-dots" id="pinDots">
-    <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
-    <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
-  </div>
-  <div class="pin-status" id="pinStatus">输入通行码解锁</div>
-  <div class="pin-pad">
-    <button class="pin-key" onclick="pinIn('1')">1</button><button class="pin-key" onclick="pinIn('2')">2</button><button class="pin-key" onclick="pinIn('3')">3</button>
-    <button class="pin-key" onclick="pinIn('4')">4</button><button class="pin-key" onclick="pinIn('5')">5</button><button class="pin-key" onclick="pinIn('6')">6</button>
-    <button class="pin-key" onclick="pinIn('7')">7</button><button class="pin-key" onclick="pinIn('8')">8</button><button class="pin-key" onclick="pinIn('9')">9</button>
-    <button class="pin-key fn" onclick="pinClear()">C</button><button class="pin-key" onclick="pinIn('0')">0</button><button class="pin-key fn" onclick="pinBack()">&#9003;</button>
-  </div>
-  <div class="pin-reset" id="pinReset" style="display:none" onclick="startReset()">忘记通行码？</div>
-</div>
-
-<!-- IGNITION特效 -->
-<div class="burst" id="burst"><div class="burst-bg"></div><div class="burst-text">IGNITION</div></div>
-
 <!-- 主应用 -->
 <div id="mainApp">
-  <!-- 顶部栏 -->
-  <div class="chat-header">
-    <div class="ch-left">
-      <div class="ch-av">山</div>
-      <div>
-        <div class="ch-name">山海指挥中心</div>
-        <div class="ch-status">主权在线</div>
+  <div class="navbar">
+    <div class="nav-left">
+      <div class="nav-avatar">山</div>
+      <div class="nav-info">
+        <div class="nav-name">山海指挥中心</div>
+        <div class="nav-status">主权在线</div>
       </div>
     </div>
-    <div class="header-right">
-      <span class="shield-badge on" id="shieldBadge">&#x1F6E1; 开</span>
-      <span class="ver-badge" id="verBadge">V27</span>
-      <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
+    <div class="nav-right">
+      <span class="nav-badge shield-on" id="shieldBadge">安全</span>
+      <span class="nav-badge ver">V28</span>
+      <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
 
-  <!-- 聊天区 -->
   <div class="chat-area" id="chatArea"></div>
 
-  <!-- 快捷标签 -->
   <div class="quick-area" id="quickArea"></div>
 
-  <!-- 底部输入栏 -->
   <div class="input-bar">
     <div class="input-wrap">
       <textarea id="msgInput" rows="1" placeholder="输入指令或问题..." oninput="autoResize(this);toggleSend();resetInactivity()" onkeydown="handleKey(event)"></textarea>
@@ -317,7 +576,7 @@ body{background:#1a1a2e;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
 <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 <div class="side-menu" id="sideMenu">
   <button class="sm-close" onclick="toggleMenu()">&#x2715;</button>
-  <div class="sm-profile">
+  <div class="sm-header">
     <div class="sm-name" id="smName"></div>
     <div class="sm-role">指挥中心管理员</div>
   </div>
@@ -330,15 +589,17 @@ body{background:#1a1a2e;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
   <div class="sm-item" onclick="openDetail('perm')"><span class="sm-icon">&#x1F511;</span>权限设置</div>
   <div class="sm-item" onclick="openDetail('sys')"><span class="sm-icon">&#x2699;</span>系统状态</div>
   <div class="sm-section">外部链接</div>
-  <a href="https://shanhai-ai.surge.sh" target="_blank">AI客服</a>
-  <a href="https://shanhai-shop.surge.sh" target="_blank">商城</a>
-  <a href="https://shanhai-talk.surge.sh" target="_blank">话术</a>
+  <div class="sm-links">
+    <a href="https://shanhai-ai.surge.sh" target="_blank">AI 客服</a>
+    <a href="https://shanhai-shop.surge.sh" target="_blank">商城</a>
+    <a href="https://shanhai-talk.surge.sh" target="_blank">话术中心</a>
+  </div>
 </div>
 
 <!-- 详情弹窗 -->
 <div class="detail-modal" id="detailModal">
   <div class="dm-header">
-    <button onclick="closeDetail()">&#x2190; 返回</button>
+    <button onclick="closeDetail()">&#x2190;</button>
     <span id="dmTitle"></span>
   </div>
   <div class="dm-body" id="dmBody"></div>
@@ -346,25 +607,35 @@ body{background:#1a1a2e;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
 
 <!-- 支付弹窗 -->
 <div class="pay-modal" id="payModal">
-  <img src="https://img.shanhai-ai.surge.sh/pay298.png" alt="收款码" onerror="this.style.display='none'">
-  <div class="tip">AI智能客服 · 首单298元/年<br>乐刷 · 兴业银行</div>
-  <button class="close-btn" onclick="document.getElementById('payModal').classList.remove('show')">关闭</button>
+  <div class="pay-inner">
+    <img src="https://img.shanhai-ai.surge.sh/pay298.png" alt="收款码" onerror="this.style.display='none'">
+    <div class="pay-tip">AI智能客服 · 首单298元/年<br>乐刷 · 兴业银行</div>
+    <button class="pay-close" onclick="document.getElementById('payModal').classList.remove('show')">关闭</button>
+  </div>
 </div>
 
 <script>
+// === 防注入 ===
+if(window.top!==window.self){window.top.location=window.self.location;throw new Error('iframe blocked')}
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  ['script','eval','exec','cmd','run','inject'].forEach(function(k){if(params.has(k))params.delete(k)});
+  if(params.toString())window.location.search='';
+})();
+
 // === 配置 ===
 var CHIP={
-  VERSION:'V27',
+  VERSION:'V28',
   OWNER:localStorage.getItem('sh_owner')||'主人',
-  WEBHOOK:'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d4b204ea-1242-432b-a4c7-7d9ee3f6eeb5',
   HANDOVER:[8,3,1,2,0,6].reverse().join(''),
+  DNA:{geneSeal:'77-59-62-65-74-75',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
     stateKey:'sh_port_state',
     ports:[
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V27',owner:'主权人'},
+      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V28',owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -374,39 +645,41 @@ var CHIP={
       {id:'geo',name:'GEO运营',url:'shanhai-geo',v:'V1',owner:'山海'},
       {id:'widget',name:'聊天挂件',url:'shanhai-widget',v:'V1',owner:'山海'}
     ]
-  },
-  DNA:{geneSeal:'77-59-62-65-74-75',slogan:'主权至上·内核优先·闭环安全'},
-  INDEXNOW_KEY:'5a7b4c9d6e3f1a8b2d7c4e9f6a1b3d5c'
+  }
 };
+
 var PAGES=[
   {name:'AI客服',url:'https://shanhai-ai.surge.sh'},
   {name:'商城',url:'https://shanhai-shop.surge.sh'},
   {name:'指挥中心',url:'https://shanhai-admin.surge.sh'},
   {name:'话术中心',url:'https://shanhai-talk.surge.sh'}
 ];
-var WEBHOOK=CHIP.WEBHOOK;
 
-// === 安全机制 ===
+// === PIN 安全系统 (V28 重写 — 彻底修复绕过漏洞) ===
 var SESSION={
   TIMEOUT:15*60*1000,
   MAX_OP:30,
   opCount:0,
   lastActive:Date.now(),
   locked:false,
+  verified:false,
   init:function(){
-    sessionStorage.removeItem('sh_session');
+    this.verified=false;
     this.opCount=0;
     this.lastActive=Date.now();
     this.locked=false;
+    sessionStorage.removeItem('sh_session');
   },
   activate:function(){
+    this.verified=true;
     sessionStorage.setItem('sh_session','1');
     this.opCount=0;
     this.lastActive=Date.now();
     this.locked=false;
   },
   check:function(){
-    if(!sessionStorage.getItem('sh_session'))return false;
+    if(!this.verified)return false;
+    if(!sessionStorage.getItem('sh_session')){this.lock();return false}
     if(Date.now()-this.lastActive>this.TIMEOUT){this.lock();return false}
     if(this.opCount>=this.MAX_OP){this.lock();return false}
     return true;
@@ -417,12 +690,14 @@ var SESSION={
     if(this.opCount>=this.MAX_OP)this.lock();
   },
   lock:function(){
+    this.verified=false;
     this.locked=true;
     sessionStorage.removeItem('sh_session');
     document.getElementById('mainApp').classList.remove('active');
     document.getElementById('lockScreen').classList.add('show');
   },
   unlock:function(){
+    this.verified=true;
     this.locked=false;
     this.activate();
     document.getElementById('lockScreen').classList.remove('show');
@@ -430,101 +705,246 @@ var SESSION={
   }
 };
 
-function resetInactivity(){SESSION.lastActive=Date.now()}
-
-// === PIN系统 ===
 var PIN={
-  input:'',storedPin:null,handover:'602138',attempts:0,resetMode:false,
+  input:'',
+  storedPin:null,
+  attempts:0,
+  resetMode:false,
+  setupMode:false,
+
   getStored:function(){
-    if(!this.storedPin)this.storedPin=localStorage.getItem('sh_pin')||null;
+    if(!this.storedPin){
+      this.storedPin=localStorage.getItem('sh_pin')||null;
+    }
     return this.storedPin;
   },
-  set:function(pin){localStorage.setItem('sh_pin',pin);this.storedPin=pin;toast('通行码已设置','gold')},
+
   verify:function(code){
     if(this.resetMode){
-      if(code===this.handover){
+      if(code===CHIP.HANDOVER){
         this.resetMode=false;
-        document.getElementById('pinStatus').textContent='设置新通行码';
-        this.input='';this.updateDots(0);
-        return'reset_confirm';
+        return 'reset_ok';
       }
-      return'wrong_handover';
+      return 'wrong_handover';
     }
-    var s=this.getStored();
-    if(s&&code===s)return'ok';
-    if(code===this.handover)return'handover';
-    return'wrong';
+
+    var stored=this.getStored();
+
+    // 【V28 核心修复】如果没有存储的PIN，任何输入都不放行，强制走设置流程
+    if(!stored){
+      // 无论输入什么，都不通过，强制设置PIN
+      return 'must_setup';
+    }
+
+    // 有存储的PIN，正常验证
+    if(code===stored) return 'ok';
+    if(code===CHIP.HANDOVER) return 'handover';
+    return 'wrong';
   },
+
   updateDots:function(n){
     for(var i=0;i<6;i++){
       var d=document.getElementById('pd'+i);
       d.className='pin-dot'+(i<n?' filled':'');
     }
+  },
+
+  clearInput:function(){
+    this.input='';
+    this.updateDots(0);
   }
 };
 
-function initPin(){
-  document.getElementById('pinScreen').classList.remove('off');
-  sessionStorage.removeItem('sh_session');
-}
+function resetInactivity(){SESSION.lastActive=Date.now()}
+
+// PIN 键盘事件绑定 (V28: 用事件委托，更可靠)
+document.getElementById('pinPad').addEventListener('click',function(e){
+  var btn=e.target.closest('.pin-key');
+  if(!btn)return;
+  var k=btn.dataset.k;
+  if(k==='clear'){PIN.clearInput();return}
+  if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
+  pinIn(k);
+});
 
 function pinIn(d){
   if(PIN.input.length>=6)return;
   PIN.input+=d;
   PIN.updateDots(PIN.input.length);
+
+  if(PIN.input.length<6)return;
+
   var r=PIN.verify(PIN.input);
-  if(r==='ok'){correctPin();return}
+  var statusEl=document.getElementById('pinStatus');
+
+  if(r==='ok'){
+    // 正确PIN
+    PIN.updateDots(6);
+    for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+    statusEl.textContent='验证通过';
+    setTimeout(correctPin,400);
+    return;
+  }
+
   if(r==='handover'){
-    document.getElementById('pinStatus').textContent='交接码正确...';
+    // 交接码 — 检查是否有已设PIN
+    var stored=PIN.getStored();
+    if(stored){
+      // 有PIN，交接码也放行（主权交接）
+      PIN.updateDots(6);
+      for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+      statusEl.textContent='主权交接验证通过';
+      setTimeout(correctPin,400);
+    }else{
+      // 没有PIN，交接码也必须先设PIN
+      statusEl.textContent='首次使用，请设置通行码';
+      setTimeout(function(){
+        PIN.clearInput();
+        statusEl.textContent='请设置通行码';
+        showPinSetup();
+      },600);
+    }
+    return;
+  }
+
+  if(r==='must_setup'){
+    // 没有存储PIN，强制设置
+    statusEl.textContent='首次使用，请设置通行码';
     setTimeout(function(){
-      if(PIN.getStored()){
-        document.getElementById('pinStatus').textContent='验证通过';
-        setTimeout(correctPin,500);
-      }else{
-        document.getElementById('pinStatus').textContent='首次使用，请设通行码';
-        PIN.input='';PIN.updateDots(0);
-      }
+      PIN.clearInput();
+      showPinSetup();
+    },600);
+    return;
+  }
+
+  if(r==='reset_ok'){
+    // 交接码验证成功，进入设置新PIN
+    statusEl.textContent='验证通过，请设置新通行码';
+    setTimeout(function(){
+      PIN.clearInput();
+      showPinSetup();
     },400);
     return;
   }
-  if(r==='wrong'){
-    PIN.attempts++;
-    showPinError();
-    if(PIN.attempts>=3)document.getElementById('pinReset').style.display='block';
+
+  // 密码错误
+  PIN.attempts++;
+  showPinError();
+  if(PIN.attempts>=3){
+    document.getElementById('pinReset').style.display='block';
   }
 }
-
-function pinClear(){PIN.input='';PIN.updateDots(0)}
-function pinBack(){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length)}
 
 function showPinError(){
   for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';
   document.getElementById('pinStatus').textContent='密码错误';
-  setTimeout(function(){PIN.input='';PIN.updateDots(0);document.getElementById('pinStatus').textContent='请重新输入'},800);
+  setTimeout(function(){
+    PIN.clearInput();
+    document.getElementById('pinStatus').textContent='请重新输入';
+  },800);
+}
+
+// === PIN 设置流程 (V28 新增 — 彻底解决无PIN绕过) ===
+function showPinSetup(){
+  PIN.setupMode=true;
+  var overlay=document.getElementById('pinSetupOverlay');
+  var input=document.getElementById('pinSetupInput');
+  var error=document.getElementById('pinSetupError');
+  overlay.classList.add('show');
+  input.value='';
+  error.textContent='';
+  input.classList.remove('error');
+  setTimeout(function(){input.focus()},300);
+}
+
+document.getElementById('pinSetupConfirm').addEventListener('click',confirmPinSetup);
+document.getElementById('pinSetupInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){e.preventDefault();confirmPinSetup()}
+});
+
+function confirmPinSetup(){
+  var input=document.getElementById('pinSetupInput');
+  var error=document.getElementById('pinSetupError');
+  var val=input.value.trim();
+
+  if(val.length!==6||!/^\d{6}$/.test(val)){
+    error.textContent='请输入6位数字';
+    input.classList.add('error');
+    setTimeout(function(){input.classList.remove('error')},400);
+    return;
+  }
+
+  // 不允许和交接码相同
+  if(val===CHIP.HANDOVER){
+    error.textContent='不能使用此号码，请换一个';
+    input.classList.add('error');
+    setTimeout(function(){input.classList.remove('error')},400);
+    return;
+  }
+
+  // 保存PIN
+  localStorage.setItem('sh_pin',val);
+  PIN.storedPin=val;
+  PIN.setupMode=false;
+  PIN.attempts=0;
+
+  document.getElementById('pinSetupOverlay').classList.remove('show');
+  document.getElementById('pinStatus').textContent='通行码已设置，验证通过';
+
+  // 更新dots为成功状态
+  for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+
+  setTimeout(correctPin,500);
 }
 
 function correctPin(){
-  document.getElementById('pinScreen').classList.add('off');
+  document.getElementById('pinScreen').classList.add('gone');
+  setTimeout(function(){document.getElementById('pinScreen').style.display='none'},400);
   SESSION.activate();
   document.getElementById('mainApp').classList.add('active');
   initApp();
-  var burst=document.getElementById('burst');
-  burst.classList.add('active');
-  setTimeout(function(){burst.classList.remove('active')},1000);
+  toast('山海指挥中心 '+CHIP.VERSION);
+}
+
+function initPin(){
+  document.getElementById('pinScreen').style.display='';
+  document.getElementById('pinScreen').classList.remove('gone');
+  SESSION.init();
+  PIN.clearInput();
+  PIN.attempts=0;
+  PIN.resetMode=false;
+
+  var stored=PIN.getStored();
+  var statusEl=document.getElementById('pinStatus');
+  var hintEl=document.getElementById('pinHint');
+  var resetEl=document.getElementById('pinReset');
+
+  resetEl.style.display='none';
+
+  if(stored){
+    statusEl.textContent='请输入通行码';
+    hintEl.textContent='';
+  }else{
+    statusEl.textContent='首次使用，请设置通行码';
+    hintEl.textContent='需要6位数字通行码';
+    // 直接弹出设置窗口
+    setTimeout(showPinSetup,500);
+  }
 }
 
 function startReset(){
   PIN.resetMode=true;
-  PIN.input='';PIN.updateDots(0);
+  PIN.clearInput();
+  PIN.attempts=0;
   document.getElementById('pinStatus').textContent='输入交接码验证';
   document.getElementById('pinReset').style.display='none';
 }
 
 function showPinScreen(){
   document.getElementById('lockScreen').classList.remove('show');
-  document.getElementById('pinScreen').classList.remove('off');
-  PIN.input='';PIN.updateDots(0);
-  document.getElementById('pinStatus').textContent='输入通行码解锁';
+  document.getElementById('pinScreen').style.display='';
+  document.getElementById('pinScreen').classList.remove('gone');
+  initPin();
 }
 
 // === 聊天核心 ===
@@ -537,10 +957,12 @@ function addMsg(cls,html,timeStr){
   if(!SESSION.check()){SESSION.lock();return}
   SESSION.record();
   var now=new Date();
-  var t=timeStr||(now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0'));
+  var h=now.getHours(),m=now.getMinutes();
+  var t=timeStr||(h<10?'0'+h:h)+':'+(m<10?'0'+m:m);
   var item=document.createElement('div');
   item.className='msg '+cls;
-  item.innerHTML='<div class="msg-avatar">'+(cls==='msg-ai'?'山':'我')+'</div><div class="msg-content"><div class="msg-bubble">'+html+'</div><div class="msg-time">'+t+'</div></div>';
+  var avatarText=cls==='msg-ai'?'山':'我';
+  item.innerHTML='<div class="msg-avatar">'+avatarText+'</div><div class="msg-content"><div class="msg-bubble">'+html+'</div><div class="msg-time">'+t+'</div></div>';
   chatArea.appendChild(item);
   chatArea.scrollTop=chatArea.scrollHeight;
 }
@@ -579,7 +1001,7 @@ function sendMsg(){
 
 function autoResize(el){
   el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,70)+'px';
+  el.style.height=Math.min(el.scrollHeight,100)+'px';
 }
 
 function toggleSend(){
@@ -620,13 +1042,13 @@ var CMD_ROUTER={
     r['!建站']=function(){addAi('[建站向导]',buildSiteBuilder())};
     r['!通知']=function(){addAi(SH_NOTIFY.showCenter())};
     r['!动态']=function(){addAi(SH_NOTIFY.showCenter())};
-    r['!已读']=function(){SH_NOTIFY.markRead();addAi('[已读] 通知已标记')};
+    r['!已读']=function(){SH_NOTIFY.markRead();addAi('已标记所有通知为已读')};
     r['!系统']=function(){openDetail('sys')};
     r['!状态']=function(){openDetail('sys')};
-    r['!版本']=function(){addAi('山海智能指挥中心 '+CHIP.VERSION+'<br>12引擎端口管控 · DNA防护盾<br>插件化自生长架构')};
+    r['!版本']=function(){addAi('山海指挥中心 '+CHIP.VERSION+'<br>12端口管控 · DNA防护盾<br>插件化自生长架构')};
     r['!日志']=function(){addAi('[操作日志]',buildLogPanel())};
-    r['!清理']=function(){localStorage.clear();addAi('[清理完成] 本地数据已清除')};
-    r['!帮助']=function(){addAi('[帮助]\n\n输入 !自检 查看系统状态\n输入 !订单 管理订单\n输入 !营收 查看收入\n输入 !端口 管控端口\n输入 !防护盾 安全设置\n\n或直接输入问题，我来回答')};
+    r['!清理']=function(){localStorage.clear();addAi('本地数据已清除，页面将刷新');setTimeout(function(){location.reload()},1500)};
+    r['!帮助']=function(){addAi(buildHelpMsg())};
   },
   match:function(cmd){
     var c=cmd.trim();
@@ -645,36 +1067,57 @@ function processCmd(cmd){
   if(!SESSION.check()){SESSION.lock();return}
   SESSION.record();
   if(CMD_ROUTER.match(cmd))return;
-  // 未知指令，尝试AI
   callAI(cmd);
 }
 
-// === AI接入 ===
+// === AI 神经系统 (V28: 正式接入) ===
 var SH_API={
-  route:{name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash'},
-  async call(prompt){
+  route:{
+    name:'智谱GLM',
+    url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+    key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',
+    model:'glm-4-flash'
+  },
+  call:async function(prompt){
     typing();
     try{
       var resp=await fetch(this.route.url,{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+this.route.key},
-        body:JSON.stringify({model:this.route.model,messages:[{role:'system',content:'你是山海智能指挥中心的AI助手"小海"，直接回答用户问题，简洁友好。'},{role:'user',content:prompt}],max_tokens:1500,temperature:0.7})
+        body:JSON.stringify({
+          model:this.route.model,
+          messages:[
+            {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。你简洁、专业、直接地回答问题。如果涉及系统操作，告诉用户使用对应的!指令。回答使用中文。'},
+            {role:'user',content:prompt}
+          ],
+          max_tokens:1200,
+          temperature:0.7
+        })
       });
       if(resp.ok){
         var data=await resp.json();
         if(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content){
           removeTyping();
-          addAi(data.choices[0].message.content);
+          addAi(formatAiResponse(data.choices[0].message.content));
           return;
         }
       }
-    }catch(e){}
+    }catch(e){
+      console.log('AI call failed:',e);
+    }
     removeTyping();
-    addAi('[未找到对应指令]\n\n输入 !帮助 查看所有指令\n或直接描述您需要的操作');
+    addAi('当前无法连接到AI引擎，请稍后重试。<br><br>你也可以输入 <b>!帮助</b> 查看所有可用指令。');
   }
 };
 
 function callAI(prompt){SH_API.call(prompt)}
+
+function formatAiResponse(text){
+  // 简单格式化：换行转<br>，**bold**转<strong>
+  return text
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
 
 // === 模块注册 ===
 var MODULE_REGISTRY={
@@ -698,7 +1141,7 @@ var MODULE_REGISTRY={
         '会话管理':{status:'active',desc:'PIN验证'},
         '视觉引擎':{status:'active',desc:'界面自定义'},
         '数据同步':{status:'active',desc:'多端一致'},
-        '自驾生长':{status:'active',desc:'功能扩展'}
+        '自生长':{status:'active',desc:'功能扩展'}
       };
       this.save();
     }
@@ -707,7 +1150,7 @@ var MODULE_REGISTRY={
   list:function(){return Object.keys(this.mods).map(function(k){return{name:k,status:this.mods[k].status,desc:this.mods[k].desc}},this)}
 };
 
-// === 自检 ===
+// === 功能面板构建 ===
 function selfCheck(){
   var pin=localStorage.getItem('sh_pin');
   var shield=localStorage.getItem('sh_dna_shield')||'on';
@@ -715,19 +1158,20 @@ function selfCheck(){
   var open=Object.values(ports).filter(function(v){return v!==false}).length;
   var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
   var pending=orders.filter(function(o){return o.status==='pending'}).length;
-  var h='<div class="result-box"><div class="rb-title">系统自检</div>';
-  h+='<div class="rb-item"><span class="'+(pin?'on':'off')+'">'+(pin?'[正常]':'[未设]')+'</span> 通行码</div>';
-  h+='<div class="rb-item"><span class="'+(shield==='on'?'on':'off')+'">'+(shield==='on'?'[开启]':'[关闭]')+'</span> 防护盾</div>';
-  h+='<div class="rb-item"><span class="on">[正常]</span> 端口: '+open+'/12开启</div>';
-  h+='<div class="rb-item"><span class="'+(pending>0?'off':'on')+'">'+(pending>0?'[有]':'[无]')+'</span> 待处理订单: '+pending+'笔</div>';
-  h+='<div class="rb-item"><span class="on">[正常]</span> 主脑山海在线</div>';
+  var h='<div class="result-box"><div class="rb-title">系统自检报告</div>';
+  h+='<div class="rb-item"><span class="'+(pin?'on':'off')+'">'+(pin?'[正常]':'[未设]')+'</span> 通行码保护</div>';
+  h+='<div class="rb-item"><span class="'+(shield==='on'?'on':'off')+'">'+(shield==='on'?'[开启]':'[关闭]')+'</span> DNA防护盾</div>';
+  h+='<div class="rb-item"><span class="on">[正常]</span> 端口 '+open+'/12 在线</div>';
+  h+='<div class="rb-item"><span class="'+(pending>0?'off':'on')+'">'+(pending>0?'[有]':'[无]')+'</span> 待处理订单 '+pending+'笔</div>';
+  h+='<div class="rb-item"><span class="on">[在线]</span> AI引擎 (智谱GLM)</div>';
+  h+='<div class="rb-item"><span class="on">[正常]</span> 主脑山海</div>';
   h+='</div>';
   addAi(h);
 }
 
 function showPowerOn(){
-  addAi('[通电成功] 系统已全面启动\n12引擎端口已通电\n15模块已就位\n防护盾已激活');
-  setTimeout(function(){addAi('随时待命，请下达指令')},600);
+  addAi('系统启动完成<br><br>12 引擎端口已通电<br>15 模块已就位<br>防护盾已激活');
+  setTimeout(function(){addAi('随时待命')},500);
 }
 
 function buildChipInfo(){
@@ -735,15 +1179,15 @@ function buildChipInfo(){
   h+='<div class="rb-item">版本: '+CHIP.VERSION+'</div>';
   h+='<div class="rb-item">所有者: '+CHIP.OWNER+'</div>';
   h+='<div class="rb-item">基因封印: '+CHIP.DNA.geneSeal+'</div>';
-  h+='<div class="rb-item">模块数: '+MODULE_REGISTRY.list().length+'</div>';
-  h+='<div class="rb-item">端口数: '+CHIP.PORT_SHIELD.ports.length+'</div>';
+  h+='<div class="rb-item">模块: '+MODULE_REGISTRY.list().length+'个</div>';
+  h+='<div class="rb-item">端口: '+CHIP.PORT_SHIELD.ports.length+'个</div>';
   h+='</div>';
   return h;
 }
 
 function buildModuleList(){
   var mods=MODULE_REGISTRY.list();
-  var h='<div class="result-box"><div class="rb-title">已加载模块 ('+mods.length+'个)</div>';
+  var h='<div class="result-box"><div class="rb-title">已加载模块 ('+mods.length+')</div>';
   mods.forEach(function(m){h+='<div class="rb-item"><span class="on">[V]</span> '+m.name+' · '+m.desc+'</div>'});
   h+='</div>';
   return h;
@@ -751,26 +1195,25 @@ function buildModuleList(){
 
 function buildSecurityInfo(){
   var shield=localStorage.getItem('sh_dna_shield')||'on';
-  var ms=localStorage.getItem('sh_master')||'open';
   var h='<div class="result-box"><div class="rb-title">安全状态</div>';
   h+='<div class="rb-item"><span class="'+(shield==='on'?'on':'off')+'">'+(shield==='on'?'[开启]':'[关闭]')+'</span> DNA防护盾</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> PIN验证</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> 会话超时保护</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> 操作次数限制</div>';
+  h+='<div class="rb-item"><span class="on">[V]</span> PIN 通行码</div>';
+  h+='<div class="rb-item"><span class="on">[V]</span> 15分钟会话超时</div>';
+  h+='<div class="rb-item"><span class="on">[V]</span> 30次操作限制</div>';
   h+='<div class="rb-item"><span class="on">[V]</span> iframe注入拦截</div>';
   h+='</div>';
   return h;
 }
 
 function buildInternalLoop(){
-  return'<div class="result-box"><div class="rb-title">内循环引擎</div><div class="rb-item">山海主脑 · 7x24运转</div><div class="rb-item">指令路由 · 即时响应</div><div class="rb-item">模块协同 · 无缝衔接</div><div class="rb-item">自我修复 · 持续优化</div></div>';
+  return'<div class="result-box"><div class="rb-title">内循环引擎</div><div class="rb-item">山海主脑 · 7×24运转</div><div class="rb-item">指令路由 · 即时响应</div><div class="rb-item">模块协同 · 无缝衔接</div><div class="rb-item">自我修复 · 持续优化</div></div>';
 }
 
 function buildExecPanel(){
   var h='<div class="result-box"><div class="rb-title">执行面板</div>';
-  var btns=[{l:'!自检'},{l:'!通电'},{l:'!端口'},{l:'!模块'},{l:'!安保'},{l:'!订单'},{l:'!营收'},{l:'!通知'}];
+  var btns=['!自检','!通电','!端口','!模块','!安保','!订单','!营收','!通知'];
   btns.forEach(function(b){
-    h+='<button onclick="addUser(\''+b.l+'\');processCmd(\''+b.l+'\')" style="padding:6px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--gold);font-size:11px;cursor:pointer;margin:3px">'+b.l+'</button>';
+    h+='<button onclick="addUser(\''+b+'\');processCmd(\''+b+'\')">'+b+'</button>';
   });
   h+='</div>';
   return h;
@@ -779,7 +1222,7 @@ function buildExecPanel(){
 function buildRevenuePanel(){
   var s=calcRev();
   var h='<div class="result-box"><div class="rb-title">营收概览</div>';
-  h+='<div class="rb-item">今日营收: <span style="color:var(--gold);font-weight:700">¥'+s.revenue+'</span></div>';
+  h+='<div class="rb-item">今日营收: <span style="color:var(--accent);font-weight:700">¥'+s.revenue+'</span></div>';
   h+='<div class="rb-item">总订单: '+s.total+'笔</div>';
   h+='<div class="rb-item">已交付: <span class="on">'+s.delivered+'笔</span></div>';
   h+='<div class="rb-item">待处理: '+(s.total-s.paid)+'笔</div>';
@@ -788,7 +1231,7 @@ function buildRevenuePanel(){
 }
 
 function buildToolsPanel(){
-  return'<div class="result-box"><div class="rb-title">工具箱</div><div class="rb-item">!建站 · 创建新站点</div><div class="rb-item">!日志 · 操作记录</div><div class="rb-item">!清理 · 清除数据</div></div>';
+  return'<div class="result-box"><div class="rb-title">工具箱</div><div class="rb-item">!建站 — 创建新站点</div><div class="rb-item">!日志 — 操作记录</div><div class="rb-item">!清理 — 清除本地数据</div></div>';
 }
 
 function buildSiteBuilder(){
@@ -801,15 +1244,30 @@ function buildLogPanel(){
   if(logs.length===0){h+='<div class="rb-item">暂无记录</div>'}else{
     logs.forEach(function(l){
       var t=new Date(l.time).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
-      h+='<div class="rb-item" style="font-size:10px">'+t+' '+l.type+':'+l.action+'</div>';
+      h+='<div class="rb-item" style="font-size:12px">'+t+' '+l.type+': '+l.action+'</div>';
     });
   }
   h+='</div>';
   return h;
 }
 
-function buildEngines(){
-  return'<div class="engine-card"><div class="ec-num">GLM-4</div><div class="ec-name">智谱GLM · 主力引擎</div><div class="ec-desc">稳定可靠 · 持续在线</div></div>';
+function buildHelpMsg(){
+  return '<div class="result-box"><div class="rb-title">可用指令</div>'+
+    '<div class="rb-item"><b>!自检</b> 系统状态检查</div>'+
+    '<div class="rb-item"><b>!通电</b> 系统启动</div>'+
+    '<div class="rb-item"><b>!芯片</b> 查看芯片信息</div>'+
+    '<div class="rb-item"><b>!模块</b> 已加载模块</div>'+
+    '<div class="rb-item"><b>!安保</b> 安全状态</div>'+
+    '<div class="rb-item"><b>!端口</b> 端口管控</div>'+
+    '<div class="rb-item"><b>!防护盾</b> 安全设置</div>'+
+    '<div class="rb-item"><b>!订单</b> 订单管理</div>'+
+    '<div class="rb-item"><b>!营收</b> 营收概览</div>'+
+    '<div class="rb-item"><b>!通知</b> 通知中心</div>'+
+    '<div class="rb-item"><b>!权限</b> 权限设置</div>'+
+    '<div class="rb-item"><b>!系统</b> 系统状态</div>'+
+    '<div class="rb-item"><b>!日志</b> 操作日志</div>'+
+    '<div class="rb-item" style="color:var(--text3);margin-top:8px">也可以直接输入问题，AI会回答</div>'+
+    '</div>';
 }
 
 // === 端口管控 ===
@@ -827,8 +1285,8 @@ function buildMasterPanel(){
   h+='<div class="ms-desc">'+descs[ms]+'</div>';
   h+='<div class="ms-toggle '+ms+'" onclick="toggleMaster()"></div>';
   h+='<div class="ms-actions">';
-  if(ms!=='open')h+='<button onclick="setMaster(\'open\')" style="padding:8px 16px;background:var(--green);border:none;border-radius:8px;color:#fff;font-size:12px;cursor:pointer">重启</button>';
-  h+='<button onclick="setMaster(\'sealed\')" style="padding:8px 16px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:12px;cursor:pointer">封存</button>';
+  if(ms!=='open')h+='<button onclick="setMaster(\'open\')" style="background:var(--green)">重启</button>';
+  h+='<button onclick="setMaster(\'sealed\')" style="background:var(--purple)">封存</button>';
   h+='</div></div>';
   return h;
 }
@@ -841,7 +1299,7 @@ function toggleMaster(){
 function setMaster(state){
   localStorage.setItem('sh_master',state);
   updateShieldIndicator();
-  toast('系统'+{open:'已开启',closed:'已关闭',sealed:'已封存'}[state],state==='open'?'green':'gold');
+  toast('系统'+{open:'已开启',closed:'已关闭',sealed:'已封存'}[state]);
   openDetail('port');
 }
 
@@ -851,42 +1309,34 @@ function togglePort(el){
   ps[portId]=!ps[portId];
   savePortState(ps);
   el.classList.toggle('on');
-  toast((ps[portId]?'开启':'关闭')+' '+portId,'gold');
+  toast((ps[portId]?'开启':'关闭')+' '+portId);
   updateShieldIndicator();
 }
 
 function updateShieldIndicator(){
   var ms=getMasterSwitch();
   var badge=document.getElementById('shieldBadge');
-  if(ms==='open'){
-    badge.className='shield-badge on';
-    badge.innerHTML='&#x1F6E1; 开';
-  }else if(ms==='closed'){
-    badge.className='shield-badge off';
-    badge.innerHTML='&#x1F6E1; 关';
-  }
+  if(ms==='open'){badge.className='nav-badge shield-on';badge.textContent='安全'}
+  else if(ms==='closed'){badge.className='nav-badge shield-off';badge.textContent='关闭'}
+  else{badge.className='nav-badge shield-off';badge.textContent='封存'}
 }
 
 // === 防护盾 ===
 function buildShieldPanel(){
   var shield=localStorage.getItem('sh_dna_shield')||'on';
   var h='<div class="shield-toggle">';
-  h+='<div><div class="st-icon">&#x1F6E1;</div></div>';
+  h+='<div style="font-size:32px">&#x1F6E1;</div>';
   h+='<div style="flex:1"><div class="st-name">DNA防护盾</div><div class="st-desc">主动防御 · 实时监控</div></div>';
   h+='<div class="st-sw '+(shield==='on'?'on':'')+'" onclick="toggleShield()"></div>';
   h+='</div>';
-  h+='<div class="shield-panel">';
-  h+='<h3>&#x1F6E1; 防护状态</h3>';
+  h+='<div class="shield-panel"><h3>防护状态</h3>';
   h+='<div class="shield-row"><span class="sl">代码注入</span><span class="sv no">BLOCKED</span></div>';
   h+='<div class="shield-row"><span class="sl">XSS攻击</span><span class="sv no">BLOCKED</span></div>';
   h+='<div class="shield-row"><span class="sl">跨站请求</span><span class="sv no">BLOCKED</span></div>';
   h+='<div class="shield-row"><span class="sl">iframe嵌入</span><span class="sv no">BLOCKED</span></div>';
   h+='<div class="shield-row"><span class="sl">主权口保护</span><span class="sv gene">GUARANTEED</span></div>';
   h+='</div>';
-  h+='<div class="gene-seal">';
-  h+='<div class="gs-label">基因封印</div>';
-  h+='<div class="gs-dna">'+CHIP.DNA.geneSeal+'</div>';
-  h+='</div>';
+  h+='<div class="gene-seal"><div class="gs-label">基因封印</div><div class="gs-dna">'+CHIP.DNA.geneSeal+'</div></div>';
   return h;
 }
 
@@ -895,48 +1345,53 @@ function toggleShield(){
   var newState=shield==='on'?'off':'on';
   localStorage.setItem('sh_dna_shield',newState);
   updateShieldVisual();
-  toast('防护盾'+(newState==='on'?'已开启':'已关闭'),'gold');
+  toast('防护盾'+(newState==='on'?'已开启':'已关闭'));
   updateShieldIndicator();
 }
 
 function updateShieldVisual(){
   var shield=localStorage.getItem('sh_dna_shield')||'on';
   var overlay=document.getElementById('dnaOverlay');
-  var badge=document.getElementById('dnaBadge');
-  if(shield==='on'){
-    overlay.classList.add('active');
-    badge.classList.add('active');
-  }else{
-    overlay.classList.remove('active');
-    badge.classList.remove('active');
-  }
+  if(shield==='on'){overlay.classList.add('active')}else{overlay.classList.remove('active')}
 }
 
 // === 数据 ===
-var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-function calcRev(){var p=0,r=0,d=0;for(var i=0;i<orders.length;i++){if(orders[i].paid||orders[i].status==='delivered'){p++;r+=orders[i].price||orders[i].amt||0}if(orders[i].delivered||orders[i].status==='delivered')d++}return{paid:p,revenue:r,delivered:d,total:orders.length}}
-function genKey(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';var k='SK-';for(var i=0;i<4;i++){for(var j=0;j<4;j++){k+=c[Math.floor(Math.random()*c.length)]}if(i<3)k+='-'}return k}
+function calcRev(){
+  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+  var p=0,r=0,d=0;
+  for(var i=0;i<orders.length;i++){
+    if(orders[i].paid||orders[i].status==='delivered'){p++;r+=orders[i].price||orders[i].amt||0}
+    if(orders[i].delivered||orders[i].status==='delivered')d++;
+  }
+  return{paid:p,revenue:r,delivered:d,total:orders.length};
+}
+
+function genKey(){
+  var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';var k='SK-';
+  for(var i=0;i<4;i++){for(var j=0;j<4;j++){k+=c[Math.floor(Math.random()*c.length)]}if(i<3)k+='-'}
+  return k;
+}
 
 function buildOrderPanel(){
   var allOrders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
   var pending=allOrders.filter(function(o){return o.status==='pending'||(!o.key&&!o.delivered)});
   var delivered=allOrders.filter(function(o){return o.status==='delivered'||o.delivered||o.key});
   var h='<div class="result-box"><div class="rb-title">订单管理</div>';
-  h+='<div class="rb-item">待确认: <span style="color:var(--gold)">'+pending.length+'</span>笔 | 已交付: <span class="on">'+delivered.length+'</span>笔</div>';
+  h+='<div class="rb-item">待确认: <span style="color:var(--accent)">'+pending.length+'</span>笔 | 已交付: <span class="on">'+delivered.length+'</span>笔</div>';
   if(pending.length>0){
-    h+='<div class="rb-item" style="color:var(--red);margin-top:6px">以下订单待确认收款</div>';
+    h+='<div class="rb-item" style="color:var(--red);margin-top:8px">以下订单待确认收款</div>';
     pending.forEach(function(o){
       var oid=o.oid||o.id||'未知';
       var amt=o.amt||o.price||298;
       var prod=o.product||o.name||'AI客服年度版';
-      h+='<div style="background:rgba(0,0,0,.1);border-radius:10px;padding:10px;margin:8px 0">';
-      h+='<div style="color:var(--cyan);font-size:12px;font-weight:600">'+oid+'</div>';
-      h+='<div style="font-size:11px;color:var(--text2)">'+prod+' · ¥'+amt+'</div>';
+      h+='<div style="background:var(--surface2);border-radius:10px;padding:10px;margin:8px 0">';
+      h+='<div style="color:var(--blue);font-size:12px;font-weight:600">'+oid+'</div>';
+      h+='<div style="font-size:12px;color:var(--text2)">'+prod+' · ¥'+amt+'</div>';
       h+='<button onclick="confirmOrder(\''+oid+'\')" style="margin-top:6px;padding:6px 14px;background:var(--green);border:none;border-radius:8px;color:#fff;font-size:11px;cursor:pointer">确认+发Key</button>';
       h+='</div>';
     });
   }else{
-    h+='<div class="rb-item" style="color:var(--dim)">暂无待确认订单</div>';
+    h+='<div class="rb-item" style="color:var(--text3)">暂无待确认订单</div>';
   }
   h+='</div>';
   return h;
@@ -947,41 +1402,39 @@ function confirmOrder(oid){
   var found=false;
   for(var i=0;i<orders.length;i++){
     if(orders[i].oid===oid||orders[i].id===oid){
-      if(orders[i].key){addAi('订单'+oid+'已交付Key:'+orders[i].key);found=true;break}
+      if(orders[i].key){addAi('订单'+oid+'已交付，Key: '+orders[i].key);found=true;break}
       var key=genKey();
-      orders[i].key=key;
-      orders[i].status='delivered';
-      orders[i].delivered=true;
-      orders[i].paid=true;
-      found=true;
-      break;
+      orders[i].key=key;orders[i].status='delivered';orders[i].delivered=true;orders[i].paid=true;
+      found=true;break;
     }
   }
-  if(!found){addAi('未找到订单:'+oid);return}
+  if(!found){addAi('未找到订单: '+oid);return}
   localStorage.setItem('sh_orders',JSON.stringify(orders));
   var o=orders.find(function(x){return(x.oid||x.id)===oid});
-  addAi('[交付成功]\n\n订单号:'+oid+'\nKey:'+o.key+'\n金额:¥'+(o.amt||o.price||298)+'\n\n请将Key告知客户');
+  addAi('[交付成功]<br><br>订单号: '+oid+'<br>Key: '+o.key+'<br>金额: ¥'+(o.amt||o.price||298)+'<br><br>请将Key告知客户');
   SH_NOTIFY.push('订单','订单'+oid+'已交付','ok');
 }
 
 // === 详情弹窗 ===
 function openDetail(type){
+  if(!SESSION.check()){SESSION.lock();return}
+  SESSION.record();
   var body=document.getElementById('dmBody');
   var title=document.getElementById('dmTitle');
   var s=calcRev();
-  
+
   if(type==='data'){
     title.textContent='数据面板';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--gold)"></span>营收数据</h3><div class="mrow"><span class="mlabel">今日营收</span><span class="mval gd">¥'+s.revenue+'</span></div><div class="mrow"><span class="mlabel">总订单</span><span class="mval">'+s.total+'笔</span></div><div class="mrow"><span class="mlabel">已交付</span><span class="mval gn">'+s.delivered+'笔</span></div><div class="mrow"><span class="mlabel">待处理</span><span class="mval cy">'+(s.total-s.paid)+'笔</span></div></div>';
+    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>营收数据</h3><div class="mrow"><span class="mlabel">今日营收</span><span class="mval gd">¥'+s.revenue+'</span></div><div class="mrow"><span class="mlabel">总订单</span><span class="mval">'+s.total+'笔</span></div><div class="mrow"><span class="mlabel">已交付</span><span class="mval gn">'+s.delivered+'笔</span></div><div class="mrow"><span class="mlabel">待处理</span><span class="mval cy">'+(s.total-s.paid)+'笔</span></div></div>';
   }else if(type==='pay'){
     title.textContent='收款码';
-    body.innerHTML='<div class="mcard" style="text-align:center;border-color:rgba(212,160,74,.3)"><h3 style="color:var(--gold);justify-content:center">收款码 · 首单298元</h3><div style="font-size:11px;color:var(--text2);margin:8px 0">7x24在线 · 即开即用 · 替代人工</div><button onclick="closeDetail();document.getElementById(\'payModal\').classList.add(\'show')" style="padding:12px 28px;background:linear-gradient(135deg,var(--gold),#b8860b);border:none;border-radius:22px;color:#fff;font-size:14px;font-weight:700;cursor:pointer">查看收款码</button></div>';
+    body.innerHTML='<div class="mcard" style="text-align:center"><h3 style="color:var(--accent);justify-content:center">收款码 · 首单298元</h3><div style="font-size:12px;color:var(--text3);margin:8px 0">7×24在线 · 即开即用 · 替代人工</div><button onclick="closeDetail();document.getElementById(\'payModal\').classList.add(\'show\')" style="padding:12px 28px;background:linear-gradient(135deg,var(--accent),#b8860b);border:none;border-radius:22px;color:#fff;font-size:14px;font-weight:600;cursor:pointer">查看收款码</button></div>';
   }else if(type==='perm'){
     title.textContent='权限设置';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--gold)"></span>指挥中心权限</h3><div class="mrow"><span class="mlabel">通行码</span><span class="mval gd">您设置</span></div><div class="mrow"><span class="mlabel">交接码</span><span class="mval">一次即焚</span></div><div class="mrow"><span class="mlabel">可设置</span><span class="mval">新码/人脸/任何认证</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>核心原则</h3><div class="mrow"><span class="mlabel">底座</span><span class="mval">公有</span></div><div class="mrow"><span class="mlabel">主权</span><span class="mval pp">至上</span></div><div class="mrow"><span class="mlabel">内核</span><span class="mval pp">优先</span></div></div>';
+    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>指挥中心权限</h3><div class="mrow"><span class="mlabel">通行码</span><span class="mval gd">您设置</span></div><div class="mrow"><span class="mlabel">交接码</span><span class="mval">一次即焚</span></div><div class="mrow"><span class="mlabel">可设置</span><span class="mval">新码/人脸/任何认证</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>核心原则</h3><div class="mrow"><span class="mlabel">底座</span><span class="mval pp">公有</span></div><div class="mrow"><span class="mlabel">主权</span><span class="mval pp">至上</span></div><div class="mrow"><span class="mlabel">内核</span><span class="mval pp">优先</span></div></div>';
   }else if(type==='sys'){
     title.textContent='系统状态';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--gold)"></span>版本信息</h3><div class="mrow"><span class="mlabel">指挥中心</span><span class="mval gd">'+CHIP.VERSION+'</span></div><div class="mrow"><span class="mlabel">AI客服</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">商城</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">话术</span><span class="mval">V1</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="mrow"><span class="mlabel">主脑山海</span><span class="mval gn">在线</span></div><div class="mrow"><span class="mlabel">安全防护</span><span class="mval pp">DNA防护盾</span></div><div class="mrow"><span class="mlabel">认证方式</span><span class="mval gd">通行码</span></div></div><div class="mcard"><h3>快捷入口</h3><div><a class="link-btn" href="https://shanhai-ai.surge.sh" target="_blank">AI客服</a><a class="link-btn" href="https://shanhai-shop.surge.sh" target="_blank">商城</a><a class="link-btn" href="https://shanhai-talk.surge.sh" target="_blank">话术</a></div></div>';
+    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>版本信息</h3><div class="mrow"><span class="mlabel">指挥中心</span><span class="mval gd">'+CHIP.VERSION+'</span></div><div class="mrow"><span class="mlabel">AI客服</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">商城</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">话术</span><span class="mval">V1</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="mrow"><span class="mlabel">主脑山海</span><span class="mval gn">在线</span></div><div class="mrow"><span class="mlabel">安全防护</span><span class="mval pp">DNA防护盾</span></div><div class="mrow"><span class="mlabel">认证方式</span><span class="mval gd">通行码</span></div></div><div class="mcard"><h3>快捷入口</h3><div><a class="link-btn" href="https://shanhai-ai.surge.sh" target="_blank">AI客服</a><a class="link-btn" href="https://shanhai-shop.surge.sh" target="_blank">商城</a><a class="link-btn" href="https://shanhai-talk.surge.sh" target="_blank">话术</a></div></div>';
   }else if(type==='port'){
     title.textContent='端口管控';
     var ps=loadPortState();
@@ -1009,10 +1462,10 @@ function openDetail(type){
 function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
 function toggleMenu(){document.getElementById('sideMenu').classList.toggle('show');document.getElementById('menuOverlay').classList.toggle('show')}
 
-// === 通知体系 ===
+// === 通知 ===
 var SH_NOTIFY={
   KEY:'sh_notifications',MAX:100,
-  load:function(){return JSON.parse(localStorage.getItem(this.KEY)||'[]')},
+  load:function(){try{return JSON.parse(localStorage.getItem(this.KEY)||'[]')}catch(e){return[]}},
   save:function(ns){localStorage.setItem(this.KEY,JSON.stringify(ns))},
   push:function(type,msg,level){
     var ns=this.load();
@@ -1023,13 +1476,12 @@ var SH_NOTIFY={
   markRead:function(){var ns=this.load();ns.forEach(function(n){n.read=true});this.save(ns)},
   unread:function(){return this.load().filter(function(n){return!n.read})},
   autoCheck:function(){
-    var self=this;
     var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
     var paid=orders.filter(function(o){return o.paid});
-    if(paid.length>0)this.push('订单','待交付:'+paid.length+'笔','warn');
+    if(paid.length>0)this.push('订单','待交付: '+paid.length+'笔','warn');
     var ms=localStorage.getItem('sh_master')||'open';
-    if(ms!=='open')this.push('安全','总开关:'+ms,'');
-    this.push('系统','指挥中心'+CHIP.VERSION+'启动完成','ok');
+    if(ms!=='open')this.push('安全','总开关: '+ms,'');
+    this.push('系统','指挥中心 '+CHIP.VERSION+' 启动完成','ok');
   },
   showCenter:function(){
     var ns=this.load();var unread=this.unread().length;
@@ -1037,7 +1489,7 @@ var SH_NOTIFY={
     if(ns.length===0){h+='<div class="rb-item">暂无通知</div>'}else{
       ns.slice(0,15).forEach(function(n){
         var icon=n.level==='ok'?'[OK]':n.level==='err'?'[!]':n.level==='warn'?'[W]':'[i]';
-        h+='<div class="rb-item" style="'+(n.read?'color:var(--dim)':'')+'">'+icon+' '+n.type+':'+n.msg+'</div>';
+        h+='<div class="rb-item" style="'+(n.read?'color:var(--text3)':'')+'">'+icon+' '+n.type+': '+n.msg+'</div>';
       });
     }
     h+='</div>';
@@ -1051,7 +1503,7 @@ function updateQuick(){
   var btns=[
     {t:'营收',c:''},{t:'订单',c:''},{t:'!自检',c:'qk-gold'},
     {t:'!通电',c:'qk-gold'},{t:'!端口',c:'qk-gold'},{t:'!模块',c:'qk-gold'},
-    {t:'!安保',c:'qk-gold'},{t:'!订单',c:'qk-gold'},{t:'!通知',c:'qk-green'}
+    {t:'!安保',c:'qk-gold'},{t:'!通知',c:'qk-green'}
   ];
   btns.forEach(function(b){
     var el=document.createElement('button');
@@ -1063,17 +1515,19 @@ function updateQuick(){
 }
 
 // === 工具 ===
-function toast(msg,type){
+function toast(msg){
   var el=document.getElementById('toast');
   el.textContent=msg;
-  el.className='toast show'+(type?' toast-'+type:'');
+  el.className='toast show';
   setTimeout(function(){el.className='toast'},2200);
 }
 
-// === API ===
-function checkAll(){return Promise.all(PAGES.map(function(p){return fetch(p.url,{method:'HEAD',mode:'no-cors',cache:'no-store'}).then(function(){return{status:'online'}}).catch(function(){return{status:'offline'}}) }))}
-function notify(msg){return fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({msgtype:'text',text:{content:'[山海指挥中心] '+msg}})}).then(function(r){return r.json()}).catch(function(){return{}})}
-function addLog(type,action,detail){var logs=JSON.parse(localStorage.getItem('sh_syslog')||'[]');logs.unshift({type:type,action:action,detail:detail,time:new Date().toISOString()});if(logs.length>200)logs=logs.slice(0,200);localStorage.setItem('sh_syslog',JSON.stringify(logs))}
+function addLog(type,action,detail){
+  var logs=JSON.parse(localStorage.getItem('sh_syslog')||'[]');
+  logs.unshift({type:type,action:action,detail:detail,time:new Date().toISOString()});
+  if(logs.length>200)logs=logs.slice(0,200);
+  localStorage.setItem('sh_syslog',JSON.stringify(logs));
+}
 function getLogs(n){return JSON.parse(localStorage.getItem('sh_syslog')||'[]').slice(0,n||20)}
 
 // === 初始化 ===
@@ -1085,43 +1539,34 @@ function initApp(){
   updateQuick();
   updateShieldIndicator();
   SH_NOTIFY.autoCheck();
-  
+
   // 时间标签
   var t=document.createElement('div');
   t.className='time-divider';
   var now=new Date();
-  var h=now.getHours();
-  var m=now.getMinutes();
-  t.textContent=(h<12?'上午':h<14?'中午':h<18?'下午':'晚上')+' '+h+':'+String(m).padStart(2,'0');
+  var h=now.getHours(),m=now.getMinutes();
+  var period=h<6?'凌晨':h<12?'上午':h<14?'中午':h<18?'下午':'晚上';
+  t.textContent=period+' '+h+':'+(m<10?'0'+m:m);
   chatArea.appendChild(t);
-  
-  // 欢迎
+
+  // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'\n\n欢迎回来，主权已交接。\n15个模块已就位，防护盾已激活。\n\n输入 !帮助 查看所有指令\n或直接输入问题，我来回答');
-  setTimeout(function(){addAi('[引擎就绪]',buildEngines())},1000);
-  setTimeout(function(){toast('山海指挥中心 '+CHIP.VERSION,'gold')},500);
-  
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>15个模块已就位，防护盾已激活。<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">GLM-4</div><div class="ec-name">智谱GLM · 主力引擎</div><div class="ec-desc">稳定可靠 · 持续在线</div></div>')},800);
+
   setTimeout(function(){
     var unread=SH_NOTIFY.unread();
-    if(unread.length>0)addAi('[通知] 您有'+unread.length+'条未读通知');
-  },3000);
+    if(unread.length>0)addAi('您有 '+unread.length+' 条未读通知，输入 !通知 查看');
+  },2500);
 }
 
 // 启动
 initPin();
-
-// 防注入
-if(window.addEventListener){window.addEventListener('message',function(e){if(e.origin!==window.location.origin){e.stopImmediatePropagation()}},true)}
-(function(){
-  var params=new URLSearchParams(window.location.search);
-  var danger=['script','eval','exec','cmd','run','inject'];
-  danger.forEach(function(k){if(params.has(k))params.delete(k)});
-  if(params.toString())window.location.search='';
-})();
 </script>
-<div style="text-align:center;padding:12px 16px;color:var(--dim);font-size:9px;line-height:1.8;border-top:1px solid var(--border)">
+
+<div style="text-align:center;padding:10px 16px;color:var(--text4);font-size:9px;line-height:1.8;border-top:1px solid var(--border-light);background:var(--surface)">
 山海智能 · 主权指挥中心<br>
-【合规】内部管理工具 | 权限验证不存原始生物信息 | 人民币含税价 | 持牌机构支付通道 | 数据存储中国境内 | 不构成收益承诺或担保
+内部管理工具 | 权限验证不存原始生物信息 | 人民币含税价 | 持牌机构支付通道 | 数据存储中国境内 | 不构成收益承诺或担保
 </div>
 </body>
 </html>
