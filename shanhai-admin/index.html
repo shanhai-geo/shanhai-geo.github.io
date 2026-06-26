@@ -2179,6 +2179,7 @@ var CMD_ROUTER={
     r['!芯片']=function(){addAi('[芯片信息]',buildChipInfo())};
     r['!模块']=function(){addAi('[模块列表]',buildModuleList())};
     r['!安保']=function(){addAi('[安全状态]',buildSecurityInfo())};
+    r['!设置Key']=function(){var k=prompt('输入API Key:');if(k){SH_API.setKey(k);addAi('[API Key已设置]','Key已保存,AI功能已激活')}else{addAi('[取消]','未设置Key')}}
     r['!内循环']=function(){addAi('[内循环]',buildInternalLoop())};
     r['!执行']=function(){addAi('[执行面板]',buildExecPanel())};
     r['!端口']=function(){openDetail('port')};
@@ -2245,7 +2246,7 @@ var SH_API={
   MAX_HISTORY:20,
   history:[],
   getKey:function(){
-    return localStorage.getItem('sh_api_key')||null;
+    return localStorage.getItem('sh_api_key')||'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt';
   },
   setKey:function(k){
     localStorage.setItem('sh_api_key',k);
