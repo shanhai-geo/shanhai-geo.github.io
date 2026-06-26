@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>付款 - 山海智能</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#fff}
+.card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border:1px solid rgba(200,168,78,0.3);border-radius:20px;padding:40px 24px;max-width:400px;width:100%;text-align:center}
+.logo{font-size:22px;font-weight:900;background:linear-gradient(135deg,#e8c547,#f5af19);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.product{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:24px}
+.amount-box{background:rgba(200,168,78,0.1);border:2px solid rgba(200,168,78,0.4);border-radius:16px;padding:24px;margin-bottom:28px}
+.amount-label{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:4px}
+.amount{font-size:52px;font-weight:900;color:#e8c547;line-height:1.2}
+.amount .yuan{font-size:24px}
+.amount .period{display:block;font-size:13px;color:rgba(255,255,255,0.4);font-weight:400;margin-top:4px}
+.pay-btn{display:block;width:100%;padding:18px;background:linear-gradient(135deg,#07c160,#06ad56);color:#fff;border:none;border-radius:14px;font-size:20px;font-weight:800;cursor:pointer;text-decoration:none;margin-bottom:12px;letter-spacing:2px;box-shadow:0 4px 20px rgba(7,193,96,0.4);transition:all .2s}
+.pay-btn:active{transform:scale(0.97);opacity:.9}
+.note{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;margin-top:12px}
+.wechat-tip{display:none;background:rgba(7,193,96,0.15);border:1px solid rgba(7,193,96,0.4);border-radius:12px;padding:16px;margin-bottom:20px;text-align:left}
+.wechat-tip .tip-title{font-size:15px;font-weight:700;color:#07c160;margin-bottom:8px}
+.wechat-tip .tip-text{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8}
+.wechat-tip .tip-text b{color:#fff}
+.guarantee{margin-top:16px;font-size:11px;color:rgba(255,255,255,0.3)}
+.back-link{display:inline-block;margin-top:12px;font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none}
+.redirecting{display:none;margin-top:16px;font-size:13px;color:rgba(255,255,255,0.5)}
+.redirecting .dot{animation:dotPulse 1.4s infinite}
+.redirecting .dot:nth-child(2){animation-delay:0.2s}
+.redirecting .dot:nth-child(3){animation-delay:0.4s}
+@keyframes dotPulse{0%,80%,100%{opacity:0}40%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="logo">山海智能</div>
+<div class="product" id="productLabel">API接口服务 · 入门版</div>
+
+<div class="wechat-tip" id="wechatTip">
+<div class="tip-title">💡 微信内打开提示</div>
+<div class="tip-text">
+由于微信安全策略限制，请按以下步骤操作：<br>
+<b>方法一：</b>点击右上角 <b>···</b> → 选择「<b>在浏览器中打开</b>」<br>
+<b>方法二：</b>长按下方付款按钮 → 选择「<b>在浏览器中打开</b>」<br><br>
+付款完成后回到商城页填写手机号确认订单。
+</div>
+</div>
+
+<div class="amount-box">
+<div class="amount-label">应付金额（已固定，直接支付即可）</div>
+<div class="amount" id="amountDisplay"><span class="yuan">¥</span><span id="amtNum">298</span><span class="period">/年 · 每天不到1块钱</span></div>
+</div>
+
+<a class="pay-btn" id="payBtnMain" href="#" onclick="handlePay(event)">▶ 立即付款</a>
+
+<div class="redirecting" id="redirectMsg">
+正在跳转付款页面<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+</div>
+
+<p class="note">
+点击按钮跳转至付款页面，金额已预设<br>
+输入支付密码即可完成支付<br>
+付款完成后回到商城页确认订单
+</p>
+<div class="guarantee">✓ 7天无理由退款 · 支付由持牌机构乐刷提供安全保障</div>
+<a class="back-link" href="https://shanhai-geo.github.io/shanhai-shop/">← 返回商城</a>
+</div>
+
+<script>
+// 从URL参数读取金额和产品名
+var params = new URLSearchParams(window.location.search);
+var amt = params.get('amt') || '298';
+var prod = params.get('prod') || '入门版';
+
+// 更新页面显示
+document.getElementById('amtNum').textContent = amt;
+document.getElementById('productLabel').textContent = '山海智能API接口服务 · ' + prod;
+document.getElementById('payBtnMain').textContent = '▶ 立即付款 ' + amt + '元';
+
+// 支付链接
+var PAY_URL = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145';
+
+// 检测微信浏览器
+var isWechat = /micromessenger/i.test(navigator.userAgent);
+if(isWechat){
+  document.getElementById('wechatTip').style.display='block';
+}
+
+function handlePay(e){
+  e.preventDefault();
+  document.getElementById('redirectMsg').style.display='block';
+  document.getElementById('payBtnMain').style.opacity='0.5';
+  document.getElementById('payBtnMain').style.pointerEvents='none';
+  setTimeout(function(){
+    window.location.href = PAY_URL;
+  }, 600);
+}
+</script>
+</body>
+</html>
