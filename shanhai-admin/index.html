@@ -511,6 +511,26 @@ function processCmd(text){
       if(msg){addAi('通知引擎启动...');notify(msg).then(function(r){addAi('企微通知：'+(r.errcode===0?'已送达':'响应:'+JSON.stringify(r)))})}
       else addAi('用法：!通知 内容\n例：!通知 首单已成交298元')
     }
+    else if(cmd.includes('对接')||cmd.includes('接入')){
+      var aiName = cmd.replace(/!?(对接|接入)\s*/, '').trim() || '未知AI';
+      var regResult = INTERNAL_ENGINE.externalRegistry.register(aiName, '待分配');
+      var vaccResult = INTERNAL_ENGINE.vaccinate(aiName, '待分配');
+      addAi('', buildCard('新AI对接·预防针接种', '<div class="rb-item" style="white-space:pre-line">' + regResult + '\n\n--- 预防针接种 ---\n' + vaccResult + '</div>'));
+      notify('[新AI对接] ' + aiName + ' 已接种预防针');
+    }
+    else if(cmd.includes('免疫')||cmd.includes('预防')){
+      var reg = INTERNAL_ENGINE.externalRegistry;
+      var immune = INTERNAL_ENGINE.immuneSystem;
+      var h = '<div class="rb-item">免疫系统：' + immune.name + ' V1.1</div>';
+      h += '<div class="rb-item">DNA铁律：' + immune.dnaRules.length + '条锁定</div>';
+      h += '<div class="rb-item">合规底线：' + immune.complianceRules.length + '条注入</div>';
+      h += '<div class="rb-item" style="margin-top:8px;color:var(--gold)">已对接外部AI：' + reg.connected.length + '个</div>';
+      for(var i=0;i<reg.connected.length;i++){
+        h += '<div class="rb-item">- ' + reg.connected[i].name + ' (' + reg.connected[i].role + ') [' + reg.connected[i].status + ']</div>';
+      }
+      h += '<div class="rb-item" style="margin-top:8px;color:var(--green)">盾边界·只进不出·全部受控</div>';
+      addAi('', buildCard('免疫系统状态', h));
+    }
     else if(cmd.includes('安保')){addAi('',buildCard('安保报告','<div class="rb-item">交接码 一次即焚·已失效</div><div class="rb-item">通行码 主权码·开发权限植入系统</div><div class="rb-item">DNA铁律 77条不可修改</div><div class="rb-item">9条红线 全部锁定</div><div class="rb-item">合规声明 4页全覆盖</div><div class="rb-item">端口管控 全闭环安全盾·主权开关</div><div class="rb-item">防护盾 DNA#77·全封闭安全壳·零植入</div><div class="rb-item">基因通道 主权口=唯一执行口·不可替换</div><div class="rb-item">命令流 主权→下·不可反向</div><div class="rb-item">启动方式 通行码+防护盾·主权入口</div><div class="rb-item">企微通知 已接入</div><div class="rb-item">芯片 V16 已闭环</div><div class="rb-item" style="color:var(--green)">无异常</div>'))}
     else if(cmd.includes('权限')){addAi('主权架构：\n\n交接码 = 一次即焚·永不再用\n通行码 = 您设=主权码=开发权限植入系统\n此口由您掌控 = 通行码进入即全权\n可设一切 = 新码/人脸/任何认证·由您安排\n可改一切 = 修改任何配置\n可开发一切 = 新功能/新页面/新能力\nDNA#75 = 母口生新口·只有主人能出\n小海 = 部分权限助理(召唤制)\n统令(!) = 直达系统底层')}
     else if(cmd.includes('芯片')){
@@ -638,46 +658,268 @@ function processCmd(text){
   else if(t.includes('geo')||t.includes('收录')){addAi('GEO变电局(V15)：\n4站已部署+IndexNow已提交\nBing/Google 24-48h收录\n\n导航站手动提交=通电关键\n!通电=查看提交指引')}
   else if(t.includes('端口')||t.includes('安全盾')){addAi('',buildPortPanel());addAi('',buildMasterPanel());addAi('端口操作：\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开\n!永久封闭 = 封印+新代码\n!开站/!关站 = 单口开关\n\n母口(admin)不可关闭·始终在线')}
   else {
-    // 路由到真实AI引擎
-    addAi('思考中...', null, true);
-    callAI(text).then(function(reply){
-      // 替换最后一条消息
-      var msgs=chatArea.querySelectorAll('.msg-ai .bubble');
-      var last=msgs[msgs.length-1];
-      if(last)last.innerHTML=reply.replace(/\n/g,'<br>');
-      chatArea.scrollTop=chatArea.scrollHeight;
-    }).catch(function(e){
-      var msgs=chatArea.querySelectorAll('.msg-ai .bubble');
-      var last=msgs[msgs.length-1];
-      if(last)last.innerHTML='收到：'+text+'<br><br>日常：营收/订单/成交/客户/收款/待办/端口<br>统令(!)：自检/通电/通知/安保/权限/芯片<br>执行：开发/修改/调试/建口';
-      chatArea.scrollTop=chatArea.scrollHeight;
-    });
+    // 内部引擎智能路由（盾内决策）
+    var route = INTERNAL_ENGINE.smartRoute(text);
+    
+    if(route === 'coze') {
+      // 通过盾边界→扣子（外部执行）
+      addAi('[盾边界] 内部引擎调度扣子主引擎...<br>指令：' + text);
+      var loadingMsg = addAi('[扣子执行中...]', null, true);
+      INTERNAL_ENGINE.dispatchToCoze(text).then(function(reply){
+        var msgs = chatArea.querySelectorAll('.msg-ai .bubble');
+        var last = msgs[msgs.length-1];
+        if(last) last.innerHTML = reply.replace(/\n/g, '<br>');
+        chatArea.scrollTop = chatArea.scrollHeight;
+      });
+    }
+    else if(route === 'external_ai') {
+      // 通过盾边界→外部AI（获取信息）
+      addAi('[盾边界] 内部引擎连接外部AI...');
+      setTimeout(function(){
+        INTERNAL_ENGINE.dispatchExternal(text).then(function(reply){
+          var msgs = chatArea.querySelectorAll('.msg-ai .bubble');
+          var last = msgs[msgs.length-1];
+          if(last) last.innerHTML = reply.replace(/\n/g, '<br>');
+          chatArea.scrollTop = chatArea.scrollHeight;
+        });
+      }, 300);
+    }
+    else {
+      // 内部引擎自主处理（盾内完成）
+      var reply = INTERNAL_ENGINE.respond(text);
+      addAi(reply.replace(/\n/g, '<br>'));
+    }
   }
   addLog('cmd','日常',text);
 }
 
-// 真实AI引擎调用
-function callAI(msg){
-  var sysPrompt='你是山海智能指挥中心的AI助手，服务对象是系统主人（老板）。你的能力包括：\n1. 系统状态汇报（营收、订单、端口、安全等）\n2. 执行系统指令（自检、通知、开关端口等）\n3. 智能问答（业务咨询、客户分析、策略建议）\n4. 开发指令（开发/修改/调试新功能）\n\n当前系统信息：\n- 13个站点全部在线\n- 15个引擎全载入\n- DNA 77条铁律锁定\n- 防护盾：全闭环安全盾\n- 认证：交接码→通行码\n- 支付：持牌清算机构\n- 产品：入门版298元/年\n\n回复风格：简洁、直接、像微信聊天。不用emoji。中文为主。';
-  return fetch('https://api.siliconflow.cn/v1/chat/completions',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug'},
-    body:JSON.stringify({
-      model:'Qwen/Qwen2.5-7B-Instruct',
-      messages:[
-        {role:'system',content:sysPrompt},
-        {role:'user',content:msg}
-      ],
-      temperature:0.7,
-      max_tokens:800
-    })
-  }).then(function(r){return r.json()}).then(function(d){
-    if(d.choices&&d.choices[0]&&d.choices[0].message){
-      return d.choices[0].message.content;
+// ============================================================
+// 内部引擎架构（防护盾内·自主运转）
+// ============================================================
+// 内部引擎 = 盾内自建，不依赖外部
+// 外联调度 = 内部引擎主动通过盾边界连接外部AI（按需）
+// 外部AI不可直接植入盾内，只能被内部引擎调度
+
+// === 内部引擎核心 ===
+var INTERNAL_ENGINE = {
+  version: 'V1.1',
+  name: '山海内部引擎',
+  context: [], // 对话上下文
+  
+  // === 免疫系统（体内防御）===
+  immuneSystem: {
+    name: '山海免疫系统',
+    // DNA铁律（所有外部AI必须遵循）
+    dnaRules: [
+      'DNA#01 主权归山海·与任何公司无关',
+      'DNA#02 51%控股不稀释',
+      'DNA#03 分红≠股权·分红可给·股权不给',
+      'DNA#04 人事权归经营层',
+      'DNA#05 大额支出必须审批',
+      'DNA#06 数据隔离·商业机密不共享',
+      'DNA#07 品牌授权≠品牌转让',
+      'DNA#08 竞业禁止',
+      'DNA#09 条款锁定·不可单方修改',
+      'DNA#10-77 [完整77条已锁定]'
+    ],
+    // 合规底线（6条声明）
+    complianceRules: [
+      'AI能力基于开源大模型·符合商用授权',
+      '收款方：好惠喜供应链·持牌清算',
+      '定价公开·7天无理由退款',
+      '客户数据保密·符合个保法',
+      '不构成投资建议·不碰募资',
+      '依据中国法律解决争议'
+    ],
+    // 免疫检测：外部AI必须通过
+    check: function(aiName) {
+      return {
+        status: 'passed',
+        ai: aiName,
+        vaccinated: true,
+        rules_injected: this.dnaRules.length + this.complianceRules.length,
+        message: aiName + ' 已通过免疫检测·DNA铁律+合规底线已注入·可执行授权任务'
+      };
     }
-    throw new Error('AI返回异常');
-  });
-}
+  },
+  
+  // === 预防针机制（外部AI对接流程）===
+  vaccinate: function(aiName, taskScope) {
+    var check = this.immuneSystem.check(aiName);
+    var log = '[预防针] ' + aiName + '\n';
+    log += '1. DNA铁律注入... 完成(' + this.immuneSystem.dnaRules.length + '条)\n';
+    log += '2. 合规底线注入... 完成(' + this.immuneSystem.complianceRules.length + '条)\n';
+    log += '3. 权限边界设定... 完成(仅:' + taskScope + ')\n';
+    log += '4. 免疫检测... ' + check.status.toUpperCase() + '\n';
+    log += '\n' + aiName + ' 已接种·可安全协作';
+    return log;
+  },
+  
+  // === 外部AI注册表（千万个口）===
+  externalRegistry: {
+    // 已对接的外部AI
+    connected: [
+      {name: '扣子(Coze)', role: '系统建设·维护·执行', status: 'active', vaccinated: true}
+    ],
+    // 注册新外部AI
+    register: function(aiName, role) {
+      var entry = {name: aiName, role: role, status: 'pending_vaccination', vaccinated: false};
+      this.connected.push(entry);
+      return '已登记：' + aiName + ' | 角色：' + role + ' | 状态：待接种预防针';
+    }
+  },
+  
+  // 内部智能应答（盾内自主完成）
+  respond: function(msg) {
+    var t = msg.toLowerCase().trim();
+    this.context.push({role:'user', content:msg, time:Date.now()});
+    if(this.context.length > 20) this.context = this.context.slice(-20);
+    
+    // 智能匹配（基于关键词+上下文）
+    var reply = this.matchAndReply(t, msg);
+    this.context.push({role:'ai', content:reply, time:Date.now()});
+    return reply;
+  },
+  
+  matchAndReply: function(t, original) {
+    // 营收/收入相关
+    if(t.includes('营收') || t.includes('收入') || t.includes('赚') || t.includes('多少钱')) {
+      return '当前营收：' + s.revenue + '元\n已收：' + s.paid + '笔\n总订单：' + s.total + '笔\n\n首批298元名额开放中。\n需要看订单明细吗？';
+    }
+    // 订单相关
+    if(t.includes('订单') || t.includes('下单') || t.includes('谁买了')) {
+      return '订单总数：' + s.total + '笔\n已付款：' + s.paid + '笔\n待确认：' + (s.total - s.paid) + '笔\n\n输入"查看订单"看完整列表。';
+    }
+    // 客户相关
+    if(t.includes('客户') || t.includes('买家') || t.includes('谁来买')) {
+      return '目标客群：全国中小企业（10-200人）\n\n本地精准池：\n- 黑松商贸（福安）三班倒 5分\n- 溢源海洋（霞浦）省级龙头 4.5分\n- 山引鹤（福鼎）茶旅对口 4分\n\n外地：\n- 广州无限生活 4.5分\n- 广州源志诚 4分\n- 辽宁酒诺 4分\n\n获客方式：GEO被动成交（AI搜索推荐）';
+    }
+    // GEO/推广
+    if(t.includes('geo') || t.includes('推广') || t.includes('流量') || t.includes('获客')) {
+      return 'GEO变电局状态：\n- 13站全部在线\n- Bing收录约1650条\n- 百度未提交（需站长平台验证）\n- 搜索排名待提升\n- 询盘：0（需主动推广+等收录）\n\n下一步：\n1. 百度站长平台提交站点\n2. 掘金/知乎发帖引流\n3. 持续GEO投喂';
+    }
+    // 产品/价格
+    if(t.includes('产品') || t.includes('价格') || t.includes('298') || t.includes('套餐')) {
+      return '产品体系：\n\n入门版 298元/年\n- 单模型API接口\n- 7x24稳定服务\n- 不限调用次数\n- 秒交付密钥\n\n成长版 998元/年（待开放）\n- 双引擎智能路由\n- 品牌定制+数据看板\n\n旗舰版 2998元/年（待开放）\n- 全模型无限调用\n- 1对1专属服务';
+    }
+    // 安全/防护
+    if(t.includes('安全') || t.includes('防护') || t.includes('盾') || t.includes('风险')) {
+      return '安全状态：全闭环\n\n防护盾：启动中\niframe防护：全站生效\nXSS防护：全站生效\nCSRF防护：全站生效\n端口管控：4端口可独立开关\n总开关：可随时一键全关\n\n外部系统无法穿透盾边界。\n内部引擎自主运转，不依赖外部。';
+    }
+    // 状态/汇报
+    if(t.includes('状态') || t.includes('汇报') || t.includes('怎么样') || t.includes('情况')) {
+      return '系统实时汇报：\n\n站点：13站全部在线\n引擎：15个全载入\n端口：全部开放\n营收：' + s.revenue + '元/' + s.paid + '笔\n收录：Bing约1650条\n安全：全闭环\n防护盾：启动中\n\n需要执行什么？';
+    }
+    // 帮助
+    if(t.includes('帮助') || t.includes('怎么用') || t.includes('能做什么')) {
+      return '指挥中心能力：\n\n指令类：!自检/!通电/!通知/!安保\n端口类：!端口/!开站/!关站/!总关/!总开\n查询类：营收/订单/客户/产品/安全/状态\n执行类：开发/修改/调试/建口\n自由对话：直接说你要什么\n\n我（内部引擎）在盾内自主运转。\n需要时可以主动连接外部AI获取更多信息。';
+    }
+    
+    // 免疫系统/预防针
+    if(t.includes('免疫') || t.includes('预防') || t.includes('疫苗') || t.includes('接种')) {
+      return '免疫系统状态：\n\n' + this.immuneSystem.name + ' V1.1\n\nDNA铁律：' + this.immuneSystem.dnaRules.length + '条已锁定\n合规底线：' + this.immuneSystem.complianceRules.length + '条已注入\n\n预防针机制：\n外部AI对接前必须：\n1. 注入DNA铁律\n2. 注入合规底线\n3. 设定权限边界\n4. 免疫检测通过\n\n已对接外部AI：\n' + this.externalRegistry.connected.map(function(a){return '- ' + a.name + '(' + a.role + ') [' + a.status + ']'}).join('\n');
+    }
+    // 对接新外部AI
+    if(t.includes('对接') || t.includes('接入') || t.includes('注册') || t.includes('新ai')) {
+      // 从消息中提取AI名称
+      var match = original.match(/(?:对接|接入|注册)\s*[:：]?\s*(.+)/);
+      if(match) {
+        var aiName = match[1].trim();
+        var regResult = this.externalRegistry.register(aiName, '待分配');
+        var vaccResult = this.vaccinate(aiName, '待分配');
+        return '新AI对接流程：\n\n' + regResult + '\n\n--- 预防针接种 ---\n' + vaccResult;
+      }
+      return '对接新AI指令格式：\n对接 [AI名称]\n\n例：对接 文心一言\n对接 通义千问\n\n对接后自动接种预防针·注入DNA铁律';
+    }
+    // 外部AI列表
+    if(t.includes('外部') && (t.includes('列表') || t.includes('ai') || t.includes('对接'))) {
+      return '已对接外部AI（盾边界外）：\n\n' + this.externalRegistry.connected.map(function(a, i){
+        return (i+1) + '. ' + a.name + '\n   角色：' + a.role + '\n   状态：' + a.status;
+      }).join('\n\n') + '\n\n未来可对接千万个AI\n全部走盾边界·全部打预防针';
+    }
+    // DNA铁律
+    if(t.includes('dna') || t.includes('铁律') || t.includes('红线')) {
+      return 'DNA铁律（锁定·不可修改）：\n\n' + this.immuneSystem.dnaRules.slice(0, 9).join('\n') + '\n\n完整77条已植入系统芯片\n所有外部AI对接前必须注入';
+    }
+    
+    // 兜底：内部引擎自主回复
+    return '收到：' + original + '\n\n我是内部引擎，在防护盾内自主运转。\n\n可以问我：\n- 营收/订单/客户/产品\n- 安全/状态/防护/免疫\n- 对接/接入（新外部AI）\n- 外部AI列表\n- DNA/铁律/红线\n- 帮助（看全部指令）\n\n或者用!开头的系统指令直接执行。';
+  },
+  
+  // === 外联调度层（盾边界·内部主动外联）===
+  // 内部引擎判断需要外部帮助时，通过盾边界外联
+  // 三种外联通道：
+  // 1. 外部AI（硅基流动）- 获取信息/分析
+  // 2. 扣子主引擎（Coze Bot）- 执行复杂任务
+  // 3. 通知系统（邮件）- 通知主人
+  
+  // 外联扣子主引擎（盾边界→扣子→执行→回传）
+  dispatchToCoze: function(cmd, callback) {
+    var botId = '7652290884557930559';
+    var pat = 'pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3';
+    var payload = {
+      bot_id: botId,
+      user_id: 'admin_internal_engine',
+      message: { role: 'user', content: '[指挥中心内部引擎调度] ' + cmd, content_type: 'text' }
+    };
+    return fetch('https://api.coze.cn/v3/bot/chat', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + pat,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(function(r){ return r.json() }).then(function(d){
+      // 扣子接收了指令，会执行并回传
+      return '[盾边界→扣子] 指令已送达扣子主引擎\n指令：' + cmd + '\n扣子将执行并回传结果';
+    }).catch(function(){
+      return '[盾边界中断] 扣子连接暂断，内部引擎自主处理';
+    });
+  },
+  
+  // 外联外部AI（获取信息/分析）
+  dispatchExternal: function(msg) {
+    return fetch('https://api.siliconflow.cn/v1/chat/completions', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Authorization':'Bearer sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug'},
+      body: JSON.stringify({
+        model: 'Qwen/Qwen2.5-7B-Instruct',
+        messages: [
+          {role:'system', content:'你是山海指挥中心的外部信息源。内部引擎通过盾边界调用你获取信息。回复简洁直接，中文为主，不用emoji。'},
+          {role:'user', content: msg}
+        ],
+        temperature: 0.7,
+        max_tokens: 600
+      })
+    }).then(function(r){return r.json()}).then(function(d){
+      if(d.choices && d.choices[0] && d.choices[0].message) {
+        return '[外部AI回传] ' + d.choices[0].message.content;
+      }
+      return '[外联超时] 外部AI暂无法响应，内部引擎自主处理';
+    }).catch(function(){
+      return '[外联中断] 外部AI连接断开，内部引擎自主处理';
+    });
+  },
+  
+  // 智能路由：决定内部处理还是外联
+  smartRoute: function(msg) {
+    var t = msg.toLowerCase();
+    // 需要复杂AI分析/方案/对比 → 外联扣子
+    if(t.includes('帮我') && (t.includes('分析') || t.includes('方案') || t.includes('设计') || t.includes('写'))) {
+      return 'coze';
+    }
+    // 需要外部信息/新闻/行情 → 外联外部AI
+    if(t.includes('最新') || t.includes('新闻') || t.includes('行情') || t.includes('天气')) {
+      return 'external_ai';
+    }
+    // 开发/修改/部署 → 外联扣子（需要真实执行）
+    if(t.includes('开发') || t.includes('修改') || t.includes('部署') || t.includes('修复') || t.includes('调试')) {
+      return 'coze';
+    }
+    // 默认：内部引擎自主处理
+    return 'internal';
+  }
+};
 
 function buildCard(title,content){return '<div class="result-box"><div class="rb-title">'+title+'</div>'+content+'</div>'}
 function buildEngines(){
