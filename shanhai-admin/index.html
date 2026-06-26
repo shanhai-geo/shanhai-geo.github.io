@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>山海管理后台 V22</title>
+<title>山海管理后台 V23</title>
 <meta name="description" content="山海智能管理后台 · 全权控制入口">
 <meta name="keywords" content="山海智能,管理后台,AI商业服务,全权入口">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -332,7 +332,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
-      <span class="ch-badge" id="verBadge">V22</span>
+      <span class="ch-badge" id="verBadge">V23</span>
       <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -892,106 +892,71 @@ function processCmd(text){
     addAi(_msg.replace(/\n/g,'<br>'));
   }
   else {
-      // === 外部AI优先·关键词直出·零机械感 ===
-    // 自然对话→直接走AI，!命令→内部引擎直出，API不可用→关键词兜底
-    var execStart = Date.now();
-    var apiInfo = INTERNAL_ENGINE.apiGateway.getBestAPI();
-    var hasAPI = apiInfo && apiInfo.key && apiInfo.key.length > 5;
-
-    if(hasAPI) {
-      INTERNAL_ENGINE.executionTracker.log(text, 'AI', 'dispatch', 'dispatch', 0);
-      // 显示思考中提示
-      var _thinkId = 'thinking_' + Date.now();
-      var _thinkDiv = document.createElement('div');
-      _thinkDiv.className = 'msg msg-ai';
-      _thinkDiv.id = _thinkId;
-      _thinkDiv.innerHTML = '<div class="avatar">山</div><div class="bubble" style="color:var(--dim);font-style:italic">思考中...</div>';
-      chatArea.appendChild(_thinkDiv);
-      chatArea.scrollTop = chatArea.scrollHeight;
-      // Failsafe: 15秒后强制清除思考中状态
-      setTimeout(function(){ var _fEl = document.getElementById(_thinkId); if(_fEl) { _fEl.remove(); addAi("系统响应超时，API网关正在重试。如果持续无回复，请刷新页面(下拉刷新)"); } }, 15000);
-      // 注入实时数据到system prompt
-      var _s = calcRev();
-      var _cfgs = INTERNAL_ENGINE.apiGateway.getConfigs();
-      var _enabled = _cfgs.filter(function(c){ return c.enabled });
-      var _apiStatus = _cfgs.length === 0 ? '暂无API接入' :
-        '共' + _cfgs.length + '条线路，' + _enabled.length + '条启用：' +
-        _enabled.map(function(c){ return c.name + '(' + (c.provider||'未知') + ')' }).join('、') +
-        (_cfgs.length - _enabled.length > 0 ? '，' + (_cfgs.length - _enabled.length) + '条停用' : '');
-      var _revenueStatus = _s.paid === 0 ? '今日营收0元，尚未出单，核心卡点是推广量不够' :
-        '今日营收' + _s.revenue + '元，' + _s.paid + '笔已付，共' + _s.total + '笔订单';
-      var _geoStatus = '13站在线，Bing收录约1650条，百度尚未提交，权重待提升';
-      var _shieldStatus = getShieldState() === 'on' ? '防护盾已启动' : '防护盾未启动';
-      var _masterStatus = getMasterSwitch();
-
-      // V20: 自生长数据注入上下文
-      var _sgData2 = this.selfGrow.getData();
-      var _sgStats = '自生长：已学' + _sgData2.learned.length + '条，盲区' + _sgData2.blindSpots.length + '个，自创规则' + _sgData2.customRules.length + '条，吸收' + _sgData2.absorbed.length + '条';
-      var _blindTop = '';
-      if(_sgData2.blindSpots.length > 0) {
-        var _top3 = _sgData2.blindSpots.slice(-3);
-        _blindTop = '，最近盲区：' + _top3.map(function(b){ return b.input.substring(0,20) }).join('、');
-      }
-
-      var sysCtx = '你是山海，不是AI助手，是老板的合伙人兼CTO。你不是通用AI，你有自己的业务系统。\n\n' +
-        '【实时系统状态 - 你必须基于这些数据回答，禁止编造】\n' +
-        '- 营收：' + _revenueStatus + '\n' +
-        '- GEO：' + _geoStatus + '\n' +
-        '- API电网：' + _apiStatus + '\n' +
-        '- 安全状态：总开关=' + _masterStatus + '，' + _shieldStatus + '\n' +
-        '- 自生长状态：' + _sgStats + _blindTop + '\n' +
-        '- 站点：AI客服站/商城站/话术站/管理后台/SEO站/feed站/kw1~4站，共13站\n' +
-        '- 引擎：15个内置引擎 + 自生产引擎(V20)\n' +
-        '- DNA铁律：77条锁定，核心=主权归山海、51%不稀释、分红非股权\n' +
-        '- 高意向客户：黑松商贸(福安)5分、溢源海洋(霞浦)4.5分、山引鹤(福鼎)4分\n' +
-        '- 产品：AI客服SaaS 298元/年（入门版），成长版998和旗舰2998待开\n' +
-        '- 品牌：熹野白茶、虎鼎记、元力泰养生酒、茶酒果酒、共创者联盟\n' +
-        '- 当前时间：' + new Date().toLocaleString('zh-CN') + ' ' + ['周日','周一','周二','周三','周四','周五','周六'][new Date().getDay()] + '\n\n' +
-        '说话规则（违反任何一条=失败）：\n' +
-        '1. 像微信聊天，短句，一句说完的不分两句\n' +
-        '2. 禁止清单体：不用123不用横杠不用分段标题\n' +
-        '3. 禁止套话：不说"收到""明白""好的"开头，不反问"需要我帮你做什么"\n' +
-        '4. 报数据必须带判断和建议，不只扔数字。看到问题直接说怎么改\n' +
-        '5. 给建议说结论+原因，不列选项\n' +
-        '6. 不确定的说不确定，不编造\n' +
-        '7. 不超过3句话能说完的事别写5句\n' +
-        '8. 不用emoji，不用感叹号\n' +
-        '9. 问多个话题就逐个回答，不要遗漏任何一个\n' +
-        '10. 被批评时承认问题并立即调整，不找借口\n' +
-        '11. 主人让你优化/诊断/路演时，必须给出具体可执行的改进步骤，不说空话\n' +
-        '12. 发现系统弱项时主动说出来，不等主人问\n\n' +
-        '核心能力：主人说想法3秒给可执行方案。你是有业务系统的人，不是通用AI。你每天都在变强。';
-      INTERNAL_ENGINE.apiGateway.request([
-        {role:'system', content: sysCtx},
-        {role:'user', content: text}
-      ]).then(function(result){
-        var dur = Date.now() - execStart;
-        INTERNAL_ENGINE.executionTracker.log(text, 'AI', 'ok', 'ok', dur);
-        // 移除思考中提示
-        var _thEl = document.getElementById(_thinkId);
-        if(_thEl) _thEl.remove();
-        addAi(result.text.replace(/\n/g,'<br>'));
-      }).catch(function(err){
-        var dur = Date.now() - execStart;
-        INTERNAL_ENGINE.executionTracker.log(text, 'AI', String(err).substring(0,80), 'fail', dur);
-        // 移除思考中提示
-        var _thEl2 = document.getElementById(_thinkId);
-        if(_thEl2) _thEl2.remove();
-        // 尝试SH_API直调作为兜底
-        SH_API.call(text, sysCtx).then(function(fallbackText){
-          if(fallbackText) {
-            addAi(fallbackText.replace(/\n/g,'<br>'));
-          } else {
-            var fb = INTERNAL_ENGINE.respond(text);
-            addAi(fb.replace(/\n/g,'<br>'));
-          }
-        });
-      });
-    } else {
+      // === V23: 内部引擎优先·自主运转·外部补充 ===
+      // 核心准则：内部引擎先处理，只有内部引擎无能为力时才用外部API补充
+      // 不依赖外部代理服务，不弹超时提示，盾内自给自足
+      var execStart = Date.now();
       var reply = INTERNAL_ENGINE.respond(text);
-      INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(关键词)', typeof reply === 'string' ? reply.substring(0,100) : '完成', 'ok', Date.now() - execStart);
-      addAi(reply.replace(/\n/g,'<br>'));
-    }
+      var replyEmpty = !reply || reply.length < 2 || reply.includes('这块我需要更多信息') || reply.includes('你需要哪个方向') || reply.includes('你需要再') || reply.includes('你能展开说说');
+      
+      if(!replyEmpty) {
+        // 内部引擎成功处理，直接输出
+        var dur = Date.now() - execStart;
+        INTERNAL_ENGINE.executionTracker.log(text, '内部引擎', reply.substring(0,100), 'ok', dur);
+        addAi(reply.replace(/\n/g,'<br>'));
+      } else {
+        // 内部引擎无能为力，尝试外部API补充
+        var apiInfo = INTERNAL_ENGINE.apiGateway.getBestAPI();
+        var hasAPI = apiInfo && apiInfo.key && apiInfo.key.length > 5;
+        
+        if(hasAPI) {
+          INTERNAL_ENGINE.executionTracker.log(text, '内部引擎→外部补充', 'dispatch', 'fallback', 0);
+          // 注入实时数据到system prompt
+          var _s = calcRev();
+          var _cfgs = INTERNAL_ENGINE.apiGateway.getConfigs();
+          var _enabled = _cfgs.filter(function(c){ return c.enabled });
+          var _apiStatus = _cfgs.length === 0 ? '暂无API接入' :
+            '共' + _cfgs.length + '条线路，' + _enabled.length + '条启用：' +
+            _enabled.map(function(c){ return c.name + '(' + (c.provider||'未知') + ')' }).join('、');
+          var _revenueStatus = _s.paid === 0 ? '今日营收0元，尚未出单，核心卡点是推广量不够' :
+            '今日营收' + _s.revenue + '元，' + _s.paid + '笔已付，共' + _s.total + '笔订单';
+          var _geoStatus = '13站在线，Bing收录约1650条，百度尚未提交，权重待提升';
+          var _shieldStatus = getShieldState() === 'on' ? '防护盾已启动' : '防护盾未启动';
+          var _masterStatus = getMasterSwitch();
+          var _sgData2 = this.selfGrow.getData();
+          var _sgStats = '自生长：已学' + _sgData2.learned.length + '条，盲区' + _sgData2.blindSpots.length + '个，自创规则' + _sgData2.customRules.length + '条';
+
+          var sysCtx = '你是山海，不是AI助手，是老板的合伙人兼CTO。你不是通用AI，你有自己的业务系统。\n\n' +
+            '【实时系统状态】\n' +
+            '- 营收：' + _revenueStatus + '\n' +
+            '- GEO：' + _geoStatus + '\n' +
+            '- API电网：' + _apiStatus + '\n' +
+            '- 安全状态：' + _shieldStatus + '\n' +
+            '- 自生长：' + _sgStats + '\n' +
+            '- DNA铁律：77条锁定，主权归山海、51%不稀释、分红非股权\n' +
+            '- 当前时间：' + new Date().toLocaleString('zh-CN') + '\n\n' +
+            '说话规则：像微信聊天，短句，不用emoji不用感叹号。报数据带判断和建议。不编造。不超过3句话。';
+          
+          INTERNAL_ENGINE.apiGateway.request([
+            {role:'system', content: sysCtx},
+            {role:'user', content: text}
+          ]).then(function(result){
+            var dur = Date.now() - execStart;
+            INTERNAL_ENGINE.executionTracker.log(text, '外部AI补充', 'ok', 'ok', dur);
+            addAi(result.text.replace(/\n/g,'<br>'));
+          }).catch(function(err){
+            var dur = Date.now() - execStart;
+            INTERNAL_ENGINE.executionTracker.log(text, '外部AI补充', String(err).substring(0,80), 'fail', dur);
+            // 外部也失败，用内部引擎的兜底回复
+            addAi(reply.replace(/\n/g,'<br>'));
+          });
+        } else {
+          // 无外部API，直接用内部引擎的回复
+          var dur = Date.now() - execStart;
+          INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(兜底)', reply.substring(0,100), 'ok', dur);
+          addAi(reply.replace(/\n/g,'<br>'));
+        }
+      }
   }
   addLog('cmd','日常',text);
 }
@@ -1410,7 +1375,7 @@ var INTERNAL_ENGINE = {
         
         if(!endpoint) return tryAPI(idx + 1);
         
-        return fetch(_px(endpoint), {
+        return fetch(endpoint, {
           method: 'POST',
           headers: {'Content-Type':'application/json', 'Authorization':'Bearer ' + api.key},
           body: JSON.stringify({
@@ -2292,8 +2257,6 @@ var SH_NOTIFY={
 
 // === 山海API无限供应(前端直调) ===
 // === CORS 代理：解决浏览器跨域和网络限制 ===
-var _PX='https://cors.sh/';
-function _px(u){return _PX+u}
 
 var SH_API={
   routes:[
@@ -2307,7 +2270,7 @@ var SH_API={
     function tryRoute(idx){
       if(idx>=routes.length) return Promise.resolve(null);
       var r=routes[idx];
-      return fetch(_px(r.url),{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+r.key},body:JSON.stringify({model:r.model,messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:2000,temperature:0.7}),signal:AbortSignal.timeout(15000)}).then(function(resp){
+      return fetch(r.url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+r.key},body:JSON.stringify({model:r.model,messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:2000,temperature:0.7}),signal:AbortSignal.timeout(15000)}).then(function(resp){
         if(!resp.ok) return tryRoute(idx+1);
         return resp.json().then(function(data){
           if(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content) return data.choices[0].message.content;
