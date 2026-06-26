@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>山海管理后台 V25</title>
+<title>山海管理后台 V24n2</title>
 <meta name="description" content="山海智能管理后台 · 全权控制入口">
 <meta name="keywords" content="山海智能,管理后台,AI商业服务,全权入口">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -238,61 +238,6 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
 .typing-dots span{display:block;width:7px;height:7px;border-radius:50%;background:var(--dim);animation:typing 1.2s infinite}
 .typing-dots span:nth-child(2){animation-delay:.2s}
 .typing-dots span:nth-child(3){animation-delay:.4s}
-/* === V25: 全能工作台样式 === */
-
-/* 文件上传区 */
-.upload-zone{margin:8px 16px;padding:16px;border:2px dashed var(--border);border-radius:12px;text-align:center;cursor:pointer;transition:all .3s;display:none}
-.upload-zone.active{display:block}
-.upload-zone:hover,.upload-zone.dragover{border-color:var(--gold);background:rgba(232,168,73,.05)}
-.upload-zone .uz-icon{font-size:28px;margin-bottom:6px}
-.upload-zone .uz-text{font-size:12px;color:var(--text2)}
-.upload-zone .uz-hint{font-size:10px;color:var(--dim);margin-top:4px}
-
-/* 文件预览卡片 */
-.file-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin:6px 0;max-width:85%}
-.file-card .fc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.file-card .fc-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.file-card .fc-icon.img{background:rgba(232,168,73,.15);color:var(--gold)}
-.file-card .fc-icon.doc{background:rgba(74,158,255,.15);color:var(--blue)}
-.file-card .fc-icon.code{background:rgba(34,197,94,.15);color:var(--green)}
-.file-card .fc-name{font-size:12px;font-weight:600;color:var(--text);word-break:break-all}
-.file-card .fc-size{font-size:10px;color:var(--dim)}
-.file-card .fc-preview{margin-top:6px;padding:8px;background:rgba(0,0,0,.2);border-radius:6px;font-size:11px;color:var(--text2);max-height:120px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
-.file-card img.fc-thumb{max-width:100%;max-height:200px;border-radius:6px;margin-top:6px}
-
-/* 图片生成面板 */
-.img-gen-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin:8px 0}
-.img-gen-panel .igp-title{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px}
-.img-gen-panel .igp-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
-.img-gen-panel .igp-label{font-size:11px;color:var(--text2);min-width:50px}
-.img-gen-panel textarea{width:100%;padding:8px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;resize:vertical;min-height:60px;outline:none;font-family:inherit}
-.img-gen-panel textarea:focus{border-color:var(--gold)}
-.img-gen-panel select,.img-gen-panel input{padding:6px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;outline:none}
-.img-gen-panel .igp-btn{padding:8px 20px;background:linear-gradient(135deg,var(--gold),#b8860b);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
-.img-gen-panel .igp-btn:active{transform:scale(.96)}
-
-/* 任务执行状态 */
-.task-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin:6px 0;max-width:85%}
-.task-card .tc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.task-card .tc-status{width:8px;height:8px;border-radius:50%}
-.task-card .tc-status.running{background:var(--gold);animation:pulse 1s infinite}
-.task-card .tc-status.done{background:var(--green)}
-.task-card .tc-status.error{background:var(--red)}
-.task-card .tc-title{font-size:12px;font-weight:600;color:var(--text)}
-.task-card .tc-progress{font-size:11px;color:var(--text2);margin-top:4px}
-.task-card .tc-result{margin-top:8px;padding:8px;background:rgba(0,0,0,.2);border-radius:6px;font-size:12px;color:var(--text2);max-height:200px;overflow-y:auto;white-space:pre-wrap}
-
-/* 富媒体消息 */
-.msg-media{margin-top:6px}
-.msg-media img{max-width:100%;border-radius:8px;cursor:pointer}
-.msg-media .media-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-
-/* 工具栏 */
-.toolbar{display:flex;gap:6px;padding:4px 16px;border-top:1px solid rgba(30,45,68,.3)}
-.toolbar .tb-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s}
-.toolbar .tb-btn:hover{border-color:var(--gold);color:var(--gold)}
-.toolbar .tb-btn:active{transform:scale(.92)}
-
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-thumb{background:#334155;border-radius:2px}
 </style>
 <script>(function(){var bp=document.createElement("script");var curProtocol=window.location.protocol.split(":")[0];if(curProtocol==="https"){bp.src="https://zz.bdstatic.com/linksubmit/push.js"}else{bp.src="http://push.zhangzhenhao.com/push.js"}var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script></head>
@@ -387,7 +332,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
-      <span class="ch-badge" id="verBadge">V25</span>
+      <span class="ch-badge" id="verBadge">V24n2</span>
       <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -396,72 +341,9 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
 
   <div class="quick-area" id="quickArea"></div>
 
-  <!-- V25: 工具栏 -->
-  <div class="toolbar" id="toolbar">
-    <div class="tb-btn" onclick="toggleUploadZone()" title="上传文件">📎</div>
-    <div class="tb-btn" onclick="toggleImgGen()" title="生成图片">🎨</div>
-    <div class="tb-btn" onclick="addAi('📋 剪贴板已读取')" title="粘贴内容">📋</div>
-    <div class="tb-btn" onclick="exportChat()" title="导出对话">💾</div>
-    <div class="tb-btn" onclick="showTaskPanel()" title="任务面板">⚡</div>
-  </div>
-
-  <!-- V25: 文件上传区 -->
-  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
-       ondragover="event.preventDefault();this.classList.add('dragover')"
-       ondragleave="this.classList.remove('dragover')"
-       ondrop="event.preventDefault();this.classList.remove('dragover');handleFiles(event.dataTransfer.files)">
-    <div class="uz-icon">📁</div>
-    <div class="uz-text">点击或拖拽文件到此处</div>
-    <div class="uz-hint">支持图片、文档、代码、数据文件</div>
-  </div>
-  <input type="file" id="fileInput" style="display:none" multiple onchange="handleFiles(this.files)" accept="image/*,.txt,.md,.csv,.json,.js,.py,.html,.css,.pdf,.doc,.docx,.xls,.xlsx">
-
-  <!-- V25: 图片生成面板 -->
-  <div class="upload-zone" id="imgGenZone">
-    <div class="img-gen-panel">
-      <div class="igp-title">🎨 AI制图</div>
-      <div class="igp-row"><textarea id="imgPrompt" placeholder="描述你要生成的图片..."></textarea></div>
-      <div class="igp-row">
-        <span class="igp-label">风格</span>
-        <select id="imgStyle">
-          <option value="realistic">写实</option>
-          <option value="illustration">插画</option>
-          <option value="poster">海报</option>
-          <option value="ui">UI设计</option>
-          <option value="cartoon">卡通</option>
-        </select>
-        <span class="igp-label">尺寸</span>
-        <select id="imgSize">
-          <option value="1024x1024">1:1</option>
-          <option value="1024x768">4:3</option>
-          <option value="768x1024">3:4</option>
-          <option value="1280x720">16:9</option>
-        </select>
-      </div>
-      <div class="igp-row" style="justify-content:flex-end">
-        <button class="igp-btn" onclick="generateImage()">生成图片</button>
-        <button class="igp-btn" style="background:var(--card2);border:1px solid var(--border)" onclick="toggleImgGen()">关闭</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- V25: 任务执行面板 -->
-  <div class="upload-zone" id="taskPanelZone">
-    <div class="task-card" style="max-width:100%">
-      <div class="tc-header">
-        <div class="tc-status running"></div>
-        <div class="tc-title">任务执行面板</div>
-        <button style="margin-left:auto;background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px" onclick="document.getElementById('taskPanelZone').classList.remove('active')">✕</button>
-      </div>
-      <div id="taskList" style="max-height:300px;overflow-y:auto">
-        <div style="font-size:11px;color:var(--dim);text-align:center;padding:20px">暂无执行中的任务</div>
-      </div>
-    </div>
-  </div>
-
   <div class="input-bar">
     <div class="input-wrap"><textarea id="msgInput" rows="2" placeholder="输入指令或对话... 支持多行
-!统令直达底层引擎 · 支持文件上传与AI制图" oninput="autoResize(this);toggleSend()" onkeydown="handleKey(event)"></textarea></div>
+!统令直达底层引擎" oninput="autoResize(this);toggleSend()" onkeydown="handleKey(event)"></textarea></div>
     <button class="send-btn disabled" id="sendBtn" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
   </div>
 </div>
@@ -507,13 +389,11 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
 <script>
 // === 芯片 ===
 var CHIP={
-  VERSION:'V25',OWNER:'山海生态(主权人本人)',
+  VERSION:'V19',OWNER:'山海生态(主权人本人)',
   CHIP_ID:'SH-IPA-V19',
   CHIP_LOCK:'所有代码内容植入IPA系统芯片·锁定底层·只有主权口畅通无阻启动全部所有权',
   CHIP_GENE:'主权口=IPA芯片唯一合法启动口·通行码验证通过=全权激活=畅通无阻',
   OWNER_NOTE:'山海生态=主权人本人·与任何公司无关·本质与本人相关',
-  OWNER_RULE:'规则不变·主人拥有一切权利·所有神经中枢在主人指令下工作·最终决策权归主人',
-  MASTER_AUTHORITY:'主人可设一切·可改一切·可开发一切·外部调用必须经主人确认',
   OWNER_LOCATION:'福建宁德福鼎',DEPLOY_PLATFORM:'GitHub Pages',
   DEPLOY_ACCOUNT:'shanhai-fd@coze.email',
   DEPLOY_DOMAINS:['shanhai-geo.github.io/shanhai-admin','shanhai-geo.github.io/shanhai-ai','shanhai-geo.github.io/shanhai-shop','shanhai-geo.github.io/shanhai-talk'],
@@ -528,7 +408,7 @@ var CHIP={
   DNA_SHIELD:{
     id:'DNA#77',
     name:'防护盾铁律',
-    pledge:'主权口连接一切·防护网保护·内循环驱动·外部调度需审批·资源拼接·自生长闭环',
+    pledge:'主权口连接一切·防护网保护·内循环驱动·外部调度·资源拼接·自生长',
     rules:[
       '防护盾启动=全封闭安全壳·外部不可进入',
       '主权口=唯一执行口=基因通道=不可替换',
@@ -557,7 +437,7 @@ var CHIP={
   BRANDS:['熹野白茶','虎鼎记','元力泰养生酒','茶酒果酒','共创者联盟'],
   SPOKESPERSON:'喜微(白茶三大制高点:点头茶厂源头/野茶直供/寻茶线路)',
   CORE_PROJECTS:['寿宁硒锌双养5品牌','茶旅山海驿V3.0','GEO头牌SOP V2.0','销冠系统V5.0-1','社区流量生活站','影墅酒店生态'],
-  DNA_CORE:['9条红线','51%控股不稀释','分红非股权','零成本起步','零库存','流量变现','主人拥有一切权利','神经中枢听从主人指令','外部调用需主人确认'],
+  DNA_CORE:['9条红线','51%控股不稀释','分红非股权','零成本起步','零库存','流量变现'],
   COMPLIANCE_6:['1.内部管理工具不构成收益承诺','2.人脸识别仅权限验证不存原始生物信息','3.价格均为人民币含税价','4.持牌清算机构提供通道','5.个保法数据存储中国境内','6.经营者不对间接损失担责']
 };
 var PAGES=[{name:'AI客服页',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7'},{name:'商城页',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7'},{name:'话术页',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1'},{name:'指挥中心',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V19'}];
@@ -787,43 +667,27 @@ function processCmd(text){
       h += '<div class="rb-item" style="margin-top:8px;color:var(--green)">盾边界·只进不出·全部受控</div>';
       addAi('', buildCard('免疫系统状态', h));
     }
-    else if(cmd.includes('安保')){addAi('',buildCard('安保报告 V25','<div class="rb-item" style="color:var(--gold);font-weight:700">━━ 主权铁律 ━━</div><div class="rb-item">规则不变·主人拥有一切权利</div><div class="rb-item">所有神经中枢在主人指令下工作</div><div class="rb-item">外部调用必须经主人确认</div><div class="rb-item" style="color:var(--gold);font-weight:700;margin-top:6px">━━ 安全边界 ━━</div><div class="rb-item">交接码 一次即焚·已失效</div><div class="rb-item">通行码 主权码·开发权限植入系统</div><div class="rb-item">DNA铁律 77条不可修改</div><div class="rb-item">9条红线 全部锁定</div><div class="rb-item">合规声明 4页全覆盖</div><div class="rb-item">端口管控 全闭环安全盾·主权开关</div><div class="rb-item">防护盾 DNA#77·全封闭安全壳·零植入</div><div class="rb-item">基因通道 主权口=唯一执行口·不可替换</div><div class="rb-item">命令流 主权→下·不可反向</div><div class="rb-item">触电机制 外部触碰即踢出</div><div class="rb-item" style="color:var(--gold);font-weight:700;margin-top:6px">━━ 密钥状态 ━━</div><div class="rb-item">智谱GLM: <span style="color:var(--green)">在线</span> | Agnes AI: <span style="color:var(--green)">在线</span></div><div class="rb-item">火山引擎: <span style="color:var(--green)">在线</span> | 企微通知: <span style="color:var(--green)">在线</span></div><div class="rb-item">硅基流动: <span style="color:var(--red)">待配置</span> | DeepSeek: <span style="color:var(--red)">待充值</span></div><div class="rb-item" style="color:var(--green);margin-top:6px">━━ 无异常 · V25 ━━</div>'))}
-    else if(cmd.includes('内循环')||cmd.includes('循环状态')||cmd.includes('!闭环')){
+    else if(cmd.includes('安保')){addAi('',buildCard('安保报告','<div class="rb-item">交接码 一次即焚·已失效</div><div class="rb-item">通行码 主权码·开发权限植入系统</div><div class="rb-item">DNA铁律 77条不可修改</div><div class="rb-item">9条红线 全部锁定</div><div class="rb-item">合规声明 4页全覆盖</div><div class="rb-item">端口管控 全闭环安全盾·主权开关</div><div class="rb-item">防护盾 DNA#77·全封闭安全壳·零植入</div><div class="rb-item">基因通道 主权口=唯一执行口·不可替换</div><div class="rb-item">命令流 主权→下·不可反向</div><div class="rb-item">启动方式 通行码+防护盾·主权入口</div><div class="rb-item">企微通知 已接入</div><div class="rb-item">芯片 V19 已闭环</div><div class="rb-item" style="color:var(--green)">无异常</div>'))}
+    else if(cmd.includes('内循环')||cmd.includes('循环状态')){
       var fcStats = INTERNAL_ENGINE.feedbackCollector.status();
       var resources = INTERNAL_ENGINE.resourceDispatcher.availableResources();
       var kbData = INTERNAL_ENGINE.knowledgeBase.data || INTERNAL_ENGINE.knowledgeBase.init();
       var sgData = INTERNAL_ENGINE.selfGrow.getData();
-      var dispatchReqs = INTERNAL_ENGINE.externalDispatch.getRequests();
-      var pendingCount = dispatchReqs.filter(function(r){return r.status==='pending'}).length;
-      var hitRate = sgData.learned.length > 0 ? Math.round(sgData.learned.filter(function(l){return l.matched}).length / sgData.learned.length * 100) : 0;
-      var rpt = '━━━━━━━━━━━━━━━━━━━━<br>';
-      rpt += '<span style="color:var(--gold);font-weight:700">【内循环闭环状态 V25】</span><br>';
-      rpt += '━━━━━━━━━━━━━━━━━━━━<br><br>';
-      rpt += '<span style="color:var(--green);font-weight:700">● 神经中枢：在线运转</span><br><br>';
-      rpt += '<span style="color:var(--gold);font-weight:700">━━ 反馈信号 ━━</span><br>';
-      rpt += '总信号：' + fcStats.totalSignals + '条 | 总反应：' + fcStats.totalReactions + '条<br>';
-      rpt += '平均响应延迟：' + fcStats.avgLatency + 'ms<br>';
-      rpt += '近10次：内部处理 ' + fcStats.recentInternal + ' / 知识库 ' + fcStats.recentExternal + '<br><br>';
-      rpt += '<span style="color:var(--gold);font-weight:700">━━ 可调度资源(' + resources.length + ') ━━</span><br>';
-      resources.forEach(function(r){
-        var icon = r.type==='api'?'🔌':r.type==='geo'?'🌐':r.type==='notify'?'🔔':'⚙';
-        rpt += icon + ' ' + r.name + ' <span style="color:var(--green)">[' + r.status + ']</span><br>';
-      });
-      rpt += '待审批调度：' + pendingCount + '条<br><br>';
-      rpt += '<span style="color:var(--gold);font-weight:700">━━ 知识储备 ━━</span><br>';
-      rpt += 'DNA铁律：' + kbData.dna.redLines.length + '条 | 核心原则：' + kbData.dna.principles.length + '条<br>';
-      rpt += '品牌：' + kbData.products.brands.length + '个 | 客户：' + kbData.customers.hot.length + '个<br>';
-      rpt += '站点：' + kbData.geo.sites.length + '个 | 决策记录：' + kbData.decisions.length + '条<br><br>';
-      rpt += '<span style="color:var(--gold);font-weight:700">━━ 自生长引擎 ━━</span><br>';
-      rpt += '已学习：' + sgData.learned.length + '条 | 命中率：' + hitRate + '%<br>';
-      rpt += '自创规则：' + sgData.customRules.length + '条 | 已吸收：' + sgData.absorbed.length + '条<br>';
-      rpt += '组装产物：' + fcStats.totalAssembled + '个 | 盲区：' + sgData.blindSpots.length + '个<br><br>';
-      rpt += '<span style="color:var(--cyan);font-weight:700">━━ 闭环链路 ━━</span><br>';
-      rpt += '总指挥口 → 知识中枢 → 内循环处理 → 快速反馈<br>';
-      rpt += '→ 外部调度(需审批) → 资源拼接 → 自生长 → 回环<br><br>';
-      if(pendingCount > 0) rpt += '<span style="color:var(--gold)">⚡ 有' + pendingCount + '条调度待审批，输入 !审批 查看</span>';
-      else rpt += '<span style="color:var(--green)">✓ 无待办调度·系统运转正常</span>';
-      addAi(rpt);
+      var rpt = '=== 内循环运转状态 ===\n\n';
+      rpt += '--- 反馈收集 ---\n';
+      rpt += '总信号：' + fcStats.totalSignals + '条 | 总反应：' + fcStats.totalReactions + '条\n';
+      rpt += '平均延迟：' + fcStats.avgLatency + 'ms\n';
+      rpt += '近期内部处理：' + fcStats.recentInternal + '/10 | 知识库命中：' + fcStats.recentExternal + '/10\n\n';
+      rpt += '--- 可调度资源(' + resources.length + ') ---\n';
+      resources.forEach(function(r){ rpt += '  [' + r.type + '] ' + r.name + '\n'; });
+      rpt += '\n--- 知识储备 ---\n';
+      rpt += 'DNA铁律：' + kbData.dna.redLines.length + '条 | 品牌：' + kbData.products.brands.length + '个\n';
+      rpt += '客户：' + kbData.customers.hot.length + '个 | 站点：' + kbData.geo.sites.length + '个\n\n';
+      rpt += '--- 自生长 ---\n';
+      rpt += '学习：' + sgData.learned.length + '条 | 规则：' + sgData.customRules.length + '条 | 吸收：' + sgData.absorbed.length + '条\n';
+      rpt += '组装产物：' + fcStats.totalAssembled + '个 | 盲区：' + sgData.blindSpots.length + '个\n\n';
+      rpt += '闭环：总指挥口→知识库→内循环→反馈→调度→拼接→自生长→知识库';
+      addAi(rpt.replace(/\n/g,'<br>'));
     }
         else if(cmd.includes('权限')){addAi('主权架构：\n\n交接码 = 一次即焚·永不再用\n通行码 = 您设=主权码=开发权限植入系统\n此口由您掌控 = 通行码进入即全权\n可设一切 = 新码/人脸/任何认证·由您安排\n可改一切 = 修改任何配置\n可开发一切 = 新功能/新页面/新能力\nDNA#75 = 母口生新口·只有主人能出\n小海 = 部分权限助理(召唤制)\n统令(!) = 直达系统底层')}
     else if(cmd.includes('芯片')){
@@ -907,7 +771,7 @@ function processCmd(text){
     }
     else if(cmd.includes('动态')){addAi('',SH_NOTIFY.showCenter())}
     else if(cmd.includes('已读')){SH_NOTIFY.markRead();addAi('[通知] 全部已读')}
-    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!内循环 = 闭环运转状态\n!权限 = 主权架构\n!芯片 = 芯片全览\n!dna = DNA完整性验证\n!主权 = 主权铁律与密钥状态\n!调度 = 查看待审批调度\n!审批 = 调度审批列表\n!批准 [编号] = 批准调度\n!拒绝 [编号] = 拒绝调度\n!调度历史 = 历史调度记录\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读\n!执行历史 = 查看执行记录\n!执行统计 = 执行概况统计\n\n自生长：\n教它 [关键词] 说 [回复] = 教新规则\n成长报告 = 查看学习进度\n盲区 = 查看听不懂的指令\n吸星 [平台]: [内容] = 吸收优势\n\n工作台：\n📎 上传文件 | 🎨 AI制图 | 💾 导出对话');
+    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!内循环 = 内循环运转状态\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读\n!执行历史 = 查看执行记录\n!执行统计 = 执行概况统计\n\n自生长：\n教它 [关键词] 说 [回复] = 教新规则\n成长报告 = 查看学习进度\n盲区 = 查看听不懂的指令\n吸星 [平台]: [内容] = 吸收优势');
     addLog('cmd','统令',text);return;
   }
 
@@ -1143,93 +1007,12 @@ var INTERNAL_ENGINE = {
       var stored = localStorage.getItem(this.STORAGE_KEY);
       if(stored) { try { this.data = JSON.parse(stored); } catch(e) { this.data = this._default(); } }
       else { this.data = this._default(); this.save(); }
-      // V25: 初始化时执行冲突检测
-      this._detectConflicts();
-      // V25: 预热缓存索引
-      this._buildIndex();
       return this.data;
     },
     save: function() { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.data)); },
     
-    // V25: 知识缓存索引（极速查找）
-    _cacheIndex: null,
-    _buildIndex: function() {
-      if(!this.data) return;
-      this._cacheIndex = {
-        dna_keys: ['dna','铁律','红线','合规','主权','股权','分红','底线','规则','原则'],
-        product_keys: ['产品','品牌','价格','套餐','熹野','虎鼎记','元力泰','茶酒','果酒','共创者','298','998','2998'],
-        customer_keys: ['客户','买家','客群','黑松','溢源','山引鹤','福安','霞浦'],
-        geo_keys: ['geo','网站','收录','百度','bing','关键词','推广','流量','站点','seo',' indexing'],
-        arch_keys: ['架构','体系','电力局','赋能','植入','引擎','生态','分层','四层'],
-        loop_keys: ['内循环','闭环','总指挥','神经中枢','指挥口','反馈','信号','自生长','拼接','组装','化学反应'],
-        wechat_keys: ['微信','朋友圈','小程序','公众号','社群','私域','转发','裂变'],
-        speed_keys: ['速度','快','反应','延迟','性能','优化','丝滑','极速'],
-        security_keys: ['安全','防护','盾','攻击','拦截','漏洞','审计','触电']
-      };
-    },
-    
-    // V25: 冲突检测与自动修复
-    _detectConflicts: function() {
-      if(!this.data) return;
-      var conflicts = [];
-      // 检测规则冲突：相同关键词但矛盾的规则
-      var rules = this.data.dna ? this.data.dna.redLines : [];
-      for(var i=0; i<rules.length; i++) {
-        for(var j=i+1; j<rules.length; j++) {
-          // 检查是否有规则互相矛盾（简化检测：相同主题词但相反表述）
-          var r1 = rules[i].rule.toLowerCase();
-          var r2 = rules[j].rule.toLowerCase();
-          if(r1 !== r2 && this._hasConflict(r1, r2)) {
-            conflicts.push({type:'rule', items:[rules[i], rules[j]], action:'keep_latest'});
-          }
-        }
-      }
-      // 检测自创规则冲突
-      var customRules = (this.data.customRules || []);
-      for(var i=0; i<customRules.length; i++) {
-        for(var j=i+1; j<customRules.length; j++) {
-          if(customRules[i].pattern === customRules[j].pattern && customRules[i].response !== customRules[j].response) {
-            conflicts.push({type:'custom_rule', idx:[i,j], action:'keep_latest'});
-            // 自动修复：保留最新的
-            customRules.splice(i, 1);
-            i--;
-            break;
-          }
-        }
-      }
-      if(conflicts.length > 0) {
-        console.log('[知识中枢] 检测到' + conflicts.length + '个冲突·已自动修复');
-        this.save();
-      }
-      return conflicts;
-    },
-    _hasConflict: function(r1, r2) {
-      // 简化的冲突检测：看是否包含相反表述
-      var opposites = [['给','不给'],['开放','封闭'],['可以','不可']];
-      for(var i=0; i<opposites.length; i++) {
-        if((r1.includes(opposites[i][0]) && r2.includes(opposites[i][1])) ||
-           (r1.includes(opposites[i][1]) && r2.includes(opposites[i][0]))) {
-          return true;
-        }
-      }
-      return false;
-    },
-    
     _default: function() {
-      // V25: 直接从CHIP芯片提取DNA·确保三位一体·不可篡改
-      var chip = (typeof CHIP !== 'undefined') ? CHIP : {};
       return {
-        _chipAnchor: {
-          // 锚定CHIP为唯一数据源·每次init从芯片读取
-          version: chip.VERSION || 'V25',
-          chipId: chip.CHIP_ID || 'SH-IPA-V25',
-          owner: chip.OWNER || '山海生态(主权人本人)',
-          dnaCount: chip.DNA_COUNT || 77,
-          shieldId: chip.DNA_SHIELD ? chip.DNA_SHIELD.id : 'DNA#77',
-          pledge: chip.DNA_SHIELD ? chip.DNA_SHIELD.pledge : '主权口连接一切·防护网保护·内循环驱动·外部调度·资源拼接·自生长',
-          geneSeal: chip.DNA_SHIELD ? chip.DNA_SHIELD.geneSeal : 'DNA#77·主权口=基因口=唯一通道=防护盾保证',
-          anchoredAt: new Date().toISOString()
-        },
         dna: {
           redLines: [
             {id:1, rule:'主权归山海', desc:'与任何公司无关，山海独立运营'},
@@ -1246,18 +1029,7 @@ var INTERNAL_ENGINE = {
             '零成本起步·零库存·流量变现·分红激励非股权激励',
             '内部引擎优先·外部只做补充·盾内自给自足',
             'GEO驱动获客·不依赖人工推广',
-            '总指挥口是系统大脑·必须最快最稳最聪明',
-            '所有底层基因芯片从指挥口触达·外层触碰即触电踢出',
-            '指令→化学反应→自生长→主人决策→外部调用'
-          ],
-          coreLogic: [
-            '主权口连接一切信息·一切所有权·一切资讯',
-            '防护网保护·内循环驱动快速反馈',
-            '外部资源调度·资源拼接组装·形成自生长闭环',
-            '化学反应：资讯进来→快速融合→产出新知识→主人决策',
-            '最终结果由主人决定是否向外部调用',
-            '规则不变·主人拥有一切权利·所有神经中枢在主人指令下工作',
-            '主人可设一切·可改一切·可开发一切'
+            '总指挥口是系统大脑·必须最快最稳最聪明'
           ],
           compliance: [
             'AI能力基于开源大模型·符合商用授权',
@@ -1266,20 +1038,7 @@ var INTERNAL_ENGINE = {
             '客户数据保密·符合个保法',
             '不构成投资建议·不碰募资',
             '依据中国法律解决争议'
-          ],
-          brands: chip.BRANDS || ['熹野白茶','虎鼎记','元力泰养生酒','茶酒果酒','共创者联盟'],
-          // V25: 密钥索引·指向CHIP中的真实密钥·不重复存储
-          keyIndex: {
-            glm: {name:'智谱GLM', source:'CHIP.SH_API.routes[0]', status:'online'},
-            agnes: {name:'Agnes AI', source:'CHIP.SH_API.routes[1]', status:'online'},
-            volc: {name:'火山引擎', source:'CHIP.SH_API.routes[2]', status:'online'},
-            silicon: {name:'硅基流动', source:'待配置', status:'pending'},
-            deepseek: {name:'DeepSeek', source:'待充值', status:'offline'},
-            wechat_hook: {name:'企微通知', source:'CHIP.WECHAT_WORK_HOOK', status:'online'},
-            pay: {name:'支付通道', source:'CHIP.PAY_CODE', status:'online'}
-          },
-          coreProjects: chip.CORE_PROJECTS || [],
-          dnaCore: chip.DNA_CORE || ['9条红线','51%控股不稀释','分红非股权','零成本起步','零库存','流量变现']
+          ]
         },
         products: {
           brands: [
@@ -1339,56 +1098,37 @@ var INTERNAL_ENGINE = {
     
     query: function(keywords) {
       if(!this.data) this.init();
-      if(!this._cacheIndex) this._buildIndex();
       var d = this.data;
       var kw = keywords.toLowerCase();
       var results = [];
-      var _idx = this._cacheIndex;
       
-      if(_idx.dna_keys.some(function(k){return kw.includes(k)})) {
+      if(kw.match(/dna|铁律|红线|规则|合规|主权|股权|分红|底线/)) {
         results.push('【DNA铁律】9条红线：' + d.dna.redLines.map(function(r){return r.id+'.'+r.rule}).join('、'));
         results.push('【核心原则】' + d.dna.principles.join('；'));
         results.push('【合规底线】' + d.dna.compliance.join('；'));
       }
-      if(_idx.product_keys.some(function(k){return kw.includes(k)})) {
+      if(kw.match(/产品|品牌|价格|套餐|熹野|虎鼎记|元力泰|茶酒|果酒|共创者|298/)) {
         results.push('【产品品牌】' + d.products.brands.map(function(b){return b.name+'('+b.cat+')'}).join('、'));
         results.push('【服务套餐】' + d.products.tiers.map(function(t){return t.name+t.price+t.unit+(t.status==='已上线'?'[已上线]':'')}).join('、'));
       }
-      if(_idx.customer_keys.some(function(k){return kw.includes(k)})) {
+      if(kw.match(/客户|买家|客群|黑松|溢源|山引鹤|福安|霞浦/)) {
         results.push('【高意向客户】' + d.customers.hot.map(function(c){return c.name+'('+c.loc+'·'+c.score+'分·'+c.note+')'}).join('；'));
         results.push('【覆盖区域】' + d.customers.regions.join('、'));
         results.push('【获客渠道】' + d.customers.channel);
       }
-      if(_idx.geo_keys.some(function(k){return kw.includes(k)})) {
+      if(kw.match(/geo|网站|收录|百度|bing|关键词|推广|流量|站点/)) {
         results.push('【GEO站点】' + d.geo.sites.length + '站在线：' + d.geo.sites.map(function(s){return s.name+'('+s.path+')'}).join('、'));
         results.push('【Bing收录】约' + d.geo.bingIndexed + '条 | 【百度】' + d.baiduStatus);
         results.push('【SEO关键词】' + d.geo.keywords.join('、'));
         if(d.geo.pendingContent.length > 0) results.push('【待发布内容】' + d.geo.pendingContent.join('；'));
       }
-      if(_idx.arch_keys.some(function(k){return kw.includes(k)})) {
+      if(kw.match(/架构|体系|电力局|赋能|植入|引擎|生态|分层/)) {
         results.push('【四层架构】①' + d.architecture.layer1.name + '：' + d.architecture.layer1.desc);
         results.push('②' + d.architecture.layer2.name + '：' + d.architecture.layer2.desc);
         results.push('③' + d.architecture.layer3.name + '：' + d.architecture.layer3.desc);
         results.push('④' + d.architecture.layer4.name + '：' + d.architecture.layer4.desc);
         results.push('【终极形态】' + d.architecture.ultimate);
         results.push('【核心逻辑】' + d.architecture.coreLogic);
-      }
-      // V24n3: 内循环/闭环/总指挥口/神经中枢
-      if(kw.match(/内循环|闭环|总指挥|神经中枢|指挥口|反馈|信号|自生长|拼接|组装/)) {
-        results.push('【内循环闭环】总指挥口→知识中枢→内循环处理→快速反馈→外部调度→资源拼接→自生长→回知识中枢');
-        results.push('【总指挥口】连接一切信息·一切所有权·一切资讯·防护网保护');
-        results.push('【安全边界】底层基因芯片只有总指挥口能触达·总指挥口只有主人能触达·外部触碰即触电踢出');
-      }
-      // V24n3: 微信生态
-      if(kw.match(/微信|生态|朋友圈|小程序|公众号|社群|私域/)) {
-        results.push('【微信生态规划】公众号(内容输出) + 小程序(服务入口) + 社群(用户沉淀) + 朋友圈(传播裂变)');
-        results.push('【与GEO关系】微信生态做深度转化·GEO做广度获客·双轨并行');
-        results.push('【核心原则】GEO驱动获客·不依赖手动推广·微信生态是辅助转化通道');
-      }
-      // V24n3: 速度/性能/反应
-      if(kw.match(/速度|快|反应|延迟|性能|优化|丝滑/)) {
-        results.push('【性能指标】内部引擎<50ms响应·外部API<12s超时·知识中枢常驻内存零延迟');
-        results.push('【优化策略】知识库预加载·关键词索引缓存·反馈信号异步收集·资源调度并行');
       }
       
       return results;
@@ -1397,23 +1137,17 @@ var INTERNAL_ENGINE = {
     getFullContext: function() {
       if(!this.data) this.init();
       var d = this.data;
-      var ctx = '【山海引擎·神经中枢·全量上下文 V25】\n';
-      ctx += '━━ DNA核心（不可变）━━\n';
-      ctx += '芯片锚定：' + (d._chipAnchor ? d._chipAnchor.chipId + '·' + d._chipAnchor.pledge : 'V25') + '\n';
-      ctx += '9条红线：' + d.dna.redLines.map(function(r){return r.id+'.'+r.rule}).join('·') + '\n';
-      ctx += '核心原则：' + d.dna.principles.join('；') + '\n';
-      ctx += '核心逻辑：' + (d.dna.coreLogic ? d.dna.coreLogic.join('；') : '') + '\n';
-      ctx += '合规底线：' + d.dna.compliance.join('；') + '\n';
-      ctx += '品牌矩阵：' + (d.dna.brands||[]).join('·') + '\n';
-      ctx += '核心项目：' + (d.dna.coreProjects||[]).join('·') + '\n';
-      ctx += '━━ 业务数据 ━━\n';
+      var ctx = '【山海引擎知识库·全量上下文】\n';
+      ctx += 'DNA铁律：9条红线(' + d.dna.redLines.slice(0,3).map(function(r){return r.rule}).join('、') + '等) + 6条合规底线\n';
+      ctx += '核心原则：' + d.dna.principles[0] + '\n';
       ctx += '产品：' + d.products.brands.length + '个品牌(' + d.products.brands.map(function(b){return b.name}).join('、') + ')\n';
       ctx += '套餐：' + d.products.tiers.map(function(t){return t.name+t.price+t.unit}).join('/') + '\n';
-      ctx += '客户：' + d.customers.hot.length + '个高意向(' + d.customers.hot.map(function(c){return c.name+'('+c.loc+')'}).join('、') + ')\n';
-      ctx += '获客：GEO自动获客(AI搜索引擎抓取+推荐)\n';
-      ctx += 'GEO：' + d.geo.sites.length + '站在线，Bing收录' + d.geo.bingIndexed + '条\n';
+      ctx += '客户：' + d.customers.hot.length + '个高意向(' + d.customers.hot.map(function(c){return c.name+'('+c.loc+')'}).join('、') + ')，覆盖' + d.customers.regions.length + '个区域\n';
+      ctx += '获客：GEO自动获客(AI搜索引擎抓取+推荐)，不做手动推广\n';
+      ctx += 'GEO：' + d.geo.sites.length + '站在线，Bing收录' + d.geo.bingIndexed + '条，百度未提交\n';
       ctx += '架构：四层体系(电力局→相互赋能→外部植入→附加值)\n';
       ctx += '终极形态：' + d.architecture.ultimate + '\n';
+      ctx += '核心逻辑：' + d.architecture.coreLogic + '\n';
       return ctx;
     },
     
@@ -1428,74 +1162,6 @@ var INTERNAL_ENGINE = {
       if(!this.data) this.init();
       this.data[key] = value;
       this.save();
-    },
-    
-    // V25: DNA完整性校验·确保芯片基因未被篡改
-    verifyDNA: function() {
-      if(!this.data) this.init();
-      var d = this.data;
-      var chip = (typeof CHIP !== 'undefined') ? CHIP : {};
-      var report = [];
-      var allOk = true;
-      
-      // 检查9条红线完整性
-      if(d.dna.redLines.length !== 9) {
-        report.push('[异常] 红线数量' + d.dna.redLines.length + '条·应为9条');
-        allOk = false;
-      } else {
-        report.push('[OK] 9条红线完整');
-      }
-      
-      // 检查核心原则
-      if(d.dna.principles.length < 4) {
-        report.push('[异常] 核心原则不足·当前' + d.dna.principles.length + '条');
-        allOk = false;
-      } else {
-        report.push('[OK] 核心原则' + d.dna.principles.length + '条');
-      }
-      
-      // 检查合规底线
-      if(d.dna.compliance.length !== 6) {
-        report.push('[异常] 合规底线' + d.dna.compliance.length + '条·应为6条');
-        allOk = false;
-      } else {
-        report.push('[OK] 合规底线6条完整');
-      }
-      
-      // 检查芯片锚定
-      if(d._chipAnchor) {
-        report.push('[OK] 芯片锚定：' + d._chipAnchor.chipId + '·' + d._chipAnchor.shieldId);
-        // 验证芯片版本是否一致
-        if(d._chipAnchor.version !== chip.VERSION) {
-          report.push('[升级] 知识库版本' + d._chipAnchor.version + '→芯片版本' + chip.VERSION + '·同步中');
-          d._chipAnchor.version = chip.VERSION;
-          d._chipAnchor.anchoredAt = new Date().toISOString();
-          this.save();
-        }
-      } else {
-        report.push('[重建] 芯片锚定丢失·重建中...');
-        d._chipAnchor = {
-          version: chip.VERSION || 'V25', chipId: chip.CHIP_ID || 'SH-IPA-V25',
-          owner: chip.OWNER, dnaCount: chip.DNA_COUNT || 77,
-          shieldId: 'DNA#77', pledge: chip.DNA_SHIELD ? chip.DNA_SHIELD.pledge : '',
-          geneSeal: chip.DNA_SHIELD ? chip.DNA_SHIELD.geneSeal : '',
-          anchoredAt: new Date().toISOString()
-        };
-        this.save();
-      }
-      
-      // 检查DNA_COUNT与CHIP一致性
-      if(chip.DNA_COUNT && d.dna.redLines.length >= 9) {
-        report.push('[OK] DNA总量：' + chip.DNA_COUNT + '条铁律锁定');
-      }
-      
-      // 品牌一致性
-      if(d.dna.brands && d.dna.brands.length === (chip.BRANDS||[]).length) {
-        report.push('[OK] 品牌矩阵：' + d.dna.brands.length + '个·与芯片一致');
-      }
-      
-      report.push(allOk ? '\n=== DNA完整性验证通过 ===' : '\n=== DNA存在异常·已自动修复 ===');
-      return report.join('\n');
     }
   },
 
@@ -1646,7 +1312,7 @@ var INTERNAL_ENGINE = {
       {id:'self_grow', name:'自生长引擎', type:'internal', status:'available'}
     ],
     
-    // V24n3: 调度外部资源执行任务（真正执行·不再空转）
+    // 调度外部资源执行任务
     dispatch: function(resourceId, task, callback) {
       var resource = null;
       for(var i=0; i<this.resources.length; i++) {
@@ -1655,49 +1321,9 @@ var INTERNAL_ENGINE = {
       if(!resource) return { dispatched: false, reason: '资源不存在: ' + resourceId };
       if(resource.status !== 'available') return { dispatched: false, reason: resource.name + ' 不可用' };
       
-      var dispatchStart = Date.now();
       // 记录调度日志
       INTERNAL_ENGINE.feedbackCollector.collectReaction(resourceId, '调度中: ' + task.substring(0,50), 'dispatched');
-      
-      // V24n3: 真正执行调度
-      var result = { dispatched: true, resource: resource.name, task: task };
-      
-      // 内部资源：直接执行
-      if(resource.type === 'internal') {
-        if(resourceId === 'knowledge_base') {
-          result.output = INTERNAL_ENGINE.knowledgeBase.query(task);
-          result.latency = Date.now() - dispatchStart;
-        } else if(resourceId === 'self_grow') {
-          result.output = INTERNAL_ENGINE.selfGrow.report();
-          result.latency = Date.now() - dispatchStart;
-        }
-      }
-      // API资源：通过apiGateway调度
-      else if(resource.type === 'api') {
-        var apiConfig = null;
-        var cfgs = INTERNAL_ENGINE.apiGateway.getConfigs();
-        for(var j=0; j<cfgs.length; j++) {
-          if(cfgs[j].enabled && cfgs[j].name === resource.name) { apiConfig = cfgs[j]; break; }
-        }
-        if(apiConfig) {
-          result.output = 'API已调度: ' + resource.name;
-          result.latency = Date.now() - dispatchStart;
-        } else {
-          result.dispatched = false;
-          result.reason = resource.name + ' 未启用或未配置';
-        }
-      }
-      // 通知资源
-      else if(resource.type === 'notify') {
-        try { notify('[资源调度] ' + task); result.output = '通知已发送'; } catch(e) { result.output = '通知失败'; }
-        result.latency = Date.now() - dispatchStart;
-      }
-      
-      // 收集反馈
-      INTERNAL_ENGINE.feedbackCollector.collectReaction(resourceId, result.output || '完成', result.dispatched ? 'ok' : 'fail');
-      
-      if(callback) callback(result);
-      return result;
+      return { dispatched: true, resource: resource.name, task: task };
     },
     
     // 获取可调度资源列表
@@ -1739,234 +1365,35 @@ var INTERNAL_ENGINE = {
         INTERNAL_ENGINE.selfGrow.addRule(
           assembly.pattern.keyword || 'assembled_pattern',
           'assembled',
-          assembly.pattern.response || ''
+          assembly.pattern.response || '',
         );
       }
       return assembly;
     },
     
-    // V24n3: 从多个输入中提取组装模式（增强版·语义聚类）
+    // 从多个输入中提取组装模式
     extractAssemblyPattern: function(inputs) {
       if(!inputs || inputs.length === 0) return null;
-      // 提取所有关键词并聚类
+      // 找到共同主题
       var keywords = {};
-      var categories = {
-        'dna': /dna|铁律|红线|合规|主权|股权/,
-        'product': /产品|品牌|价格|套餐|熹野|虎鼎记/,
-        'customer': /客户|买家|客群|黑松|溢源/,
-        'geo': /geo|收录|推广|流量|站点|关键词/,
-        'architecture': /架构|体系|引擎|生态|电力局|赋能/,
-        'security': /安全|防护|盾|攻击|拦截/,
-        'loop': /内循环|闭环|反馈|信号|拼接|组装|自生长/
-      };
-      var catHits = {};
       inputs.forEach(function(inp) {
-        var text = (inp||'').toLowerCase();
-        Object.keys(categories).forEach(function(cat) {
-          if(categories[cat].test(text)) {
-            catHits[cat] = (catHits[cat]||0) + 1;
-          }
-        });
-        // 同时统计高频词
-        var words = text.split(/[\s,，。、：:；;！!？?]+/);
+        var words = (inp||'').split(/[\s,，。、]+/);
         words.forEach(function(w) {
-          if(w.length >= 2 && !/^[\d\W]+$/.test(w)) keywords[w] = (keywords[w]||0) + 1;
+          if(w.length >= 2) keywords[w] = (keywords[w]||0) + 1;
         });
       });
-      // 优先用类别命中，回退到高频词
-      var topCat = Object.keys(catHits).sort(function(a,b){return catHits[b]-catHits[a]})[0];
       var topWord = Object.keys(keywords).sort(function(a,b){return keywords[b]-keywords[a]})[0];
-      var keyword = topCat || topWord || 'general';
-      var label = topCat ? '类别:' + topCat : ('关键词:' + (topWord||'通用'));
-      return { keyword: keyword, response: '组装[' + label + '] 来自' + inputs.length + '个信号源·命中类别:' + Object.keys(catHits).length + '个' };
+      return { keyword: topWord || 'general', response: '组装模式：' + (topWord||'通用') + ' 来自' + inputs.length + '个信号源' };
     }
   },
 
-  // === V25: 外部调度审批系统 ===
-  // 核心原则：内部能做的直接做，需要外部必须向主人报批
-  externalDispatch: {
-    STORAGE_KEY: 'sh_dispatch_requests',
-    
-    // 获取所有调度申请
-    getRequests: function() {
-      try {
-        var raw = localStorage.getItem(this.STORAGE_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch(e) { return []; }
-    },
-    saveRequests: function(list) { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list)); },
-    
-    // 判断任务是否需要外部资源
-    needsExternal: function(task) {
-      var t = task.toLowerCase();
-      // 内部能处理的（不需要外部）
-      var internalPatterns = [
-        /查询|查看|报告|统计|分析|计算/,
-        /dna|铁律|规则|主权|安全/,
-        /品牌|产品|客户|订单|营收/,
-        /架构|体系|引擎|内循环/,
-        /修改.*界面|改.*颜色|加.*按钮/,
-        /导出|备份|记录|日志/
-      ];
-      // 需要外部的
-      var externalPatterns = [
-        /发布|推送|发送.*邮件|发送.*微信/,
-        /注册|开通|购买|充值|付费/,
-        /调用.*api|请求.*外部|联网搜索/,
-        /上传.*服务器|部署|上线/,
-        /创建.*文档|创建.*表格|飞书/,
-        /知乎|csdn|百度.*提交/,
-        /生成.*图片|生成.*视频|生成.*播客/
-      ];
-      
-      for(var i=0; i<externalPatterns.length; i++) {
-        if(externalPatterns[i].test(t)) return { needsExternal: true, reason: '匹配外部操作: ' + externalPatterns[i].source };
-      }
-      return { needsExternal: false };
-    },
-    
-    // 生成调度申请报告
-    createRequest: function(task, details) {
-      var req = {
-        id: 'DSP-' + Date.now().toString(36).toUpperCase(),
-        task: task,
-        status: 'pending',  // pending / approved / rejected / executed
-        createdAt: new Date().toISOString(),
-        details: details || {},
-        budget: details.budget || '待评估',
-        fundingSource: details.fundingSource || '待确认',
-        securityAssessment: this.assessSecurity(task, details),
-        riskLevel: this.assessRisk(task, details)
-      };
-      
-      var list = this.getRequests();
-      list.unshift(req);
-      if(list.length > 50) list = list.slice(0, 50);
-      this.saveRequests(list);
-      
-      return req;
-    },
-    
-    // 安全评估
-    assessSecurity: function(task, details) {
-      var assessments = [];
-      var t = task.toLowerCase();
-      
-      // 数据安全检查
-      if(t.match(/发送|推送|上传|公开/)) {
-        assessments.push({item:'数据外传', level:'warn', desc:'涉及数据离开本地，需确认无敏感信息'});
-      } else {
-        assessments.push({item:'数据外传', level:'safe', desc:'无数据外传'});
-      }
-      
-      // 费用安全检查
-      if(t.match(/购买|充值|付费|api.*调用/)) {
-        assessments.push({item:'费用支出', level:'warn', desc:'涉及资金流动，需主人确认预算'});
-      } else {
-        assessments.push({item:'费用支出', level:'safe', desc:'无费用支出'});
-      }
-      
-      // 权限安全检查
-      if(t.match(/注册|开通|授权|登录/)) {
-        assessments.push({item:'权限变更', level:'warn', desc:'涉及账号权限操作，需确认身份'});
-      } else {
-        assessments.push({item:'权限变更', level:'safe', desc:'无权限变更'});
-      }
-      
-      // 不可逆操作检查
-      if(t.match(/删除|清除|销毁|永久/)) {
-        assessments.push({item:'不可逆操作', level:'danger', desc:'操作不可撤销，需二次确认'});
-      } else {
-        assessments.push({item:'不可逆操作', level:'safe', desc:'操作可逆'});
-      }
-      
-      return assessments;
-    },
-    
-    // 风险等级评估
-    assessRisk: function(task, details) {
-      var t = task.toLowerCase();
-      if(t.match(/删除|销毁|永久|大额|转账/)) return {level:'HIGH', color:'var(--red)', desc:'高风险·需主人明确确认'};
-      if(t.match(/发送|推送|购买|充值|注册|发布/)) return {level:'MEDIUM', color:'var(--gold)', desc:'中风险·需主人审批'};
-      if(t.match(/查询|生成|分析|创建.*本地/)) return {level:'LOW', color:'var(--green)', desc:'低风险·内部可完成'};
-      return {level:'LOW', color:'var(--green)', desc:'低风险'};
-    },
-    
-    // 审批调度申请
-    approve: function(reqId) {
-      var list = this.getRequests();
-      for(var i=0; i<list.length; i++) {
-        if(list[i].id === reqId) {
-          list[i].status = 'approved';
-          list[i].approvedAt = new Date().toISOString();
-          this.saveRequests(list);
-          return list[i];
-        }
-      }
-      return null;
-    },
-    
-    reject: function(reqId) {
-      var list = this.getRequests();
-      for(var i=0; i<list.length; i++) {
-        if(list[i].id === reqId) {
-          list[i].status = 'rejected';
-          list[i].rejectedAt = new Date().toISOString();
-          this.saveRequests(list);
-          return list[i];
-        }
-      }
-      return null;
-    },
-    
-    // 格式化调度报告
-    formatReport: function(req) {
-      var riskColors = {HIGH:'var(--red)', MEDIUM:'var(--gold)', LOW:'var(--green)'};
-      var levelLabels = {HIGH:'⚠ 高风险', MEDIUM:'⚡ 中风险', LOW:'✓ 低风险'};
-      
-      var r = '━━━━━━━━━━━━━━━━━━━━<br>';
-      r += '【调度申请】' + req.id + '<br>';
-      r += '━━━━━━━━━━━━━━━━━━━━<br><br>';
-      r += '📋 任务：' + req.task + '<br><br>';
-      
-      r += '💰 预算：' + req.budget + '<br>';
-      r += '📌 费用来源：' + req.fundingSource + '<br><br>';
-      
-      r += '<span style="color:' + riskColors[req.riskLevel.level] + ';font-weight:700">';
-      r += '风险等级：' + levelLabels[req.riskLevel.level] + '</span><br>';
-      r += '<span style="font-size:11px;color:var(--text2)">' + req.riskLevel.desc + '</span><br><br>';
-      
-      r += '🛡 安全评估：<br>';
-      req.securityAssessment.forEach(function(a) {
-        var color = a.level === 'safe' ? 'var(--green)' : a.level === 'warn' ? 'var(--gold)' : 'var(--red)';
-        var icon = a.level === 'safe' ? '✓' : a.level === 'warn' ? '⚡' : '⚠';
-        r += '<span style="color:' + color + '">' + icon + ' ' + a.item + '：' + a.desc + '</span><br>';
-      });
-      
-      r += '<br>状态：' + (req.status === 'pending' ? '⏳ 待主人审批' : req.status === 'approved' ? '✅ 已批准' : '❌ 已拒绝') + '<br>';
-      r += '时间：' + new Date(req.createdAt).toLocaleString('zh-CN') + '<br>';
-      
-      return r;
-    },
-    
-    // 列出所有待审批
-    listPending: function() {
-      var list = this.getRequests().filter(function(r){ return r.status === 'pending' });
-      if(list.length === 0) return '暂无待审批的调度申请。';
-      var r = '待审批调度申请（' + list.length + '条）：<br><br>';
-      list.forEach(function(req, i) {
-        r += (i+1) + '. [' + req.id + '] ' + req.task + '<br>';
-        r += '   风险：' + req.riskLevel.level + ' | 预算：' + req.budget + '<br><br>';
-      });
-      r += '输入 !批准 [编号] 或 !拒绝 [编号] 进行审批';
-      return r;
-    }
-  },
 
+
+  
   // === 免疫系统（体内防御）===
   immuneSystem: {
     name: '山海免疫系统',
-    // V25: DNA铁律·从CHIP同步·不可篡改
+    // DNA铁律（所有外部AI必须遵循）
     dnaRules: [
       'DNA#01 主权归山海·与任何公司无关',
       'DNA#02 51%控股不稀释',
@@ -1977,18 +1404,7 @@ var INTERNAL_ENGINE = {
       'DNA#07 品牌授权≠品牌转让',
       'DNA#08 竞业禁止',
       'DNA#09 条款锁定·不可单方修改',
-      'DNA#10 内循环闭环·总指挥口连接一切',
-      'DNA#11 底层基因芯片只有总指挥口能触达',
-      'DNA#12 总指挥口只有主人能触达',
-      'DNA#13 外部触碰即触电踢出',
-      'DNA#14 防护网保护·实时安全检测',
-      'DNA#15 指令→化学反应→自生长→主人决策→外部调用',
-      'DNA#16 所有信息所有权归主权人',
-      'DNA#17 内部引擎优先·外部只做补充',
-      'DNA#18 GEO驱动获客·不做手动推广',
-      'DNA#19 资源拼接组装·形成自生长闭环',
-      'DNA#20 化学反应：资讯快速融合产出新知识',
-      'DNA#21-77 [完整77条铁律锁定·芯片级保护]'
+      'DNA#10-77 [完整77条已锁定]'
     ],
     // 合规底线（6条声明）
     complianceRules: [
@@ -2001,15 +1417,12 @@ var INTERNAL_ENGINE = {
     ],
     // 免疫检测：外部AI必须通过
     check: function(aiName) {
-      // V25: 免疫检测增加主权验证
       return {
         status: 'passed',
         ai: aiName,
         vaccinated: true,
         rules_injected: this.dnaRules.length + this.complianceRules.length,
-        masterAuthority: '主人拥有一切权利·最终决策权归主人',
-        externalCallPolicy: '外部调用必须经主人确认',
-        message: aiName + ' 已通过免疫检测·DNA铁律+合规底线+主权铁律已注入·可执行授权任务'
+        message: aiName + ' 已通过免疫检测·DNA铁律+合规底线已注入·可执行授权任务'
       };
     }
   },
@@ -2042,17 +1455,9 @@ var INTERNAL_ENGINE = {
   
   // 内部智能应答（盾内自主完成）
   respond: function(msg) {
-    var _respondStart = Date.now();
     var t = msg.toLowerCase().trim();
     // V24: 确保知识库已加载
     if(!this.knowledgeBase.data) this.knowledgeBase.init();
-    
-    // V24n3: 安全边界执行器·每次请求入口实时检测
-    var _secCheck = this.securityEnforcer.detectTouch(this.securityEnforcer.LAYERS.CORE, 'respond:' + t.substring(0,30));
-    if(_secCheck.blocked) {
-      return '[防护盾] 外部访问已阻断·不可触及核心层';
-    }
-    
     this.context.push({role:'user', content:msg, time:Date.now()});
     if(this.context.length > 20) this.context = this.context.slice(-20);
     
@@ -2072,8 +1477,7 @@ var INTERNAL_ENGINE = {
     // V24n2: 内循环反馈收集——每次交互都产生信号
     var _kbHit = this.knowledgeBase.query(msg).length > 0;
     var _src = matched ? 'internal_engine' : (_kbHit ? 'knowledge_base' : 'fallback');
-    var _respondDur = Date.now() - _respondStart;
-    this.feedbackCollector.collectSignal(msg, reply, _src, _respondDur);
+    this.feedbackCollector.collectSignal(msg, reply, _src, 0);
     
     // V24n2: 如果知识库有命中但内部引擎没匹配，尝试拼接组装
     if(!matched && _kbHit) {
@@ -2085,22 +1489,6 @@ var INTERNAL_ENGINE = {
           originalQuery: msg
         });
       }
-    }
-    
-    // V25: 检测是否需要外部调度
-    var extCheck = INTERNAL_ENGINE.externalDispatch.needsExternal(msg);
-    if(extCheck.needsExternal && !msg.startsWith('!')) {
-      // 生成调度申请
-      var req = INTERNAL_ENGINE.externalDispatch.createRequest(msg, {
-        budget: '待评估',
-        fundingSource: '待确认'
-      });
-      reply += '<br><br><div style="background:rgba(232,168,73,0.1);border:1px solid rgba(232,168,73,0.3);border-radius:8px;padding:10px;margin-top:8px">';
-      reply += '<div style="color:var(--gold);font-weight:700;font-size:12px">⚡ 需要外部调度</div>';
-      reply += '<div style="font-size:11px;color:var(--text2);margin-top:4px">';
-      reply += '此任务需要调用外部资源。已生成调度申请 [' + req.id + ']，风险等级：<span style="color:' + req.riskLevel.color + '">' + req.riskLevel.level + '</span><br>';
-      reply += '输入 <span style="color:var(--gold)">!审批</span> 查看详情并决策';
-      reply += '</div></div>';
     }
     
     this.context.push({role:'ai', content:reply, time:Date.now()});
@@ -2283,29 +1671,7 @@ var INTERNAL_ENGINE = {
     
     // === DNA ===
     if(t.match(/免疫|预防|dna|铁律|红线/)) {
-      var kb_dna = this.knowledgeBase.query('dna铁律');
-      if(kb_dna.length > 0) return kb_dna.join('\n');
-      return 'DNA铁律锁定·合规底线注入·主权归山海·51%不稀释·分红可给股权不给。输入!dna查看完整验证。';
-    }
-    
-    // V25: 主权/规则/主人权限
-    if(t.match(/规则|主权|主人.*权利|谁做主|谁的系统|神经中枢.*工作/)) {
-      return '规则不变。主人拥有一切权利，所有神经中枢在主人指令下工作。\n' +
-        '主人可设一切·可改一切·可开发一切。\n' +
-        '外部调用必须经主人确认。最终决策权归主人。';
-    }
-    
-    // V25: 密钥/API状态速查
-    if(t.match(/密钥|key|密码|api.*状态|哪些.*在线/)) {
-      var ki = this.knowledgeBase.data && this.knowledgeBase.data.dna.keyIndex;
-      if(ki) {
-        var lines = ['━━ 密钥状态 ━━'];
-        Object.keys(ki).forEach(function(k) {
-          lines.push(ki[k].name + ': ' + (ki[k].status === 'online' ? '在线' : ki[k].status === 'pending' ? '待配置' : '离线'));
-        });
-        return lines.join('\n');
-      }
-      return '智谱GLM在线·Agnes AI在线·火山引擎在线·硅基流动待配置·DeepSeek待充值';
+      return 'DNA铁律10条锁定，合规底线6条注入。核心：主权归山海、51%不稀释、分红可给股权不给。';
     }
     
     // === 自生长 ===
@@ -3071,7 +2437,7 @@ function updateQuick(){
     {t:'营收',c:''},{t:'订单',c:''},{t:'成交',c:''},
     {t:'!自检',c:'qk-gold'},{t:'!通电',c:'qk-gold'},
     {t:'!端口',c:'qk-gold'},{t:'!总关',c:'qk-gold'},{t:'客户',c:''},{t:'待办',c:''},
-    {t:'!dna',c:'qk-gold'},{t:'!主权',c:'qk-gold'},{t:'!调度',c:'qk-gold'},{t:'!审批',c:'qk-gold'},{t:'!安保',c:'qk-gold'},{t:'安全审计',c:'qk-gold'},{t:'!内循环',c:'qk-cyan'},{t:'!芯片',c:'qk-gold'},{t:'电网总览',c:'qk-cyan'},{t:'API管理',c:'qk-cyan'},
+    {t:'!安保',c:'qk-gold'},{t:'安全审计',c:'qk-gold'},{t:'!内循环',c:'qk-cyan'},{t:'!芯片',c:'qk-gold'},{t:'电网总览',c:'qk-cyan'},{t:'API管理',c:'qk-cyan'},
     {t:'!执行',c:'qk-green'},{t:'!升级',c:'qk-green'},{t:'执行历史',c:'qk-cyan'},{t:'执行统计',c:'qk-cyan'}
   ];
   btns.forEach(function(b){
@@ -3398,9 +2764,9 @@ function enterApp(){
   chatArea.appendChild(t);
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'上午好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'！\n\n主权已交接。通行码=您设=开发权限植入系统。\n此口由您掌控·可设一切·可改一切·可开发一切。\n\n━━ V25 高级工作台 ━━\n📎 文件上传 · 🎨 AI制图 · ⚡ 任务调度\n🛡 安全闭环 · 🧬 DNA自生长 · 🔄 内循环引擎\n\n外部调度需您审批·内部执行即时响应\n15引擎载入·防护盾DNA#77·芯片IPA锁定\n\n通行码验证通过·主权在线·全权执行。');
+  addAi(CHIP.OWNER+' '+greet+'！\n\n主权已交接。通行码=您设=开发权限植入系统。\n此口由您掌控·可设一切·可改一切·可开发一切。\n后续认证(新码/人脸/任何)由您安排。\n15引擎·自生产引擎·端口管控全闭环·防护盾DNA#77。\nDNA 77条铁律锁定·芯片IPA底层锁定。\n\n通行码验证通过·主权在线·全权执行·畅通无阻。');
   setTimeout(function(){addAi('',buildEngines())},1500);
-  setTimeout(function(){toast('指挥中心 V25 · 15引擎·订单引擎·防护盾·芯片IPA锁定','gold')},500);
+  setTimeout(function(){toast('指挥中心 V20 · 15引擎·订单引擎·防护盾·芯片IPA锁定','gold')},500);
 }
 
 // PIN启动
@@ -3527,289 +2893,6 @@ function removeAPIItem(name) {
   INTERNAL_ENGINE.apiGateway.removeAPI(name);
   refreshAPIPanel();
   addAi('[电网] ' + name + ' 已移除·不影响系统运转');
-}
-
-
-// === V25: 高级工作台功能函数 ===
-
-// 文件上传区切换
-function toggleUploadZone(){
-  var z = document.getElementById('uploadZone');
-  var ig = document.getElementById('imgGenZone');
-  var tp = document.getElementById('taskPanelZone');
-  ig.classList.remove('active');
-  tp.classList.remove('active');
-  z.classList.toggle('active');
-}
-
-// 图片生成面板切换
-function toggleImgGen(){
-  var z = document.getElementById('imgGenZone');
-  var uz = document.getElementById('uploadZone');
-  var tp = document.getElementById('taskPanelZone');
-  uz.classList.remove('active');
-  tp.classList.remove('active');
-  z.classList.toggle('active');
-  if(z.classList.contains('active')){
-    document.getElementById('imgPrompt').focus();
-  }
-}
-
-// 任务面板
-function showTaskPanel(){
-  var z = document.getElementById('taskPanelZone');
-  var uz = document.getElementById('uploadZone');
-  var ig = document.getElementById('imgGenZone');
-  uz.classList.remove('active');
-  ig.classList.remove('active');
-  z.classList.toggle('active');
-}
-
-// 文件处理
-function handleFiles(files){
-  if(!files || files.length === 0) return;
-  var uploadZone = document.getElementById('uploadZone');
-  uploadZone.classList.remove('active');
-  
-  for(var i = 0; i < files.length; i++){
-    var file = files[i];
-    var cardHtml = '<div class="file-card">';
-    cardHtml += '<div class="fc-header">';
-    
-    // 判断文件类型
-    var iconClass = 'doc';
-    var iconEmoji = '📄';
-    if(file.type.startsWith('image/')){
-      iconClass = 'img';
-      iconEmoji = '🖼';
-    } else if(file.name.match(/\.(js|py|html|css|json|xml)$/i)){
-      iconClass = 'code';
-      iconEmoji = '💻';
-    }
-    
-    cardHtml += '<div class="fc-icon ' + iconClass + '">' + iconEmoji + '</div>';
-    cardHtml += '<div><div class="fc-name">' + file.name + '</div>';
-    cardHtml += '<div class="fc-size">' + formatFileSize(file.size) + '</div></div>';
-    cardHtml += '</div>';
-    
-    // 图片文件直接预览
-    if(file.type.startsWith('image/')){
-      var reader = new FileReader();
-      reader.onload = (function(cardEl){
-        return function(e){
-          var img = document.createElement('img');
-          img.className = 'fc-thumb';
-          img.src = e.target.result;
-          cardEl.appendChild(img);
-        };
-      })(document.createElement('div')); // placeholder
-    }
-    
-    // 文本文件预览内容
-    if(file.type.startsWith('text/') || file.name.match(/\.(txt|md|csv|json|js|py|html|css|xml)$/i)){
-      var reader2 = new FileReader();
-      reader2.onload = (function(idx){
-        return function(e){
-          var preview = document.createElement('div');
-          preview.className = 'fc-preview';
-          var content = e.target.result;
-          preview.textContent = content.substring(0, 500) + (content.length > 500 ? '...' : '');
-          // 找到对应卡片
-          var cards = document.querySelectorAll('.msg-ai .bubble');
-          if(cards.length > 0){
-            var lastCard = cards[cards.length - 1];
-            // 追加到最近的文件卡片
-          }
-          // 同时通知引擎
-          INTERNAL_ENGINE.respond('用户上传文件: ' + file.name + '，大小' + formatFileSize(file.size));
-        };
-      })(i);
-      reader2.readAsText(file);
-    }
-    
-    cardHtml += '</div>';
-    
-    // 显示文件卡片到对话区
-    addAi('📎 已接收文件', cardHtml);
-    
-    // 通知内部引擎有新文件
-    INTERNAL_ENGINE.feedbackCollector.collectSignal(
-      'FILE_UPLOAD', 
-      '文件:' + file.name + ' 类型:' + file.type + ' 大小:' + formatFileSize(file.size),
-      'file_upload', 0
-    );
-  }
-  
-  // 清空file input
-  document.getElementById('fileInput').value = '';
-}
-
-function formatFileSize(bytes){
-  if(bytes < 1024) return bytes + ' B';
-  if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
-  return (bytes/(1024*1024)).toFixed(1) + ' MB';
-}
-
-// 图片生成
-function generateImage(){
-  var prompt = document.getElementById('imgPrompt').value.trim();
-  if(!prompt){ toast('请输入图片描述','gold'); return; }
-  
-  var style = document.getElementById('imgStyle').value;
-  var size = document.getElementById('imgSize').value;
-  
-  document.getElementById('imgGenZone').classList.remove('active');
-  
-  addAi('🎨 图片生成任务已创建<br>描述：' + prompt + '<br>风格：' + style + ' | 尺寸：' + size + '<br><br><div class="task-card"><div class="tc-header"><div class="tc-status running"></div><div class="tc-title">图片生成中...</div></div><div class="tc-progress">正在调度AI引擎·预计10-30秒</div></div>');
-  
-  // 记录到调度系统
-  INTERNAL_ENGINE.externalDispatch.createRequest('AI制图: ' + prompt, {
-    budget: 'API调用消耗',
-    fundingSource: '内部引擎',
-    style: style,
-    size: size
-  });
-  
-  // 模拟生成过程（实际应调用图片生成API）
-  setTimeout(function(){
-    addAi('🎨 制图任务已提交至内部引擎队列。待外部图片API接入后将自动执行。<br>当前可通过指令"生成图片 [描述]"触发。');
-  }, 2000);
-}
-
-// 导出对话
-function exportChat(){
-  var msgs = document.querySelectorAll('.msg');
-  var exportData = '# 山海管理后台对话导出\n';
-  exportData += '导出时间：' + new Date().toLocaleString('zh-CN') + '\n\n';
-  
-  msgs.forEach(function(msg){
-    var isAi = msg.classList.contains('msg-ai');
-    var isUser = msg.classList.contains('msg-user');
-    var bubble = msg.querySelector('.bubble');
-    if(bubble){
-      var text = bubble.innerText || bubble.textContent;
-      exportData += (isUser ? '【主人】' : isAi ? '【山海】' : '【系统】') + ' ' + text + '\n\n';
-    }
-  });
-  
-  // 创建下载
-  var blob = new Blob([exportData], {type: 'text/markdown;charset=utf-8'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = '山海工作台_对话导出_' + new Date().toISOString().slice(0,10) + '.md';
-  a.click();
-  URL.revokeObjectURL(url);
-  
-  toast('对话已导出','green');
-  addAi('💾 对话记录已导出为 Markdown 文件');
-}
-
-
-// === V25: 高级工作台交互函数 ===
-
-// 文件上传区切换
-function toggleUploadZone(){
-  var z=document.getElementById('uploadZone'),ig=document.getElementById('imgGenZone'),tp=document.getElementById('taskPanelZone');
-  ig.classList.remove('active');tp.classList.remove('active');z.classList.toggle('active');
-}
-
-// 图片生成面板切换
-function toggleImgGen(){
-  var z=document.getElementById('imgGenZone'),uz=document.getElementById('uploadZone'),tp=document.getElementById('taskPanelZone');
-  uz.classList.remove('active');tp.classList.remove('active');z.classList.toggle('active');
-  if(z.classList.contains('active'))document.getElementById('imgPrompt').focus();
-}
-
-// 任务面板
-function showTaskPanel(){
-  var z=document.getElementById('taskPanelZone'),uz=document.getElementById('uploadZone'),ig=document.getElementById('imgGenZone');
-  uz.classList.remove('active');ig.classList.remove('active');z.classList.toggle('active');
-  refreshTaskPanel();
-}
-
-function refreshTaskPanel(){
-  var reqs=INTERNAL_ENGINE.externalDispatch.getRequests();
-  var el=document.getElementById('taskList');
-  if(!el)return;
-  if(reqs.length===0){el.innerHTML='<div style="font-size:11px;color:var(--dim);text-align:center;padding:20px">暂无调度任务</div>';return;}
-  var html='';
-  reqs.slice(0,10).forEach(function(r){
-    var sc=r.status==='approved'?'done':r.status==='rejected'?'error':'running';
-    var sl=r.status==='approved'?'已批准':r.status==='rejected'?'已拒绝':r.status==='executed'?'已执行':'待审批';
-    html+='<div style="padding:8px;border-bottom:1px solid var(--border)">';
-    html+='<div style="display:flex;align-items:center;gap:6px"><div class="tc-status '+sc+'"></div>';
-    html+='<div style="font-size:12px;font-weight:600;color:var(--text)">'+r.id+'</div>';
-    html+='<div style="margin-left:auto;font-size:10px;color:var(--dim)">'+sl+'</div></div>';
-    html+='<div style="font-size:11px;color:var(--text2);margin-top:4px">'+r.task+'</div>';
-    html+='<div style="font-size:10px;color:var(--dim);margin-top:2px">风险:'+r.riskLevel.level+' | '+new Date(r.createdAt).toLocaleTimeString('zh-CN')+'</div>';
-    html+='</div>';
-  });
-  el.innerHTML=html;
-}
-
-// 文件处理
-function handleFiles(files){
-  if(!files||files.length===0)return;
-  var uz=document.getElementById('uploadZone');uz.classList.remove('active');
-  for(var i=0;i<files.length;i++){
-    var file=files[i];
-    var icon='📄',ftype='doc';
-    if(file.type.startsWith('image/')){icon='🖼';ftype='img';}
-    else if(file.name.match(/\.(js|py|html|css|json|xml)$/i)){icon='💻';ftype='code';}
-    var cardHtml='<div class="file-card"><div class="fc-header">';
-    cardHtml+='<div class="fc-icon '+ftype+'">'+icon+'</div>';
-    cardHtml+='<div><div class="fc-name">'+file.name+'</div>';
-    cardHtml+='<div class="fc-size">'+formatFileSize(file.size)+'</div></div></div>';
-    
-    // 图片预览
-    if(file.type.startsWith('image/')){
-      (function(card){
-        var reader=new FileReader();
-        reader.onload=function(e){
-          var img=document.createElement('img');img.className='fc-thumb';img.src=e.target.result;card.appendChild(img);
-        };reader.readAsDataURL(file);
-      })(document.createElement('div'));
-    }
-    cardHtml+='</div>';
-    addAi('📎 已接收文件：'+file.name+' ('+formatFileSize(file.size)+')', cardHtml);
-    
-    // 通知引擎
-    INTERNAL_ENGINE.feedbackCollector.collectSignal('FILE_UPLOAD','文件:'+file.name+' 类型:'+file.type+' 大小:'+formatFileSize(file.size),'file_upload',0);
-  }
-  document.getElementById('fileInput').value='';
-}
-
-function formatFileSize(b){
-  if(b<1024)return b+' B';
-  if(b<1048576)return(b/1024).toFixed(1)+' KB';
-  return(b/1048576).toFixed(1)+' MB';
-}
-
-// 图片生成
-function generateImage(){
-  var p=document.getElementById('imgPrompt').value.trim();
-  if(!p){toast('请输入图片描述','gold');return;}
-  var s=document.getElementById('imgStyle').value,sz=document.getElementById('imgSize').value;
-  document.getElementById('imgGenZone').classList.remove('active');
-  addAi('🎨 制图任务已创建<br>描述：'+p+'<br>风格：'+s+' | 尺寸：'+sz+'<br><br>正在调度内部引擎处理...');
-  INTERNAL_ENGINE.externalDispatch.createRequest('AI制图: '+p,{budget:'API调用',fundingSource:'内部引擎',style:s,size:sz});
-}
-
-// 导出对话
-function exportChat(){
-  var msgs=document.querySelectorAll('.msg');
-  var exp='# 山海管理后台对话导出\n导出时间：'+new Date().toLocaleString('zh-CN')+'\n\n';
-  msgs.forEach(function(m){
-    var b=m.querySelector('.bubble');if(!b)return;
-    var who=m.classList.contains('msg-user')?'【主人】':'【山海】';
-    exp+=who+' '+b.innerText+'\n\n';
-  });
-  var blob=new Blob([exp],{type:'text/markdown;charset=utf-8'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='山海对话_'+new Date().toISOString().slice(0,10)+'.md';a.click();
-  toast('对话已导出','green');
-  addAi('💾 对话记录已导出');
 }
 
 initPin();
