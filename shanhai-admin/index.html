@@ -756,19 +756,19 @@ var PIN={
       return 'wrong_handover';
     }
 
+    // 优先检查交接码（无论有无PIN，交接码都应生效）
+    var handover=this.getHandover();
+    if(handover && code===handover) return 'handover';
+
     var stored=this.getStored();
 
-    // 如果没有存储的PIN，任何输入都不放行，强制走设置流程
+    // 没有存储的PIN → 无交接码命中 → 必须走设置流程
     if(!stored){
       return 'must_setup';
     }
 
     // 有存储的PIN，正常验证
     if(code===stored) return 'ok';
-
-    // 检查交接码
-    var handover=this.getHandover();
-    if(handover && code===handover) return 'handover';
 
     return 'wrong';
   },
@@ -818,28 +818,17 @@ function pinIn(d){
   }
 
   if(r==='handover'){
-    // 交接码验证通过，清除旧PIN和交接码，强制设置新PIN
-    var stored=PIN.getStored();
-    if(stored){
-      PIN.updateDots(6);
-      for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
-      statusEl.textContent='主权交接验证通过';
-      setTimeout(function(){
-        // 清除旧PIN和交接码（一次性）
-        localStorage.removeItem('sh_pin');
-        localStorage.removeItem('sh_handover');
-        PIN.storedPin=null;
-        showPinSetup();
-      },600);
-    }else{
-      // 没有PIN的情况
-      statusEl.textContent='首次使用，请设置通行码';
-      setTimeout(function(){
-        PIN.clearInput();
-        statusEl.textContent='请设置通行码';
-        showPinSetup();
-      },600);
-    }
+    // 交接码验证通过 → 焚毁旧PIN和交接码 → 强制设置新通行码
+    PIN.updateDots(6);
+    for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+    statusEl.textContent='主权交接验证通过';
+    setTimeout(function(){
+      localStorage.removeItem('sh_pin');
+      localStorage.removeItem('sh_handover');
+      localStorage.setItem('sh_handover_burned','1');
+      PIN.storedPin=null;
+      showPinSetup();
+    },600);
     return;
   }
 
@@ -854,7 +843,11 @@ function pinIn(d){
   }
 
   if(r==='reset_ok'){
-    // 交接码验证成功，进入设置新PIN
+    // 重置模式：交接码验证成功 → 焚毁旧PIN和交接码 → 重新设置
+    localStorage.removeItem('sh_pin');
+    localStorage.removeItem('sh_handover');
+    localStorage.setItem('sh_handover_burned','1');
+    PIN.storedPin=null;
     statusEl.textContent='验证通过，请设置新通行码';
     setTimeout(function(){
       PIN.clearInput();
@@ -997,9 +990,15 @@ function initPin(){
     statusEl.textContent='请输入通行码';
     hintEl.textContent='';
   }else{
-    statusEl.textContent='首次使用，请设置通行码';
-    hintEl.textContent='需要6位数字通行码';
-    // 直接弹出设置窗口
+    var burned=localStorage.getItem('sh_handover_burned');
+    if(burned){
+      statusEl.textContent='系统已移交，请设置新通行码';
+      hintEl.textContent='旧通行码已焚毁';
+      localStorage.removeItem('sh_handover_burned');
+    }else{
+      statusEl.textContent='新设备，请设置通行码';
+      hintEl.textContent='设置后将自动生成交接码';
+    }
     setTimeout(showPinSetup,500);
   }
 }
