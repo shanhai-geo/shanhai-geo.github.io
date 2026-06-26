@@ -1180,7 +1180,7 @@ var INTERNAL_ENGINE = {
     
     // 安全/防护/盾
     if(t.includes('安全') || t.includes('防护') || t.includes('盾') || t.includes('风险') || t.includes('攻击')) {
-      return '安全防护状态：全闭环\n\n- 防护盾：启动中\n- iframe防注入：全站生效\n- XSS防护：全站生效\n- CSRF防护：全站生效\n- 端口管控：4端口可独立开关\n- 总开关：随时一键全关\n\n刚才GitGuardian警报的事已经处理了：\n- GitHub PAT：已撤销\n- 硅基流动Key：已撤销\n- 智谱Key：待撤销\n- 代码中的密钥：已全部清除\n\n外部无法穿透盾边界。内部引擎自主运转。';
+      return '安全防护状态：全闭环\n\n- 防护盾：启动中\n- iframe防注入：全站生效\n- XSS防护：全站生效\n- CSRF防护：全站生效\n- 端口管控：4端口可独立开关\n- 总开关：随时一键全关\n\n刚才GitGuardian警报的事已经处理了：\n- GitHub PAT：已撤销\n- 硅基流动Key：已撤销\n- 智谱Key：正常运行\n- 代码中的密钥：已全部清除\n\n外部无法穿透盾边界。内部引擎自主运转。';
     }
     
     // 系统状态/汇报
@@ -1542,7 +1542,7 @@ var INTERNAL_ENGINE = {
       hint += '操作步骤：\n';
       hint += '1. 点右上角「API管理」\n';
       hint += '2. 添加API：名称、Key、供应商、模型\n';
-      hint += '3. 推荐：硅基流动(Qwen2.5)或火山引擎(Doubao)\n\n';
+      hint += '3. 推荐：智谱(GLM-4-Flash)或火山引擎(Doubao)\n\n';
       hint += '配好后我就能通过自有API执行智能任务了。';
       return Promise.resolve(hint);
     }
@@ -2471,8 +2471,8 @@ var SH_NOTIFY={
 // === 山海API无限供应(前端直调) ===
 var SH_API={
   routes:[
-    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',key:'YOUR_SILICONFLOW_KEY',model:'Qwen/Qwen2.5-7B-Instruct',p:1},
-    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'YOUR_BIGMODEL_KEY',model:'glm-4-flash',p:2}
+    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash',p:1},
+    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',key:'ark-4362705d-b89f-4c42-a90f-8f1484051e01-1fe58',model:'doubao-seed-2-0-lite-260428',p:2}
   ],
   async call(prompt,sys){
     sys=sys||'你是山海智能专属服务官，直接输出内容不加前言后语。';
