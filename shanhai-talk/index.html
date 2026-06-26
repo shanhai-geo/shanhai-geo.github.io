@@ -313,14 +313,14 @@ body{background:#0a0e17;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 <button class="copy-btn" onclick="cp('t13',this)">复制话术+链接</button>
 </div>
 
-<div class="hint">复制后自动带链接 https://shanhai-geo.github.io/shanhai-ai
+<div class="hint">复制后自动带链接 https://shanhai-geo.github.io/shanhai-shop/
 全闭环链路：打招呼→识别需求→产品对标→异议处理→成交→交付→使用指导→满意确认→转介绍
 客服铁律：298=入门版 998=成长版 2998=旗舰版 不能混 · 不说假话 · 不说大话</div>
 
 <script>
 function cp(id,btn){
 var text=document.getElementById(id).textContent+'
-https://shanhai-geo.github.io/shanhai-ai';
+https://shanhai-geo.github.io/shanhai-shop/';
 navigator.clipboard.writeText(text).then(function(){
 btn.textContent='已复制!';btn.classList.add('copied');
 setTimeout(function(){btn.textContent='复制话术+链接';btn.classList.remove('copied')},1500);
