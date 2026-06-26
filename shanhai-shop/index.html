@@ -66,8 +66,6 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 .pay-step-num{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;flex-shrink:0}
 .pay-step-text{font-size:14px;line-height:1.6;padding-top:4px}
 .pay-step-text b{color:var(--gold-d)}
-.qr-inline{margin:16px auto;padding:16px;background:#fff;border-radius:16px;border:2px dashed var(--gold);display:inline-block}
-.qr-inline img{display:block;width:220px;height:220px;border-radius:8px}
 .qr-label{text-align:center;font-size:14px;color:var(--red);font-weight:700;margin-top:8px;letter-spacing:1px}
 @keyframes payPulse{0%,100%{box-shadow:0 0 0 0 rgba(224,90,74,.5)}50%{box-shadow:0 0 0 12px rgba(224,90,74,0)}}
 .confirm-btn-highlight{display:block;width:100%;padding:18px;background:linear-gradient(135deg,var(--red),#d04030);color:#fff;border:none;border-radius:14px;font-size:18px;font-weight:900;cursor:pointer;margin-top:12px;letter-spacing:3px;animation:payPulse 2s infinite}
@@ -394,7 +392,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 
 <div class="rs-step">
 <div class="rs-icon">1</div>
-<div class="rs-text"><b>完成付款</b><span>微信扫码支付298元/年（每天不到1块钱）</span></div>
+<div class="rs-text"><b>点击付款</b><span>跳转付款页面，支付298元/年（每天不到1块钱）</span></div>
 </div>
 
 <div class="rs-step">
@@ -427,16 +425,16 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 
 <!-- 第1层：去付款 -->
 <div id="payLayer1">
-<p style="font-size:16px;color:#333;font-weight:600;margin-bottom:16px">第1步：点击下方按钮，前往付款页面完成支付</p>
-<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" target="_blank" class="cta-btn confirm-btn-highlight" style="display:inline-block;text-decoration:none;font-size:20px;padding:16px 32px" onclick="setTimeout(function(){try{document.getElementById('payLayer2').style.display='block'}catch(e){}},500)">▶ 立即付款 298元</a>
-<p style="margin-top:14px;font-size:13px;color:#888">点击后跳转付款页面，支付完成后回到本页完成第2步</p>
+<p style="font-size:16px;color:#333;font-weight:600;margin-bottom:16px">点击下方按钮，直接跳转付款页面<br><small style="color:#888">金额已填好，输入支付密码即可完成</small></p>
+<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" target="_blank" class="cta-btn confirm-btn-highlight" style="display:inline-block;text-decoration:none;font-size:20px;padding:16px 32px" onclick="onPayClick()">▶ 立即付款 298元</a>
+<p style="margin-top:14px;font-size:13px;color:#888">支付完成后请回到本页，填写手机号确认订单</p>
 </div>
 
 <!-- 第2层：确认已付款（付款按钮点击后显示） -->
 <div id="payLayer2" style="display:none;border-top:2px solid var(--gold);margin-top:20px;padding-top:20px">
-<p style="font-size:16px;color:var(--red);font-weight:800;margin-bottom:16px;text-align:center">第2步：确认已付款，填写信息提交订单</p>
+<p style="font-size:16px;color:var(--red);font-weight:800;margin-bottom:16px;text-align:center">付款完成？填写手机号确认订单</p>
 <div class="field"><label>订单号</label><input id="fOid" readonly></div>
-<div class="field"><label>付款页面显示的订单号</label><input id="fPayOrderNo" placeholder="请输入付款后的订单号" style="font-size:15px;padding:12px;border:2px solid var(--gold)"></div>
+<div class="field"><label>付款后订单号（如有）</label><input id="fPayOrderNo" placeholder="付款页面显示的订单号，选填" style="font-size:15px;padding:12px;border:2px solid var(--gold)"></div>
 <div class="field"><label>手机号（必填，用于接收密钥）</label><input id="fPhone" placeholder="请输入11位手机号" maxlength="11" style="font-size:16px;padding:12px;border:2px solid var(--gold)"></div>
 <div class="field"><label>产品套餐</label><input id="fProd" value="入门版 298元/年" readonly></div>
 <div class="field"><label>付款金额</label><input id="fAmt" value="298元" readonly style="color:var(--red);font-weight:700;font-size:16px"></div>
@@ -531,10 +529,24 @@ function startBuy(){
   setTimeout(function(){paySec.scrollIntoView({behavior:'smooth'})},100);
 }
 function onPayClick(){
-  // After clicking pay button, reveal layer 2
-  document.getElementById('payLayer2').style.display='block';
-  setTimeout(function(){document.getElementById('payLayer2').scrollIntoView({behavior:'smooth',block:'center'})},300);
+  // 标记客户已点击付款按钮，5分钟后过期
+  document.cookie='paid_clicked=1;max-age=300;path=/';
+  // 延迟显示第2层，确保新窗口先打开
+  setTimeout(function(){
+    var l2=document.getElementById('payLayer2');
+    if(l2){
+      l2.style.display='block';
+      setTimeout(function(){l2.scrollIntoView({behavior:'smooth',block:'center'})},200);
+    }
+  },800);
 }
+// 页面加载时检查：如果客户已付过款（有cookie），直接显示第2层
+(function(){
+  if(document.cookie.indexOf('paid_clicked=1')!==-1){
+    var l2=document.getElementById('payLayer2');
+    if(l2)l2.style.display='block';
+  }
+})();
 
 function confirmPay(){
   var phone=document.getElementById('fPhone').value.trim();
