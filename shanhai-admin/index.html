@@ -348,6 +348,9 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
   <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();openDetail('dnaShield')"><span class="sm-icon">&#x1F510;</span>防护盾</a>
   <a class="sm-item" href="javascript:void(0)" onclick="toggleMenu();addAi(buildMonitorPanel())"><span class="sm-icon">&#x1F511;</span>服务监控/密钥备份</a>
   <div class="sm-section">快捷入口</div>
+  <a class="sm-link" href="javascript:void(0)" onclick="toggleMenu();addAi('成长报告')">成长报告</a>
+  <a class="sm-link" href="javascript:void(0)" onclick="toggleMenu();addAi('盲区')">盲区</a>
+  <a class="sm-link" href="javascript:void(0)" onclick="toggleMenu();addAi('吸星')">吸星大法</a>
   <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">AI客服页</a>
   <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-shop" target="_blank">商城页</a>
   <a class="sm-link" href="https://shanhai-geo.github.io/shanhai-talk" target="_blank">话术页</a>
@@ -693,7 +696,7 @@ function processCmd(text){
     }
     else if(cmd.includes('动态')){addAi('',SH_NOTIFY.showCenter())}
     else if(cmd.includes('已读')){SH_NOTIFY.markRead();addAi('[通知] 全部已读')}
-    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读\n!执行历史 = 查看执行记录\n!执行统计 = 执行概况统计');
+    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读\n!执行历史 = 查看执行记录\n!执行统计 = 执行概况统计\n\n自生长：\n教它 [关键词] 说 [回复] = 教新规则\n成长报告 = 查看学习进度\n盲区 = 查看听不懂的指令\n吸星 [平台]: [内容] = 吸收优势');
     addLog('cmd','统令',text);return;
   }
 
@@ -762,6 +765,50 @@ function processCmd(text){
   else if(t.match(/清空.*(执行|记录|历史)/)){
     INTERNAL_ENGINE.executionTracker.clear();
     addAi('执行历史已清空。');
+  }
+  // === 自生长引擎命令 ===
+  else if(t.includes('教它') || t.includes('教你') || t.match(/教.*说/)){
+    var match = original.match(/教(?:它|你)(?:说)?\s*["「「]?(.+?)["」」]?\s*(?:说|回复|回答|是)\s*["「「]?(.+?)["」」]?$/);
+    if(match) {
+      var pattern = match[1].trim();
+      var response = match[2].trim();
+      var result = INTERNAL_ENGINE.selfGrow.addRule(pattern, 'custom', response);
+      addAi(result + '\n\n下次遇到类似问题，我会用你教的方式回复。');
+    } else {
+      addAi('用法：教它 [关键词] 说 [回复]\n\n例：\n教它"福鼎天气"说"福鼎今天晴，25度，适合出门"\n教它"客户名单"说"当前3个重点客户..."\n\n我学会了就记住，下次自动用。');
+    }
+  }
+  else if(t.includes('成长报告') || t.includes('成长记录') || t.includes('自生长')){
+    addAi(INTERNAL_ENGINE.selfGrow.report().replace(/\n/g, '<br>'));
+  }
+  else if(t.includes('盲区') || t.includes('听不懂')){
+    var data = INTERNAL_ENGINE.selfGrow.getData();
+    if(data.blindSpots.length === 0) {
+      addAi('暂无盲区，所有指令都理解正确。');
+    } else {
+      var msg = '盲区列表（听不懂的指令）：\n\n';
+      data.blindSpots.slice().reverse().slice(0, 15).forEach(function(b, i) {
+        msg += (i+1) + '. 「' + b.input.substring(0, 40) + '」出现' + b.count + '次\n';
+      });
+      msg += '\n可以用"教它 [关键词] 说 [回复]"来教我。';
+      addAi(msg);
+    }
+  }
+  else if(t.includes('吸星') || t.includes('吸收')){
+    var match2 = original.match(/吸星\s*(.+)/);
+    if(match2) {
+      var platformReply = match2[1].trim();
+      // 尝试解析：平台名 + 内容
+      var pMatch = platformReply.match(/^(.+?)[:：]\s*(.+)/);
+      if(pMatch) {
+        var result2 = INTERNAL_ENGINE.selfGrow.absorb(pMatch[1], pMatch[1], pMatch[2], 'good');
+        addAi('[吸星大法] ' + result2 + '\n\n已吸收融合，下次遇到类似问题可以直接用。');
+      } else {
+        addAi('用法：吸星 [平台名]: [回复内容]\n\n例：\n吸星 千问: "福鼎今天晴，25度"\n吸星 硅基: "分析结果如下..."\n\n吸收后我融合为自己的能力。');
+      }
+    } else {
+      addAi('吸星大法：吸收各平台优势，融合为自己的能力。\n\n用法：\n吸星 [平台名]: [回复内容]\n\n例：\n吸星 千问: "福鼎今天晴，25度，适合出门"\n\n吸收后下次遇到类似问题我直接回答。');
+    }
   }
   else {
     // === 内部引擎智能路由（盾内决策·全追踪）===
@@ -892,8 +939,13 @@ var INTERNAL_ENGINE = {
     this.context.push({role:'user', content:msg, time:Date.now()});
     if(this.context.length > 20) this.context = this.context.slice(-20);
     
-    // 智能匹配（基于关键词+上下文）
+    // 智能匹配（基于关键词+上下文+自生长学习）
     var reply = this.matchAndReply(t, msg);
+    
+    // 自生长学习：记录这次对话
+    var matched = !reply.includes('这块我需要更多信息') && !reply.includes('你需要哪个方向');
+    this.selfGrow.learn(msg, 'user_query', reply, matched);
+    
     this.context.push({role:'ai', content:reply, time:Date.now()});
     return reply;
   },
@@ -1054,6 +1106,14 @@ var INTERNAL_ENGINE = {
       msg += '这是一个造产品的系统，不是一个产品。';
       return msg;
     }
+    
+    // 尝试自生长·自定义规则匹配
+    var customReply = this.tryCustomRules ? this.tryCustomRules(t, original) : null;
+    if(customReply) return customReply;
+    
+    // 尝试吸星·吸收的知识
+    var absorbedReply = this.selfGrow ? this.selfGrow.tryAbsorbed(t, original) : null;
+    if(absorbedReply) return absorbedReply;
     
     // === 自然语言指令理解（人性化核心）===
     
@@ -1268,52 +1328,48 @@ var INTERNAL_ENGINE = {
   // === 外联调度层（盾边界·内部主动外联）===
   // 所有外联通过API网关，不直接引用密钥
   
-  // 外联扣子主引擎（盾边界→扣子→执行→回传）
-  // 通过Coze Bot API真实调用，需要Bot Token
-  dispatchToCoze: function(cmd, callback) {
-    var botId = '7652290884557930559';
-    var userId = '731621201031932'; // 主人UID
+  // 内部智能引擎外联（盾边界→自有API网关→执行→回传）
+  // 通过apiGateway调用自有API（硅基流动/火山引擎），不依赖任何外部平台
+  dispatchToSelfAPI: function(cmd, callback) {
+    var self = this;
+    var configs = this.apiGateway.getConfigs();
+    var enabled = configs.filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
     
-    // 尝试从localStorage获取Coze配置
-    var cozeConfig = JSON.parse(localStorage.getItem('sh_coze_config') || '{}');
-    var token = cozeConfig.token || '';
-    
-    if(!token) {
-      // 没有Coze Token，返回明确提示
-      return Promise.resolve('[盾边界→扣子] 指令已送达扣子主引擎\n指令：' + cmd + '\n\n注意：Coze Bot Token未配置，无法真实调用扣子API。\n请在「API管理」面板中添加Coze配置。\n\n当前指令已记录，配置完成后可自动执行。');
+    if(enabled.length === 0) {
+      return Promise.reject('API电网无可用供应商。请在「API管理」面板添加有效的API Key。');
     }
     
-    // 真实调用Coze Bot API
-    var endpoint = 'https://api.coze.cn/v3/bot/chat';
-    return fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify({
-        bot_id: botId,
-        user_id: userId,
-        stream: false,
-        additional_messages: [{
-          role: 'user',
-          content: cmd,
-          content_type: 'text'
-        }]
-      })
-    }).then(function(r) {
-      if(!r.ok) throw new Error('Coze API ' + r.status);
-      return r.json();
-    }).then(function(d) {
-      // 解析Coze回复
-      if(d.messages && d.messages.length > 0) {
-        var reply = d.messages[d.messages.length - 1].content;
-        return '[盾边界→扣子] 执行完成\n\n' + reply;
-      }
-      throw new Error('INVALID_RESPONSE');
+    // 构建系统提示词（注入山海身份+DNA铁律）
+    var systemPrompt = '你是山海智能系统的内部引擎，服务于山海生态管理。\n';
+    systemPrompt += '你的身份：山海内部引擎·盾内AI\n';
+    systemPrompt += '你的主人：山海生态运营者\n';
+    systemPrompt += '你的职责：帮助主人管理系统、执行指令、汇报状态\n';
+    systemPrompt += '回复风格：简洁、直接、人性化，不要机械化套话\n';
+    systemPrompt += '当前指令：' + cmd;
+    
+    var messages = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: cmd }
+    ];
+    
+    // 通过apiGateway发起请求（自动选择最优API，失败自动切换）
+    return this.apiGateway.request(messages, {
+      temperature: 0.7,
+      max_tokens: 1000
+    }).then(function(res) {
+      var reply = res.text || '执行完成，无详细回复';
+      return '[自有API] ' + res.provider + ' 执行完成\n\n' + reply;
     }).catch(function(err) {
-      throw new Error('扣子API调用失败: ' + err.message);
+      if(err === 'ALL_API_FAILED' || err === 'NO_API_AVAILABLE') {
+        throw new Error('API电网全部失败或无可用供应商。请在「API管理」面板检查配置。');
+      }
+      throw new Error('自有API调用失败: ' + String(err).substring(0, 100));
     });
+  },
+  
+  // 保留dispatchToCoze作为别名，内部实际调用dispatchToSelfAPI
+  dispatchToCoze: function(cmd, callback) {
+    return this.dispatchToSelfAPI(cmd, callback);
   },
   
   
@@ -1405,6 +1461,203 @@ var INTERNAL_ENGINE = {
   // === 执行追踪器（核心·所有指令执行反馈）===
   // 每条指令都有：指令内容→执行引擎→执行结果→耗时→状态
   // 主人随时查看执行历史
+  // === 自生长引擎·吸星大法 ===
+  // 自生长：自动学习对话经验，积累规则，发现盲区
+  // 吸星大法：吸收各平台优势，融合成自己的能力
+  // 成就自己 → 成就别人
+  selfGrow: {
+    STORAGE_KEY: 'sh_self_grow',
+    
+    getData: function() {
+      try {
+        var raw = localStorage.getItem(this.STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { learned: [], blindSpots: [], customRules: [], absorbed: [], growthLog: [], version: 1 };
+      } catch(e) { return { learned: [], blindSpots: [], customRules: [], absorbed: [], growthLog: [], version: 1 }; }
+    },
+    
+    saveData: function(data) {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    },
+    
+    // 学习一次对话
+    learn: function(input, intent, result, matched) {
+      var data = this.getData();
+      var entry = {
+        input: input.substring(0, 100),
+        intent: intent || 'unknown',
+        result: typeof result === 'string' ? result.substring(0, 200) : 'ok',
+        matched: matched,
+        time: Date.now(),
+        timeStr: new Date().toLocaleString('zh-CN')
+      };
+      data.learned.push(entry);
+      if(data.learned.length > 100) data.learned = data.learned.slice(-100);
+      
+      // 没匹配到的记录为盲区
+      if(!matched) {
+        var found = false;
+        for(var i = data.blindSpots.length - 1; i >= 0; i--) {
+          if(data.blindSpots[i].input === input) {
+            data.blindSpots[i].count++;
+            found = true;
+            break;
+          }
+        }
+        if(!found) {
+          data.blindSpots.push({ input: input, time: Date.now(), count: 1 });
+        }
+        if(data.blindSpots.length > 50) data.blindSpots = data.blindSpots.slice(-50);
+      }
+      
+      data.growthLog.push({ action: 'learn', matched: matched, time: Date.now() });
+      if(data.growthLog.length > 200) data.growthLog = data.growthLog.slice(-200);
+      
+      this.saveData(data);
+    },
+    
+    // 吸星大法：吸收其他平台的优势/回复，融合为自己的知识
+    absorb: function(platform, query, response, quality) {
+      var data = this.getData();
+      data.absorbed.push({
+        platform: platform,
+        query: query.substring(0, 100),
+        response: response.substring(0, 500),
+        quality: quality || 'good', // good/medium/bad
+        absorbedAt: Date.now(),
+        used: 0
+      });
+      if(data.absorbed.length > 100) data.absorbed = data.absorbed.slice(-100);
+      
+      // 如果质量好，自动提取为可复用规则
+      if(quality === 'good') {
+        // 提取回复中的关键模式
+        var patterns = this.extractPatterns(query, response);
+        patterns.forEach(function(p) {
+          data.customRules.push({
+            pattern: p.pattern,
+            intent: p.intent,
+            response: p.response,
+            source: platform,
+            addedAt: Date.now(),
+            usage: 0
+          });
+        });
+      }
+      
+      data.growthLog.push({ action: 'absorb', platform: platform, time: Date.now() });
+      this.saveData(data);
+      return '已吸收' + platform + '的优势，融合' + (quality === 'good' ? '并提取了规则' : '留作参考');
+    },
+    
+    // 从平台回复中提取可复用模式
+    extractPatterns: function(query, response) {
+      var patterns = [];
+      var t = query.toLowerCase();
+      
+      // 如果是确认类回复，提取确认模式
+      if(t.match(/(确认|检查|核实|查看)/)) {
+        patterns.push({
+          pattern: query.substring(0, 20),
+          intent: 'check_confirm',
+          response: response.substring(0, 200)
+        });
+      }
+      
+      // 如果是分析类回复，提取分析模式
+      if(t.match(/(分析|方案|建议|怎么|如何)/)) {
+        patterns.push({
+          pattern: query.substring(0, 20),
+          intent: 'analysis_suggest',
+          response: response.substring(0, 200)
+        });
+      }
+      
+      return patterns;
+    },
+    
+    // 尝试用吸收的知识回答
+    tryAbsorbed: function(t, original) {
+      var data = this.getData();
+      for(var i = data.absorbed.length - 1; i >= 0; i--) {
+        var item = data.absorbed[i];
+        if(item.quality === 'good' && (t.includes(item.query.substring(0, 10)) || original.includes(item.query.substring(0, 10)))) {
+          item.used++;
+          this.saveData(data);
+          return '[吸星·' + item.platform + '] ' + item.response;
+        }
+      }
+      return null;
+    },
+    
+    // 尝试自定义规则匹配
+    tryCustomRules: function(t, original) {
+      var data = this.getData();
+      for(var i = data.customRules.length - 1; i >= 0; i--) {
+        var rule = data.customRules[i];
+        try {
+          var re = new RegExp(rule.pattern, 'i');
+          if(re.test(t) || re.test(original)) {
+            rule.usage++;
+            this.saveData(data);
+            return rule.response;
+          }
+        } catch(e) { continue; }
+      }
+      return null;
+    },
+    
+    // 添加自定义规则（主人教的）
+    addRule: function(pattern, intent, response) {
+      var data = this.getData();
+      data.customRules.push({
+        pattern: pattern,
+        intent: intent,
+        response: response,
+        addedAt: Date.now(),
+        usage: 0
+      });
+      this.saveData(data);
+      return '规则已学习：「' + pattern + '」→ ' + intent;
+    },
+    
+    // 成长报告
+    report: function() {
+      var data = this.getData();
+      var msg = '自生长引擎·吸星大法 V1.0\n\n';
+      msg += '--- 学习成长 ---\n';
+      msg += '已学习：' + data.learned.length + '条\n';
+      msg += '匹配命中：' + data.learned.filter(function(l){ return l.matched }).length + '次\n';
+      msg += '盲区记录：' + data.blindSpots.length + '条\n\n';
+      
+      msg += '--- 吸星记录 ---\n';
+      msg += '已吸收：' + data.absorbed.length + '条\n';
+      var byPlatform = {};
+      data.absorbed.forEach(function(a) {
+        byPlatform[a.platform] = (byPlatform[a.platform] || 0) + 1;
+      });
+      Object.keys(byPlatform).forEach(function(p) {
+        msg += '- ' + p + '：' + byPlatform[p] + '条\n';
+      });
+      msg += '\n';
+      
+      msg += '--- 自创规则 ---\n';
+      msg += '已有：' + data.customRules.length + '条\n';
+      data.customRules.slice(-5).forEach(function(r, i) {
+        msg += '- ' + r.pattern.substring(0, 20) + ' → ' + r.intent + '\n';
+      });
+      msg += '\n';
+      
+      // 命中率
+      var recent = data.learned.slice(-20);
+      if(recent.length > 0) {
+        var hitRate = Math.round(recent.filter(function(l){ return l.matched }).length / recent.length * 100);
+        msg += '最近命中率：' + hitRate + '%';
+      }
+      
+      return msg;
+    }
+  },
+  
   executionTracker: {
     STORAGE_KEY: 'sh_exec_log',
     MAX_LOGS: 200,
