@@ -1113,7 +1113,7 @@ function buildShieldPanel(){
 // 防注入：阻断外部postMessage
 if(window.addEventListener){window.addEventListener('message',function(e){if(e.origin!==window.location.origin){console.warn('[DNA#77] 外部消息已拦截:',e.origin);e.stopImmediatePropagation()}},true)}
 // 防注入：阻断外部URL参数执行
-(function(){var params=new URLSearchParams(window.location.search);var danger=['script','eval','exec','cmd','run','inject'];danger.forEach(function(k){if(params.has(k)){console.warn('[DNA#77] 危险参数已拦截:',k);params.delete(k)}});if(params.toString()&&danger.some(function(k){return new URLSearchParams(window.location.search).has(k)})){window.location.search=''})();
+ (function(){var params=new URLSearchParams(window.location.search);var danger=['script','eval','exec','cmd','run','inject'];danger.forEach(function(k){if(params.has(k)){console.warn('[DNA#77] 危险参数已拦截:',k);params.delete(k)}});if(params.toString()&&danger.some(function(k){return new URLSearchParams(window.location.search).has(k)})){window.location.search=''}})();;
 function updateQuick(){
   quickArea.innerHTML='';
   var btns=[
@@ -1291,7 +1291,7 @@ function buildMonitorPanel(){
   }else{
     delivered.forEach(function(o){
       var actTime=o.activateTime||o.time||'-';
-      h+='<div class="dcard" style="margin:4px 0"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:#00d4ff;font-family:monospace;font-size:13px;font-weight:700">'+o.key+'</div><div style="color:#5a6a80;font-size:10px">'+( o.tier||'入门版')+' | '+(o.phone||'-')+' | '+new Date(actTime).toLocaleDateString()+'</div></div><button onclick="copyKey(''+o.key+'')" style="padding:4px 10px;background:#1e293b;color:#00d4ff;border:1px solid #00d4ff33;border-radius:6px;font-size:10px;cursor:pointer">复制</button></div></div>';
+      h+='<div class="dcard" style="margin:4px 0"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:#00d4ff;font-family:monospace;font-size:13px;font-weight:700">'+o.key+'</div><div style="color:#5a6a80;font-size:10px">'+( o.tier||'入门版')+' | '+(o.phone||'-')+' | '+new Date(actTime).toLocaleDateString()+'</div></div><button onclick="copyKey(\''+o.key+'\')" style="padding:4px 10px;background:#1e293b;color:#00d4ff;border:1px solid #00d4ff33;border-radius:6px;font-size:10px;cursor:pointer">复制</button></div></div>';
     });
   }
   
