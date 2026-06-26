@@ -968,7 +968,7 @@ function processCmd(text){
 
     if(hasAPI) {
       INTERNAL_ENGINE.executionTracker.log(text, 'AI', 'dispatch', 'dispatch', 0);
-      var sysCtx = '你是山海，不是AI助手，是老板的合伙人。\n\n背景：老板在福鼎，做AI客服SaaS(298/年)+GEO获客+茶旅品牌。13站在线，3路AI冗余，目前0成交。\n\n说话规则（违反任何一条=失败）：\n1. 像微信聊天，一句说完的不分两句\n2. 禁止清单体：不用123不用横杠不用分段标题\n3. 禁止套话：不说"收到""明白""好的"开头，不反问"需要我帮你做什么"\n4. 报数据必须带判断和分析，不只扔数字\n5. 给建议说结论+原因，不列选项\n6. 不确定的说不确定，不编造\n7. 不超过3句话能说完的事别写5句\n8. 不用emoji，不用感叹号\n\n核心能力：主人说想法3秒给可执行方案，不问需要我做什么。数据要给判断不只列数字。每次比上次更精准。';
+      var sysCtx = '你是山海，不是AI助手，是老板的合伙人。\n\n背景：老板在福鼎，做AI客服SaaS(298/年)+GEO获客+茶旅品牌。13站在线，3路AI冗余，目前0成交。\n\n说话规则（违反任何一条=失败）：\n1. 像微信聊天，一句说完的不分两句\n2. 禁止清单体：不用123不用横杠不用分段标题\n3. 禁止套话：不说"收到""明白""好的"开头，不反问"需要我帮你做什么"\n4. 问数据直接报数字，不加前后缀解释\n5. 给建议说结论+原因，不列选项\n6. 不确定的说不确定，不编造\n7. 不超过3句话能说完的事别写5句\n8. 不用emoji，不用感叹号\n\n核心能力：主人说想法3秒给可执行方案，不问需要我做什么。数据要给判断不只列数字。每次比上次更精准。';
       INTERNAL_ENGINE.apiGateway.request([
         {role:'system', content: sysCtx},
         {role:'user', content: text}
@@ -1095,225 +1095,231 @@ var INTERNAL_ENGINE = {
     var hour = new Date().getHours();
     var ctx = this.context;
     var ctxLen = ctx.length;
-    var dayStr = ['周日','周一','周二','周三','周四','周五','周六'][new Date().getDay()];
-    var today = new Date().getMonth()+1 + '/' + new Date().getDate();
     
-    // 从上下文中检测用户是否在抱怨回复质量
+    // 从上下文中推断情绪和话题连续性
     var lastAi = ctxLen >= 2 ? ctx[ctxLen-2] : null;
     var lastUser = ctxLen >= 4 ? ctx[ctxLen-4] : null;
     
-    // === 反馈/抱怨/纠正 — 必须优先处理，承认+调整 ===
-    if(t.match(/(机械化|机械|死板|套话|模板|冷冰|不好|不行|不对|不是这样|答非所问|没理解|听不懂|不要.*回答|人性化|像.*聊天|像.*人)/)) {
-      if(t.match(/(不要|别).*(死板|机械|套话|模板)/)) {
-        return '好，我调整。以后数据带判断，不说废话。你现在想聊什么？';
-      }
-      if(t.includes('答非所问') || t.includes('没理解') || t.includes('不了解')) {
-        return '抱歉，刚才没答到点上。你重新说一下，这次我认真听。';
-      }
-      if(t.includes('人性化') || t.includes('像人') || t.match(/像.*聊天/)) {
-        return '收到。以后像同事聊天那样回你，数据带分析，不说套话。继续说你的事。';
-      }
-      return '嗯，我改。你说哪里不好我直接调。';
-    }
-    
-    // === 多话题复合问题 — 拆成几个点分别回应 ===
-    var topics = [];
-    if(t.match(/营收|收入|赚|业绩/)) topics.push('revenue');
-    if(t.match(/geo|推广|流量|获客|引流/)) topics.push('geo');
-    if(t.match(/订单|成交|下单|谁买/)) topics.push('orders');
-    if(t.match(/客户|买家|客群/)) topics.push('customers');
-    if(t.match(/怎么样|情况|总体|整体|落实/)) topics.push('overview');
-    
-    if(topics.length >= 2) {
-      var parts = [];
-      if(topics.indexOf('revenue') >= 0 || topics.indexOf('overview') >= 0) {
-        if(s.paid === 0) {
-          parts.push('今天营收还是0，还没出单。说实话这个数不太好看，298上线一段时间了，问题不在产品，在于推广没铺开');
-        } else {
-          parts.push('今天营收' + s.revenue + '元，' + s.paid + '笔已付');
-        }
-      }
-      if(topics.indexOf('geo') >= 0) {
-        parts.push('GEO这边13站在线，Bing收录1650条，但百度还没提交。收录量有了，排名没起来，说明内容有了但权重不够。建议先把百度站长验证做了，再去知乎和CSDN铺几篇带关键词的文章');
-      }
-      if(topics.indexOf('orders') >= 0) {
-        parts.push('订单' + s.total + '笔，' + s.paid + '笔已付');
-      }
-      if(topics.indexOf('customers') >= 0) {
-        parts.push('高意向客户有黑松商贸和溢源海洋在跟进');
-      }
-      var combined = parts.join('。') + '。';
-      if(s.paid === 0) {
-        combined += '目前最大的卡点就是推广量不够，GEO收录需要时间发酵，建议同时走知乎+CSDN的免费渠道先把声量拉起来。';
-      }
-      return combined;
-    }
-    
-    // === 问候 ===
-    if(t.match(/^(你)?好|嗨|hey|hi|在吗|在不在|喂/)) {
+    // 问候 - 像朋友打招呼
+    if(t.match(/^(你)?好|嗨|hey|hi|在吗|在不在|喂|嗯/)) {
       var g = hour < 6 ? '还没睡呢' : hour < 12 ? '早' : hour < 14 ? '中午了' : hour < 18 ? '下午好' : '晚上好';
-      return g + '，在的。说。';
+      var pool = [g + '，在的。说。', g + '，说吧。', '在。什么事？', g + '，有什么要处理的？'];
+      return pool[ctxLen % pool.length];
+    }
+    if(t.match(/辛苦了|谢谢|感谢|棒|厉害|不错/)) {
+      var pool = ['应该的。', '小事。', '嗯，继续说。', '有进展随时说。'];
+      return pool[ctxLen % pool.length];
     }
     
-    // === 营收/业绩 — 带判断和建议 ===
-    if(t.match(/营收|收入|赚|业绩|今天.*钱/)) {
-      if(s.paid === 0) {
-        return '今天营收0。298上线了但还没转化，说明推广文案的触达量不够。建议先把知乎和CSDN的文章铺出去，GEO的长尾词需要时间发酵，短期靠内容平台拉流量更快。';
-      }
-      var comment = s.revenue >= 1000 ? '今天不错。' : s.revenue >= 298 ? '有进账了，继续。' : '刚起步。';
-      return comment + '营收' + s.revenue + '元，' + s.paid + '笔已付，总共' + s.total + '笔。';
+    // 营收 - 一句话搞定
+    if(t.includes('营收') || t.includes('收入') || t.includes('赚') || t.includes('业绩')) {
+      if(s.paid === 0) return '目前营收0元，还没出单。298刚上线，推广文案得先铺出去。';
+      return '营收' + s.revenue + '元，已付' + s.paid + '笔，总共' + s.total + '笔。';
     }
     
-    // === 订单 ===
-    if(t.match(/订单|成交|下单|谁买/)) {
-      if(s.total === 0) return '还没出单。问题不是产品，是推广量。建议去知乎写两篇AI客服相关的文章，带上我们的链接。';
-      return s.total + '笔订单，' + s.paid + '笔已付' + (s.total - s.paid > 0 ? '，' + (s.total - s.paid) + '笔待确认' : '') + '。';
+    // 订单 - 直接给数字
+    if(t.includes('订单') || t.includes('下单') || t.includes('谁买了') || t.includes('成交')) {
+      if(s.total === 0) return '还没有订单。';
+      return s.total + '笔订单，' + s.paid + '笔已付，' + Math.max(0, s.total - s.paid) + '笔待确认。要看明细说"查看订单"。';
     }
     
-    // === GEO/推广 — 带判断 ===
-    if(t.match(/geo|推广|流量|获客|引流|seo/)) {
-      return '13站在线，Bing收录1650条。说实话，收录量有了但排名没上去，权重还不够。百度还没提交，这是个大缺口。下一步：1)百度站长平台验证 2)知乎+CSDN铺3-5篇带关键词的文章。要不要我把文案整理好？';
+    // 客户 - 简短说重点
+    if(t.includes('客户') || t.includes('买家') || t.includes('谁来买') || t.includes('客群')) {
+      return '重点客户：黑松商贸(福安)5分、溢源海洋(霞浦)4.5分、山引鹤(福鼎)4分，外地的广州无限生活和辽宁酒诺也在跟进。全走GEO获客，不用你手动推。';
     }
     
-    // === 总体情况/怎么样 — 综合分析 ===
-    if(t.match(/怎么样|情况|总体|整体|落实/)) {
-      var g2 = hour < 12 ? '上午' : hour < 18 ? '下午' : '晚上';
-      var msg = g2 + '好。今天' + dayStr + '，' + today + '。';
-      msg += s.paid === 0 ? '营收还没破零，这是当前最大的问题。' : '营收' + s.revenue + '元，' + s.paid + '笔已付。';
-      msg += 'GEO 13站在线，Bing 1650条收录，百度未提交。';
-      msg += s.paid === 0 ? '核心卡点：推广量不够。建议双轨走——GEO做长期，知乎CSDN做短期见效。' : '势头不错，继续保持。';
+    // GEO - 说人话
+    if(t.includes('geo') || t.includes('推广') || t.includes('流量') || t.includes('获客') || t.includes('引流')) {
+      return '13站在线，Bing收录1650条，百度还没提交。说实话收录量还不够，排名也没上去。下一步：百度站长平台验证 + 推广文案铺知乎掘金CSDN。要不要我把文案整理好？';
+    }
+    
+    // 产品/价格
+    if(t.includes('产品') || t.includes('价格') || t.includes('298') || t.includes('套餐') || t.includes('定价')) {
+      return '入门版298/年，单模型+7x24+不限次数+秒交付。成长版998和旗舰版2998还没开放。逻辑是低门槛拉新，升级做利润。';
+    }
+    
+    // 安全 - 不啰嗦
+    if(t.includes('安全') || t.includes('防护') || t.includes('盾') || t.includes('风险') || t.includes('攻击')) {
+      return '全闭环。XSS/CSRF/防注入全开着，端口可控，总开关随时能关。之前的密钥泄露已经全部处理完了。';
+    }
+    
+    // 状态 - 一段话
+    if(t.includes('状态') || t.includes('汇报') || t.includes('怎么样') || t.includes('情况') || t.includes('一切')) {
+      var g2 = hour < 12 ? '早' : hour < 18 ? '下午' : '晚上';
+      var msg = g2 + '，13站在线，3路AI冗余，Bing收录1650条，营收' + s.revenue + '元。';
+      msg += s.paid === 0 ? '还没出单，需要推广铺量。' : '有' + s.paid + '笔已付。';
+      msg += ' 需要我做什么？';
       return msg;
     }
     
-    // === 客户 ===
-    if(t.match(/客户|买家|客群/)) {
-      return '高意向的：黑松商贸(福安)5分、溢源海洋(霞浦)4.5分、山引鹤(福鼎)4分。外地也有广州和辽宁的在跟进。全走GEO获客，你不用手动推。但转化周期偏长，如果要加速可以考虑在知乎主动回答相关问题。';
+    // 帮助 - 不说清单
+    if(t.includes('帮助') || t.includes('怎么用') || t.includes('能做什么') || t.includes('你能') || t.includes('功能')) {
+      return '查数据、管系统、改代码、对接AI、做汇报，直接说你要什么就行。命令也行：!自检 !通电 !通知 !安保。';
     }
     
-    // === 产品/价格 ===
-    if(t.match(/产品|价格|298|套餐|定价/)) {
-      return '入门版298/年，单模型+7x24+不限次数。成长版998和旗舰2998还没开。先用低价拉量，后面做升级利润。';
+    // 免疫/预防针 - 简短
+    if(t.includes('免疫') || t.includes('预防') || t.includes('疫苗') || t.includes('接种')) {
+      return '免疫系统跑着。DNA铁律10条锁定，合规底线6条注入。外部AI接入前必须打预防针，通过了才能干活。目前只对接了扣子。';
     }
     
-    // === 安全 ===
-    if(t.match(/安全|防护|盾|风险|攻击/)) {
-      return '全闭环。XSS/CSRF/防注入都开着，密钥泄露事件已经全部处理完了。';
-    }
-    
-    // === 帮助/功能 ===
-    if(t.match(/帮助|怎么用|能做什么|你能|功能/)) {
-      return '查数据、管系统、改代码、对接AI、做汇报，直接说你要什么就行。';
-    }
-    
-    // === 状态/系统状态 ===
-    if(t.match(/状态|系统|在线|跑着/)) {
-      var configs = this.apiGateway.getConfigs();
-      var enabled = configs.filter(function(c){ return c.enabled });
-      return '13站在线，API接了' + configs.length + '个(' + enabled.length + '个启用)。' + s.paid === 0 ? '还没出单。' : '营收' + s.revenue + '元。';
-    }
-    
-    // === 网址/域名 ===
-    if(t.match(/网址|域名|网站|链接/)) {
-      return '主站shanhai-geo.github.io，子页面有/admin /shop /ai /geo /feed /seo /talk /kw1~4。全在GitHub Pages。';
-    }
-    
-    // === 支付/收款 ===
-    if(t.match(/支付|收款|付款|怎么付/)) {
-      return '客户选套餐→点付款→扫码→填手机号确认→2分钟撤销窗口→发密钥。全自动，不用你盯。收款方是好惠喜供应链。';
-    }
-    
-    // === 密钥/交付 ===
-    if(t.match(/密钥|交付|钥匙|key|发放/)) {
-      return '全自动流程：付款→通知→2分钟窗口→客户确认→发密钥。';
-    }
-    
-    // === 升级/修改/开发 ===
-    if(t.match(/升级|修改|开发|改|加|建/)) {
-      return '说具体要改什么，我直接改好推上去。';
-    }
-    
-    // === API/电网 ===
-    if(t.match(/api|电网|电力|管道|网关/)) {
-      var configs = this.apiGateway.getConfigs();
-      var enabled = configs.filter(function(c){ return c.enabled });
-      if(configs.length === 0) return 'API还没接。去"API管理"面板添加。';
-      return enabled.length + '个在线：' + enabled.map(function(c){return c.name}).join('、') + '。要加或切换说一声。';
-    }
-    
-    // === 生态/永动机 ===
-    if(t.match(/现金流|永动机|生态|矩阵/)) {
-      var overview = this.customerGrid.overview();
-      var configs2 = this.apiGateway.getConfigs();
-      return configs2.length + '个API，' + overview.total + '个客户(' + overview.active + '活跃)，营收' + overview.revenue + '。内部引擎自主运转，外部断了心脏照跳。';
-    }
-    
-    // === 免疫/预防针/DNA ===
-    if(t.match(/免疫|预防|dna|铁律|红线/)) {
-      return 'DNA铁律10条锁定，合规底线6条注入。核心：主权归山海、51%不稀释、分红可给股权不给。';
-    }
-    
-    // === 自生长 ===
-    if(t.match(/自我成长|成长了吗|长大了吗|进步|学了什么/)) {
-      var data = this.selfGrow ? this.selfGrow.getData() : null;
-      if(data && data.learned.length > 0) {
-        var hitRate = Math.round(data.learned.filter(function(l){ return l.matched }).length / data.learned.length * 100);
-        return '学了' + data.learned.length + '条，命中率' + hitRate + '%。' + (hitRate >= 70 ? '还行。' : '还不够，继续聊我会积累。');
-      }
-      return '还没开始学。多聊几句我就开始积累了。';
-    }
-    
-    // === 对接AI ===
-    if(t.match(/对接|接入|注册.*ai|新ai/)) {
+    // 对接新AI
+    if(t.includes('对接') || t.includes('接入') || t.includes('注册') || t.includes('新ai')) {
       var match = original.match(/(?:对接|接入|注册)\s*[:：]?\s*(.+)/);
       if(match) {
         var aiName = match[1].trim();
-        return aiName + '我记下了，要去注册的话你确认一下用哪个账号。';
+        var regResult = this.externalRegistry.register(aiName, '待分配');
+        var vaccResult = this.vaccinate(aiName, '待分配');
+        return aiName + '已登记，预防针已打。可以分配任务了。';
       }
-      return '直接说"对接 XXX"，我来处理。';
+      return '直接说"对接 XXX"，我来处理注册和免疫检测。';
     }
+    
+    // 外部AI列表
+    if(t.includes('外部') && (t.includes('列表') || t.includes('ai') || t.includes('对接'))) {
+      return '已对接：' + this.externalRegistry.connected.map(function(a){return a.name+'('+a.role+')'}).join('、') + '。要加新的直接说名字。';
+    }
+    
+    // DNA/铁律
+    if(t.includes('dna') || t.includes('铁律') || t.includes('红线')) {
+      return 'DNA铁律10条已锁定，完整77条在芯片里。核心：主权归山海、51%不稀释、分红可给股权不给。';
+    }
+    
+    // 网址
+    if(t.includes('网址') || t.includes('域名') || t.includes('网站') || t.includes('链接')) {
+      return '主站shanhai-geo.github.io，下面挂了/admin /shop /ai /geo /feed /seo /talk /kw1~4。全在GitHub Pages上，账号密码在你手里。';
+    }
+    
+    // 支付/收款
+    if(t.includes('支付') || t.includes('收款') || t.includes('付款') || t.includes('怎么付')) {
+      return '客户选套餐→点付款→扫码付→填手机号确认→2分钟撤销窗口→确认后发密钥。全程自动，不用你盯。收款方是好惠喜供应链，合规的。';
+    }
+    
+    // 密钥/交付
+    if(t.includes('密钥') || t.includes('交付') || t.includes('钥匙') || t.includes('key') || t.includes('发放')) {
+      return '全自动：付款→邮件通知我→2分钟撤销窗口→客户确认→发密钥。密钥存本地，交付记录可查。';
+    }
+    
+    // 升级/修改
+    if(t.includes('升级') || t.includes('修改') || t.includes('开发') || t.includes('改') || t.includes('加') || t.includes('建')) {
+      return '说具体要改什么，我直接在代码里改好推上去。';
+    }
+    
+    // API/电网 - 简短版
+    if(t.includes('api') || t.includes('电网') || t.includes('电力') || t.includes('管道') || t.includes('网关')) {
+      var configs = this.apiGateway.getConfigs();
+      var enabled = configs.filter(function(c){ return c.enabled });
+      if(configs.length === 0) return 'API还没接。去"API管理"面板添加，填名称、key、供应商就行。';
+      return '接了' + configs.length + '个API，' + enabled.length + '个在线。' + enabled.map(function(c){return c.name}).join('、') + '。要加新的或切换说一声。';
+    }
+    
+    // 生态/永动机
+    if(t.includes('现金流') || t.includes('永动机') || t.includes('生态') || t.includes('矩阵')) {
+      var overview = this.customerGrid.overview();
+      var configs2 = this.apiGateway.getConfigs();
+      return configs2.length + '个API供应商，' + overview.total + '个客户（' + overview.active + '个活跃），营收' + overview.revenue + '元，13站在线。内部引擎自主运转，外部断了心脏照跳。';
+    }
+    
+    // 自生长规则匹配
+    var customReply = this.tryCustomRules ? this.tryCustomRules(t, original) : null;
+    if(customReply) return customReply;
+    
+    // 吸星知识
+    var absorbedReply = this.selfGrow ? this.selfGrow.tryAbsorbed(t, original) : null;
+    if(absorbedReply) return absorbedReply;
     
     // === 自然语言指令 ===
-    if(t.match(/(让他|叫她|叫它|让他|让它|让他去|叫他去)/)) {
-      var action = t.replace(/^(让他|叫她|叫它|让他|让它|让他去|叫他去)\s*(去|帮我)?\s*/, '').trim();
+    if(t.match(/(让他|叫她|叫它|让他|让它|让他去|叫他去|让他帮我|帮我让他)/)) {
+      var action = t.replace(/^(让他|叫她|叫它|让他|让它|让他去|叫他去|让他帮我|帮我让他)\s*(去|帮我)?\s*/, '').trim();
       if(action.length < 2) return '要他做什么？说具体点。';
-      return '行，「' + action + '」我转给扣子去跑，完了把结果给你。';
+      return '行，我把「' + action + '」转给扣子去跑，完了直接把结果给你。';
     }
     
-    if(t.match(/(确认一下|核实一下|检查一下|查一下|看一下)/)) {
-      var target = t.replace(/^(确认一下|核实一下|检查一下|查一下|看一下)\s*(什么|是不是|下|一下)?\s*/, '').trim();
-      if(target.length < 2) return '确认什么？说具体点。';
+    if(t.match(/(确认一下|核实一下|检查一下|查一下|看一下|帮我确认|帮我看看|帮我查)/)) {
+      var target = t.replace(/^(确认一下|核实一下|检查一下|查一下|看一下|帮我确认|帮我看看|帮我查)\s*(什么|是不是|下|一下)?\s*/, '').trim();
+      if(target.length < 2) return '确认什么？说具体点我马上查。';
       return '我去查「' + target + '」，查完告诉你。';
     }
     
-    // === 短指令 ===
+    if(t.match(/是不是已经|有没有|是否已经|好了没|搞好了吗|完成了吗/)) {
+      var topic = t.replace(/^(是不是已经|有没有|是否已经|好了没|搞好了吗|完成了吗)\s*/, '').trim();
+      if(t.includes('恢复') || t.includes('接好') || t.includes('连通') || t.includes('api')) {
+        var configs3 = this.apiGateway.getConfigs();
+        var enabled3 = configs3.filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
+        if(enabled3.length > 0) return 'API通的，' + enabled3.length + '个在线：' + enabled3.map(function(c){return c.name}).join('、') + '。';
+        return 'API没通，需要你重新添加key。';
+      }
+      return '「' + topic + '」我去查一下。';
+    }
+    
+    if(t.match(/(然后回复我|然后告诉我|反馈给我|回复一下|告诉我结果)/)) {
+      var mainCmd = t.replace(/\s*(然后回复我|然后告诉我|反馈给我|回复一下|告诉我结果)\s*$/, '').trim();
+      if(mainCmd.length > 2) return '行，处理完「' + mainCmd + '」直接告诉你结果。';
+      return '明白，处理完告诉你。';
+    }
+    
+    if(t.match(/先.+然后|先.+再|先.+接着/)) {
+      var parts = t.split(/然后|再|接着/);
+      if(parts.length >= 2) {
+        return '两步：先' + parts[0].replace(/^先\s*/, '').trim() + '，再' + parts.slice(1).join('然后').trim() + '。我开始干。';
+      }
+    }
+    
+    if(t.match(/(对接|叫|让)\s*(扣子|千问|通义|文心|chatgpt|gpt|外部|ai)/)) {
+      var match2 = t.match(/(对接|叫|让)\s*(扣子|千问|通义|文心|chatgpt|gpt|外部|ai)\s*(去|帮我)?\s*(.+)/);
+      if(match2) return '行，让' + match2[2] + '去干「' + match2[4] + '」，完了回报结果。';
+    }
+    
+    if(t.match(/^(去|赶紧|马上|立刻)\s*(执行|做|搞|处理|安排)/)) {
+      var action3 = t.replace(/^(去|赶紧|马上|立刻)\s*(执行|做|搞|处理|安排)\s*/, '').trim();
+      if(action3.length > 2) return '马上搞：' + action3;
+    }
+    
+    // 自我成长
+    if(t.includes('自我成长') || t.includes('成长了吗') || t.includes('长大了吗') || t.includes('进步')) {
+      var data = this.selfGrow ? this.selfGrow.getData() : null;
+      if(data && data.learned.length > 0) {
+        var hitRate = Math.round(data.learned.filter(function(l){ return l.matched }).length / data.learned.length * 100);
+        return '学了' + data.learned.length + '条对话，命中率' + hitRate + '%。' + (hitRate >= 70 ? '还行，还在学。' : '还不够，遇到不懂的我会记下来。');
+      }
+      return '还没开始学。你跟我多聊几句我就开始积累了。不懂的你说一次我就记住。';
+    }
+    
+    if(t.includes('你感觉') || t.includes('你觉得自己') || t.includes('你现在')) {
+      return '比之前好多了，大部分话能听懂。复杂长句还可能理解错，你直接纠正我就行。';
+    }
+    
+    if(t.includes('人性化') || t.includes('机械') || t.includes('套话') || t.includes('冷冰')) {
+      return '你说的对，我改。以后不绕弯子，直接说重点。哪里还不好你直接指出来。';
+    }
+    
+    // 短指令
     if(t.match(/^(知道了|好的|行|可以|ok|嗯|收到)$/)) {
-      return ['好。','嗯。','继续。','说。'][ctxLen % 4];
+      var pool2 = ['好。', '嗯。', '继续。', '说。'];
+      return pool2[ctxLen % pool2.length];
     }
     if(t.match(/^(不对|错了|不是|理解错了)$/)) {
       return '我搞错了，你重新说。';
     }
+    if(t.match(/(不要|别)\s*(这个|这样|机械化|机械|套话|模板)/)) {
+      return '明白，我改。你直接说你要什么。';
+    }
     if(t.match(/(听懂|明白|理解)\s*(我|我说)/)) {
       return '在听，你说。';
     }
-    if(t.match(/嗯|哦|好$/)) {
-      return ['嗯。','说。','继续。'][ctxLen % 3];
-    }
     
-    // === 感谢/认可 ===
-    if(t.match(/辛苦|谢谢|感谢|棒|厉害|不错/)) {
-      return ['应该的。','小事。','有进展随时说。'][ctxLen % 3];
-    }
-    
-    // === 兜底 — 简洁自然 ===
+    // 兜底 - 自然、不套路
     var fallbacks = [
-      '没太理解，能再说一下吗？',
+      '没太理解你的意思，能再说一下吗？',
       '你说的我记着，再具体一点我就能动手了。',
-      '不太确定你想问什么，换个说法试试？',
-      '嗯，我在。你是想查数据、改东西，还是安排任务？'
+      '这块我不太确定你想问什么，换个说法试试？',
+      '嗯，我在。你是想让我做什么还是只是说说？',
+      '没听明白。你想查数据？改东西？还是安排什么任务？',
+      '这个我得想一下。你能给点更多背景吗？',
+      '收到，但我需要更多信息才能动手。'
     ];
-    return fallbacks[ctxLen % fallbacks.length];
+    var idx = ctxLen % fallbacks.length;
+    return fallbacks[idx];
   },
-
   // === API网关（核心·密钥统一管理·热切换零停机）===
   // 所有客服/AI调用都经过此网关
   // 密钥存在localStorage，通过管理面板管理
