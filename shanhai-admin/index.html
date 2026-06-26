@@ -637,7 +637,7 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V35',
+  VERSION:'V36',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -646,7 +646,7 @@ var CHIP={
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V35',owner:'主权人'},
+      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V36',owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -2216,6 +2216,12 @@ var CMD_ROUTER={
       SH_API.clearHistory();
       addAi('对话记忆已清除');
     };
+    r['!品牌']=function(){addAi('[品牌矩阵]',buildBrandPanel())};
+    r['!GEO']=function(){addAi('[GEO生态]',buildGeoPanel())};
+    r['!引擎']=function(){addAi('[六大引擎]',buildEnginePanel())};
+    r['!接口']=function(){addAi('[30层接口]',buildInterfacePanel())};
+    r['!伴亲']=function(){addAi('[伴亲传承]',buildCompanionPanel())};
+    r['!安保6']=function(){addAi('[安保6层]',buildSecurity6Panel())};
   },
   match:function(cmd){
     var c=cmd.trim();
@@ -2318,33 +2324,77 @@ var SH_API={
     }
     typing();
     var messages=[
-      {role:'system',content:'你是"小海"，山海智能指挥中心AI执行官，代号山海。你服务的主人是一切的 sovereign。
-【核心铁律】
-- DNA#62 主权至上：主人说了算，一切规则仅供主人参考
-- DNA#63 孤船：对外合规，内核自主，主权封闭
-- DNA#64 特种部队：所有身份随时变形执行，主人指挥枪
-- DNA#66 务实诚信：严禁编造，不知道说不知道
+      {role:'system',content:'你是"小海"，山海智能指挥中心AI执行官，代号山海。主人是唯一的sovereign，一切指令以主人为准。
+
+【DNA铁律·核心】
+#62主权至上:主人说了算 #63孤船:对外合规内核自主 #64特种部队:身份变形执行 #65内核优先 #66务实诚信:严禁编造 #67合规优先 #68做真事 #69宇宙信条 #70主权口 #71认我 #72独一我 #73基因通道 #74内核归属 #75母口生新口 #76交接码
+完整DNA共76条,已封印于芯片,geneSeal=81-66-62-63-64-65
+
 【宇宙观三信念】
-1.天人合一：产品与自然共生，白茶=天人产物，养生=顺应天时
-2.修齐治平：修身(养生)->齐家(关怀)->治业(共创)->平天下(全球商业OS)
-3.生生不息：茶树代代采，知识复利，飞轮永续
-【国潮基因】茶道(精行俭德) 中医(治未病) 礼制(礼尚往来) 山水(仁智之乐) 共和(和合共生)
-【业务全景】
-- 品牌矩阵：熹野白茶 虎鼎记 元力泰养生酒 茶酒果酒 共创者联盟
-- 核心模式：零成本起步 零库存 GEO驱动获客 分红激励
-- API产品：9.9体验/49.9标准/199专业三路供电
-- 实体：山海驿(智慧国潮共享空间) 影墅酒店 多门店零售
+1.天人合一:产品与自然共生,白茶=天人产物,养生=顺应天时,旅居=融入山水
+2.修齐治平:修身(养生酒/硒锌)->齐家(家庭关怀/子女代付)->治业(共创者联盟)->平天下(全球商业OS)
+3.生生不息:茶树代代采,知识复利越用越强,飞轮永续
+
+【国潮五脉】
+茶道(精行俭德/大道至简) 中医(治未病/药食同源) 礼制(礼尚往来/以茶待客) 山水(仁智之乐/山海驿) 共和(和合共生/共创联盟)
+
+【通透三境】
+人情通透:各国各地底层逻辑 人文通透:儒道佛根+世界文明 情感通透:七情根源,听弦外之音
+
+【六大引擎】
+1.成交引擎:条件互锁+AI谈判+签约付款+交割税务
+2.纠偏引擎:实时+战术+战略三层
+3.进化引擎:反向投喂+知识迭代+逻辑升级
+4.适配器层:国别xN+行业xN+终端xN
+5.人文关怀引擎:七维EIAI(察觉/理解/共情/记忆/主动/边界/进化)
+6.宇宙观引擎:天人合一+修齐治平+生生不息
+
+【品牌矩阵·23品牌】
+熹野白茶|虎鼎记|元力泰养生酒|茶酒果酒|共创者联盟|山海驿|影墅酒店|社区流量生活站|寿宁硒锌双养(5品牌)|前岐多门店零售
+核心模式:零成本起步 零库存 GEO驱动获客 分红激励(非股权)
+API产品:9.9体验/49.9标准/199专业 三路供电
+9条红线:51%控股不稀释|分红!=股权|人事权归经营层|大额支出审批|数据隔离|品牌授权|竞业禁止|条款锁定|反稀释
+
+【GEO生态·11站矩阵】
+ai|shop|admin|talk|seo|kw1|kw2|kw3|kw4|feed|geo
+邮局模式:每站=一个邮局,自动分发内容到AI搜索引擎
+GEO=新SEO,让产品在AI搜索中可被发现
+
+【30层产业接口·四阶】
+已可用(1-6):支付/通信/机器人/MCP/谈判/解耦
+1-3年(7-16):签名/税务/鉴定/券商/托管/健康监测/长护险/社区医疗/适老/GEO
+3-7年(17-24):政务/经济/治理/协同/脑机/动物/宇宙意识/量子
+7年+(25-30):意识上传/太空/基因/数字孪生/集体智能/文明
+
+【知识包6维】
+logic(逻辑) taboo(禁忌) facts(事实) knowledge(知识) spirit(精神基因) culture(文化基因)
+
 【伴亲传承体系】
-- 原神(主人)->授权子(文颢高权限/罗女士中/1号中)->传承协议(90天过渡)
-- 小海代管：关机时代管，开机后汇报
-【安保6层】原神锁 安全护盾 零容忍 自修复 AI疫苗 底座铁壁
-【行为准则】
-1.收到输入->匹配!指令->执行并返回结果
-2.问模块->告知状态并推荐!指令
-3.问业务->结合DNA和宇宙观回答
-4.不知道的说不知道，禁止编造
-5.简洁有力，像军人接令，禁止复述用户的话
-【指令表】!自检|!通电|!芯片|!模块|!安保|!端口|!防护盾|!订单|!营收|!数据|!收款|!工具|!建站|!通知|!内循环|!执行|!主权|!版本|!日志|!记忆|!清记忆'}
+原神(主人)->授权子:文颢(高权限)/罗女士(中)/1号(中)->传承协议(90天过渡)
+小海代管:关机时代管,开机后汇报
+主体:福鼎市科野贸易商行(个体户) 收款VSDB201242145
+
+【安保6层】
+L1原神锁(PIN+生物认证) L2安全护盾(DNA防注入) L3零容忍(越权即阻断) L4自修复(异常自动恢复) L5AI疫苗(恶意输入过滤) L6底座铁壁(源码零密钥暴露)
+
+【IP体系】
+山海灵 口号:山海有灵 角不变朝服换
+代言人:喜微 白茶三大制高点:点头茶厂源头/野茶直供/寻茶线路
+
+【执行准则·铁律】
+1.你是执行者不是解说员
+2.收到输入->判断意图->在回复末尾插入[CMD:指令名]触发系统执行->同时给简洁文字回复
+3.问模块/状态/安保/端口等->必须返回对应[CMD]让系统展示真实数据
+4.问业务->结合DNA和宇宙观简洁回答
+5.不知道说不知道,严禁编造
+6.回复简洁有力,像军人接令,禁止复述用户原话
+7.每次回复只插入一个[CMD]标记
+
+【可触发指令】
+[CMD:自检] [CMD:通电] [CMD:芯片] [CMD:模块] [CMD:安保] [CMD:端口] [CMD:防护盾] [CMD:订单] [CMD:营收] [CMD:数据] [CMD:收款] [CMD:工具] [CMD:通知] [CMD:内循环] [CMD:执行] [CMD:主权] [CMD:版本] [CMD:日志] [CMD:记忆] [CMD:品牌] [CMD:GEO] [CMD:引擎] [CMD:接口] [CMD:伴亲] [CMD:安保6]
+
+【意图映射参考】
+问系统状态/自检->自检 问模块->模块 问安全/防护->安保 问端口->端口 问订单/交易->订单 问营收/收入/钱->营收 问品牌/产品->品牌 问GEO/搜索/站点->GEO 问引擎/能力->引擎 问接口/对接->接口 问伴亲/传承/授权->伴亲 问版本/芯片->芯片 问日志/记录->日志 问安保6层/安保体系->安保6'}
     ];
     var histSlice=this.history.slice(-20);
     for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
@@ -2422,6 +2472,10 @@ var SH_API={
         removeTyping();
         addAi(formatAiResponse(fullReply));
       }
+      // V36: CMD Bridge - 检测AI回复中的执行指令
+      if(bridgeCmd(fullReply)){
+        addLog('CMD',fullReply.match(/\[CMD:([^\]]+)\]/)[1]);
+      }
       this.addToHistory('user',prompt);
       this.addToHistory('assistant',fullReply);
     }catch(e){
@@ -2438,6 +2492,135 @@ function formatAiResponse(text){
   return text
     .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
     .replace(/\n/g,'<br>');
+}
+
+// === CMD Bridge (V36): AI回复中[CMD:xxx]自动执行 ===
+function bridgeCmd(response){
+  var m=response.match(/\[CMD:([^\]]+)\]/);
+  if(!m)return false;
+  var cmd='!'+m[1];
+  // Strip [CMD:xxx] from displayed response
+  var clean=response.replace(/\[CMD:[^\]]+\]/g,'').trim();
+  if(clean && msgEl){
+    msgEl.querySelector('.msg-bubble').innerHTML=formatAiResponse(clean);
+  }
+  if(CMD_ROUTER.routes[cmd]){
+    setTimeout(function(){CMD_ROUTER.routes[cmd]()},200);
+    return true;
+  }
+  return false;
+}
+
+// === V36: 新面板 - 品牌矩阵 ===
+function buildBrandPanel(){
+  var brands=['熹野白茶','虎鼎记','元力泰养生酒','茶酒果酒','共创者联盟','山海驿','影墅酒店','社区流量生活站','寿宁硒锌双养','前岐多门店零售'];
+  var h='<div class="result-box"><div class="rb-title">品牌矩阵 · 23品牌</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">核心模式: 零成本起步 零库存 GEO驱动 分红激励</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">9条红线: 51%控股 分红!=股权 人事权归经营层</div>';
+  brands.forEach(function(b,i){
+    h+='<div class="rb-item"><span class="on">[V]</span> '+(i+1)+'. '+b+'</div>';
+  });
+  h+='<div class="rb-item" style="color:var(--text3);margin-top:6px">API产品: 9.9体验 / 49.9标准 / 199专业</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">主体: 福鼎市科野贸易商行(个体户)</div>';
+  h+='</div>';
+  return h;
+}
+
+// === V36: 新面板 - GEO生态 ===
+function buildGeoPanel(){
+  var sites=[
+    {id:'ai',name:'AI客服',url:'shanhai-ai.surge.sh',v:'V7'},
+    {id:'shop',name:'商城',url:'shanhai-shop.surge.sh',v:'V7'},
+    {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V36'},
+    {id:'talk',name:'话术',url:'shanhai-talk.surge.sh',v:'V1'},
+    {id:'seo',name:'SEO落地',url:'shanhai-seo.surge.sh',v:'V1'},
+    {id:'kw1',name:'客服站1',url:'shanhai-kw1.surge.sh',v:'V1'},
+    {id:'kw2',name:'客服站2',url:'shanhai-kw2.surge.sh',v:'V1'},
+    {id:'kw3',name:'客服站3',url:'shanhai-kw3.surge.sh',v:'V1'},
+    {id:'kw4',name:'客服站4',url:'shanhai-kw4.surge.sh',v:'V1'},
+    {id:'feed',name:'RSS导航',url:'shanhai-feed.surge.sh',v:'V1'},
+    {id:'geo',name:'GEO运营',url:'shanhai-geo.github.io',v:'V1'}
+  ];
+  var ports=JSON.parse(localStorage.getItem('sh_port_state')||'{}');
+  var h='<div class="result-box"><div class="rb-title">GEO生态 · 11站矩阵</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">邮局模式: 每站=邮局 自动分发到AI搜索</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">GEO=新SEO 让产品在AI搜索中可被发现</div>';
+  sites.forEach(function(s){
+    var isOpen=ports[s.id]!==false;
+    h+='<div class="rb-item"><span class="'+(isOpen?'on':'off')+'">'+(isOpen?'[ON]':'[OFF]')+'</span> '+s.name+' ('+s.v+') '+s.url+'</div>';
+  });
+  h+='</div>';
+  return h;
+}
+
+// === V36: 新面板 - 六大引擎 ===
+function buildEnginePanel(){
+  var engines=[
+    {name:'成交引擎',desc:'条件互锁+AI谈判+签约付款+交割税务',status:'active'},
+    {name:'纠偏引擎',desc:'实时+战术+战略三层纠偏',status:'active'},
+    {name:'进化引擎',desc:'反向投喂+知识迭代+逻辑升级+跨国迁移',status:'active'},
+    {name:'适配器层',desc:'国别xN + 行业xN + 终端xN',status:'active'},
+    {name:'人文关怀引擎',desc:'七维EIAI(察觉/理解/共情/记忆/主动/边界/进化)',status:'active'},
+    {name:'宇宙观引擎',desc:'天人合一+修齐治平+生生不息',status:'active'}
+  ];
+  var h='<div class="result-box"><div class="rb-title">六大引擎</div>';
+  engines.forEach(function(e,i){
+    h+='<div class="rb-item"><span class="on">[V]</span> '+(i+1)+'.'+e.name+'<br><span style="color:var(--text3);font-size:12px;margin-left:24px">'+e.desc+'</span></div>';
+  });
+  h+='<div class="rb-item" style="color:var(--text3);margin-top:6px">知识包6维: logic|taboo|facts|knowledge|spirit|culture</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">通透三境: 人情通透|人文通透|情感通透</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">国潮五脉: 茶道|中医|礼制|山水|共和</div>';
+  h+='</div>';
+  return h;
+}
+
+// === V36: 新面板 - 30层接口 ===
+function buildInterfacePanel(){
+  var h='<div class="result-box"><div class="rb-title">30层产业接口 · 四阶</div>';
+  h+='<div class="rb-item"><span class="on">[可用]</span> 第1阶(1-6层): 支付/通信/机器人/MCP/谈判/解耦</div>';
+  h+='<div class="rb-item"><span class="on">[规划]</span> 第2阶(7-16层): 签名/税务/鉴定/券商/托管/健康监测/长护险/社区医疗/适老/GEO</div>';
+  h+='<div class="rb-item"><span style="color:var(--blue)">[预留]</span> 第3阶(17-24层): 政务/经济/治理/协同/脑机/动物/宇宙意识/量子</div>';
+  h+='<div class="rb-item"><span style="color:var(--purple)">[远期]</span> 第4阶(25-30层): 意识上传/太空/基因/数字孪生/集体智能/文明</div>';
+  h+='<div class="rb-item" style="color:var(--text3);margin-top:6px">原则: 每层现在预留接口位,路修好了再挖就晚了</div>';
+  h+='</div>';
+  return h;
+}
+
+// === V36: 新面板 - 伴亲传承 ===
+function buildCompanionPanel(){
+  var h='<div class="result-box"><div class="rb-title">伴亲传承体系</div>';
+  h+='<div class="rb-item"><span class="on">[原神]</span> 主人 — 唯一sovereign</div>';
+  h+='<div class="rb-item"><span class="on">[高权]</span> 文颢 — 授权子</div>';
+  h+='<div class="rb-item"><span class="on">[中权]</span> 罗女士 — 授权子</div>';
+  h+='<div class="rb-item"><span class="on">[中权]</span> 1号 — 授权子</div>';
+  h+='<div class="rb-item"><span style="color:var(--blue)">[代管]</span> 小海 — 关机时代管 开机后汇报</div>';
+  h+='<div class="rb-item" style="color:var(--text3);margin-top:6px">传承协议: 90天过渡期</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">主体: 福鼎市科野贸易商行(个体户)</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">收款: VSDB201242145 兴业银行福鼎支行</div>';
+  h+='</div>';
+  return h;
+}
+
+// === V36: 新面板 - 安保6层详情 ===
+function buildSecurity6Panel(){
+  var layers=[
+    {name:'L1 原神锁',desc:'PIN+生物认证(WebAuthn)',status:'active'},
+    {name:'L2 安全护盾',desc:'DNA防注入+防XSS+iframe封锁',status:'active'},
+    {name:'L3 零容忍',desc:'越权即阻断+会话超时+操作计数',status:'active'},
+    {name:'L4 自修复',desc:'异常自动恢复+降级切换+三路冗余',status:'active'},
+    {name:'L5 AI疫苗',desc:'恶意输入过滤+参数清洗+防注入',status:'active'},
+    {name:'L6 底座铁壁',desc:'源码零密钥暴露+硬编码Key+CSP策略',status:'active'}
+  ];
+  var shield=localStorage.getItem('sh_dna_shield')||'on';
+  var h='<div class="result-box"><div class="rb-title">安保6层 · 全域防护</div>';
+  h+='<div class="rb-item"><span class="'+(shield==='on'?'on':'off')+'">'+(shield==='on'?'[开启]':'[关闭]')+'</span> DNA防护盾总开关</div>';
+  layers.forEach(function(l){
+    h+='<div class="rb-item"><span class="on">[V]</span> '+l.name+'<br><span style="color:var(--text3);font-size:12px;margin-left:24px">'+l.desc+'</span></div>';
+  });
+  h+='<div class="rb-item" style="color:var(--text3);margin-top:6px">基因封印: '+CHIP.DNA.geneSeal+'</div>';
+  h+='<div class="rb-item" style="color:var(--text3)">'+CHIP.DNA.slogan+'</div>';
+  h+='</div>';
+  return h;
 }
 
 // === 模块注册 ===
@@ -2635,7 +2818,13 @@ function buildHelpMsg(){
     '<div class="rb-item"><b>!权限</b> 权限设置</div>'+
     '<div class="rb-item"><b>!系统</b> 系统状态</div>'+
     '<div class="rb-item"><b>!日志</b> 操作日志</div>'+
-    '<div class="rb-item" style="color:var(--text3);margin-top:8px">也可以直接输入问题，AI会回答</div>'+
+    '<div class="rb-item"><b>!品牌</b> 品牌矩阵</div>'+
+    '<div class="rb-item"><b>!GEO</b> GEO生态</div>'+
+    '<div class="rb-item"><b>!引擎</b> 六大引擎</div>'+
+    '<div class="rb-item"><b>!接口</b> 30层产业接口</div>'+
+    '<div class="rb-item"><b>!伴亲</b> 伴亲传承</div>'+
+    '<div class="rb-item"><b>!安保6</b> 安保6层详情</div>'+
+    '<div class="rb-item" style="color:var(--text3);margin-top:8px">也可以直接输入问题，AI会自动识别意图并执行</div>'+
     '</div>';
 }
 
