@@ -857,7 +857,7 @@ var INTERNAL_ENGINE = {
   // 外联扣子主引擎（盾边界→扣子→执行→回传）
   dispatchToCoze: function(cmd, callback) {
     var botId = '7652290884557930559';
-    var pat = 'pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3';
+    var pat = '' // PAT需从环境变量或安全存储获取;
     var payload = {
       bot_id: botId,
       user_id: 'admin_internal_engine',
@@ -882,7 +882,7 @@ var INTERNAL_ENGINE = {
   dispatchExternal: function(msg) {
     return fetch('https://api.siliconflow.cn/v1/chat/completions', {
       method: 'POST',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug'},
+      headers: {'Content-Type':'application/json', 'Authorization':'Bearer YOUR_SILICONFLOW_KEY'},
       body: JSON.stringify({
         model: 'Qwen/Qwen2.5-7B-Instruct',
         messages: [
@@ -1391,8 +1391,8 @@ var SH_NOTIFY={
 // === 山海API无限供应(前端直调) ===
 var SH_API={
   routes:[
-    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',key:'sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug',model:'Qwen/Qwen2.5-7B-Instruct',p:1},
-    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash',p:2}
+    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',key:'YOUR_SILICONFLOW_KEY',model:'Qwen/Qwen2.5-7B-Instruct',p:1},
+    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'YOUR_BIGMODEL_KEY',model:'glm-4-flash',p:2}
   ],
   async call(prompt,sys){
     sys=sys||'你是山海智能专属服务官，直接输出内容不加前言后语。';

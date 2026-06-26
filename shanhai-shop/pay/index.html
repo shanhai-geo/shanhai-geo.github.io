@@ -128,7 +128,7 @@ function sendEmail(oid,phone,timeStr,subject){
   }).then(function(r){return r.json()}).then(function(d){console.log('邮件:',d)}).catch(function(e){console.log('邮件失败',e)});
 
   // 备用：Coze Bot记录
-  try{fetch('https://api.coze.cn/v3/chat',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3'},body:JSON.stringify({bot_id:'7652290884557930559',user_id:'web_order',stream:true,auto_save_history:false,additional_messages:[{role:'user',content:'新订单：'+oid+' 手机'+phone+' 时间'+timeStr,content_type:'text'}]})}).then(function(r){return r.text()}).then(function(d){console.log('备用:',d)}).catch(function(e){console.log('备用失败',e)});}catch(e){}
+  try{fetch('https://api.coze.cn/v3/chat',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer YOUR_COZE_PAT'},body:JSON.stringify({bot_id:'7652290884557930559',user_id:'web_order',stream:true,auto_save_history:false,additional_messages:[{role:'user',content:'新订单：'+oid+' 手机'+phone+' 时间'+timeStr,content_type:'text'}]})}).then(function(r){return r.text()}).then(function(d){console.log('备用:',d)}).catch(function(e){console.log('备用失败',e)});}catch(e){}
 }
 
 function sendCancelEmail(oid,phone,timeStr){
