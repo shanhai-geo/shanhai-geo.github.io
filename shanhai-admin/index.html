@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>山海管理后台 V21</title>
+<title>山海管理后台 V22</title>
 <meta name="description" content="山海智能管理后台 · 全权控制入口">
 <meta name="keywords" content="山海智能,管理后台,AI商业服务,全权入口">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -332,7 +332,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
-      <span class="ch-badge" id="verBadge">V21</span>
+      <span class="ch-badge" id="verBadge">V22</span>
       <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -1410,7 +1410,7 @@ var INTERNAL_ENGINE = {
         
         if(!endpoint) return tryAPI(idx + 1);
         
-        return fetch(endpoint, {
+        return fetch(_px(endpoint), {
           method: 'POST',
           headers: {'Content-Type':'application/json', 'Authorization':'Bearer ' + api.key},
           body: JSON.stringify({
@@ -2291,6 +2291,10 @@ var SH_NOTIFY={
 };
 
 // === 山海API无限供应(前端直调) ===
+// === CORS 代理：解决浏览器跨域和网络限制 ===
+var _PX='https://cors.sh/';
+function _px(u){return _PX+u}
+
 var SH_API={
   routes:[
     {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash',p:1},
@@ -2303,7 +2307,7 @@ var SH_API={
     function tryRoute(idx){
       if(idx>=routes.length) return Promise.resolve(null);
       var r=routes[idx];
-      return fetch(r.url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+r.key},body:JSON.stringify({model:r.model,messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:2000,temperature:0.7}),signal:AbortSignal.timeout(15000)}).then(function(resp){
+      return fetch(_px(r.url),{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+r.key},body:JSON.stringify({model:r.model,messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:2000,temperature:0.7}),signal:AbortSignal.timeout(15000)}).then(function(resp){
         if(!resp.ok) return tryRoute(idx+1);
         return resp.json().then(function(data){
           if(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content) return data.choices[0].message.content;
