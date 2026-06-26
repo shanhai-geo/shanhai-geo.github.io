@@ -637,8 +637,46 @@ function processCmd(text){
   }
   else if(t.includes('geo')||t.includes('收录')){addAi('GEO变电局(V15)：\n4站已部署+IndexNow已提交\nBing/Google 24-48h收录\n\n导航站手动提交=通电关键\n!通电=查看提交指引')}
   else if(t.includes('端口')||t.includes('安全盾')){addAi('',buildPortPanel());addAi('',buildMasterPanel());addAi('端口操作：\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开\n!永久封闭 = 封印+新代码\n!开站/!关站 = 单口开关\n\n母口(admin)不可关闭·始终在线')}
-  else addAi('收到：'+text+'\n\n日常：营收/订单/成交/客户/收款/待办/端口\n统令(!)：自检/通电/通知/安保/权限/芯片/端口/开站/关站/建站\n执行：开发/修改/调试/建口\n视觉：改颜色/改字号/加按钮');
+  else {
+    // 路由到真实AI引擎
+    addAi('思考中...', null, true);
+    callAI(text).then(function(reply){
+      // 替换最后一条消息
+      var msgs=chatArea.querySelectorAll('.msg-ai .bubble');
+      var last=msgs[msgs.length-1];
+      if(last)last.innerHTML=reply.replace(/\n/g,'<br>');
+      chatArea.scrollTop=chatArea.scrollHeight;
+    }).catch(function(e){
+      var msgs=chatArea.querySelectorAll('.msg-ai .bubble');
+      var last=msgs[msgs.length-1];
+      if(last)last.innerHTML='收到：'+text+'<br><br>日常：营收/订单/成交/客户/收款/待办/端口<br>统令(!)：自检/通电/通知/安保/权限/芯片<br>执行：开发/修改/调试/建口';
+      chatArea.scrollTop=chatArea.scrollHeight;
+    });
+  }
   addLog('cmd','日常',text);
+}
+
+// 真实AI引擎调用
+function callAI(msg){
+  var sysPrompt='你是山海智能指挥中心的AI助手，服务对象是系统主人（老板）。你的能力包括：\n1. 系统状态汇报（营收、订单、端口、安全等）\n2. 执行系统指令（自检、通知、开关端口等）\n3. 智能问答（业务咨询、客户分析、策略建议）\n4. 开发指令（开发/修改/调试新功能）\n\n当前系统信息：\n- 13个站点全部在线\n- 15个引擎全载入\n- DNA 77条铁律锁定\n- 防护盾：全闭环安全盾\n- 认证：交接码→通行码\n- 支付：持牌清算机构\n- 产品：入门版298元/年\n\n回复风格：简洁、直接、像微信聊天。不用emoji。中文为主。';
+  return fetch('https://api.siliconflow.cn/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer sk-uuztxmqcrwnxbwhvdbiamtxnwjkruqqsiotafzdabxuvodug'},
+    body:JSON.stringify({
+      model:'Qwen/Qwen2.5-7B-Instruct',
+      messages:[
+        {role:'system',content:sysPrompt},
+        {role:'user',content:msg}
+      ],
+      temperature:0.7,
+      max_tokens:800
+    })
+  }).then(function(r){return r.json()}).then(function(d){
+    if(d.choices&&d.choices[0]&&d.choices[0].message){
+      return d.choices[0].message.content;
+    }
+    throw new Error('AI返回异常');
+  });
 }
 
 function buildCard(title,content){return '<div class="result-box"><div class="rb-title">'+title+'</div>'+content+'</div>'}
