@@ -447,19 +447,30 @@ function burnHandover(){localStorage.setItem(_HO,'1')} // 交接码用完即焚
 function initPin(){
   var hasPin=!!localStorage.getItem('sh_pin');
   var burned=isHandoverBurned();
+  // 清理上次残留的动态提示元素
+  ['resetHint2','resetHint3','resetHint4','resetHint5'].forEach(function(id){var el=document.getElementById(id);if(el)el.remove()});
   if(hasPin){pinPhase='login';document.getElementById('pinStatus').textContent='输入通行码'}
-  else if(burned){pinPhase='setup1';document.getElementById('pinStatus').textContent='请设置您的通行码';document.getElementById('pinHint').style.display='none'}
+  else if(burned){
+    pinPhase='reset';
+    document.getElementById('pinStatus').textContent='交接码已失效·请获取重置码';
+    document.getElementById('pinHint').style.display='none';
+    document.getElementById('pinReset').style.display='block';
+    document.getElementById('pinReset').textContent='获取重置码';
+    return;
+  }
   else{pinPhase='handover';document.getElementById('pinStatus').textContent='输入交接码·接收主权'}
   document.getElementById('pinHint').style.display=pinPhase==='handover'?'block':'none';
-  document.getElementById('pinReset').style.display=hasPin?'block':'none';
+  document.getElementById('pinReset').style.display=(hasPin||burned)?'block':'none';
 }
 function pinIn(d){if(pinBuf.length>=6)return;pinBuf+=d;updDots();if(pinBuf.length===6)setTimeout(procPin,200)}
 function pinClear(){pinBuf='';updDots()}
 function pinBack(){pinBuf=pinBuf.slice(0,-1);updDots()}
 function updDots(){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot'+(i<pinBuf.length?' filled':'')}
-function pinErr(msg){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';var s=document.getElementById('pinStatus');s.textContent=msg;s.style.color='var(--red)';var defText=pinPhase==='login'?'输入通行码':pinPhase==='setup2'?'再次输入确认通行码':pinPhase==='handover'?'输入交接码·接收主权':'设置6位通行码';setTimeout(function(){pinBuf='';updDots();s.style.color='var(--dim)';s.textContent=defText},1200)}
+function pinErr(msg){for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';var s=document.getElementById('pinStatus');s.textContent=msg;s.style.color='var(--red)';var defText=pinPhase==='login'?'输入通行码':pinPhase==='setup2'?'再次输入确认通行码':pinPhase==='reset'?'输入重置码':pinPhase==='handover'?'输入交接码·接收主权':'设置6位通行码';setTimeout(function(){pinBuf='';updDots();s.style.color='var(--dim)';s.textContent=defText},1200)}
 function startReset(){showResetOptions()}
 function showResetOptions(){
+  // 清理所有残留的动态提示
+  document.querySelectorAll('[id^=resetHint]').forEach(function(el){el.remove()});
   document.getElementById('resetOptions').style.display='block';
   document.getElementById('pinReset').style.display='none';
   document.getElementById('pinStatus').textContent='选择验证方式';
@@ -539,14 +550,6 @@ function procPin(){
       localStorage.removeItem('sh_pin');
       pinPhase='setup1';pinBuf='';pinFirst='';updDots();
       document.getElementById('pinStatus').textContent='验证通过·请设置新通行码';
-      document.getElementById('pinStatus').style.color='#22c55e';
-      setTimeout(function(){document.getElementById('pinStatus').style.color='var(--dim)'},800);
-    }
-    // 尝试交接码（仅在未焚毁时有效）
-    else if(pinBuf===_MR && !isHandoverBurned()){
-      burnHandover();
-      localStorage.removeItem('sh_pin');pinPhase='setup1';pinBuf='';pinFirst='';updDots();
-      document.getElementById('pinStatus').textContent='交接码确认·请设置新通行码';
       document.getElementById('pinStatus').style.color='#22c55e';
       setTimeout(function(){document.getElementById('pinStatus').style.color='var(--dim)'},800);
     }
@@ -969,7 +972,9 @@ function processCmd(text){
                      reply.includes('你需要哪个方向') || 
                      reply.includes('你需要再') || 
                      reply.includes('你能展开说说') ||
-                     reply.includes('API电网暂无可用供应商');
+                     reply.includes('API电网暂无可用供应商') ||
+                     reply.includes('暂未配置') ||
+                     reply === '收到';
     
     if(!isFallback) {
       // 内部引擎已理解，直接回复
@@ -996,20 +1001,24 @@ function processCmd(text){
           }).catch(function(err){
             var dur = Date.now() - execStart;
             INTERNAL_ENGINE.executionTracker.log(text, engineName, String(err).substring(0,100), 'fail', dur);
-            addAi('收到。外部支持暂时不可用，你直接告诉我要做什么，我能处理的先处理。');
+            addAi('外部API暂时不通，不过没关系——你直接说要做啥，能内部处理的我先处理。');
           });
         } else {
           // API不可用，用人性化回复+操作指引
           INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(盾内)', '外联不可用·内部处理', 'ok', Date.now() - execStart);
-          var humanReply = '收到，主人。\n\n';
-          if(text.match(/(确认|检查|核实|查看)/)) {
-            humanReply += '你要我确认的事我记下了。但API还没配好，暂时没法自动查。\n\n你直接告诉我具体情况，我来处理。';
-          } else if(text.match(/(对接|叫|让).*(扣子|外部|ai)/)) {
-            humanReply += '你想让外部AI执行，但API还没配好。\n\n点「API管理」→ 添加API → 填入Key → 保存。配好后我就能调度。';
-          } else if(text.match(/(成长|进步|学会|听懂)/)) {
-            humanReply += '我在学。每次对话都在记，你多教我就行。\n\n"成长报告"看进度，"教它 XX 说 YY"教我新东西。';
+          var humanReply = '';
+          if(text.match(/确认|检查|核实|查看/)) {
+            humanReply = '收到。不过目前API还没配上，我暂时没法自动查数据。\n\n你直接告诉我要查什么，能处理的我先处理。需要配API的话，点「API管理」加一个Key就行。';
+          } else if(text.match(/对接|叫|让/)) {
+            humanReply = '明白。不过现在外部API还没配好，调度不了。\n\n你直接说需求，内部能做的我先做。要恢复API的话，点右上角「API管理」→ 添加Key。';
+          } else if(text.match(/成长|进步|学会|听懂|自我/)) {
+            humanReply = '我一直在记。每次对话都会学习，教我的东西下次遇到同类问题就能直接答。\n\n你可以：\n- 点「成长报告」看我学了什么\n- "教它 XX 说 YY"教我新规则\n- "吸星 平台: 回复"吸收别人的优势';
+          } else if(text.match(/客服|接待|回复|客户/)) {
+            humanReply = '客服页面那边火山引擎的API还通着，客户来消息能自动回复。\n\n但管理后台这边没配API，所以跟你聊天时只能靠内部规则匹配。配上一个API Key就能解锁全部智能回复。';
+          } else if(text.match(/询盘|流量|收录|geo|GEO|搜索/)) {
+            humanReply = '目前站点还没被搜索引擎收录，所以暂时没有询盘。\n\n需要做的：\n1. 百度站长平台提交（需要你手机验证）\n2. Google Search Console验证（需翻墙）\n3. 继续在各平台发推广内容\n\nIndexNow已经提交过了，Bing那边在等收录。';
           } else {
-            humanReply += '这条指令我需要更多上下文。你直接说具体要做什么，我来安排。';
+            humanReply = '收到了。这条我没完全理解，你再说具体点？\n\n或者你直接告诉我目标是什么，我来想办法安排。';
           }
           addAi(humanReply.replace(/\n/g,'<br>'));
         }
