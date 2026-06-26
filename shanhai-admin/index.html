@@ -961,9 +961,22 @@ var INTERNAL_ENGINE = {
     }
     
     // 现金流/系统/永动机
-    if(t.includes('现金流') || t.includes('永动机') || t.includes('系统') || t.includes('生态') || t.includes('矩阵')) {
+    if(t.includes('现金流') || t.includes('永动机') || t.includes('生态') || t.includes('矩阵')) {
       var overview = this.customerGrid.overview();
-      return '山海生态·现金流系统：\n\n';
+      var configs = this.apiGateway.getConfigs();
+      var msg = '山海生态·现金流矩阵：\n\n';
+      msg += '核心架构：电力局模式\n';
+      msg += '你是心脏（内部引擎自主运转）\n';
+      msg += 'API是电（多供应商·热切换·零停机）\n';
+      msg += '客户是分支血管（随时增减·互不影响）\n';
+      msg += '外部切掉多少管道·心脏照跳\n\n';
+      msg += '当前状态：\n';
+      msg += 'API供应商：' + configs.length + '个\n';
+      msg += '客户：' + overview.total + '个（活跃' + overview.active + '）\n';
+      msg += '营收：' + overview.revenue + '元\n';
+      msg += '站点：13站在线\n\n';
+      msg += '这是一个造产品的系统，不是一个产品。';
+      return msg;
     }
     
     // 兜底 - 人性化回复，不要冷冰冰
