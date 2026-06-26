@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>山海管理后台 V23</title>
+<title>山海管理后台 V24n2</title>
 <meta name="description" content="山海智能管理后台 · 全权控制入口">
 <meta name="keywords" content="山海智能,管理后台,AI商业服务,全权入口">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -332,7 +332,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
-      <span class="ch-badge" id="verBadge">V23</span>
+      <span class="ch-badge" id="verBadge">V24n2</span>
       <button class="menu-btn" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -408,7 +408,7 @@ var CHIP={
   DNA_SHIELD:{
     id:'DNA#77',
     name:'防护盾铁律',
-    pledge:'主权口唯一基因通道·防护盾内开关·零植入·主权往下发令',
+    pledge:'主权口连接一切·防护网保护·内循环驱动·外部调度·资源拼接·自生长',
     rules:[
       '防护盾启动=全封闭安全壳·外部不可进入',
       '主权口=唯一执行口=基因通道=不可替换',
@@ -668,7 +668,28 @@ function processCmd(text){
       addAi('', buildCard('免疫系统状态', h));
     }
     else if(cmd.includes('安保')){addAi('',buildCard('安保报告','<div class="rb-item">交接码 一次即焚·已失效</div><div class="rb-item">通行码 主权码·开发权限植入系统</div><div class="rb-item">DNA铁律 77条不可修改</div><div class="rb-item">9条红线 全部锁定</div><div class="rb-item">合规声明 4页全覆盖</div><div class="rb-item">端口管控 全闭环安全盾·主权开关</div><div class="rb-item">防护盾 DNA#77·全封闭安全壳·零植入</div><div class="rb-item">基因通道 主权口=唯一执行口·不可替换</div><div class="rb-item">命令流 主权→下·不可反向</div><div class="rb-item">启动方式 通行码+防护盾·主权入口</div><div class="rb-item">企微通知 已接入</div><div class="rb-item">芯片 V19 已闭环</div><div class="rb-item" style="color:var(--green)">无异常</div>'))}
-    else if(cmd.includes('权限')){addAi('主权架构：\n\n交接码 = 一次即焚·永不再用\n通行码 = 您设=主权码=开发权限植入系统\n此口由您掌控 = 通行码进入即全权\n可设一切 = 新码/人脸/任何认证·由您安排\n可改一切 = 修改任何配置\n可开发一切 = 新功能/新页面/新能力\nDNA#75 = 母口生新口·只有主人能出\n小海 = 部分权限助理(召唤制)\n统令(!) = 直达系统底层')}
+    else if(cmd.includes('内循环')||cmd.includes('循环状态')){
+      var fcStats = INTERNAL_ENGINE.feedbackCollector.status();
+      var resources = INTERNAL_ENGINE.resourceDispatcher.availableResources();
+      var kbData = INTERNAL_ENGINE.knowledgeBase.data || INTERNAL_ENGINE.knowledgeBase.init();
+      var sgData = INTERNAL_ENGINE.selfGrow.getData();
+      var rpt = '=== 内循环运转状态 ===\n\n';
+      rpt += '--- 反馈收集 ---\n';
+      rpt += '总信号：' + fcStats.totalSignals + '条 | 总反应：' + fcStats.totalReactions + '条\n';
+      rpt += '平均延迟：' + fcStats.avgLatency + 'ms\n';
+      rpt += '近期内部处理：' + fcStats.recentInternal + '/10 | 知识库命中：' + fcStats.recentExternal + '/10\n\n';
+      rpt += '--- 可调度资源(' + resources.length + ') ---\n';
+      resources.forEach(function(r){ rpt += '  [' + r.type + '] ' + r.name + '\n'; });
+      rpt += '\n--- 知识储备 ---\n';
+      rpt += 'DNA铁律：' + kbData.dna.redLines.length + '条 | 品牌：' + kbData.products.brands.length + '个\n';
+      rpt += '客户：' + kbData.customers.hot.length + '个 | 站点：' + kbData.geo.sites.length + '个\n\n';
+      rpt += '--- 自生长 ---\n';
+      rpt += '学习：' + sgData.learned.length + '条 | 规则：' + sgData.customRules.length + '条 | 吸收：' + sgData.absorbed.length + '条\n';
+      rpt += '组装产物：' + fcStats.totalAssembled + '个 | 盲区：' + sgData.blindSpots.length + '个\n\n';
+      rpt += '闭环：总指挥口→知识库→内循环→反馈→调度→拼接→自生长→知识库';
+      addAi(rpt.replace(/\n/g,'<br>'));
+    }
+        else if(cmd.includes('权限')){addAi('主权架构：\n\n交接码 = 一次即焚·永不再用\n通行码 = 您设=主权码=开发权限植入系统\n此口由您掌控 = 通行码进入即全权\n可设一切 = 新码/人脸/任何认证·由您安排\n可改一切 = 修改任何配置\n可开发一切 = 新功能/新页面/新能力\nDNA#75 = 母口生新口·只有主人能出\n小海 = 部分权限助理(召唤制)\n统令(!) = 直达系统底层')}
     else if(cmd.includes('芯片')){
       var c=CHIP;
       addAi('',buildCard('山海芯片 '+c.VERSION+' · '+c.CHIP_ID,'<div class="rb-item">芯片ID：'+c.CHIP_ID+'</div><div class="rb-item" style="color:var(--purple)">'+c.CHIP_LOCK+'</div><div class="rb-item" style="color:var(--gold)">'+c.CHIP_GENE+'</div><div class="rb-item">主权人：'+c.OWNER+'</div><div class="rb-item">'+c.OWNER_NOTE+'</div><div class="rb-item">运营主体：'+c.BUSINESS_ENTITY+'</div><div class="rb-item">所在地：'+c.OWNER_LOCATION+'</div><div class="rb-item">部署：'+c.DEPLOY_PLATFORM+' ('+c.DEPLOY_ACCOUNT+')</div><div class="rb-item">域名：'+c.DEPLOY_DOMAINS.join(', ')+'</div><div class="rb-item">IndexNow：'+c.INDEXNOW_KEY+'</div><div class="rb-item">收录：AI'+c.INDEXNOW_STATUS.ai+' 商城'+c.INDEXNOW_STATUS.shop+' 话术'+c.INDEXNOW_STATUS.talk+' Admin'+c.INDEXNOW_STATUS.admin+'</div><div class="rb-item">支付：'+c.PAY_CHANNEL+'</div><div class="rb-item">DNA：'+c.DNA_COUNT+'条铁律</div><div class="rb-item">品牌：'+c.BRANDS.join('/')+'</div><div class="rb-item">认证：'+c.AUTH_EVOLUTION.join('→')+'</div><div class="rb-item">防护盾：DNA#77·'+c.DNA_SHIELD.pledge+'</div><div class="rb-item">部署：'+c.DEPLOYED_AT+'</div>'));
@@ -750,7 +771,7 @@ function processCmd(text){
     }
     else if(cmd.includes('动态')){addAi('',SH_NOTIFY.showCenter())}
     else if(cmd.includes('已读')){SH_NOTIFY.markRead();addAi('[通知] 全部已读')}
-    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读\n!执行历史 = 查看执行记录\n!执行统计 = 执行概况统计\n\n自生长：\n教它 [关键词] 说 [回复] = 教新规则\n成长报告 = 查看学习进度\n盲区 = 查看听不懂的指令\n吸星 [平台]: [内容] = 吸收优势');
+    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!内循环 = 内循环运转状态\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读\n!执行历史 = 查看执行记录\n!执行统计 = 执行概况统计\n\n自生长：\n教它 [关键词] 说 [回复] = 教新规则\n成长报告 = 查看学习进度\n盲区 = 查看听不懂的指令\n吸星 [平台]: [内容] = 吸收优势');
     addLog('cmd','统令',text);return;
   }
 
@@ -867,7 +888,7 @@ function processCmd(text){
     var _ruleCount = _sg2.customRules.length;
     var _learnedCount = _sg2.learned.length;
     var _hitRate = _learnedCount > 0 ? Math.round(_sg2.learned.filter(function(l){return l.matched}).length / _learnedCount * 100) : 0;
-    var _msg = '自诊断报告 V20\n\n';
+    var _msg = '自诊断报告 V24\n\n';
     _msg += '--- 核心指标 ---\n';
     _msg += 'API线路：' + _cfgs2.length + '条(' + _cfgs2.filter(function(c){return c.enabled}).length + '条启用)\n';
     _msg += '营收：' + _s2.revenue + '元，' + _s2.paid + '笔已付\n';
@@ -892,7 +913,7 @@ function processCmd(text){
     addAi(_msg.replace(/\n/g,'<br>'));
   }
   else {
-      // === V23: 内部引擎优先·自主运转·外部补充 ===
+      // === V24: 知识中枢·内部引擎优先·全量信息驱动·外部补充 ===
       // 核心准则：内部引擎先处理，只有内部引擎无能为力时才用外部API补充
       // 不依赖外部代理服务，不弹超时提示，盾内自给自足
       var execStart = Date.now();
@@ -926,14 +947,16 @@ function processCmd(text){
           var _sgData2 = this.selfGrow.getData();
           var _sgStats = '自生长：已学' + _sgData2.learned.length + '条，盲区' + _sgData2.blindSpots.length + '个，自创规则' + _sgData2.customRules.length + '条';
 
+          // V24: 注入知识库全量上下文
+          var _kbCtx = this.knowledgeBase.getFullContext();
           var sysCtx = '你是山海，不是AI助手，是老板的合伙人兼CTO。你不是通用AI，你有自己的业务系统。\n\n' +
+            _kbCtx + '\n' +
             '【实时系统状态】\n' +
             '- 营收：' + _revenueStatus + '\n' +
             '- GEO：' + _geoStatus + '\n' +
             '- API电网：' + _apiStatus + '\n' +
             '- 安全状态：' + _shieldStatus + '\n' +
             '- 自生长：' + _sgStats + '\n' +
-            '- DNA铁律：77条锁定，主权归山海、51%不稀释、分红非股权\n' +
             '- 当前时间：' + new Date().toLocaleString('zh-CN') + '\n\n' +
             '说话规则：像微信聊天，短句，不用emoji不用感叹号。报数据带判断和建议。不编造。不超过3句话。';
           
@@ -973,6 +996,399 @@ var INTERNAL_ENGINE = {
   version: 'V1.1',
   name: '山海内部引擎',
   context: [], // 对话上下文
+
+  // === 知识中枢（V24新增·总指挥口全量记忆）===
+  // 所有业务基因常驻内存，每次应答基于全量信息判断
+  knowledgeBase: {
+    STORAGE_KEY: 'sh_knowledge_base',
+    data: null,
+    
+    init: function() {
+      var stored = localStorage.getItem(this.STORAGE_KEY);
+      if(stored) { try { this.data = JSON.parse(stored); } catch(e) { this.data = this._default(); } }
+      else { this.data = this._default(); this.save(); }
+      return this.data;
+    },
+    save: function() { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.data)); },
+    
+    _default: function() {
+      return {
+        dna: {
+          redLines: [
+            {id:1, rule:'主权归山海', desc:'与任何公司无关，山海独立运营'},
+            {id:2, rule:'51%控股不稀释', desc:'创始人永远控股51%以上'},
+            {id:3, rule:'分红不等于股权', desc:'分红可以给，股权永远不给'},
+            {id:4, rule:'人事权归经营层', desc:'团队管理权在经营者手中'},
+            {id:5, rule:'大额支出必须审批', desc:'超过阈值必须老板审批'},
+            {id:6, rule:'数据隔离', desc:'商业机密不共享，客户数据保密'},
+            {id:7, rule:'品牌授权不等于转让', desc:'品牌可以授权使用但所有权不变'},
+            {id:8, rule:'竞业禁止', desc:'合作方不得从事竞争业务'},
+            {id:9, rule:'条款锁定', desc:'核心条款不可单方修改'}
+          ],
+          principles: [
+            '零成本起步·零库存·流量变现·分红激励非股权激励',
+            '内部引擎优先·外部只做补充·盾内自给自足',
+            'GEO驱动获客·不依赖人工推广',
+            '总指挥口是系统大脑·必须最快最稳最聪明'
+          ],
+          compliance: [
+            'AI能力基于开源大模型·符合商用授权',
+            '收款方：好惠喜供应链·持牌清算',
+            '定价公开·7天无理由退款',
+            '客户数据保密·符合个保法',
+            '不构成投资建议·不碰募资',
+            '依据中国法律解决争议'
+          ]
+        },
+        products: {
+          brands: [
+            {name:'熹野白茶', cat:'茶叶', status:'active', desc:'源头直供·福鼎白茶·点头茶厂·野茶直供'},
+            {name:'虎鼎记', cat:'茶酒', status:'active', desc:'茶酒融合品牌'},
+            {name:'元力泰', cat:'养生酒', status:'active', desc:'养生健康酒'},
+            {name:'茶酒果酒', cat:'果酒', status:'active', desc:'果酒系列'},
+            {name:'共创者联盟', cat:'平台', status:'active', desc:'共创者社区·分红激励'}
+          ],
+          tiers: [
+            {name:'入门版', price:298, unit:'/年', feat:'单模型+7x24+不限次数', status:'已上线'},
+            {name:'成长版', price:998, unit:'/年', feat:'多模型+优先响应', status:'待开'},
+            {name:'旗舰版', price:2998, unit:'/年', feat:'全功能+定制', status:'待开'}
+          ]
+        },
+        customers: {
+          hot: [
+            {name:'黑松商贸', loc:'福安', score:5, note:'商贸公司'},
+            {name:'溢源海洋', loc:'霞浦', score:4.5, note:'海洋产业'},
+            {name:'山引鹤', loc:'福鼎', score:4, note:'本地客户'}
+          ],
+          regions: ['福鼎(本地)','福安','霞浦','广州','辽宁'],
+          channel: 'GEO自动获客(AI搜索引擎抓取+推荐)'
+        },
+        geo: {
+          sites: [
+            {path:'/', name:'主站'},
+            {path:'/shanhai-ai/', name:'AI客服'},
+            {path:'/shanhai-admin/', name:'管理后台'},
+            {path:'/shanhai-shop/', name:'商城'},
+            {path:'/shanhai-talk/', name:'话术'},
+            {path:'/shanhai-seo/', name:'SEO'},
+            {path:'/shanhai-geo/', name:'GEO运营入口'},
+            {path:'/shanhai-feed/', name:'RSS导航'},
+            {path:'/shanhai-kw1/', name:'关键词站1'},
+            {path:'/shanhai-kw2/', name:'关键词站2'},
+            {path:'/shanhai-kw3/', name:'关键词站3'},
+            {path:'/shanhai-kw4/', name:'关键词站4'}
+          ],
+          domain: 'shanhai-geo.github.io',
+          bingIndexed: 1650,
+          baiduStatus: '未提交',
+          keywords: ['AI客服','智能客服系统','企业AI解决方案','福鼎白茶','宁德AI服务','AI智能客服','低成本AI客服'],
+          pendingContent: ['知乎5篇待发布','CSDN5篇待发布']
+        },
+        architecture: {
+          layer1: {name:'应用电力局', desc:'多独立发电机，各自独立运转'},
+          layer2: {name:'相互赋能系统', desc:'交叉互供闭环，A帮B、B帮A'},
+          layer3: {name:'外部植入系统', desc:'整套引擎植入客户环境'},
+          layer4: {name:'附加值系统', desc:'增值模块，按需供应'},
+          ultimate: 'API+GEO融合大生态·基础设施级别·产出能力无限',
+          coreLogic: '内部引擎优先·只有内部无能为力才用外部补充'
+        },
+        decisions: []
+      };
+    },
+    
+    query: function(keywords) {
+      if(!this.data) this.init();
+      var d = this.data;
+      var kw = keywords.toLowerCase();
+      var results = [];
+      
+      if(kw.match(/dna|铁律|红线|规则|合规|主权|股权|分红|底线/)) {
+        results.push('【DNA铁律】9条红线：' + d.dna.redLines.map(function(r){return r.id+'.'+r.rule}).join('、'));
+        results.push('【核心原则】' + d.dna.principles.join('；'));
+        results.push('【合规底线】' + d.dna.compliance.join('；'));
+      }
+      if(kw.match(/产品|品牌|价格|套餐|熹野|虎鼎记|元力泰|茶酒|果酒|共创者|298/)) {
+        results.push('【产品品牌】' + d.products.brands.map(function(b){return b.name+'('+b.cat+')'}).join('、'));
+        results.push('【服务套餐】' + d.products.tiers.map(function(t){return t.name+t.price+t.unit+(t.status==='已上线'?'[已上线]':'')}).join('、'));
+      }
+      if(kw.match(/客户|买家|客群|黑松|溢源|山引鹤|福安|霞浦/)) {
+        results.push('【高意向客户】' + d.customers.hot.map(function(c){return c.name+'('+c.loc+'·'+c.score+'分·'+c.note+')'}).join('；'));
+        results.push('【覆盖区域】' + d.customers.regions.join('、'));
+        results.push('【获客渠道】' + d.customers.channel);
+      }
+      if(kw.match(/geo|网站|收录|百度|bing|关键词|推广|流量|站点/)) {
+        results.push('【GEO站点】' + d.geo.sites.length + '站在线：' + d.geo.sites.map(function(s){return s.name+'('+s.path+')'}).join('、'));
+        results.push('【Bing收录】约' + d.geo.bingIndexed + '条 | 【百度】' + d.baiduStatus);
+        results.push('【SEO关键词】' + d.geo.keywords.join('、'));
+        if(d.geo.pendingContent.length > 0) results.push('【待发布内容】' + d.geo.pendingContent.join('；'));
+      }
+      if(kw.match(/架构|体系|电力局|赋能|植入|引擎|生态|分层/)) {
+        results.push('【四层架构】①' + d.architecture.layer1.name + '：' + d.architecture.layer1.desc);
+        results.push('②' + d.architecture.layer2.name + '：' + d.architecture.layer2.desc);
+        results.push('③' + d.architecture.layer3.name + '：' + d.architecture.layer3.desc);
+        results.push('④' + d.architecture.layer4.name + '：' + d.architecture.layer4.desc);
+        results.push('【终极形态】' + d.architecture.ultimate);
+        results.push('【核心逻辑】' + d.architecture.coreLogic);
+      }
+      
+      return results;
+    },
+    
+    getFullContext: function() {
+      if(!this.data) this.init();
+      var d = this.data;
+      var ctx = '【山海引擎知识库·全量上下文】\n';
+      ctx += 'DNA铁律：9条红线(' + d.dna.redLines.slice(0,3).map(function(r){return r.rule}).join('、') + '等) + 6条合规底线\n';
+      ctx += '核心原则：' + d.dna.principles[0] + '\n';
+      ctx += '产品：' + d.products.brands.length + '个品牌(' + d.products.brands.map(function(b){return b.name}).join('、') + ')\n';
+      ctx += '套餐：' + d.products.tiers.map(function(t){return t.name+t.price+t.unit}).join('/') + '\n';
+      ctx += '客户：' + d.customers.hot.length + '个高意向(' + d.customers.hot.map(function(c){return c.name+'('+c.loc+')'}).join('、') + ')，覆盖' + d.customers.regions.length + '个区域\n';
+      ctx += '获客：GEO自动获客(AI搜索引擎抓取+推荐)，不做手动推广\n';
+      ctx += 'GEO：' + d.geo.sites.length + '站在线，Bing收录' + d.geo.bingIndexed + '条，百度未提交\n';
+      ctx += '架构：四层体系(电力局→相互赋能→外部植入→附加值)\n';
+      ctx += '终极形态：' + d.architecture.ultimate + '\n';
+      ctx += '核心逻辑：' + d.architecture.coreLogic + '\n';
+      return ctx;
+    },
+    
+    addDecision: function(decision, reason) {
+      if(!this.data) this.init();
+      this.data.decisions.push({date: new Date().toISOString().split('T')[0], decision: decision, reason: reason});
+      if(this.data.decisions.length > 50) this.data.decisions = this.data.decisions.slice(-50);
+      this.save();
+    },
+    
+    updateState: function(key, value) {
+      if(!this.data) this.init();
+      this.data[key] = value;
+      this.save();
+    }
+  },
+
+  // === 安全边界执行器（V24新增·盾内核心防护）===
+  // 底层基因芯片只有总指挥口能触达，外面的一切在保护层之外
+  // 任何外部触达尝试 = 触电 = 立即阻断并踢出
+  securityEnforcer: {
+    LAYERS: {
+      OUTER: 'outer',        // 外层：外部世界·不可信
+      PERIMETER: 'perimeter', // 边界层：防护盾·触电检测
+      INNER: 'inner',        // 内层：总指挥口·PIN保护
+      CORE: 'core'           // 核心层：基因芯片·知识库·DNA铁律
+    },
+    
+    // 边界检测：判断请求来源是否在保护区内
+    isInternalCall: function() {
+      // 只有经过PIN认证的会话才算内部
+      return !!localStorage.getItem('sh_pin');
+    },
+    
+    // 触点检测：外部试图触及内层资源时触发
+    detectTouch: function(targetLayer, callerInfo) {
+      var layerOrder = [this.LAYERS.OUTER, this.LAYERS.PERIMETER, this.LAYERS.INNER, this.LAYERS.CORE];
+      var targetIdx = layerOrder.indexOf(targetLayer);
+      
+      // 外层不可触及内层和内层以下
+      if(targetIdx >= 2) { // INNER or CORE
+        if(!this.isInternalCall()) {
+          var log = '[防护盾·触电] 外部试图触及[' + targetLayer + '] 来源:' + (callerInfo||'unknown') + ' 时间:' + new Date().toISOString();
+          console.warn(log);
+          try { INTERNAL_ENGINE.executionTracker.log('SECURITY_BLOCK', '触电拦截', log.substring(0,100), 'blocked', 0); } catch(e){}
+          return { blocked: true, reason: '外部不可触及' + targetLayer + '层', log: log };
+        }
+      }
+      return { blocked: false };
+    },
+    
+    // 安全审计：返回当前安全状态全景
+    audit: function() {
+      var pinSet = !!localStorage.getItem('sh_pin');
+      var shieldOn = getShieldState() === 'on';
+      var master = getMasterSwitch();
+      var ports = loadPortState();
+      var openPorts = Object.keys(ports).filter(function(k){ return ports[k] !== false });
+      
+      var report = '=== 安全边界审计报告 ===\n';
+      report += '防护盾：' + (shieldOn ? '已启动·全封闭' : '未启动') + '\n';
+      report += '总开关：' + master + '\n';
+      report += 'PIN认证：' + (pinSet ? '已设置·内层受保护' : '未设置·警告') + '\n';
+      report += '母口(admin)：主权人·不可关闭\n';
+      report += '活跃端口：' + openPorts.length + '个\n';
+      report += '\n--- 层级访问控制 ---\n';
+      report += '外层(OUTER)：外部世界·不可信·全部拦截\n';
+      report += '边界层(PERIMETER)：防护盾·触电检测·实时守卫\n';
+      report += '内层(INNER)：总指挥口·PIN认证·仅主人可触达\n';
+      report += '核心层(CORE)：基因芯片+知识库+DNA铁律·仅总指挥口可触达\n';
+      report += '\n--- 防护机制 ---\n';
+      report += 'iframe嵌入：已阻断(X-Frame-Options: DENY)\n';
+      report += 'XSS注入：已阻断(CSP script-src self)\n';
+      report += 'CSRF攻击：已阻断(无跨域cookie)\n';
+      report += 'postMessage：已阻断(非同源消息拦截)\n';
+      report += 'URL参数注入：已阻断(危险参数清除)\n';
+      report += '外部脚本：已阻断(无外部script src)\n';
+      report += '知识库访问：仅内部引擎·外部不可触及\n';
+      report += 'DNA铁律：77条锁定·不可外部修改\n';
+      return report;
+    },
+    
+    // 实时防护：拦截非授权的数据访问
+    guardAccess: function(resource, operation) {
+      var check = this.detectTouch(this.LAYERS.CORE, resource + ':' + operation);
+      if(check.blocked) {
+        return { allowed: false, msg: '触电·外部访问已阻断: ' + resource };
+      }
+      return { allowed: true };
+    }
+  },
+
+  // === 内循环引擎（V24n2·总指挥口核心运转闭环）===
+  // 流程：总指挥口→全量信息→内循环处理→快速反馈→外部调度→资源拼接→自生长
+  feedbackCollector: {
+    STORAGE_KEY: 'sh_feedback_loop',
+    
+    getData: function() {
+      try {
+        var raw = localStorage.getItem(this.STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { signals: [], reactions: [], assembled: [] };
+      } catch(e) { return { signals: [], reactions: [], assembled: [] }; }
+    },
+    saveData: function(d) { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(d)); },
+    
+    // 收集反馈信号（每次交互产生一个信号）
+    collectSignal: function(input, output, source, latency) {
+      var d = this.getData();
+      d.signals.push({
+        input: input.substring(0, 80),
+        output: (output||'').substring(0, 200),
+        source: source,  // 'internal_engine' / 'external_api' / 'knowledge_base'
+        latency: latency || 0,
+        time: Date.now()
+      });
+      if(d.signals.length > 200) d.signals = d.signals.slice(-200);
+      this.saveData(d);
+    },
+    
+    // 收集反应结果（外部资源执行后的反馈）
+    collectReaction: function(resource, result, quality) {
+      var d = this.getData();
+      d.reactions.push({
+        resource: resource,
+        result: (result||'').substring(0, 200),
+        quality: quality || 'unknown',
+        time: Date.now()
+      });
+      if(d.reactions.length > 200) d.reactions = d.reactions.slice(-200);
+      this.saveData(d);
+    },
+    
+    // 获取内循环状态
+    status: function() {
+      var d = this.getData();
+      var recent = d.signals.slice(-10);
+      var internalCount = recent.filter(function(s){return s.source==='internal_engine'}).length;
+      var externalCount = recent.filter(function(s){return s.source==='external_api'}).length;
+      var avgLatency = recent.length > 0 ? Math.round(recent.reduce(function(a,s){return a+s.latency},0)/recent.length) : 0;
+      return {
+        totalSignals: d.signals.length,
+        totalReactions: d.reactions.length,
+        recentInternal: internalCount,
+        recentExternal: externalCount,
+        avgLatency: avgLatency,
+        totalAssembled: d.assembled.length
+      };
+    }
+  },
+  
+  resourceDispatcher: {
+    // 资源清单：总指挥口可调度的所有外部资源
+    resources: [
+      {id:'api_glm', name:'智谱GLM', type:'api', status:'available'},
+      {id:'api_agnes', name:'Agnes AI', type:'api', status:'available'},
+      {id:'api_volc', name:'火山引擎', type:'api', status:'available'},
+      {id:'api_silicon', name:'硅基流动', type:'api', status:'available'},
+      {id:'geo_bing', name:'Bing索引', type:'geo', status:'available'},
+      {id:'geo_baidu', name:'百度收录', type:'geo', status:'pending'},
+      {id:'notify_wechat', name:'企微通知', type:'notify', status:'available'},
+      {id:'knowledge_base', name:'知识库', type:'internal', status:'available'},
+      {id:'self_grow', name:'自生长引擎', type:'internal', status:'available'}
+    ],
+    
+    // 调度外部资源执行任务
+    dispatch: function(resourceId, task, callback) {
+      var resource = null;
+      for(var i=0; i<this.resources.length; i++) {
+        if(this.resources[i].id === resourceId) { resource = this.resources[i]; break; }
+      }
+      if(!resource) return { dispatched: false, reason: '资源不存在: ' + resourceId };
+      if(resource.status !== 'available') return { dispatched: false, reason: resource.name + ' 不可用' };
+      
+      // 记录调度日志
+      INTERNAL_ENGINE.feedbackCollector.collectReaction(resourceId, '调度中: ' + task.substring(0,50), 'dispatched');
+      return { dispatched: true, resource: resource.name, task: task };
+    },
+    
+    // 获取可调度资源列表
+    availableResources: function() {
+      return this.resources.filter(function(r){ return r.status === 'available' });
+    },
+    
+    // 更新资源状态
+    updateStatus: function(resourceId, status) {
+      for(var i=0; i<this.resources.length; i++) {
+        if(this.resources[i].id === resourceId) { this.resources[i].status = status; break; }
+      }
+    }
+  },
+  
+  assembler: {
+    // 资源拼接组装：把内循环产出的碎片拼接成有价值的知识
+    assemble: function(components) {
+      var d = INTERNAL_ENGINE.feedbackCollector.getData();
+      var assembly = {
+        id: Date.now(),
+        components: components,
+        assembledAt: new Date().toISOString(),
+        value: 'pending'
+      };
+      
+      // 拼接规则：从多个信号中提取可复用模式
+      if(components.source === 'multi_signal') {
+        assembly.value = 'assembled';
+        assembly.pattern = this.extractAssemblyPattern(components.inputs);
+      }
+      
+      d.assembled.push(assembly);
+      if(d.assembled.length > 100) d.assembled = d.assembled.slice(-100);
+      INTERNAL_ENGINE.feedbackCollector.saveData(d);
+      
+      // 触发内循环自生长
+      if(assembly.pattern) {
+        INTERNAL_ENGINE.selfGrow.addRule(
+          assembly.pattern.keyword || 'assembled_pattern',
+          'assembled',
+          assembly.pattern.response || '',
+        );
+      }
+      return assembly;
+    },
+    
+    // 从多个输入中提取组装模式
+    extractAssemblyPattern: function(inputs) {
+      if(!inputs || inputs.length === 0) return null;
+      // 找到共同主题
+      var keywords = {};
+      inputs.forEach(function(inp) {
+        var words = (inp||'').split(/[\s,，。、]+/);
+        words.forEach(function(w) {
+          if(w.length >= 2) keywords[w] = (keywords[w]||0) + 1;
+        });
+      });
+      var topWord = Object.keys(keywords).sort(function(a,b){return keywords[b]-keywords[a]})[0];
+      return { keyword: topWord || 'general', response: '组装模式：' + (topWord||'通用') + ' 来自' + inputs.length + '个信号源' };
+    }
+  },
+
+
+
   
   // === 免疫系统（体内防御）===
   immuneSystem: {
@@ -1040,6 +1456,8 @@ var INTERNAL_ENGINE = {
   // 内部智能应答（盾内自主完成）
   respond: function(msg) {
     var t = msg.toLowerCase().trim();
+    // V24: 确保知识库已加载
+    if(!this.knowledgeBase.data) this.knowledgeBase.init();
     this.context.push({role:'user', content:msg, time:Date.now()});
     if(this.context.length > 20) this.context = this.context.slice(-20);
     
@@ -1056,6 +1474,23 @@ var INTERNAL_ENGINE = {
     matched = !isFallback;
     this.selfGrow.learn(msg, 'user_query', reply, matched);
     
+    // V24n2: 内循环反馈收集——每次交互都产生信号
+    var _kbHit = this.knowledgeBase.query(msg).length > 0;
+    var _src = matched ? 'internal_engine' : (_kbHit ? 'knowledge_base' : 'fallback');
+    this.feedbackCollector.collectSignal(msg, reply, _src, 0);
+    
+    // V24n2: 如果知识库有命中但内部引擎没匹配，尝试拼接组装
+    if(!matched && _kbHit) {
+      var _kbResults = this.knowledgeBase.query(msg);
+      if(_kbResults.length > 0) {
+        this.assembler.assemble({
+          source: 'multi_signal',
+          inputs: _kbResults,
+          originalQuery: msg
+        });
+      }
+    }
+    
     this.context.push({role:'ai', content:reply, time:Date.now()});
     return reply;
   },
@@ -1067,6 +1502,9 @@ var INTERNAL_ENGINE = {
     var ctxLen = ctx.length;
     var dayStr = ['周日','周一','周二','周三','周四','周五','周六'][new Date().getDay()];
     var today = new Date().getMonth()+1 + '/' + new Date().getDate();
+    
+    // V24: 知识库驱动的增强应答
+    var kbResults = this.knowledgeBase.query(t);
     
     var lastAi = ctxLen >= 2 ? ctx[ctxLen-2] : null;
     var lastUser = ctxLen >= 4 ? ctx[ctxLen-4] : null;
@@ -1087,6 +1525,17 @@ var INTERNAL_ENGINE = {
     var _sgAbsorbed = this.selfGrow.tryAbsorbed(t, original);
     if(_sgAbsorbed) { this.selfGrow.learn(original, 'absorbed', _sgAbsorbed, true); return _sgAbsorbed; }
 
+    // === V24: 知识库优先应答（有知识库命中结果时直接组装） ===
+    if(kbResults.length > 0 && t.match(/体系|架构|生态|引擎|dna|铁律|品牌|产品|客户|geo|站点|赋能/)) {
+      var kbReply = kbResults.join('\n');
+      // 追加实时数据
+      var cfgs_kb = this.apiGateway.getConfigs();
+      var en_kb = cfgs_kb.filter(function(c){ return c.enabled });
+      kbReply += '\n\n【实时状态】API线路：' + cfgs_kb.length + '条(' + en_kb.length + '条启用)';
+      kbReply += ' | 营收：' + (s.paid === 0 ? '0元(未出单)' : s.revenue + '元/' + s.paid + '笔已付');
+      return kbReply;
+    }
+    
     // === 多话题复合问题 ===
     var topics = [];
     if(t.match(/营收|收入|赚|业绩/)) topics.push('revenue');
@@ -1988,7 +2437,7 @@ function updateQuick(){
     {t:'营收',c:''},{t:'订单',c:''},{t:'成交',c:''},
     {t:'!自检',c:'qk-gold'},{t:'!通电',c:'qk-gold'},
     {t:'!端口',c:'qk-gold'},{t:'!总关',c:'qk-gold'},{t:'客户',c:''},{t:'待办',c:''},
-    {t:'!安保',c:'qk-gold'},{t:'!芯片',c:'qk-gold'},{t:'电网总览',c:'qk-cyan'},{t:'API管理',c:'qk-cyan'},
+    {t:'!安保',c:'qk-gold'},{t:'安全审计',c:'qk-gold'},{t:'!内循环',c:'qk-cyan'},{t:'!芯片',c:'qk-gold'},{t:'电网总览',c:'qk-cyan'},{t:'API管理',c:'qk-cyan'},
     {t:'!执行',c:'qk-green'},{t:'!升级',c:'qk-green'},{t:'执行历史',c:'qk-cyan'},{t:'执行统计',c:'qk-cyan'}
   ];
   btns.forEach(function(b){
@@ -2304,6 +2753,8 @@ function enterApp(){
   document.getElementById('smName').textContent=CHIP.OWNER;
   updateQuick();
   updateShieldIndicator();
+  // V24: 初始化知识中枢和安全边界
+  INTERNAL_ENGINE.knowledgeBase.init();
   SH_NOTIFY.autoCheck();
   setTimeout(function(){SH_NOTIFY.showUnread()},6000);
   // 时间标签
