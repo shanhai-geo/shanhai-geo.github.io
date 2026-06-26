@@ -53,13 +53,26 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 .sh-lin .divider{width:40px;height:1px;background:var(--bdr);margin:10px auto}
 
 /* 付款区 */
-.pay-sec{background:var(--card);border:1px solid var(--gold);border-radius:var(--r);padding:20px;margin:16px 12px;text-align:center;display:none}
-.pay-sec h3{color:var(--gold-d);font-size:16px;margin-bottom:12px}
-.pay-box{background:linear-gradient(135deg,#f8eed8,#f5e6c8);border:2px solid var(--gold);border-radius:12px;padding:20px 16px;text-align:center;position:relative;z-index:10}
-.pay-box .label{font-size:11px;color:var(--txt2);margin-bottom:4px}
+.pay-sec{background:#fffbeb;border:3px solid var(--gold);border-radius:var(--r);padding:24px 16px;margin:16px 12px;text-align:center;display:none;box-shadow:0 4px 20px rgba(200,150,62,.25)}
+.pay-sec h3{color:var(--red);font-size:20px;margin-bottom:16px;font-weight:900}
+.pay-box{background:#fff;border:3px solid var(--gold);border-radius:16px;padding:24px 16px;text-align:center;position:relative;z-index:10}
+.pay-box .label{font-size:13px;color:var(--txt);margin-bottom:4px;font-weight:600}
 .pay-box .code{font-size:26px;color:var(--gold-d);font-weight:700;letter-spacing:2px;font-family:monospace;margin:8px 0}
-.pay-box .bank{font-size:10px;color:var(--txt3);margin-top:4px}
-.pay-box .hint{font-size:10px;color:var(--green);margin-top:6px}
+.pay-box .bank{font-size:11px;color:var(--txt2);margin-top:6px}
+.pay-box .hint{font-size:12px;color:var(--green);margin-top:8px;font-weight:600}
+.pay-steps{text-align:left;margin:0 12px 0;padding:0}
+.pay-step{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px dashed var(--bdr)}
+.pay-step:last-child{border-bottom:none}
+.pay-step-num{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;flex-shrink:0}
+.pay-step-text{font-size:14px;line-height:1.6;padding-top:4px}
+.pay-step-text b{color:var(--gold-d)}
+.qr-inline{margin:16px auto;padding:16px;background:#fff;border-radius:16px;border:2px dashed var(--gold);display:inline-block}
+.qr-inline img{display:block;width:220px;height:220px;border-radius:8px}
+.qr-label{text-align:center;font-size:14px;color:var(--red);font-weight:700;margin-top:8px;letter-spacing:1px}
+@keyframes payPulse{0%,100%{box-shadow:0 0 0 0 rgba(224,90,74,.5)}50%{box-shadow:0 0 0 12px rgba(224,90,74,0)}}
+.confirm-btn-highlight{display:block;width:100%;padding:18px;background:linear-gradient(135deg,var(--red),#d04030);color:#fff;border:none;border-radius:14px;font-size:18px;font-weight:900;cursor:pointer;margin-top:12px;letter-spacing:3px;animation:payPulse 2s infinite}
+.confirm-btn-highlight:active{transform:scale(.97)}
+.confirm-btn-highlight:disabled{opacity:.5;cursor:not-allowed;animation:none}
 .field{margin-bottom:8px;text-align:left}
 .field label{display:block;font-size:11px;color:var(--txt2);margin-bottom:2px}
 .field input{width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:13px;outline:none}
@@ -89,12 +102,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 .ft{text-align:center;padding:16px 12px;color:var(--txt3);font-size:10px;border-top:1px solid var(--bdr);margin-top:8px;line-height:1.7}
 .ft a{color:var(--gold);text-decoration:none}
 
-/* 弹窗 */
-.pay-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;justify-content:center;align-items:center;flex-direction:column}
-.pay-modal.show{display:flex}
-.pay-modal img{width:250px;height:250px;border-radius:12px;margin-bottom:12px}
-.pay-modal .tip{color:#fff;font-size:12px;opacity:.7;text-align:center;line-height:1.6}
-.pay-modal .close-btn{margin-top:16px;padding:8px 24px;background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:20px;font-size:13px;cursor:pointer}
+
 
 /* 接口服务浮窗 */
 @keyframes aiPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,150,62,.5)}50%{box-shadow:0 0 0 10px rgba(200,150,62,0)}}
@@ -291,7 +299,7 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 <b>护城河：</b>全网最低价智能接口服务，298元/年=每天0.81元，不限调用次数，零部署零运维<br>
 <b style="color:var(--red)">限量：首批仅开放10单，售完即止</b>
 </div>
-<button class="buy-cta" onclick="showRoadshow()">立即购买 298元/年</button>
+<button class="buy-cta" onclick="showRoadshow()" style="font-size:20px;padding:18px;box-shadow:0 4px 20px rgba(166,124,46,.4)">▶ 立即购买 298元/年</button>
 </div>
 </div>
 
@@ -415,20 +423,42 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 </div>
 
 <div class="pay-sec" id="paySec">
-<h3>确认付款</h3>
-<div class="pay-box">
-<a href="javascript:void(0)" onclick="showPayQR()" style="display:block;padding:16px 0;background:linear-gradient(135deg,#d4a04a,#b8860b);color:#fff;border-radius:22px;font-size:16px;font-weight:700;text-decoration:none;text-align:center;letter-spacing:3px;">山海智能 · 支付入口</a>
-<div class="bank">兴业银行福鼎支行 尾号9515</div>
-<div class="hint">仅支持微信扫一扫 / 长按识别</div>
+<h3>▶ 请按以下3步完成购买</h3>
+
+<div class="pay-steps">
+<div class="pay-step">
+<div class="pay-step-num">1</div>
+<div class="pay-step-text"><b>微信扫码付款 298元</b><br>打开微信扫一扫，扫描下方二维码完成支付</div>
 </div>
-<div class="field"><label>订单号</label><input id="fOid" readonly></div>
-<div class="field"><label>手机号（接收密钥交付通知）</label><input id="fPhone" placeholder="11位手机号" maxlength="11"></div>
-<div class="field"><label>产品套餐</label><input id="fProd" value="入门版" readonly></div>
-<div class="field"><label>付款金额</label><input id="fAmt" value="298" readonly></div>
-<div style="font-size:11px;color:var(--txt2);line-height:1.6;margin:8px 0;padding:8px;background:var(--bg);border-radius:8px">
-<b style="color:var(--gold-d)">重要说明：</b>点击"我已付款"后，系统将确认您的付款。确认通过后密钥即时交付至您的订单中。请确保已完成微信扫码支付后再点击。
 </div>
-<button class="confirm-btn" id="confirmBtn" onclick="confirmPay()">我已付款</button>
+
+<div class="qr-inline">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Flhsd.leshuazf.com%2Fpay%2Fqrc.do%3Fqr%3DVSDB201242145" alt="付款二维码">
+<div class="qr-label">▲ 微信扫一扫付款 298元 ▲</div>
+</div>
+<div style="font-size:11px;color:var(--txt3);margin-bottom:12px">如扫码失败，请在微信中打开此链接付款：<br><a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" style="color:var(--gold);word-break:break-all;font-size:10px">https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145</a></div>
+
+<div class="pay-steps">
+<div class="pay-step">
+<div class="pay-step-num">2</div>
+<div class="pay-step-text"><b>填写手机号</b><br>用于接收密钥交付通知和查询订单</div>
+</div>
+</div>
+
+<div class="field"><label>订单号（自动生成）</label><input id="fOid" readonly></div>
+<div class="field"><label>手机号（必填，用于接收密钥）</label><input id="fPhone" placeholder="请输入11位手机号" maxlength="11" style="font-size:16px;padding:12px;border:2px solid var(--gold)"></div>
+<div class="field"><label>产品套餐</label><input id="fProd" value="入门版 298元/年" readonly></div>
+<div class="field"><label>付款金额</label><input id="fAmt" value="298元" readonly style="color:var(--red);font-weight:700;font-size:16px"></div>
+
+<div class="pay-steps" style="margin-top:8px">
+<div class="pay-step">
+<div class="pay-step-num">3</div>
+<div class="pay-step-text"><b>点击下方按钮确认</b><br>付款完成后点击下方按钮，系统即时交付密钥</div>
+</div>
+</div>
+
+<button class="confirm-btn-highlight" id="confirmBtn" onclick="confirmPay()">✓ 我已付款，立即交付密钥</button>
+<div style="font-size:11px;color:var(--txt2);text-align:center;margin-top:8px">确认付款后密钥秒级交付 | 7天无理由退款</div>
 </div>
 
 <div class="delivery-sec" id="deliverySec">
@@ -469,19 +499,14 @@ body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background
 <button class="cs-close" onclick="closeCsBubble()">x</button>
 <div class="cs-name">服务顾问 小海</div>
 您好，我是山海智能的服务顾问小海。看到您在了解我们的智能接口产品，有任何问题都可以问我，我来帮您解答。
-<br><a class="cs-btn" href="https://shanhai-geo.github.io/" target="_blank">咨询客服</a>
+<br><a class="cs-btn" href="https://shanhai-geo.github.io/" target="_blank">咨询顾问</a>
 </div>
 
 <a id="aiFloat" href="https://shanhai-geo.github.io/shanhai-ai" target="_blank">
 <div id="aiBtn">接口服务咨询</div>
 </a>
 
-<div class="pay-modal" id="payModal" onclick="if(event.target===this)this.classList.remove('show')">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https%3A%2F%2Flhsd.leshuazf.com%2Fpay%2Fqrc.do%3Fqr%3DVSDB201242145" alt="收款码">
-<div class="tip">微信扫码支付（仅支持微信扫一扫或长按识别）<br>点击下方链接可在微信中打开支付</div>
-<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" style="display:inline-block;margin-top:8px;padding:10px 28px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:20px;font-size:14px;font-weight:700;text-decoration:none;">直接支付</a>
-<button class="close-btn" onclick="document.getElementById('payModal').classList.remove('show')">关闭</button>
-</div>
+
 
 <script>
 var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
@@ -509,16 +534,15 @@ function saveOrders(){localStorage.setItem('sh_orders',JSON.stringify(orders))}
 })();
 
 function startBuy(){
-  document.getElementById('paySec').style.display='block';
+  var paySec=document.getElementById('paySec');
+  paySec.style.display='block';
   var oid='SH'+Date.now().toString(36).toUpperCase();
   document.getElementById('fOid').value=oid;
   document.getElementById('fPhone').value='';
   document.getElementById('confirmBtn').disabled=false;
-  document.getElementById('confirmBtn').textContent='我已付款';
-  document.getElementById('paySec').scrollIntoView({behavior:'smooth'});
+  document.getElementById('confirmBtn').textContent='✓ 我已付款，立即交付密钥';
+  setTimeout(function(){paySec.scrollIntoView({behavior:'smooth'})},100);
 }
-
-function showPayQR(){document.getElementById('payModal').classList.add('show')}
 
 function confirmPay(){
   var phone=document.getElementById('fPhone').value.trim();
