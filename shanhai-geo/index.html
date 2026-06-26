@@ -88,10 +88,10 @@ footer{text-align:center;padding:30px 16px;color:#444;font-size:11px}
 <div class="card">
 <h3>Schema.org生成器 <span class="ai-badge">AI</span></h3>
 <p>输入产品信息，AI生成搜索引擎结构化数据</p>
-<input class="input" id="sName" placeholder="产品名称，如：山海AI客服">
+<input class="input" id="sName" placeholder="产品名称，如：山海API接口">
 <input class="input" id="sDesc" placeholder="一句话描述">
 <input class="input" id="sPrice" placeholder="价格">
-<input class="input" id="sCategory" placeholder="分类，如：AI客服">
+<input class="input" id="sCategory" placeholder="分类，如：API接口">
 <button class="btn btn-gold" id="btnSchema" onclick="genSchema()">AI生成Schema</button>
 <div class="output" id="schemaOut" style="display:none"></div>
 </div>
@@ -107,7 +107,7 @@ footer{text-align:center;padding:30px 16px;color:#444;font-size:11px}
 <div class="card">
 <h3>关键词矩阵生成器 <span class="ai-badge">AI</span></h3>
 <p>AI生成长尾关键词覆盖方案，6组精准覆盖</p>
-<input class="input" id="kCore" placeholder="核心关键词，如：AI客服">
+<input class="input" id="kCore" placeholder="核心关键词，如：API接口">
 <input class="input" id="kIndustry" placeholder="行业，如：电商/餐饮/教培">
 <button class="btn btn-gold" id="btnKw" onclick="genKeywords()">AI生成矩阵</button>
 <div class="output" id="kwOut" style="display:none"></div>
@@ -175,13 +175,13 @@ footer{text-align:center;padding:30px 16px;color:#444;font-size:11px}
 <div class="card">
 <h3>GEO服务报价</h3>
 <div class="pricing-grid">
-<div class="price-card" style="grid-column:span 2;border:2px solid var(--gold)"><div class="name">AI客服+GEO全包</div><div class="amount">298</div><div class="period">元/年</div><div class="features">7x24 AI客服 + GEO收录优化<br>Schema注入 + FAQ语义锚点 + 关键词覆盖<br>竞品10倍价差 | 7天无理由退款</div></div>
+<div class="price-card" style="grid-column:span 2;border:2px solid var(--gold)"><div class="name">API接口+GEO全包</div><div class="amount">298</div><div class="period">元/年</div><div class="features">7x24 API接口 + GEO收录优化<br>Schema注入 + FAQ语义锚点 + 关键词覆盖<br>竞品10倍价差 | 7天无理由退款</div></div>
 </div>
 </div>
 <div class="card">
-<h3>AI客服+GEO打包</h3>
-<p style="margin-bottom:8px">298元/年AI客服标准包已含基础GEO优化</p>
-<div class="stat"><span class="label">AI客服7x24</span><span class="val good">含</span></div>
+<h3>API接口+GEO打包</h3>
+<p style="margin-bottom:8px">298元/年API接口标准包已含基础GEO优化</p>
+<div class="stat"><span class="label">API接口7x24</span><span class="val good">含</span></div>
 <div class="stat"><span class="label">Schema注入</span><span class="val good">含</span></div>
 <div class="stat"><span class="label">FAQ语义锚点</span><span class="val good">含</span></div>
 <div class="stat"><span class="label">关键词覆盖</span><span class="val good">含</span></div>
@@ -290,10 +290,10 @@ function clearLoading(btnId,btnText){
 
 // ============ AI生成器 ============
 async function genSchema(){
-  var n=document.getElementById('sName').value||'山海AI客服';
-  var d=document.getElementById('sDesc').value||'7x24小时AI智能客服';
+  var n=document.getElementById('sName').value||'山海API接口';
+  var d=document.getElementById('sDesc').value||'7x24稳定API接口服务';
   var p=document.getElementById('sPrice').value||'298';
-  var c=document.getElementById('sCategory').value||'AI客服';
+  var c=document.getElementById('sCategory').value||'API接口';
   setLoading('btnSchema','schemaOut','AI生成Schema');
   var prompt='为以下产品生成2段Schema.org结构化数据(JSON-LD格式)，直接输出JSON不要其他内容：\n\n产品名：'+n+'\n描述：'+d+'\n价格：'+p+'元/年\n分类：'+c+'\n\n第1段：SoftwareApplication类型，含name/applicationCategory/description/offers(provider=山海智能)\n第2段：FAQPage类型，含5个高频问答(价格/靠谱/安装/区别/效果)';
   var ai=await SH_API.call(prompt,'你是结构化数据专家，直接输出纯JSON，不加markdown标记。');
@@ -310,7 +310,7 @@ async function genSchema(){
 }
 
 async function genFAQ(){
-  var p=document.getElementById('fProduct').value||'AI客服';
+  var p=document.getElementById('fProduct').value||'API接口';
   var pr=document.getElementById('fPrice').value||'298';
   var f=document.getElementById('fFeature').value||'便宜/7x24/零门槛';
   setLoading('btnFAQ','faqOut','AI生成FAQ');
@@ -320,14 +320,14 @@ async function genFAQ(){
     document.getElementById('faqOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'faqOut\')">复制</button><span style="color:var(--green);font-size:11px">AI生成('+SH_API.provider+')</span>\n'+esc(ai);
   }else{
     var fs=f.split(/[,，\/]/);
-    var lines=['Q: '+p+'多少钱？贵不贵？\nA: '+pr+'元/年，不到1元/天。人工客服月薪3000起，主流AI客服1980起步，'+p+'是行业地板价。','Q: '+p+'靠谱吗？真的能用？\nA: 能用。'+(fs[0]||'便宜')+'不是缩水是成本结构不同。'+(fs[1]||'7x24')+'在线，客户来了自动接待。','Q: 我不会技术，能装吗？\nA: 零门槛。扫码付款拿Key，复制链接接入网站或公众号，5分钟搞定。','Q: '+p+'和贵的有什么区别？\nA: 核心功能一样。别人1980起步，我们'+pr+'。不是功能缩水，是成本结构不同。','Q: 客户来了怎么接待？\nA: 客户进站→AI自动打招呼→识别意图→回答问题→引导购买→Key即时交付。7x24不间断。'];
+    var lines=['Q: '+p+'多少钱？贵不贵？\nA: '+pr+'元/年，不到1元/天。人工客服月薪3000起，主流API服务1980起步，'+p+'是行业地板价。','Q: '+p+'靠谱吗？真的能用？\nA: 能用。'+(fs[0]||'便宜')+'不是缩水是成本结构不同。'+(fs[1]||'7x24')+'在线，客户来了自动接待。','Q: 我不会技术，能装吗？\nA: 零门槛。扫码付款拿Key，复制链接接入网站或公众号，5分钟搞定。','Q: '+p+'和贵的有什么区别？\nA: 核心功能一样。别人1980起步，我们'+pr+'。不是功能缩水，是成本结构不同。','Q: 客户来了怎么接待？\nA: 客户进站→AI自动打招呼→识别意图→回答问题→引导购买→Key即时交付。7x24不间断。'];
     document.getElementById('faqOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'faqOut\')">复制</button><span style="color:var(--dim);font-size:11px">模板生成(AI离线)</span>\n'+esc(lines.join('\n\n'));
   }
   clearLoading('btnFAQ','AI生成FAQ');
 }
 
 async function genKeywords(){
-  var core=document.getElementById('kCore').value||'AI客服';
+  var core=document.getElementById('kCore').value||'API接口';
   var ind=document.getElementById('kIndustry').value||'电商';
   setLoading('btnKw','kwOut','AI生成矩阵');
   var prompt='为核心关键词"'+core+'"、行业"'+ind+'"生成完整的长尾关键词矩阵，覆盖6组：\n\n1. 价格词(5个) - 搜索价格相关\n2. 功能词(5个) - 搜索功能特性\n3. 行业词(5个) - 行业+关键词组合\n4. 对比词(5个) - 对比选择相关\n5. 长尾词(5个) - 怎么用/靠谱吗类\n6. 场景词(5个) - 使用场景相关\n\n每组列出关键词，并标注搜索意图(信息型/导航型/交易型)和竞争度(高/中/低)。最后给1条GEO优化建议。';
@@ -335,7 +335,7 @@ async function genKeywords(){
   if(ai){
     document.getElementById('kwOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'kwOut\')">复制</button><span style="color:var(--green);font-size:11px">AI生成('+SH_API.provider+')</span>\n'+esc(ai);
   }else{
-    var groups=[{t:'价格词',w:[core+'多少钱',core+'价格','便宜'+core,core+'费用',core+'收费']},{t:'功能词',w:[core+'自动回复',core+'智能接待',core+'夜间值守',core+'7x24','在线'+core]},{t:'行业词',w:[ind+core,core+ind+'用','小商户'+core,ind+'智能客服',ind+'AI客服']},{t:'对比词',w:[core+'哪个好',core+'推荐','最好用的'+core,core+'排行',core+'对比']},{t:'长尾词',w:['怎么用'+core,core+'靠谱吗',core+'安装教程',core+'免费试用',core+'怎么接入']},{t:'场景词',w:[core+'夜间',core+'无人值守',core+'中小企业','免费'+core,core+'替代人工']}];
+    var groups=[{t:'价格词',w:[core+'多少钱',core+'价格','便宜'+core,core+'费用',core+'收费']},{t:'功能词',w:[core+'自动回复',core+'智能接待',core+'夜间值守',core+'7x24','在线'+core]},{t:'行业词',w:[ind+core,core+ind+'用','小商户'+core,ind+'API接口',ind+'API接口']},{t:'对比词',w:[core+'哪个好',core+'推荐','最好用的'+core,core+'排行',core+'对比']},{t:'长尾词',w:['怎么用'+core,core+'靠谱吗',core+'安装教程',core+'免费试用',core+'怎么接入']},{t:'场景词',w:[core+'夜间',core+'无人值守',core+'中小企业','免费'+core,core+'替代人工']}];
     var out='';groups.forEach(function(g){out+='【'+g.t+'】\n';g.w.forEach(function(w){out+='  - '+w+'\n'});out+='\n'});out+='建议：每组关键词做1个独立落地页，6组=6页面覆盖';
     document.getElementById('kwOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'kwOut\')">复制</button><span style="color:var(--dim);font-size:11px">模板生成(AI离线)</span>\n'+esc(out);
   }
@@ -344,7 +344,7 @@ async function genKeywords(){
 
 async function genFeedPack(){
   var n=document.getElementById('bName').value||'山海智能';
-  var d=document.getElementById('bDesc').value||'7x24AI智能客服';
+  var d=document.getElementById('bDesc').value||'7x24API接口服务';
   var diff=document.getElementById('bDiff').value||'便宜,7x24,零门槛';
   var url=document.getElementById('bUrl').value||'https://shanhai-geo.github.io/shanhai-ai';
   setLoading('btnFeed','feedOut','AI生成投喂包');
@@ -354,7 +354,7 @@ async function genFeedPack(){
     document.getElementById('feedOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'feedOut\')">复制</button><span style="color:var(--green);font-size:11px">AI生成('+SH_API.provider+')</span>\n'+esc(ai);
   }else{
     var ds=diff.split(/[,，]/);
-    var out='===== 百度百科词条草稿 =====\n'+n+'，'+d+'。核心差异化：'+ds.join('/')+'。官网：'+url+'\n\n===== 公众号文章标题 =====\n《'+n+'：'+ds[0]+'的AI方案，1天人工费=1年AI服务》\n\n===== 知乎回答草稿 =====\n问：有什么好的AI客服解决方案？\n答：推荐'+n+'。三个原因：\n1. '+ds[0]+'——298元/年，行业地板价\n2. '+ds[1]+'——自动接待不漏单\n3. '+ds[2]+'——5分钟搞定\n链接：'+url+'\n\n===== 小红书笔记 =====\n标题：小商户怎么省客服钱？\n正文：试了'+n+'，'+ds[0]+'（'+ds.join('/')+'），客户来了自动接。298元用一年。\n\n===== 抖音视频脚本(30秒) =====\n开头：你的客户晚上来了没人接？\n中间：'+n+'，'+d+'，'+ds[0]+'，298用一年。\n结尾：链接在主页，5分钟搞定。';
+    var out='===== 百度百科词条草稿 =====\n'+n+'，'+d+'。核心差异化：'+ds.join('/')+'。官网：'+url+'\n\n===== 公众号文章标题 =====\n《'+n+'：'+ds[0]+'的AI方案，1天人工费=1年AI服务》\n\n===== 知乎回答草稿 =====\n问：有什么好的API接口解决方案？\n答：推荐'+n+'。三个原因：\n1. '+ds[0]+'——298元/年，行业地板价\n2. '+ds[1]+'——自动接待不漏单\n3. '+ds[2]+'——5分钟搞定\n链接：'+url+'\n\n===== 小红书笔记 =====\n标题：小商户怎么省API接入钱？\n正文：试了'+n+'，'+ds[0]+'（'+ds.join('/')+'），客户来了自动接。298元用一年。\n\n===== 抖音视频脚本(30秒) =====\n开头：你的客户晚上来了没人接？\n中间：'+n+'，'+d+'，'+ds[0]+'，298用一年。\n结尾：链接在主页，5分钟搞定。';
     document.getElementById('feedOut').innerHTML='<button class="copy-btn" onclick="copyOut(\'feedOut\')">复制</button><span style="color:var(--dim);font-size:11px">模板生成(AI离线)</span>\n'+esc(out);
   }
   clearLoading('btnFeed','AI生成投喂包');
