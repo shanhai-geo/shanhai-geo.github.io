@@ -2,3 +2,26 @@ User-agent: *
 Allow: /
 
 Sitemap: https://shanhai-geo.github.io/sitemap.xml
+Sitemap: https://shanhai-geo.github.io/ai.xml
+
+# AI Crawlers - explicitly allow
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
