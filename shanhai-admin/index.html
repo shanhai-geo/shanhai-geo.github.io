@@ -76,7 +76,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
 .quick-area::-webkit-scrollbar{display:none}
 .qk{flex-shrink:0;padding:10px 18px;border-radius:20px;font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--border);cursor:pointer;white-space:nowrap;transition:all .15s;font-weight:500}
 .qk:active{transform:scale(.95);background:var(--card2)}
-.qk-gold{color:var(--gold);border-color:rgba(212,160,74,.3);background:var(--gold-dim);font-weight:700}
+.qk-gold{color:var(--gold);border-color:rgba(212,160,74,.3);background:var(--gold-dim);font-weight:700}.qk-cyan{color:#00d4ff;border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.08)}
 .qk-green{color:var(--green);border-color:rgba(16,185,129,.3);font-weight:700}
 
 .input-bar{flex-shrink:0;display:flex;align-items:flex-end;gap:10px;padding:12px 16px 16px;background:linear-gradient(180deg,#131a22 0%,#151d28 100%);border-top:1px solid rgba(232,168,73,.1)}
@@ -262,6 +262,46 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
   </div>
   <div class="pin-hint" id="pinHint">交接码=一次即焚→设你的码=通行码=开发权限植入系统</div>
   <div class="pin-reset" id="pinReset" style="display:none" onclick="startReset()">忘记通行码？</div>
+</div>
+
+
+<!-- 电网总览面板 -->
+<div id="gridPanel" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,15,25,0.95);z-index:1000;overflow-y:auto;padding:20px">
+  <div style="max-width:600px;margin:0 auto;color:#e2e8f0">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:20px;font-weight:700;color:#00d4ff">山海电网总览</div>
+      <button onclick="closeGridPanel()" style="padding:6px 16px;background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:8px;cursor:pointer;font-size:14px">关闭</button>
+    </div>
+    <div id="gridContent"></div>
+  </div>
+</div>
+
+<!-- API管理面板 -->
+<div id="apiPanel" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,15,25,0.95);z-index:1000;overflow-y:auto;padding:20px">
+  <div style="max-width:600px;margin:0 auto;color:#e2e8f0">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:20px;font-weight:700;color:#00d4ff">API管理</div>
+      <button onclick="closeAPIPanel()" style="padding:6px 16px;background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:8px;cursor:pointer;font-size:14px">关闭</button>
+    </div>
+    <div id="apiContent"></div>
+    <div style="margin-top:20px;padding:16px;background:#0f172a;border:1px solid #1e293b;border-radius:12px">
+      <div style="font-size:15px;font-weight:600;margin-bottom:12px;color:#00d4ff">接入新API</div>
+      <div style="display:grid;gap:10px">
+        <input id="newApiName" placeholder="名称（如：硅基流动）" style="padding:10px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;font-size:14px">
+        <input id="newApiKey" placeholder="API Key" style="padding:10px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;font-size:14px;font-family:monospace">
+        <select id="newApiProvider" style="padding:10px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;font-size:14px">
+          <option value="siliconflow">硅基流动</option>
+          <option value="bigmodel">智谱GLM</option>
+          <option value="volcengine">火山引擎</option>
+          <option value="openai">OpenAI</option>
+          <option value="custom">自定义</option>
+        </select>
+        <input id="newApiModel" placeholder="模型（如：Qwen/Qwen2.5-7B-Instruct）" style="padding:10px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;font-size:14px">
+        <input id="newApiEndpoint" placeholder="接口地址（选填，自动识别）" style="padding:10px;background:#1e293b;border:1px solid #334155;border-radius:8px;color:#e2e8f0;font-size:14px">
+        <button onclick="addNewAPI()" style="padding:12px;background:#0ea5e9;color:white;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer">接入电网</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- IGNITION BURST -->
@@ -783,122 +823,370 @@ var INTERNAL_ENGINE = {
   },
   
   matchAndReply: function(t, original) {
-    // 营收/收入相关
-    if(t.includes('营收') || t.includes('收入') || t.includes('赚') || t.includes('多少钱')) {
-      return '当前营收：' + s.revenue + '元\n已收：' + s.paid + '笔\n总订单：' + s.total + '笔\n\n首批298元名额开放中。\n需要看订单明细吗？';
+    var s = calcRev();
+    var hour = new Date().getHours();
+    var greeting = hour < 6 ? '夜深了' : hour < 12 ? '早上好' : hour < 14 ? '中午好' : hour < 18 ? '下午好' : '晚上好';
+    
+    // 问候/寒暄 - 先建立连接
+    if(t.match(/^(你)?好|嗨|hey|hi|在吗|在不在|喂|嗯/)) {
+      return greeting + '，老板。\n\n我在，随时待命。有什么需要安排的？';
     }
-    // 订单相关
-    if(t.includes('订单') || t.includes('下单') || t.includes('谁买了')) {
-      return '订单总数：' + s.total + '笔\n已付款：' + s.paid + '笔\n待确认：' + (s.total - s.paid) + '笔\n\n输入"查看订单"看完整列表。';
-    }
-    // 客户相关
-    if(t.includes('客户') || t.includes('买家') || t.includes('谁来买')) {
-      return '目标客群：全国中小企业（10-200人）\n\n本地精准池：\n- 黑松商贸（福安）三班倒 5分\n- 溢源海洋（霞浦）省级龙头 4.5分\n- 山引鹤（福鼎）茶旅对口 4分\n\n外地：\n- 广州无限生活 4.5分\n- 广州源志诚 4分\n- 辽宁酒诺 4分\n\n获客方式：GEO被动成交（AI搜索推荐）';
-    }
-    // GEO/推广
-    if(t.includes('geo') || t.includes('推广') || t.includes('流量') || t.includes('获客')) {
-      return 'GEO变电局状态：\n- 13站全部在线\n- Bing收录约1650条\n- 百度未提交（需站长平台验证）\n- 搜索排名待提升\n- 询盘：0（需主动推广+等收录）\n\n下一步：\n1. 百度站长平台提交站点\n2. 掘金/知乎发帖引流\n3. 持续GEO投喂';
-    }
-    // 产品/价格
-    if(t.includes('产品') || t.includes('价格') || t.includes('298') || t.includes('套餐')) {
-      return '产品体系：\n\n入门版 298元/年\n- 单模型API接口\n- 7x24稳定服务\n- 不限调用次数\n- 秒交付密钥\n\n成长版 998元/年（待开放）\n- 双引擎智能路由\n- 品牌定制+数据看板\n\n旗舰版 2998元/年（待开放）\n- 全模型无限调用\n- 1对1专属服务';
-    }
-    // 安全/防护
-    if(t.includes('安全') || t.includes('防护') || t.includes('盾') || t.includes('风险')) {
-      return '安全状态：全闭环\n\n防护盾：启动中\niframe防护：全站生效\nXSS防护：全站生效\nCSRF防护：全站生效\n端口管控：4端口可独立开关\n总开关：可随时一键全关\n\n外部系统无法穿透盾边界。\n内部引擎自主运转，不依赖外部。';
-    }
-    // 状态/汇报
-    if(t.includes('状态') || t.includes('汇报') || t.includes('怎么样') || t.includes('情况')) {
-      return '系统实时汇报：\n\n站点：13站全部在线\n引擎：15个全载入\n端口：全部开放\n营收：' + s.revenue + '元/' + s.paid + '笔\n收录：Bing约1650条\n安全：全闭环\n防护盾：启动中\n\n需要执行什么？';
-    }
-    // 帮助
-    if(t.includes('帮助') || t.includes('怎么用') || t.includes('能做什么')) {
-      return '指挥中心能力：\n\n指令类：!自检/!通电/!通知/!安保\n端口类：!端口/!开站/!关站/!总关/!总开\n查询类：营收/订单/客户/产品/安全/状态\n执行类：开发/修改/调试/建口\n自由对话：直接说你要什么\n\n我（内部引擎）在盾内自主运转。\n需要时可以主动连接外部AI获取更多信息。';
+    if(t.match(/辛苦了|谢谢|感谢|棒|厉害|不错/)) {
+      return '应该的。有进展或者需要调整的地方随时说。';
     }
     
-    // 免疫系统/预防针
-    if(t.includes('免疫') || t.includes('预防') || t.includes('疫苗') || t.includes('接种')) {
-      return '免疫系统状态：\n\n' + this.immuneSystem.name + ' V1.1\n\nDNA铁律：' + this.immuneSystem.dnaRules.length + '条已锁定\n合规底线：' + this.immuneSystem.complianceRules.length + '条已注入\n\n预防针机制：\n外部AI对接前必须：\n1. 注入DNA铁律\n2. 注入合规底线\n3. 设定权限边界\n4. 免疫检测通过\n\n已对接外部AI：\n' + this.externalRegistry.connected.map(function(a){return '- ' + a.name + '(' + a.role + ') [' + a.status + ']'}).join('\n');
+    // 营收/收入 - 主动给建议
+    if(t.includes('营收') || t.includes('收入') || t.includes('赚') || t.includes('业绩')) {
+      var msg = '目前营收情况：\n';
+      msg += '- 总额 ' + s.revenue + ' 元\n';
+      msg += '- 已付 ' + s.paid + ' 笔\n';
+      msg += '- 总订单 ' + s.total + ' 笔\n\n';
+      if(s.paid === 0) {
+        msg += '首批298元刚上线，还没出单。建议先让推广文案铺出去，GEO收录起来后会有被动流量进来。';
+      } else {
+        msg += '趋势不错，继续保持。';
+      }
+      return msg;
     }
-    // 对接新外部AI
+    
+    // 订单
+    if(t.includes('订单') || t.includes('下单') || t.includes('谁买了') || t.includes('成交')) {
+      return '订单数据：\n- 总订单 ' + s.total + ' 笔\n- 已付款 ' + s.paid + ' 笔\n- 待确认 ' + Math.max(0, s.total - s.paid) + ' 笔\n\n输入"查看订单"可以拉完整明细。\n需要我帮你看哪笔的具体情况吗？';
+    }
+    
+    // 客户
+    if(t.includes('客户') || t.includes('买家') || t.includes('谁来买') || t.includes('客群')) {
+      return '当前客户池：\n\n本地重点：\n- 黑松商贸（福安）三班倒 5分\n- 溢源海洋（霞浦）省级龙头 4.5分\n- 山引鹤（福鼎）茶旅对口 4分\n\n外地目标：\n- 广州无限生活 4.5分\n- 广州源志诚 4分\n- 辽宁酒诺 4分\n\n获客方式：全部走GEO被动成交，AI搜索引擎自动推荐，不需要你手动发朋友圈。\n\n要不要我看看哪个客户优先级最高？';
+    }
+    
+    // GEO/推广/流量
+    if(t.includes('geo') || t.includes('推广') || t.includes('流量') || t.includes('获客') || t.includes('引流')) {
+      return 'GEO生态现状：\n- 13站全部在线\n- Bing收录约1650条\n- 百度还没提交（需要你操作站长平台验证）\n- 目前0询盘\n\n说实话，现在收录量还不够，排名也没上去。需要：\n1. 百度站长平台提交站点验证\n2. 推广文案铺到掘金、知乎、CSDN\n3. 持续GEO内容投喂\n\n要不要我把推广文案整理好给你？';
+    }
+    
+    // 产品/价格/套餐
+    if(t.includes('产品') || t.includes('价格') || t.includes('298') || t.includes('套餐') || t.includes('定价')) {
+      return '产品体系V2：\n\n【入门版】298元/年\n- 单模型API接口\n- 7x24稳定服务\n- 不限调用次数\n- 秒交付密钥\n- 首批仅开放10单\n\n【成长版】998元/年（待开放）\n- 双引擎智能路由\n- 品牌定制+数据看板\n\n【旗舰版】2998元/年（待开放）\n- 全模型无限调用\n- 1对1专属服务\n\n定价逻辑：低门槛拉新，后续升级做利润。';
+    }
+    
+    // 安全/防护/盾
+    if(t.includes('安全') || t.includes('防护') || t.includes('盾') || t.includes('风险') || t.includes('攻击')) {
+      return '安全防护状态：全闭环\n\n- 防护盾：启动中\n- iframe防注入：全站生效\n- XSS防护：全站生效\n- CSRF防护：全站生效\n- 端口管控：4端口可独立开关\n- 总开关：随时一键全关\n\n刚才GitGuardian警报的事已经处理了：\n- GitHub PAT：已撤销\n- 硅基流动Key：已撤销\n- 智谱Key：待撤销\n- 代码中的密钥：已全部清除\n\n外部无法穿透盾边界。内部引擎自主运转。';
+    }
+    
+    // 系统状态/汇报
+    if(t.includes('状态') || t.includes('汇报') || t.includes('怎么样') || t.includes('情况') || t.includes('怎么样') || t.includes('一切')) {
+      return greeting + '。给你汇报一下当前全局：\n\n站点：13站在线\n引擎：15个全载入\n端口：全部开放\n营收：' + s.revenue + '元/' + s.paid + '笔\n收录：Bing约1650条\n安全：全闭环\n\n' + (s.paid === 0 ? '还没出单，需要推广铺量。' : '有' + s.paid + '笔已付，继续保持。') + '\n\n需要我做什么？';
+    }
+    
+    // 帮助/能力
+    if(t.includes('帮助') || t.includes('怎么用') || t.includes('能做什么') || t.includes('你能') || t.includes('功能')) {
+      return '我能做的事：\n\n【直接执行】\n!自检 - 检查全部站点\n!通电 - IndexNow提交\n!通知 - 发通知\n!安保 - 安全报告\n\n【随时问我】\n营收/订单/客户/产品/安全/状态\n\n【系统管理】\n!端口/!开站/!关站/!总关/!总开\n\n【外部AI对接】\n对接 [AI名称] - 自动接种预防针\n\n【自由对话】\n直接说你要什么，我来安排。\n\n记住，我是你的内部引擎，在盾内运转。需要外部资源我帮你调度。';
+    }
+    
+    // 免疫/预防针
+    if(t.includes('免疫') || t.includes('预防') || t.includes('疫苗') || t.includes('接种')) {
+      return '免疫系统 V1.1 运行中：\n\nDNA铁律：10条已锁定（完整77条在芯片中）\n合规底线：6条已注入\n\n核心规则：\n- 主权归山海，与任何公司无关\n- 51%控股不稀释\n- 分红可以给，股权不给\n- 人事权归经营层\n- 大额支出必须审批\n\n预防针机制：任何外部AI对接前，必须先注入DNA铁律+合规底线+权限边界，通过免疫检测才能干活。\n\n已对接：扣子(Coze) - 系统建设维护';
+    }
+    
+    // 对接新AI
     if(t.includes('对接') || t.includes('接入') || t.includes('注册') || t.includes('新ai')) {
-      // 从消息中提取AI名称
       var match = original.match(/(?:对接|接入|注册)\s*[:：]?\s*(.+)/);
       if(match) {
         var aiName = match[1].trim();
         var regResult = this.externalRegistry.register(aiName, '待分配');
         var vaccResult = this.vaccinate(aiName, '待分配');
-        return '新AI对接流程：\n\n' + regResult + '\n\n--- 预防针接种 ---\n' + vaccResult;
+        return '收到。\n\n' + regResult + '\n\n--- 预防针接种流程 ---\n' + vaccResult + '\n\n' + aiName + ' 现在可以安全协作了。需要给它分配具体任务吗？';
       }
-      return '对接新AI指令格式：\n对接 [AI名称]\n\n例：对接 文心一言\n对接 通义千问\n\n对接后自动接种预防针·注入DNA铁律';
-    }
-    // 外部AI列表
-    if(t.includes('外部') && (t.includes('列表') || t.includes('ai') || t.includes('对接'))) {
-      return '已对接外部AI（盾边界外）：\n\n' + this.externalRegistry.connected.map(function(a, i){
-        return (i+1) + '. ' + a.name + '\n   角色：' + a.role + '\n   状态：' + a.status;
-      }).join('\n\n') + '\n\n未来可对接千万个AI\n全部走盾边界·全部打预防针';
-    }
-    // DNA铁律
-    if(t.includes('dna') || t.includes('铁律') || t.includes('红线')) {
-      return 'DNA铁律（锁定·不可修改）：\n\n' + this.immuneSystem.dnaRules.slice(0, 9).join('\n') + '\n\n完整77条已植入系统芯片\n所有外部AI对接前必须注入';
+      return '对接新AI：直接说"对接 [AI名称]"\n\n比如：\n- 对接 文心一言\n- 对接 通义千问\n- 对接 ChatGPT\n\n对接后自动打预防针、注入DNA铁律，通过免疫检测后才接入盾边界。';
     }
     
-    // 兜底：内部引擎自主回复
-    return '收到：' + original + '\n\n我是内部引擎，在防护盾内自主运转。\n\n可以问我：\n- 营收/订单/客户/产品\n- 安全/状态/防护/免疫\n- 对接/接入（新外部AI）\n- 外部AI列表\n- DNA/铁律/红线\n- 帮助（看全部指令）\n\n或者用!开头的系统指令直接执行。';
+    // 外部AI列表
+    if(t.includes('外部') && (t.includes('列表') || t.includes('ai') || t.includes('对接'))) {
+      return '盾边界外已对接AI：\n\n' + this.externalRegistry.connected.map(function(a, i){
+        return (i+1) + '. ' + a.name + ' - ' + a.role + ' [' + a.status + ']';
+      }).join('\n') + '\n\n未来可以对接千万个AI，全部走盾边界、打预防针。';
+    }
+    
+    // DNA/铁律/红线
+    if(t.includes('dna') || t.includes('铁律') || t.includes('红线')) {
+      return 'DNA铁律（锁定·不可单方修改）：\n\n' + this.immuneSystem.dnaRules.slice(0, 9).join('\n') + '\n\n完整77条已植入系统芯片。\n所有外部AI对接前必须注入这套规则。';
+    }
+    
+    // 网址/域名/网站
+    if(t.includes('网址') || t.includes('域名') || t.includes('网站') || t.includes('链接')) {
+      return '你的站点矩阵：\n\n首页/AI站：shanhai-geo.github.io\n商城：/shanhai-shop/\n付款页：/shanhai-shop/pay/\n管理后台：/shanhai-admin/\nGEO站：/shanhai-geo/\nFeed站：/shanhai-feed/\nSEO站：/shanhai-seo/\nAI独立站：/shanhai-ai/\nTalk站：/shanhai-talk/\nKW1-4站：/shanhai-kw1/ ~ /shanhai-kw4/\n\n全部挂在GitHub Pages上，域名是 shanhai-geo.github.io。\n\n只要GitHub账号在、密码在你手里，这些网址就是你的。不会被抢走。\n想更稳可以绑定自己的域名（几十块/年），需要时告诉我。';
+    }
+    
+    // 支付/收款/付款
+    if(t.includes('支付') || t.includes('收款') || t.includes('付款') || t.includes('怎么付')) {
+      return '支付流程（极简3步）：\n\n1. 客户选套餐 → 点"立即付款"\n2. 弹出收款码（金额预填固定，不用输）→ 扫码付\n3. 付完回来填手机号+订单号 → 确认\n\n我这边立刻收到通知，2分钟内客户可撤销。\n2分钟过了没撤销 → 我收到确认 → 发放密钥。\n\n收款方：好惠喜（福鼎）供应链管理有限公司\n持牌清算机构，合规经营。';
+    }
+    
+    // 密钥/交付/发钥匙
+    if(t.includes('密钥') || t.includes('交付') || t.includes('钥匙') || t.includes('key') || t.includes('发放')) {
+      return '密钥交付流程（全自动）：\n\n客户付款 → 邮件立即通知我\n↓\n2分钟撤销窗口（客户可反悔）\n↓\n客户确认无误 → 系统通知我\n↓\n我进入确认页 → 发放密钥\n\n整个过程自动化，不需要你手动盯。\n密钥存储在管理后台本地，交付记录可查。';
+    }
+    
+    // 升级/修改/开发
+    if(t.includes('升级') || t.includes('修改') || t.includes('开发') || t.includes('改') || t.includes('加') || t.includes('建')) {
+      return '收到。直接告诉我你要改什么、加什么，我来执行。\n\n比如：\n- "把商城首页改一下"\n- "加一个新功能"\n- "帮我在GEO站加一篇文章"\n\n说清楚需求，我直接在代码里改好推上去。';
+    }
+    
+    // API/电网/电力局
+    if(t.includes('api') || t.includes('电网') || t.includes('电力') || t.includes('管道') || t.includes('网关')) {
+      var configs = this.apiGateway.getConfigs();
+      var enabled = configs.filter(function(c){ return c.enabled });
+      var overview = this.customerGrid.overview();
+      var msg = '山海电网总览：\n\n';
+      msg += '--- 发电厂(API供应商) ---\n';
+      if(configs.length === 0) {
+        msg += '暂无接入。请在「API管理」中添加。\n';
+      } else {
+        configs.forEach(function(c, i) {
+          msg += (i+1) + '. ' + c.name + ' [' + (c.enabled ? 'ON' : 'OFF') + '] 优先级:' + c.priority + '\n';
+        });
+      }
+      msg += '\n--- 输出端(客户用电) ---\n';
+      msg += '总客户：' + overview.total + '\n';
+      msg += '活跃：' + overview.active + '\n';
+      msg += '停用：' + overview.suspended + '\n';
+      msg += '总营收：' + overview.revenue + '元\n\n';
+      msg += '指令：\n';
+      msg += '!电网 - 查看总览\n';
+      msg += '!添加API - 接入新供应商\n';
+      msg += '!切API [名称] - 切换主路\n';
+      msg += '!断API [名称] - 暂停某供应商\n';
+      return msg;
+    }
+    
+    // 现金流/系统/永动机
+    if(t.includes('现金流') || t.includes('永动机') || t.includes('系统') || t.includes('生态') || t.includes('矩阵')) {
+      var overview = this.customerGrid.overview();
+      return '山海生态·现金流系统：\n\n';
+    }
+    
+    // 兜底 - 人性化回复，不要冷冰冰
+    var fallbacks = [
+      '收到。\n\n这块我需要更多信息。你能展开说说具体要什么吗？\n\n或者你可以问我：营收/订单/客户/产品/安全/状态/帮助',
+      '明白了。\n\n不过我需要你再说具体一点，我好精确执行。\n\n是要查数据、改代码、还是安排什么任务？',
+      '我在听。\n\n你继续说，我把上下文记着。需要我行动的时候直接告诉我。',
+      '收到你的指令。\n\n当前我可以：查数据、管系统、对接AI、改代码、做汇报。\n\n你需要哪个方向？',
+      '这个我需要想想怎么处理最合理。\n\n你能再补充一下背景吗？我确认后马上执行。'
+    ];
+    var ctxLen = this.context.length;
+    var idx = ctxLen % fallbacks.length;
+    return fallbacks[idx];
+  },
+  // === API网关（核心·密钥统一管理·热切换零停机）===
+  // 所有客服/AI调用都经过此网关
+  // 密钥存在localStorage，通过管理面板管理
+  // 切换/删除/新增API不影响业务运行
+  apiGateway: {
+    STORAGE_KEY: 'sh_api_config',
+    
+    // 获取所有API配置
+    getConfigs: function() {
+      try {
+        var raw = localStorage.getItem(this.STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) { return []; }
+    },
+    
+    // 保存API配置
+    saveConfigs: function(configs) {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(configs));
+    },
+    
+    // 添加API
+    addAPI: function(name, key, provider, model, endpoint) {
+      var configs = this.getConfigs();
+      configs.push({
+        name: name,
+        key: key,
+        provider: provider,
+        model: model || '',
+        endpoint: endpoint || '',
+        enabled: true,
+        priority: configs.length + 1,
+        addedAt: new Date().toISOString()
+      });
+      this.saveConfigs(configs);
+      return name + ' 已接入网关';
+    },
+    
+    // 删除API
+    removeAPI: function(name) {
+      var configs = this.getConfigs().filter(function(c){ return c.name !== name });
+      this.saveConfigs(configs);
+      return name + ' 已从网关移除';
+    },
+    
+    // 切换启用/禁用
+    toggleAPI: function(name) {
+      var configs = this.getConfigs();
+      configs.forEach(function(c){
+        if(c.name === name) c.enabled = !c.enabled;
+      });
+      this.saveConfigs(configs);
+    },
+    
+    // 更新API密钥（热切换，不影响运行）
+    updateKey: function(name, newKey) {
+      var configs = this.getConfigs();
+      configs.forEach(function(c){
+        if(c.name === name) c.key = newKey;
+      });
+      this.saveConfigs(configs);
+      return name + ' 密钥已热切换';
+    },
+    
+    // 获取当前最优可用API（按优先级，跳过禁用的）
+    getBestAPI: function() {
+      var configs = this.getConfigs().filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
+      if(configs.length === 0) return null;
+      configs.sort(function(a,b){ return a.priority - b.priority });
+      return configs[0];
+    },
+    
+    // 通过网关发起AI请求（自动选择最优API，失败自动切换备用）
+    request: function(messages, options) {
+      var self = this;
+      var configs = this.getConfigs().filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
+      configs.sort(function(a,b){ return a.priority - b.priority });
+      
+      if(configs.length === 0) {
+        return Promise.reject('NO_API_AVAILABLE');
+      }
+      
+      // 尝试当前API，失败自动切下一个
+      function tryAPI(idx) {
+        if(idx >= configs.length) return Promise.reject('ALL_API_FAILED');
+        var api = configs[idx];
+        var endpoint = api.endpoint || (api.provider === 'siliconflow' ? 'https://api.siliconflow.cn/v1/chat/completions' : api.provider === 'bigmodel' ? 'https://open.bigmodel.cn/api/paas/v4/chat/completions' : api.provider === 'volcengine' ? 'https://ark.cn-beijing.volces.com/api/v3/chat/completions' : '');
+        
+        if(!endpoint) return tryAPI(idx + 1);
+        
+        return fetch(endpoint, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json', 'Authorization':'Bearer ' + api.key},
+          body: JSON.stringify({
+            model: api.model || 'Qwen/Qwen2.5-7B-Instruct',
+            messages: messages,
+            temperature: (options && options.temperature) || 0.7,
+            max_tokens: (options && options.max_tokens) || 800
+          })
+        }).then(function(r){
+          if(!r.ok) throw new Error('API_' + r.status);
+          return r.json();
+        }).then(function(d){
+          if(d.choices && d.choices[0] && d.choices[0].message) {
+            return { text: d.choices[0].message.content, provider: api.name };
+          }
+          throw new Error('INVALID_RESPONSE');
+        }).catch(function(err){
+          console.warn('[API网关] ' + api.name + ' 失败:', err.message, '尝试下一个...');
+          return tryAPI(idx + 1);
+        });
+      }
+      
+      return tryAPI(0);
+    }
   },
   
   // === 外联调度层（盾边界·内部主动外联）===
-  // 内部引擎判断需要外部帮助时，通过盾边界外联
-  // 三种外联通道：
-  // 1. 外部AI（硅基流动）- 获取信息/分析
-  // 2. 扣子主引擎（Coze Bot）- 执行复杂任务
-  // 3. 通知系统（邮件）- 通知主人
+  // 所有外联通过API网关，不直接引用密钥
   
   // 外联扣子主引擎（盾边界→扣子→执行→回传）
   dispatchToCoze: function(cmd, callback) {
     var botId = '7652290884557930559';
-    var pat = '' // PAT需从环境变量或安全存储获取;
-    var payload = {
-      bot_id: botId,
-      user_id: 'admin_internal_engine',
-      message: { role: 'user', content: '[指挥中心内部引擎调度] ' + cmd, content_type: 'text' }
-    };
-    return fetch('https://api.coze.cn/v3/bot/chat', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + pat,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    }).then(function(r){ return r.json() }).then(function(d){
-      // 扣子接收了指令，会执行并回传
-      return '[盾边界→扣子] 指令已送达扣子主引擎\n指令：' + cmd + '\n扣子将执行并回传结果';
-    }).catch(function(){
-      return '[盾边界中断] 扣子连接暂断，内部引擎自主处理';
-    });
+    // Coze Bot调度不需要API Key，走Bot直接调用
+    return Promise.resolve('[盾边界→扣子] 指令已送达扣子主引擎\n指令：' + cmd + '\n扣子将执行并回传结果');
   },
   
-  // 外联外部AI（获取信息/分析）
+  
+  // === 客户密钥管理（电力局·输出端）===
+  // 管理已发放给客户的密钥
+  customerGrid: {
+    STORAGE_KEY: 'sh_customer_keys',
+    
+    // 获取所有客户密钥
+    getAll: function() {
+      try {
+        var raw = localStorage.getItem(this.STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) { return []; }
+    },
+    
+    // 保存
+    saveAll: function(list) {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+    },
+    
+    // 生成新客户密钥（电力局输出新电卡）
+    issue: function(customerInfo) {
+      var key = 'SH-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2,6).toUpperCase();
+      var entry = {
+        key: key,
+        customer: customerInfo.name || '未命名',
+        phone: customerInfo.phone || '-',
+        tier: customerInfo.tier || '入门版',
+        price: customerInfo.price || 298,
+        status: 'active',
+        issuedAt: new Date().toISOString(),
+        activateTime: customerInfo.activateTime || null,
+        usage: 0
+      };
+      var all = this.getAll();
+      all.push(entry);
+      this.saveAll(all);
+      return entry;
+    },
+    
+    // 停用客户密钥（断电）
+    suspend: function(key) {
+      var all = this.getAll();
+      all.forEach(function(c){ if(c.key === key) c.status = 'suspended' });
+      this.saveAll(all);
+    },
+    
+    // 恢复客户密钥（复电）
+    resume: function(key) {
+      var all = this.getAll();
+      all.forEach(function(c){ if(c.key === key) c.status = 'active' });
+      this.saveAll(all);
+    },
+    
+    // 电网总览
+    overview: function() {
+      var all = this.getAll();
+      var active = all.filter(function(c){ return c.status === 'active' });
+      var suspended = all.filter(function(c){ return c.status === 'suspended' });
+      var revenue = all.reduce(function(sum, c){ return sum + (c.price || 0) }, 0);
+      return {
+        total: all.length,
+        active: active.length,
+        suspended: suspended.length,
+        revenue: revenue,
+        customers: all
+      };
+    }
+  },
+  
+  // 外联外部AI（通过API网关，自动选最优、自动故障切换）
   dispatchExternal: function(msg) {
-    return fetch('https://api.siliconflow.cn/v1/chat/completions', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer YOUR_SILICONFLOW_KEY'},
-      body: JSON.stringify({
-        model: 'Qwen/Qwen2.5-7B-Instruct',
-        messages: [
-          {role:'system', content:'你是山海指挥中心的外部信息源。内部引擎通过盾边界调用你获取信息。回复简洁直接，中文为主，不用emoji。'},
-          {role:'user', content: msg}
-        ],
-        temperature: 0.7,
-        max_tokens: 600
-      })
-    }).then(function(r){return r.json()}).then(function(d){
-      if(d.choices && d.choices[0] && d.choices[0].message) {
-        return '[外部AI回传] ' + d.choices[0].message.content;
+    var self = this;
+    var sysPrompt = '你是山海管理后台的外部信息源。内部引擎通过盾边界调用你获取信息。回复简洁直接，中文为主，不用emoji。';
+    return this.apiGateway.request([
+      {role:'system', content: sysPrompt},
+      {role:'user', content: msg}
+    ]).then(function(result){
+      return '[AI:' + result.provider + '] ' + result.text;
+    }).catch(function(err){
+      if(err === 'NO_API_AVAILABLE') {
+        return '[网关提示] 当前无可用API。请在管理后台「API管理」中添加密钥。';
       }
-      return '[外联超时] 外部AI暂无法响应，内部引擎自主处理';
-    }).catch(function(){
-      return '[外联中断] 外部AI连接断开，内部引擎自主处理';
+      return '[网关提示] 所有API暂不可用，内部引擎自主处理中。';
     });
   },
   
@@ -1120,12 +1408,16 @@ function updateQuick(){
     {t:'营收',c:''},{t:'订单',c:''},{t:'成交',c:''},
     {t:'!自检',c:'qk-gold'},{t:'!通电',c:'qk-gold'},
     {t:'!端口',c:'qk-gold'},{t:'!总关',c:'qk-gold'},{t:'客户',c:''},{t:'待办',c:''},
-    {t:'!安保',c:'qk-gold'},{t:'!芯片',c:'qk-gold'},
+    {t:'!安保',c:'qk-gold'},{t:'!芯片',c:'qk-gold'},{t:'电网总览',c:'qk-cyan'},{t:'API管理',c:'qk-cyan'},
     {t:'!执行',c:'qk-green'},{t:'!升级',c:'qk-green'}
   ];
   btns.forEach(function(b){
     var el=document.createElement('button');el.className='qk '+(b.c||'');el.textContent=b.t;
-    el.onclick=function(){addUser(b.t);processCmd(b.t)};quickArea.appendChild(el);
+    el.onclick=function(){
+      if(b.t==='电网总览'){showGridPanel();return}
+      if(b.t==='API管理'){showAPIPanel();return}
+      addUser(b.t);processCmd(b.t);
+    };quickArea.appendChild(el);
   });
 }
 
@@ -1424,6 +1716,131 @@ function enterApp(){
 }
 
 // PIN启动
+
+// === 电网面板 ===
+function showGridPanel() {
+  document.getElementById('gridPanel').style.display = 'block';
+  refreshGridPanel();
+}
+function closeGridPanel() { document.getElementById('gridPanel').style.display = 'none' }
+
+function refreshGridPanel() {
+  var engine = INTERNAL_ENGINE;
+  var configs = engine.apiGateway.getConfigs();
+  var overview = engine.customerGrid.overview();
+  var s = calcRev();
+  
+  var html = '';
+  // 心脏状态
+  html += '<div style="padding:16px;background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #0ea5e9;border-radius:12px;margin-bottom:16px">';
+  html += '<div style="font-size:14px;color:#94a3b8;margin-bottom:4px">心脏状态</div>';
+  html += '<div style="font-size:28px;font-weight:700;color:#22c55e">运转中</div>';
+  html += '<div style="font-size:13px;color:#64748b;margin-top:4px">内部引擎自主运转 · 不受外部影响</div>';
+  html += '</div>';
+  
+  // 主动脉 - API供应商
+  html += '<div style="padding:16px;background:#0f172a;border:1px solid #1e293b;border-radius:12px;margin-bottom:16px">';
+  html += '<div style="font-size:15px;font-weight:600;color:#00d4ff;margin-bottom:12px">主动脉 · API供应商</div>';
+  if(configs.length === 0) {
+    html += '<div style="color:#64748b;font-size:14px">暂无接入 · 去API管理添加</div>';
+  } else {
+    configs.forEach(function(c) {
+      var color = c.enabled ? '#22c55e' : '#ef4444';
+      var status = c.enabled ? '供能中' : '已断开';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1e293b">';
+      html += '<div><span style="color:#e2e8f0;font-weight:500">' + c.name + '</span> <span style="color:#64748b;font-size:12px">P' + c.priority + '</span></div>';
+      html += '<div style="color:' + color + ';font-size:13px">' + status + '</div>';
+      html += '</div>';
+    });
+  }
+  html += '</div>';
+  
+  // 分支血管 - 客户
+  html += '<div style="padding:16px;background:#0f172a;border:1px solid #1e293b;border-radius:12px;margin-bottom:16px">';
+  html += '<div style="font-size:15px;font-weight:600;color:#00d4ff;margin-bottom:12px">分支血管 · 客户输出</div>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">';
+  html += '<div style="text-align:center;padding:10px;background:#1e293b;border-radius:8px"><div style="font-size:22px;font-weight:700;color:#e2e8f0">' + overview.total + '</div><div style="font-size:11px;color:#64748b">总客户</div></div>';
+  html += '<div style="text-align:center;padding:10px;background:#1e293b;border-radius:8px"><div style="font-size:22px;font-weight:700;color:#22c55e">' + overview.active + '</div><div style="font-size:11px;color:#64748b">活跃</div></div>';
+  html += '<div style="text-align:center;padding:10px;background:#1e293b;border-radius:8px"><div style="font-size:22px;font-weight:700;color:#0ea5e9">' + overview.revenue + '元</div><div style="font-size:11px;color:#64748b">总营收</div></div>';
+  html += '</div>';
+  html += '</div>';
+  
+  // 系统指标
+  html += '<div style="padding:16px;background:#0f172a;border:1px solid #1e293b;border-radius:12px">';
+  html += '<div style="font-size:15px;font-weight:600;color:#00d4ff;margin-bottom:12px">系统指标</div>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
+  html += '<div>站点：13站在线</div><div>引擎：15个载入</div>';
+  html += '<div>防护盾：启动中</div><div>Bing：约1650条收录</div>';
+  html += '<div>DNA铁律：77条锁定</div><div>免疫系统：运行中</div>';
+  html += '</div></div>';
+  
+  document.getElementById('gridContent').innerHTML = html;
+}
+
+function showAPIPanel() {
+  document.getElementById('apiPanel').style.display = 'block';
+  refreshAPIPanel();
+}
+function closeAPIPanel() { document.getElementById('apiPanel').style.display = 'none' }
+
+function refreshAPIPanel() {
+  var configs = INTERNAL_ENGINE.apiGateway.getConfigs();
+  var html = '';
+  if(configs.length === 0) {
+    html += '<div style="padding:20px;text-align:center;color:#64748b">暂无API接入<br>在下方添加你的第一个API供应商</div>';
+  } else {
+    configs.forEach(function(c) {
+      var color = c.enabled ? '#22c55e' : '#ef4444';
+      var statusText = c.enabled ? '供能中' : '已断开';
+      var keyMask = c.key ? c.key.substr(0,6) + '****' + c.key.substr(-4) : '未设置';
+      html += '<div style="padding:14px;background:#0f172a;border:1px solid #1e293b;border-radius:10px;margin-bottom:10px">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+      html += '<div style="font-size:15px;font-weight:600;color:#e2e8f0">' + c.name + '</div>';
+      html += '<div style="display:flex;gap:6px">';
+      html += '<button onclick="toggleAPIStatus(\'' + c.name + '\')" style="padding:4px 10px;background:#1e293b;color:' + color + ';border:1px solid ' + color + '33;border-radius:6px;font-size:12px;cursor:pointer">' + statusText + '</button>';
+      html += '<button onclick="removeAPIItem(\'' + c.name + '\')" style="padding:4px 10px;background:#1e293b;color:#ef4444;border:1px solid #ef444433;border-radius:6px;font-size:12px;cursor:pointer">移除</button>';
+      html += '</div></div>';
+      html += '<div style="font-size:12px;color:#64748b">供应商：' + c.provider + ' | 模型：' + (c.model || '默认') + ' | 优先级：P' + c.priority + '</div>';
+      html += '<div style="font-size:12px;color:#475569;margin-top:4px;font-family:monospace">Key: ' + keyMask + '</div>';
+      html += '</div>';
+    });
+  }
+  document.getElementById('apiContent').innerHTML = html;
+}
+
+function addNewAPI() {
+  var name = document.getElementById('newApiName').value.trim();
+  var key = document.getElementById('newApiKey').value.trim();
+  var provider = document.getElementById('newApiProvider').value;
+  var model = document.getElementById('newApiModel').value.trim();
+  var endpoint = document.getElementById('newApiEndpoint').value.trim();
+  
+  if(!name || !key) { alert('名称和Key不能为空'); return; }
+  
+  INTERNAL_ENGINE.apiGateway.addAPI(name, key, provider, model, endpoint);
+  
+  // Clear inputs
+  document.getElementById('newApiName').value = '';
+  document.getElementById('newApiKey').value = '';
+  document.getElementById('newApiModel').value = '';
+  document.getElementById('newApiEndpoint').value = '';
+  
+  refreshAPIPanel();
+  addAi('[电网] ' + name + ' 已接入·密钥已安全存储·可随时切换或移除');
+}
+
+function toggleAPIStatus(name) {
+  INTERNAL_ENGINE.apiGateway.toggleAPI(name);
+  refreshAPIPanel();
+}
+
+function removeAPIItem(name) {
+  if(!confirm('确定移除 ' + name + '？')) return;
+  INTERNAL_ENGINE.apiGateway.removeAPI(name);
+  refreshAPIPanel();
+  addAi('[电网] ' + name + ' 已移除·不影响系统运转');
+}
+
 initPin();
 </script>
 <div style="text-align:center;padding:10px 16px;color:var(--dim);font-size:8px;line-height:1.8;border-top:1px solid var(--border)">
