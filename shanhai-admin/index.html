@@ -518,6 +518,44 @@ function sendMsg(){
 }
 
 // === 11引擎指令处理 ===
+// === 执行追踪·反馈闭环 ===
+// 每次执行都记录：指令→引擎→结果→耗时→状态
+// 执行完立即反馈给主人
+function trackExec(cmd, engineName, fn) {
+  var start = Date.now();
+  var startTime = new Date().toLocaleTimeString('zh-CN');
+  
+  try {
+    var result = fn();
+    // 如果是Promise（异步执行），等结果后反馈
+    if(result && typeof result.then === 'function') {
+      INTERNAL_ENGINE.executionTracker.log(cmd, engineName, '执行中...', 'dispatch', 0);
+      return result.then(function(res) {
+        var dur = Date.now() - start;
+        var resStr = typeof res === 'string' ? res : '完成';
+        INTERNAL_ENGINE.executionTracker.log(cmd, engineName, resStr, 'ok', dur);
+        // 执行反馈
+        addAi('[执行完成] ' + cmd.substring(0, 30) + '\n引擎：' + engineName + ' | 耗时：' + dur + 'ms\n状态：已完成');
+        return res;
+      }).catch(function(err) {
+        var dur = Date.now() - start;
+        INTERNAL_ENGINE.executionTracker.log(cmd, engineName, String(err).substring(0, 100), 'fail', dur);
+        addAi('[执行异常] ' + cmd.substring(0, 30) + '\n引擎：' + engineName + '\n问题：' + String(err).substring(0, 80) + '\n\n已记录异常，可以对我说"执行历史"查看。');
+      });
+    }
+    // 同步执行，立即反馈
+    var dur = Date.now() - start;
+    var resStr = typeof result === 'string' ? result : '完成';
+    INTERNAL_ENGINE.executionTracker.log(cmd, engineName, resStr, 'ok', dur);
+    return result;
+  } catch(err) {
+    var dur = Date.now() - start;
+    INTERNAL_ENGINE.executionTracker.log(cmd, engineName, String(err).substring(0, 100), 'fail', dur);
+    addAi('[执行异常] ' + cmd.substring(0, 30) + '\n引擎：' + engineName + '\n问题：' + String(err).substring(0, 80));
+    return null;
+  }
+}
+
 function processCmd(text){
   var t=text.toLowerCase();
   var isTong=t.startsWith('!')||t.startsWith('统令');
@@ -655,7 +693,7 @@ function processCmd(text){
     }
     else if(cmd.includes('动态')){addAi('',SH_NOTIFY.showCenter())}
     else if(cmd.includes('已读')){SH_NOTIFY.markRead();addAi('[通知] 全部已读')}
-    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读');
+    else addAi('统令已收到：'+cmd+'\n\n可用统令：\n!自检 = 实时巡检4页\n!通电 = IndexNow+GEO\n!通知 内容 = 企微通知\n!安保 = 安保报告\n!权限 = 主权架构\n!芯片 = 芯片全览\n!日志 = 系统日志\n!执行 = 全引擎状态\n!升级 = 自动提升检查\n!端口 = 端口管控·安全盾\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开全部外接口\n!永久封闭 = 封印旧口+新代码\n!盾开 = 启动防护盾\n!盾关 = 关闭防护盾\n!开站 id = 开端口\n!关站 id = 关端口\n!建站 = 主权建新口\n!动态 = 通知中心\n!已读 = 标记通知已读\n!执行历史 = 查看执行记录\n!执行统计 = 执行概况统计');
     addLog('cmd','统令',text);return;
   }
 
@@ -698,37 +736,75 @@ function processCmd(text){
   }
   else if(t.includes('geo')||t.includes('收录')){addAi('GEO变电局(V15)：\n4站已部署+IndexNow已提交\nBing/Google 24-48h收录\n\n导航站手动提交=通电关键\n!通电=查看提交指引')}
   else if(t.includes('端口')||t.includes('安全盾')){addAi('',buildPortPanel());addAi('',buildMasterPanel());addAi('端口操作：\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开\n!永久封闭 = 封印+新代码\n!开站/!关站 = 单口开关\n\n母口(admin)不可关闭·始终在线')}
+  // === 执行历史/反馈 ===
+  else if(t.includes('执行历史')||t.includes('执行记录')||t.includes('操作记录')){
+    var n = parseInt(t.match(/\d+/)) || 15;
+    addAi(INTERNAL_ENGINE.executionTracker.formatHistory(n).replace(/\n/g,'<br>'));
+  }
+  else if(t.includes('执行统计')||t.includes('执行概况')){
+    var stats = INTERNAL_ENGINE.executionTracker.stats();
+    var msg = '执行统计：\n\n';
+    msg += '总执行次数：' + stats.total + '\n';
+    msg += '成功：' + stats.ok + ' | 失败：' + stats.fail + ' | 外部调度：' + stats.dispatch + '\n\n';
+    msg += '引擎使用分布：\n';
+    var engKeys = Object.keys(stats.engines);
+    for(var ei=0;ei<engKeys.length;ei++){
+      msg += '- ' + engKeys[ei] + '：' + stats.engines[engKeys[ei]] + '次\n';
+    }
+    if(stats.last){
+      msg += '\n最近一次：\n';
+      msg += '指令：' + stats.last.cmd.substring(0,40) + '\n';
+      msg += '时间：' + stats.last.time + '\n';
+      msg += '状态：' + stats.last.status;
+    }
+    addAi(msg.replace(/\n/g,'<br>'));
+  }
+  else if(t.match(/清空.*(执行|记录|历史)/)){
+    INTERNAL_ENGINE.executionTracker.clear();
+    addAi('执行历史已清空。');
+  }
   else {
-    // 内部引擎智能路由（盾内决策）
+    // === 内部引擎智能路由（盾内决策·全追踪）===
     var route = INTERNAL_ENGINE.smartRoute(text);
+    var execStart = Date.now();
     
     if(route === 'coze') {
-      // 通过盾边界→扣子（外部执行）
-      addAi('[盾边界] 内部引擎调度扣子主引擎...<br>指令：' + text);
-      var loadingMsg = addAi('[扣子执行中...]', null, true);
+      // 通过盾边界→扣子（外部执行·带完整反馈）
+      INTERNAL_ENGINE.executionTracker.log(text, '扣子主引擎', '调度中...', 'dispatch', 0);
+      addAi('[执行调度] 内部引擎 → 扣子主引擎<br>指令：' + text.substring(0,60) + '<br>状态：执行中，等待回传...');
+      
       INTERNAL_ENGINE.dispatchToCoze(text).then(function(reply){
-        var msgs = chatArea.querySelectorAll('.msg-ai .bubble');
-        var last = msgs[msgs.length-1];
-        if(last) last.innerHTML = reply.replace(/\n/g, '<br>');
-        chatArea.scrollTop = chatArea.scrollHeight;
+        var dur = Date.now() - execStart;
+        INTERNAL_ENGINE.executionTracker.log(text, '扣子主引擎', '回传完成', 'ok', dur);
+        addAi('[执行回报] 扣子主引擎执行完成<br>耗时：' + dur + 'ms<br>状态：已回传<br><br>' + reply.replace(/\n/g,'<br>'));
+      }).catch(function(err){
+        var dur = Date.now() - execStart;
+        INTERNAL_ENGINE.executionTracker.log(text, '扣子主引擎', String(err).substring(0,100), 'fail', dur);
+        addAi('[执行异常] 扣子主引擎调度失败<br>耗时：' + dur + 'ms<br>问题：' + String(err).substring(0,80) + '<br><n>已记录，对我说"执行历史"可查看。');
       });
     }
     else if(route === 'external_ai') {
-      // 通过盾边界→外部AI（获取信息）
-      addAi('[盾边界] 内部引擎连接外部AI...');
-      setTimeout(function(){
-        INTERNAL_ENGINE.dispatchExternal(text).then(function(reply){
-          var msgs = chatArea.querySelectorAll('.msg-ai .bubble');
-          var last = msgs[msgs.length-1];
-          if(last) last.innerHTML = reply.replace(/\n/g, '<br>');
-          chatArea.scrollTop = chatArea.scrollHeight;
-        });
-      }, 300);
+      // 通过盾边界→外部AI（带完整反馈）
+      var apiInfo = INTERNAL_ENGINE.apiGateway.getBestAPI();
+      var apiName = apiInfo ? apiInfo.name : '无可用API';
+      INTERNAL_ENGINE.executionTracker.log(text, '外部AI(' + apiName + ')', '连接中...', 'dispatch', 0);
+      addAi('[执行调度] 内部引擎 → 外部AI · ' + apiName + '<br>指令：' + text.substring(0,60));
+      
+      INTERNAL_ENGINE.dispatchExternal(text).then(function(reply){
+        var dur = Date.now() - execStart;
+        INTERNAL_ENGINE.executionTracker.log(text, '外部AI(' + apiName + ')', '回传完成', 'ok', dur);
+        addAi('[执行回报] ' + apiName + ' 执行完成<br>耗时：' + dur + 'ms<br><br>' + reply.replace(/\n/g,'<br>'));
+      }).catch(function(err){
+        var dur = Date.now() - execStart;
+        INTERNAL_ENGINE.executionTracker.log(text, '外部AI(' + apiName + ')', String(err).substring(0,100), 'fail', dur);
+        addAi('[执行异常] 外部AI连接失败<br>问题：' + String(err).substring(0,80) + '<br><br>建议：检查API管理面板中的密钥配置');
+      });
     }
     else {
-      // 内部引擎自主处理（盾内完成）
+      // 内部引擎自主处理（盾内完成·即时反馈）
       var reply = INTERNAL_ENGINE.respond(text);
-      addAi(reply.replace(/\n/g, '<br>'));
+      INTERNAL_ENGINE.executionTracker.log(text, '内部引擎(盾内)', typeof reply === 'string' ? reply.substring(0,100) : '完成', 'ok', Date.now() - execStart);
+      addAi(reply.replace(/\n/g,'<br>'));
     }
   }
   addLog('cmd','日常',text);
@@ -1203,6 +1279,107 @@ var INTERNAL_ENGINE = {
     });
   },
   
+  // === 执行追踪器（核心·所有指令执行反馈）===
+  // 每条指令都有：指令内容→执行引擎→执行结果→耗时→状态
+  // 主人随时查看执行历史
+  executionTracker: {
+    STORAGE_KEY: 'sh_exec_log',
+    MAX_LOGS: 200,
+    
+    // 记录一次执行
+    log: function(cmd, engine, result, status, duration) {
+      var logs = this.getAll();
+      logs.unshift({
+        cmd: cmd,
+        engine: engine,
+        result: typeof result === 'string' ? result.substring(0, 200) : '已执行',
+        status: status || 'ok', // ok / fail / pending / dispatch
+        duration: duration || 0,
+        time: new Date().toLocaleString('zh-CN'),
+        timestamp: Date.now()
+      });
+      if(logs.length > this.MAX_LOGS) logs = logs.slice(0, this.MAX_LOGS);
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(logs));
+    },
+    
+    // 获取所有执行记录
+    getAll: function() {
+      try {
+        var raw = localStorage.getItem(this.STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) { return []; }
+    },
+    
+    // 统计
+    stats: function() {
+      var logs = this.getAll();
+      var ok = 0, fail = 0, dispatch = 0;
+      var engines = {};
+      for(var i = 0; i < logs.length; i++) {
+        if(logs[i].status === 'ok') ok++;
+        else if(logs[i].status === 'fail') fail++;
+        else if(logs[i].status === 'dispatch') dispatch++;
+        var eng = logs[i].engine || '未知';
+        engines[eng] = (engines[eng] || 0) + 1;
+      }
+      return { total: logs.length, ok: ok, fail: fail, dispatch: dispatch, engines: engines, last: logs[0] || null };
+    },
+    
+    // 清空历史
+    clear: function() {
+      localStorage.setItem(this.STORAGE_KEY, '[]');
+      return '执行历史已清空';
+    },
+    
+    // 格式化输出
+    formatHistory: function(n) {
+      var logs = this.getAll().slice(0, n || 15);
+      if(logs.length === 0) return '暂无执行记录';
+      var stats = this.stats();
+      var msg = '执行历史（最近' + logs.length + '条）\n';
+      msg += '总计：' + stats.total + '次 | 成功：' + stats.ok + ' | 失败：' + stats.fail + ' | 调度：' + stats.dispatch + '\n\n';
+      for(var i = 0; i < logs.length; i++) {
+        var l = logs[i];
+        var icon = l.status === 'ok' ? '[OK]' : l.status === 'fail' ? '[X]' : l.status === 'dispatch' ? '[>>]' : '[..]';
+        msg += icon + ' ' + l.time + '\n';
+        msg += '  指令：' + l.cmd.substring(0, 50) + '\n';
+        msg += '  引擎：' + l.engine + ' | 耗时：' + l.duration + 'ms\n';
+        if(l.result && l.result !== '已执行') msg += '  结果：' + l.result.substring(0, 80) + '\n';
+        if(i < logs.length - 1) msg += '\n';
+      }
+      return msg;
+    },
+    
+    // 执行并追踪（包装器）
+    execute: function(cmd, engineName, fn) {
+      var self = this;
+      var start = Date.now();
+      try {
+        var result = fn();
+        var duration = Date.now() - start;
+        // 如果是Promise，等结果
+        if(result && typeof result.then === 'function') {
+          self.log(cmd, engineName, '调度中...', 'dispatch', duration);
+          return result.then(function(res) {
+            var totalDuration = Date.now() - start;
+            self.log(cmd, engineName, typeof res === 'string' ? res : '完成', 'ok', totalDuration);
+            return res;
+          }).catch(function(err) {
+            var totalDuration = Date.now() - start;
+            self.log(cmd, engineName, String(err).substring(0, 100), 'fail', totalDuration);
+            return err;
+          });
+        }
+        self.log(cmd, engineName, typeof result === 'string' ? result : '完成', 'ok', duration);
+        return result;
+      } catch(err) {
+        var duration = Date.now() - start;
+        self.log(cmd, engineName, String(err).substring(0, 100), 'fail', duration);
+        throw err;
+      }
+    }
+  },
+
   // 智能路由：决定内部处理还是外联
   smartRoute: function(msg) {
     var t = msg.toLowerCase();
@@ -1422,13 +1599,15 @@ function updateQuick(){
     {t:'!自检',c:'qk-gold'},{t:'!通电',c:'qk-gold'},
     {t:'!端口',c:'qk-gold'},{t:'!总关',c:'qk-gold'},{t:'客户',c:''},{t:'待办',c:''},
     {t:'!安保',c:'qk-gold'},{t:'!芯片',c:'qk-gold'},{t:'电网总览',c:'qk-cyan'},{t:'API管理',c:'qk-cyan'},
-    {t:'!执行',c:'qk-green'},{t:'!升级',c:'qk-green'}
+    {t:'!执行',c:'qk-green'},{t:'!升级',c:'qk-green'},{t:'执行历史',c:'qk-cyan'},{t:'执行统计',c:'qk-cyan'}
   ];
   btns.forEach(function(b){
     var el=document.createElement('button');el.className='qk '+(b.c||'');el.textContent=b.t;
     el.onclick=function(){
       if(b.t==='电网总览'){showGridPanel();return}
       if(b.t==='API管理'){showAPIPanel();return}
+      if(b.t==='执行历史'){addUser(b.t);processCmd(b.t);return}
+      if(b.t==='执行统计'){addUser(b.t);processCmd(b.t);return}
       addUser(b.t);processCmd(b.t);
     };quickArea.appendChild(el);
   });
