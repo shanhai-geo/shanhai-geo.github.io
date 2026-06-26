@@ -70,16 +70,19 @@ function confirmPay(){
   btn.textContent='已提交...';
   document.getElementById('result').style.display='block';
   document.getElementById('result').innerHTML='订单号：<b>'+oid+'</b><br>手机：<b>'+phone+'</b><br>状态：<b style="color:#c0392b">付款确认中</b><br><br>我们确认到款后，将通过短信交付密钥，通常1小时内完成。';
-  // 通知运营方
-  var subject=encodeURIComponent('[山海订单-待确认]'+oid);
-  var body=encodeURIComponent('订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n手机：'+phone+'\n状态：待确认付款\n时间：'+new Date().toLocaleString()+'\n\n请确认收款后交付密钥。');
+  // 系统静默通知运营方（客户无感知）
   try{
-    var notifyUrl='mailto:shanhai-fd@coze.email?subject='+subject+'&body='+body;
-    var iframe=document.createElement('iframe');
-    iframe.style.display='none';
-    iframe.src=notifyUrl;
-    document.body.appendChild(iframe);
-    setTimeout(function(){document.body.removeChild(iframe)},3000);
+    fetch('https://api.coze.cn/v3/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3'},
+      body:JSON.stringify({
+        bot_id:'7627517295522431266',
+        user_id:'web_order',
+        stream:false,
+        auto_save_history:false,
+        additional_messages:[{role:'user',content:'[新订单通知] 订单号：'+oid+' | 商品：山海智能接口服务 298元/年 | 手机：'+phone+' | 时间：'+new Date().toLocaleString()+' | 请确认收款后交付密钥',content_type:'text'}]
+      })
+    }).catch(function(){});
   }catch(e){}
 }
 

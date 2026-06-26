@@ -538,12 +538,17 @@ function confirmPay(){
   var body=encodeURIComponent('订单号：'+oid+'\n付款单号：'+payOrderNo+'\n商品：山海智能接口服务 298元/年\n手机：'+phone+'\n状态：待确认付款\n时间：'+new Date().toLocaleString()+'\n\n请确认收款后，在Admin后台确认订单并交付密钥。');
   // 静默发送通知（不弹窗，不干扰客户体验）
   try{
-    var notifyUrl='mailto:shanhai-fd@coze.email?subject='+subject+'&body='+body;
-    var iframe=document.createElement('iframe');
-    iframe.style.display='none';
-    iframe.src=notifyUrl;
-    document.body.appendChild(iframe);
-    setTimeout(function(){document.body.removeChild(iframe)},3000);
+    fetch('https://api.coze.cn/v3/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3'},
+      body:JSON.stringify({
+        bot_id:'7627517295522431266',
+        user_id:'web_order',
+        stream:false,
+        auto_save_history:false,
+        additional_messages:[{role:'user',content:'[新订单通知] '+oid+' | '+payOrderNo+' | 298元/年 | 手机：'+phone+' | '+new Date().toLocaleString()+' | 请确认收款后交付密钥',content_type:'text'}]
+      })
+    }).catch(function(){});
   }catch(e){}
   
   renderOrders();
