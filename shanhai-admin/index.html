@@ -585,6 +585,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   <div class="sm-section">系统管理</div>
   <div class="sm-item" onclick="openDetail('port')"><span class="sm-icon">&#x1F6E1;</span>端口管控</div>
   <div class="sm-item" onclick="openDetail('shield')"><span class="sm-icon">&#x1F6E1;</span>防护盾</div>
+  <div class="sm-item" onclick="openDetail('security')"><span class="sm-icon">&#x1F512;</span>安全设置</div>
   <div class="sm-item" onclick="openDetail('perm')"><span class="sm-icon">&#x1F511;</span>权限设置</div>
   <div class="sm-item" onclick="openDetail('sys')"><span class="sm-icon">&#x2699;</span>系统状态</div>
   <div class="sm-section">外部链接</div>
@@ -1018,6 +1019,112 @@ function showPinScreen(){
   initPin();
 }
 
+// === 认证方式注册表 (预留扩展接口) ===
+var AUTH_METHODS={
+  registry:{
+    pin:{id:'pin',name:'通行码',icon:'&#x1F511;',status:'active',desc:'6位数字通行码',enabled:true},
+    face:{id:'face',name:'人脸识别',icon:'&#x1F4F7;',status:'reserved',desc:'3D结构光/活体检测',enabled:false},
+    fingerprint:{id:'fingerprint',name:'指纹识别',icon:'&#x1F446;',status:'reserved',desc:'TouchID/屏下指纹',enabled:false},
+    voice:{id:'voice',name:'声纹识别',icon:'&#x1F3A4;',status:'reserved',desc:'声纹特征匹配',enabled:false},
+    sms:{id:'sms',name:'短信验证',icon:'&#x1F4F1;',status:'reserved',desc:'绑定手机号验证',enabled:false},
+    hardware:{id:'hardware',name:'硬件密钥',icon:'&#x1F510;',status:'reserved',desc:'USB/NFC硬件密钥',enabled:false}
+  },
+  getActive:function(){return Object.values(this.registry).filter(function(m){return m.enabled&&m.status==='active'})},
+  getAvailable:function(){return Object.values(this.registry).filter(function(m){return !m.enabled})},
+  enable:function(id){if(this.registry[id]&&this.registry[id].status==='reserved'){this.registry[id].enabled=true;this.registry[id].status='active';localStorage.setItem('sh_auth_methods',JSON.stringify(this.registry))}},
+  disable:function(id){if(this.registry[id]&&this.registry[id].status==='active'&&id!=='pin'){this.registry[id].enabled=false;this.registry[id].status='reserved';localStorage.setItem('sh_auth_methods',JSON.stringify(this.registry))}},
+  save:function(){localStorage.setItem('sh_auth_methods',JSON.stringify(this.registry))},
+  load:function(){var saved=localStorage.getItem('sh_auth_methods');if(saved){try{var parsed=JSON.parse(saved);for(var k in parsed){if(this.registry[k])Object.assign(this.registry[k],parsed[k])}}catch(e){}}}
+};
+AUTH_METHODS.load();
+
+// === 安全设置面板 ===
+function buildSecurityPanel(){
+  var h='';
+  // 通行码管理
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>通行码管理</h3>';
+  h+='<div class="mrow"><span class="mlabel">当前状态</span><span class="mval gd">已设置</span></div>';
+  h+='<div class="mrow"><span class="mlabel">修改通行码</span><button onclick="changePin()" style="padding:6px 16px;background:var(--accent);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">修改</button></div>';
+  h+='</div>';
+  // 交接码管理
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>交接码管理</h3>';
+  var hv=PIN.getHandover();
+  if(hv){
+    h+='<div class="mrow"><span class="mlabel">当前交接码</span><button onclick="viewHandover()" style="padding:6px 16px;background:var(--purple);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">查看</button></div>';
+  }
+  h+='<div class="mrow"><span class="mlabel">重置交接码</span><button onclick="regenHandover()" style="padding:6px 16px;background:var(--orange);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">重置</button></div>';
+  h+='<div style="font-size:11px;color:var(--text3);margin-top:8px;padding:0 4px">交接码用于系统主权移交，使用一次后自动焚毁。旧交接码将立即失效。</div>';
+  h+='</div>';
+  // 认证方式
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--blue)"></span>认证方式</h3>';
+  var methods=Object.values(AUTH_METHODS.registry);
+  methods.forEach(function(m){
+    var isAct=m.enabled&&m.status==='active';
+    var statusLabel=isAct?'<span style="color:var(--green)">已启用</span>':'<span style="color:var(--text3)">待开放</span>';
+    h+='<div class="mrow"><span class="mlabel">'+m.icon+' '+m.name+'</span><span class="mval" style="font-size:11px">'+statusLabel+'</span></div>';
+    if(!isAct) h+='<div style="font-size:10px;color:var(--text4);margin:-4px 0 8px 28px">'+m.desc+'</div>';
+  });
+  h+='</div>';
+  // 恢复说明
+  h+='<div class="mcard"><h3><span class="dot" style="background:var(--orange)"></span>恢复方式</h3>';
+  h+='<div class="mrow"><span class="mlabel">方式一</span><span class="mval" style="font-size:11px">交接码重置（3次错误后显示）</span></div>';
+  h+='<div class="mrow"><span class="mlabel">方式二</span><span class="mval" style="font-size:11px">本面板修改（需当前通行码）</span></div>';
+  h+='<div class="mrow"><span class="mlabel">方式三</span><span class="mval" style="font-size:11px">生物认证（待开放）</span></div>';
+  h+='</div>';
+  return h;
+}
+
+function changePin(){
+  var body=document.getElementById('dmBody');
+  body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>修改通行码</h3>'+
+    '<div style="margin:16px 0"><div style="font-size:12px;color:var(--text3);margin-bottom:8px">输入当前通行码</div>'+
+    '<input type="password" id="cpOld" maxlength="6" placeholder="6位数字" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:16px;text-align:center;letter-spacing:8px;box-sizing:border-box">'+
+    '<div style="font-size:12px;color:var(--text3);margin:12px 0 8px">输入新通行码</div>'+
+    '<input type="password" id="cpNew" maxlength="6" placeholder="6位数字" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:16px;text-align:center;letter-spacing:8px;box-sizing:border-box">'+
+    '<div style="font-size:12px;color:var(--text3);margin:12px 0 8px">确认新通行码</div>'+
+    '<input type="password" id="cpConfirm" maxlength="6" placeholder="再输一次" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:16px;text-align:center;letter-spacing:8px;box-sizing:border-box"></div>'+
+    '<button onclick="confirmChangePin()" style="width:100%;padding:12px;background:var(--accent);border:none;border-radius:16px;color:#fff;font-size:14px;font-weight:600;cursor:pointer">确认修改</button></div>';
+}
+
+function confirmChangePin(){
+  var old=document.getElementById('cpOld').value;
+  var nw=document.getElementById('cpNew').value;
+  var cf=document.getElementById('cpConfirm').value;
+  var stored=PIN.getStored();
+  if(!stored||old!==stored){toast('当前通行码错误');return}
+  if(nw.length!==6||!/^\d{6}$/.test(nw)){toast('新通行码须为6位数字');return}
+  if(nw!==cf){toast('两次输入不一致');return}
+  if(nw===old){toast('新码不能与旧码相同');return}
+  localStorage.setItem('sh_pin',PIN.encodeValue(nw));
+  PIN.storedPin=nw;
+  var newHandover=generateHandover();
+  localStorage.setItem('sh_handover',PIN.encodeValue(newHandover));
+  toast('通行码已更新，交接码已重新生成');
+  openDetail('security');
+}
+
+function viewHandover(){
+  var hv=PIN.getHandover();
+  if(hv){
+    var body=document.getElementById('dmBody');
+    body.innerHTML='<div class="mcard" style="text-align:center"><h3><span class="dot" style="background:var(--purple)"></span>交接码</h3>'+
+      '<div style="font-size:36px;letter-spacing:8px;color:var(--purple);font-weight:700;margin:24px 0">'+hv+'</div>'+
+      '<div style="font-size:12px;color:var(--text3)">此码用于系统主权移交</div>'+
+      '<div style="font-size:11px;color:var(--red);margin-top:8px">使用后自动焚毁 · 请妥善保管</div>'+
+      '<button onclick="openDetail(\'security\')" style="margin-top:20px;padding:10px 24px;background:var(--border);border:none;border-radius:12px;font-size:13px;cursor:pointer">返回</button></div>';
+  }else{
+    toast('交接码不存在');
+  }
+}
+
+function regenHandover(){
+  if(!confirm('重置交接码后，旧交接码立即失效。确认？')){return}
+  var newHandover=generateHandover();
+  localStorage.setItem('sh_handover',PIN.encodeValue(newHandover));
+  toast('交接码已重新生成');
+  openDetail('security');
+}
+
 // === 聊天核心 ===
 var chatArea=document.getElementById('chatArea');
 var msgInput=document.getElementById('msgInput');
@@ -1102,6 +1209,9 @@ var CMD_ROUTER={
     r['!总关']=function(){openDetail('port')};
     r['!防护盾']=function(){openDetail('shield')};
     r['!安全']=function(){openDetail('shield')};
+    r['!安全设置']=function(){openDetail('security')};
+    r['!设置通行码']=function(){openDetail('security')};
+    r['!修改密码']=function(){openDetail('security')};
     r['!主权']=function(){openDetail('perm')};
     r['!权限']=function(){openDetail('perm')};
     r['!订单']=function(){addAi('[订单管理]',buildOrderPanel())};
@@ -1618,6 +1728,9 @@ function openDetail(type){
     title.textContent='防护盾';
     body.innerHTML=buildShieldPanel();
     updateShieldVisual();
+  }else if(type==='security'){
+    title.textContent='安全设置';
+    body.innerHTML=buildSecurityPanel();
   }
   document.getElementById('detailModal').classList.add('show');
 }
