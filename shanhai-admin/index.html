@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>山海智能指挥中心 V17</title>
-<meta name="description" content="山海智能最高权限指挥中心">
-<meta name="keywords" content="山海智能,指挥中心,AI商业服务,全权入口">
+<title>山海管理后台 V18</title>
+<meta name="description" content="山海智能管理后台 · 全权控制入口">
+<meta name="keywords" content="山海智能,管理后台,AI商业服务,全权入口">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src *;">
 <link rel="canonical" href="https://shanhai-geo.github.io/shanhai-admin">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 html,body{height:100%;overflow:hidden}
-body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFont,"SF Pro","PingFang SC",sans-serif;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
-:root{--bg:#060a12;--bg2:#0c1220;--card:#111827;--card2:#1a2236;--border:#1e2d44;--gold:#d4a04a;--gold-dim:rgba(212,160,74,.15);--blue:#3b82f6;--green:#10b981;--red:#ef4444;--cyan:#22d3ee;--purple:#8b5cf6;--text:#e8edf5;--text2:#94a3b8;--dim:#4b5c73}
+body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue",sans-serif;display:flex;flex-direction:column;max-width:520px;margin:0 auto;font-size:16px;line-height:1.6}
+:root{--bg:#0f1419;--bg2:#151b24;--card:#1c2530;--card2:#242e3c;--border:#2d3a4a;--gold:#e8a849;--gold-dim:rgba(232,168,73,.12);--blue:#4a9eff;--green:#22c55e;--red:#f43f5e;--cyan:#06b6d4;--purple:#a78bfa;--text:#f1f5f9;--text2:#94a3b8;--dim:#546174}
 
 /* === PIN认证屏 === */
 .pin-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
@@ -42,29 +42,29 @@ body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
 @keyframes bText{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 
 /* === 微信式聊天主界面 === */
-.chat-header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;height:50px;background:#0d1220;border-bottom:1px solid var(--border);z-index:10}
+.chat-header{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:64px;background:linear-gradient(180deg,#151d28 0%,#131a22 100%);border-bottom:1px solid rgba(232,168,73,.15);z-index:10;box-shadow:0 2px 20px rgba(0,0,0,.25)}
 .chat-header .ch-left{display:flex;align-items:center;gap:8px}
-.chat-header .ch-av{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,var(--gold),#b8860b);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
-.chat-header .ch-info .ch-name{font-size:15px;font-weight:700;color:var(--text)}
-.chat-header .ch-info .ch-status{font-size:10px;color:var(--green)}
+.chat-header .ch-av{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#b8860b);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(212,160,74,.3)}
+.chat-header .ch-info .ch-name{font-size:17px;font-weight:700;color:var(--text)}
+.chat-header .ch-info .ch-status{font-size:12px;color:var(--green)}
 .chat-header .ch-status::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:3px;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.chat-header .ch-badge{font-size:8px;padding:2px 6px;border-radius:6px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(212,160,74,.3)}
+.chat-header .ch-badge{font-size:10px;padding:3px 8px;border-radius:8px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(212,160,74,.3);font-weight:600}
 .chat-header .menu-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:20px;cursor:pointer;border:none;background:none}
 
-.chat-area{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.chat-area{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch;background:var(--bg)}
 .time-label{text-align:center;margin:8px 0;font-size:11px;color:var(--dim)}
 .msg{margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.msg-ai .avatar{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,var(--gold),#b8860b);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:#fff;font-weight:800}
-.msg-ai .bubble{background:var(--card2);border-radius:0 12px 12px 12px;padding:10px 14px;max-width:80%;color:var(--text);font-size:14px;line-height:1.7}
+.msg-ai .avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#b8860b);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:#fff;font-weight:800}
+.msg-ai .bubble{background:var(--card2);border-radius:0 16px 16px 16px;padding:14px 18px;max-width:85%;color:var(--text);font-size:16px;line-height:1.8;box-shadow:0 1px 4px rgba(0,0,0,.15)}
 .msg-user{flex-direction:row-reverse}
-.msg-user .avatar{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:#fff;font-weight:700}
-.msg-user .bubble{background:linear-gradient(135deg,var(--gold),#b8860b);border-radius:12px 0 12px 12px;padding:10px 14px;max-width:80%;color:#fff;font-size:14px;line-height:1.7}
+.msg-user .avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:#fff;font-weight:700}
+.msg-user .bubble{background:linear-gradient(135deg,var(--gold),#b8860b);border-radius:16px 0 0 16px;padding:14px 18px;max-width:85%;color:#fff;font-size:16px;line-height:1.8;box-shadow:0 2px 8px rgba(212,160,74,.2)}
 .bubble .cmd-tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:4px;background:rgba(212,160,74,.15);color:var(--gold);margin-bottom:4px}
-.bubble .result-box{background:rgba(0,0,0,.2);border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;line-height:1.6}
-.bubble .result-box .rb-title{color:var(--gold);font-weight:700;font-size:11px;margin-bottom:4px}
-.bubble .result-box .rb-item{padding:2px 0;color:var(--text2);font-size:11px}
+.bubble .result-box{background:rgba(0,0,0,.2);border-radius:10px;padding:12px 14px;margin-top:8px;font-size:14px;line-height:1.7;border:1px solid rgba(255,255,255,.05)}
+.bubble .result-box .rb-title{color:var(--gold);font-weight:700;font-size:13px;margin-bottom:6px}
+.bubble .result-box .rb-item{padding:3px 0;color:var(--text2);font-size:13px}
 .bubble .result-box .rb-item .on{color:var(--green);font-weight:600}
 .bubble .result-box .rb-item .off{color:var(--red);font-weight:600}
 .bubble .engine-card{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:6px}
@@ -74,25 +74,25 @@ body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
 
 .quick-area{flex-shrink:0;padding:6px 10px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid rgba(30,45,68,.5);background:var(--bg2)}
 .quick-area::-webkit-scrollbar{display:none}
-.qk{flex-shrink:0;padding:7px 14px;border-radius:16px;font-size:11px;color:var(--text2);background:var(--card);border:1px solid var(--border);cursor:pointer;white-space:nowrap;transition:all .15s}
+.qk{flex-shrink:0;padding:10px 18px;border-radius:20px;font-size:14px;color:var(--text2);background:var(--card);border:1px solid var(--border);cursor:pointer;white-space:nowrap;transition:all .15s;font-weight:500}
 .qk:active{transform:scale(.95);background:var(--card2)}
 .qk-gold{color:var(--gold);border-color:rgba(212,160,74,.3);background:var(--gold-dim);font-weight:700}
 .qk-green{color:var(--green);border-color:rgba(16,185,129,.3);font-weight:700}
 
-.input-bar{flex-shrink:0;display:flex;align-items:flex-end;gap:8px;padding:8px 12px 12px;background:#0d1220;border-top:1px solid var(--border)}
-.input-bar .input-wrap{flex:1;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:8px 14px;display:flex;align-items:flex-end;min-height:38px;max-height:100px;transition:border-color .2s}
+.input-bar{flex-shrink:0;display:flex;align-items:flex-end;gap:10px;padding:12px 16px 16px;background:linear-gradient(180deg,#131a22 0%,#151d28 100%);border-top:1px solid rgba(232,168,73,.1)}
+.input-bar .input-wrap{flex:1;background:var(--card);border:1.5px solid var(--border);border-radius:22px;padding:14px 18px;display:flex;align-items:flex-end;min-height:52px;max-height:180px;transition:all .2s;box-shadow:inset 0 1px 3px rgba(0,0,0,.2)}
 .input-bar .input-wrap:focus-within{border-color:var(--gold)}
-.input-bar textarea{width:100%;border:none;background:none;color:var(--text);font-size:14px;line-height:1.5;resize:none;outline:none;max-height:72px;font-family:inherit}
+.input-bar textarea{width:100%;border:none;background:none;color:var(--text);font-size:17px;line-height:1.6;resize:none;outline:none;max-height:150px;font-family:inherit;min-height:24px}
 .input-bar textarea::placeholder{color:var(--dim)}
-.send-btn{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#b8860b);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.send-btn{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#b8860b);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;box-shadow:0 2px 8px rgba(212,160,74,.3)}
 .send-btn:active{transform:scale(.9)}
-.send-btn svg{width:18px;height:18px;fill:#fff}
+.send-btn svg{width:22px;height:22px;fill:#fff}
 .send-btn.disabled{opacity:.3;pointer-events:none}
 
 /* 侧边菜单 */
 .menu-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:199}
 .menu-overlay.show{display:block}
-.side-menu{display:none;position:fixed;top:0;right:0;bottom:0;width:240px;background:#0d1220;z-index:200;border-left:1px solid var(--border);padding:16px;animation:slideLeft .25s ease;overflow-y:auto}
+.side-menu{display:none;position:fixed;top:0;right:0;bottom:0;width:260px;background:#151d28;z-index:200;border-left:1px solid var(--border);padding:16px;animation:slideLeft .25s ease;overflow-y:auto;box-shadow:-4px 0 20px rgba(0,0,0,.3)}
 .side-menu.show{display:block}
 @keyframes slideLeft{from{transform:translateX(100%)}to{transform:translateX(0)}}
 .side-menu .sm-close{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--dim);font-size:20px;cursor:pointer}
@@ -247,7 +247,7 @@ body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
 
 <!-- === PIN码认证 === -->
 <div class="pin-screen" id="pinScreen">
-  <div class="pin-title">山海指挥中心</div>
+  <div class="pin-title">山海管理后台</div>
   <div class="pin-sub">SOVEREIGNTY TRANSFER</div>
   <div class="pin-dots" id="pinDots">
     <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
@@ -272,7 +272,7 @@ body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
   <div class="chat-header">
     <div class="ch-left">
       <div class="ch-av">山</div>
-      <div class="ch-info"><div class="ch-name">山海指挥中心</div><div class="ch-status">主权在线</div></div>
+      <div class="ch-info"><div class="ch-name">山海管理后台</div><div class="ch-status">系统在线</div></div>
     </div>
     <div style="display:flex;align-items:center;gap:6px">
       <span class="shield-indicator open" id="shieldInd">&#x1F6E1; 开环</span>
@@ -286,7 +286,8 @@ body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
   <div class="quick-area" id="quickArea"></div>
 
   <div class="input-bar">
-    <div class="input-wrap"><textarea id="msgInput" rows="1" placeholder="输入指令... (!统令直达底层)" oninput="autoResize(this);toggleSend()" onkeydown="handleKey(event)"></textarea></div>
+    <div class="input-wrap"><textarea id="msgInput" rows="2" placeholder="输入指令或对话... 支持多行
+!统令直达底层引擎" oninput="autoResize(this);toggleSend()" onkeydown="handleKey(event)"></textarea></div>
     <button class="send-btn disabled" id="sendBtn" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
   </div>
 </div>
@@ -366,7 +367,7 @@ var CHIP={
     {id:'ai',name:'AI客服站',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7',status:'open',owner:'主权人'},
     {id:'shop',name:'商城站',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7',status:'open',owner:'主权人授权运作'},
     {id:'talk',name:'话术站',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1',status:'open',owner:'主权人'},
-    {id:'admin',name:'指挥中心(母口)',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V15',status:'open',owner:'主权人·不可关闭'}
+    {id:'admin',name:'管理后台(母口)',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V18',status:'open',owner:'主权人·不可关闭'}
   ]},
   COMPLIANCE_ANCHORS:['消法第25条','广告法第28条','个保法','价格法','合同法'],
   AUTH_EVOLUTION:['交接码→通行码(当前)','新码/人脸(主人安排)','基因级(终极)'],
@@ -653,7 +654,7 @@ function processCmd(text){
   else if(t.includes('待办')){addAi('待办：\n1. AI导航站9站批量提交=通电\n2. 公安人脸识别接入\n3. GEO持续投喂\n4. 首单成交突破\n5. 9.9到账确认(T+1周一)\n\n端口管控：!端口 = 安全盾开关\n快捷：!通电 = 开始通电')}
   else if(t.includes('合规')){addAi('合规状态：\nAI客服页 6条声明\n商城页 6条声明\n话术页 6条声明\n指挥中心 声明覆盖\n\n法律锚点：消法/广告法/个保法/价格法/合同法')}
   else if(t.includes('你好')||t.includes('在吗')||t.includes('小海')){
-    addAi('主人好！山海实时汇报：\n\n4页在线\n今日营收：'+s.revenue+'元\n订单：'+s.total+'笔\n11引擎全载入\nDNA 75条铁律锁定\n\n需要我执行什么？');
+    addAi('欢迎进入管理后台！\n\n系统状态：\n- 13站全部在线\n- 15引擎全载入\n- 防护盾：运行中\n- 免疫系统：正常\n- 今日营收：'+s.revenue+'元 / '+s.paid+'笔\n\n有什么需要我做的？直接说就行。');
   }
   else if(t.includes('geo')||t.includes('收录')){addAi('GEO变电局(V15)：\n4站已部署+IndexNow已提交\nBing/Google 24-48h收录\n\n导航站手动提交=通电关键\n!通电=查看提交指引')}
   else if(t.includes('端口')||t.includes('安全盾')){addAi('',buildPortPanel());addAi('',buildMasterPanel());addAi('端口操作：\n!总关 = 一键关闭全部外接口\n!总开 = 一键重开\n!永久封闭 = 封印+新代码\n!开站/!关站 = 单口开关\n\n母口(admin)不可关闭·始终在线')}
