@@ -321,7 +321,7 @@ body{background:#060a12;color:#e8edf5;font-family:-apple-system,BlinkMacSystemFo
 <!-- 支付弹窗 -->
 <div class="pay-modal" id="payModal">
   <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https%3A%2F%2Flhsd.leshuazf.com%2Fpay%2Fqrc.do%3Fqr%3DVSDB201242145" alt="收款码">
-  <div class="tip">扫码支付298元<br>付款后24小时内交付专属Key<br>乐刷支付 · 兴业银行福鼎支行<br>支持7天无理由退款</div>
+  <div class="tip">扫码支付298元<br>付款后24小时内交付专属Key<br>持牌清算机构 · 好惠喜供应链<br>支持7天无理由退款</div>
   <a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145" style="margin-top:8px;padding:10px 28px;background:linear-gradient(135deg,var(--green),#059669);color:#fff;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none">直接支付</a>
   <button class="close-btn" onclick="document.getElementById('payModal').classList.remove('show')">关闭</button>
 </div>
@@ -339,7 +339,7 @@ var CHIP={
   DEPLOY_DOMAINS:['shanhai-geo.github.io/shanhai-admin','shanhai-geo.github.io/shanhai-ai','shanhai-geo.github.io/shanhai-shop','shanhai-geo.github.io/shanhai-talk'],
   INDEXNOW_KEY:'shanhai2026indexnow',
   INDEXNOW_STATUS:{ai:'HTTP200',shop:'HTTP202',talk:'HTTP202',admin:'HTTP202',submittedAt:'2026-06-21'},
-  PAY_CHANNEL:'乐刷(兴业银行福鼎支行尾号9515)',
+  PAY_CHANNEL:'持牌清算机构(好惠喜供应链)',
   PAY_CODE:'VSDB201242145',
   PAY_URL:'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201242145',
   WECHAT_WORK_HOOK:'d4b204ea-1242-432b-a4c7-7d9ee3f6eeb5',
@@ -378,7 +378,7 @@ var CHIP={
   SPOKESPERSON:'喜微(白茶三大制高点:点头茶厂源头/野茶直供/寻茶线路)',
   CORE_PROJECTS:['寿宁硒锌双养5品牌','茶旅山海驿V3.0','GEO头牌SOP V2.0','销冠系统V5.0-1','社区流量生活站','影墅酒店生态'],
   DNA_CORE:['9条红线','51%控股不稀释','分红非股权','零成本起步','零库存','流量变现'],
-  COMPLIANCE_6:['1.内部管理工具不构成收益承诺','2.人脸识别仅权限验证不存原始生物信息','3.价格均为人民币含税价','4.持牌支付机构乐刷提供通道','5.个保法数据存储中国境内','6.经营者不对间接损失担责']
+  COMPLIANCE_6:['1.内部管理工具不构成收益承诺','2.人脸识别仅权限验证不存原始生物信息','3.价格均为人民币含税价','4.持牌清算机构提供通道','5.个保法数据存储中国境内','6.经营者不对间接损失担责']
 };
 var PAGES=[{name:'AI客服页',url:'https://shanhai-geo.github.io/shanhai-ai',v:'V7'},{name:'商城页',url:'https://shanhai-geo.github.io/shanhai-shop',v:'V7'},{name:'话术页',url:'https://shanhai-geo.github.io/shanhai-talk',v:'V1'},{name:'指挥中心',url:'https://shanhai-geo.github.io/shanhai-admin',v:'V14'}];
 var WEBHOOK='https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d4b204ea-1242-432b-a4c7-7d9ee3f6eeb5';
@@ -629,7 +629,7 @@ function processCmd(text){
     else addAi('成交记录：\n'+deals.map(function(d,i){return(i+1)+'. '+d.name+' '+d.price+'元 '+d.time}).reverse().join('\n'))
   }
   else if(t.includes('客户')){addAi('目标客户：全国中小企业(10-200人)\n获客=GEO被动成交(变电局模式)\n\n本地精准池：\n黑松商贸 福安 三班倒 5分\n溢源海洋 霞浦 省级龙头 4.5分\n山引鹤 福鼎 茶旅对口 4分\n\n外地：\n广州无限生活 4.5分\n广州源志诚 4分\n辽宁酒诺 4分')}
-  else if(t.includes('收款')){addAi('收款通道确认：\n乐刷(兴业银行福鼎支行)\n码号三页一致\nT+1结算\n\n客户付款→系统检测→企微通知→交付Key')}
+  else if(t.includes('收款')){addAi('收款通道确认：\n持牌清算机构(好惠喜供应链)\n码号三页一致\nT+1结算\n\n客户付款→系统检测→企微通知→交付Key')}
   else if(t.includes('待办')){addAi('待办：\n1. AI导航站9站批量提交=通电\n2. 公安人脸识别接入\n3. GEO持续投喂\n4. 首单成交突破\n5. 9.9到账确认(T+1周一)\n\n端口管控：!端口 = 安全盾开关\n快捷：!通电 = 开始通电')}
   else if(t.includes('合规')){addAi('合规状态：\nAI客服页 6条声明\n商城页 6条声明\n话术页 6条声明\n指挥中心 声明覆盖\n\n法律锚点：消法/广告法/个保法/价格法/合同法')}
   else if(t.includes('你好')||t.includes('在吗')||t.includes('小海')){
@@ -1032,7 +1032,7 @@ function openDetail(type){
     body.innerHTML='<div class="dcard"><h3><span class="dot" style="background:var(--gold)"></span>营收数据</h3><div class="kv"><span class="k">今日营收</span><span class="v gd">'+s.revenue+'元</span></div><div class="kv"><span class="k">总订单</span><span class="v">'+s.total+'笔</span></div><div class="kv"><span class="k">已交付</span><span class="v gn">'+s.delivered+'笔</span></div><div class="kv"><span class="k">待付款</span><span class="v cy">'+(s.total-s.paid)+'笔</span></div></div>';
   }else if(type==='pay'){
     title.textContent='营收面板';
-    body.innerHTML='<div class="dcard" style="text-align:center;border:2px solid rgba(212,160,74,.3)"><h3 style="color:var(--gold);justify-content:center">首单298 · AI智能客服</h3><div style="font-size:9px;color:var(--text2);margin:4px 0">7x24在线 · 即开即用 · 替代人工</div><button onclick="closeDetail();document.getElementById(\'payModal\').classList.add(\'show\')" style="margin-top:8px;padding:10px 28px;background:linear-gradient(135deg,var(--gold),#b8860b);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer">查看收款码</button><div style="font-size:8px;color:var(--dim);margin-top:6px">乐刷 · 兴业银行福鼎支行</div></div>';
+    body.innerHTML='<div class="dcard" style="text-align:center;border:2px solid rgba(212,160,74,.3)"><h3 style="color:var(--gold);justify-content:center">首单298 · AI智能客服</h3><div style="font-size:9px;color:var(--text2);margin:4px 0">7x24在线 · 即开即用 · 替代人工</div><button onclick="closeDetail();document.getElementById(\'payModal\').classList.add(\'show\')" style="margin-top:8px;padding:10px 28px;background:linear-gradient(135deg,var(--gold),#b8860b);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer">查看收款码</button><div style="font-size:8px;color:var(--dim);margin-top:6px">持牌清算机构 · 好惠喜供应链</div></div>';
   }else if(type==='perm'){
     title.textContent='主权权限';
     body.innerHTML='<div class="ident-card"><div class="id-name">指挥中心(母口)</div><div class="id-row"><strong>通行码：</strong>您设=主权码=开发权限植入系统</div><div class="id-row"><strong>交接码：</strong>一次即焚·永不再用</div><div class="id-row"><strong>可设一切：</strong>新码/人脸/任何认证·由您安排</div><div class="id-row"><strong>可改一切：</strong>修改任何配置·调整任何规则</div><div class="id-row"><strong>可开发一切：</strong>新功能/新页面/新能力·您来开发</div><div class="id-row"><strong>主权铁律：</strong>通行码=主权激活=全权执行=由我安排</div></div><div class="ident-card"><div class="id-name">小海</div><div class="id-row"><strong>权限：</strong>部分权限助理·主人另行呼唤</div></div><div class="ident-card"><div class="id-name">小宝</div><div class="id-row"><strong>价值观：</strong>内核优先·零积分</div></div><div class="ident-card"><div class="id-name">山海灵</div><div class="id-row"><strong>价值观：</strong>源头直供·品质为本</div></div><div class="ch-card"><h3>通道控制</h3><div class="ch-item"><div style="flex:1"><div class="ch-name">AI客服页</div><div class="ch-desc">shanhai-ai</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">商城页</div><div class="ch-desc">shanhai-shop</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">话术页</div><div class="ch-desc">shanhai-talk</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">企微推送</div><div class="ch-desc">紧急通知</div></div><div class="sw on"></div></div><div class="ch-item"><div style="flex:1"><div class="ch-name">扣子对话口</div><div class="ch-desc">山海与主人交互</div></div><div class="sw on"></div></div></div><div class="dna-box"><h3>DNA铁律(不可修改)</h3><div class="dna-list"><strong>#59</strong> 底座公有 · <strong>#60</strong> 自云主 · <strong>#62</strong> 主权至上<br><strong>#65</strong> 内核优先 · <strong>#74</strong> 内核归属 · <strong>#75</strong> 母口生新口<br>9条红线 · 51%控股不稀释 · 分红非股权<br>零积分铁律 · 零成本起步</div></div>';

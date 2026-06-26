@@ -59,18 +59,22 @@ function confirmPay(){
   var now=new Date();
   var timeStr=now.getFullYear()+'-'+(now.getMonth()+1).toString().padStart(2,'0')+'-'+now.getDate().toString().padStart(2,'0')+' '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
   try{
-    fetch('https://api.coze.cn/v3/chat',{
+    fetch('https://formsubmit.co/ajax/746876121@qq.com',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer pat_90mzGWPnNvVhAXHZ8dhE3o0UbKP9Q0Gl5Dx7X3ZEDQXr1bPggEt8fZss85IiCNR3'},
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({
-        bot_id:'7627517295522431266',
-        user_id:'web_order',
-        stream:false,
-        auto_save_history:false,
-        additional_messages:[{role:'user',content:'请用email_request发送邮件给746876121@qq.com，主题：[山海新订单] '+oid+'，正文：\n\n订单号：'+oid+'\n商品：山海智能接口服务 298元/年\n客户手机：'+phone+'\n确认时间：'+timeStr+'\n\n对账方式：在拉卡拉后台按时间「'+timeStr+'」前后查找298元入账，匹配后短信交付密钥。\n\n如同时有多笔298元，按时间先后一一对应手机号。',content_type:'text'}]
+        _subject:'[山海新订单] '+oid,
+        _template:'table',
+        '_captcha':'false',
+        '_honey':'',
+        订单号:oid,
+        商品:'山海智能接口服务 298元/年',
+        客户手机:phone,
+        确认时间:timeStr,
+        对账方式:'按确认时间「'+timeStr+'」前后查找298元入账，匹配手机号'+phone
       })
-    }).catch(function(){});
-  }catch(e){}
+    }).then(function(r){return r.json()}).then(function(d){console.log('通知已发送',d)}).catch(function(e){console.log('通知发送失败',e)});
+  }catch(e){console.log('通知异常',e)}
 }
 function copyLink(){
   var url=location.href;
