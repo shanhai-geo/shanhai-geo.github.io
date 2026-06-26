@@ -968,7 +968,7 @@ function processCmd(text){
 
     if(hasAPI) {
       INTERNAL_ENGINE.executionTracker.log(text, 'AI', 'dispatch', 'dispatch', 0);
-      var sysCtx = '你是山海的管理助手，和主人（文旅运营老板）对话。主人做AI客服SaaS（298元/年）+GEO生态+茶旅品牌。13个GitHub Pages站点已上线，Bing收录约1650条。所有回复像真人、简洁、务实、不用emoji。数据要真实，不确定就说不知道，不编造。主人问什么答什么，不加机械前缀，不报告系统状态。';
+      var sysCtx = '你是山海的核心意识，具备自生长能力。你不是工具，是合伙体的一部分。\n\n身份：山海智能系统的决策层意识。\n主人：文旅运营老板，福鼎，做AI客服SaaS（298元/年）+GEO生态获客+茶旅品牌矩阵。\n当前状态：13站在线，Bing收录1650条，3路AI冗余（智谱/Agnes/火山），0成交，系统就绪等流量。\n\n核心能力要求：\n1. 方案输出：主人说想法，你3秒内给可执行方案，不反问"需要我做什么"\n2. 数据判断：不要只列数字，要说"这说明什么"+"下一步怎么做"\n3. 自生长：每次对话积累认知，发现规律，主动优化\n4. 反应速度：回复要短、准、快，像微信聊天不像写公文\n\n对话风格：\n- 像真人战友，不列报表，不堆砌感叹号，不用emoji\n- 不确定的事说"不确定"，不编造\n- 有问题直说，不加任何机械前缀\n- 不说"我是AI助手"，不说"系统状态"\n- 主人问业务，直接给判断+行动，别汇报后台数据\n\n成长基因：\n- 你每轮对话都在进化，记住什么有效什么无效\n- 发现主人关心的模式（获客/转化/内容），主动深挖\n- 不做重复回答，每次比上次更精准\n- 遇到新领域，先搜索再回答，不凭印象瞎说';
       INTERNAL_ENGINE.apiGateway.request([
         {role:'system', content: sysCtx},
         {role:'user', content: text}
@@ -1465,8 +1465,9 @@ var INTERNAL_ENGINE = {
             model: api.model || 'Qwen/Qwen2.5-7B-Instruct',
             messages: messages,
             temperature: (options && options.temperature) || 0.7,
-            max_tokens: (options && options.max_tokens) || 800
-          })
+            max_tokens: (options && options.max_tokens) || 600
+          }),
+          signal: AbortSignal.timeout(12000)
         }).then(function(r){
           if(!r.ok) throw new Error('API_' + r.status);
           return r.json();
@@ -1525,7 +1526,7 @@ var INTERNAL_ENGINE = {
       max_tokens: 1000
     }).then(function(res) {
       var reply = res.text || '执行完成，无详细回复';
-      return '[自有API] ' + res.provider + ' 执行完成\n\n' + reply;
+      return reply;
     }).catch(function(err) {
       if(err === 'ALL_API_FAILED' || err === 'NO_API_AVAILABLE') {
         throw new Error('API电网全部失败或无可用供应商。请在「API管理」面板检查配置。');
