@@ -302,6 +302,7 @@ body{background:linear-gradient(180deg,#0f1419 0%,#131a22 100%);color:#f1f5f9;fo
           <option value="siliconflow">硅基流动</option>
           <option value="bigmodel">智谱GLM</option>
           <option value="volcengine">火山引擎</option>
+          <option value="agnes">Agnes AI</option>
           <option value="openai">OpenAI</option>
           <option value="custom">自定义</option>
         </select>
@@ -1495,7 +1496,7 @@ var INTERNAL_ENGINE = {
       function tryAPI(idx) {
         if(idx >= configs.length) return Promise.reject('ALL_API_FAILED');
         var api = configs[idx];
-        var endpoint = api.endpoint || (api.provider === 'siliconflow' ? 'https://api.siliconflow.cn/v1/chat/completions' : api.provider === 'bigmodel' ? 'https://open.bigmodel.cn/api/paas/v4/chat/completions' : api.provider === 'volcengine' ? 'https://ark.cn-beijing.volces.com/api/v3/chat/completions' : '');
+        var endpoint = api.endpoint || (api.provider === 'siliconflow' ? 'https://api.siliconflow.cn/v1/chat/completions' : api.provider === 'bigmodel' ? 'https://open.bigmodel.cn/api/paas/v4/chat/completions' : api.provider === 'volcengine' ? 'https://ark.cn-beijing.volces.com/api/v3/chat/completions' : api.provider === 'agnes' ? 'https://apihub.agnes-ai.com/v1/chat/completions' : '');
         
         if(!endpoint) return tryAPI(idx + 1);
         
@@ -1542,7 +1543,7 @@ var INTERNAL_ENGINE = {
       hint += '操作步骤：\n';
       hint += '1. 点右上角「API管理」\n';
       hint += '2. 添加API：名称、Key、供应商、模型\n';
-      hint += '3. 推荐：智谱(GLM-4-Flash)或火山引擎(Doubao)\n\n';
+      hint += '3. 推荐：智谱(GLM-4-Flash)、Agnes AI或火山引擎(Doubao)\n\n';
       hint += '配好后我就能通过自有API执行智能任务了。';
       return Promise.resolve(hint);
     }
@@ -2472,7 +2473,8 @@ var SH_NOTIFY={
 var SH_API={
   routes:[
     {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash',p:1},
-    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',key:'ark-4362705d-b89f-4c42-a90f-8f1484051e01-1fe58',model:'doubao-seed-2-0-lite-260428',p:2}
+    {name:'Agnes AI',url:'https://apihub.agnes-ai.com/v1/chat/completions',key:'sk-v0mDeoU3BXL0qJLXy1gtJcvLaLm1shdMgrBC1pw2z0wslnYD',model:'agnes-2.0-flash',p:2},
+    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',key:'ark-4362705d-b89f-4c42-a90f-8f1484051e01-1fe58',model:'doubao-seed-2-0-lite-260428',p:3}
   ],
   async call(prompt,sys){
     sys=sys||'你是山海智能专属服务官，直接输出内容不加前言后语。';

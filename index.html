@@ -422,13 +422,13 @@ function updateServiceStatus(){
 var SH_API={
   // 主路:智谱·永久免费
   primary:{url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',model:'glm-4-flash'},
-  // 备路1:火山引擎·50万token免费额度
-  fallback1:{url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',key:'ark-4362705d-b89f-4c42-a90f-8f1484051e01-1fe58',model:'doubao-seed-2-0-lite-260428'},
-  // 备路2:硅基流动·永久免费（key修复中）
-  fallback2:{url:'https://api.siliconflow.cn/v1/chat/completions',key:'YOUR_SILICONFLOW_KEY',model:'Qwen/Qwen2.5-7B-Instruct'},
+  // 备路1:Agnes AI·永久免费
+  fallback1:{url:'https://apihub.agnes-ai.com/v1/chat/completions',key:'sk-v0mDeoU3BXL0qJLXy1gtJcvLaLm1shdMgrBC1pw2z0wslnYD',model:'agnes-2.0-flash'},
+  // 备路2:火山引擎·50万token免费额度
+  fallback2:{url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',key:'ark-4362705d-b89f-4c42-a90f-8f1484051e01-1fe58',model:'doubao-seed-2-0-lite-260428'},
   async chat(messages){
     var routes=[this.primary,this.fallback1,this.fallback2];
-    var names=['智谱','火山引擎','硅基流动'];
+    var names=['智谱','Agnes AI','火山引擎'];
     for(var i=0;i<routes.length;i++){
       try{
         var r=await fetch(routes[i].url,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+routes[i].key},body:JSON.stringify({model:routes[i].model,messages:messages,max_tokens:600,temperature:0.75,stream:false}),signal:AbortSignal.timeout(8000)});
