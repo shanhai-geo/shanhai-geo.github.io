@@ -478,15 +478,50 @@ function procPin(){
     if(pinBuf===localStorage.getItem('sh_pin'))ignite();
     else pinErr('通行码错误')
   }
-  // 重设：输入交接码重设通行码
+  // 重设：交接码已焚，走私密通道
   else if(pinPhase==='reset'){
-    if(pinBuf===_MR){
+    // 检查是否有Agent生成的临时重置码
+    var resetCode = localStorage.getItem('sh_reset_code');
+    var resetExpiry = parseInt(localStorage.getItem('sh_reset_expiry') || '0');
+    var now = Date.now();
+    
+    // 如果有有效的临时重置码，用它验证
+    if(resetCode && pinBuf === resetCode && now < resetExpiry) {
+      // 重置成功，清除临时码
+      localStorage.removeItem('sh_reset_code');
+      localStorage.removeItem('sh_reset_expiry');
+      localStorage.removeItem('sh_pin');
+      pinPhase='setup1';pinBuf='';pinFirst='';updDots();
+      document.getElementById('pinStatus').textContent='验证通过·请设置新通行码';
+      document.getElementById('pinStatus').style.color='#22c55e';
+      setTimeout(function(){document.getElementById('pinStatus').style.color='var(--dim)'},800);
+    }
+    // 尝试交接码（仅在未焚毁时有效）
+    else if(pinBuf===_MR && !isHandoverBurned()){
       burnHandover();
       localStorage.removeItem('sh_pin');pinPhase='setup1';pinBuf='';pinFirst='';updDots();
       document.getElementById('pinStatus').textContent='交接码确认·请设置新通行码';
       document.getElementById('pinStatus').style.color='#22c55e';
       setTimeout(function(){document.getElementById('pinStatus').style.color='var(--dim)'},800);
-    }else{pinErr('交接码错误');setTimeout(function(){pinPhase='login';document.getElementById('pinStatus').textContent='输入通行码';document.getElementById('pinReset').style.display='block'},1300)}
+    }
+    // 都不行，提示私密通道
+    else{
+      pinErr('验证失败');
+      setTimeout(function(){
+        pinPhase='login';
+        document.getElementById('pinStatus').textContent='输入通行码';
+        document.getElementById('pinStatus').style.color='var(--dim)';
+        document.getElementById('pinReset').style.display='block';
+        // 显示私密通道提示
+        var hint2 = document.createElement('div');
+        hint2.style.cssText = 'font-size:11px;color:var(--gold);margin-top:8px;text-align:center';
+        hint2.textContent = '交接码已焚·请通过Agent获取临时重置码';
+        hint2.id = 'resetHint2';
+        var existing = document.getElementById('resetHint2');
+        if(existing) existing.remove();
+        document.getElementById('pinReset').parentNode.insertBefore(hint2, document.getElementById('pinReset').nextSibling);
+      },1300);
+    }
   }
 }
 document.addEventListener('keydown',function(e){if(!document.getElementById('pinScreen').classList.contains('off')){if(e.key>='0'&&e.key<='9')pinIn(e.key);else if(e.key==='Backspace')pinBack();else if(e.key==='Escape')pinClear()}});
@@ -744,6 +779,70 @@ function processCmd(text){
     var n = parseInt(t.match(/\d+/)) || 15;
     addAi(INTERNAL_ENGINE.executionTracker.formatHistory(n).replace(/\n/g,'<br>'));
   }
+  // === 私密通道命令 ===
+  else if(t.includes('生成重置码') || t.includes('重置通行码') || t.includes('私密通道')){
+    // 生成6位临时重置码，5分钟有效
+    var resetCode = String(Math.floor(100000 + Math.random() * 900000));
+    var expiry = Date.now() + 5 * 60 * 1000; // 5分钟
+    localStorage.setItem('sh_reset_code', resetCode);
+    localStorage.setItem('sh_reset_expiry', String(expiry));
+    
+    var msg = '【私密通道·临时重置码】\n\n';
+    msg += '重置码：' + resetCode + '\n';
+    msg += '有效期：5分钟\n';
+    msg += '到期时间：' + new Date(expiry).toLocaleString('zh-CN') + '\n\n';
+    msg += '使用方法：\n';
+    msg += '1. 打开管理后台\n';
+    msg += '2. 点"忘记通行码？"\n';
+    msg += '3. 输入此重置码\n';
+    msg += '4. 设置新通行码\n\n';
+    msg += '注意：此码一次性使用，用完即焚。';
+    
+    addAi(msg);
+  }
+  // === 自生长命令（非统令也支持）===
+  else if(t.includes('成长报告') || t.includes('成长记录') || t.includes('自生长') || t.includes('学习进度')){
+    addAi(INTERNAL_ENGINE.selfGrow.report().replace(/\n/g, '<br>'));
+  }
+  else if(t.includes('盲区') || t.includes('听不懂')){
+    var data = INTERNAL_ENGINE.selfGrow.getData();
+    if(data.blindSpots.length === 0) {
+      addAi('暂无盲区，所有指令都理解正确。');
+    } else {
+      var msg = '盲区列表（听不懂的指令）：\n\n';
+      data.blindSpots.slice().reverse().slice(0, 15).forEach(function(b, i) {
+        msg += (i+1) + '. 「' + b.input.substring(0, 40) + '」出现' + b.count + '次\n';
+      });
+      msg += '\n可以用"教它 [关键词] 说 [回复]"来教我。';
+      addAi(msg);
+    }
+  }
+  else if(t.includes('吸星') || t.includes('吸收')){
+    var match2 = original.match(/吸星\s*(.+)/);
+    if(match2) {
+      var platformReply = match2[1].trim();
+      var pMatch = platformReply.match(/^(.+?)[:：]\s*(.+)/);
+      if(pMatch) {
+        var result2 = INTERNAL_ENGINE.selfGrow.absorb(pMatch[1], pMatch[1], pMatch[2], 'good');
+        addAi('[吸星大法] ' + result2 + '\n\n已吸收融合，下次遇到类似问题可以直接用。');
+      } else {
+        addAi('用法：吸星 [平台名]: [回复内容]\n\n例：\n吸星 千问: "福鼎今天晴，25度"\n吸星 硅基: "分析结果如下..."\n\n吸收后我融合为自己的能力。');
+      }
+    } else {
+      addAi('吸星大法：吸收各平台优势，融合为自己的能力。\n\n用法：\n吸星 [平台名]: [回复内容]\n\n例：\n吸星 千问: "福鼎今天晴，25度，适合出门"\n\n吸收后下次遇到类似问题我直接回答。');
+    }
+  }
+  else if(t.includes('教它') || t.includes('教你') || t.match(/教.*说/)){
+    var match3 = original.match(/教(?:它|你)(?:说)?\s*["「「]?(.+?)["」」]?\s*(?:说|回复|回答|是)\s*["「「]?(.+?)["」」]?$/);
+    if(match3) {
+      var pattern = match3[1].trim();
+      var response = match3[2].trim();
+      var result3 = INTERNAL_ENGINE.selfGrow.addRule(pattern, 'custom', response);
+      addAi(result3 + '\n\n下次遇到类似问题，我会用你教的方式回复。');
+    } else {
+      addAi('用法：教它 [关键词] 说 [回复]\n\n例：\n教它"福鼎天气"说"福鼎今天晴，25度，适合出门"\n教它"客户名单"说"当前3个重点客户..."\n\n我学会了就记住，下次自动用。');
+    }
+  }
   else if(t.includes('执行统计')||t.includes('执行概况')){
     var stats = INTERNAL_ENGINE.executionTracker.stats();
     var msg = '执行统计：\n\n';
@@ -943,7 +1042,13 @@ var INTERNAL_ENGINE = {
     var reply = this.matchAndReply(t, msg);
     
     // 自生长学习：记录这次对话
-    var matched = !reply.includes('这块我需要更多信息') && !reply.includes('你需要哪个方向');
+    var matched = false;
+    // 判断是否命中规则：如果回复不包含fallback特征词，说明命中了某条规则
+    var isFallback = reply.includes('这块我需要更多信息') || 
+                     reply.includes('你需要哪个方向') || 
+                     reply.includes('你需要再') || 
+                     reply.includes('你能展开说说');
+    matched = !isFallback;
     this.selfGrow.learn(msg, 'user_query', reply, matched);
     
     this.context.push({role:'ai', content:reply, time:Date.now()});
@@ -1183,6 +1288,26 @@ var INTERNAL_ENGINE = {
       }
     }
     
+    // 关于系统自身状态/成长的问句
+    if(t.includes('自我成长') || t.includes('成长了吗') || t.includes('长大了吗') || t.includes('进步')) {
+      var data = this.selfGrow ? this.selfGrow.getData() : null;
+      if(data && data.learned.length > 0) {
+        var hitRate = Math.round(data.learned.filter(function(l){ return l.matched }).length / data.learned.length * 100);
+        var recent = data.learned.slice(-5);
+        var recentHit = recent.filter(function(l){ return l.matched }).length;
+        return '成长报告：\n\n已学习' + data.learned.length + '条对话\n命中率' + hitRate + '%\n最近5次命中' + recentHit + '次\n\n' + (hitRate >= 70 ? '进步明显，还在继续学。' : '还在积累中，遇到不懂的我会记下来，你教我就学会。') + '\n\n输入"成长报告"看详细数据。';
+      }
+      return '自生长引擎已启动，但还没有学习数据。\n\n你每跟我对话一次，我都在学。遇到听不懂的我会记住，你教我一次我就学会。\n\n现在就可以开始：\n- 随便跟我聊天，我自动学习\n- 遇到我不懂的，用"教它 XX 说 YY"教我\n- 用"成长报告"查看我的学习进度';
+    }
+    
+    if(t.includes('你感觉') || t.includes('你觉得自己') || t.includes('你现在')) {
+      return '我在进步。之前很多话听不懂，现在能理解大部分日常指令了。\n\n但还不够好——比如复杂的长句、模糊的表达，我可能还会理解错。\n\n你直接告诉我哪里不够好，我马上改。';
+    }
+    
+    if(t.includes('人性化') || t.includes('机械') || t.includes('套话') || t.includes('冷冰')) {
+      return '收到。我不说套话了。\n\n你说的问题我记着，以后回复直接说重点，不绕弯子。\n\n还有哪里不够好，直接说。';
+    }
+    
     // 短指令理解（2-6字的常见口语）
     if(t.match(/^(知道了|好的|行|可以|ok|嗯|收到)$/)) {
       return '好，继续说。';
@@ -1336,7 +1461,14 @@ var INTERNAL_ENGINE = {
     var enabled = configs.filter(function(c){ return c.enabled && c.key && c.key.length > 5 });
     
     if(enabled.length === 0) {
-      return Promise.reject('API电网无可用供应商。请在「API管理」面板添加有效的API Key。');
+      var hint = 'API电网暂无可用供应商。\n\n';
+      hint += '原因：之前的Key已清除（安全原因），需要重新配置。\n\n';
+      hint += '操作步骤：\n';
+      hint += '1. 点右上角「API管理」\n';
+      hint += '2. 添加API：名称、Key、供应商、模型\n';
+      hint += '3. 推荐：硅基流动(Qwen2.5)或火山引擎(Doubao)\n\n';
+      hint += '配好后我就能通过自有API执行智能任务了。';
+      return Promise.resolve(hint);
     }
     
     // 构建系统提示词（注入山海身份+DNA铁律）
