@@ -76,7 +76,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 
 .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:264px}
 .pin-key{
-  aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,0.08);
+  width:80px;height:80px;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,0.08);
   background:rgba(255,255,255,0.06);color:#fff;font-size:28px;font-weight:300;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:all .15s;backdrop-filter:blur(4px);
@@ -546,8 +546,19 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </tr>
     </table>
   </div>
-  <div class="pin-footer">
-    <div class="pin-reset" id="pinReset" style="display:none">忘记通行码?</div>
+  <div style="text-align:center;margin:8px 0 0">
+    <input id="pinInputField" type="number" inputmode="numeric" pattern="[0-9]*" maxlength="6"
+      placeholder="或直接输入6位密码" style="width:80%;max-width:280px;padding:14px 16px;border:2px solid rgba(255,255,255,0.2);border-radius:16px;font-size:24px;text-align:center;letter-spacing:12px;font-family:monospace;outline:none;color:#fff;background:rgba(255,255,255,0.06);">
+  </div>
+  <div style="text-align:center;margin-top:16px;margin-bottom:8px">
+  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6"
+    id="pinDirectInput" placeholder="直接输入6位通行码"
+    style="width:80%;max-width:260px;padding:14px 16px;font-size:24px;text-align:center;
+    letter-spacing:8px;color:#fff;background:rgba(255,255,255,0.08);
+    border:2px solid rgba(46,204,113,0.4);border-radius:14px;outline:none;
+    font-family:monospace;-webkit-text-security:none;">
+</div>
+<div class="pin-footer" id="pinFooter">v class="pin-reset" id="pinReset" style="display:none">忘记通行码?</div>
     <div class="pin-hint" id="pinHint"></div>
   </div>
 </div>
@@ -656,7 +667,7 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V36.3',
+  VERSION:'V36.4',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -978,6 +989,44 @@ function showPinSetup(){
   setTimeout(function(){input.focus()},300);
 }
 
+
+// Direct PIN input handler
+var pinInput=document.getElementById('pinDirectInput');
+if(pinInput){
+  pinInput.addEventListener('input',function(){
+    var v=this.value.replace(/[^0-9]/g,'').slice(0,6);
+    this.value=v;
+    PIN.input=v;
+    PIN.updateDots(v.length);
+    if(v.length===6){
+      setTimeout(function(){
+        var r=PIN.verify(v);
+        var s=document.getElementById('pinStatus');
+        if(r==='ok'){
+          for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+          s.textContent='验证通过';
+          setTimeout(correctPin,400);
+        }else if(r==='handover'){
+          for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+          s.textContent='主权交接验证通过';
+          setTimeout(function(){localStorage.removeItem('sh_pin');localStorage.removeItem('sh_handover');localStorage.setItem('sh_handover_burned','1');PIN.storedPin=null;showPinSetup();},600);
+        }else if(r==='must_setup'){
+          for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+          s.textContent='首次使用，请设置通行码';
+          setTimeout(showPinSetup,600);
+        }else if(r==='reset_ok'){
+          for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
+          s.textContent='交接码验证通过';
+          setTimeout(function(){localStorage.removeItem('sh_pin');localStorage.removeItem('sh_handover');PIN.storedPin=null;showPinSetup();},600);
+        }else{
+          for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';
+          s.textContent='通行码错误，请重试';
+          setTimeout(function(){PIN.input='';PIN.updateDots(0);pinInput.value='';s.textContent='请输入通行码';},1000);
+        }
+      },200);
+    }
+  });
+}
 document.getElementById('pinSetupConfirm').addEventListener('click',confirmPinSetup);
 document.getElementById('pinSetupInput').addEventListener('keydown',function(e){
   if(e.key==='Enter'){e.preventDefault();confirmPinSetup()}
