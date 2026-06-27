@@ -1,0 +1,24 @@
+{
+  "name": "山海云枢 · 管理后台",
+  "short_name": "山海云枢",
+  "description": "山海云枢智能管理后台 - 自生长AI中枢系统",
+  "start_url": "/shanhai-admin/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#00d4aa",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/shanhai-admin/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/shanhai-admin/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "zh-CN"
+}

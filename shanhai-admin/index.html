@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<link rel="manifest" href="manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>山海云枢管理后台</title>
@@ -549,6 +550,9 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 .pin-setup-confirm:active{transform:scale(0.97)}
 .pin-setup-error{font-size:12px;color:var(--red);margin-top:8px;min-height:18px}
 </style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 
@@ -725,7 +729,7 @@ var EventBus={
 };
 
 var CHIP={
-  VERSION:'V38.6',
+  VERSION:'V38.7',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -796,7 +800,7 @@ var KNOWLEDGE={
     主体:'福鼎市科野贸易商行(个体户)',
     三位一体:'山海=会计师+税务师+法务'
   },
-  geo:{strategy:'GEO驱动获客,非私域驱动',stations:11,platform:'GitHub Pages',backup:'surge.sh'},
+  geo:{strategy:'GEO驱动获客,非私域驱动',stations:11,platform:'GitHub Pages',backup:'surge.sh',mirrors:['GitHub Pages','Cloudflare Pages(待部署)','Netlify(待部署)']},
   commands:['!帮助','!自检','!通电','!芯片','!模块','!安保','!巡检','!引擎','!调度','!反馈','!统计','!订单','!营收','!端口','!防护盾','!知识','!品牌','!DNA','!财务','!设置Key','!清理','!记忆']
 };
 
@@ -3258,6 +3262,469 @@ var DEFENSE_ENGINE={
   }
 };
 
+
+
+// ═══ 金库引擎 VAULT_ENGINE (V38.7 数据备份/恢复) ═══
+// 全量数据快照 · 自动备份 · 一键恢复 · 完整性校验
+var VAULT_ENGINE={
+  VERSION:'1.0',
+  KEY_BACKUP:'sh_vault_latest',
+  KEY_BACKUP_LIST:'sh_vault_history',
+  KEY_AUTO_INTERVAL:'sh_vault_auto_ts',
+  autoIntervalMs:6*3600*1000, // 6小时自动备份一次
+  
+  // 核心数据键列表
+  coreKeys:['sh_orders','sh_feedback_log','sh_growth_nutrients','sh_evolution_log',
+    'sh_health_score','sh_route_fail_count','sh_port_state','sh_api_key',
+    'sh_api_key_2','sh_api_key_3','sh_api_key_4','sh_circuit_breakers',
+    'sh_integrity_hash','sh_last_audit_20','sh_audit_summary',
+    'sh_current_route','sh_session','sh_notifications','sh_owner',
+    'sh_vault_latest','sh_vault_history','sh_vault_auto_ts'],
+  
+  // 创建快照
+  snapshot:function(){
+    var data={};
+    var ts=Date.now();
+    this.coreKeys.forEach(function(k){
+      var v=localStorage.getItem(k);
+      if(v!==null)data[k]=v;
+    });
+    return JSON.stringify({
+      meta:{
+        version:CHIP.VERSION,
+        time:new Date().toISOString(),
+        ts:ts,
+        keyCount:Object.keys(data).length,
+        origin:location.href
+      },
+      data:data
+    });
+  },
+  
+  // 保存备份
+  save:function(){
+    try{
+      var snap=this.snapshot();
+      // 计算快照哈希
+      var hash=0;
+      for(var i=0;i<snap.length;i++){hash=((hash<<5)-hash)+snap.charCodeAt(i);hash|=0;}
+      var backup=JSON.parse(snap);
+      backup.meta.hash=Math.abs(hash).toString(16);
+      var backupStr=JSON.stringify(backup);
+      
+      // 存储为最新备份
+      localStorage.setItem(this.KEY_BACKUP,backupStr);
+      
+      // 追加到历史列表（最多保留10个）
+      var history=JSON.parse(localStorage.getItem(this.KEY_BACKUP_LIST)||'[]');
+      history.push({
+        time:backup.meta.time,
+        version:backup.meta.version,
+        hash:backup.meta.hash,
+        keyCount:backup.meta.keyCount
+      });
+      if(history.length>10)history=history.slice(-10);
+      localStorage.setItem(this.KEY_BACKUP_LIST,JSON.stringify(history));
+      
+      // 记录自动备份时间
+      localStorage.setItem(this.KEY_AUTO_INTERVAL,String(Date.now()));
+      
+      return{ok:true,hash:backup.meta.hash,keyCount:backup.meta.keyCount,time:backup.meta.time};
+    }catch(e){
+      return{ok:false,error:e.message};
+    }
+  },
+  
+  // 从备份恢复
+  restore:function(backupStr){
+    try{
+      var backup=JSON.parse(backupStr);
+      if(!backup.data||!backup.meta)return{ok:false,error:'备份格式无效'};
+      
+      // 验证哈希
+      var dataStr=JSON.stringify({meta:{version:backup.meta.version,time:backup.meta.time,ts:backup.meta.ts,keyCount:backup.meta.keyCount,origin:backup.meta.origin},data:backup.data});
+      var hash=0;
+      for(var i=0;i<dataStr.length;i++){hash=((hash<<5)-hash)+dataStr.charCodeAt(i);hash|=0;}
+      var expectedHash=Math.abs(hash).toString(16);
+      var hashValid=(expectedHash===backup.meta.hash);
+      
+      // 恢复数据
+      var restored=0;
+      Object.keys(backup.data).forEach(function(k){
+        localStorage.setItem(k,backup.data[k]);
+        restored++;
+      });
+      
+      return{
+        ok:true,
+        restored:restored,
+        hashValid:hashValid,
+        version:backup.meta.version,
+        time:backup.meta.time
+      };
+    }catch(e){
+      return{ok:false,error:e.message};
+    }
+  },
+  
+  // 从最新备份恢复
+  restoreLatest:function(){
+    var backup=localStorage.getItem(this.KEY_BACKUP);
+    if(!backup)return{ok:false,error:'无备份数据'};
+    return this.restore(backup);
+  },
+  
+  // 导出备份为文件（用户可下载保存）
+  exportBackup:function(){
+    var snap=this.snapshot();
+    var hash=0;
+    for(var i=0;i<snap.length;i++){hash=((hash<<5)-hash)+snap.charCodeAt(i);hash|=0;}
+    var backup=JSON.parse(snap);
+    backup.meta.hash=Math.abs(hash).toString(16);
+    
+    var blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;
+    a.download='shanhai_vault_'+new Date().toISOString().slice(0,10)+'_'+CHIP.VERSION+'.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    return{ok:true,msg:'备份文件已下载'};
+  },
+  
+  // 导入备份文件
+  importBackup:function(fileContent){
+    return this.restore(fileContent);
+  },
+  
+  // 自动备份检查（心跳调用）
+  autoCheck:function(){
+    var lastAuto=parseInt(localStorage.getItem(this.KEY_AUTO_INTERVAL)||'0');
+    if(Date.now()-lastAuto>this.autoIntervalMs){
+      var result=this.save();
+      if(result.ok){
+        SH_NOTIFY.push('金库引擎','自动备份完成 ['+result.hash+']','info');
+      }
+      return result;
+    }
+    return{ok:true,skipped:true,msg:'未到自动备份时间'};
+  },
+  
+  // 获取备份历史
+  getHistory:function(){
+    try{
+      return JSON.parse(localStorage.getItem(this.KEY_BACKUP_LIST)||'[]');
+    }catch(e){return[];}
+  },
+  
+  // 状态面板
+  getStatus:function(){
+    var history=this.getHistory();
+    var latest=localStorage.getItem(this.KEY_BACKUP);
+    var latestInfo=latest?JSON.parse(latest).meta:null;
+    
+    var h='<div class="result-box"><div class="rb-title">金库引擎 v'+this.VERSION+' · 数据备份中心</div>';
+    h+='<div class="rb-item">最近备份: <b style="color:#10b981">'+(latestInfo?latestInfo.time:'从未备份')+'</b></div>';
+    h+='<div class="rb-item">备份版本: '+(latestInfo?latestInfo.version:'--')+'</div>';
+    h+='<div class="rb-item">数据指纹: <code style="color:var(--accent)">'+(latestInfo?latestInfo.hash:'--')+'</code></div>';
+    h+='<div class="rb-item">备份键数: '+(latestInfo?latestInfo.keyCount:'0')+'</div>';
+    h+='<div class="rb-item">自动备份间隔: '+(this.autoIntervalMs/3600000)+'小时</div>';
+    h+='<div class="rb-item">历史备份数: '+history.length+'/10</div>';
+    
+    if(history.length>0){
+      h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">备份历史</div>';
+      history.slice().reverse().forEach(function(item,idx){
+        h+='<div class="rb-item" style="font-size:11px">#'+(history.length-idx)+' '+item.time+' ['+item.version+'] 指纹:'+item.hash+' ('+item.keyCount+'键)</div>';
+      });
+    }
+    
+    h+='<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">';
+    h+='<button onclick="VAULT_ENGINE.manualBackup()" style="padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">立即备份</button>';
+    h+='<button onclick="VAULT_ENGINE.manualExport()" style="padding:6px 14px;background:#10b981;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">导出备份文件</button>';
+    h+='<button onclick="VAULT_ENGINE.manualRestore()" style="padding:6px 14px;background:#f59e0b;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">从备份恢复</button>';
+    h+='</div>';
+    h+='</div>';
+    return h;
+  },
+  
+  // 手动操作
+  manualBackup:function(){
+    var r=this.save();
+    if(r.ok){
+      addAi('[金库] 备份完成<br>指纹: <code>'+r.hash+'</code><br>数据键: '+r.keyCount+'个<br>时间: '+r.time);
+      SH_NOTIFY.push('金库引擎','手动备份成功','success');
+    }else{
+      addAi('[金库] 备份失败: '+r.error);
+    }
+    FEEDBACK.log('金库','手动备份',r.ok?'成功':'失败');
+  },
+  
+  manualExport:function(){
+    var r=this.exportBackup();
+    addAi('[金库] '+r.msg+'<br>请妥善保存备份文件，可用于跨设备迁移或灾难恢复');
+    FEEDBACK.log('金库','导出备份','完成');
+  },
+  
+  manualRestore:function(){
+    var r=this.restoreLatest();
+    if(r.ok){
+      addAi('[金库] 恢复完成<br>恢复数据键: '+r.restored+'个<br>哈希校验: '+(r.hashValid?'通过':'不匹配(备份可能被修改)')+'<br>备份时间: '+r.time+'<br>页面将刷新以加载恢复的数据');
+      SH_NOTIFY.push('金库引擎','数据已恢复','success');
+      FEEDBACK.log('金库','恢复数据','成功');
+      setTimeout(function(){location.reload()},2000);
+    }else{
+      addAi('[金库] 恢复失败: '+r.error);
+      FEEDBACK.log('金库','恢复数据','失败:'+r.error);
+    }
+  }
+};
+
+
+
+// ═══ 凤凰引擎 PHOENIX_ENGINE (V38.7 起死复生) ═══
+// 代码完整性指纹 · 篡改自动恢复 · 多源镜像回源 · 死而复生
+var PHOENIX_ENGINE={
+  VERSION:'1.0',
+  KEY_CODE_HASH:'sh_phoenix_code_hash',
+  KEY_RECOVERY_COUNT:'sh_phoenix_recovery_count',
+  KEY_LAST_CHECK:'sh_phoenix_last_check',
+  
+  // 镜像源列表（按优先级排列）
+  mirrors:[
+    {name:'GitHub Pages',url:'https://shanhai-geo.github.io/shanhai-admin/',status:'primary'},
+    {name:'Cloudflare Pages',url:'',status:'standby'},
+    {name:'Netlify',url:'',status:'standby'}
+  ],
+  
+  // 计算当前页面关键代码指纹
+  computeFingerprint:function(){
+    var parts=[];
+    // 1. 核心模块存在性检查
+    var coreModules=['CHIP','SH_API','GROWTH_ENGINE','SELF_AUDIT','SELF_HEALING_ENGINE',
+      'DEFENSE_ENGINE','HEALTH_MONITOR','DISPATCH','FEEDBACK','CMD_ROUTER','SESSION',
+      'PIN','KNOWLEDGE','VAULT_ENGINE','PHOENIX_ENGINE'];
+    coreModules.forEach(function(m){
+      parts.push(m+':'+(typeof eval(m)!=='undefined'?'1':'0'));
+    });
+    // 2. 版本号一致性
+    parts.push('ver:'+(typeof CHIP!=='undefined'?CHIP.VERSION:'MISSING'));
+    // 3. 关键函数存在性
+    var coreFunctions=['callAI','initApp','selfCheck','showPowerOn','addAi'];
+    coreFunctions.forEach(function(f){
+      parts.push('fn_'+f+':'+(typeof eval(f)==='function'?'1':'0'));
+    });
+    // 4. EventBus完整性
+    parts.push('eventbus:'+(typeof EventBus!=='undefined'&&EventBus._listeners?'1':'0'));
+    return parts.join('|');
+  },
+  
+  // 保存代码指纹
+  saveFingerprint:function(){
+    var fp=this.computeFingerprint();
+    try{localStorage.setItem(this.KEY_CODE_HASH,fp)}catch(e){}
+    return fp;
+  },
+  
+  // 验证代码完整性
+  verify:function(){
+    var saved=localStorage.getItem(this.KEY_CODE_HASH)||'';
+    var current=this.computeFingerprint();
+    var issues=[];
+    
+    if(saved&&saved!==current){
+      var sParts=saved.split('|'),cParts=current.split('|');
+      for(var i=0;i<cParts.length;i++){
+        if(i<sParts.length&&cParts[i]!==sParts[i]){
+          issues.push(cParts[i]);
+        }
+      }
+    }
+    
+    // 更新指纹
+    this.saveFingerprint();
+    localStorage.setItem(this.KEY_LAST_CHECK,String(Date.now()));
+    
+    return{
+      intact:issues.length===0,
+      issues:issues,
+      fingerprint:current,
+      checkTime:new Date().toLocaleTimeString()
+    };
+  },
+  
+  // 深度自检：检查所有模块功能是否正常
+  deepCheck:function(){
+    var results=[];
+    
+    // 检查AI引擎连通性
+    try{
+      var apiOk=typeof SH_API!=='undefined'&&SH_API.routes&&SH_API.routes.length>0;
+      results.push({module:'SH_API',ok:apiOk,msg:apiOk?'4路引擎就绪':'引擎缺失'});
+    }catch(e){results.push({module:'SH_API',ok:false,msg:e.message})}
+    
+    // 检查自生长引擎
+    try{
+      var growthOk=typeof GROWTH_ENGINE!=='undefined'&&typeof GROWTH_ENGINE.calcHealthScore==='function';
+      results.push({module:'GROWTH_ENGINE',ok:growthOk,msg:growthOk?'健康度计算正常':'引擎异常'});
+    }catch(e){results.push({module:'GROWTH_ENGINE',ok:false,msg:e.message})}
+    
+    // 检查自愈引擎
+    try{
+      var healOk=typeof SELF_HEALING_ENGINE!=='undefined'&&typeof SELF_HEALING_ENGINE.selfHeal==='function';
+      results.push({module:'SELF_HEALING_ENGINE',ok:healOk,msg:healOk?'自愈功能就绪':'引擎异常'});
+    }catch(e){results.push({module:'SELF_HEALING_ENGINE',ok:false,msg:e.message})}
+    
+    // 检查防御引擎
+    try{
+      var defOk=typeof DEFENSE_ENGINE!=='undefined'&&typeof DEFENSE_ENGINE.fullScan==='function';
+      results.push({module:'DEFENSE_ENGINE',ok:defOk,msg:defOk?'防御扫描就绪':'引擎异常'});
+    }catch(e){results.push({module:'DEFENSE_ENGINE',ok:false,msg:e.message})}
+    
+    // 检查金库引擎
+    try{
+      var vaultOk=typeof VAULT_ENGINE!=='undefined'&&typeof VAULT_ENGINE.snapshot==='function';
+      results.push({module:'VAULT_ENGINE',ok:vaultOk,msg:vaultOk?'备份系统就绪':'引擎异常'});
+    }catch(e){results.push({module:'VAULT_ENGINE',ok:false,msg:e.message})}
+    
+    // 检查指令路由
+    try{
+      var cmdOk=typeof CMD_ROUTER!=='undefined'&&Object.keys(CMD_ROUTER.routes||{}).length>10;
+      var cmdCount=Object.keys(CMD_ROUTER.routes||{}).length;
+      results.push({module:'CMD_ROUTER',ok:cmdOk,msg:cmdOk?cmdCount+'条指令就绪':'指令不足'});
+    }catch(e){results.push({module:'CMD_ROUTER',ok:false,msg:e.message})}
+    
+    // 检查知识库
+    try{
+      var kbOk=typeof KNOWLEDGE!=='undefined'&&KNOWLEDGE.dna&&KNOWLEDGE.brands&&KNOWLEDGE.engines;
+      results.push({module:'KNOWLEDGE',ok:kbOk,msg:kbOk?'知识库完整':'知识库缺失'});
+    }catch(e){results.push({module:'KNOWLEDGE',ok:false,msg:e.message})}
+    
+    var passCount=results.filter(function(r){return r.ok}).length;
+    return{
+      results:results,
+      passRate:passCount/results.length,
+      allOk:passCount===results.length,
+      checkTime:new Date().toLocaleTimeString()
+    };
+  },
+  
+  // 起死复生：尝试从镜像源恢复
+  resurrect:function(){
+    var self=this;
+    var primaryMirror=this.mirrors[0];
+    if(!primaryMirror.url)return{ok:false,error:'无可用镜像源'};
+    
+    // 增加恢复计数
+    var count=parseInt(localStorage.getItem(this.KEY_RECOVERY_COUNT)||'0')+1;
+    localStorage.setItem(this.KEY_RECOVERY_COUNT,String(count));
+    
+    SH_NOTIFY.push('凤凰引擎','启动起死复生程序... 第'+count+'次恢复','warn');
+    
+    // 尝试从主镜像重新加载
+    try{
+      // 先保存当前数据
+      VAULT_ENGINE.save();
+      
+      // 强制从服务器重新加载页面（跳过缓存）
+      var url=primaryMirror.url+'?t='+Date.now()+'&recovery='+count;
+      
+      // 记录恢复尝试
+      localStorage.setItem('sh_phoenix_last_recovery',JSON.stringify({
+        time:new Date().toISOString(),
+        count:count,
+        url:url,
+        reason:'代码完整性异常'
+      }));
+      
+      // 延迟刷新，让通知先显示
+      setTimeout(function(){
+        window.location.href=url;
+      },2000);
+      
+      return{ok:true,msg:'正在从 '+primaryMirror.name+' 恢复...页面将在2秒后刷新'};
+    }catch(e){
+      return{ok:false,error:e.message};
+    }
+  },
+  
+  // 获取镜像状态
+  getMirrorStatus:function(){
+    var h='<div class="result-box"><div class="rb-title">凤凰引擎 v'+this.VERSION+' · 起死复生系统</div>';
+    
+    // 代码完整性
+    var verify=this.verify();
+    h+='<div class="rb-item">代码完整性: <b style="color:'+(verify.intact?'#10b981':'#ef4444')+'">'+(verify.intact?'完整':'异常('+verify.issues.length+'项)')+'</b></div>';
+    h+='<div class="rb-item">最后检查: '+verify.checkTime+'</div>';
+    
+    // 恢复计数
+    var recoveryCount=parseInt(localStorage.getItem(this.KEY_RECOVERY_COUNT)||'0');
+    h+='<div class="rb-item">累计恢复次数: '+recoveryCount+'</div>';
+    
+    // 镜像站点
+    h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">镜像站点</div>';
+    this.mirrors.forEach(function(m){
+      var statusColor=m.status==='primary'?'#10b981':m.status==='standby'?'#f59e0b':'#666';
+      var statusText=m.status==='primary'?'主站点':m.status==='standby'?'待部署':'离线';
+      h+='<div class="rb-item" style="font-size:11px">'+m.name+': <span style="color:'+statusColor+'">'+statusText+'</span>'+(m.url?' · '+m.url:' · 未配置')+'</div>';
+    });
+    
+    // 深度自检
+    var deep=this.deepCheck();
+    h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">模块自检 ('+deep.results.length+'项 · 通过率'+(deep.passRate*100).toFixed(0)+'%)</div>';
+    deep.results.forEach(function(r){
+      h+='<div class="rb-item" style="font-size:11px"><span style="color:'+(r.ok?'#10b981':'#ef4444')+'">'+(r.ok?'[OK]':'[FAIL]')+'</span> '+r.module+': '+r.msg+'</div>';
+    });
+    
+    // 操作按钮
+    h+='<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">';
+    h+='<button onclick="PHOENIX_ENGINE.manualCheck()" style="padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">深度自检</button>';
+    h+='<button onclick="PHOENIX_ENGINE.manualResurrect()" style="padding:6px 14px;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">起死复生</button>';
+    h+='</div>';
+    
+    h+='</div>';
+    return h;
+  },
+  
+  manualCheck:function(){
+    var deep=this.deepCheck();
+    var h='[凤凰引擎] 深度自检完成<br>';
+    h+='通过率: '+(deep.passRate*100).toFixed(0)+'%<br>';
+    deep.results.forEach(function(r){
+      h+='<span style="color:'+(r.ok?'#10b981':'#ef4444')+'">'+(r.ok?'[OK]':'[FAIL]')+'</span> '+r.module+': '+r.msg+'<br>';
+    });
+    if(!deep.allOk){
+      h+='<br><b style="color:#f59e0b">检测到异常，建议执行起死复生</b>';
+    }
+    addAi(h);
+    FEEDBACK.log('凤凰引擎','深度自检',deep.allOk?'全部通过':'发现异常');
+  },
+  
+  manualResurrect:function(){
+    addAi('[凤凰引擎] 正在启动起死复生程序...<br>1. 数据已自动备份<br>2. 将从主镜像源重新加载<br>3. 页面即将刷新');
+    FEEDBACK.log('凤凰引擎','起死复生','启动');
+    var r=this.resurrect();
+    if(!r.ok){
+      addAi('[凤凰引擎] 恢复失败: '+r.error);
+    }
+  },
+  
+  // 启动时自动验证
+  autoVerify:function(){
+    var result=this.verify();
+    if(!result.intact){
+      SH_NOTIFY.push('凤凰引擎','检测到代码异常: '+result.issues.length+'项变更，启动自动恢复','err');
+      // 自动触发恢复
+      setTimeout(function(){PHOENIX_ENGINE.resurrect()},3000);
+    }
+    return result;
+  }
+};
+
+// 金库和凤凰面板通过 openDetail 触发
+function buildVaultPanel(){return VAULT_ENGINE.getStatus()}
+function buildPhoenixPanel(){return PHOENIX_ENGINE.getMirrorStatus()}
 var CMD_ROUTER={
   routes:{},
   init:function(){
@@ -3306,7 +3773,14 @@ var CMD_ROUTER={
     };
     r['!DNA']=function(){var h='<div class="result-box"><div class="rb-title">DNA铁律 '+KNOWLEDGE.dna.total+'条</div>';h+='<div class="rb-item" style="color:var(--accent)">'+KNOWLEDGE.dna.core+'</div>';KNOWLEDGE.dna.key_rules.forEach(function(r){h+='<div class="rb-item">'+r+'</div>';});h+='</div>';addAi(h);FEEDBACK.log('查询','DNA','完成');};
     r['!财务']=function(){var h='<div class="result-box"><div class="rb-title">财务体系</div>';var f=KNOWLEDGE.finance;h+='<div class="rb-item">主体: '+f.主体+'</div><div class="rb-item">收款: '+f.收款池+'</div><div class="rb-item">合规: '+f.三位一体+'</div></div>';addAi(h);FEEDBACK.log('查询','财务','完成');};
-    r['!帮助']=function(){addAi(buildHelpMsg())};
+    
+    r['!备份']=function(){openDetail('vault')};
+    r['!恢复']=function(){VAULT_ENGINE.manualRestore()};
+    r['!凤凰']=function(){openDetail('phoenix')};
+    r['!镜像']=function(){openDetail('phoenix')};
+    r['!起死复生']=function(){PHOENIX_ENGINE.manualResurrect()};
+    r['!深度自检']=function(){PHOENIX_ENGINE.manualCheck()};
+        r['!帮助']=function(){addAi(buildHelpMsg())};
     r['!成长']=function(){addAi('[自生长引擎]',GROWTH_ENGINE.showPanel());FEEDBACK.log('查询','成长面板','完成')};
     r['!吸收']=function(){GROWTH_ENGINE.absorb(0,function(ok,msg){addAi(msg);FEEDBACK.log('吸收','GEO站点',ok?'完成':'失败')});};
     r['!进化']=function(){var r=GROWTH_ENGINE.evolve();var h='<div class="result-box"><div class="rb-title">进化分析</div>';h+='<div class="rb-item">操作量: '+r.analysis.totalOps+'</div><div class="rb-item">失败率: '+r.analysis.failRate+'</div><div class="rb-item">健康度: '+r.analysis.healthScore+'</div>';if(r.suggestions){r.suggestions.forEach(function(s){var c=s.level==='high'?'var(--red)':s.level==='ok'?'#10b981':'var(--text3)';h+='<div class="rb-item" style="color:'+c+'">'+s.msg+'</div>';});}h+='</div>';addAi(h);FEEDBACK.log('进化','分析','完成')};
@@ -4572,6 +5046,8 @@ function initApp(){
   GROWTH_ENGINE.init();
   if(typeof SELF_HEALING_ENGINE!=='undefined')SELF_HEALING_ENGINE.init();
   if(typeof DEFENSE_ENGINE!=='undefined'){DEFENSE_ENGINE.init();DEFENSE_ENGINE.activateWatch();}
+  if(typeof VAULT_ENGINE!=='undefined'){VAULT_ENGINE.save();console.log('[金库引擎] 初始快照已保存')}
+  if(typeof PHOENIX_ENGINE!=='undefined'){PHOENIX_ENGINE.saveFingerprint();PHOENIX_ENGINE.autoVerify();console.log('[凤凰引擎] 代码指纹已记录')}
   // 时间标签
   var t=document.createElement('div');
   t.className='time-divider';
@@ -4641,6 +5117,21 @@ function initApp(){
       // 4. 模块注册表同步
       if(typeof MODULE_REGISTRY!=='undefined'){
         MODULE_REGISTRY.load();
+      }
+      // 5. 金库引擎：自动备份检查
+      if(typeof VAULT_ENGINE!=='undefined'){
+        VAULT_ENGINE.autoCheck();
+      }
+      // 6. 凤凰引擎：代码完整性验证（每30分钟一次）
+      if(typeof PHOENIX_ENGINE!=='undefined'){
+        var lastCheck=parseInt(localStorage.getItem('sh_phoenix_last_check')||'0');
+        if(Date.now()-lastCheck>1800000){
+          var pv=PHOENIX_ENGINE.verify();
+          if(!pv.intact){
+            SH_NOTIFY.push('凤凰引擎','代码异常('+pv.issues.length+'项)，3秒后自动恢复','err');
+            setTimeout(function(){PHOENIX_ENGINE.resurrect()},3000);
+          }
+        }
       }
     }catch(e){
       console.error('心跳看门狗异常:',e);
