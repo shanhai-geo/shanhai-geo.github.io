@@ -4296,6 +4296,26 @@ function initApp(){
   GROWTH_ENGINE.init();
   if(typeof SELF_HEALING_ENGINE!=='undefined')SELF_HEALING_ENGINE.init();
   if(typeof DEFENSE_ENGINE!=='undefined')DEFENSE_ENGINE.init();
+  // 时间标签
+  var t=document.createElement('div');
+  t.className='time-divider';
+  var now=new Date();
+  var h=now.getHours(),m=now.getMinutes();
+  var period=h<6?'凌晨':h<12?'上午':h<14?'中午':h<18?'下午':'晚上';
+  t.textContent=period+' '+h+':'+(m<10?'0'+m:m);
+  chatArea.appendChild(t);
+
+  // 欢迎消息
+  var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.4 · 三阶段路演就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
+
+  setTimeout(function(){
+    var unread=SH_NOTIFY.unread();
+    if(unread.length>0)addAi('您有 '+unread.length+' 条未读通知，输入 !通知 查看');
+  },2500);
+}
+
   // V38.4: 三阶段30轮完整路演 - 零积分纯内部执行
   // 阶段一(1-10): 纯内部自检自修
   // 阶段二(11-20): 内部自检 + 吸星大法吸收外部知识
@@ -4305,6 +4325,7 @@ function initApp(){
     FEEDBACK.log('系统','V38.4启动','完成');
   },800);
   (async function(){
+    try{
     var maxRounds=30;
     var targetScore=90;
     var round=0;
@@ -4459,27 +4480,13 @@ function initApp(){
     addAi(report);
     FEEDBACK.log('路演','30轮三阶段路演',health>=targetScore?'完成':'未达标');
     SH_NOTIFY.push('路演','30轮路演完成 健康度'+health+'/100 '+statusText,health>=targetScore?'success':'warn');
+    }catch(err){
+      addAi('[路演异常] '+err.message+'<br>请在控制台查看详情');
+      console.error('路演循环异常:',err);
+      FEEDBACK.log('路演','异常',err.message);
+    }
   })();
 
-  // 时间标签
-  var t=document.createElement('div');
-  t.className='time-divider';
-  var now=new Date();
-  var h=now.getHours(),m=now.getMinutes();
-  var period=h<6?'凌晨':h<12?'上午':h<14?'中午':h<18?'下午':'晚上';
-  t.textContent=period+' '+h+':'+(m<10?'0'+m:m);
-  chatArea.appendChild(t);
-
-  // 欢迎消息
-  var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.3 · 自适应路演就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
-  setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
-
-  setTimeout(function(){
-    var unread=SH_NOTIFY.unread();
-    if(unread.length>0)addAi('您有 '+unread.length+' 条未读通知，输入 !通知 查看');
-  },2500);
-}
 
 // 启动
 initPin();
