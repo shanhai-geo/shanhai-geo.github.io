@@ -720,6 +720,59 @@ var CHIP={
   }
 };
 
+
+// === 山海云枢生态知识库 (V37 全量植入) ===
+var KNOWLEDGE={
+  brand:'山海云枢 / YUNSHU',
+  company:'茶旅时代(福建)文旅集团有限公司',
+  entity:'福鼎市科野贸易商行',
+  owner:'主人(文旅运营)',
+  location:'福建宁德福鼎',
+  version:'V37',
+  dna:{
+    total:63,
+    core:'主权至上·内核优先·闭环安全',
+    key_rules:[
+      '#1 全自动闭环:AI执行>=95%,人仅决策',
+      '#3 51%控制权不稀释,分红!=股权',
+      '#40 收入第一:每天创造收益',
+      '#44 小海不可逆:四项安全高于一切',
+      '#55 SW零劫持:不注册Service Worker',
+      '#61 供电局:山海是供电局不是用电户',
+      '#62 主权至上:主人指令=第一法则',
+      '#63 孤船:对外合规外壳,对内主权内核'
+    ]
+  },
+  brands:[
+    {name:'熹野白茶',type:'茶',price:'高端白茶系列'},
+    {name:'虎鼎记',type:'茶/礼品',price:'品牌茶礼'},
+    {name:'元力泰养生酒',type:'酒',price:'18.9元/瓶,378元/件'},
+    {name:'茶酒果酒',type:'酒',price:'果酒系列'},
+    {name:'共创者联盟',type:'联盟',price:'共创生态'}
+  ],
+  products:[
+    {name:'API体验包',price:'9.9元'},
+    {name:'API标准包',price:'49.9元'},
+    {name:'API专业包',price:'199元'},
+    {name:'智能接口年费',price:'298元/年'}
+  ],
+  engines:[
+    {name:'智谱GLM',role:'主路',model:'glm-4-flash'},
+    {name:'硅基流动',role:'备路1',model:'Qwen2.5-7B'},
+    {name:'火山引擎',role:'备路2',model:'doubao-1-5-lite'},
+    {name:'CF Workers AI',role:'备路3(免费)',model:'kimi-k2.6'}
+  ],
+  finance:{
+    收款池:'收款码VSDB201242145+小程序',
+    蓄水池:'T+1自动蓄到绑定银行卡(尾号9515)',
+    出口池:'主人随时取(银行APP一键转出)',
+    主体:'福鼎市科野贸易商行(个体户)',
+    三位一体:'山海=会计师+税务师+法务'
+  },
+  geo:{strategy:'GEO驱动获客,非私域驱动',stations:11,platform:'GitHub Pages',backup:'surge.sh'},
+  commands:['!帮助','!自检','!通电','!芯片','!模块','!安保','!巡检','!引擎','!调度','!反馈','!统计','!订单','!营收','!端口','!防护盾','!知识','!品牌','!DNA','!财务','!设置Key','!清理','!记忆']
+};
+
 var PAGES=[
   {name:'AI客服',url:'https://shanhai-ai.surge.sh'},
   {name:'商城',url:'https://shanhai-shop.surge.sh'},
@@ -2309,6 +2362,19 @@ var CMD_ROUTER={
     r['!版本']=function(){addAi('山海管理后台 '+CHIP.VERSION+'<br>12端口管控 · DNA防护盾<br>插件化自生长架构')};
     r['!日志']=function(){addAi('[操作日志]',buildLogPanel())};
     r['!清理']=function(){localStorage.clear();addAi('本地数据已清除，页面将刷新');setTimeout(function(){location.reload()},1500)};
+    r['!知识']=function(){
+      var h='<div class="result-box"><div class="rb-title">山海云枢知识库</div>';
+      h+='<div class="rb-item">品牌: <b>'+KNOWLEDGE.brand+'</b></div>';
+      h+='<div class="rb-item">企业: '+KNOWLEDGE.company+'</div>';
+      h+='<div class="rb-item">DNA铁律: '+KNOWLEDGE.dna.total+'条 | '+KNOWLEDGE.dna.core+'</div>';
+      h+='<div class="rb-item">AI引擎: '+KNOWLEDGE.engines.length+'路</div>';
+      h+='<div class="rb-item">GEO: '+KNOWLEDGE.geo.stations+'站</div>';
+      h+='<div class="rb-item">产品: '+KNOWLEDGE.products.map(function(p){return p.name+'('+p.price+')'}).join('/')+'</div>';
+      h+='</div>';addAi(h);FEEDBACK.log('查询','知识库','完成');
+    };
+    r['!品牌']=function(){var h='<div class="result-box"><div class="rb-title">品牌矩阵</div>';KNOWLEDGE.brands.forEach(function(b){h+='<div class="rb-item"><b>'+b.name+'</b> ('+b.type+')</div>';});h+='</div>';addAi(h);FEEDBACK.log('查询','品牌','完成');};
+    r['!DNA']=function(){var h='<div class="result-box"><div class="rb-title">DNA铁律 '+KNOWLEDGE.dna.total+'条</div>';h+='<div class="rb-item" style="color:var(--accent)">'+KNOWLEDGE.dna.core+'</div>';KNOWLEDGE.dna.key_rules.forEach(function(r){h+='<div class="rb-item">'+r+'</div>';});h+='</div>';addAi(h);FEEDBACK.log('查询','DNA','完成');};
+    r['!财务']=function(){var h='<div class="result-box"><div class="rb-title">财务体系</div>';var f=KNOWLEDGE.finance;h+='<div class="rb-item">主体: '+f.主体+'</div><div class="rb-item">收款: '+f.收款池+'</div><div class="rb-item">合规: '+f.三位一体+'</div></div>';addAi(h);FEEDBACK.log('查询','财务','完成');};
     r['!帮助']=function(){addAi(buildHelpMsg())};
     r['!记忆']=function(){
       var count=SH_API.history?SH_API.history.length:0;
@@ -2351,7 +2417,8 @@ var SH_API={
   routes:[
     {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',lsKey:'sh_api_key'},
     {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',model:'Qwen/Qwen2.5-7B-Instruct',key:'sk-tzdkhzazjcboslsdywjhavwhyogrlpxmbidneaycfatwajvw',lsKey:'sh_api_key_2'},
-    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c',lsKey:'sh_api_key_3'}
+    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c',lsKey:'sh_api_key_3'},
+    {name:'CF Workers AI',url:'https://api.cloudflare.com/client/v4/accounts/PLACEHOLDER/ai/v1/chat/completions',model:'@cf/moonshotai/kimi-k2.6',key:'',lsKey:'sh_api_key_4'}
   ],
   currentRoute:0,
   MAX_HISTORY:20,

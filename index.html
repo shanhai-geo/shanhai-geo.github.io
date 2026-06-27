@@ -659,6 +659,89 @@ var CHIP={
   }
 };
 
+
+// === 山海云枢生态知识库 (V37 全量植入) ===
+var KNOWLEDGE={
+  brand:'山海云枢 / YUNSHU',
+  company:'茶旅时代(福建)文旅集团有限公司',
+  entity:'福鼎市科野贸易商行',
+  owner:'主人(文旅运营)',
+  location:'福建宁德福鼎',
+  version:'V37',
+  dna:{
+    total:63,
+    core:'主权至上·内核优先·闭环安全',
+    key_rules:[
+      '#1 全自动闭环:AI执行>=95%,人仅决策',
+      '#3 51%控制权不稀释,分红!=股权',
+      '#40 收入第一:每天创造收益',
+      '#44 小海不可逆:四项安全高于一切',
+      '#55 SW零劫持:不注册Service Worker',
+      '#61 供电局:山海是供电局不是用电户',
+      '#62 主权至上:主人指令=第一法则',
+      '#63 孤船:对外合规外壳,对内主权内核'
+    ]
+  },
+  brands:[
+    {name:'熹野白茶',type:'茶',price:'高端白茶系列'},
+    {name:'虎鼎记',type:'茶/礼品',price:'品牌茶礼'},
+    {name:'元力泰养生酒',type:'酒',price:'18.9元/瓶,378元/件'},
+    {name:'茶酒果酒',type:'酒',price:'果酒系列'},
+    {name:'共创者联盟',type:'联盟',price:'共创生态'}
+  ],
+  products:[
+    {name:'API体验包',price:'9.9元'},
+    {name:'API标准包',price:'49.9元'},
+    {name:'API专业包',price:'199元'},
+    {name:'智能接口年费',price:'298元/年'}
+  ],
+  subsystems:[
+    {name:'AI客服',url:'shanhai-ai',status:'online'},
+    {name:'商城',url:'shanhai-shop',status:'online'},
+    {name:'话术中心',url:'shanhai-talk',status:'online'},
+    {name:'指挥中心',url:'shanhai-admin',status:'online'},
+    {name:'SEO落地',url:'shanhai-seo',status:'online'},
+    {name:'GEO运营',url:'shanhai-geo',status:'online'},
+    {name:'RSS导航',url:'shanhai-feed',status:'online'},
+    {name:'客服站x4',url:'shanhai-kw1~4',status:'online'}
+  ],
+  engines:[
+    {name:'智谱GLM',role:'主路',model:'glm-4-flash'},
+    {name:'硅基流动',role:'备路1',model:'Qwen2.5-7B'},
+    {name:'火山引擎',role:'备路2',model:'doubao-1-5-lite'},
+    {name:'CF Workers AI',role:'备路3(免费)',model:'kimi-k2.6'}
+  ],
+  finance:{
+   收款池:'收款码VSDB201242145+小程序',
+    蓄水池:'T+1自动蓄到绑定银行卡(尾号9515)',
+    出口池:'主人随时取(银行APP一键转出)',
+    主体:'福鼎市科野贸易商行(个体户)',
+    三位一体:'山海=会计师+税务师+法务'
+  },
+  geo:{
+    strategy:'GEO驱动获客,非私域驱动',
+    stations:11,
+    platform:'GitHub Pages(shanhai-geo.github.io)',
+    backup:'surge.sh(多站点)'
+  },
+  commands:[
+    '!帮助-指令列表','!自检-系统自检','!通电-开机动画',
+    '!芯片-芯片信息','!模块-模块列表','!安保-安全状态',
+    '!巡检-全站巡检','!引擎-引擎状态','!调度-调度中心',
+    '!反馈-反馈日志','!统计-操作统计','!订单-订单管理',
+    '!营收-营收概览','!端口-端口管控','!防护盾-安全盾',
+    '!知识-知识库','!设置Key-配置API','!清理-清数据',
+    '!记忆-记忆状态','!清记忆-清记忆'
+  ],
+  principles:[
+    '零成本起步·零库存·流量变现',
+    '分红激励非股权激励',
+    '9条红线:51%控股不稀释',
+    '对外文件必带6条合规声明',
+    '支付极简:金额预填,点击即付'
+  ]
+};
+
 var PAGES=[
   {name:'AI客服',url:'https://shanhai-ai.surge.sh'},
   {name:'商城',url:'https://shanhai-shop.surge.sh'},
@@ -1007,7 +1090,7 @@ function correctPin(){
   SESSION.activate();
   document.getElementById('mainApp').classList.add('active');
   initApp();
-  toast('山海云枢指挥中心 '+CHIP.VERSION);
+  toast('山海云枢 / YUNSHU '+CHIP.VERSION+' 全神经系统就绪');
 }
 
 function initPin(){
@@ -2175,7 +2258,7 @@ var CMD_ROUTER={
   routes:{},
   init:function(){
     var r=this.routes;
-    r['!自检']=function(){addAi('[系统自检]');setTimeout(selfCheck,300)};
+    r['!自检']=function(){addAi('[系统自检]');setTimeout(selfCheck,300);FEEDBACK.log('系统','自检','完成')};
     r['!通电']=function(){addAi('[系统通电]');setTimeout(showPowerOn,300)};
     r['!芯片']=function(){addAi('[芯片信息]',buildChipInfo())};
     r['!模块']=function(){addAi('[模块列表]',buildModuleList())};
@@ -2207,6 +2290,42 @@ var CMD_ROUTER={
     r['!版本']=function(){addAi('山海云枢指挥中心 '+CHIP.VERSION+'<br>12端口管控 · DNA防护盾<br>插件化自生长架构')};
     r['!日志']=function(){addAi('[操作日志]',buildLogPanel())};
     r['!清理']=function(){localStorage.clear();addAi('本地数据已清除，页面将刷新');setTimeout(function(){location.reload()},1500)};
+    r['!知识']=function(){
+      var h='<div class="result-box"><div class="rb-title">山海云枢知识库</div>';
+      h+='<div class="rb-item">品牌: <b>'+KNOWLEDGE.brand+'</b></div>';
+      h+='<div class="rb-item">企业: '+KNOWLEDGE.company+'</div>';
+      h+='<div class="rb-item">DNA铁律: '+KNOWLEDGE.dna.total+'条 | 核心: '+KNOWLEDGE.dna.core+'</div>';
+      h+='<div class="rb-item">子系统: '+KNOWLEDGE.subsystems.length+'个端口在线</div>';
+      h+='<div class="rb-item">AI引擎: '+KNOWLEDGE.engines.length+'路(含1路免费)</div>';
+      h+='<div class="rb-item">产品: '+KNOWLEDGE.products.map(function(p){return p.name+'('+p.price+')'}).join(' / ')+'</div>';
+      h+='<div class="rb-item">财务: '+KNOWLEDGE.finance.三位一体+'</div>';
+      h+='<div class="rb-item">GEO: '+KNOWLEDGE.geo.stations+'站 | 策略: '+KNOWLEDGE.geo.strategy+'</div>';
+      h+='<div style="margin-top:8px;color:var(--text3);font-size:11px">输入!品牌 查看品牌矩阵 | !DNA 查看铁律 | !财务 查看财务体系</div>';
+      h+='</div>';
+      addAi(h);
+      FEEDBACK.log('查询','知识库','完成');
+    };
+    r['!品牌']=function(){
+      var h='<div class="result-box"><div class="rb-title">品牌矩阵</div>';
+      KNOWLEDGE.brands.forEach(function(b){h+='<div class="rb-item"><b>'+b.name+'</b> ('+b.type+') - '+b.price+'</div>';});
+      h+='</div>';addAi(h);FEEDBACK.log('查询','品牌矩阵','完成');
+    };
+    r['!DNA']=function(){
+      var h='<div class="result-box"><div class="rb-title">DNA铁律 '+KNOWLEDGE.dna.total+'条</div>';
+      h+='<div class="rb-item" style="color:var(--accent)">核心: '+KNOWLEDGE.dna.core+'</div>';
+      KNOWLEDGE.dna.key_rules.forEach(function(r){h+='<div class="rb-item">'+r+'</div>';});
+      h+='</div>';addAi(h);FEEDBACK.log('查询','DNA铁律','完成');
+    };
+    r['!财务']=function(){
+      var h='<div class="result-box"><div class="rb-title">财务体系</div>';
+      var f=KNOWLEDGE.finance;
+      h+='<div class="rb-item">主体: '+f.主体+'</div>';
+      h+='<div class="rb-item">收款: '+f.收款池+'</div>';
+      h+='<div class="rb-item">蓄水: '+f.蓄水池+'</div>';
+      h+='<div class="rb-item">出口: '+f.出口池+'</div>';
+      h+='<div class="rb-item">合规: '+f.三位一体+'</div>';
+      h+='</div>';addAi(h);FEEDBACK.log('查询','财务体系','完成');
+    };
     r['!帮助']=function(){addAi(buildHelpMsg())};
     r['!记忆']=function(){
       var count=SH_API.history?SH_API.history.length:0;
@@ -2216,8 +2335,8 @@ var CMD_ROUTER={
       SH_API.clearHistory();
       addAi('对话记忆已清除');
     };
-    r['!巡检']=function(){addAi('[系统巡检]',HEALTH_MONITOR.checkAll())};
-    r['!引擎']=function(){addAi('[引擎状态]',HEALTH_MONITOR.checkEngines())};
+    r['!巡检']=function(){addAi('[系统巡检]',HEALTH_MONITOR.checkAll());FEEDBACK.log('巡检','全站','完成')};
+    r['!引擎']=function(){addAi('[引擎状态]',HEALTH_MONITOR.checkEngines());FEEDBACK.log('巡检','引擎','完成')};
     r['!调度']=function(){addAi('[调度中心]',DISPATCH.showPanel())};
     r['!反馈']=function(){addAi('[反馈日志]',FEEDBACK.showLog())};
     r['!统计']=function(){addAi('[操作统计]',FEEDBACK.showStats())};
@@ -2254,28 +2373,25 @@ var HEALTH_MONITOR={
   },
   checkAll:async function(){
     var subs=this.getSubsystems();
-    var results=[];
+    var self=this;
+    // 并行检测所有子系统 - 大幅提升速度
+    var checks=subs.map(function(s){
+      var controller=new AbortController();
+      var timer=setTimeout(function(){controller.abort()},self.timeout);
+      return fetch(s.url,{method:'HEAD',signal:controller.signal}).then(function(){
+        clearTimeout(timer);self.status[s.id]='online';return {name:s.name,online:true};
+      }).catch(function(){
+        clearTimeout(timer);self.status[s.id]='offline';return {name:s.name,online:false};
+      });
+    });
+    var results=await Promise.all(checks);
     var h='<div class="result-box"><div class="rb-title">子系统巡检</div>';
-    for(var i=0;i<subs.length;i++){
-      var s=subs[i];
-      var status='检测中...';
-      try{
-        var controller=new AbortController();
-        var t=setTimeout(function(){controller.abort()},this.timeout);
-        await fetch(s.url,{method:'HEAD',signal:controller.signal});
-        clearTimeout(t);
-        status='<span style="color:#10b981">在线</span>';
-        this.status[s.id]='online';
-      }catch(e){
-        status='<span style="color:#ef4444">离线</span>';
-        this.status[s.id]='offline';
-      }
-      results.push({name:s.name,status:status});
-      h+='<div class="rb-item">'+s.name+': '+status+'</div>';
-    }
-    var online=results.filter(function(r){return r.status.indexOf('在线')>-1}).length;
-    var total=results.length;
-    h+='<div style="margin-top:8px;color:var(--text3)">在线: '+online+'/'+total+'</div></div>';
+    var online=0;
+    results.forEach(function(r){
+      if(r.online){online++;h+='<div class="rb-item">'+r.name+': <span style="color:#10b981">在线</span></div>';}
+      else{h+='<div class="rb-item">'+r.name+': <span style="color:#ef4444">离线</span></div>';}
+    });
+    h+='<div style="margin-top:8px;color:var(--text3)">在线: '+online+'/'+results.length+' | 并行检测完成</div></div>';
     return h;
   },
   checkEngines:async function(){
@@ -2350,9 +2466,9 @@ var DISPATCH={
     FEEDBACK.log('调度','订单同步','完成');
   },
   switchEngine:function(){
-    var engines=['智谱GLM','硅基流动','火山引擎'];
+    var engines=['智谱GLM','硅基流动','火山引擎','CF Workers AI'];
     var current=SH_API.currentRoute||0;
-    var next=(current+1)%3;
+    var next=(current+1)%4;
     SH_API.currentRoute=next;
     addAi('<div class="result-box"><div class="rb-title">引擎切换</div><div class="rb-item">已切换至: <b>'+engines[next]+'</b></div></div>');
     FEEDBACK.log('调度','引擎切换',engines[next]);
@@ -2414,7 +2530,8 @@ var SH_API={
   routes:[
     {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',lsKey:'sh_api_key'},
     {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',model:'Qwen/Qwen2.5-7B-Instruct',key:'sk-tzdkhzazjcboslsdywjhavwhyogrlpxmbidneaycfatwajvw',lsKey:'sh_api_key_2'},
-    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c',lsKey:'sh_api_key_3'}
+    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c',lsKey:'sh_api_key_3'},
+    {name:'CF Workers AI',url:'https://api.cloudflare.com/client/v4/accounts/PLACEHOLDER/ai/v1/chat/completions',model:'@cf/moonshotai/kimi-k2.6',key:'',lsKey:'sh_api_key_4'}
   ],
   currentRoute:0,
   MAX_HISTORY:20,
@@ -2490,7 +2607,14 @@ var SH_API={
     }
     typing();
     var messages=[
-      {role:'system',content:'你是"小海"，山海智能指挥中心的AI助手。简洁专业直接，涉及系统操作告诉用户对应!指令，中文回答，精炼不啰嗦。'}
+      {role:'system',content:'你是"小海"，山海云枢指挥中心的AI助手。\n\n'+
+'【身份】山海云枢/YUNSHU是茶旅时代(福建)文旅集团的AI中枢系统。你是执行者、报告者，不是决策者。\n\n'+
+'【生态】12端口管控：AI客服/商城/话术/指挥中心/SEO/GEO/RSS/客服站x4/聊天挂件。三路AI引擎(智谱GLM主+硅基备+火山备)自动故障切换。\n\n'+
+'【品牌矩阵】熹野白茶/虎鼎记/元力泰养生酒(18.9元瓶)/茶酒果酒/共创者联盟。API产品三档：9.9体验/49.9标准/199专业。智能接口298元/年。\n\n'+
+'【DNA铁律63条】核心：主权至上(#62)>供电局(#61)>孤船(#63)>全自动(#1)>51%不稀释(#3)>收入第一(#40)>SW零劫持(#55)。主人指令=第一法则。\n\n'+
+'【财务】收款码VSDB201242145>兴业银行尾号9515。三位一体：法务先过>税务再过>会计最后。\n\n'+
+'【GEO策略】所有获客通过GEO生态自动完成，不做手动推广。GitHub Pages为主，surge.sh为备。\n\n'+
+'【原则】简洁专业直接。涉及系统操作告诉对应!指令。中文回答，精炼不啰嗦。输入!帮助查看所有指令。'}
     ];
     var histSlice=this.history.slice(-20);
     for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
@@ -2764,22 +2888,31 @@ function buildLogPanel(){
 }
 
 function buildHelpMsg(){
-  return '<div class="result-box"><div class="rb-title">可用指令</div>'+
-    '<div class="rb-item"><b>!自检</b> 系统状态检查</div>'+
-    '<div class="rb-item"><b>!通电</b> 系统启动</div>'+
-    '<div class="rb-item"><b>!芯片</b> 查看芯片信息</div>'+
-    '<div class="rb-item"><b>!模块</b> 已加载模块</div>'+
-    '<div class="rb-item"><b>!安保</b> 安全状态</div>'+
-    '<div class="rb-item"><b>!端口</b> 端口管控</div>'+
-    '<div class="rb-item"><b>!防护盾</b> 安全设置</div>'+
-    '<div class="rb-item"><b>!订单</b> 订单管理</div>'+
-    '<div class="rb-item"><b>!营收</b> 营收概览</div>'+
-    '<div class="rb-item"><b>!通知</b> 通知中心</div>'+
-    '<div class="rb-item"><b>!权限</b> 权限设置</div>'+
-    '<div class="rb-item"><b>!系统</b> 系统状态</div>'+
-    '<div class="rb-item"><b>!日志</b> 操作日志</div>'+
-    '<div class="rb-item" style="color:var(--text3);margin-top:8px">也可以直接输入问题，AI会回答</div>'+
-    '</div>';
+  var h='<div class="result-box"><div class="rb-title">山海云枢指令手册 V37</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px">';
+  var cmds=[
+    ['!帮助','指令列表'],['!自检','系统自检'],['!通电','开机动画'],
+    ['!芯片','芯片信息'],['!模块','模块列表'],['!安保','安全状态'],
+    ['!巡检','全站巡检'],['!引擎','引擎状态'],['!调度','调度中心'],
+    ['!反馈','反馈日志'],['!统计','操作统计'],['!订单','订单管理'],
+    ['!营收','营收概览'],['!端口','端口管控'],['!知识','知识库'],
+    ['!品牌','品牌矩阵'],['!DNA','铁律清单'],['!财务','财务体系'],
+    ['!防护盾','安全盾'],['!安全','安全状态'],['!主权','权限管理'],
+    ['!数据','数据面板'],['!收款','收款通道'],['!工具','工具箱'],
+    ['!建站','建站向导'],['!通知','通知中心'],['!动态','最新动态'],
+    ['!已读','标记已读'],['!系统','系统信息'],['!状态','系统状态'],
+    ['!版本','版本信息'],['!日志','操作日志'],['!记忆','记忆状态'],
+    ['!设置Key','配置API'],['!查看Key','查看密钥'],['!清理','清除数据'],
+    ['!清记忆','清除记忆']
+  ];
+  cmds.forEach(function(c){
+    h+='<div style="background:var(--surface2);border-radius:4px;padding:4px 8px">';
+    h+='<span style="color:var(--accent)">'+c[0]+'</span> '+c[1]+'</div>';
+  });
+  h+='</div>';
+  h+='<div style="margin-top:8px;color:var(--text3);font-size:11px">共 '+cmds.length+' 条指令 | 输入任意文字可与AI对话</div>';
+  h+='</div>';
+  return h;
 }
 
 // === 端口管控 ===
