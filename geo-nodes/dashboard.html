@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO生态监控面板 - 山海供电局</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --accent-cyan: #39d353;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .refresh-badge {
+            background: var(--bg-tertiary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .refresh-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 概览区 */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-value.blue { color: var(--accent-blue); }
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.purple { color: var(--accent-purple); }
+        .stat-value.yellow { color: var(--accent-yellow); }
+
+        .health-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .health-seed { background: rgba(210, 153, 34, 0.2); color: var(--accent-yellow); }
+        .health-growing { background: rgba(88, 166, 255, 0.2); color: var(--accent-blue); }
+        .health-mature { background: rgba(163, 113, 247, 0.2); color: var(--accent-purple); }
+        .health-thriving { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); }
+
+        /* 主内容区 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-body {
+            padding: 16px 20px;
+        }
+
+        /* 节点列表 */
+        .node-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .node-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .node-list::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .node-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .node-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            transition: border-color 0.2s;
+        }
+
+        .node-item:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .node-item.hub {
+            border-color: var(--accent-purple);
+            background: linear-gradient(135deg, rgba(163, 113, 247, 0.1), transparent);
+        }
+
+        .node-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .node-name {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hub-badge {
+            background: var(--accent-purple);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .node-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.active { background: var(--accent-green); }
+        .status-dot.inactive { background: var(--text-secondary); }
+
+        .node-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .node-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .node-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .tag {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        /* 网络可视化 */
+        .network-container {
+            height: 350px;
+            position: relative;
+        }
+
+        .network-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .network-node {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .network-node:hover {
+            transform: scale(1.1);
+        }
+
+        .network-link {
+            stroke: var(--border-color);
+            stroke-opacity: 0.4;
+            stroke-width: 1;
+        }
+
+        /* 指标区 */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .metric-card {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .metric-bar {
+            height: 6px;
+            background: var(--bg-primary);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* 日志区 */
+        .log-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+        }
+
+        .log-list {
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'SF Mono', Consolas, monospace;
+            font-size: 0.85rem;
+        }
+
+        .log-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .log-list::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .log-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .log-item {
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .log-item:last-child {
+            border-bottom: none;
+        }
+
+        .log-time {
+            color: var(--text-secondary);
+            white-space: nowrap;
+            min-width: 140px;
+        }
+
+        .log-type {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .log-type.join { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); }
+        .log-type.link { background: rgba(88, 166, 255, 0.2); color: var(--accent-blue); }
+        .log-type.content { background: rgba(163, 113, 247, 0.2); color: var(--accent-purple); }
+        .log-type.status { background: rgba(210, 153, 34, 0.2); color: var(--accent-yellow); }
+
+        .log-message {
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 24px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .log-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .log-time {
+                min-width: auto;
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 图标 */
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 GEO生态监控面板</h1>
+            <div class="header-info">
+                <div class="refresh-badge">
+                    <span class="refresh-dot"></span>
+                    <span id="countdown">60</span>s 后自动刷新
+                </div>
+                <span>📍 山海供电局运维中心</span>
+            </div>
+        </header>
+
+        <!-- 概览区 -->
+        <section class="overview-grid" id="overview">
+            <div class="stat-card">
+                <div class="stat-label">📊 总节点数</div>
+                <div class="stat-value blue" id="total-nodes">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🟢 活跃节点</div>
+                <div class="stat-value green" id="active-nodes">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🔗 互引链接</div>
+                <div class="stat-value purple" id="cross-links">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🏭 覆盖行业</div>
+                <div class="stat-value yellow" id="industries">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">💚 生态健康度</div>
+                <div id="health-status">--</div>
+            </div>
+        </section>
+
+        <!-- 主内容区 -->
+        <section class="main-content">
+            <!-- 节点列表 -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">📋 节点列表</div>
+                    <span id="node-count">0 个节点</span>
+                </div>
+                <div class="panel-body">
+                    <div class="node-list" id="node-list">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            加载中...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 网络可视化 -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">🕸️ 网络拓扑</div>
+                    <span>实时连接视图</span>
+                </div>
+                <div class="panel-body">
+                    <div class="network-container">
+                        <svg class="network-svg" id="network-svg">
+                            <defs>
+                                <radialGradient id="hubGradient">
+                                    <stop offset="0%" stop-color="#a371f7"/>
+                                    <stop offset="100%" stop-color="#6e40c9"/>
+                                </radialGradient>
+                                <radialGradient id="nodeGradient">
+                                    <stop offset="0%" stop-color="#58a6ff"/>
+                                    <stop offset="100%" stop-color="#1f6feb"/>
+                                </radialGradient>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <g id="links-group"></g>
+                            <g id="nodes-group"></g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 指标区 -->
+        <section class="panel" style="margin-bottom: 24px;">
+            <div class="panel-header">
+                <div class="panel-title">📈 生态指标</div>
+            </div>
+            <div class="panel-body">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">内容贡献量</div>
+                        <div class="metric-value" id="content-count">0</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="content-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">链接密度</div>
+                        <div class="metric-value" id="link-density">0%</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="density-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">行业覆盖度</div>
+                        <div class="metric-value" id="industry-coverage">0%</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="coverage-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">生态增长率</div>
+                        <div class="metric-value" id="growth-rate">0%</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="growth-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 日志区 -->
+        <section class="log-container">
+            <div class="log-header">
+                <div class="panel-title">📜 实时日志</div>
+                <span>最近 10 条事件</span>
+            </div>
+            <div class="log-list" id="log-list">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    加载中...
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>最后更新: <span id="last-update">--</span></p>
+            <p>GEO生态监控面板 · 山海供电局 · © 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // 配置
+        const REFRESH_INTERVAL = 60000; // 60秒
+        const TARGET_INDUSTRIES = 20; // 目标行业数
+
+        let countdown = 60;
+
+        // 健康度显示
+        const healthLabels = {
+            'seed': { text: '🌱 萌芽期', class: 'health-seed' },
+            'growing': { text: '🌿 生长期', class: 'health-growing' },
+            'mature': { text: '🌳 成熟期', class: 'health-mature' },
+            'thriving': { text: '✨ 繁荣期', class: 'health-thriving' }
+        };
+
+        // 日志类型
+        const logTypes = {
+            'join': '加入',
+            'link': '链接',
+            'content': '内容',
+            'status': '状态'
+        };
+
+        // 生成模拟日志
+        function generateLogs(nodes) {
+            const logs = [];
+            const now = new Date();
+            
+            // 添加节点加入日志
+            nodes.forEach((node, index) => {
+                const time = new Date(now - (nodes.length - index) * 3600000);
+                logs.push({
+                    time: time,
+                    type: 'join',
+                    message: `${node.name} 加入生态系统`
+                });
+            });
+
+            // 添加一些链接日志
+            if (nodes.length > 1) {
+                for (let i = 1; i < Math.min(nodes.length, 4); i++) {
+                    const time = new Date(now - i * 1800000);
+                    logs.push({
+                        time: time,
+                        type: 'link',
+                        message: `${nodes[0].name} 与 ${nodes[i].name} 建立互引链接`
+                    });
+                }
+            }
+
+            // 添加内容产出日志
+            nodes.forEach((node, index) => {
+                if (node.capabilities && node.capabilities.length > 0) {
+                    const time = new Date(now - (index + 5) * 900000);
+                    const cap = node.capabilities[Math.floor(Math.random() * node.capabilities.length)];
+                    logs.push({
+                        time: time,
+                        type: 'content',
+                        message: `${node.name} 产出新${cap}内容`
+                    });
+                }
+            });
+
+            // 按时间排序
+            logs.sort((a, b) => b.time - a.time);
+            return logs.slice(0, 10);
+        }
+
+        // 格式化时间
+        function formatTime(date) {
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).replace(/\//g, '-');
+        }
+
+        // 渲染概览
+        function renderOverview(status) {
+            document.getElementById('total-nodes').textContent = status.total_nodes;
+            document.getElementById('active-nodes').textContent = status.active_nodes;
+            document.getElementById('cross-links').textContent = status.total_cross_links;
+            document.getElementById('industries').textContent = status.total_industries;
+
+            const health = healthLabels[status.ecosystem_health] || healthLabels['seed'];
+            document.getElementById('health-status').innerHTML = 
+                `<span class="health-badge ${health.class}">${health.text}</span>`;
+        }
+
+        // 渲染节点列表
+        function renderNodeList(registry) {
+            const container = document.getElementById('node-list');
+            const allNodes = [registry.hub, ...registry.nodes.filter(n => n.role !== 'hub')];
+            
+            document.getElementById('node-count').textContent = `${allNodes.length} 个节点`;
+
+            if (allNodes.length === 0) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">暂无节点数据</div>';
+                return;
+            }
+
+            container.innerHTML = allNodes.map(node => `
+                <div class="node-item ${node.role === 'hub' ? 'hub' : ''}">
+                    <div class="node-header">
+                        <div class="node-name">
+                            ${node.name}
+                            ${node.role === 'hub' ? '<span class="hub-badge">HUB</span>' : ''}
+                        </div>
+                        <div class="node-status">
+                            <span class="status-dot ${node.status || 'inactive'}"></span>
+                            ${node.status === 'active' ? '活跃' : '未激活'}
+                        </div>
+                    </div>
+                    <div class="node-meta">
+                        <span>🏢 ${node.industry || '未分类'}</span>
+                        <span>📅 ${node.joined || '未知'}</span>
+                        <span>🔗 <a href="${node.url}" target="_blank" style="color: var(--accent-blue);">访问</a></span>
+                    </div>
+                    <div class="node-tags">
+                        ${(node.capabilities || []).map(cap => `<span class="tag">${cap}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 渲染网络拓扑
+        function renderNetwork(registry) {
+            const svg = document.getElementById('network-svg');
+            const linksGroup = document.getElementById('links-group');
+            const nodesGroup = document.getElementById('nodes-group');
+            const width = svg.clientWidth || 500;
+            const height = svg.clientHeight || 350;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            linksGroup.innerHTML = '';
+            nodesGroup.innerHTML = '';
+
+            const allNodes = [registry.hub, ...registry.nodes.filter(n => n.role !== 'hub')];
+            
+            if (allNodes.length === 0) return;
+
+            // Hub节点位置
+            const hubNode = allNodes.find(n => n.role === 'hub') || allNodes[0];
+            const hubX = centerX;
+            const hubY = centerY;
+
+            // 其他节点围绕Hub分布
+            const otherNodes = allNodes.filter(n => n.role !== 'hub');
+            const radius = Math.min(width, height) * 0.35;
+
+            // 绘制连接线
+            otherNodes.forEach((node, index) => {
+                const angle = (2 * Math.PI * index) / otherNodes.length - Math.PI / 2;
+                const nodeX = centerX + radius * Math.cos(angle);
+                const nodeY = centerY + radius * Math.sin(angle);
+
+                // Hub到节点
+                const link = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                link.setAttribute('x1', hubX);
+                link.setAttribute('y1', hubY);
+                link.setAttribute('x2', nodeX);
+                link.setAttribute('y2', nodeY);
+                link.setAttribute('class', 'network-link');
+                linksGroup.appendChild(link);
+
+                // 节点间连线
+                if (node.cross_links && node.cross_links.length > 0) {
+                    node.cross_links.forEach(targetId => {
+                        const targetIndex = otherNodes.findIndex(n => n.node_id === targetId);
+                        if (targetIndex > index) {
+                            const targetAngle = (2 * Math.PI * targetIndex) / otherNodes.length - Math.PI / 2;
+                            const targetX = centerX + radius * Math.cos(targetAngle);
+                            const targetY = centerY + radius * Math.sin(targetAngle);
+                            
+                            const interLink = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                            interLink.setAttribute('x1', nodeX);
+                            interLink.setAttribute('y1', nodeY);
+                            interLink.setAttribute('x2', targetX);
+                            interLink.setAttribute('y2', targetY);
+                            interLink.setAttribute('class', 'network-link');
+                            interLink.setAttribute('stroke-dasharray', '4,4');
+                            linksGroup.appendChild(interLink);
+                        }
+                    });
+                }
+            });
+
+            // 绘制Hub
+            const hubGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            hubGroup.setAttribute('class', 'network-node');
+            hubGroup.setAttribute('transform', `translate(${hubX}, ${hubY})`);
+
+            const hubCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            hubCircle.setAttribute('r', '28');
+            hubCircle.setAttribute('fill', 'url(#hubGradient)');
+            hubCircle.setAttribute('filter', 'url(#glow)');
+            hubGroup.appendChild(hubCircle);
+
+            const hubText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            hubText.setAttribute('text-anchor', 'middle');
+            hubText.setAttribute('dy', '0.35em');
+            hubText.setAttribute('fill', 'white');
+            hubText.setAttribute('font-size', '10');
+            hubText.setAttribute('font-weight', '600');
+            hubText.textContent = 'HUB';
+            hubGroup.appendChild(hubText);
+
+            nodesGroup.appendChild(hubGroup);
+
+            // 绘制其他节点
+            otherNodes.forEach((node, index) => {
+                const angle = (2 * Math.PI * index) / otherNodes.length - Math.PI / 2;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+
+                const nodeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                nodeGroup.setAttribute('class', 'network-node');
+                nodeGroup.setAttribute('transform', `translate(${x}, ${y})`);
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('r', node.status === 'active' ? '18' : '14');
+                circle.setAttribute('fill', node.status === 'active' ? 'url(#nodeGradient)' : '#444');
+                nodeGroup.appendChild(circle);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dy', '0.35em');
+                text.setAttribute('fill', 'white');
+                text.setAttribute('font-size', '8');
+                text.textContent = node.name.substring(0, 3);
+                nodeGroup.appendChild(text);
+
+                nodesGroup.appendChild(nodeGroup);
+            });
+        }
+
+        // 渲染指标
+        function renderMetrics(registry, status) {
+            const allNodes = [registry.hub, ...registry.nodes.filter(n => n.role !== 'hub')];
+            
+            // 内容贡献量（基于能力数量估算）
+            const contentCount = allNodes.reduce((sum, n) => sum + (n.capabilities?.length || 0) * 10, 0);
+            document.getElementById('content-count').textContent = contentCount;
+            document.getElementById('content-bar').style.width = Math.min(100, contentCount / 2) + '%';
+
+            // 链接密度
+            const maxLinks = allNodes.length * (allNodes.length - 1) / 2;
+            const density = maxLinks > 0 ? (status.total_cross_links / maxLinks * 100) : 0;
+            document.getElementById('link-density').textContent = density.toFixed(1) + '%';
+            document.getElementById('density-bar').style.width = density + '%';
+
+            // 行业覆盖度
+            const coverage = (status.total_industries / TARGET_INDUSTRIES * 100);
+            document.getElementById('industry-coverage').textContent = coverage.toFixed(1) + '%';
+            document.getElementById('coverage-bar').style.width = Math.min(100, coverage) + '%';
+
+            // 生态增长率（模拟：基于节点数量增长）
+            const growthRate = allNodes.length > 1 ? ((allNodes.length - 1) / allNodes.length * 100) : 100;
+            document.getElementById('growth-rate').textContent = growthRate.toFixed(1) + '%';
+            document.getElementById('growth-bar').style.width = Math.min(100, growthRate) + '%';
+        }
+
+        // 渲染日志
+        function renderLogs(logs) {
+            const container = document.getElementById('log-list');
+            container.innerHTML = logs.map(log => `
+                <div class="log-item">
+                    <span class="log-time">${formatTime(log.time)}</span>
+                    <span class="log-type ${log.type}">${logTypes[log.type]}</span>
+                    <span class="log-message">${log.message}</span>
+                </div>
+            `).join('');
+        }
+
+        // 更新倒计时
+        function updateCountdown() {
+            countdown--;
+            if (countdown < 0) countdown = 60;
+            document.getElementById('countdown').textContent = countdown;
+        }
+
+        // 加载数据
+        async function loadData() {
+            try {
+                const [registryRes, statusRes] = await Promise.all([
+                    fetch('registry.json'),
+                    fetch('status.json')
+                ]);
+
+                const registry = await registryRes.json();
+                const status = await statusRes.json();
+
+                // 更新显示
+                renderOverview(status);
+                renderNodeList(registry);
+                renderNetwork(registry);
+                renderMetrics(registry, status);
+                
+                // 生成并渲染日志
+                const logs = generateLogs([registry.hub, ...registry.nodes]);
+                renderLogs(logs);
+
+                // 更新时间
+                document.getElementById('last-update').textContent = formatTime(new Date());
+                document.title = `GEO生态监控面板 - ${status.ecosystem_health || 'seed'} | 山海供电局`;
+
+            } catch (error) {
+                console.error('加载数据失败:', error);
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            setInterval(loadData, REFRESH_INTERVAL);
+            setInterval(updateCountdown, 1000);
+        });
+
+        // 窗口大小变化时重新绘制网络
+        window.addEventListener('resize', () => {
+            fetch('registry.json')
+                .then(res => res.json())
+                .then(renderNetwork);
+        });
+    </script>
+</body>
+</html>
