@@ -3848,9 +3848,9 @@ function initApp(){
     for(var i=1;i<=16;i++){
       var r=SELF_AUDIT.checkRound(i);
       SELF_AUDIT.autoFix(r);
-      allResults.push({round:i,passed:r.passed.length,failed:r.failed,issues:r.issues.length});
+      allResults.push({round:i,passed:r.passed.length,failed:r.issues.length,issues:r.issues.length});
       totalPassed+=r.passed.length;
-      totalFailed+=r.failed;
+      totalFailed+=r.issues.length;
       totalFixed+=r.issues.length;
       await new Promise(function(res){setTimeout(res,300)});
     }
@@ -3866,9 +3866,9 @@ function initApp(){
       });
       // 触发进化
       GROWTH_ENGINE.evolve();
-      allResults.push({round:j,passed:r2.passed.length,failed:r2.failed,issues:r2.issues.length,absorbed:absorbSources[srcIdx]});
+      allResults.push({round:j,passed:r2.passed.length,failed:r2.issues.length,issues:r2.issues.length,absorbed:absorbSources[srcIdx]});
       totalPassed+=r2.passed.length;
-      totalFailed+=r2.failed;
+      totalFailed+=r2.issues.length;
       totalFixed+=r2.issues.length;
       await new Promise(function(res){setTimeout(res,500)});
     }
@@ -3893,7 +3893,7 @@ function initApp(){
     report+='阶段二（17-20轮）：自检+吸星大法+自我进化 ✓<br>';
     report+='<br>';
     report+='总通过项：<span style="color:#00ff88">'+totalPassed+'</span><br>';
-    report+='总失败项：<span style="color:#ff6b6b">'+totalFailed+'</span><br>';
+    report+='总问题项：<span style="color:#ff6b6b">'+totalFailed+'</span><br>';
     report+='自修复项：<span style="color:#4ecdc4">'+totalFixed+'</span><br>';
     report+='系统健康度：<span style="color:#ffd93d;font-size:16px;font-weight:bold">'+health+'/100</span><br>';
     report+='<br>';
