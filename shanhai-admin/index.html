@@ -98,8 +98,8 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 .pin-row{display:flex;gap:16px;justify-content:center}
 .pin-btn{
   width:85px;height:85px;border-radius:50%;border:none;
-  background:linear-gradient(145deg,rgba(75,60,100,0.95),rgba(50,40,75,0.98));
-  color:rgba(255,248,220,1);font-size:38px;font-weight:700;
+  background:linear-gradient(145deg,rgba(90,75,120,0.95),rgba(65,50,90,0.98));
+  color:rgba(255,248,220,1);font-size:40px;font-weight:800;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:all .15s cubic-bezier(0.4,0,0.2,1);
   -webkit-user-select:none;user-select:none;touch-action:manipulation;
@@ -116,9 +116,10 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 .pin-btn::after{
   content:'';position:absolute;inset:0;border-radius:50%;
   border:1.5px solid rgba(212,160,60,0.15);transition:all .15s;
+  pointer-events:none;
 }
 .pin-btn:active,.pin-btn.pressed{
-  background:linear-gradient(145deg,rgba(90,75,110,0.95),rgba(60,50,80,0.98));
+  background:linear-gradient(145deg,rgba(110,90,135,0.95),rgba(80,65,100,0.98));
   transform:scale(0.92);
   box-shadow:
     0 2px 8px rgba(0,0,0,0.5),
@@ -571,24 +572,24 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   <div class="pin-status" id="pinStatus">请输入通行码</div>
   <div class="pin-pad" id="pinPad">
     <div class="pin-row">
-      <button class="pin-btn" data-k="1" type="button">1</button>
-      <button class="pin-btn" data-k="2" type="button">2</button>
-      <button class="pin-btn" data-k="3" type="button">3</button>
+      <button class="pin-btn" data-k="1" type="button" onclick="doPinAction(this)">1</button>
+      <button class="pin-btn" data-k="2" type="button" onclick="doPinAction(this)">2</button>
+      <button class="pin-btn" data-k="3" type="button" onclick="doPinAction(this)">3</button>
     </div>
     <div class="pin-row">
-      <button class="pin-btn" data-k="4" type="button">4</button>
-      <button class="pin-btn" data-k="5" type="button">5</button>
-      <button class="pin-btn" data-k="6" type="button">6</button>
+      <button class="pin-btn" data-k="4" type="button" onclick="doPinAction(this)">4</button>
+      <button class="pin-btn" data-k="5" type="button" onclick="doPinAction(this)">5</button>
+      <button class="pin-btn" data-k="6" type="button" onclick="doPinAction(this)">6</button>
     </div>
     <div class="pin-row">
-      <button class="pin-btn" data-k="7" type="button">7</button>
-      <button class="pin-btn" data-k="8" type="button">8</button>
-      <button class="pin-btn" data-k="9" type="button">9</button>
+      <button class="pin-btn" data-k="7" type="button" onclick="doPinAction(this)">7</button>
+      <button class="pin-btn" data-k="8" type="button" onclick="doPinAction(this)">8</button>
+      <button class="pin-btn" data-k="9" type="button" onclick="doPinAction(this)">9</button>
     </div>
     <div class="pin-row">
-      <button class="pin-btn fn" data-k="clear" type="button">清除</button>
-      <button class="pin-btn" data-k="0" type="button">0</button>
-      <button class="pin-btn fn" data-k="back" type="button">⌫</button>
+      <button class="pin-btn fn" data-k="clear" type="button" onclick="doPinAction(this)">清除</button>
+      <button class="pin-btn" data-k="0" type="button" onclick="doPinAction(this)">0</button>
+      <button class="pin-btn fn" data-k="back" type="button" onclick="doPinAction(this)">⌫</button>
     </div>
   </div>
   <div class="pin-footer" id="pinFooter">
@@ -865,29 +866,15 @@ var PIN={
 
 function resetInactivity(){SESSION.lastActive=Date.now()}
 
-// PIN 键盘事件绑定 - pointerdown(统一) + click 双保险
-(function(){
-  var pad=document.getElementById('pinPad');
-  if(!pad)return;
-  var keys=pad.querySelectorAll('.pin-btn');
-  keys.forEach(function(btn){
-    var _lock=false;
-    function doAction(){
-      if(_lock)return;_lock=true;
-      setTimeout(function(){_lock=false},200);
-      btn.classList.add('pressed');
-      setTimeout(function(){btn.classList.remove('pressed')},180);
-      var k=btn.getAttribute('data-k');
-      if(k==='clear'){PIN.clearInput();return}
-      if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
-      if(k)pinIn(k);
-    }
-    // pointerdown: 统一鼠标/触摸，立即响应
-    btn.addEventListener('pointerdown',function(e){e.preventDefault();doAction();});
-    // click: 兜底，防止pointerdown被某些浏览器拦截
-    btn.addEventListener('click',doAction);
-  });
-})();
+// PIN 键盘 - 内联 onclick 调用，最可靠的跨浏览器方案
+function doPinAction(btn){
+  btn.classList.add('pressed');
+  setTimeout(function(){btn.classList.remove('pressed')},180);
+  var k=btn.getAttribute('data-k');
+  if(k==='clear'){PIN.clearInput();return}
+  if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
+  if(k)pinIn(k);
+}
 
 function pinIn(d){
   if(PIN.input.length>=6)return;
