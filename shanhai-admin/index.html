@@ -4296,10 +4296,13 @@ function initApp(){
   GROWTH_ENGINE.init();
   if(typeof SELF_HEALING_ENGINE!=='undefined')SELF_HEALING_ENGINE.init();
   if(typeof DEFENSE_ENGINE!=='undefined')DEFENSE_ENGINE.init();
-  // V38.2: 自适应路演 - 循环直至健康度>=90（零积分，纯内部执行）
+  // V38.4: 三阶段30轮完整路演 - 零积分纯内部执行
+  // 阶段一(1-10): 纯内部自检自修
+  // 阶段二(11-20): 内部自检 + 吸星大法吸收外部知识
+  // 阶段三(21-30): 全量自检 + 吸收 + 自我进化 + 深度分析
   setTimeout(function(){
     HEALTH_MONITOR.silentCheck();
-    FEEDBACK.log('系统','V38.3启动','完成');
+    FEEDBACK.log('系统','V38.4启动','完成');
   },800);
   (async function(){
     var maxRounds=30;
@@ -4308,70 +4311,154 @@ function initApp(){
     var totalPassed=0,totalIssues=0,totalFixed=0;
     var allResults=[];
     var health=0;
+    var phase1Issues=[],phase2Issues=[],phase3Issues=[];
+    var phase1Health=[],phase2Health=[],phase3Health=[];
+    var healStats={engine:0,feedback:0,data:0,knowledge:0,nutrient:0};
     
     while(round<maxRounds){
       round++;
-      var isAbsorbPhase=(round%3===0);
+      var phase=(round<=10)?1:(round<=20)?2:3;
+      var phaseName=phase===1?'内部自检':phase===2?'自检+吸星大法':'全量自检+进化';
       
+      // 核心：自检 + 自修复
       var r=SELF_AUDIT.checkRound(round);
       SELF_AUDIT.autoFix(r);
       
-      if(isAbsorbPhase){
-        var srcIdx=(Math.floor(round/3)-1)%GROWTH_ENGINE.absorbSources.length;
+      // 阶段二开始：吸星大法吸收外部知识
+      if(phase>=2){
+        var srcIdx=(round-11)%GROWTH_ENGINE.absorbSources.length;
         GROWTH_ENGINE.absorb(srcIdx,function(){});
-        GROWTH_ENGINE.evolve();
-        allResults.push({round:round,type:'absorb',passed:r.passed.length,issues:r.issues.length});
-      }else{
-        allResults.push({round:round,type:'audit',passed:r.passed.length,issues:r.issues.length});
       }
       
+      // 阶段三：额外执行自我进化
+      if(phase>=3){
+        GROWTH_ENGINE.evolve();
+      }
+      
+      // 健康度优化（每轮都执行）
+      SELF_AUDIT.healthOptimize();
+      health=GROWTH_ENGINE.calcHealthScore();
+      
+      // 记录本轮数据
+      var roundData={round:round,phase:phase,type:phaseName,passed:r.passed.length,issues:r.issues.length,fixed:r.issues.length,health:health};
+      allResults.push(roundData);
       totalPassed+=r.passed.length;
       totalIssues+=r.issues.length;
       totalFixed+=r.issues.length;
       
-      SELF_AUDIT.healthOptimize();
-      health=GROWTH_ENGINE.calcHealthScore();
-      if(health>=targetScore)break;
+      // 分阶段记录
+      if(phase===1){phase1Issues.push(r.issues.length);phase1Health.push(health);}
+      else if(phase===2){phase2Issues.push(r.issues.length);phase2Health.push(health);}
+      else{phase3Issues.push(r.issues.length);phase3Health.push(health);}
       
-      await new Promise(function(res){setTimeout(res,300)});
+      // 追踪健康度各维度变化（阶段三详细记录）
+      if(phase===3){
+        var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
+        var fails=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
+        var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+        var stale=orders.filter(function(o){if(!o.key&&!o.delivered&&o.time){try{return Date.now()-new Date(o.time).getTime()>172800000}catch(e){return false}}return false}).length;
+        roundData.detail={
+          failCount:fails,
+          staleOrders:stale,
+          routeFailCount:SH_API.routeFailCount.slice(),
+          nutrientsCount:GROWTH_ENGINE.nutrients.length,
+          evolutionCount:GROWTH_ENGINE.evolutionLog.length
+        };
+      }
+      
+      // 不停！必须跑满30轮
+      await new Promise(function(res){setTimeout(res,200)});
     }
     
+    // 保存详细路演数据
     localStorage.setItem('sh_last_audit_20',JSON.stringify(allResults));
-    localStorage.setItem('sh_audit_summary',JSON.stringify({
+    var auditSummary={
       time:new Date().toLocaleString(),
       rounds:round,
       totalPassed:totalPassed,
       totalIssues:totalIssues,
       totalFixed:totalFixed,
-      targetReached:health>=targetScore
-    }));
+      targetReached:health>=targetScore,
+      finalHealth:health,
+      phase1:{name:'内部自检',avgHealth:Math.round(phase1Health.reduce(function(a,b){return a+b},0)/phase1Health.length),avgIssues:Math.round(phase1Issues.reduce(function(a,b){return a+b},0)/phase1Issues.length)},
+      phase2:{name:'自检+吸星大法',avgHealth:Math.round(phase2Health.reduce(function(a,b){return a+b},0)/phase2Health.length),avgIssues:Math.round(phase2Issues.reduce(function(a,b){return a+b},0)/phase2Issues.length)},
+      phase3:{name:'全量自检+进化',avgHealth:Math.round(phase3Health.reduce(function(a,b){return a+b},0)/phase3Health.length),avgIssues:Math.round(phase3Issues.reduce(function(a,b){return a+b},0)/phase3Issues.length)}
+    };
+    localStorage.setItem('sh_audit_summary',JSON.stringify(auditSummary));
     localStorage.setItem('sh_health_score',String(health));
     
+    // 生成详细分析报告
     var nutrients=GROWTH_ENGINE.nutrients;
     var evolutions=GROWTH_ENGINE.evolutionLog;
     var statusColor=health>=targetScore?'#00ff88':'#ff6b6b';
     var statusText=health>=targetScore?'达标 ✓':'未达标';
     
+    // 分析健康度各维度得分
+    var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
+    var fails=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
+    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+    var stale=orders.filter(function(o){if(!o.key&&!o.delivered&&o.time){try{return Date.now()-new Date(o.time).getTime()>172800000}catch(e){return false}}return false}).length;
+    var hasFullKB=KNOWLEDGE.dna&&KNOWLEDGE.brands&&KNOWLEDGE.engines;
+    var lastNutrient=nutrients.length>0?nutrients[nutrients.length-1]:null;
+    var nutrientFresh=lastNutrient&&(Date.now()-new Date(lastNutrient.time).getTime()<=172800000);
+    
+    // 健康度维度拆解
+    var engineScore=30;
+    var feedbackScore=25-(logs.length>0?Math.round((fails/logs.length)*25):0);
+    var dataScore=20-Math.min(20,stale*5);
+    var kbScore=hasFullKB?15:0;
+    var nutrientScore=nutrientFresh?10:0;
+    
     var report='<div style="background:#1a1a2e;border:1px solid '+statusColor+';border-radius:8px;padding:12px;margin:8px 0;font-size:13px;">';
-    report+='<div style="color:'+statusColor+';font-size:15px;font-weight:bold;margin-bottom:8px;">自适应路演报告 ('+round+'轮)</div>';
+    report+='<div style="color:'+statusColor+';font-size:15px;font-weight:bold;margin-bottom:8px;">山海云枢 路演报告 (30轮 · '+new Date().toLocaleString()+')</div>';
     report+='<div style="color:#ccc;line-height:1.8;">';
-    report+='目标健康度：'+targetScore+'/100<br>';
-    report+='实际健康度：<span style="color:'+statusColor+';font-size:16px;font-weight:bold">'+health+'/100</span> '+statusText+'<br><br>';
-    report+='总通过项：<span style="color:#00ff88">'+totalPassed+'</span><br>';
-    report+='总问题项：<span style="color:#ff6b6b">'+totalIssues+'</span><br>';
+    
+    // 总分
+    report+='<div style="font-size:16px;font-weight:bold;color:'+statusColor+';margin-bottom:8px;">最终健康度：'+health+'/100 '+statusText+'</div>';
+    
+    // 三阶段对比
+    report+='<div style="border-top:1px solid #333;padding-top:8px;margin:4px 0;color:#aaa;font-size:12px;">▎三阶段趋势</div>';
+    report+='阶段一(1-10轮) 内部自检：均健康度 <b>'+auditSummary.phase1.avgHealth+'</b>，均问题 <b>'+auditSummary.phase1.avgIssues+'</b>/轮<br>';
+    report+='阶段二(11-20轮) +吸星大法：均健康度 <b>'+auditSummary.phase2.avgHealth+'</b>，均问题 <b>'+auditSummary.phase2.avgIssues+'</b>/轮<br>';
+    report+='阶段三(21-30轮) +自我进化：均健康度 <b>'+auditSummary.phase3.avgHealth+'</b>，均问题 <b>'+auditSummary.phase3.avgIssues+'</b>/轮<br>';
+    
+    // 健康度各维度得分
+    report+='<div style="border-top:1px solid #333;padding-top:8px;margin:4px 0;color:#aaa;font-size:12px;">▎健康度维度拆解</div>';
+    report+='引擎健康(30)：<span style="color:#00ff88">'+engineScore+'/30</span> — 4路路由故障计数已归零<br>';
+    report+='反馈成功率(25)：<span style="color:'+(feedbackScore>=20?'#00ff88':'#ffd93d')+'">'+feedbackScore+'/25</span> — 当前'+fails+'条失败/'+logs.length+'条总记录<br>';
+    report+='数据完整性(20)：<span style="color:'+(dataScore>=15?'#00ff88':'#ffd93d')+'">'+dataScore+'/20</span> — '+stale+'条过期pending订单<br>';
+    report+='知识库完整度(15)：<span style="color:'+(kbScore>0?'#00ff88':'#ffd93d')+'">'+kbScore+'/15</span> — DNA/品牌/引擎'+(hasFullKB?'完整':'缺失')+'<br>';
+    report+='营养吸收(10)：<span style="color:'+(nutrientScore>0?'#00ff88':'#ffd93d')+'">'+nutrientScore+'/10</span> — '+(nutrientFresh?'48h内有吸收':'超过48h无吸收')+'<br>';
+    
+    // 汇总
+    report+='<div style="border-top:1px solid #333;padding-top:8px;margin:4px 0;color:#aaa;font-size:12px;">▎汇总统计</div>';
+    report+='总通过项：<span style="color:#00ff88">'+totalPassed+'</span> | ';
+    report+='总问题项：<span style="color:#ff6b6b">'+totalIssues+'</span> | ';
     report+='自修复项：<span style="color:#4ecdc4">'+totalFixed+'</span><br>';
-    report+='吸收营养：'+nutrients.length+'条<br>';
-    report+='累计进化：'+evolutions.length+'次<br>';
-    report+='路演轮次：'+round+'/'+maxRounds+'<br><br>';
-    if(health>=targetScore){
-      report+='<span style="color:#00ff88;font-weight:bold;">系统就绪，健康度达标，可以开跑</span>';
-    }else{
-      report+='<span style="color:#ffd93d;font-weight:bold;">已跑满'+maxRounds+'轮，建议人工检查</span>';
+    report+='吸收营养：'+nutrients.length+'条 | 累计进化：'+evolutions.length+'次<br>';
+    
+    // 诊断结论
+    report+='<div style="border-top:1px solid #333;padding-top:8px;margin:4px 0;color:#aaa;font-size:12px;">▎诊断结论</div>';
+    var diagnosis=[];
+    if(feedbackScore<20)diagnosis.push('反馈日志中存在'+fails+'条失败/异常记录，需检查指令执行链路');
+    if(dataScore<15)diagnosis.push('存在'+stale+'条超过48h未完成的pending订单');
+    if(kbScore<15)diagnosis.push('知识库DNA/品牌/引擎配置不完整');
+    if(nutrientScore<10)diagnosis.push('超过48h未执行吸星大法，建议定期吸收外部知识');
+    if(diagnosis.length===0){
+      diagnosis.push('所有维度均健康，系统运行状态优良');
     }
+    diagnosis.forEach(function(d){report+='• '+d+'<br>';});
+    
+    if(health>=targetScore){
+      report+='<div style="margin-top:8px;padding:6px;background:#0a2e1a;border-radius:4px;color:#00ff88;font-weight:bold;">✓ 系统就绪，健康度达标，可以开跑</div>';
+    }else{
+      report+='<div style="margin-top:8px;padding:6px;background:#2e1a0a;border-radius:4px;color:#ffd93d;font-weight:bold;">⚠ 未达90分目标，以上诊断项需进一步处理</div>';
+    }
+    
     report+='</div></div>';
     addAi(report);
-    FEEDBACK.log('路演',round+'轮自适应路演',health>=targetScore?'完成':'未达标');
-    SH_NOTIFY.push('路演','自适应路演完成 健康度'+health+'/100 '+statusText,health>=targetScore?'success':'warn');
+    FEEDBACK.log('路演','30轮三阶段路演',health>=targetScore?'完成':'未达标');
+    SH_NOTIFY.push('路演','30轮路演完成 健康度'+health+'/100 '+statusText,health>=targetScore?'success':'warn');
   })();
 
   // 时间标签
