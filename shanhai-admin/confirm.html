@@ -92,8 +92,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 <script>
 var selectedOrder=null;
 var urlOrder=null;
+var confirmPending=false;
 
-// 解析URL参数
 function parseUrlParams(){
   var p={};
   var q=window.location.search.substring(1);
@@ -105,7 +105,12 @@ function parseUrlParams(){
   return p;
 }
 
-// 从URL参数构建订单
+function showStatus(msg,type){
+  var el=document.getElementById('statusBox');
+  el.className='status '+type;
+  el.innerHTML=msg;
+}
+
 function initUrlOrder(){
   var p=parseUrlParams();
   if(p.oid && p.phone){
@@ -116,7 +121,6 @@ function initUrlOrder(){
       source:'邮件链接',
       status:'pending'
     };
-    // 保存到localStorage备份
     var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
     var exists=false;
     for(var i=0;i<orders.length;i++){
@@ -126,26 +130,21 @@ function initUrlOrder(){
       orders.push(urlOrder);
       localStorage.setItem('shanhai_orders',JSON.stringify(orders));
     }
-    // 显示URL订单
     document.getElementById('urlOrderSection').style.display='block';
     document.getElementById('urlOrderInfo').innerHTML=
       '<div><span class="label">订单号：</span><span class="highlight">'+urlOrder.oid+'</span></div>'+
       '<div><span class="label">手机：</span><span class="val">'+urlOrder.phone+'</span></div>'+
       '<div><span class="label">时间：</span><span class="val">'+urlOrder.time+'</span></div>';
-    // 自动选中，启用按钮
     selectedOrder=urlOrder;
     document.getElementById('keySection').style.display='block';
     document.getElementById('confirmBtn').disabled=false;
-    // 清除URL参数
     history.replaceState(null,null,window.location.pathname);
   }
 }
 
-// 加载localStorage订单
 function loadOrders(){
   var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
   var pending=orders.filter(function(o){return o.status==='pending'});
-  // 排除URL已显示的订单
   if(urlOrder){
     pending=pending.filter(function(o){return o.oid!==urlOrder.oid});
   }
@@ -169,8 +168,6 @@ function loadOrders(){
     html+='</div>';
   });
   listEl.innerHTML=html;
-  
-  // 加载历史记录
   var delivered=orders.filter(function(o){return o.status==='delivered'});
   if(delivered.length>0){
     document.getElementById('historySec').style.display='block';
@@ -188,21 +185,34 @@ function selectLocalOrder(idx){
   if(urlOrder) pending=pending.filter(function(o){return o.oid!==urlOrder.oid});
   if(idx>=pending.length)return;
   var o=pending[idx];
-  if(o.cancelTime&&Date.now()<o.cancelTime){alert('订单仍在锁定中');return}
+  if(o.cancelTime&&Date.now()<o.cancelTime){showStatus('订单仍在锁定中','err');return}
   selectedOrder=o;
   var items=document.querySelectorAll('.order-item');
   items.forEach(function(el){el.classList.remove('selected')});
   document.getElementById('li-'+idx).classList.add('selected');
   document.getElementById('keySection').style.display='block';
   document.getElementById('confirmBtn').disabled=false;
+  confirmPending=false;
+  document.getElementById('confirmBtn').textContent='确认到款，发送密钥';
 }
 
 function confirmDeliver(){
-  if(!selectedOrder){alert('请先选择一个订单');return}
+  if(!selectedOrder){showStatus('请先选择一个订单','err');return}
   var key=document.getElementById('apiKeyInput').value.trim();
-  if(!key){alert('请输入API密钥');return}
-  if(!confirm('确认向 '+selectedOrder.phone+' 发放密钥？\n密钥: '+key.substring(0,8)+'...')){return}
-
+  if(!key){showStatus('请先在上方输入API密钥','err');document.getElementById('apiKeyInput').focus();return}
+  if(!confirmPending){
+    confirmPending=true;
+    document.getElementById('confirmBtn').textContent='再次点击确认发放';
+    document.getElementById('confirmBtn').style.background='linear-gradient(135deg,#ef4444,#dc2626)';
+    showStatus('即将向 '+selectedOrder.phone+' 发放密钥：'+key.substring(0,8)+'...','err');
+    setTimeout(function(){
+      confirmPending=false;
+      document.getElementById('confirmBtn').textContent='确认到款，发送密钥';
+      document.getElementById('confirmBtn').style.background='linear-gradient(135deg,#10b981,#059669)';
+      document.getElementById('statusBox').style.display='none';
+    },5000);
+    return;
+  }
   var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
   for(var i=0;i<orders.length;i++){
     if(orders[i].oid===selectedOrder.oid){
@@ -213,10 +223,10 @@ function confirmDeliver(){
     }
   }
   localStorage.setItem('shanhai_orders',JSON.stringify(orders));
-
-  var statusEl=document.getElementById('statusBox');
-  statusEl.className='status ok';
-  statusEl.innerHTML='已标记为已发放！<br><br>密钥：<b style="color:#d4a04a;word-break:break-all">'+key+'</b><br><br>请通过短信发送给客户：<b>'+selectedOrder.phone+'</b>';
+  confirmPending=false;
+  document.getElementById('confirmBtn').style.background='linear-gradient(135deg,#10b981,#059669)';
+  var phone=selectedOrder.phone;
+  showStatus('已标记为已发放！<br><br>密钥：<b style="color:#d4a04a;word-break:break-all">'+key+'</b><br><br>请通过短信发送给客户：<b>'+phone+'</b>','ok');
   document.getElementById('confirmBtn').disabled=true;
   document.getElementById('confirmBtn').textContent='已发放';
   selectedOrder=null;
@@ -227,11 +237,10 @@ function confirmDeliver(){
     document.getElementById('confirmBtn').textContent='确认到款，发送密钥';
     document.getElementById('apiKeyInput').value='';
     document.getElementById('keySection').style.display='none';
-    statusEl.style.display='none';
-  },5000);
+    document.getElementById('statusBox').style.display='none';
+  },8000);
 }
 
-// 初始化
 initUrlOrder();
 loadOrders();
 setInterval(loadOrders,10000);
