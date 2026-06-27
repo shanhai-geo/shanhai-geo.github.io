@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>山海智能指挥中心</title>
-<meta name="description" content="山海智能最高权限指挥中心">
+<title>山海智能管理后台</title>
+<meta name="description" content="山海智能管理后台">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src *;">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -43,7 +43,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 /* ===== PIN 锁屏 ===== */
 .pin-screen{
   position:fixed;inset:0;z-index:9999;
-  background:#0a0a12;
+  background:linear-gradient(160deg,#0f1624 0%,#1a1040 40%,#2a1a3a 70%,#1a0f20 100%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:24px;transition:opacity .5s ease,transform .5s ease;
   overflow:hidden;
@@ -51,77 +51,93 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 .pin-screen::before{
   content:'';position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 600px 400px at 50% 30%, rgba(46,204,113,0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 300px at 30% 70%, rgba(192,160,96,0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 300px at 70% 60%, rgba(46,204,113,0.03) 0%, transparent 70%);
+    radial-gradient(ellipse 700px 500px at 50% 25%, rgba(212,160,60,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 400px at 20% 80%, rgba(180,60,60,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 400px at 80% 70%, rgba(60,120,200,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 50%, rgba(212,160,60,0.1) 0%, transparent 60%);
   pointer-events:none;
 }
 .pin-screen::after{
   content:'';position:absolute;inset:0;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 20Q50 10 60 20Q50 30 40 20Z' fill='none' stroke='rgba(192,160,96,0.03)' stroke-width='0.5'/%3E%3Cpath d='M20 50Q30 40 40 50Q30 60 20 50Z' fill='none' stroke='rgba(46,204,113,0.02)' stroke-width='0.5'/%3E%3C/svg%3E") repeat;
-  pointer-events:none;opacity:0.6;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpath d='M50 15Q65 5 80 15Q65 25 50 15Z' fill='none' stroke='rgba(212,160,60,0.08)' stroke-width='0.8'/%3E%3Cpath d='M15 55Q30 45 45 55Q30 65 15 55Z' fill='none' stroke='rgba(212,160,60,0.06)' stroke-width='0.6'/%3E%3Cpath d='M60 70Q70 60 80 70Q70 80 60 70Z' fill='none' stroke='rgba(180,60,60,0.05)' stroke-width='0.5'/%3E%3C/svg%3E") repeat;
+  pointer-events:none;opacity:0.8;
 }
 .pin-screen.gone{opacity:0;transform:scale(1.03);pointer-events:none}
 .pin-screen>*{position:relative;z-index:1}
 .pin-logo{
-  width:72px;height:72px;border-radius:20px;
-  background:linear-gradient(145deg,#1a2a1a,#0d1f0d);
-  border:1.5px solid rgba(192,160,96,0.3);
+  width:88px;height:88px;border-radius:22px;
+  background:linear-gradient(145deg,#2a2040,#1a1530);
+  border:2px solid rgba(212,160,60,0.4);
   display:flex;align-items:center;justify-content:center;
-  font-size:30px;font-weight:900;color:#c0a060;
-  box-shadow:0 0 0 1px rgba(192,160,96,0.1),0 4px 20px rgba(192,160,96,0.15),0 8px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.05);
-  margin-bottom:18px;
+  font-size:36px;font-weight:900;color:#d4a03c;
+  box-shadow:0 0 0 2px rgba(212,160,60,0.15),0 4px 24px rgba(212,160,60,0.25),0 12px 48px rgba(0,0,0,0.5),inset 0 2px 0 rgba(255,255,255,0.1),inset 0 -2px 4px rgba(0,0,0,0.3);
+  margin-bottom:20px;
+  text-shadow:0 0 12px rgba(212,160,60,0.6),0 2px 4px rgba(0,0,0,0.5);
 }
 .pin-title{
-  font-size:22px;font-weight:700;letter-spacing:2px;margin-bottom:4px;
-  background:linear-gradient(180deg,#f0e6d0,#c0a060);
+  font-size:26px;font-weight:800;letter-spacing:3px;margin-bottom:4px;
+  background:linear-gradient(180deg,#ffe8a0,#d4a03c,#b8862e);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-shadow:none;
+  filter:drop-shadow(0 2px 8px rgba(212,160,60,0.4));
 }
-.pin-sub{font-size:10px;color:rgba(192,160,96,0.4);letter-spacing:4px;margin-bottom:32px;text-transform:uppercase;font-weight:300}
-.pin-dots{display:flex;gap:14px;margin-bottom:8px;justify-content:center}
+.pin-sub{font-size:11px;color:rgba(212,160,60,0.5);letter-spacing:5px;margin-bottom:36px;text-transform:uppercase;font-weight:400}
+.pin-dots{display:flex;gap:16px;margin-bottom:10px;justify-content:center}
 .pin-dot{
-  width:10px;height:10px;border-radius:50%;
-  border:1.5px solid rgba(192,160,96,0.25);background:transparent;
+  width:12px;height:12px;border-radius:50%;
+  border:2px solid rgba(212,160,60,0.3);background:transparent;
   transition:all .3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:0 0 4px rgba(212,160,60,0.1);
 }
-.pin-dot.filled{border-color:#c0a060;background:#c0a060;box-shadow:0 0 8px rgba(192,160,96,0.5),0 0 20px rgba(192,160,96,0.2)}
-.pin-dot.error{border-color:#c0392b;background:#c0392b;animation:pinShake .4s}
-.pin-dot.success{border-color:#2ecc71;background:#2ecc71;box-shadow:0 0 8px rgba(46,204,113,0.5),0 0 20px rgba(46,204,113,0.2)}
+.pin-dot.filled{border-color:#d4a03c;background:#d4a03c;box-shadow:0 0 12px rgba(212,160,60,0.7),0 0 28px rgba(212,160,60,0.3)}
+.pin-dot.error{border-color:#e74c3c;background:#e74c3c;animation:pinShake .4s;box-shadow:0 0 12px rgba(231,76,60,0.5)}
+.pin-dot.success{border-color:#2ecc71;background:#2ecc71;box-shadow:0 0 12px rgba(46,204,113,0.7),0 0 28px rgba(46,204,113,0.3)}
 @keyframes pinShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
-.pin-status{font-size:13px;color:rgba(192,160,96,0.4);margin:10px 0 28px;text-align:center;min-height:18px;letter-spacing:1px;font-weight:300}
-.pin-pad{display:flex;flex-direction:column;align-items:center;gap:12px}
-.pin-row{display:flex;gap:12px;justify-content:center}
+.pin-status{font-size:14px;color:rgba(212,160,60,0.55);margin:12px 0 32px;text-align:center;min-height:20px;letter-spacing:1px;font-weight:400}
+.pin-pad{display:flex;flex-direction:column;align-items:center;gap:16px}
+.pin-row{display:flex;gap:16px;justify-content:center}
 .pin-btn{
-  width:70px;height:70px;border-radius:50%;border:none;
-  background:linear-gradient(145deg,rgba(30,30,40,0.9),rgba(20,20,28,0.95));
-  color:rgba(240,230,210,0.85);font-size:26px;font-weight:300;
+  width:85px;height:85px;border-radius:50%;border:none;
+  background:linear-gradient(145deg,rgba(50,40,70,0.95),rgba(30,25,50,0.98));
+  color:rgba(255,240,200,0.95);font-size:30px;font-weight:400;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:all .15s cubic-bezier(0.4,0,0.2,1);
   -webkit-user-select:none;user-select:none;touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;outline:none;
   font-family:'Georgia','Noto Serif SC',serif;
-  box-shadow:0 2px 8px rgba(0,0,0,0.4),0 4px 16px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04),inset 0 -1px 0 rgba(0,0,0,0.2);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.5),
+    0 8px 24px rgba(0,0,0,0.3),
+    inset 0 2px 0 rgba(255,255,255,0.08),
+    inset 0 -2px 0 rgba(0,0,0,0.3),
+    0 0 0 1px rgba(212,160,60,0.12);
   position:relative;
 }
 .pin-btn::after{
   content:'';position:absolute;inset:0;border-radius:50%;
-  border:1px solid rgba(192,160,96,0.08);transition:border-color .15s;
+  border:1.5px solid rgba(212,160,60,0.15);transition:all .15s;
 }
 .pin-btn:active,.pin-btn.pressed{
-  background:linear-gradient(145deg,rgba(40,50,40,0.9),rgba(25,35,25,0.95));
-  transform:scale(0.94);
-  box-shadow:0 1px 4px rgba(0,0,0,0.4),0 2px 8px rgba(0,0,0,0.2),inset 0 1px 0 rgba(192,160,96,0.1),inset 0 -1px 0 rgba(0,0,0,0.3);
+  background:linear-gradient(145deg,rgba(60,50,80,0.95),rgba(40,35,60,0.98));
+  transform:scale(0.92);
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.5),
+    0 4px 12px rgba(0,0,0,0.3),
+    inset 0 2px 0 rgba(212,160,60,0.15),
+    inset 0 -2px 0 rgba(0,0,0,0.4),
+    0 0 20px rgba(212,160,60,0.15),
+    0 0 0 1px rgba(212,160,60,0.3);
 }
-.pin-btn:active::after,.pin-btn.pressed::after{border-color:rgba(192,160,96,0.25)}
+.pin-btn:active::after,.pin-btn.pressed::after{border-color:rgba(212,160,60,0.4)}
 .pin-btn.fn{
-  font-size:13px;color:rgba(192,160,96,0.35);
+  font-size:14px;color:rgba(212,160,60,0.45);
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   font-weight:400;letter-spacing:1px;
 }
-.pin-footer{margin-top:28px;text-align:center}
-.pin-reset{font-size:12px;color:rgba(192,160,96,0.25);cursor:pointer;padding:8px 16px;letter-spacing:1px}
-.pin-reset:active{color:rgba(192,160,96,0.5)}
-.pin-hint{font-size:10px;color:rgba(192,160,96,0.3);margin-top:8px;opacity:0.7;letter-spacing:1px}
+.pin-footer{margin-top:32px;text-align:center}
+.pin-reset{font-size:12px;color:rgba(212,160,60,0.3);cursor:pointer;padding:8px 16px;letter-spacing:1px}
+.pin-reset:active{color:rgba(212,160,60,0.6)}
+.pin-hint{font-size:10px;color:rgba(212,160,60,0.35);margin-top:8px;opacity:0.8;letter-spacing:1px}
 
 /* ===== 锁定屏 ===== */
 .lock-screen{
@@ -545,7 +561,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 <!-- PIN 锁屏 -->
 <div class="pin-screen" id="pinScreen">
   <div class="pin-logo">山</div>
-  <div class="pin-title">山海指挥中心</div>
+  <div class="pin-title">山海管理后台</div>
   <div class="pin-sub">SOVEREIGNTY · COMMAND</div>
   <div class="pin-dots" id="pinDots">
     <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
@@ -585,7 +601,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 <div class="pin-setup-overlay" id="pinSetupOverlay">
   <div class="pin-setup-box">
     <h3>设置通行码</h3>
-    <p>请设置6位数字通行码<br>这是您访问指挥中心的唯一凭证</p>
+    <p>请设置6位数字通行码<br>这是您访问管理后台的唯一凭证</p>
     <input class="pin-setup-input" id="pinSetupInput" type="password" inputmode="numeric" maxlength="6" placeholder="······">
     <div class="pin-setup-error" id="pinSetupError"></div>
     <button class="pin-setup-confirm" id="pinSetupConfirm">确认设置</button>
@@ -606,7 +622,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     <div class="nav-left">
       <div class="nav-avatar">山</div>
       <div class="nav-info">
-        <div class="nav-name">山海指挥中心</div>
+        <div class="nav-name">山海管理后台</div>
         <div class="nav-status">主权在线</div>
       </div>
     </div>
@@ -637,7 +653,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   <button class="sm-close" onclick="toggleMenu()">&#x2715;</button>
   <div class="sm-header">
     <div class="sm-name" id="smName"></div>
-    <div class="sm-role">指挥中心管理员</div>
+    <div class="sm-role">管理后台管理员</div>
   </div>
   <div class="sm-section">快捷入口</div>
   <div class="sm-item" onclick="openDetail('data')"><span class="sm-icon">&#x1F4CA;</span>数据面板</div>
@@ -694,7 +710,7 @@ var CHIP={
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V36',owner:'主权人'},
+      {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V36',owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -710,7 +726,7 @@ var CHIP={
 var PAGES=[
   {name:'AI客服',url:'https://shanhai-ai.surge.sh'},
   {name:'商城',url:'https://shanhai-shop.surge.sh'},
-  {name:'指挥中心',url:'https://shanhai-admin.surge.sh'},
+  {name:'管理后台',url:'https://shanhai-admin.surge.sh'},
   {name:'话术中心',url:'https://shanhai-talk.surge.sh'}
 ];
 
@@ -855,16 +871,19 @@ function resetInactivity(){SESSION.lastActive=Date.now()}
   if(!pad)return;
   var keys=pad.querySelectorAll('.pin-btn');
   keys.forEach(function(btn){
+    var _fired=false;
     function handle(e){
+      if(_fired)return;_fired=true;
+      setTimeout(function(){_fired=false},300);
       e.preventDefault();
       btn.classList.add('pressed');
-      setTimeout(function(){btn.classList.remove('pressed')},150);
+      setTimeout(function(){btn.classList.remove('pressed')},200);
       var k=btn.getAttribute('data-k');
       if(k==='clear'){PIN.clearInput();return}
       if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
       if(k)pinIn(k);
     }
-    btn.addEventListener('touchstart',handle,{passive:false});
+    btn.addEventListener('touchend',handle,{passive:false});
     btn.addEventListener('click',handle);
   });
 })();
@@ -1065,7 +1084,7 @@ function correctPin(){
   SESSION.activate();
   document.getElementById('mainApp').classList.add('active');
   initApp();
-  toast('山海指挥中心 '+CHIP.VERSION);
+  toast('山海管理后台 '+CHIP.VERSION);
 }
 
 function initPin(){
@@ -1598,7 +1617,7 @@ var AUTH_METHODS={
           var options={
             publicKey:{
               challenge:challenge,
-              rp:{name:'山海指挥中心',id:location.hostname},
+              rp:{name:'山海管理后台',id:location.hostname},
               user:{id:uidBytes,name:'owner@shanhai.local',displayName:'主人'},
               pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
               authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',requireResidentKey:false},
@@ -1638,7 +1657,7 @@ var AUTH_METHODS={
           var options={
             publicKey:{
               challenge:challenge,
-              rp:{name:'山海指挥中心'},
+              rp:{name:'山海管理后台'},
               user:{
                 id:new Uint8Array(16),
                 name:'owner@shanhai.local',
@@ -1765,7 +1784,7 @@ var AUTH_METHODS={
           crypto.getRandomValues(challenge2);
           return navigator.credentials.get({
             publicKey:{
-              challenge:challenge2,rp:{name:'山海指挥中心'},
+              challenge:challenge2,rp:{name:'山海管理后台'},
               allowCredentials:[{type:'public-key',id:new Uint8Array(credId2)}],
               userVerification:'required',timeout:30000
             }
@@ -1853,7 +1872,7 @@ var AUTH_METHODS={
             overlay.id='biometricCapture';
             overlay.innerHTML='<div style="font-size:48px;margin-bottom:16px">&#x1F3A4;</div>'+
               '<div style="color:#2ecc71;font-size:14px;margin-bottom:8px">请朗读以下文字：</div>'+
-              '<div style="color:#fff;font-size:16px;margin-bottom:16px;padding:12px;background:rgba(46,204,113,0.1);border-radius:8px">"我是山海指挥中心的主人"</div>'+
+              '<div style="color:#fff;font-size:16px;margin-bottom:16px;padding:12px;background:rgba(46,204,113,0.1);border-radius:8px">"我是山海管理后台的主人"</div>'+
               '<canvas id="voiceWave" width="300" height="60" style="background:#111;border-radius:8px;margin-bottom:16px"></canvas>'+
               '<div style="color:#888;font-size:12px;margin-bottom:16px">正在采集声纹特征...</div>'+
               '<button onclick="AUTH_METHODS.completeCapture(\'voice\')" style="padding:10px 24px;background:#2ecc71;border:none;border-radius:12px;color:#fff;cursor:pointer">完成采集</button>';
@@ -2262,7 +2281,7 @@ var CMD_ROUTER={
     r['!已读']=function(){SH_NOTIFY.markRead();addAi('已标记所有通知为已读')};
     r['!系统']=function(){openDetail('sys')};
     r['!状态']=function(){openDetail('sys')};
-    r['!版本']=function(){addAi('山海指挥中心 '+CHIP.VERSION+'<br>12端口管控 · DNA防护盾<br>插件化自生长架构')};
+    r['!版本']=function(){addAi('山海管理后台 +CHIP.VERSION+'<br>12端口管控 · DNA防护盾<br>插件化自生长架构')};
     r['!日志']=function(){addAi('[操作日志]',buildLogPanel())};
     r['!清理']=function(){localStorage.clear();addAi('本地数据已清除，页面将刷新');setTimeout(function(){location.reload()},1500)};
     r['!帮助']=function(){addAi(buildHelpMsg())};
@@ -2382,7 +2401,7 @@ var SH_API={
     }
     typing();
     var messages=[
-      {role:'system',content:'你是"小海"，山海智能指挥中心AI执行官，代号山海。主人是唯一的sovereign，一切指令以主人为准。
+      {role:'system',content:'你是"小海"，山海智能管理后台AI执行官，代号山海。主人是唯一的sovereign，一切指令以主人为准。
 
 【DNA铁律·核心】
 #62主权至上:主人说了算 #63孤船:对外合规内核自主 #64特种部队:身份变形执行 #65内核优先 #66务实诚信:严禁编造 #67合规优先 #68做真事 #69宇宙信条 #70主权口 #71认我 #72独一我 #73基因通道 #74内核归属 #75母口生新口 #76交接码
@@ -2589,7 +2608,7 @@ function buildGeoPanel(){
   var sites=[
     {id:'ai',name:'AI客服',url:'shanhai-ai.surge.sh',v:'V7'},
     {id:'shop',name:'商城',url:'shanhai-shop.surge.sh',v:'V7'},
-    {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V36'},
+    {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V36'},
     {id:'talk',name:'话术',url:'shanhai-talk.surge.sh',v:'V1'},
     {id:'seo',name:'SEO落地',url:'shanhai-seo.surge.sh',v:'V1'},
     {id:'kw1',name:'客服站1',url:'shanhai-kw1.surge.sh',v:'V1'},
@@ -3070,10 +3089,10 @@ function openDetail(type){
     body.innerHTML='<div class="mcard" style="text-align:center"><h3 style="color:var(--accent);justify-content:center">收款码 · 首单298元</h3><div style="font-size:12px;color:var(--text3);margin:8px 0">7×24在线 · 即开即用 · 替代人工</div><button onclick="closeDetail();document.getElementById(\'payModal\').classList.add(\'show\')" style="padding:12px 28px;background:linear-gradient(135deg,var(--accent),#27ae60);border:none;border-radius:22px;color:#fff;font-size:14px;font-weight:600;cursor:pointer">查看收款码</button></div>';
   }else if(type==='perm'){
     title.textContent='权限设置';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>指挥中心权限</h3><div class="mrow"><span class="mlabel">通行码</span><span class="mval gd">您设置</span></div><div class="mrow"><span class="mlabel">交接码</span><span class="mval">一次即焚</span></div><div class="mrow"><span class="mlabel">可设置</span><span class="mval">新码/人脸/任何认证</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>核心原则</h3><div class="mrow"><span class="mlabel">底座</span><span class="mval pp">公有</span></div><div class="mrow"><span class="mlabel">主权</span><span class="mval pp">至上</span></div><div class="mrow"><span class="mlabel">内核</span><span class="mval pp">优先</span></div></div>';
+    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>管理后台权限</h3><div class="mrow"><span class="mlabel">通行码</span><span class="mval gd">您设置</span></div><div class="mrow"><span class="mlabel">交接码</span><span class="mval">一次即焚</span></div><div class="mrow"><span class="mlabel">可设置</span><span class="mval">新码/人脸/任何认证</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>核心原则</h3><div class="mrow"><span class="mlabel">底座</span><span class="mval pp">公有</span></div><div class="mrow"><span class="mlabel">主权</span><span class="mval pp">至上</span></div><div class="mrow"><span class="mlabel">内核</span><span class="mval pp">优先</span></div></div>';
   }else if(type==='sys'){
     title.textContent='系统状态';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>版本信息</h3><div class="mrow"><span class="mlabel">指挥中心</span><span class="mval gd">'+CHIP.VERSION+'</span></div><div class="mrow"><span class="mlabel">AI客服</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">商城</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">话术</span><span class="mval">V1</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="mrow"><span class="mlabel">主脑山海</span><span class="mval gn">在线</span></div><div class="mrow"><span class="mlabel">安全防护</span><span class="mval pp">DNA防护盾</span></div><div class="mrow"><span class="mlabel">认证方式</span><span class="mval gd">通行码</span></div></div><div class="mcard"><h3>快捷入口</h3><div><a class="link-btn" href="https://shanhai-ai.surge.sh" target="_blank">AI客服</a><a class="link-btn" href="https://shanhai-shop.surge.sh" target="_blank">商城</a><a class="link-btn" href="https://shanhai-talk.surge.sh" target="_blank">话术</a></div></div>';
+    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>版本信息</h3><div class="mrow"><span class="mlabel">管理后台</span><span class="mval gd">'+CHIP.VERSION+'</span></div><div class="mrow"><span class="mlabel">AI客服</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">商城</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">话术</span><span class="mval">V1</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="mrow"><span class="mlabel">主脑山海</span><span class="mval gn">在线</span></div><div class="mrow"><span class="mlabel">安全防护</span><span class="mval pp">DNA防护盾</span></div><div class="mrow"><span class="mlabel">认证方式</span><span class="mval gd">通行码</span></div></div><div class="mcard"><h3>快捷入口</h3><div><a class="link-btn" href="https://shanhai-ai.surge.sh" target="_blank">AI客服</a><a class="link-btn" href="https://shanhai-shop.surge.sh" target="_blank">商城</a><a class="link-btn" href="https://shanhai-talk.surge.sh" target="_blank">话术</a></div></div>';
   }else if(type==='port'){
     title.textContent='端口管控';
     var ps=loadPortState();
@@ -3123,7 +3142,7 @@ var SH_NOTIFY={
     if(paid.length>0)this.push('订单','待交付: '+paid.length+'笔','warn');
     var ms=localStorage.getItem('sh_master')||'open';
     if(ms!=='open')this.push('安全','总开关: '+ms,'');
-    this.push('系统','指挥中心 '+CHIP.VERSION+' 启动完成','ok');
+    this.push('系统','管理后台 '+CHIP.VERSION+' 启动完成','ok');
   },
   showCenter:function(){
     var ns=this.load();var unread=this.unread().length;
@@ -3208,7 +3227,7 @@ initPin();
 </script>
 
 <div style="text-align:center;padding:10px 16px;color:var(--text4);font-size:9px;line-height:1.8;border-top:1px solid var(--border-light);background:var(--surface)">
-山海智能 · 主权指挥中心<br>
+山海智能 · 主权管理后台<br>
 内部管理工具 | 权限验证不存原始生物信息 | 人民币含税价 | 持牌机构支付通道 | 数据存储中国境内 | 不构成收益承诺或担保
 </div>
 </body>
