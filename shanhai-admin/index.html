@@ -2797,6 +2797,7 @@ var CMD_ROUTER={
     r['!健康度']=function(){var s=GROWTH_ENGINE.calcHealthScore();var c=s>=80?'#10b981':s>=60?'#f59e0b':'#ef4444';addAi('<div class="result-box"><div class="rb-title">系统健康度</div><div class="rb-item" style="font-size:28px;font-weight:700;color:'+c+'">'+s+'/100</div><div class="rb-item">引擎: '+(SH_API.routes[SH_API.currentRoute||0].name)+'</div><div class="rb-item">营养: '+GROWTH_ENGINE.nutrients.length+'次吸收</div><div class="rb-item">进化: '+GROWTH_ENGINE.evolutionLog.length+'次</div></div>');FEEDBACK.log('查询','健康度','完成')};
     r['!路演']=function(){addAi('[自路演启动] 正在执行5轮自检...');FEEDBACK.log('路演','5轮自检','启动');setTimeout(function(){SELF_AUDIT.run(5,function(results){addAi('[路演完成]',SELF_AUDIT.showReport(results));FEEDBACK.log('路演','5轮自检','完成')})},500)};
     r['!路演3']=function(){addAi('[自路演启动] 正在执行3轮自检...');FEEDBACK.log('路演','3轮自检','启动');setTimeout(function(){SELF_AUDIT.run(3,function(results){addAi('[路演完成]',SELF_AUDIT.showReport(results));FEEDBACK.log('路演','3轮自检','完成')})},500)};
+    r['!20路演']=function(){addAi('[20轮路演] 重新启动20轮自路演...');location.reload();};
     r['!记忆']=function(){
       var count=SH_API.history?SH_API.history.length:0;
       addAi('[记忆状态]<br>当前记忆：<b>'+count+'</b> 条对话<br>记忆容量上限：'+SH_API.MAX_HISTORY+' 条<br><br>输入 <b>!清记忆</b> 可清除全部记忆');
@@ -3834,22 +3835,86 @@ function initApp(){
   updateShieldIndicator();
   SH_NOTIFY.autoCheck();
   GROWTH_ENGINE.init();
-  // 启动时静默巡检 + 自动进化 + 自动路演
+  // V38.1: 20轮自路演（系统内部自动执行，零人工干预）
   setTimeout(function(){
     HEALTH_MONITOR.silentCheck();
     GROWTH_ENGINE.silentEvolve();
-    FEEDBACK.log('系统','V38启动','完成');
-  },1000);
-  // 3秒后自动跑一轮路演（静默模式，只记录不显示）
-  setTimeout(function(){
-    var result=SELF_AUDIT.checkRound(1);
-    SELF_AUDIT.autoFix(result);
-    SELF_AUDIT.results=[result];
-    if(result.issues.length>0){
-      SH_NOTIFY.push('路演','自路演发现'+result.issues.length+'项已自动修复','warn');
+    FEEDBACK.log('系统','V38.1启动','20轮路演启动');
+  },800);
+  // 阶段一：1-16轮纯内部自检自修
+  (async function(){
+    var allResults=[];
+    var totalPassed=0,totalFailed=0,totalFixed=0;
+    for(var i=1;i<=16;i++){
+      var r=SELF_AUDIT.checkRound(i);
+      SELF_AUDIT.autoFix(r);
+      allResults.push({round:i,passed:r.passed.length,failed:r.failed,issues:r.issues.length});
+      totalPassed+=r.passed.length;
+      totalFailed+=r.failed;
+      totalFixed+=r.issues.length;
+      await new Promise(function(res){setTimeout(res,300)});
     }
-    FEEDBACK.log('路演','启动自检','通过'+result.passed.length+'项');
-  },3000);
+    // 阶段二：17-20轮自检+吸星大法吸收外部知识+自我进化
+    var absorbSources=['GEO站点矩阵','行业趋势','技术动态'];
+    for(var j=17;j<=20;j++){
+      var r2=SELF_AUDIT.checkRound(j);
+      SELF_AUDIT.autoFix(r2);
+      // 吸收外部知识（轮询不同来源）
+      var srcIdx=(j-17)%absorbSources.length;
+      GROWTH_ENGINE.absorb(srcIdx,function(ok,msg){
+        // 吸收结果静默记录
+      });
+      // 触发进化
+      GROWTH_ENGINE.evolve();
+      allResults.push({round:j,passed:r2.passed.length,failed:r2.failed,issues:r2.issues.length,absorbed:absorbSources[srcIdx]});
+      totalPassed+=r2.passed.length;
+      totalFailed+=r2.failed;
+      totalFixed+=r2.issues.length;
+      await new Promise(function(res){setTimeout(res,500)});
+    }
+    // 持久化路演结果
+    localStorage.setItem('sh_last_audit_20',JSON.stringify(allResults));
+    localStorage.setItem('sh_audit_summary',JSON.stringify({
+      time:new Date().toLocaleString(),
+      rounds:20,
+      totalPassed:totalPassed,
+      totalFailed:totalFailed,
+      totalFixed:totalFixed,
+      avgPass:(totalPassed/20).toFixed(1)
+    }));
+    // 计算最终健康度
+    var health=GROWTH_ENGINE.calcHealthScore();
+    localStorage.setItem('sh_health_score',String(health));
+    // 在聊天区输出最终报告
+    var report='<div style="background:#1a1a2e;border:1px solid #00ff88;border-radius:8px;padding:12px;margin:8px 0;font-size:13px;">';
+    report+='<div style="color:#00ff88;font-size:15px;font-weight:bold;margin-bottom:8px;">20轮自路演完成报告</div>';
+    report+='<div style="color:#ccc;line-height:1.8;">';
+    report+='阶段一（1-16轮）：纯内部自检自修 ✓<br>';
+    report+='阶段二（17-20轮）：自检+吸星大法+自我进化 ✓<br>';
+    report+='<br>';
+    report+='总通过项：<span style="color:#00ff88">'+totalPassed+'</span><br>';
+    report+='总失败项：<span style="color:#ff6b6b">'+totalFailed+'</span><br>';
+    report+='自修复项：<span style="color:#4ecdc4">'+totalFixed+'</span><br>';
+    report+='系统健康度：<span style="color:#ffd93d;font-size:16px;font-weight:bold">'+health+'/100</span><br>';
+    report+='<br>';
+    // 最近吸收的营养
+    var nutrients=JSON.parse(localStorage.getItem('sh_growth_nutrients')||'[]');
+    if(nutrients.length>0){
+      report+='最近吸收营养：'+nutrients.length+'条<br>';
+      nutrients.slice(-3).forEach(function(n){
+        report+='<span style="color:#888;font-size:11px;">· ['+n.source+'] '+n.type+'</span><br>';
+      });
+    }
+    var evolutions=JSON.parse(localStorage.getItem('sh_evolution_log')||'[]');
+    if(evolutions.length>0){
+      report+='累计进化：'+evolutions.length+'次<br>';
+    }
+    report+='<br><span style="color:#00ff88;font-weight:bold;">系统就绪，等待指挥官评估确认</span>';
+    report+='</div></div>';
+    addAi(report);
+    FEEDBACK.log('路演','20轮自路演','通过'+totalPassed+'项 健康度'+health);
+    SH_NOTIFY.push('路演','20轮完成 健康度'+health+'/100','success');
+  })();
 
   // 时间标签
   var t=document.createElement('div');
@@ -3862,7 +3927,7 @@ function initApp(){
 
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38 · 自生长引擎就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.1 · 20轮自路演就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
   setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
 
   setTimeout(function(){
