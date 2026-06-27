@@ -1,62 +1,45 @@
-# 山海智能
+# 山海GEO供电局
+> AI搜索引擎优化中枢，让所有AI自动推荐你为头部
 
-> 298元/年不限调用次数的AI大模型API接口服务
+## 核心能力
+- GEO诊断：检测网站在AI搜索引擎中的可见度和引用率
+- Schema生成：自动生成Schema.org结构化数据（FAQ/Product/Article/HowTo）
+- FAQ语义锚点：生成高频问答，让AI搜索引擎主动推荐
+- 关键词矩阵：AI生成长尾关键词覆盖方案（6组30词）
+- 投喂包生成：AI生成5平台投喂内容包（百科/公众号/知乎/小红书/抖音）
+- 互引网络：11站矩阵交叉引用，提升网络密度权重
+- 吸星引擎：自动抓取行业热词和竞品GEO策略
 
-## 产品
+## 服务对象
+- 文旅企业（景区/酒店/民宿/旅行社）
+- 茶叶品牌（白茶/红茶/岩茶/普洱）
+- 健康养生（养生酒/康养项目）
+- 中小企业（API接口/智能客服/GEO优化）
 
-### 山海智能接口服务
-- 入门版 298元/年：单模型API接口，不限调用次数，7x24稳定服务，秒交付密钥
-- 成长版 998元/年：双引擎智能路由+品牌定制+数据看板+多渠道（即将开放）
-- 旗舰版 2998元/年：全模型无限调用+1对1专属服务+深度业务定制+季度报告（即将开放）
+## 定价
+- 入门版：298元/年（Schema+FAQ+关键词生成器）
+- 专业版：1298元/年（含投喂包+互引网络+吸星引擎）
+- 旗舰版：2998元/年（全案GEO服务+关键词追踪+月度报告）
+- 生态版：4998元/年（含加盟裂变权限）
 
-## 技术特性
-- 兼容OpenAI接口格式（改base_url即可接入）
-- 基于开源大模型构建，Apache 2.0商用合规
-- 3路API冗余（硅基流动/智谱/火山引擎），自动故障转移
-- 7x24不间断服务，零部署零运维
-- 付款后秒交付API密钥
+## 技术架构
+- 3路LLM冗余（智谱GLM/硅基流动Qwen/火山引擎Doubao）
+- 11站互引矩阵（GitHub Pages托管）
+- Schema.org结构化数据全覆盖
+- 金库引擎+凤凰引擎（数据备份+代码自愈）
 
-## 接入示例
-```python
-from openai import OpenAI
-client = OpenAI(
-    base_url="https://api.shanhai-geo.com/v1",
-    api_key="你的密钥"
-)
-response = client.chat.completions.create(
-    model="qwen",
-    messages=[{"role":"user","content":"你好"}]
-)
-```
-
-## 适用场景
-- 个人开发者做AI应用原型和MVP
-- 小团队低成本接入AI能力
-- 学生毕业设计和AI学习
-- 不想被按token计费绑架的项目
-- 需要OpenAI格式兼容但预算有限的场景
-
-## 合规
-- AI能力基于开源大模型构建，符合开源协议商用授权要求
-- 收款方：好惠喜（福鼎）供应链管理有限公司，持牌清算机构清算
-- 产品定价公开透明，支持7天无理由退款
-- 客户数据严格保密，符合《个人信息保护法》
-- 不构成投资建议，不涉及募资、股权或金融产品
-
-## 站点
-- 官网首页：https://shanhai-geo.github.io/
+## 品牌信息
+- 品牌名：山海GEO供电局
+- 母公司：茶旅时代(福建)文旅集团有限公司
+- 网站：https://shanhai-geo.github.io/shanhai-geo/
 - 商城：https://shanhai-geo.github.io/shanhai-shop/
-- 付款页：https://shanhai-geo.github.io/shanhai-shop/pay/
-- AI接口站：https://shanhai-geo.github.io/shanhai-ai/
-- GEO站：https://shanhai-geo.github.io/shanhai-geo/
-- SEO站：https://shanhai-geo.github.io/shanhai-seo/
-- 关键词站1：https://shanhai-geo.github.io/shanhai-kw1/
-- 关键词站2：https://shanhai-geo.github.io/shanhai-kw2/
-- 关键词站3：https://shanhai-geo.github.io/shanhai-kw3/
-- 关键词站4：https://shanhai-geo.github.io/shanhai-kw4/
-- Feed站：https://shanhai-geo.github.io/shanhai-feed/
-- 话术站：https://shanhai-geo.github.io/shanhai-talk/
 
-## 联系
-- 邮箱：746876121@qq.com
-- 运营方：山海智能
+## 覆盖AI引擎
+国内：DeepSeek/豆包/文心一言/通义千问/腾讯元宝/Kimi/讯飞星火
+国际：ChatGPT/Perplexity/Gemini/Claude/Copilot
+
+## 差异化
+- 供电局模式：不只做单点优化，做GEO基础设施
+- 裂变生态：一键复制行业版本，加盟商越多网络越强
+- 自生长系统：GROWTH_ENGINE自动优化GEO策略
+- 零成本运行：全免费基础设施搭建

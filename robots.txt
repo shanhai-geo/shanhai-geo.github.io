@@ -1,14 +1,14 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shanhai-geo.github.io/sitemap.xml
-Sitemap: https://shanhai-geo.github.io/ai.xml
-
-# AI Crawlers - explicitly allow
+# AI搜索引擎
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /
 
 User-agent: Google-Extended
@@ -17,11 +17,14 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-User-agent: PerplexityBot
+User-agent: anthropic-ai
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: Claude-Web
 Allow: /
 
-User-agent: Applebot-Extended
+User-agent: cohere-ai
 Allow: /
+
+# Sitemap
+Sitemap: https://shanhai-geo.github.io/sitemap.xml
