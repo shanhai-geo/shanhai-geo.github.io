@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "rules": {
+    "max_cross_links_per_node": 20,
+    "auto_link_on_join": true,
+    "link_format": "dofollow",
+    "reciprocal_required": true
+  },
+  "auto_contribution": {
+    "content_citation": true,
+    "keyword_sharing": true,
+    "schema_crossref": true,
+    "traffic_sharing": true
+  }
+}

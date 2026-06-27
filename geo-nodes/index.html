@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GEO生态节点接入 - 山海GEO供电局</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0e17; color: #c9d1d9; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7; min-height: 100vh; }
+    .container { max-width: 960px; margin: 0 auto; padding: 60px 24px; }
+    h1 { font-size: 2.2rem; color: #58a6ff; margin-bottom: 8px; letter-spacing: 2px; }
+    .subtitle { color: #8b949e; font-size: 1rem; margin-bottom: 48px; }
+    .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 32px; margin-bottom: 32px; }
+    .section h2 { color: #79c0ff; font-size: 1.3rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #30363d; }
+    .steps { list-style: none; }
+    .steps li { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; padding: 16px; background: #0d1117; border-radius: 8px; border-left: 3px solid #58a6ff; }
+    .step-num { background: #1f6feb; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+    .step-content strong { color: #58a6ff; display: block; margin-bottom: 4px; }
+    .node-list { display: grid; gap: 12px; }
+    .node-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #0d1117; border-radius: 8px; border: 1px solid #30363d; transition: border-color 0.2s; }
+    .node-item:hover { border-color: #58a6ff; }
+    .node-info .node-name { color: #e6edf3; font-weight: 600; }
+    .node-info .node-meta { font-size: 0.85rem; color: #8b949e; }
+    .node-badge { background: #238636; color: #fff; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .hub-badge { background: #a371f7; color: #fff; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .code-block { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 0.85rem; color: #c9d1d9; overflow-x: auto; white-space: pre; line-height: 1.5; }
+    .code-block .comment { color: #8b949e; }
+    .code-block .keyword { color: #ff7b72; }
+    .code-block .string { color: #a5d6ff; }
+    .code-block .func { color: #d2a8ff; }
+    .note { background: #1c2128; border-left: 3px solid #d29922; padding: 14px 18px; border-radius: 0 8px 8px 0; color: #e6edf3; font-size: 0.9rem; margin-top: 16px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 16px; }
+    .stat-card { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 20px; text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 700; color: #58a6ff; }
+    .stat-label { color: #8b949e; font-size: 0.85rem; margin-top: 4px; }
+    footer { text-align: center; color: #484f58; font-size: 0.85rem; padding: 40px 0; }
+    footer a { color: #58a6ff; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    ul { list-style: disc; padding-left: 20px; color: #8b949e; line-height: 2; }
+    ul strong { color: #c9d1d9; }
+    p { color: #8b949e; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GEO 生态节点接入</h1>
+    <p class="subtitle">让GEO节点自动加入生态，共享互引网络与知识贡献</p>
+
+    <div class="section">
+      <h2>生态概览</h2>
+      <div class="stats">
+        <div class="stat-card"><div class="stat-num" id="total-nodes">1</div><div class="stat-label">注册节点</div></div>
+        <div class="stat-card"><div class="stat-num" id="active-nodes">1</div><div class="stat-label">活跃节点</div></div>
+        <div class="stat-card"><div class="stat-num" id="cross-links">0</div><div class="stat-label">互引链接</div></div>
+        <div class="stat-card"><div class="stat-num" id="industries">1</div><div class="stat-label">覆盖行业</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>三步加入GEO生态</h2>
+      <ol class="steps">
+        <li><div class="step-num">1</div><div class="step-content"><strong>注册节点信息</strong>在你的GEO页面中添加节点注册代码，获取唯一的 node_id</div></li>
+        <li><div class="step-num">2</div><div class="step-content"><strong>嵌入接入代码</strong>将下方提供的 JS 代码嵌入你的页面 &lt;head&gt; 或 &lt;body&gt; 底部</div></li>
+        <li><div class="step-num">3</div><div class="step-content"><strong>自动加入互引网络</strong>系统自动将你的节点加入 registry.json，并与其他节点建立互引链接</div></li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>接入代码</h2>
+      <p>复制以下代码到你的GEO页面，即刻自动加入生态互引网络：</p>
+      <div class="code-block"><span class="comment">&lt;!-- GEO生态节点接入代码 v1.0 --&gt;</span>
+<span class="comment">&lt;!-- 嵌入位置：&lt;head&gt; 或 &lt;/body&gt; 前 --&gt;</span>
+<span class="keyword">&lt;script&gt;</span>
+<span class="func">!function</span>(){
+  <span class="keyword">const</span> GEO_HUB = <span class="string">'https://shanhai-geo.github.io/shanhai-geo'</span>;
+  <span class="keyword">const</span> REGISTRY_URL = GEO_HUB + <span class="string">'/geo-nodes/registry.json'</span>;
+  <span class="keyword">const</span> MY_NODE = {
+    node_id: <span class="string">'your-node-id'</span>,       <span class="comment">// 修改为你的节点ID</span>
+    name:    <span class="string">'你的节点名称'</span>,        <span class="comment">// 修改为你的节点名称</span>
+    url:     <span class="string">'https://your-site'</span>,  <span class="comment">// 修改为你的节点URL</span>
+    industry:<span class="string">'你的行业'</span>,             <span class="comment">// 修改为你的行业</span>
+    region:  <span class="string">'地区'</span>,
+    capabilities:[<span class="string">'schema'</span>,<span class="string">'faq'</span>,<span class="string">'keywords'</span>],
+    role:    <span class="string">'node'</span>,
+    llm_routes: 1
+  };
+  <span class="comment">// 1. 获取生态节点列表，动态添加互引链接</span>
+  fetch(REGISTRY_URL).then(r=&gt;r.json()).then(data=&gt;{
+    data.nodes.forEach(n=&gt;{
+      <span class="keyword">if</span>(n.node_id !== MY_NODE.node_id){
+        <span class="keyword">const</span> link = document.createElement(<span class="string">'a'</span>);
+        link.href = n.url; link.textContent = n.name;
+        link.setAttribute(<span class="string">'rel'</span>,<span class="string">'nofollow noopener'</span>);
+        link.setAttribute(<span class="string">'data-geo-node'</span>, n.node_id);
+        document.querySelectorAll(<span class="string">'[data-geo-insert-point]'</span>)[0]?.appendChild(link);
+      }
+    });
+    <span class="comment">// 2. 自动添加 Schema.org 交叉引用</span>
+    <span class="keyword">const</span> orgSchema = {
+      <span class="string">"@context"</span>:<span class="string">"https://schema.org"</span>,
+      <span class="string">"@type"</span>:<span class="string">"Organization"</span>,
+      <span class="string">"name"</span>: MY_NODE.name, <span class="string">"url"</span>: MY_NODE.url,
+      <span class="string">"memberOf"</span>: [{<span class="string">"@type"</span>:<span class="string">"Organization"</span>,<span class="string">"name"</span>:<span class="string">"GEO Ecosystem"</span>,<span class="string">"url"</span>:GEO_HUB}]
+    };
+    <span class="keyword">const</span> s = document.createElement(<span class="string">'script'</span>);
+    s.type=<span class="string">'application/ld+json'</span>; s.textContent = JSON.stringify(orgSchema);
+    document.head.appendChild(s);
+  });
+  console.log(<span class="string">'[GEO Node] '</span>+MY_NODE.name+<span class="string">' 已接入生态'</span>);
+}();
+<span class="keyword">&lt;/script&gt;</span></div>
+      <div class="note">接入后请将节点信息通过 Pull Request 提交到 registry.json，或联系山海GEO供电局协助审核。</div>
+    </div>
+
+    <div class="section">
+      <h2>当前注册节点</h2>
+      <div class="node-list" id="node-list">
+        <div class="node-item"><div class="node-info"><div class="node-name">山海GEO供电局</div><div class="node-meta">GEO服务 · 全球</div></div><span class="hub-badge">Hub</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>互引网络规则</h2>
+      <ul>
+        <li>每个节点最多 <strong>20</strong> 条跨节点互引链接</li>
+        <li>新节点加入时自动分配互引链接</li>
+        <li>链接格式为 <strong>dofollow</strong>，传递权重</li>
+        <li>要求 <strong>双向互引</strong>， reciprocate 才计入配额</li>
+        <li>自动贡献内容引用、关键词共享、Schema交叉引用、流量共享</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>由 <a href="https://shanhai-geo.github.io/shanhai-geo">山海GEO供电局</a> 驱动 · <a href="registry.json">registry.json</a> · <a href="status.json">status.json</a></p>
+    </footer>
+  </div>
+  <script>
+    fetch('registry.json').then(r=>r.json()).then(data=>{
+      const list=document.getElementById('node-list');
+      list.innerHTML='';
+      data.nodes.forEach(n=>{
+        const badge=n.role==='hub'?'<span class="hub-badge">Hub</span>':'<span class="node-badge">Node</span>';
+        list.innerHTML+='<div class="node-item"><div class="node-info"><div class="node-name">'+n.name+'</div><div class="node-meta">'+n.industry+' · '+n.region+'</div></div>'+badge+'</div>';
+      });
+      fetch('status.json').then(r=>r.json()).then(s=>{
+        document.getElementById('total-nodes').textContent=s.total_nodes;
+        document.getElementById('active-nodes').textContent=s.active_nodes;
+        document.getElementById('cross-links').textContent=s.total_cross_links;
+        document.getElementById('industries').textContent=s.total_industries;
+      });
+    });
+  </script>
+</body>
+</html>

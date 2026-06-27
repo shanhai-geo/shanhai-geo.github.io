@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "updated": "2026-06-27T22:15:00+08:00",
+  "hub": {
+    "name": "山海GEO供电局",
+    "url": "https://shanhai-geo.github.io/shanhai-geo",
+    "role": "hub"
+  },
+  "nodes": [
+    {
+      "node_id": "shanhai-geo",
+      "name": "山海GEO供电局",
+      "url": "https://shanhai-geo.github.io/shanhai-geo",
+      "industry": "GEO服务",
+      "region": "全球",
+      "capabilities": [
+        "schema",
+        "faq",
+        "keywords",
+        "feedpack",
+        "diagnosis",
+        "network"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "hub",
+      "llm_routes": 3,
+      "cross_links": []
+    }
+  ]
+}
