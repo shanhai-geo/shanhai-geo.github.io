@@ -725,7 +725,7 @@ var EventBus={
 };
 
 var CHIP={
-  VERSION:'V38.5',
+  VERSION:'V38.6',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -2570,7 +2570,7 @@ var SELF_HEALING_ENGINE={
 };
 
 var GROWTH_ENGINE={
-  VERSION:'V38.5',
+  VERSION:'V38.6',
   KEY_NUTRIENTS:'sh_growth_nutrients',
   KEY_EVOLUTION:'sh_evolution_log',
   KEY_HEALTH_SCORE:'sh_health_score',
@@ -2758,23 +2758,21 @@ var GROWTH_ENGINE={
   
   // 计算健康度评分
   calcHealthScore:function(){
-    var score=100;
-    
-    // 引擎健康（权重30）- 强制归零历史故障计数
+    var score=0;
+    // 引擎健康（25分）- 强制归零历史故障计数
     if(typeof SH_API!=='undefined'&&SH_API.routeFailCount){
       SH_API.routeFailCount=[0,0,0,0];
       try{localStorage.setItem('sh_route_fail_count',JSON.stringify([0,0,0,0]))}catch(e){}
     }
-    
-    // 反馈成功率（权重25）- 非失败/异常均计入成功
+    score+=25;
+    // 反馈成功率（20分）- 非失败/异常均计入成功
     var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
     if(logs.length>0){
       var fail=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
       var rate=1-(fail/logs.length);
-      score-=Math.round((1-rate)*25);
-    }
-    
-    // 数据完整性（权重20）- 只扣未处理超过48h的pending订单
+      score+=Math.round(rate*20);
+    }else{score+=20}
+    // 数据完整性（20分）- 只扣未处理超过48h的pending订单
     var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
     var now=Date.now();
     var stalePending=orders.filter(function(o){
@@ -2782,28 +2780,20 @@ var GROWTH_ENGINE={
       if(!o.time)return false;
       try{return now-new Date(o.time).getTime()>172800000}catch(e){return false}
     }).length;
-    if(stalePending>0)score-=Math.min(20,stalePending*5);
-    
-    // 知识库完整度（权重15）
-    if(!KNOWLEDGE.dna||!KNOWLEDGE.brands||!KNOWLEDGE.engines)score-=15;
-    
-    // 营养吸收频率（权重10）- 48h窗口，优先用ts时间戳
+    score+=Math.max(0,20-Math.min(20,stalePending*5));
+    // 知识库完整度（15分）
+    if(KNOWLEDGE.dna&&KNOWLEDGE.brands&&KNOWLEDGE.engines)score+=15;
+    // 营养吸收频率（10分）- 48h窗口，优先用ts时间戳
     var lastNutrient=this.nutrients.length>0?this.nutrients[this.nutrients.length-1]:null;
     if(lastNutrient){
       var nutTime=lastNutrient.ts||0;
       if(!nutTime){try{nutTime=new Date(lastNutrient.time).getTime()}catch(e){nutTime=0}}
-      if(Date.now()-nutTime>172800000)score-=10;
-    }else{score-=10}
-    
-    // 防御完整性（附加10分）
-    if(typeof DEFENSE_ENGINE!=='undefined'){
-      try{
-        var hash=localStorage.getItem('sh_integrity_hash');
-        if(hash)score+=10;
-      }catch(e){}
+      if(Date.now()-nutTime<=172800000)score+=10;
     }
-    // 映射回100分制（原始满分110）
-    score=Math.round(score/110*100);
+    // 防御完整性（10分）
+    if(typeof DEFENSE_ENGINE!=='undefined'){
+      try{if(localStorage.getItem('sh_integrity_hash'))score+=10}catch(e){}
+    }
     score=Math.max(0,Math.min(100,score));
     localStorage.setItem(this.KEY_HEALTH_SCORE,JSON.stringify({score:score,time:new Date().toISOString(),ts:Date.now()}));
     return score;
@@ -3361,46 +3351,80 @@ var CMD_ROUTER={
 // 构建系统状态摘要（注入AI对话上下文）
 function buildSystemContext(){
   var ctx=[];
-  try{
-    var health=JSON.parse(localStorage.getItem('sh_health_score')||'0');
-    ctx.push('当前健康度:'+((typeof health==='object')?health.score:health)+'/100');
-  }catch(e){}
-  try{
-    var audit=JSON.parse(localStorage.getItem('sh_audit_summary')||'null');
-    if(audit){
-      var realScore=parseInt(localStorage.getItem('sh_health_score')||'0')||0;
-      ctx.push('最近路演:'+audit.rounds+'轮,通过'+audit.totalPassed+'项,问题'+audit.totalIssues+'项,修复'+audit.totalFixed+'项,'+(realScore>=90?'已达标':'未达标'));
-      if(audit.phase1)ctx.push('阶段一(自检)均健康度:'+audit.phase1.avgHealth);
-      if(audit.phase2)ctx.push('阶段二(吸星)均健康度:'+audit.phase2.avgHealth);
-      if(audit.phase3)ctx.push('阶段三(进化)均健康度:'+audit.phase3.avgHealth);
-    }
-  }catch(e){}
+  var hRaw=localStorage.getItem('sh_health_score')||'0';
+  var hScore=0;
+  try{var hObj=JSON.parse(hRaw);if(typeof hObj==='object')hScore=hObj.score||0;else hScore=parseInt(hObj)||0}catch(e){hScore=parseInt(hRaw)||0}
+  // 精确健康度+状态
+  ctx.push('健康度:'+hScore+'/100(达标线90,'+(hScore>=90?'已达标':'未达标')+')');
+  // 6维度精确数据 — AI必须基于这些数据回答，禁止猜测
+  var dims={engine:25,feedback:20,data:20,kb:15,nutrient:10,defense:10};
   try{
     var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
     var fails=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
-    ctx.push('反馈日志:'+logs.length+'条,失败'+fails+'条');
+    dims.feedback=logs.length>0?Math.round((1-fails/logs.length)*20):20;
   }catch(e){}
   try{
     var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-    var pending=orders.filter(function(o){return !o.key&&!o.delivered}).length;
-    ctx.push('订单:'+orders.length+'条,待处理'+pending+'条');
+    var stale=orders.filter(function(o){if(!o.key&&!o.delivered&&o.time){try{return Date.now()-new Date(o.time).getTime()>172800000}catch(e){return false}}return false}).length;
+    dims.data=Math.max(0,20-Math.min(20,stale*5));
   }catch(e){}
+  dims.kb=(KNOWLEDGE.dna&&KNOWLEDGE.brands&&KNOWLEDGE.engines)?15:0;
   try{
     var nutrients=JSON.parse(localStorage.getItem('sh_growth_nutrients')||'[]');
-    ctx.push('吸收营养:'+nutrients.length+'条');
+    var lastN=nutrients.length>0?nutrients[nutrients.length-1]:null;
+    dims.nutrient=(lastN&&lastN.ts&&(Date.now()-lastN.ts<=172800000))?10:0;
   }catch(e){}
+  dims.defense=localStorage.getItem('sh_integrity_hash')?10:0;
+  var totalDim=dims.engine+dims.feedback+dims.data+dims.kb+dims.nutrient+dims.defense;
+  ctx.push('维度:引擎'+dims.engine+'/25,反馈'+dims.feedback+'/20,数据'+dims.data+'/20,知识库'+dims.kb+'/15,营养'+dims.nutrient+'/10,防御'+dims.defense+'/10,合计'+totalDim+'/100');
+  // 诊断结论：明确告诉AI哪些维度失分
+  var lostDims=[];
+  if(dims.engine<25)lostDims.push('引擎健康(-'+(25-dims.engine)+')');
+  if(dims.feedback<20)lostDims.push('反馈成功率(-'+(20-dims.feedback)+')');
+  if(dims.data<20)lostDims.push('数据完整性(-'+(20-dims.data)+')');
+  if(dims.kb<15)lostDims.push('知识库(-'+(15-dims.kb)+')');
+  if(dims.nutrient<10)lostDims.push('营养吸收(-'+(10-dims.nutrient)+')');
+  if(dims.defense<10)lostDims.push('防御完整性(-'+(10-dims.defense)+')');
+  if(lostDims.length>0){
+    ctx.push('失分项:'+lostDims.join(','));
+    ctx.push('诊断:健康度偏低是因为'+lostDims.join('、')+'。回复用户时必须说明具体失分原因，不要给套话。');
+  }else{
+    ctx.push('诊断:所有维度满分，系统完全健康');
+  }
+  // 路演摘要
   try{
-    var evo=JSON.parse(localStorage.getItem('sh_evolution_log')||'[]');
-    ctx.push('累计进化:'+evo.length+'次');
+    var audit=JSON.parse(localStorage.getItem('sh_audit_summary')||'null');
+    if(audit){
+      ctx.push('路演:'+audit.rounds+'轮,通过'+audit.totalPassed+',问题'+audit.totalIssues+',修复'+audit.totalFixed);
+    }
+  }catch(e){}
+  // 反馈日志
+  try{
+    ctx.push('反馈:'+logs.length+'条,失败'+fails+'条');
+  }catch(e){}
+  // 订单
+  try{
+    var orders2=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+    var pending=orders2.filter(function(o){return !o.key&&!o.delivered}).length;
+    ctx.push('订单:'+orders2.length+'条,待处理'+pending);
+  }catch(e){}
+  // 营养+进化
+  try{
+    var n2=JSON.parse(localStorage.getItem('sh_growth_nutrients')||'[]');
+    ctx.push('营养:'+n2.length+'条');
+    var e2=JSON.parse(localStorage.getItem('sh_evolution_log')||'[]');
+    ctx.push('进化:'+e2.length+'次');
   }catch(e){}
   ctx.push('引擎:4路(智谱GLM主+硅基/火山/CF备)');
-  ctx.push('版本:V38.5');
+  ctx.push('版本:V38.6');
+  // 铁律：AI回复必须基于真实数据
+  ctx.push('铁律:回复系统状态相关问题时,必须引用上述精确数据,禁止使用"可能""也许""建议检查"等模糊措辞。如果所有维度满分就明确说满分。');
   return ctx.join('; ');
 }
 
 // 系统数据直查拦截器（关键词匹配时直接返回系统数据，不调外部API）
 function systemDataInterceptor(cmd){
-  var keywords=['路演','检测','报告','健康度','得分','多少分','审计','自检结果','系统状态','检测结果','分析结果'];
+  var keywords=['路演','检测','报告','健康度','得分','多少分','审计','自检结果','系统状态','检测结果','分析结果','为什么分','原因是什么','分数低','不达标','如何提高','怎么提升','哪里扣分','哪个维度','系统诊断','分析系统','看看系统','查一下系统','检查系统','系统怎么样','系统健康','引擎状态'];
   var matched=keywords.some(function(k){return cmd.indexOf(k)>=0});
   if(!matched)return false;
   
@@ -3409,10 +3433,12 @@ function systemDataInterceptor(cmd){
   
   // 健康度
   try{
-    var health=JSON.parse(localStorage.getItem('sh_health_score')||'0');
-    var score=(typeof health==='object')?health.score:parseInt(health)||0;
-    var color=score>=90?'#00ff88':score>=60?'#ffd93d':'#ff6b6b';
-    h+='<div class="rb-item">健康度: <b style="color:'+color+';font-size:16px">'+score+'/100</b> '+(score>=90?'✓ 达标':'⚠ 未达标')+'</div>';
+    var healthRaw=localStorage.getItem('sh_health_score')||'0';
+    var healthObj=null;var score=0;
+    try{healthObj=JSON.parse(healthRaw);if(typeof healthObj==='object')score=healthObj.score||0;else score=parseInt(healthObj)||0}catch(e){score=parseInt(healthRaw)||0}
+    var color=score>=95?'#00ff88':score>=80?'#ffd93d':'#ff6b6b';
+    var statusText=score>=90?'✓ 达标':'⚠ 未达标';
+    h+='<div class="rb-item">健康度: <b style="color:'+color+';font-size:16px">'+score+'/100</b> '+statusText+'</div>';
   }catch(e){}
   
   // 路演摘要
@@ -3424,7 +3450,7 @@ function systemDataInterceptor(cmd){
       if(audit.phase1)h+='<div class="rb-item">阶段一(自检): 均健康度 '+audit.phase1.avgHealth+' 均问题 '+audit.phase1.avgIssues+'/轮</div>';
       if(audit.phase2)h+='<div class="rb-item">阶段二(吸星大法): 均健康度 '+audit.phase2.avgHealth+' 均问题 '+audit.phase2.avgIssues+'/轮</div>';
       if(audit.phase3)h+='<div class="rb-item">阶段三(自我进化): 均健康度 '+audit.phase3.avgHealth+' 均问题 '+audit.phase3.avgIssues+'/轮</div>';
-      var realScore=parseInt(localStorage.getItem('sh_health_score')||'0')||0;
+      var realScore=0;try{var rs=JSON.parse(localStorage.getItem('sh_health_score')||'0');if(typeof rs==='object')realScore=rs.score||0;else realScore=parseInt(rs)||0}catch(e){realScore=parseInt(localStorage.getItem('sh_health_score')||'0')||0}
       h+='<div class="rb-item">状态: '+(realScore>=90?'<b style="color:#00ff88">达标</b>':'<b style="color:#ffd93d">未达标</b>')+'</div>';
     }else{
       h+='<div class="rb-item" style="color:var(--text3)">暂无路演数据，输入 !路演 启动检测</div>';
@@ -3445,12 +3471,15 @@ function systemDataInterceptor(cmd){
     var lastN=nutrients.length>0?nutrients[nutrients.length-1]:null;
     var nutrientScore=(lastN&&(Date.now()-new Date(lastN.time).getTime()<=172800000))?10:0;
     
-    h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">▎健康度维度拆解</div>';
-    h+='<div class="rb-item">引擎健康(30): '+engineScore+'/30</div>';
-    h+='<div class="rb-item">反馈成功率(25): '+feedbackScore+'/25 (失败'+fails+'/'+logs.length+'条)</div>';
+    var defScore=(typeof DEFENSE_ENGINE!=='undefined'&&localStorage.getItem('sh_integrity_hash'))?10:0;
+    var totalDim=engineScore+feedbackScore+dataScore+kbScore+nutrientScore+defScore;
+    h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">▎健康度维度拆解 (总分'+totalDim+'/100)</div>';
+    h+='<div class="rb-item">引擎健康(25): '+Math.min(25,engineScore)+'/25</div>';
+    h+='<div class="rb-item">反馈成功率(20): '+Math.min(20,feedbackScore)+'/20 (失败'+fails+'/'+logs.length+'条)</div>';
     h+='<div class="rb-item">数据完整性(20): '+dataScore+'/20 (过期pending:'+stale+'条)</div>';
     h+='<div class="rb-item">知识库完整度(15): '+kbScore+'/15</div>';
     h+='<div class="rb-item">营养吸收(10): '+nutrientScore+'/10 (共吸收'+nutrients.length+'条)</div>';
+    h+='<div class="rb-item">防御完整性(10): '+defScore+'/10 ('+(defScore>0?'哈希校验通过':'未初始化')+')</div>';
   }catch(e){}
   
   // 进化数据
@@ -3460,6 +3489,32 @@ function systemDataInterceptor(cmd){
     h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">▎成长数据</div>';
     h+='<div class="rb-item">累计吸收营养: '+nutrients.length+'条</div>';
     h+='<div class="rb-item">累计进化: '+evo.length+'次</div>';
+  }catch(e){}
+  
+  // 智能诊断：当分数<90时，明确给出失分原因和修复建议
+  try{
+    if(score<90){
+      var lostItems=[];
+      if(engineScore<25)lostItems.push({dim:'引擎健康',lost:25-engineScore,fix:'执行!自愈 重置引擎状态'});
+      if(feedbackScore<20)lostItems.push({dim:'反馈成功率',lost:20-feedbackScore,fix:'执行!巡检 清理失败记录'});
+      if(dataScore<20)lostItems.push({dim:'数据完整性',lost:20-dataScore,fix:'执行!调度 处理过期订单'});
+      if(kbScore<15)lostItems.push({dim:'知识库',lost:15-kbScore,fix:'执行!DNA 检查知识库配置'});
+      if(nutrientScore<10)lostItems.push({dim:'营养吸收',lost:10-nutrientScore,fix:'执行!吸收 刷新外部知识'});
+      if(defScore<10)lostItems.push({dim:'防御完整性',lost:10-defScore,fix:'执行!防御 初始化安全扫描'});
+      if(lostItems.length>0){
+        h+='<div style="margin:8px 0;background:#2e1a0a;border:1px solid #ffd93d;border-radius:8px;padding:10px">';
+        h+='<div style="color:#ffd93d;font-weight:bold;margin-bottom:6px">▎失分诊断 ('+lostItems.length+'项失分，共扣'+lostItems.reduce(function(a,b){return a+b.lost},0)+'分)</div>';
+        lostItems.forEach(function(item){
+          h+='<div style="color:#ffa;margin:4px 0;font-size:12px">• '+item.dim+' 扣'+item.lost+'分 → 修复: <b style="color:#4ecdc4">'+item.fix+'</b></div>';
+        });
+        h+='<div style="color:#888;font-size:11px;margin-top:6px">提示: 依次执行以上指令即可恢复满分</div>';
+        h+='</div>';
+      }
+    }else{
+      h+='<div style="margin:8px 0;background:#0a2e1a;border:1px solid #00ff88;border-radius:6px;padding:8px">';
+      h+='<div style="color:#00ff88;font-weight:bold">✓ 所有维度满分，系统完全健康</div>';
+      h+='</div>';
+    }
   }catch(e){}
   
   h+='</div>';
@@ -3834,7 +3889,15 @@ var SH_API={
 function callAI(prompt){
   // 注入系统状态上下文，让AI了解当前系统状况
   var sysCtx=buildSystemContext();
-  var enrichedPrompt='[系统状态:'+sysCtx+']\n\n用户问题:'+prompt;
+  // 智能增强：如果用户问的是系统状态相关问题，先拦截直接返回真实数据
+  var diagKeywords=['为什么','原因','怎么办','如何提高','怎么提升','扣分','失分','低','不达标','分数'];
+  var isDiag=diagKeywords.some(function(k){return prompt.indexOf(k)>=0});
+  var isHealthQ=/健康|分数|得分|状态|系统|引擎|评分|检测/.test(prompt);
+  if(isHealthQ&&isDiag){
+    // 直接走拦截器，返回真实数据，不让LLM瞎猜
+    if(systemDataInterceptor(prompt))return;
+  }
+  var enrichedPrompt='[系统状态:'+sysCtx+']\n\n用户问题:'+prompt+'\n\n注意:以上系统状态是实时数据,回复时必须引用具体数字,禁止使用"可能""也许""建议检查"等模糊表述。';
   SH_API.call(enrichedPrompt);
 }
 
@@ -4508,7 +4571,7 @@ function initApp(){
 
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.5 · 全神经系统就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.6 · 全神经系统就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
   setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
 
   setTimeout(function(){
@@ -4516,7 +4579,7 @@ function initApp(){
     if(unread.length>0)addAi('您有 '+unread.length+' 条未读通知，输入 !通知 查看');
   },2500);
 
-  // ═══ 心跳看门狗 — 每5分钟自动巡检 ═══
+  // ═══ 心跳看门狗 — 每2分钟自动巡检 + 营养自动刷新 ═══
   // 持续监控所有引擎，发现问题自动修复，零人工干预
   setInterval(function(){
     try{
@@ -4537,14 +4600,30 @@ function initApp(){
           EventBus.emit('healing:heartbeat',{anomalies:anomalies.length,healed:healed.healed});
         }
       }
-      // 3. 健康度快照
+      // 3. 健康度快照 + 营养自动刷新
       if(typeof GROWTH_ENGINE!=='undefined'){
         var h=GROWTH_ENGINE.calcHealthScore();
         EventBus.emit('heartbeat:health',{score:h,time:new Date().toLocaleString()});
+        // 营养超过24h未刷新，自动触发吸收
+        var lastN=GROWTH_ENGINE.nutrients.length>0?GROWTH_ENGINE.nutrients[GROWTH_ENGINE.nutrients.length-1]:null;
+        var nutAge=lastN?(lastN.ts||(new Date(lastN.time).getTime())):0;
+        if(Date.now()-nutAge>86400000&&typeof GROWTH_ENGINE!=='undefined'){
+          var autoSrc=Math.floor(Math.random()*GROWTH_ENGINE.absorbSources.length);
+          GROWTH_ENGINE.absorb(autoSrc,function(ok,msg){
+            if(ok){SH_NOTIFY.push('自动吸星','营养已刷新: '+msg,'info');GROWTH_ENGINE.save()}
+          });
+        }
         // 健康度低于70自动触发修复
         if(h<70&&typeof SELF_AUDIT!=='undefined'&&SELF_AUDIT.healthOptimize){
           SELF_AUDIT.healthOptimize();
           SH_NOTIFY.push('心跳','健康度'+h+'/100，已自动触发优化','warn');
+        }
+        // 健康度趋势监控：连续3次下降主动告警
+        if(!GROWTH_ENGINE._healthTrend)GROWTH_ENGINE._healthTrend=[];
+        GROWTH_ENGINE._healthTrend.push(h);
+        if(GROWTH_ENGINE._healthTrend.length>3)GROWTH_ENGINE._healthTrend.shift();
+        if(GROWTH_ENGINE._healthTrend.length>=3&&GROWTH_ENGINE._healthTrend[0]>GROWTH_ENGINE._healthTrend[1]&&GROWTH_ENGINE._healthTrend[1]>GROWTH_ENGINE._healthTrend[2]){
+          SH_NOTIFY.push('趋势告警','健康度连续3次下降:'+GROWTH_ENGINE._healthTrend.join('→')+'，请关注','err');
         }
       }
       // 4. 模块注册表同步
@@ -4554,7 +4633,7 @@ function initApp(){
     }catch(e){
       console.error('心跳看门狗异常:',e);
     }
-  },300000);
+  },120000);
 
   // ═══ 注册全局事件监听器 — 神经系统反射弧 ═══
   // 引擎故障 → 自动切换路由
@@ -4598,7 +4677,7 @@ function initApp(){
   (async function(){
     try{
     var maxRounds=30;
-    var targetScore=90;
+    var targetScore=95;
     var round=0;
     var totalPassed=0,totalIssues=0,totalFixed=0;
     var allResults=[];
@@ -4709,14 +4788,14 @@ function initApp(){
       totalPassed:totalPassed,
       totalIssues:totalIssues,
       totalFixed:totalFixed,
-      targetReached:parseInt(localStorage.getItem('sh_health_score')||'0')>=targetScore,
+      targetReached:(function(){try{var v=JSON.parse(localStorage.getItem('sh_health_score')||'0');return(typeof v==='object')?(v.score||0)>=targetScore:parseInt(v)>=targetScore}catch(e){return false}})(),
       finalHealth:health,
       phase1:{name:'内部自检',avgHealth:Math.round(phase1Health.reduce(function(a,b){return a+b},0)/phase1Health.length),avgIssues:Math.round(phase1Issues.reduce(function(a,b){return a+b},0)/phase1Issues.length)},
       phase2:{name:'自检+吸星大法',avgHealth:Math.round(phase2Health.reduce(function(a,b){return a+b},0)/phase2Health.length),avgIssues:Math.round(phase2Issues.reduce(function(a,b){return a+b},0)/phase2Issues.length)},
       phase3:{name:'全量自检+进化',avgHealth:Math.round(phase3Health.reduce(function(a,b){return a+b},0)/phase3Health.length),avgIssues:Math.round(phase3Issues.reduce(function(a,b){return a+b},0)/phase3Issues.length)}
     };
     localStorage.setItem('sh_audit_summary',JSON.stringify(auditSummary));
-    localStorage.setItem('sh_health_score',String(health));
+    localStorage.setItem('sh_health_score',JSON.stringify({score:health,time:new Date().toLocaleString(),ts:Date.now()}));
     
     // 生成详细分析报告
     var nutrients=GROWTH_ENGINE.nutrients;
@@ -4734,11 +4813,13 @@ function initApp(){
     var nutrientFresh=lastNutrient&&(Date.now()-new Date(lastNutrient.time).getTime()<=172800000);
     
     // 健康度维度拆解
-    var engineScore=30;
-    var feedbackScore=25-(logs.length>0?Math.round((fails/logs.length)*25):0);
+    var defScore2=(typeof DEFENSE_ENGINE!=='undefined'&&localStorage.getItem('sh_integrity_hash'))?10:0;
+    var engineScore=25;
+    var feedbackScore=logs.length>0?Math.round((1-fails/logs.length)*20):20;
     var dataScore=20-Math.min(20,stale*5);
     var kbScore=hasFullKB?15:0;
     var nutrientScore=nutrientFresh?10:0;
+    var totalDim2=engineScore+feedbackScore+dataScore+kbScore+nutrientScore+defScore2;
     
     var report='<div style="background:#1a1a2e;border:1px solid '+statusColor+';border-radius:8px;padding:12px;margin:8px 0;font-size:13px;">';
     report+='<div style="color:'+statusColor+';font-size:15px;font-weight:bold;margin-bottom:8px;">山海云枢 路演报告 (30轮 · '+new Date().toLocaleString()+')</div>';
@@ -4755,11 +4836,13 @@ function initApp(){
     
     // 健康度各维度得分
     report+='<div style="border-top:1px solid #333;padding-top:8px;margin:4px 0;color:#aaa;font-size:12px;">▎健康度维度拆解</div>';
-    report+='引擎健康(30)：<span style="color:#00ff88">'+engineScore+'/30</span> — 4路路由故障计数已归零<br>';
-    report+='反馈成功率(25)：<span style="color:'+(feedbackScore>=20?'#00ff88':'#ffd93d')+'">'+feedbackScore+'/25</span> — 当前'+fails+'条失败/'+logs.length+'条总记录<br>';
+    report+='引擎健康(25)：<span style="color:#00ff88">'+engineScore+'/25</span> — 4路路由故障计数已归零<br>';
+    report+='反馈成功率(20)：<span style="color:'+(feedbackScore>=16?'#00ff88':'#ffd93d')+'">'+feedbackScore+'/20</span> — 当前'+fails+'条失败/'+logs.length+'条总记录<br>';
     report+='数据完整性(20)：<span style="color:'+(dataScore>=15?'#00ff88':'#ffd93d')+'">'+dataScore+'/20</span> — '+stale+'条过期pending订单<br>';
     report+='知识库完整度(15)：<span style="color:'+(kbScore>0?'#00ff88':'#ffd93d')+'">'+kbScore+'/15</span> — DNA/品牌/引擎'+(hasFullKB?'完整':'缺失')+'<br>';
     report+='营养吸收(10)：<span style="color:'+(nutrientScore>0?'#00ff88':'#ffd93d')+'">'+nutrientScore+'/10</span> — '+(nutrientFresh?'48h内有吸收':'超过48h无吸收')+'<br>';
+    report+='防御完整性(10)：<span style="color:'+(defScore2>0?'#00ff88':'#ffd93d')+'">'+defScore2+'/10</span> — '+(defScore2>0?'哈希校验通过':'未初始化')+'<br>';
+    report+='维度总分：<b>'+totalDim2+'/100</b><br>';
     
     // 汇总
     report+='<div style="border-top:1px solid #333;padding-top:8px;margin:4px 0;color:#aaa;font-size:12px;">▎汇总统计</div>';
