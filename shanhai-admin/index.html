@@ -101,8 +101,9 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   background:linear-gradient(145deg,rgba(90,75,120,0.95),rgba(65,50,90,0.98));
   color:rgba(255,248,220,1);font-size:40px;font-weight:800;
   cursor:pointer;text-align:center;line-height:85px;
-  transition:all .15s cubic-bezier(0.4,0,0.2,1);
+  transition:background .15s,transform .15s,box-shadow .15s;
   -webkit-tap-highlight-color:transparent;outline:none;
+  -webkit-appearance:none;-moz-appearance:none;appearance:none;
   font-family:'Georgia','Noto Serif SC',serif;
   box-shadow:
     0 4px 12px rgba(0,0,0,0.5),
@@ -868,11 +869,12 @@ function doPinAction(btn){
     setTimeout(function(){btn.classList.remove('pressed')},180);
     var k=btn.getAttribute('data-k');
     if(!k)return;
-    if(k==='clear'){PIN.clearInput();return}
-    if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
+    if(k==='clear'){PIN.clearInput();document.getElementById('pinStatus').textContent='已清除';return}
+    if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);document.getElementById('pinStatus').textContent='已退格';return}
     if(PIN.input.length>=6)return;
     PIN.input+=k;
     PIN.updateDots(PIN.input.length);
+    document.getElementById('pinStatus').textContent='已输入 '+PIN.input.length+' 位';
     if(PIN.input.length>=6){
       var r=PIN.verify(PIN.input);
       var st=document.getElementById('pinStatus');

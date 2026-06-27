@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>触摸测试</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#fff;font-family:sans-serif;padding:20px;text-align:center}
+h2{color:#d4a03c;margin:20px 0}
+.btn{
+  width:85px;height:85px;border-radius:50%;border:none;
+  background:#333;color:#fff;font-size:40px;font-weight:800;
+  margin:8px;cursor:pointer;
+}
+.btn:active{background:#2ecc71}
+.div-btn{
+  width:85px;height:85px;border-radius:50%;
+  background:#555;color:#fff;font-size:40px;font-weight:800;
+  margin:8px;cursor:pointer;text-align:center;line-height:85px;
+  display:inline-block;
+}
+.div-btn:active{background:#e74c3c}
+#status{margin:20px 0;font-size:18px;color:#d4a03c;min-height:30px}
+#info{margin:20px 0;font-size:14px;color:#999;text-align:left;padding:10px}
+</style>
+</head>
+<body>
+<h2>触摸测试页面</h2>
+<p>点击下方按钮，状态栏应显示点击次数</p>
+<div id="status">等待触摸...</div>
+
+<div style="margin:30px 0">
+  <p style="color:#aaa;margin-bottom:10px">方式1: button + onclick</p>
+  <button class="btn" onclick="test1()">1</button>
+  <button class="btn" onclick="test1()">2</button>
+  <button class="btn" onclick="test1()">3</button>
+</div>
+
+<div style="margin:30px 0">
+  <p style="color:#aaa;margin-bottom:10px">方式2: div + ontouchstart</p>
+  <div class="div-btn" ontouchstart="test2()">4</div>
+  <div class="div-btn" ontouchstart="test2()">5</div>
+  <div class="div-btn" ontouchstart="test2()">6</div>
+</div>
+
+<div style="margin:30px 0">
+  <p style="color:#aaa;margin-bottom:10px">方式3: button + addEventListener</p>
+  <button class="btn" id="b7">7</button>
+  <button class="btn" id="b8">8</button>
+  <button class="btn" id="b9">9</button>
+</div>
+
+<div id="info">
+  <p>UA: <span id="ua"></span></p>
+  <p>touch事件支持: <span id="touch"></span></p>
+  <p>pointer事件支持: <span id="pointer"></span></p>
+  <p>JS执行状态: <span id="jsok"></span></p>
+</div>
+
+<script>
+document.getElementById('ua').textContent = navigator.userAgent;
+document.getElementById('touch').textContent = ('ontouchstart' in window) ? '支持' : '不支持';
+document.getElementById('pointer').textContent = ('onpointerdown' in window) ? '支持' : '不支持';
+document.getElementById('jsok').textContent = 'JS正常执行';
+
+var count = {t1:0, t2:0, t3:0};
+
+function test1(){
+  count.t1++;
+  document.getElementById('status').textContent = 'onclick触发 x' + count.t1;
+}
+
+function test2(){
+  count.t2++;
+  document.getElementById('status').textContent = 'ontouchstart触发 x' + count.t2;
+}
+
+document.getElementById('b7').addEventListener('click', function(){
+  count.t3++;
+  document.getElementById('status').textContent = 'addEventListener click x' + count.t3;
+});
+document.getElementById('b8').addEventListener('touchstart', function(e){
+  e.preventDefault();
+  count.t3++;
+  document.getElementById('status').textContent = 'addEventListener touchstart x' + count.t3;
+});
+document.getElementById('b9').addEventListener('pointerdown', function(e){
+  e.preventDefault();
+  count.t3++;
+  document.getElementById('status').textContent = 'addEventListener pointerdown x' + count.t3;
+});
+</script>
+</body>
+</html>
