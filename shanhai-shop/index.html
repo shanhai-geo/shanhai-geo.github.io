@@ -558,7 +558,7 @@ function confirmPay(){
         一键确认:'https://shanhai-geo.github.io/shanhai-admin/confirm.html?oid='+oid+'&phone='+phone+'&time='+encodeURIComponent(timeStr)
       })
       })
-    }).then(function(r){return r.json()}).then(function(d){console.log('商城邮件:',d)}).catch(function(e){console.error('商城邮件异常:',e)});
+    .then(function(r){return r.json()}).then(function(d){console.log('商城邮件:',d)}).catch(function(e){console.error('商城邮件异常:',e)});
   }catch(e){}
   
   renderOrders();

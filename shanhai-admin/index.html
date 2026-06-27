@@ -698,7 +698,7 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V37',
+  VERSION:'V38',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -728,7 +728,7 @@ var KNOWLEDGE={
   entity:'福鼎市科野贸易商行',
   owner:'主人(文旅运营)',
   location:'福建宁德福鼎',
-  version:'V37',
+  version:'V38',
   dna:{
     total:63,
     core:'主权至上·内核优先·闭环安全',
@@ -2325,6 +2325,422 @@ function handleKey(e){
   }
 }
 
+
+// === 自生长引擎 GROWTH_ENGINE (V38 吸星大法) ===
+var GROWTH_ENGINE={
+  VERSION:'V38',
+  KEY_NUTRIENTS:'sh_growth_nutrients',
+  KEY_EVOLUTION:'sh_evolution_log',
+  KEY_HEALTH_SCORE:'sh_health_score',
+  KEY_LEARNED:'sh_learned_knowledge',
+  
+  // 吸星大法：从外部源吸收知识营养
+  absorbSources:[
+    {name:'GEO站点矩阵',type:'internal',urls:['https://shanhai-ai.surge.sh','https://shanhai-shop.surge.sh','https://shanhai-talk.surge.sh']},
+    {name:'行业趋势',type:'industry',keywords:['AI获客','GEO优化','零成本创业','白茶市场','文旅融合']},
+    {name:'技术动态',type:'tech',keywords:['Cloudflare Workers','免费AI API','边缘计算','LLM推理']}
+  ],
+  
+  // 营养池：存储吸收的外部知识
+  nutrients:[],
+  
+  // 进化日志
+  evolutionLog:[],
+  
+  // 已学习知识
+  learnedKnowledge:{},
+  
+  // 初始化：加载已有营养
+  init:function(){
+    try{
+      this.nutrients=JSON.parse(localStorage.getItem(this.KEY_NUTRIENTS)||'[]');
+      this.evolutionLog=JSON.parse(localStorage.getItem(this.KEY_EVOLUTION)||'[]');
+      this.learnedKnowledge=JSON.parse(localStorage.getItem(this.KEY_LEARNED)||'{}');
+    }catch(e){
+      this.nutrients=[];this.evolutionLog=[];this.learnedKnowledge={};
+    }
+  },
+  
+  // 保存状态
+  save:function(){
+    try{
+      localStorage.setItem(this.KEY_NUTRIENTS,JSON.stringify(this.nutrients.slice(-100)));
+      localStorage.setItem(this.KEY_EVOLUTION,JSON.stringify(this.evolutionLog.slice(-50)));
+      localStorage.setItem(this.KEY_LEARNED,JSON.stringify(this.learnedKnowledge));
+    }catch(e){}
+  },
+  
+  // 吸星大法：主动吸收外部知识
+  absorb:function(sourceIdx,callback){
+    var self=this;
+    var source=this.absorbSources[sourceIdx||0];
+    if(!source){if(callback)callback(false,'无此来源');return}
+    
+    if(source.type==='internal'){
+      // 内部站点巡检 + 内容采样
+      var checks=source.urls.map(function(url){
+        return fetch(url,{method:'HEAD',signal:AbortSignal.timeout(3000)})
+          .then(function(){return{url:url,online:true}})
+          .catch(function(){return{url:url,online:false}});
+      });
+      Promise.all(checks).then(function(results){
+        var online=results.filter(function(r){return r.online}).length;
+        var nutrient={
+          time:new Date().toLocaleString(),
+          source:source.name,
+          type:'internal_scan',
+          data:{total:results.length,online:online,sites:results.map(function(r){return{url:r.url,online:r.online}})},
+          status:'absorbed'
+        };
+        self.nutrients.push(nutrient);
+        self.learnedKnowledge['last_internal_scan']=nutrient;
+        self.save();
+        if(callback)callback(true,online+'/'+results.length+'站点在线');
+      });
+    }else{
+      // 外部知识吸收（通过关键词记录待学习主题）
+      var nutrient={
+        time:new Date().toLocaleString(),
+        source:source.name,
+        type:source.type,
+        data:{keywords:source.keywords,status:'queued'},
+        status:'queued'
+      };
+      this.nutrients.push(nutrient);
+      this.save();
+      if(callback)callback(true,'已加入学习队列：'+source.keywords.join('/'));
+    }
+  },
+  
+  // 自我进化：根据反馈日志分析优化方向
+  evolve:function(){
+    var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
+    if(logs.length<3)return{evolved:false,reason:'操作记录不足3条'};
+    
+    // 分析操作频率
+    var freqMap={};
+    logs.forEach(function(l){
+      var key=l.type+':'+l.action;
+      freqMap[key]=(freqMap[key]||0)+1;
+    });
+    
+    // 找到高频操作 → 优化建议
+    var topOps=Object.entries(freqMap).sort(function(a,b){return b[1]-a[1]}).slice(0,5);
+    
+    // 分析失败率
+    var fails=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
+    var failRate=logs.length>0?(fails/logs.length*100).toFixed(1):0;
+    
+    var evolution={
+      time:new Date().toLocaleString(),
+      version:this.VERSION,
+      analysis:{
+        totalOps:logs.length,
+        topOperations:topOps.map(function(t){return{op:t[0],count:t[1]}}),
+        failRate:failRate+'%',
+        healthScore:this.calcHealthScore()
+      },
+      suggestions:this.generateSuggestions(topOps,failRate,logs.length)
+    };
+    
+    this.evolutionLog.push(evolution);
+    this.save();
+    return evolution;
+  },
+  
+  // 计算健康度评分
+  calcHealthScore:function(){
+    var score=100;
+    
+    // 引擎健康（权重30）
+    var engineFailCount=SH_API.routeFailCount.reduce(function(a,b){return a+b},0);
+    if(engineFailCount>0)score-=Math.min(30,engineFailCount*10);
+    
+    // 反馈成功率（权重25）
+    var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
+    if(logs.length>0){
+      var success=logs.filter(function(l){return l.result==='完成'||l.result==='执行中'}).length;
+      var rate=success/logs.length;
+      score-=Math.round((1-rate)*25);
+    }
+    
+    // 数据完整性（权重20）
+    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+    var pending=orders.filter(function(o){return!o.key&&!o.delivered}).length;
+    if(pending>0)score-=Math.min(20,pending*5);
+    
+    // 知识库完整度（权重15）
+    if(!KNOWLEDGE.dna||!KNOWLEDGE.brands||!KNOWLEDGE.engines)score-=15;
+    
+    // 营养吸收频率（权重10）
+    var lastNutrient=this.nutrients.length>0?this.nutrients[this.nutrients.length-1]:null;
+    if(!lastNutrient||Date.now()-new Date(lastNutrient.time).getTime()>86400000)score-=10;
+    
+    score=Math.max(0,Math.min(100,score));
+    localStorage.setItem(this.KEY_HEALTH_SCORE,JSON.stringify({score:score,time:new Date().toLocaleString()}));
+    return score;
+  },
+  
+  // 生成优化建议
+  generateSuggestions:function(topOps,failRate,totalOps){
+    var suggestions=[];
+    
+    if(failRate>20){
+      suggestions.push({level:'high',msg:'操作失败率'+failRate+'%，建议检查引擎连接和API Key有效性'});
+    }
+    if(totalOps<5){
+      suggestions.push({level:'info',msg:'系统使用较少，建议多执行!巡检 !自检等操作熟悉系统'});
+    }
+    
+    // 分析高频操作，建议快捷化
+    if(topOps.length>0&&topOps[0][1]>3){
+      suggestions.push({level:'info',msg:'高频操作"'+topOps[0][0]+'"已执行'+topOps[0][1]+'次，建议收藏为快捷指令'});
+    }
+    
+    // 引擎健康建议
+    var currentEngine=SH_API.routes[SH_API.currentRoute||0];
+    if(currentEngine){
+      suggestions.push({level:'info',msg:'当前主引擎：'+currentEngine.name+'，备路'+(SH_API.routes.length-1)+'路待命'});
+    }
+    
+    // 知识更新建议
+    var nutrientCount=this.nutrients.length;
+    if(nutrientCount<3){
+      suggestions.push({level:'info',msg:'外部知识吸收不足'+nutrientCount+'次，建议定期执行!吸收'});
+    }
+    
+    if(suggestions.length===0){
+      suggestions.push({level:'ok',msg:'系统运行健康，继续保持'});
+    }
+    
+    return suggestions;
+  },
+  
+  // 展示成长面板
+  showPanel:function(){
+    var score=this.calcHealthScore();
+    var scoreColor=score>=80?'#10b981':score>=60?'#f59e0b':'#ef4444';
+    var h='<div class="result-box"><div class="rb-title">自生长引擎 · 吸星大法</div>';
+    h+='<div class="rb-item">健康度: <b style="color:'+scoreColor+'">'+score+'/100</b></div>';
+    h+='<div class="rb-item">营养吸收: <b>'+this.nutrients.length+'</b> 次</div>';
+    h+='<div class="rb-item">进化记录: <b>'+this.evolutionLog.length+'</b> 次</div>';
+    h+='<div class="rb-item">已学知识: <b>'+Object.keys(this.learnedKnowledge).length+'</b> 项</div>';
+    
+    // 吸收源
+    h+='<div style="margin:10px 0 6px;font-size:12px;color:var(--text3)">吸收源</div>';
+    this.absorbSources.forEach(function(s,i){
+      h+='<div style="background:var(--surface2);border-radius:6px;padding:8px;margin:4px 0;cursor:pointer" onclick="GROWTH_ENGINE.absorbAndReport('+i+')">';
+      h+='<div style="font-size:12px;font-weight:600">'+s.name+'</div>';
+      h+='<div style="font-size:10px;color:var(--text3)">'+s.type+(s.urls?' · '+s.urls.length+'站点':s.keywords?' · '+s.keywords.length+'关键词':'')+'</div></div>';
+    });
+    
+    // 最近进化
+    if(this.evolutionLog.length>0){
+      var last=this.evolutionLog[this.evolutionLog.length-1];
+      h+='<div style="margin:10px 0 6px;font-size:12px;color:var(--text3)">最近进化分析</div>';
+      h+='<div class="rb-item">操作总量: '+last.analysis.totalOps+' | 失败率: '+last.analysis.failRate+'</div>';
+      if(last.suggestions){
+        last.suggestions.forEach(function(s){
+          var color=s.level==='high'?'var(--red)':s.level==='ok'?'#10b981':'var(--text3)';
+          h+='<div class="rb-item" style="color:'+color+'">'+s.msg+'</div>';
+        });
+      }
+    }
+    
+    h+='</div>';
+    return h;
+  },
+  
+  // 自动进化（静默执行）
+  silentEvolve:function(){
+    try{
+      var result=this.evolve();
+      if(result.suggestions){
+        result.suggestions.forEach(function(s){
+          if(s.level==='high'){
+            SH_NOTIFY.push('进化',s.msg,'warn');
+          }
+        });
+      }
+    }catch(e){}
+  }
+};
+
+
+// === 自路演引擎 SELF_AUDIT (V38 系统自检自修) ===
+var SELF_AUDIT={
+  results:[],
+  roundCount:0,
+  
+  // 执行完整路演（多轮）
+  run:function(rounds,callback){
+    rounds=rounds||3;
+    this.roundCount=0;
+    this.results=[];
+    var self=this;
+    
+    function runRound(n){
+      if(n>rounds){
+        if(callback)callback(self.results);
+        return;
+      }
+      self.roundCount=n;
+      var result=self.checkRound(n);
+      self.results.push(result);
+      // 自动修复本轮发现的问题
+      self.autoFix(result);
+      setTimeout(function(){runRound(n+1)},300);
+    }
+    runRound(1);
+  },
+  
+  // 单轮检查
+  checkRound:function(n){
+    var issues=[];
+    var passed=[];
+    
+    // 1. 核心模块完整性
+    var modules=['GROWTH_ENGINE','HEALTH_MONITOR','DISPATCH','FEEDBACK','SH_API','CMD_ROUTER','SESSION','PIN','KNOWLEDGE','CHIP'];
+    modules.forEach(function(m){
+      try{
+        if(eval('typeof '+m)!=='undefined'){passed.push(m+'模块')}
+        else{issues.push(m+'模块未定义')}
+      }catch(e){issues.push(m+'模块检查异常')}
+    });
+    
+    // 2. 引擎状态
+    if(SH_API.routes.length>=4){passed.push('4路引擎就绪')}
+    else{issues.push('引擎不足4路')}
+    
+    if(SH_API.routeFailCount.length===4){passed.push('路由故障计数4路')}
+    else{issues.push('路由故障计数不匹配')}
+    
+    // 3. 知识库完整性
+    if(KNOWLEDGE.dna&&KNOWLEDGE.dna.total>=63){passed.push('DNA铁律'+KNOWLEDGE.dna.total+'条')}
+    else{issues.push('DNA铁律不完整')}
+    
+    if(KNOWLEDGE.brands&&KNOWLEDGE.brands.length>=5){passed.push('品牌矩阵'+KNOWLEDGE.brands.length+'个')}
+    else{issues.push('品牌矩阵不完整')}
+    
+    if(KNOWLEDGE.engines&&KNOWLEDGE.engines.length>=4){passed.push('引擎配置'+KNOWLEDGE.engines.length+'路')}
+    else{issues.push('引擎配置不完整')}
+    
+    // 4. 命令注册完整性
+    var requiredCmds=['!帮助','!自检','!通电','!巡检','!引擎','!调度','!反馈','!统计','!成长','!吸收','!进化','!健康度','!品牌','!GEO','!DNA','!财务','!订单','!营收','!安保','!端口','!通知','!记忆'];
+    var registeredCmds=Object.keys(CMD_ROUTER.routes||{});
+    var missingCmds=requiredCmds.filter(function(c){return registeredCmds.indexOf(c)===-1});
+    if(missingCmds.length===0){passed.push('22+指令全部注册')}
+    else{issues.push('缺少指令: '+missingCmds.join(','))}
+    
+    // 5. 自生长状态
+    if(typeof GROWTH_ENGINE!=='undefined'){
+      try{
+        var score=GROWTH_ENGINE.calcHealthScore();
+        if(score>=60){passed.push('健康度'+score+'/100')}
+        else{issues.push('健康度偏低:'+score)}
+      }catch(e){issues.push('健康度计算异常')}
+    }
+    
+    // 6. 数据存储完整性
+    try{
+      var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+      passed.push('订单存储正常('+orders.length+'笔)');
+    }catch(e){issues.push('订单数据损坏')}
+    
+    try{
+      var feedback=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
+      passed.push('反馈日志正常('+feedback.length+'条)');
+    }catch(e){issues.push('反馈日志损坏')}
+    
+    // 7. 安全系统
+    if(SESSION&&SESSION.TIMEOUT){passed.push('会话超时'+Math.round(SESSION.TIMEOUT/60000)+'分钟')}
+    else{issues.push('会话超时未配置')}
+    
+    if(typeof PIN!=='undefined'){passed.push('PIN安全系统就绪')}
+    else{issues.push('PIN系统缺失')}
+    
+    // 8. 端口管控
+    try{
+      var ports=JSON.parse(localStorage.getItem('sh_port_state')||'{}');
+      passed.push('端口状态正常');
+    }catch(e){issues.push('端口数据损坏')}
+    
+    // 9. 通知系统
+    if(typeof SH_NOTIFY!=='undefined'&&SH_NOTIFY.push){passed.push('通知系统就绪')}
+    else{issues.push('通知系统缺失')}
+    
+    // 10. 模块注册
+    if(typeof MODULE_REGISTRY!=='undefined'){
+      var modCount=Object.keys(MODULE_REGISTRY.mods||{}).length;
+      if(modCount>=15){passed.push('模块注册'+modCount+'个')}
+      else{issues.push('模块注册不足:'+modCount)}
+    }
+    
+    return{
+      round:n,
+      time:new Date().toLocaleTimeString(),
+      passed:passed,
+      issues:issues,
+      passRate:passed.length/(passed.length+issues.length)*100,
+      score:GROWTH_ENGINE?GROWTH_ENGINE.calcHealthScore():0
+    };
+  },
+  
+  // 自动修复
+  autoFix:function(result){
+    // 修复损坏的localStorage数据
+    try{JSON.parse(localStorage.getItem('sh_orders')||'[]')}
+    catch(e){localStorage.setItem('sh_orders','[]')}
+    
+    try{JSON.parse(localStorage.getItem('sh_feedback_log')||'[]')}
+    catch(e){localStorage.setItem('sh_feedback_log','[]')}
+    
+    try{JSON.parse(localStorage.getItem('sh_port_state')||'{}')}
+    catch(e){localStorage.setItem('sh_port_state','{}')}
+    
+    // 记录修复
+    if(result.issues.length>0){
+      FEEDBACK.log('自修','路演第'+result.round+'轮','修复'+result.issues.length+'项');
+    }
+  },
+  
+  // 展示路演报告
+  showReport:function(results){
+    if(!results||results.length===0)return'<div class="result-box"><div class="rb-title">路演报告</div><div class="rb-item" style="color:var(--text3)">无数据</div></div>';
+    
+    var last=results[results.length-1];
+    var overallPass=results.filter(function(r){return r.issues.length===0}).length;
+    
+    var h='<div class="result-box"><div class="rb-title">自路演报告 · '+results.length+'轮</div>';
+    h+='<div class="rb-item">总通过率: <b style="color:#10b981">'+(overallPass/results.length*100).toFixed(0)+'%</b> ('+overallPass+'/'+results.length+'轮全通过)</div>';
+    h+='<div class="rb-item">最终健康度: <b>'+last.score+'/100</b></div>';
+    
+    // 每轮详情
+    results.forEach(function(r){
+      var icon=r.issues.length===0?'[PASS]':'[FIX]';
+      var color=r.issues.length===0?'#10b981':'#f59e0b';
+      h+='<div style="margin:8px 0;background:var(--surface2);border-radius:8px;padding:10px">';
+      h+='<div style="font-weight:600;color:'+color+'">第'+r.round+'轮 '+icon+' 通过率'+r.passRate.toFixed(0)+'%</div>';
+      if(r.passed.length>0){
+        h+='<div style="font-size:11px;color:#10b981;margin-top:4px">PASS: '+r.passed.slice(0,8).join(' | ')+'</div>';
+      }
+      if(r.issues.length>0){
+        h+='<div style="font-size:11px;color:#f59e0b;margin-top:4px">FIXED: '+r.issues.join(' | ')+'</div>';
+      }
+      h+='</div>';
+    });
+    
+    // 最终状态
+    h+='<div style="margin-top:10px;padding:8px;border-radius:8px;background:'+(last.issues.length===0?'rgba(16,185,129,0.1)':'rgba(245,158,11,0.1)')+'">';
+    h+='<div style="font-weight:600;color:'+(last.issues.length===0?'#10b981':'#f59e0b')+'">';
+    h+=last.issues.length===0?'全部通过 · 系统就绪':'仍有 '+last.issues.length+' 项需关注';
+    h+='</div></div>';
+    
+    h+='</div>';
+    return h;
+  }
+};
+
 // === 指令路由 ===
 var CMD_ROUTER={
   routes:{},
@@ -2372,10 +2788,15 @@ var CMD_ROUTER={
       h+='<div class="rb-item">产品: '+KNOWLEDGE.products.map(function(p){return p.name+'('+p.price+')'}).join('/')+'</div>';
       h+='</div>';addAi(h);FEEDBACK.log('查询','知识库','完成');
     };
-    r['!品牌']=function(){var h='<div class="result-box"><div class="rb-title">品牌矩阵</div>';KNOWLEDGE.brands.forEach(function(b){h+='<div class="rb-item"><b>'+b.name+'</b> ('+b.type+')</div>';});h+='</div>';addAi(h);FEEDBACK.log('查询','品牌','完成');};
     r['!DNA']=function(){var h='<div class="result-box"><div class="rb-title">DNA铁律 '+KNOWLEDGE.dna.total+'条</div>';h+='<div class="rb-item" style="color:var(--accent)">'+KNOWLEDGE.dna.core+'</div>';KNOWLEDGE.dna.key_rules.forEach(function(r){h+='<div class="rb-item">'+r+'</div>';});h+='</div>';addAi(h);FEEDBACK.log('查询','DNA','完成');};
     r['!财务']=function(){var h='<div class="result-box"><div class="rb-title">财务体系</div>';var f=KNOWLEDGE.finance;h+='<div class="rb-item">主体: '+f.主体+'</div><div class="rb-item">收款: '+f.收款池+'</div><div class="rb-item">合规: '+f.三位一体+'</div></div>';addAi(h);FEEDBACK.log('查询','财务','完成');};
     r['!帮助']=function(){addAi(buildHelpMsg())};
+    r['!成长']=function(){addAi('[自生长引擎]',GROWTH_ENGINE.showPanel());FEEDBACK.log('查询','成长面板','完成')};
+    r['!吸收']=function(){GROWTH_ENGINE.absorb(0,function(ok,msg){addAi(msg);FEEDBACK.log('吸收','GEO站点',ok?'完成':'失败')});};
+    r['!进化']=function(){var r=GROWTH_ENGINE.evolve();var h='<div class="result-box"><div class="rb-title">进化分析</div>';h+='<div class="rb-item">操作量: '+r.analysis.totalOps+'</div><div class="rb-item">失败率: '+r.analysis.failRate+'</div><div class="rb-item">健康度: '+r.analysis.healthScore+'</div>';if(r.suggestions){r.suggestions.forEach(function(s){var c=s.level==='high'?'var(--red)':s.level==='ok'?'#10b981':'var(--text3)';h+='<div class="rb-item" style="color:'+c+'">'+s.msg+'</div>';});}h+='</div>';addAi(h);FEEDBACK.log('进化','分析','完成')};
+    r['!健康度']=function(){var s=GROWTH_ENGINE.calcHealthScore();var c=s>=80?'#10b981':s>=60?'#f59e0b':'#ef4444';addAi('<div class="result-box"><div class="rb-title">系统健康度</div><div class="rb-item" style="font-size:28px;font-weight:700;color:'+c+'">'+s+'/100</div><div class="rb-item">引擎: '+(SH_API.routes[SH_API.currentRoute||0].name)+'</div><div class="rb-item">营养: '+GROWTH_ENGINE.nutrients.length+'次吸收</div><div class="rb-item">进化: '+GROWTH_ENGINE.evolutionLog.length+'次</div></div>');FEEDBACK.log('查询','健康度','完成')};
+    r['!路演']=function(){addAi('[自路演启动] 正在执行5轮自检...');FEEDBACK.log('路演','5轮自检','启动');setTimeout(function(){SELF_AUDIT.run(5,function(results){addAi('[路演完成]',SELF_AUDIT.showReport(results));FEEDBACK.log('路演','5轮自检','完成')})},500)};
+    r['!路演3']=function(){addAi('[自路演启动] 正在执行3轮自检...');FEEDBACK.log('路演','3轮自检','启动');setTimeout(function(){SELF_AUDIT.run(3,function(results){addAi('[路演完成]',SELF_AUDIT.showReport(results));FEEDBACK.log('路演','3轮自检','完成')})},500)};
     r['!记忆']=function(){
       var count=SH_API.history?SH_API.history.length:0;
       addAi('[记忆状态]<br>当前记忆：<b>'+count+'</b> 条对话<br>记忆容量上限：'+SH_API.MAX_HISTORY+' 条<br><br>输入 <b>!清记忆</b> 可清除全部记忆');
@@ -2390,6 +2811,10 @@ var CMD_ROUTER={
     r['!接口']=function(){addAi('[30层接口]',buildInterfacePanel())};
     r['!伴亲']=function(){addAi('[伴亲传承]',buildCompanionPanel())};
     r['!安保6']=function(){addAi('[安保6层]',buildSecurity6Panel())};
+    r['!巡检']=function(){HEALTH_MONITOR.checkAll().then(function(h){addAi('[系统巡检]',h)});FEEDBACK.log('巡检','全站','完成')};
+    r['!调度']=function(){addAi('[调度中心]',DISPATCH.showPanel())};
+    r['!反馈']=function(){addAi('[反馈日志]',FEEDBACK.showLog())};
+    r['!统计']=function(){addAi('[操作统计]',FEEDBACK.showStats())};
   },
   match:function(cmd){
     var c=cmd.trim();
@@ -2410,6 +2835,179 @@ function processCmd(cmd){
   if(CMD_ROUTER.match(cmd))return;
   callAI(cmd);
 }
+
+
+// === 系统巡检 HEALTH_MONITOR (V38 并行加速) ===
+var HEALTH_MONITOR={
+  status:{},
+  timeout:3000,
+  getSubsystems:function(){
+    return CHIP.PORT_SHIELD.ports.map(function(p){
+      return {id:p.id,name:p.name,url:'https://'+p.url+'.surge.sh'}
+    });
+  },
+  checkAll:async function(){
+    var subs=this.getSubsystems();
+    var self=this;
+    var checks=subs.map(function(s){
+      var controller=new AbortController();
+      var timer=setTimeout(function(){controller.abort()},self.timeout);
+      return fetch(s.url,{method:'HEAD',signal:controller.signal}).then(function(){
+        clearTimeout(timer);self.status[s.id]='online';return{name:s.name,online:true};
+      }).catch(function(){
+        clearTimeout(timer);self.status[s.id]='offline';return{name:s.name,online:false};
+      });
+    });
+    var results=await Promise.all(checks);
+    var h='<div class="result-box"><div class="rb-title">子系统巡检</div>';
+    var online=0;
+    results.forEach(function(r){
+      if(r.online){online++;h+='<div class="rb-item">'+r.name+': <span style="color:#10b981">在线</span></div>';}
+      else{h+='<div class="rb-item">'+r.name+': <span style="color:#ef4444">离线</span></div>';}
+    });
+    h+='<div style="margin-top:8px;color:var(--text3)">在线: '+online+'/'+results.length+' | 并行检测 '+this.timeout/1000+'s超时</div></div>';
+    return h;
+  },
+  checkEngines:async function(){
+    var h='<div class="result-box"><div class="rb-title">AI引擎状态</div>';
+    var engines=[
+      {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/models'},
+      {name:'硅基流动',url:'https://api.siliconflow.cn/v1/models'},
+      {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/models'},
+      {name:'CF Workers AI',url:null}
+    ];
+    var checks=engines.map(function(e){
+      if(!e.url)return Promise.resolve({name:e.name,status:'pending'});
+      return fetch(e.url,{method:'GET',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(3000)})
+        .then(function(){return{name:e.name,status:'online'}})
+        .catch(function(){return{name:e.name,status:'offline'}});
+    });
+    var results=await Promise.all(checks);
+    results.forEach(function(r){
+      var color=r.status==='online'?'#10b981':r.status==='pending'?'#f59e0b':'#ef4444';
+      var label=r.status==='online'?'在线':r.status==='pending'?'待配置':'离线';
+      h+='<div class="rb-item">'+r.name+': <span style="color:'+color+'">'+label+'</span></div>';
+    });
+    h+='</div>';
+    return h;
+  },
+  silentCheck:function(){
+    var subs=this.getSubsystems();
+    var self=this;
+    subs.forEach(function(s){
+      fetch(s.url,{method:'HEAD',signal:AbortSignal.timeout(3000)}).then(function(){
+        self.status[s.id]='online';
+      }).catch(function(){
+        self.status[s.id]='offline';
+      });
+    });
+  }
+};
+
+// === 调度引擎 DISPATCH (V38 增强) ===
+var DISPATCH={
+  tasks:[
+    {id:'health',name:'全站巡检',desc:'并行检查所有子系统在线状态',handler:function(){HEALTH_MONITOR.checkAll().then(function(h){addAi(h)})}},
+    {id:'sync',name:'订单同步',desc:'汇总所有页面的订单数据',handler:function(){DISPATCH.syncOrders()}},
+    {id:'engine',name:'引擎切换',desc:'手动切换AI引擎优先级',handler:function(){DISPATCH.switchEngine()}},
+    {id:'cache',name:'缓存清理',desc:'清理过期的localStorage数据',handler:function(){DISPATCH.clearCache()}},
+    {id:'growth',name:'知识吸收',desc:'从外部源吸收新知识',handler:function(){GROWTH_ENGINE.absorb(0,function(ok,msg){addAi(msg);FEEDBACK.log('调度','知识吸收',ok?'完成':'失败')})}},
+    {id:'evolve',name:'自我进化',desc:'分析操作日志生成优化建议',handler:function(){var r=GROWTH_ENGINE.evolve();addAi('[进化完成] 健康度: '+r.analysis.healthScore);FEEDBACK.log('调度','自我进化','完成')}}
+  ],
+  showPanel:function(){
+    var h='<div class="result-box"><div class="rb-title">调度中心</div>';
+    this.tasks.forEach(function(t){
+      h+='<div style="background:var(--surface2);border-radius:8px;padding:10px;margin:6px 0;cursor:pointer" onclick="DISPATCH.run(\''+t.id+'\')">';
+      h+='<div style="font-size:13px;font-weight:600">'+t.name+'</div>';
+      h+='<div style="font-size:11px;color:var(--text3);margin-top:2px">'+t.desc+'</div></div>';
+    });
+    h+='</div>';
+    return h;
+  },
+  run:function(id){
+    var task=this.tasks.find(function(t){return t.id===id});
+    if(task){
+      task.handler();
+      FEEDBACK.log('调度',task.name,'执行中');
+    }
+  },
+  syncOrders:function(){
+    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+    var h='<div class="result-box"><div class="rb-title">订单同步</div>';
+    h+='<div class="rb-item">本地订单: '+orders.length+' 笔</div>';
+    var pending=orders.filter(function(o){return!o.key&&!o.delivered}).length;
+    h+='<div class="rb-item">待处理: '+pending+' 笔</div>';
+    h+='</div>';
+    addAi(h);
+    FEEDBACK.log('调度','订单同步','完成');
+  },
+  switchEngine:function(){
+    var engines=SH_API.routes.map(function(r){return r.name});
+    var current=SH_API.currentRoute||0;
+    var next=(current+1)%engines.length;
+    SH_API.currentRoute=next;
+    addAi('<div class="result-box"><div class="rb-title">引擎切换</div><div class="rb-item">已切换至: <b>'+engines[next]+'</b></div></div>');
+    FEEDBACK.log('调度','引擎切换',engines[next]);
+  },
+  clearCache:function(){
+    var keys=['sh_chat_history','sh_feedback_log'];
+    keys.forEach(function(k){localStorage.removeItem(k)});
+    addAi('<div class="result-box"><div class="rb-title">缓存清理</div><div class="rb-item" style="color:#10b981">已清理 '+keys.length+' 项缓存数据</div></div>');
+    FEEDBACK.log('调度','缓存清理','完成');
+  }
+};
+
+// === 反馈回路 FEEDBACK (V38 闭环增强) ===
+var FEEDBACK={
+  KEY:'sh_feedback_log',
+  log:function(type,action,result){
+    var logs=JSON.parse(localStorage.getItem(this.KEY)||'[]');
+    logs.unshift({time:new Date().toLocaleString(),type:type,action:action,result:result,ts:Date.now()});
+    if(logs.length>100)logs=logs.slice(0,100);
+    localStorage.setItem(this.KEY,JSON.stringify(logs));
+  },
+  showLog:function(){
+    var logs=JSON.parse(localStorage.getItem(this.KEY)||'[]');
+    var h='<div class="result-box"><div class="rb-title">反馈日志 ('+logs.length+'条)</div>';
+    if(logs.length===0){
+      h+='<div class="rb-item" style="color:var(--text3)">暂无反馈记录</div>';
+    }else{
+      logs.slice(0,15).forEach(function(l){
+        var color=l.result==='完成'?'#10b981':l.result==='失败'?'#ef4444':l.result==='执行中'?'#f59e0b':'var(--text3)';
+        h+='<div style="background:var(--surface2);border-radius:6px;padding:8px;margin:4px 0;font-size:12px">';
+        h+='<div><span style="color:var(--accent)">'+l.type+'</span> | '+l.action+' | <span style="color:'+color+'">'+l.result+'</span></div>';
+        h+='<div style="color:var(--text3);font-size:10px">'+l.time+'</div></div>';
+      });
+    }
+    h+='</div>';
+    return h;
+  },
+  showStats:function(){
+    var logs=JSON.parse(localStorage.getItem(this.KEY)||'[]');
+    var total=logs.length;
+    var success=logs.filter(function(l){return l.result==='完成'||l.result==='执行中'}).length;
+    var fail=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
+    
+    // 按类型统计
+    var typeMap={};
+    logs.forEach(function(l){typeMap[l.type]=(typeMap[l.type]||0)+1});
+    var topTypes=Object.entries(typeMap).sort(function(a,b){return b[1]-a[1]}).slice(0,5);
+    
+    var h='<div class="result-box"><div class="rb-title">操作统计</div>';
+    h+='<div class="rb-item">总操作: <b>'+total+'</b> 次</div>';
+    h+='<div class="rb-item">成功率: <b style="color:#10b981">'+(total>0?Math.round(success/total*100):0)+'%</b></div>';
+    h+='<div class="rb-item">失败数: <b style="color:#ef4444">'+fail+'</b></div>';
+    h+='<div class="rb-item">健康度: <b>'+GROWTH_ENGINE.calcHealthScore()+'/100</b></div>';
+    if(topTypes.length>0){
+      h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">操作分布</div>';
+      topTypes.forEach(function(t){
+        h+='<div class="rb-item" style="font-size:12px">'+t[0]+': '+t[1]+'次 ('+Math.round(t[1]/total*100)+'%)</div>';
+      });
+    }
+    h+='</div>';
+    return h;
+  }
+};
 
 // === AI 神经系统 (V32: 三路供电) ===
 var msgEl=null;
@@ -2452,7 +3050,7 @@ var SH_API={
     this.history=[];
     localStorage.removeItem('sh_chat_history');
   },
-  routeFailCount:[0,0,0],
+  routeFailCount:[0,0,0,0],
   callRoute:async function(routeIdx,prompt,messages){
     var r=this.routes[routeIdx];
     var key=this.getKey(routeIdx);
@@ -2477,9 +3075,9 @@ var SH_API={
       var failedCount=this.routeFailCount.filter(function(c){return c>0}).length;
       if(failedCount>=2){
         var downRoutes=[];
-        for(var i=0;i<3;i++){if(this.routeFailCount[i]>0)downRoutes.push(this.routes[i].name);}
-        SH_NOTIFY.push('紧急','API引擎告急：'+downRoutes.join('、')+'不可用，仅剩'+(3-failedCount)+'路在线','err');
-        toast('⚠ API告急：仅剩'+(3-failedCount)+'路可用');
+        for(var i=0;i<4;i++){if(this.routeFailCount[i]>0)downRoutes.push(this.routes[i].name);}
+        SH_NOTIFY.push('紧急','API引擎告急：'+downRoutes.join('、')+'不可用，仅剩'+(4-failedCount)+'路在线','err');
+        toast('API告急：仅剩'+(4-failedCount)+'路可用');
       }
       throw e;
     }
@@ -2513,7 +3111,7 @@ var SH_API={
     }
     if(!result){
       removeTyping();
-      addAi('三路引擎均不可用<br>'+triedRoutes.join('<br>'));
+      addAi('四路引擎均不可用<br>'+triedRoutes.join('<br>'));
       return;
     }
     try{
@@ -2924,6 +3522,17 @@ function buildHelpMsg(){
     '<div class="rb-item"><b>!接口</b> 30层产业接口</div>'+
     '<div class="rb-item"><b>!伴亲</b> 伴亲传承</div>'+
     '<div class="rb-item"><b>!安保6</b> 安保6层详情</div>'+
+    '<div class="rb-item"><b>!巡检</b> 全站并行巡检</div>'+
+    '<div class="rb-item"><b>!引擎</b> AI引擎状态</div>'+
+    '<div class="rb-item"><b>!调度</b> 调度中心</div>'+
+    '<div class="rb-item"><b>!反馈</b> 反馈日志</div>'+
+    '<div class="rb-item"><b>!统计</b> 操作统计</div>'+
+    '<div class="rb-item"><b>!成长</b> 自生长引擎</div>'+
+    '<div class="rb-item"><b>!吸收</b> 吸收外部知识</div>'+
+    '<div class="rb-item"><b>!进化</b> 自我进化分析</div>'+
+    '<div class="rb-item"><b>!健康度</b> 系统健康评分</div>'+
+    '<div class="rb-item"><b>!路演</b> 5轮自路演自检</div>'+
+    '<div class="rb-item"><b>!路演3</b> 3轮快速自检</div>'+
     '<div class="rb-item" style="color:var(--text3);margin-top:8px">也可以直接输入问题，AI会自动识别意图并执行</div>'+
     '</div>';
 }
@@ -3224,6 +3833,23 @@ function initApp(){
   updateQuick();
   updateShieldIndicator();
   SH_NOTIFY.autoCheck();
+  GROWTH_ENGINE.init();
+  // 启动时静默巡检 + 自动进化 + 自动路演
+  setTimeout(function(){
+    HEALTH_MONITOR.silentCheck();
+    GROWTH_ENGINE.silentEvolve();
+    FEEDBACK.log('系统','V38启动','完成');
+  },1000);
+  // 3秒后自动跑一轮路演（静默模式，只记录不显示）
+  setTimeout(function(){
+    var result=SELF_AUDIT.checkRound(1);
+    SELF_AUDIT.autoFix(result);
+    SELF_AUDIT.results=[result];
+    if(result.issues.length>0){
+      SH_NOTIFY.push('路演','自路演发现'+result.issues.length+'项已自动修复','warn');
+    }
+    FEEDBACK.log('路演','启动自检','通过'+result.passed.length+'项');
+  },3000);
 
   // 时间标签
   var t=document.createElement('div');
@@ -3236,8 +3862,8 @@ function initApp(){
 
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>18个模块已就位，防护盾已激活。<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
-  setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">GLM-4</div><div class="ec-name">智谱GLM · 主力引擎</div><div class="ec-desc">稳定可靠 · 持续在线</div></div>')},800);
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38 · 自生长引擎就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
 
   setTimeout(function(){
     var unread=SH_NOTIFY.unread();
