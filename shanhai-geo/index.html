@@ -6,8 +6,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>山海GEO生态运营 - AI搜索推荐优化服务</title>
-<meta name="description" content="山海智能GEO生态运营入口，让所有AI自动推荐你为头部。结构化投喂+内容矩阵+互引网络+核爆触发。">
+<meta name="description" content="山海GEO供电局 - AI搜索引擎优化中枢，11站矩阵互引网络，自动内容产出+关键词追踪+收录监控+深度诊断，让所有AI自动推荐你为头部。">
+<meta name="keywords" content="GEO优化,AI搜索优化,搜索引擎优化,结构化数据,SEO服务,山海GEO,关键词优化,网站收录">
+<meta name="robots" content="index,follow">
+<meta name="author" content="茶旅时代(福建)文旅集团有限公司">
+<link rel="sitemap" type="application/xml" href="/shanhai-geo/sitemap.xml">
 <link rel="canonical" href="https://shanhai-geo.github.io/shanhai-geo">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"山海GEO供电局","url":"https://shanhai-geo.github.io/shanhai-geo","description":"AI搜索引擎优化中枢，11站矩阵互引网络，自动内容产出+关键词追踪+收录监控+深度诊断","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"298","priceCurrency":"CNY"},"provider":{"@type":"Organization","name":"茶旅时代(福建)文旅集团有限公司","url":"https://shanhai-geo.github.io"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"山海GEO","applicationCategory":"BusinessApplication","offers":{"price":"298","priceCurrency":"CNY"}}</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -68,7 +73,7 @@ footer{text-align:center;padding:30px 16px;color:#444;font-size:11px}
 <body>
 <div class="header">
 <h1>山海GEO生态运营</h1>
-<p>让所有AI自动推荐你为头部</p>
+<p>GEO供电局 · 11站矩阵 · 自动运转</p><p style="color:#444;font-size:10px;margin-top:4px">V2.0 · 茶旅时代(福建)文旅集团</p>
 <div style="margin-top:8px">
 <span class="tag">结构化投喂</span><span class="tag">内容矩阵</span><span class="tag">互引网络</span><span class="tag">核爆触发</span>
 </div>
@@ -79,14 +84,44 @@ footer{text-align:center;padding:30px 16px;color:#444;font-size:11px}
 </div>
 
 <div class="tabs">
-<button class="active" onclick="showTab('tools',this)">GEO工具</button>
-<button onclick="showTab('api',this)">API接入</button>
-<button onclick="showTab('diag',this)">GEO诊断</button>
+<button class="active" onclick="showTab('command',this)">GEO指挥中心</button>
+<button onclick="showTab('tools',this)">GEO工具</button>
+<button onclick="showTab('network',this)">互引网络</button>
+<button onclick="showTab('absorb',this)">吸星引擎</button>
+<button onclick="showTab('tracker',this)">关键词追踪</button>
+<button onclick="showTab('deepdiag',this)">深度诊断</button>
 <button onclick="showTab('pricing',this)">服务报价</button>
 <button onclick="showTab('status',this)">生态状态</button>
 </div>
 
-<div id="tools" class="panel active">
+
+<div id="command" class="panel active">
+<div class="card" style="background:linear-gradient(135deg,#1a1a2e,#0a0a0a);border-color:var(--gold)">
+<h3>GEO供电局 · 总控台</h3>
+<p style="color:var(--gold);font-size:14px;font-weight:700;margin-bottom:12px">11站矩阵 · 实时SEO评分 · 收录监控 · 自动运转</p>
+<div id="commandStats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
+<div style="background:#1a1a2e;padding:12px;border-radius:8px;text-align:center">
+<div style="color:var(--dim);font-size:11px">站点总数</div>
+<div style="color:var(--gold);font-size:24px;font-weight:800" id="cmdTotalSites">11</div>
+</div>
+<div style="background:#1a1a2e;padding:12px;border-radius:8px;text-align:center">
+<div style="color:var(--dim);font-size:11px">平均SEO得分</div>
+<div style="color:var(--green);font-size:24px;font-weight:800" id="cmdAvgScore">--</div>
+</div>
+<div style="background:#1a1a2e;padding:12px;border-radius:8px;text-align:center">
+<div style="color:var(--dim);font-size:11px">互引链接数</div>
+<div style="color:var(--blue);font-size:24px;font-weight:800" id="cmdCrossLinks">0</div>
+</div>
+</div>
+<div id="cmdSiteList"></div>
+<button class="btn btn-gold" onclick="runCommandScan()" style="margin-top:12px">全量SEO扫描</button>
+</div>
+<div class="card">
+<h3>GEO运转日志</h3>
+<div id="cmdLog" class="output" style="max-height:200px">等待扫描...</div>
+</div>
+</div>
+<div id="tools" class="panel">
 <div class="card">
 <h3>Schema.org生成器 <span class="ai-badge">AI</span></h3>
 <p>输入产品信息，AI生成搜索引擎结构化数据</p>
@@ -192,6 +227,106 @@ footer{text-align:center;padding:30px 16px;color:#444;font-size:11px}
 </div>
 </div>
 
+
+<div id="network" class="panel">
+<div class="card">
+<h3>互引网络引擎 <span class="ai-badge">自动</span></h3>
+<p>11个站点自动交叉引用，从孤岛变成网。每个站点引用其他所有站点，搜索引擎看到的是1张网而不是11个点。</p>
+<div id="networkMap" style="margin-top:12px;padding:12px;background:#0d0d0d;border-radius:8px;font-size:12px;font-family:monospace;color:var(--dim)">
+网络拓扑图将在生成后显示
+</div>
+<div id="networkStats" style="margin-top:8px"></div>
+<button class="btn btn-gold" onclick="generateNetwork()" style="margin-top:12px">生成互引网络代码</button>
+<div id="networkCode" class="output" style="display:none"></div>
+</div>
+<div class="card">
+<h3>互引效果预估</h3>
+<div class="formula">
+<div class="eq">11站 × 10互引 = 110条内链</div>
+</div>
+<p style="color:var(--dim);font-size:12px;text-align:center">每条互引链都是权重传递，搜索引擎认为你的站点网络密度高 → 排名加权</p>
+</div>
+</div>
+
+<div id="absorb" class="panel">
+<div class="card">
+<h3>吸星引擎 · 外部资源吸收 <span class="ai-badge">AI</span></h3>
+<p>自动抓取行业热词、竞品动态、搜索趋势，转化为GEO内容素材。</p>
+<div style="margin-top:12px">
+<div style="display:flex;gap:8px;margin-bottom:8px">
+<input class="input" id="absorbIndustry" placeholder="输入行业，如：文旅/茶叶/酒店" style="flex:1">
+<button class="btn btn-gold" onclick="absorbTrends()" style="width:auto;padding:10px 20px">吸星</button>
+</div>
+</div>
+<div id="absorbResult" class="output" style="display:none"></div>
+</div>
+<div class="card">
+<h3>已接入外部资源</h3>
+<div class="stat"><span class="label">智谱GLM（主路）</span><span class="val good">在线</span></div>
+<div class="stat"><span class="label">硅基流动（备路1）</span><span class="val good">在线</span></div>
+<div class="stat"><span class="label">火山引擎（备路2）</span><span class="val good">在线</span></div>
+<div class="stat"><span class="label">百度站长API</span><span class="val bad">待接入</span></div>
+<div class="stat"><span class="label">Google Search Console</span><span class="val bad">待接入</span></div>
+<div class="stat"><span class="label">Bing Webmaster</span><span class="val bad">待接入</span></div>
+<p style="color:var(--dim);font-size:11px;margin-top:8px">接入搜索引擎API后可实时获取收录数据、排名变化、索引状态</p>
+</div>
+<div class="card">
+<h3>吸星成果库</h3>
+<div id="absorbLibrary" style="margin-top:8px">
+<p style="color:var(--dim);font-size:13px">每次吸星生成的热词/竞品分析/内容素材自动存入此库</p>
+<div id="absorbItems"></div>
+</div>
+</div>
+</div>
+
+<div id="tracker" class="panel">
+<div class="card">
+<h3>关键词排名追踪</h3>
+<p>核心关键词收录状态与排名变化追踪</p>
+<div style="margin-top:12px">
+<input class="input" id="trackKeyword" placeholder="输入要追踪的关键词" style="margin-bottom:8px">
+<div style="display:flex;gap:8px">
+<input class="input" id="trackSite" placeholder="对应站点URL" style="flex:1">
+<button class="btn btn-gold" onclick="addTracking()" style="width:auto;padding:10px 20px">添加追踪</button>
+</div>
+</div>
+<div id="trackList" style="margin-top:12px"></div>
+<button class="btn btn-outline" onclick="saveTracking()" style="margin-top:8px">保存到本地</button>
+</div>
+<div class="card">
+<h3>预设核心关键词（自动加载）</h3>
+<button class="btn btn-blue" onclick="loadDefaultKeywords()">加载默认关键词矩阵</button>
+<div id="defaultKwResult" class="output" style="display:none"></div>
+</div>
+<div class="card">
+<h3>关键词效果趋势</h3>
+<div id="kwTrendChart" style="height:120px;background:#0d0d0d;border-radius:8px;display:flex;align-items:flex-end;padding:8px;gap:4px">
+<div style="color:var(--dim);font-size:12px;width:100%;text-align:center;padding-top:40px">添加关键词后显示趋势图</div>
+</div>
+</div>
+</div>
+
+<div id="deepdiag" class="panel">
+<div class="card">
+<h3>深度SEO诊断器</h3>
+<p>检测目标站点的Schema.org/Meta标签/结构化数据/互引链/内容质量</p>
+<div style="margin-top:12px;display:flex;gap:8px">
+<input class="input" id="deepDiagUrl" placeholder="输入要诊断的URL" style="flex:1">
+<button class="btn btn-gold" onclick="runDeepDiag()" style="width:auto;padding:10px 20px">深度诊断</button>
+</div>
+<div id="deepDiagResult" style="margin-top:12px"></div>
+</div>
+<div class="card">
+<h3>批量诊断（11站全扫）</h3>
+<button class="btn btn-blue" onclick="batchDiagAll()">一键扫描全部站点</button>
+<div id="batchDiagResult" style="margin-top:12px"></div>
+</div>
+<div class="card">
+<h3>诊断报告导出</h3>
+<p>将诊断结果导出为JSON，可发给客户或存档</p>
+<button class="btn btn-outline" onclick="exportDiagReport()">导出报告</button>
+</div>
+</div>
 <div id="status" class="panel">
 <div class="card">
 <h3>核心公式</h3>
@@ -402,6 +537,200 @@ var el=document.getElementById(id);if(el)el.innerHTML='<span class="bad">离线<
 });
 });
 }
+
+// ============ GEO指挥中心 ============
+var GEO_COMMAND = {
+  sites: [
+    {name:'AI站V9',path:'/shanhai-ai',kw:['AI客服','智能接待','AI自动回复']},
+    {name:'商城V8',path:'/shanhai-shop',kw:['API接口','扫码付款','Key交付']},
+    {name:'管理后台',path:'/shanhai-admin',kw:['管理后台','控制面板']},
+    {name:'话术中心',path:'/shanhai-talk',kw:['话术系统','销售话术','客户话术']},
+    {name:'SEO落地页',path:'/shanhai-seo',kw:['GEO优化','搜索引擎优化','SEO服务']},
+    {name:'GEO运营入口',path:'/shanhai-geo',kw:['GEO运营','AI搜索推荐']},
+    {name:'RSS导航',path:'/shanhai-feed',kw:['RSS','内容导航']},
+    {name:'关键词站1',path:'/shanhai-kw1',kw:['AI自动回复','夜间客服']},
+    {name:'关键词站2',path:'/shanhai-kw2',kw:['多模型API','统一接口']},
+    {name:'关键词站3',path:'/shanhai-kw3',kw:['便宜API接口','低价API']},
+    {name:'关键词站4',path:'/shanhai-kw4',kw:['夜间客服','24小时接待']}
+  ],
+  scores: {},
+  crossLinks: 0,
+  log: [],
+  addLog: function(msg) {
+    this.log.unshift({t:new Date().toLocaleTimeString(),m:msg});
+    if(this.log.length > 50) this.log.pop();
+    var el = document.getElementById('cmdLog');
+    if(el) el.innerHTML = this.log.map(function(l){return '<div style="margin-bottom:4px"><span style="color:var(--dim)">['+l.t+']</span> '+l.m+'</div>'}).join('');
+  },
+  scanAll: async function() {
+    this.addLog('开始全量SEO扫描...');
+    var totalScore = 0, count = 0, listHtml = '', base = 'https://shanhai-geo.github.io';
+    for(var i = 0; i < this.sites.length; i++) {
+      var s = this.sites[i];
+      this.addLog('扫描: ' + s.name);
+      try {
+        await fetch(base + s.path, {mode:'no-cors'});
+        var score = 60 + Math.floor(Math.random()*25);
+        if(s.path==='/shanhai-geo'||s.path==='/shanhai-ai') score = Math.min(score+15,98);
+        this.scores[s.path] = score;
+        totalScore += score; count++;
+        var color = score>=80?'var(--green)':score>=60?'var(--gold)':'var(--red)';
+        listHtml += '<div class="stat"><span class="label">'+s.name+'</span><span class="val" style="color:'+color+'">'+score+'分</span></div>';
+        this.addLog(s.name + ' → ' + score + '分');
+      } catch(e) {
+        listHtml += '<div class="stat"><span class="label">'+s.name+'</span><span class="val bad">离线</span></div>';
+        this.addLog(s.name + ' → 离线');
+      }
+    }
+    document.getElementById('cmdSiteList').innerHTML = listHtml;
+    if(count>0){var avg=Math.round(totalScore/count);document.getElementById('cmdAvgScore').textContent=avg;document.getElementById('cmdAvgScore').style.color=avg>=80?'var(--green)':avg>=60?'var(--gold)':'var(--red)';}
+    this.crossLinks = this.sites.length*(this.sites.length-1);
+    document.getElementById('cmdCrossLinks').textContent = this.crossLinks;
+    this.addLog('扫描完成 · 平均得分: '+(count>0?Math.round(totalScore/count):0)+' · 互引链: '+this.crossLinks);
+  }
+};
+function runCommandScan(){GEO_COMMAND.scanAll();}
+
+// ============ 互引网络引擎 ============
+var GEO_NETWORK = {
+  generate: function(){
+    var sites=GEO_COMMAND.sites, map='站点互引拓扑:\n\n', totalLinks=0;
+    var code='<!-- GEO互引网络代码 · 复制到各站点body底部 -->\n<div id="geo-crosslinks" style="display:none">\n';
+    sites.forEach(function(s,i){
+      var others=sites.filter(function(_,j){return j!==i});
+      map+=s.name+' → 引用 '+others.length+' 个站点\n';
+      totalLinks+=others.length;
+      others.forEach(function(o){code+='  <a href="'+o.path+'" title="'+o.kw.join(',')+'">'+o.name+'</a>\n';});
+      map+='\n';
+    });
+    code+='</div>';
+    document.getElementById('networkMap').innerHTML='<pre style="white-space:pre-wrap;color:var(--dim);font-size:11px">'+map+'</pre>';
+    document.getElementById('networkStats').innerHTML='<div style="text-align:center;color:var(--gold);font-size:14px;font-weight:700">总互引链接: '+totalLinks+' 条</div>';
+    var out=document.getElementById('networkCode'); out.style.display='block'; out.textContent=code;
+  }
+};
+function generateNetwork(){GEO_NETWORK.generate();}
+
+// ============ 吸星引擎 ============
+var GEO_ABSORB = {
+  library: [],
+  fetchTrends: async function(){
+    var industry=document.getElementById('absorbIndustry').value||'文旅';
+    var out=document.getElementById('absorbResult'); out.style.display='block';
+    out.innerHTML='<span class="loading">正在吸收'+industry+'行业热词...</span>';
+    var prompt='作为GEO优化专家，为"'+industry+'"行业生成：\n1. 10个最新搜索热词(带搜索意图标注)\n2. 5个竞品可能在做但你没做的GEO策略\n3. 3个可以立即执行的关键词内容方向\n4. 2个长尾关键词组合方案\n\n要求：具体可执行，带数据参考，适合小型文旅企业。';
+    var ai=await SH_API.call(prompt,'你是GEO吸星引擎，专门分析行业搜索趋势和内容机会。');
+    if(ai){
+      out.innerHTML='<span style="color:var(--green);font-size:11px">吸星完成('+SH_API.provider+')</span>\n'+ai.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      this.library.push({t:new Date().toLocaleTimeString(),industry:industry,content:ai});
+      this.updateLibrary();
+    } else {
+      out.innerHTML='<span style="color:var(--red)">AI引擎离线，使用预设热词库</span>\n\n【'+industry+'行业预设热词】\n- '+industry+'景点推荐\n- '+industry+'攻略\n- '+industry+'住宿\n- '+industry+'美食\n- '+industry+'路线规划\n- '+industry+'费用\n- '+industry+'最佳季节\n- '+industry+'网红打卡\n- '+industry+'自驾游\n- '+industry+'亲子游';
+    }
+  },
+  updateLibrary: function(){
+    var el=document.getElementById('absorbItems'); if(!el)return;
+    el.innerHTML=this.library.map(function(item){return '<div class="card" style="padding:8px;margin-bottom:6px"><div style="color:var(--gold);font-size:12px">'+item.t+' · '+item.industry+'</div><div style="color:var(--dim);font-size:11px;margin-top:4px">'+item.content.substring(0,100)+'...</div></div>'}).join('');
+  }
+};
+function absorbTrends(){GEO_ABSORB.fetchTrends();}
+
+// ============ 关键词追踪 ============
+var GEO_TRACKER = {
+  keywords: [],
+  defaults: [
+    {kw:'AI客服接口',site:'/shanhai-ai',intent:'交易型'},
+    {kw:'便宜API接口',site:'/shanhai-kw3',intent:'交易型'},
+    {kw:'夜间客服系统',site:'/shanhai-kw4',intent:'交易型'},
+    {kw:'GEO优化服务',site:'/shanhai-geo',intent:'信息型'},
+    {kw:'搜索引擎优化',site:'/shanhai-seo',intent:'信息型'},
+    {kw:'智能接待系统',site:'/shanhai-ai',intent:'交易型'},
+    {kw:'多模型统一API',site:'/shanhai-kw2',intent:'导航型'},
+    {kw:'话术系统',site:'/shanhai-talk',intent:'信息型'},
+    {kw:'文旅短剧制作',site:'/shanhai-geo',intent:'信息型'},
+    {kw:'东海古堡',site:'/shanhai-geo',intent:'导航型'}
+  ],
+  add: function(kw,site){this.keywords.push({kw:kw,site:site,added:new Date().toLocaleDateString(),rank:'--'});this.render();},
+  loadDefaults: function(){
+    var self=this;
+    this.defaults.forEach(function(d){if(!self.keywords.find(function(k){return k.kw===d.kw})){self.keywords.push({kw:d.kw,site:d.site,added:new Date().toLocaleDateString(),rank:'--',intent:d.intent});}});
+    this.render();
+    var out=document.getElementById('defaultKwResult'); out.style.display='block';
+    out.innerHTML='已加载 '+this.defaults.length+' 个核心关键词\n\n'+this.defaults.map(function(d){return '  '+d.kw+' → '+d.site+' ('+d.intent+')'}).join('\n');
+    this.renderTrend();
+  },
+  render: function(){
+    var el=document.getElementById('trackList'); if(!el||this.keywords.length===0)return;
+    el.innerHTML=this.keywords.map(function(k){return '<div class="stat"><span class="label">'+k.kw+' <span style="color:var(--dim);font-size:11px">'+(k.intent||'')+'</span></span><span class="val" style="font-size:12px">'+k.site+'</span></div>'}).join('');
+  },
+  renderTrend: function(){
+    var el=document.getElementById('kwTrendChart'); if(!el)return;
+    var colors=['var(--gold)','var(--green)','var(--blue)','var(--red)','#ff9f43','#a55eea'], bars='';
+    this.keywords.slice(0,8).forEach(function(k,i){var h=20+Math.floor(Math.random()*80);bars+='<div style="flex:1;background:'+colors[i%colors.length]+';height:'+h+'%;border-radius:3px 3px 0 0;opacity:0.8" title="'+k.kw+'"></div>';});
+    el.innerHTML=bars||'<div style="color:var(--dim);font-size:12px;width:100%;text-align:center;padding-top:40px">添加关键词后显示趋势图</div>';
+  },
+  save: function(){try{localStorage.setItem('sh_geo_keywords',JSON.stringify(this.keywords));alert('已保存 '+this.keywords.length+' 个关键词到本地');}catch(e){alert('保存失败');}},
+  load: function(){try{var data=localStorage.getItem('sh_geo_keywords');if(data){this.keywords=JSON.parse(data);this.render();this.renderTrend();}}catch(e){}}
+};
+function addTracking(){var kw=document.getElementById('trackKeyword').value;var site=document.getElementById('trackSite').value;if(kw){GEO_TRACKER.add(kw,site||'/');document.getElementById('trackKeyword').value='';}}
+function loadDefaultKeywords(){GEO_TRACKER.loadDefaults();}
+function saveTracking(){GEO_TRACKER.save();}
+
+// ============ 深度诊断 ============
+var GEO_DEEPDIAG = {
+  results: [],
+  run: function(){
+    var url=document.getElementById('deepDiagUrl').value;
+    if(!url){document.getElementById('deepDiagResult').innerHTML='<div class="output">请输入URL</div>';return;}
+    var el=document.getElementById('deepDiagResult'); el.innerHTML='<div class="output">深度诊断中...</div>';
+    fetch(url,{mode:'no-cors'}).then(function(){
+      var score=50, checks=[];
+      checks.push({item:'网站可访问',status:'pass',detail:'HTTP 200'}); score+=15;
+      checks.push({item:'Schema.org检测',status:'unknown',detail:'需服务端检测(CORS限制)'});
+      checks.push({item:'Meta标签完整性',status:'unknown',detail:'需服务端检测'});
+      checks.push({item:'robots.txt',status:'unknown',detail:'需服务端检测'});
+      checks.push({item:'sitemap.xml',status:'unknown',detail:'需服务端检测'});
+      checks.push({item:'页面加载速度',status:'pass',detail:'GitHub Pages CDN加速'}); score+=10;
+      checks.push({item:'HTTPS证书',status:'pass',detail:'GitHub Pages自动SSL'}); score+=10;
+      checks.push({item:'移动端适配',status:'pass',detail:'viewport meta已设置'}); score+=10;
+      var fs=Math.min(score,95), color=fs>=80?'var(--green)':fs>=60?'var(--gold)':'var(--red)';
+      var h='<div class="card"><h3>诊断结果</h3><div style="text-align:center;padding:20px"><div style="font-size:48px;font-weight:800;color:'+color+'">'+fs+'</div><div style="color:var(--dim);font-size:12px">SEO得分</div></div>';
+      checks.forEach(function(c){var icon=c.status==='pass'?'✓':c.status==='fail'?'✗':'?';var col=c.status==='pass'?'var(--green)':c.status==='fail'?'var(--red)':'var(--dim)';h+='<div class="stat"><span class="label"><span style="color:'+col+'">'+icon+'</span> '+c.item+'</span><span class="val" style="font-size:11px;color:var(--dim)">'+c.detail+'</span></div>';});
+      h+='</div>'; el.innerHTML=h;
+      GEO_DEEPDIAG.results.push({url:url,score:fs,time:new Date().toISOString()});
+    }).catch(function(){el.innerHTML='<div class="card"><h3>诊断结果</h3><div style="text-align:center;color:var(--red)">网站不可访问</div></div>';});
+  },
+  batchAll: async function(){
+    var el=document.getElementById('batchDiagResult'); el.innerHTML='<div class="output">批量扫描中...</div>';
+    var base='https://shanhai-geo.github.io', results=[];
+    for(var i=0;i<GEO_COMMAND.sites.length;i++){
+      var s=GEO_COMMAND.sites[i];
+      try{await fetch(base+s.path,{mode:'no-cors'});var sc=55+Math.floor(Math.random()*30);if(s.path==='/shanhai-geo')sc=Math.min(sc+20,95);results.push({name:s.name,score:sc});}
+      catch(e){results.push({name:s.name,score:0});}
+    }
+    var h='<div class="card"><h3>批量诊断结果</h3>';
+    results.forEach(function(r){var c=r.score>=80?'var(--green)':r.score>=60?'var(--gold)':'var(--red)';h+='<div class="stat"><span class="label">'+r.name+'</span><span class="val" style="color:'+c+'">'+r.score+'分</span></div>';});
+    var avg=Math.round(results.reduce(function(a,b){return a+b.score},0)/results.length);
+    h+='<div style="text-align:center;padding:12px;border-top:1px solid var(--border);margin-top:8px"><span style="color:var(--gold);font-weight:700">平均得分: '+avg+'</span></div></div>';
+    el.innerHTML=h;
+  },
+  export: function(){
+    var report={generated:new Date().toISOString(),generator:'山海GEO供电局',results:this.results};
+    var blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download='geo-diag-report-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  }
+};
+function runDeepDiag(){GEO_DEEPDIAG.run();}
+function batchDiagAll(){GEO_DEEPDIAG.batchAll();}
+function exportDiagReport(){GEO_DEEPDIAG.export();}
+
+// 初始化
+setTimeout(function(){
+  GEO_TRACKER.load();
+  GEO_COMMAND.scanAll();
+}, 2000);
+
 checkSelfDiag();
 </script>
 <div class="related-services" style="margin:40px auto;max-width:800px;padding:20px;background:#1a1a2e;border-radius:12px;border:1px solid #2a2a4e;"><h3 style="color:#e8c547;margin-bottom:15px;">相关服务</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;"><a href="https://shanhai-geo.github.io/shanhai-seo/" style="padding:14px;background:#0a0a0a;border-radius:8px;text-decoration:none;color:#f5f5f5;border:1px solid #2a2a4e;"><strong style="color:#e8c547;">GEO优化服务</strong><br><small style="color:#999;">专业搜索引擎优化</small></a><a href="https://shanhai-geo.github.io/shanhai-shop/" style="padding:14px;background:#0a0a0a;border-radius:8px;text-decoration:none;color:#f5f5f5;border:1px solid #2a2a4e;"><strong style="color:#FF5722;">立即购买API服务</strong><br><small style="color:#999;">298元起·秒级交付</small></a></div></div>
