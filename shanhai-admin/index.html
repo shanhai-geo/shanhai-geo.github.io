@@ -549,6 +549,22 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 }
 .pin-setup-confirm:active{transform:scale(0.97)}
 .pin-setup-error{font-size:12px;color:var(--red);margin-top:8px;min-height:18px}
+
+/* ===== 主Agent通道模式 ===== */
+.mode-toggle{
+  position:absolute;top:8px;right:70px;z-index:100;
+  display:flex;align-items:center;gap:4px;
+  font-size:10px;color:var(--text3);
+  background:var(--surface2);border:1px solid var(--border-light);
+  border-radius:12px;padding:2px 8px;
+  cursor:pointer;user-select:none;
+  transition:all .2s ease;
+}
+.mode-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.mode-toggle .dot{width:6px;height:6px;border-radius:50%;background:#999;transition:all .2s}
+.mode-toggle.agent .dot{background:#7c4dff;box-shadow:0 0 6px rgba(124,77,255,0.5)}
+.mode-toggle.agent{border-color:rgba(124,77,255,0.3);color:#7c4dff}
+.mode-label{font-weight:600;letter-spacing:0.5px}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -629,7 +645,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver" id="versionBadge">V38.6</span>
+      <span class="nav-badge ver" id="versionBadge">V38.8</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -639,6 +655,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   <div class="quick-area" id="quickArea"></div>
 
   <div class="input-bar">
+    <div class="mode-toggle" id="modeToggle" onclick="toggleAgentMode()" title="切换AI通道"><span class="dot"></span><span class="mode-label" id="modeLabel">本地</span></div>
     <div class="input-wrap">
       <textarea id="msgInput" rows="1" placeholder="输入指令或问题..." oninput="autoResize(this);toggleSend();resetInactivity()" onkeydown="handleKey(event)"></textarea>
     </div>
@@ -3735,6 +3752,10 @@ var CMD_ROUTER={
     r['!模块']=function(){addAi('[模块列表]',buildModuleList())};
     r['!安保']=function(){addAi('[安全状态]',buildSecurityInfo())};
     r['!设置Key']=function(){addAi('API已由系统统一配置，无需手动设置')}
+    r['!通道']=function(){var m=AGENT_MODE.isAgent()?'<span style="color:#7c4dff">主Agent模式</span>':'本地模式';addAi('[通道状态]<br>当前: '+m+'<br><br>输入 <b>!切换通道</b> 切换模式')};
+    r['!切换通道']=function(){toggleAgentMode();addAi('已切换到 <b>'+(AGENT_MODE.isAgent()?'主Agent模式':'本地模式')+'</b>')};
+    r['!设置AgentKey']=function(){addAi('[设置主Agent密钥]<br>格式: !设Key 你的密钥<br><br>此密钥用于主Agent通道鉴权，存储在本地')};
+
     r['!内循环']=function(){addAi('[内循环]',buildInternalLoop())};
     r['!执行']=function(){addAi('[执行面板]',buildExecPanel())};
     r['!端口']=function(){openDetail('port')};
@@ -4180,6 +4201,81 @@ var FEEDBACK={
 
 // === AI 神经系统 (V32: 三路供电) ===
 var msgEl=null;
+
+// === 主Agent通道 ===
+var AGENT_MODE = {
+  mode: localStorage.getItem('sh_agent_mode') || 'local', // 'local' | 'agent'
+  cozeEndpoint: '/api/coze-chat',  // Vercel部署后自动使用; 本地调试可改为绝对URL
+  conversationId: localStorage.getItem('sh_coze_convo') || null,
+  adminKey: localStorage.getItem('sh_admin_key') || '',
+  
+  init: function() {
+    var el = document.getElementById('modeToggle');
+    var label = document.getElementById('modeLabel');
+    if (this.mode === 'agent') {
+      el.classList.add('agent');
+      label.textContent = '主Agent';
+      document.getElementById('msgInput').placeholder = '主Agent通道 · 输入指令或问题...';
+    }
+  },
+  
+  isAgent: function() { return this.mode === 'agent'; },
+  
+  toggle: function() {
+    this.mode = this.mode === 'local' ? 'agent' : 'local';
+    localStorage.setItem('sh_agent_mode', this.mode);
+    var el = document.getElementById('modeToggle');
+    var label = document.getElementById('modeLabel');
+    var input = document.getElementById('msgInput');
+    if (this.mode === 'agent') {
+      el.classList.add('agent');
+      label.textContent = '主Agent';
+      input.placeholder = '主Agent通道 · 输入指令或问题...';
+    } else {
+      el.classList.remove('agent');
+      label.textContent = '本地';
+      input.placeholder = '输入指令或问题...';
+    }
+  },
+  
+  call: async function(query) {
+    var self = this;
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      if (this.adminKey) headers['X-Admin-Key'] = this.adminKey;
+      
+      var resp = await fetch(this.cozeEndpoint, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+          query: query,
+          conversationId: this.conversationId,
+          userId: 'admin_shanhai'
+        })
+      });
+      
+      var data = await resp.json();
+      
+      if (data.success) {
+        // 保存会话ID以维持上下文
+        if (data.conversationId) {
+          this.conversationId = data.conversationId;
+          localStorage.setItem('sh_coze_convo', this.conversationId);
+        }
+        return { ok: true, reply: data.reply };
+      } else {
+        return { ok: false, error: data.error || '主Agent通道异常' };
+      }
+    } catch(e) {
+      return { ok: false, error: '主Agent通道连接失败: ' + e.message };
+    }
+  }
+};
+
+function toggleAgentMode() {
+  AGENT_MODE.toggle();
+}
+
 var SH_API={
   routes:[
     {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',lsKey:'sh_api_key'},
@@ -4361,6 +4457,28 @@ var SH_API={
 };
 
 function callAI(prompt){
+  // 主Agent通道优先
+  if(AGENT_MODE.isAgent()){
+    (async function(){
+      typing();
+      var result=await AGENT_MODE.call(prompt);
+      removeTyping();
+      if(result.ok){
+        var reply=formatAiResponse(result.reply);
+        addAi(reply);
+        SH_API.addToHistory('user',prompt);
+        SH_API.addToHistory('assistant',result.reply);
+        if(bridgeCmd(result.reply)){
+          addLog('CMD',result.reply.match(/\[CMD:([^\]]+)\]/)[1]);
+        }
+      }else{
+        addAi('主Agent通道异常<br>'+result.error+'<br>已自动降级到本地模式');
+        AGENT_MODE.toggle();
+        callAI(prompt);
+      }
+    })();
+    return;
+  }
   // 注入系统状态上下文，让AI了解当前系统状况
   var sysCtx=buildSystemContext();
   // 智能增强：如果用户问的是系统状态相关问题，先拦截直接返回真实数据
@@ -5039,6 +5157,7 @@ function initApp(){
     document.getElementById('lockScreen').classList.remove('show');
   }catch(e){}
   SH_API.loadHistory();
+  AGENT_MODE.init();
   document.getElementById('smName').textContent=CHIP.OWNER;
   updateQuick();
   updateShieldIndicator();
