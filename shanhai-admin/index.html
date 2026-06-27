@@ -96,7 +96,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
 .pin-status{font-size:14px;color:rgba(212,160,60,0.55);margin:12px 0 32px;text-align:center;min-height:20px;letter-spacing:1px;font-weight:400}
 .pin-pad{display:flex;flex-direction:column;align-items:center;gap:16px}
 .pin-row{display:flex;gap:16px;justify-content:center}
-.pin-btn{
+.pin-btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent;
   width:85px;height:85px;border-radius:50%;border:none;
   background:linear-gradient(145deg,rgba(90,75,120,0.95),rgba(65,50,90,0.98));
   color:rgba(255,248,220,1);font-size:40px;font-weight:800;
@@ -568,24 +568,24 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   <div class="pin-status" id="pinStatus">请输入通行码</div>
   <div class="pin-pad" id="pinPad">
     <div class="pin-row">
-      <button class="pin-btn" data-k="1" type="button" onclick="doPinAction(this)">1</button>
-      <button class="pin-btn" data-k="2" type="button" onclick="doPinAction(this)">2</button>
-      <button class="pin-btn" data-k="3" type="button" onclick="doPinAction(this)">3</button>
+      <div class="pin-btn" data-k="1">1</div>
+      <div class="pin-btn" data-k="2">2</div>
+      <div class="pin-btn" data-k="3">3</div>
     </div>
     <div class="pin-row">
-      <button class="pin-btn" data-k="4" type="button" onclick="doPinAction(this)">4</button>
-      <button class="pin-btn" data-k="5" type="button" onclick="doPinAction(this)">5</button>
-      <button class="pin-btn" data-k="6" type="button" onclick="doPinAction(this)">6</button>
+      <div class="pin-btn" data-k="4">4</div>
+      <div class="pin-btn" data-k="5">5</div>
+      <div class="pin-btn" data-k="6">6</div>
     </div>
     <div class="pin-row">
-      <button class="pin-btn" data-k="7" type="button" onclick="doPinAction(this)">7</button>
-      <button class="pin-btn" data-k="8" type="button" onclick="doPinAction(this)">8</button>
-      <button class="pin-btn" data-k="9" type="button" onclick="doPinAction(this)">9</button>
+      <div class="pin-btn" data-k="7">7</div>
+      <div class="pin-btn" data-k="8">8</div>
+      <div class="pin-btn" data-k="9">9</div>
     </div>
     <div class="pin-row">
-      <button class="pin-btn fn" data-k="clear" type="button" onclick="doPinAction(this)">清除</button>
-      <button class="pin-btn" data-k="0" type="button" onclick="doPinAction(this)">0</button>
-      <button class="pin-btn fn" data-k="back" type="button" onclick="doPinAction(this)">⌫</button>
+      <div class="pin-btn fn" data-k="clear">清除</div>
+      <div class="pin-btn" data-k="0">0</div>
+      <div class="pin-btn fn" data-k="back">⌫</div>
     </div>
   </div>
   <div class="pin-footer" id="pinFooter">
@@ -864,6 +864,9 @@ function resetInactivity(){SESSION.lastActive=Date.now()}
 
 // PIN 键盘 - 最简内联onclick，加try/catch防报错中断
 function doPinAction(btn){
+  if(doPinAction._lock) return;
+  doPinAction._lock=true;
+  setTimeout(function(){doPinAction._lock=false},300);
   try{
     btn.classList.add('pressed');
     setTimeout(function(){btn.classList.remove('pressed')},180);
@@ -1079,6 +1082,27 @@ function confirmPinSetup(){
 }
 
 function setupPin(){/* placeholder */}
+
+// PIN键盘事件委托：统一用touchstart+click，防双触发
+(function(){
+  var pad=document.getElementById('pinPad');
+  if(!pad) return;
+  var handled=false;
+  pad.addEventListener('touchstart',function(e){
+    var btn=e.target.closest('.pin-btn');
+    if(!btn) return;
+    e.preventDefault();
+    handled=true;
+    doPinAction(btn);
+    setTimeout(function(){handled=false},300);
+  },{passive:false});
+  pad.addEventListener('click',function(e){
+    var btn=e.target.closest('.pin-btn');
+    if(!btn) return;
+    if(handled) return;
+    doPinAction(btn);
+  });
+})()
 function correctPin(){
   document.getElementById('pinScreen').classList.add('gone');
   setTimeout(function(){document.getElementById('pinScreen').style.display='none'},400);
