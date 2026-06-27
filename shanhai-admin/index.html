@@ -523,10 +523,28 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
   </div>
   <div class="pin-status" id="pinStatus">请输入通行码</div>
   <div class="pin-pad" id="pinPad">
-    <button class="pin-key" data-k="1">1</button><button class="pin-key" data-k="2">2</button><button class="pin-key" data-k="3">3</button>
-    <button class="pin-key" data-k="4">4</button><button class="pin-key" data-k="5">5</button><button class="pin-key" data-k="6">6</button>
-    <button class="pin-key" data-k="7">7</button><button class="pin-key" data-k="8">8</button><button class="pin-key" data-k="9">9</button>
-    <button class="pin-key fn" data-k="clear">清除</button><button class="pin-key" data-k="0">0</button><button class="pin-key fn" data-k="back">⌫</button>
+    <table style="border-collapse:separate;border-spacing:14px;width:100%;max-width:280px;margin:0 auto">
+    <tr>
+      <td onclick="doPinAction('1')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">1</td>
+      <td onclick="doPinAction('2')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">2</td>
+      <td onclick="doPinAction('3')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">3</td>
+    </tr>
+    <tr>
+      <td onclick="doPinAction('4')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">4</td>
+      <td onclick="doPinAction('5')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">5</td>
+      <td onclick="doPinAction('6')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">6</td>
+    </tr>
+    <tr>
+      <td onclick="doPinAction('7')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">7</td>
+      <td onclick="doPinAction('8')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">8</td>
+      <td onclick="doPinAction('9')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">9</td>
+    </tr>
+    <tr>
+      <td onclick="doPinAction('clear')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);font-size:15px;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">清除</td>
+      <td onclick="doPinAction('0')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:28px;font-weight:300;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">0</td>
+      <td onclick="doPinAction('back')" style="width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);font-size:15px;text-align:center;vertical-align:middle;cursor:pointer;-webkit-tap-highlight-color:rgba(46,204,113,0.3)">⌫</td>
+    </tr>
+    </table>
   </div>
   <div class="pin-footer">
     <div class="pin-reset" id="pinReset" style="display:none">忘记通行码?</div>
@@ -638,7 +656,7 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V36',
+  VERSION:'V36.3',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -803,30 +821,14 @@ var PIN={
 function resetInactivity(){SESSION.lastActive=Date.now()}
 
 // PIN 键盘事件绑定 (V28: 用事件委托，更可靠)
-var padEl=document.getElementById('pinPad');
-var pinTouchHandled=false;
-function doPinAction(btn){
-  var k=btn.dataset.k;
+function doPinAction(k){
   if(k==='clear'){PIN.clearInput();return}
   if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
   pinIn(k);
 }
-padEl.addEventListener('touchstart',function(e){
-  var btn=e.target.closest('.pin-key');
-  if(!btn)return;
-  e.preventDefault();
-  pinTouchHandled=true;
-  btn.style.background='rgba(46,204,113,0.3)';
-  btn.style.borderColor='#2ecc71';
-  doPinAction(btn);
-  setTimeout(function(){btn.style.background='';btn.style.borderColor='';},150);
-},{passive:false});
-padEl.addEventListener('click',function(e){
-  if(pinTouchHandled){pinTouchHandled=false;return;}
-  var btn=e.target.closest('.pin-key');
-  if(!btn)return;
-  doPinAction(btn);
-});
+  if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
+  if(k)pinIn(k);
+}
 
 function pinIn(d){
   if(PIN.input.length>=6)return;
