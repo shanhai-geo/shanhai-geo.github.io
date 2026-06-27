@@ -625,7 +625,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V37</span>
+      <span class="nav-badge ver">V38.4</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -698,7 +698,7 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 
 // === 配置 ===
 var CHIP={
-  VERSION:'V38',
+  VERSION:'V38.4',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -707,7 +707,7 @@ var CHIP={
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V37',owner:'主权人'},
+      {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.4',owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -721,7 +721,7 @@ var CHIP={
 };
 
 
-// === 山海云枢生态知识库 (V37 全量植入) ===
+// === 山海云枢生态知识库 (V38.4 全量植入) ===
 var KNOWLEDGE={
   brand:'山海云枢 / YUNSHU',
   company:'茶旅时代(福建)文旅集团有限公司',
@@ -2538,7 +2538,7 @@ var SELF_HEALING_ENGINE={
 };
 
 var GROWTH_ENGINE={
-  VERSION:'V38',
+  VERSION:'V38.4',
   KEY_NUTRIENTS:'sh_growth_nutrients',
   KEY_EVOLUTION:'sh_evolution_log',
   KEY_HEALTH_SCORE:'sh_health_score',
@@ -3289,10 +3289,119 @@ var CMD_ROUTER={
   }
 };
 
+// 构建系统状态摘要（注入AI对话上下文）
+function buildSystemContext(){
+  var ctx=[];
+  try{
+    var health=JSON.parse(localStorage.getItem('sh_health_score')||'0');
+    ctx.push('当前健康度:'+((typeof health==='object')?health.score:health)+'/100');
+  }catch(e){}
+  try{
+    var audit=JSON.parse(localStorage.getItem('sh_audit_summary')||'null');
+    if(audit){
+      ctx.push('最近路演:'+audit.rounds+'轮,通过'+audit.totalPassed+'项,问题'+audit.totalIssues+'项,修复'+audit.totalFixed+'项,'+(audit.targetReached?'已达标':'未达标'));
+      if(audit.phase1)ctx.push('阶段一(自检)均健康度:'+audit.phase1.avgHealth);
+      if(audit.phase2)ctx.push('阶段二(吸星)均健康度:'+audit.phase2.avgHealth);
+      if(audit.phase3)ctx.push('阶段三(进化)均健康度:'+audit.phase3.avgHealth);
+    }
+  }catch(e){}
+  try{
+    var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
+    var fails=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
+    ctx.push('反馈日志:'+logs.length+'条,失败'+fails+'条');
+  }catch(e){}
+  try{
+    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+    var pending=orders.filter(function(o){return !o.key&&!o.delivered}).length;
+    ctx.push('订单:'+orders.length+'条,待处理'+pending+'条');
+  }catch(e){}
+  try{
+    var nutrients=JSON.parse(localStorage.getItem('sh_growth_nutrients')||'[]');
+    ctx.push('吸收营养:'+nutrients.length+'条');
+  }catch(e){}
+  try{
+    var evo=JSON.parse(localStorage.getItem('sh_evolution_log')||'[]');
+    ctx.push('累计进化:'+evo.length+'次');
+  }catch(e){}
+  ctx.push('引擎:4路(智谱GLM主+硅基/火山/CF备)');
+  ctx.push('版本:V38.4');
+  return ctx.join('; ');
+}
+
+// 系统数据直查拦截器（关键词匹配时直接返回系统数据，不调外部API）
+function systemDataInterceptor(cmd){
+  var keywords=['路演','检测','报告','健康度','得分','多少分','审计','自检结果','系统状态','检测结果','分析结果'];
+  var matched=keywords.some(function(k){return cmd.indexOf(k)>=0});
+  if(!matched)return false;
+  
+  var sysCtx=buildSystemContext();
+  var h='<div class="result-box"><div class="rb-title">系统实时状态报告</div>';
+  
+  // 健康度
+  try{
+    var health=JSON.parse(localStorage.getItem('sh_health_score')||'0');
+    var score=(typeof health==='object')?health.score:parseInt(health)||0;
+    var color=score>=90?'#00ff88':score>=60?'#ffd93d':'#ff6b6b';
+    h+='<div class="rb-item">健康度: <b style="color:'+color+';font-size:16px">'+score+'/100</b> '+(score>=90?'✓ 达标':'⚠ 未达标')+'</div>';
+  }catch(e){}
+  
+  // 路演摘要
+  try{
+    var audit=JSON.parse(localStorage.getItem('sh_audit_summary')||'null');
+    if(audit){
+      h+='<div class="rb-item">最近路演: '+audit.rounds+'轮 ('+audit.time+')</div>';
+      h+='<div class="rb-item">通过: <b style="color:#00ff88">'+audit.totalPassed+'</b> 问题: <b style="color:#ff6b6b">'+audit.totalIssues+'</b> 修复: <b style="color:#4ecdc4">'+audit.totalFixed+'</b></div>';
+      if(audit.phase1)h+='<div class="rb-item">阶段一(自检): 均健康度 '+audit.phase1.avgHealth+' 均问题 '+audit.phase1.avgIssues+'/轮</div>';
+      if(audit.phase2)h+='<div class="rb-item">阶段二(吸星大法): 均健康度 '+audit.phase2.avgHealth+' 均问题 '+audit.phase2.avgIssues+'/轮</div>';
+      if(audit.phase3)h+='<div class="rb-item">阶段三(自我进化): 均健康度 '+audit.phase3.avgHealth+' 均问题 '+audit.phase3.avgIssues+'/轮</div>';
+      h+='<div class="rb-item">状态: '+(audit.targetReached?'<b style="color:#00ff88">达标 ✓</b>':'<b style="color:#ffd93d">未达标</b>')+'</div>';
+    }else{
+      h+='<div class="rb-item" style="color:var(--text3)">暂无路演数据，输入 !路演 启动检测</div>';
+    }
+  }catch(e){}
+  
+  // 健康度维度拆解
+  try{
+    var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
+    var fails=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
+    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
+    var stale=orders.filter(function(o){if(!o.key&&!o.delivered&&o.time){try{return Date.now()-new Date(o.time).getTime()>172800000}catch(e){return false}}return false}).length;
+    var engineScore=30;
+    var feedbackScore=25-(logs.length>0?Math.round((fails/logs.length)*25):0);
+    var dataScore=20-Math.min(20,stale*5);
+    var kbScore=(KNOWLEDGE.dna&&KNOWLEDGE.brands&&KNOWLEDGE.engines)?15:0;
+    var nutrients=JSON.parse(localStorage.getItem('sh_growth_nutrients')||'[]');
+    var lastN=nutrients.length>0?nutrients[nutrients.length-1]:null;
+    var nutrientScore=(lastN&&(Date.now()-new Date(lastN.time).getTime()<=172800000))?10:0;
+    
+    h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">▎健康度维度拆解</div>';
+    h+='<div class="rb-item">引擎健康(30): '+engineScore+'/30</div>';
+    h+='<div class="rb-item">反馈成功率(25): '+feedbackScore+'/25 (失败'+fails+'/'+logs.length+'条)</div>';
+    h+='<div class="rb-item">数据完整性(20): '+dataScore+'/20 (过期pending:'+stale+'条)</div>';
+    h+='<div class="rb-item">知识库完整度(15): '+kbScore+'/15</div>';
+    h+='<div class="rb-item">营养吸收(10): '+nutrientScore+'/10 (共吸收'+nutrients.length+'条)</div>';
+  }catch(e){}
+  
+  // 进化数据
+  try{
+    var evo=JSON.parse(localStorage.getItem('sh_evolution_log')||'[]');
+    var nutrients=JSON.parse(localStorage.getItem('sh_growth_nutrients')||'[]');
+    h+='<div style="margin:8px 0 4px;font-size:12px;color:var(--text3)">▎成长数据</div>';
+    h+='<div class="rb-item">累计吸收营养: '+nutrients.length+'条</div>';
+    h+='<div class="rb-item">累计进化: '+evo.length+'次</div>';
+  }catch(e){}
+  
+  h+='</div>';
+  addAi(h);
+  return true;
+}
+
 function processCmd(cmd){
   if(!SESSION.check()){SESSION.lock();return}
   SESSION.record();
   if(CMD_ROUTER.match(cmd))return;
+  // 系统数据直查：路演/检测/报告/健康度等关键词直接返回系统数据
+  if(systemDataInterceptor(cmd))return;
   callAI(cmd);
 }
 
@@ -3643,7 +3752,12 @@ var SH_API={
   }
 };
 
-function callAI(prompt){SH_API.call(prompt)}
+function callAI(prompt){
+  // 注入系统状态上下文，让AI了解当前系统状况
+  var sysCtx=buildSystemContext();
+  var enrichedPrompt='[系统状态:'+sysCtx+']\n\n用户问题:'+prompt;
+  SH_API.call(enrichedPrompt);
+}
 
 function formatAiResponse(text){
   // 简单格式化：换行转<br>，**bold**转<strong>
@@ -3689,7 +3803,7 @@ function buildGeoPanel(){
   var sites=[
     {id:'ai',name:'AI客服',url:'shanhai-ai.surge.sh',v:'V7'},
     {id:'shop',name:'商城',url:'shanhai-shop.surge.sh',v:'V7'},
-    {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V37'},
+    {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.4'},
     {id:'talk',name:'话术',url:'shanhai-talk.surge.sh',v:'V1'},
     {id:'seo',name:'SEO落地',url:'shanhai-seo.surge.sh',v:'V1'},
     {id:'kw1',name:'客服站1',url:'shanhai-kw1.surge.sh',v:'V1'},
