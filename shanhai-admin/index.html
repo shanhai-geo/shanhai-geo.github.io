@@ -625,7 +625,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V38.4</span>
+      <span class="nav-badge ver">V38.5</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -725,7 +725,7 @@ var EventBus={
 };
 
 var CHIP={
-  VERSION:'V38.4',
+  VERSION:'V38.5',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -734,7 +734,7 @@ var CHIP={
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.4',owner:'主权人'},
+      {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.5',owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -1187,7 +1187,11 @@ function correctPin(){
   document.getElementById('pinScreen').classList.add('gone');
   setTimeout(function(){document.getElementById('pinScreen').style.display='none'},400);
   SESSION.activate();
+  // 双重保险：确保sessionStorage写入
+  try{sessionStorage.setItem('sh_session','1')}catch(e){}
   document.getElementById('mainApp').classList.add('active');
+  // 确保lockScreen隐藏
+  try{document.getElementById('lockScreen').classList.remove('show')}catch(e){}
   initApp();
   toast('山海管理后台 '+CHIP.VERSION);
 }
@@ -2291,7 +2295,8 @@ var sendBtn=document.getElementById('sendBtn');
 var quickArea=document.getElementById('quickArea');
 
 function addMsg(cls,html,timeStr){
-  if(!SESSION.check()){SESSION.lock();return}
+  if(!SESSION.verified){return}
+  if(!sessionStorage.getItem('sh_session')){SESSION.lock();return}
   SESSION.record();
   var now=new Date();
   var h=now.getHours(),m=now.getMinutes();
@@ -2565,7 +2570,7 @@ var SELF_HEALING_ENGINE={
 };
 
 var GROWTH_ENGINE={
-  VERSION:'V38.4',
+  VERSION:'V38.5',
   KEY_NUTRIENTS:'sh_growth_nutrients',
   KEY_EVOLUTION:'sh_evolution_log',
   KEY_HEALTH_SCORE:'sh_health_score',
@@ -2623,7 +2628,8 @@ var GROWTH_ENGINE={
       Promise.all(checks).then(function(results){
         var online=results.filter(function(r){return r.online}).length;
         var nutrient={
-          time:new Date().toLocaleString(),
+          time:new Date().toISOString(),
+          ts:Date.now(),
           source:source.name,
           type:'internal_scan',
           data:{total:results.length,online:online,sites:results.map(function(r){return{url:r.url,online:r.online}})},
@@ -2637,7 +2643,8 @@ var GROWTH_ENGINE={
     }else{
       // 外部知识吸收（通过关键词记录待学习主题）
       var nutrient={
-        time:new Date().toLocaleString(),
+        time:new Date().toISOString(),
+        ts:Date.now(),
         source:source.name,
         type:source.type,
         data:{keywords:source.keywords,status:'queued'},
@@ -2780,12 +2787,25 @@ var GROWTH_ENGINE={
     // 知识库完整度（权重15）
     if(!KNOWLEDGE.dna||!KNOWLEDGE.brands||!KNOWLEDGE.engines)score-=15;
     
-    // 营养吸收频率（权重10）- 48h窗口更宽松
+    // 营养吸收频率（权重10）- 48h窗口，优先用ts时间戳
     var lastNutrient=this.nutrients.length>0?this.nutrients[this.nutrients.length-1]:null;
-    if(!lastNutrient||Date.now()-new Date(lastNutrient.time).getTime()>172800000)score-=10;
+    if(lastNutrient){
+      var nutTime=lastNutrient.ts||0;
+      if(!nutTime){try{nutTime=new Date(lastNutrient.time).getTime()}catch(e){nutTime=0}}
+      if(Date.now()-nutTime>172800000)score-=10;
+    }else{score-=10}
     
+    // 防御完整性（附加10分）
+    if(typeof DEFENSE_ENGINE!=='undefined'){
+      try{
+        var hash=localStorage.getItem('sh_integrity_hash');
+        if(hash)score+=10;
+      }catch(e){}
+    }
+    // 映射回100分制（原始满分110）
+    score=Math.round(score/110*100);
     score=Math.max(0,Math.min(100,score));
-    localStorage.setItem(this.KEY_HEALTH_SCORE,JSON.stringify({score:score,time:new Date().toLocaleString()}));
+    localStorage.setItem(this.KEY_HEALTH_SCORE,JSON.stringify({score:score,time:new Date().toISOString(),ts:Date.now()}));
     return score;
   },
   
@@ -3348,7 +3368,8 @@ function buildSystemContext(){
   try{
     var audit=JSON.parse(localStorage.getItem('sh_audit_summary')||'null');
     if(audit){
-      ctx.push('最近路演:'+audit.rounds+'轮,通过'+audit.totalPassed+'项,问题'+audit.totalIssues+'项,修复'+audit.totalFixed+'项,'+(audit.targetReached?'已达标':'未达标'));
+      var realScore=parseInt(localStorage.getItem('sh_health_score')||'0')||0;
+      ctx.push('最近路演:'+audit.rounds+'轮,通过'+audit.totalPassed+'项,问题'+audit.totalIssues+'项,修复'+audit.totalFixed+'项,'+(realScore>=90?'已达标':'未达标'));
       if(audit.phase1)ctx.push('阶段一(自检)均健康度:'+audit.phase1.avgHealth);
       if(audit.phase2)ctx.push('阶段二(吸星)均健康度:'+audit.phase2.avgHealth);
       if(audit.phase3)ctx.push('阶段三(进化)均健康度:'+audit.phase3.avgHealth);
@@ -3373,7 +3394,7 @@ function buildSystemContext(){
     ctx.push('累计进化:'+evo.length+'次');
   }catch(e){}
   ctx.push('引擎:4路(智谱GLM主+硅基/火山/CF备)');
-  ctx.push('版本:V38.4');
+  ctx.push('版本:V38.5');
   return ctx.join('; ');
 }
 
@@ -3403,7 +3424,8 @@ function systemDataInterceptor(cmd){
       if(audit.phase1)h+='<div class="rb-item">阶段一(自检): 均健康度 '+audit.phase1.avgHealth+' 均问题 '+audit.phase1.avgIssues+'/轮</div>';
       if(audit.phase2)h+='<div class="rb-item">阶段二(吸星大法): 均健康度 '+audit.phase2.avgHealth+' 均问题 '+audit.phase2.avgIssues+'/轮</div>';
       if(audit.phase3)h+='<div class="rb-item">阶段三(自我进化): 均健康度 '+audit.phase3.avgHealth+' 均问题 '+audit.phase3.avgIssues+'/轮</div>';
-      h+='<div class="rb-item">状态: '+(audit.targetReached?'<b style="color:#00ff88">达标 ✓</b>':'<b style="color:#ffd93d">未达标</b>')+'</div>';
+      var realScore=parseInt(localStorage.getItem('sh_health_score')||'0')||0;
+      h+='<div class="rb-item">状态: '+(realScore>=90?'<b style="color:#00ff88">达标</b>':'<b style="color:#ffd93d">未达标</b>')+'</div>';
     }else{
       h+='<div class="rb-item" style="color:var(--text3)">暂无路演数据，输入 !路演 启动检测</div>';
     }
@@ -3860,7 +3882,7 @@ function buildGeoPanel(){
   var sites=[
     {id:'ai',name:'AI客服',url:'shanhai-ai.surge.sh',v:'V7'},
     {id:'shop',name:'商城',url:'shanhai-shop.surge.sh',v:'V7'},
-    {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.4'},
+    {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.5'},
     {id:'talk',name:'话术',url:'shanhai-talk.surge.sh',v:'V1'},
     {id:'seo',name:'SEO落地',url:'shanhai-seo.surge.sh',v:'V1'},
     {id:'kw1',name:'客服站1',url:'shanhai-kw1.surge.sh',v:'V1'},
@@ -4459,6 +4481,14 @@ CMD_ROUTER.init();
 MODULE_REGISTRY.load();
 
 function initApp(){
+  // 强制保活：防止认证链路中SESSION被意外重置
+  try{
+    SESSION.verified=true;
+    sessionStorage.setItem('sh_session','1');
+    SESSION.opCount=0;
+    SESSION.lastActive=Date.now();
+    document.getElementById('lockScreen').classList.remove('show');
+  }catch(e){}
   SH_API.loadHistory();
   document.getElementById('smName').textContent=CHIP.OWNER;
   updateQuick();
@@ -4478,7 +4508,7 @@ function initApp(){
 
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.4 · 三阶段路演就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.5 · 全神经系统就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
   setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
 
   setTimeout(function(){
@@ -4563,7 +4593,7 @@ function initApp(){
   // 阶段三(21-30): 全量自检 + 吸收 + 自我进化 + 深度分析
   setTimeout(function(){
     HEALTH_MONITOR.silentCheck();
-    FEEDBACK.log('系统','V38.4启动','完成');
+    FEEDBACK.log('系统','V38.5启动','完成');
   },800);
   (async function(){
     try{
@@ -4600,6 +4630,8 @@ function initApp(){
           await new Promise(function(resolve){
             GROWTH_ENGINE.absorb(srcIdx,function(ok,msg){
               EventBus.emit('growth:absorbed',{round:round,source:srcIdx,ok:ok,msg:msg});
+              // 每轮吸收后持久化营养数据
+              GROWTH_ENGINE.save();
               resolve();
             });
           });
@@ -4677,7 +4709,7 @@ function initApp(){
       totalPassed:totalPassed,
       totalIssues:totalIssues,
       totalFixed:totalFixed,
-      targetReached:health>=targetScore,
+      targetReached:parseInt(localStorage.getItem('sh_health_score')||'0')>=targetScore,
       finalHealth:health,
       phase1:{name:'内部自检',avgHealth:Math.round(phase1Health.reduce(function(a,b){return a+b},0)/phase1Health.length),avgIssues:Math.round(phase1Issues.reduce(function(a,b){return a+b},0)/phase1Issues.length)},
       phase2:{name:'自检+吸星大法',avgHealth:Math.round(phase2Health.reduce(function(a,b){return a+b},0)/phase2Health.length),avgIssues:Math.round(phase2Issues.reduce(function(a,b){return a+b},0)/phase2Issues.length)},
@@ -4749,9 +4781,9 @@ function initApp(){
     diagnosis.forEach(function(d){report+='• '+d+'<br>';});
     
     if(health>=targetScore){
-      report+='<div style="margin-top:8px;padding:6px;background:#0a2e1a;border-radius:4px;color:#00ff88;font-weight:bold;">✓ 系统就绪，健康度达标，可以开跑</div>';
+      report+='<div style="margin-top:8px;padding:6px;background:#0a2e1a;border-radius:4px;color:#00ff88;font-weight:bold;">系统就绪，健康度达标，可以开跑</div>';
     }else{
-      report+='<div style="margin-top:8px;padding:6px;background:#2e1a0a;border-radius:4px;color:#ffd93d;font-weight:bold;">⚠ 未达90分目标，以上诊断项需进一步处理</div>';
+      report+='<div style="margin-top:8px;padding:6px;background:#2e1a0a;border-radius:4px;color:#ffd93d;font-weight:bold;">未达标，以上诊断项需进一步处理</div>';
     }
     
     report+='</div></div>';
