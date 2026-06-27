@@ -554,7 +554,8 @@ function confirmPay(){
         商品:'山海智能接口服务 298元/年',
         客户手机:phone,
         确认时间:timeStr,
-        对账方式:'按确认时间「'+timeStr+'」前后查找298元入账，匹配手机号'+phone
+        对账方式:'按确认时间「'+timeStr+'」前后查找298元入账，匹配手机号'+phone,
+        一键确认:'https://shanhai-geo.github.io/shanhai-admin/confirm.html?oid='+oid+'&phone='+phone+'&time='+encodeURIComponent(timeStr)
       })
       })
     }).then(function(r){return r.json()}).then(function(d){console.log('商城邮件:',d)}).catch(function(e){console.error('商城邮件异常:',e)});

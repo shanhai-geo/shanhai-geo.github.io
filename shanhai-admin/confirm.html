@@ -14,10 +14,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .title{font-size:18px;font-weight:800;color:#d4a04a;text-align:center;margin-bottom:16px}
 .section{margin-bottom:16px}
 .section-title{font-size:13px;color:#94a3b8;margin-bottom:8px;font-weight:600}
+.order-info{background:#1a2236;border:1px solid #1e2d44;border-radius:10px;padding:16px;font-size:13px;line-height:2}
+.order-info .label{color:#94a3b8}
+.order-info .val{color:#e8edf5;font-weight:600}
+.order-info .highlight{color:#d4a04a;font-family:monospace}
 .order-item{background:#1a2236;border:1px solid #1e2d44;border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
 .order-item:active{background:#222d44}
 .order-item.selected{border-color:#d4a04a;background:#1a2530}
-.order-item.locked{border-color:#4b5c73;opacity:.5;cursor:default}
 .order-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:4px}
 .order-row:last-child{margin-bottom:0}
 .order-phone{color:#e8edf5;font-weight:700;font-size:15px}
@@ -26,6 +29,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .order-status{font-size:10px;padding:2px 6px;border-radius:4px;margin-top:4px;display:inline-block}
 .order-status.ready{background:rgba(16,185,129,.15);color:#10b981}
 .order-status.waiting{background:rgba(234,179,8,.15);color:#eab308}
+.order-status.url{background:rgba(212,160,74,.15);color:#d4a04a}
 .key-input{width:100%;padding:12px;font-size:14px;background:#0c1220;border:1px solid #1e2d44;border-radius:8px;color:#e8edf5;outline:none;font-family:monospace}
 .key-input:focus{border-color:#d4a04a}
 .key-input::placeholder{color:#4b5c73}
@@ -40,18 +44,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .refresh-btn{display:block;width:100%;padding:10px;font-size:13px;color:#94a3b8;background:transparent;border:1px solid #1e2d44;border-radius:8px;cursor:pointer;margin-bottom:12px;text-align:center}
 .refresh-btn:active{background:#1a2236}
 .tip{font-size:10px;color:#4b5c73;text-align:center;margin-top:12px;line-height:1.6}
+.history-sec{margin-top:20px;border-top:1px solid #1e2d44;padding-top:16px}
+.history-item{background:#0c1220;border-radius:8px;padding:10px;margin-bottom:6px;font-size:11px;line-height:1.8;color:#94a3b8}
+.history-item .done{color:#10b981}
 </style>
-<script>(function(){var bp=document.createElement("script");var curProtocol=window.location.protocol.split(":")[0];if(curProtocol==="https"){bp.src="https://zz.bdstatic.com/linksubmit/push.js"}else{bp.src="http://push.zhangzhenhao.com/push.js"}var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script></head>
+</head>
 <body>
 <div class="card">
 <div class="title">密钥发放确认</div>
-<button class="refresh-btn" onclick="loadOrders()">刷新订单列表</button>
 
-<div class="section">
-<div class="section-title">待处理订单</div>
-<div id="orderList"><div class="empty">加载中...</div></div>
+<!-- URL订单信息（从邮件链接带入） -->
+<div class="section" id="urlOrderSection" style="display:none">
+<div class="section-title">邮件订单</div>
+<div class="order-info" id="urlOrderInfo"></div>
+<div style="margin-top:8px;text-align:center">
+<span class="order-status url">点击邮件链接直达，可直接确认发放</span>
+</div>
 </div>
 
+<!-- localStorage订单列表 -->
+<div class="section">
+<div class="section-title">本地待处理订单</div>
+<div id="orderList"><div class="empty">暂无本地订单（可通过邮件链接导入）</div></div>
+</div>
+
+<!-- 密钥输入区 -->
 <div class="section" id="keySection" style="display:none">
 <div class="section-title">输入要发放的API密钥</div>
 <input class="key-input" id="apiKeyInput" placeholder="粘贴API Key">
@@ -59,21 +76,82 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
 <button class="btn btn-confirm" id="confirmBtn" disabled onclick="confirmDeliver()">确认到款，发送密钥</button>
 <div class="status" id="statusBox"></div>
-<div class="tip">客户有2分钟撤销窗口（防误触）<br>窗口结束后订单变为绿色「可发放」</div>
+
+<!-- 历史记录 -->
+<div class="history-sec" id="historySec" style="display:none">
+<div class="section-title">已发放记录</div>
+<div id="historyList"></div>
+</div>
+
+<div class="tip">
+邮件链接直达：在URL后加 ?oid=订单号&phone=手机号&time=时间<br>
+例如：confirm.html?oid=SH123&phone=13800001111&time=2026-06-27 12:00:00
+</div>
 </div>
 
 <script>
 var selectedOrder=null;
-var refreshInterval=null;
+var urlOrder=null;
 
+// 解析URL参数
+function parseUrlParams(){
+  var p={};
+  var q=window.location.search.substring(1);
+  if(!q)return p;
+  q.split('&').forEach(function(s){
+    var kv=s.split('=');
+    if(kv.length===2) p[decodeURIComponent(kv[0])]=decodeURIComponent(kv[1]);
+  });
+  return p;
+}
+
+// 从URL参数构建订单
+function initUrlOrder(){
+  var p=parseUrlParams();
+  if(p.oid && p.phone){
+    urlOrder={
+      oid:p.oid,
+      phone:p.phone,
+      time:p.time||new Date().toLocaleString(),
+      source:'邮件链接',
+      status:'pending'
+    };
+    // 保存到localStorage备份
+    var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
+    var exists=false;
+    for(var i=0;i<orders.length;i++){
+      if(orders[i].oid===urlOrder.oid){exists=true;break}
+    }
+    if(!exists){
+      orders.push(urlOrder);
+      localStorage.setItem('shanhai_orders',JSON.stringify(orders));
+    }
+    // 显示URL订单
+    document.getElementById('urlOrderSection').style.display='block';
+    document.getElementById('urlOrderInfo').innerHTML=
+      '<div><span class="label">订单号：</span><span class="highlight">'+urlOrder.oid+'</span></div>'+
+      '<div><span class="label">手机：</span><span class="val">'+urlOrder.phone+'</span></div>'+
+      '<div><span class="label">时间：</span><span class="val">'+urlOrder.time+'</span></div>';
+    // 自动选中，启用按钮
+    selectedOrder=urlOrder;
+    document.getElementById('keySection').style.display='block';
+    document.getElementById('confirmBtn').disabled=false;
+    // 清除URL参数
+    history.replaceState(null,null,window.location.pathname);
+  }
+}
+
+// 加载localStorage订单
 function loadOrders(){
   var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
   var pending=orders.filter(function(o){return o.status==='pending'});
+  // 排除URL已显示的订单
+  if(urlOrder){
+    pending=pending.filter(function(o){return o.oid!==urlOrder.oid});
+  }
   var listEl=document.getElementById('orderList');
   if(pending.length===0){
-    listEl.innerHTML='<div class="empty">暂无待处理订单</div>';
-    document.getElementById('keySection').style.display='none';
-    document.getElementById('confirmBtn').disabled=true;
+    listEl.innerHTML='<div class="empty">暂无本地待处理订单</div>';
     return;
   }
   var now=Date.now();
@@ -84,26 +162,37 @@ function loadOrders(){
     var remainSec=locked?Math.ceil((cancelEnd-now)/1000):0;
     var cls=locked?'order-item locked':'order-item';
     var statusHtml=locked?'<span class="order-status waiting">锁定中 '+remainSec+'秒</span>':'<span class="order-status ready">可发放</span>';
-    html+='<div class="'+cls+'" onclick="'+(locked?'':'selectOrder('+i+')')+'" id="oi-'+i+'">';
+    html+='<div class="'+cls+'" onclick="'+(locked?'':'selectLocalOrder('+i+')')+'" id="li-'+i+'">';
     html+='<div class="order-row"><span class="order-phone">'+o.phone+'</span><span class="order-oid">'+o.oid+'</span></div>';
     html+='<div class="order-row"><span class="order-time">'+o.time+'</span></div>';
     html+='<div>'+statusHtml+'</div>';
     html+='</div>';
   });
   listEl.innerHTML=html;
+  
+  // 加载历史记录
+  var delivered=orders.filter(function(o){return o.status==='delivered'});
+  if(delivered.length>0){
+    document.getElementById('historySec').style.display='block';
+    var hhtml='';
+    delivered.slice(-5).reverse().forEach(function(o){
+      hhtml+='<div class="history-item"><span class="done">✓</span> '+o.oid+' | '+o.phone+' | '+(o.deliveredAt?new Date(o.deliveredAt).toLocaleDateString():'')+'</div>';
+    });
+    document.getElementById('historyList').innerHTML=hhtml;
+  }
 }
 
-function selectOrder(idx){
+function selectLocalOrder(idx){
   var orders=JSON.parse(localStorage.getItem('shanhai_orders')||'[]');
   var pending=orders.filter(function(o){return o.status==='pending'});
+  if(urlOrder) pending=pending.filter(function(o){return o.oid!==urlOrder.oid});
   if(idx>=pending.length)return;
   var o=pending[idx];
-  // 检查是否还在锁定中
-  if(o.cancelTime&&Date.now()<o.cancelTime){alert('订单仍在锁定中，请等待'+Math.ceil((o.cancelTime-Date.now())/1000)+'秒');return}
+  if(o.cancelTime&&Date.now()<o.cancelTime){alert('订单仍在锁定中');return}
   selectedOrder=o;
   var items=document.querySelectorAll('.order-item');
   items.forEach(function(el){el.classList.remove('selected')});
-  document.getElementById('oi-'+idx).classList.add('selected');
+  document.getElementById('li-'+idx).classList.add('selected');
   document.getElementById('keySection').style.display='block';
   document.getElementById('confirmBtn').disabled=false;
 }
@@ -131,12 +220,21 @@ function confirmDeliver(){
   document.getElementById('confirmBtn').disabled=true;
   document.getElementById('confirmBtn').textContent='已发放';
   selectedOrder=null;
-  setTimeout(function(){loadOrders();document.getElementById('confirmBtn').textContent='确认到款，发送密钥';document.getElementById('apiKeyInput').value='';statusEl.style.display='none'},5000);
+  urlOrder=null;
+  document.getElementById('urlOrderSection').style.display='none';
+  setTimeout(function(){
+    loadOrders();
+    document.getElementById('confirmBtn').textContent='确认到款，发送密钥';
+    document.getElementById('apiKeyInput').value='';
+    document.getElementById('keySection').style.display='none';
+    statusEl.style.display='none';
+  },5000);
 }
 
+// 初始化
+initUrlOrder();
 loadOrders();
-// 每10秒自动刷新（更新锁定倒计时）
-refreshInterval=setInterval(loadOrders,10000);
+setInterval(loadOrders,10000);
 </script>
 </body>
 </html>
