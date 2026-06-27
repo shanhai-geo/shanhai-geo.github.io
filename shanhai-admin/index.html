@@ -697,6 +697,33 @@ if(window.top!==window.self){window.top.location=window.self.location;throw new 
 })();
 
 // === 配置 ===
+// ═══ 事件总线 EventBus — 神经系统中枢 ═══
+// 所有模块通过事件总线通信，实现松耦合、高响应
+var EventBus={
+  _listeners:{},
+  on:function(event,fn){
+    if(!this._listeners[event])this._listeners[event]=[];
+    this._listeners[event].push(fn);
+  },
+  off:function(event,fn){
+    if(!this._listeners[event])return;
+    this._listeners[event]=this._listeners[event].filter(function(f){return f!==fn});
+  },
+  emit:function(event,data){
+    if(!this._listeners[event])return;
+    this._listeners[event].forEach(function(fn){
+      try{fn(data)}catch(e){console.error('EventBus['+event+'] handler error:',e)}
+    });
+  },
+  emitAsync:function(event,data){
+    if(!this._listeners[event])return Promise.resolve();
+    var promises=this._listeners[event].map(function(fn){
+      return Promise.resolve().then(function(){return fn(data)}).catch(function(e){console.error('EventBus async['+event+']:',e)});
+    });
+    return Promise.all(promises);
+  }
+};
+
 var CHIP={
   VERSION:'V38.4',
   OWNER:localStorage.getItem('sh_owner')||'主人',
@@ -3181,6 +3208,28 @@ var DEFENSE_ENGINE={
     };
   },
   
+  // 主动防御：监听关键事件，实时响应
+  activateWatch:function(){
+    var self=this;
+    // 监听引擎故障事件
+    EventBus.on('engine:fail',function(data){
+      if(data.reason==='circuit_open'){
+        SH_NOTIFY.push('防御引擎','路由'+data.name+'熔断，已隔离','warn');
+      }
+    });
+    // 监听心跳健康度
+    EventBus.on('heartbeat:health',function(data){
+      if(data.score<60){
+        SH_NOTIFY.push('防御引擎','健康度降至'+data.score+'，启动深度防御','err');
+        self.checkIntegrity();
+        if(typeof SELF_AUDIT!=='undefined')SELF_AUDIT.healthOptimize();
+      }
+    });
+    // 监听审计异常
+    EventBus.on('audit:error',function(data){
+      self.checkIntegrity();
+    });
+  },
   getStatus:function(){
     var scan=this.fullScan();
     var h='<div class="result-box"><div class="rb-title">防御引擎 v'+this.VERSION+' 扫描报告</div>';
@@ -3625,7 +3674,13 @@ var SH_API={
     var key=this.getKey(routeIdx);
     if(!key){
       this.routeFailCount[routeIdx]++;
+      EventBus.emit('engine:fail',{route:routeIdx,name:r.name,reason:'no_key'});
       throw new Error(r.name+' 未配置Key');
+    }
+    // 熔断器检查：如果该路由已被熔断，直接跳过
+    if(typeof SELF_HEALING_ENGINE!=='undefined'&&!SELF_HEALING_ENGINE.canPass(routeIdx)){
+      EventBus.emit('engine:blocked',{route:routeIdx,name:r.name,reason:'circuit_open'});
+      throw new Error(r.name+' 熔断中，跳过');
     }
     try{
       var resp=await fetch(r.url,{
@@ -3638,6 +3693,7 @@ var SH_API={
         throw new Error(r.name+' HTTP '+resp.status);
       }
       this.routeFailCount[routeIdx]=0;
+      EventBus.emit('engine:success',{route:routeIdx,name:r.name});
       return {resp:resp,route:r};
     }catch(e){
       this.routeFailCount[routeIdx]++;
@@ -3648,6 +3704,7 @@ var SH_API={
         SH_NOTIFY.push('紧急','API引擎告急：'+downRoutes.join('、')+'不可用，仅剩'+(4-failedCount)+'路在线','err');
         toast('API告急：仅剩'+(4-failedCount)+'路可用');
       }
+      EventBus.emit('engine:fail',{route:routeIdx,name:r.name,reason:e.message});
       throw e;
     }
   },
@@ -4409,7 +4466,7 @@ function initApp(){
   SH_NOTIFY.autoCheck();
   GROWTH_ENGINE.init();
   if(typeof SELF_HEALING_ENGINE!=='undefined')SELF_HEALING_ENGINE.init();
-  if(typeof DEFENSE_ENGINE!=='undefined')DEFENSE_ENGINE.init();
+  if(typeof DEFENSE_ENGINE!=='undefined'){DEFENSE_ENGINE.init();DEFENSE_ENGINE.activateWatch();}
   // 时间标签
   var t=document.createElement('div');
   t.className='time-divider';
@@ -4428,6 +4485,76 @@ function initApp(){
     var unread=SH_NOTIFY.unread();
     if(unread.length>0)addAi('您有 '+unread.length+' 条未读通知，输入 !通知 查看');
   },2500);
+
+  // ═══ 心跳看门狗 — 每5分钟自动巡检 ═══
+  // 持续监控所有引擎，发现问题自动修复，零人工干预
+  setInterval(function(){
+    try{
+      // 1. 防御引擎：数据完整性
+      if(typeof DEFENSE_ENGINE!=='undefined'){
+        var guard=DEFENSE_ENGINE.guardData();
+        if(guard.length>0){
+          SH_NOTIFY.push('防御引擎','自动修复: '+guard.join(','),'warn');
+          EventBus.emit('defense:autoFix',{fixed:guard});
+        }
+      }
+      // 2. 自愈引擎：检测异常并修复
+      if(typeof SELF_HEALING_ENGINE!=='undefined'){
+        var anomalies=SELF_HEALING_ENGINE.detectAnomalies();
+        if(anomalies.length>0){
+          var healed=SELF_HEALING_ENGINE.selfHeal();
+          SH_NOTIFY.push('自愈引擎','心跳巡检: 发现'+anomalies.length+'个异常,修复'+healed.healed+'个','warn');
+          EventBus.emit('healing:heartbeat',{anomalies:anomalies.length,healed:healed.healed});
+        }
+      }
+      // 3. 健康度快照
+      if(typeof GROWTH_ENGINE!=='undefined'){
+        var h=GROWTH_ENGINE.calcHealthScore();
+        EventBus.emit('heartbeat:health',{score:h,time:new Date().toLocaleString()});
+        // 健康度低于70自动触发修复
+        if(h<70&&typeof SELF_AUDIT!=='undefined'&&SELF_AUDIT.healthOptimize){
+          SELF_AUDIT.healthOptimize();
+          SH_NOTIFY.push('心跳','健康度'+h+'/100，已自动触发优化','warn');
+        }
+      }
+      // 4. 模块注册表同步
+      if(typeof MODULE_REGISTRY!=='undefined'){
+        MODULE_REGISTRY.load();
+      }
+    }catch(e){
+      console.error('心跳看门狗异常:',e);
+    }
+  },300000);
+
+  // ═══ 注册全局事件监听器 — 神经系统反射弧 ═══
+  // 引擎故障 → 自动切换路由
+  EventBus.on('engine:fail',function(data){
+    if(typeof SELF_HEALING_ENGINE!=='undefined'){
+      SELF_HEALING_ENGINE.onFailure(data.route);
+    }
+  });
+  // 引擎成功 → 更新熔断器
+  EventBus.on('engine:success',function(data){
+    if(typeof SELF_HEALING_ENGINE!=='undefined'){
+      SELF_HEALING_ENGINE.onSuccess(data.route);
+    }
+  });
+  // 审计异常 → 通知
+  EventBus.on('audit:error',function(data){
+    SH_NOTIFY.push('审计异常','第'+data.round+'轮: '+data.error,'warn');
+  });
+  // 吸收完成 → 记录
+  EventBus.on('growth:absorbed',function(data){
+    FEEDBACK.log('吸星大法','第'+data.round+'轮',data.ok?'吸收成功':'吸收失败');
+  });
+  // 进化完成 → 记录
+  EventBus.on('growth:evolved',function(data){
+    FEEDBACK.log('自我进化','第'+data.round+'轮','完成');
+  });
+  // 自愈触发 → 记录
+  EventBus.on('healing:triggered',function(data){
+    FEEDBACK.log('自愈触发','第'+data.round+'轮 健康度'+data.health,'修复'+data.healed+'项');
+  });
 }
 
   // V38.4: 三阶段30轮完整路演 - 零积分纯内部执行
@@ -4455,24 +4582,61 @@ function initApp(){
       var phase=(round<=10)?1:(round<=20)?2:3;
       var phaseName=phase===1?'内部自检':phase===2?'自检+吸星大法':'全量自检+进化';
       
-      // 核心：自检 + 自修复
-      var r=SELF_AUDIT.checkRound(round);
-      SELF_AUDIT.autoFix(r);
+      // 核心：自检 + 自修复（每轮包裹try-catch防崩溃）
+      var r;
+      try{
+        r=SELF_AUDIT.checkRound(round);
+        SELF_AUDIT.autoFix(r);
+      }catch(err){
+        console.error('路演第'+round+'轮自检异常:',err);
+        r={passed:[],issues:['第'+round+'轮自检异常:'+err.message],round:round};
+        EventBus.emit('audit:error',{round:round,error:err.message});
+      }
       
       // 阶段二开始：吸星大法吸收外部知识
       if(phase>=2){
-        var srcIdx=(round-11)%GROWTH_ENGINE.absorbSources.length;
-        GROWTH_ENGINE.absorb(srcIdx,function(){});
+        try{
+          var srcIdx=(round-11)%GROWTH_ENGINE.absorbSources.length;
+          await new Promise(function(resolve){
+            GROWTH_ENGINE.absorb(srcIdx,function(ok,msg){
+              EventBus.emit('growth:absorbed',{round:round,source:srcIdx,ok:ok,msg:msg});
+              resolve();
+            });
+          });
+        }catch(err){
+          console.error('路演第'+round+'轮吸收异常:',err);
+        }
       }
       
       // 阶段三：额外执行自我进化
       if(phase>=3){
-        GROWTH_ENGINE.evolve();
+        try{
+          GROWTH_ENGINE.evolve();
+          EventBus.emit('growth:evolved',{round:round});
+        }catch(err){
+          console.error('路演第'+round+'轮进化异常:',err);
+        }
+      }
+      
+      // 防御引擎扫描（阶段二起每轮触发）
+      if(phase>=2&&typeof DEFENSE_ENGINE!=='undefined'){
+        try{DEFENSE_ENGINE.checkIntegrity()}catch(e){}
       }
       
       // 健康度优化（每轮都执行）
       SELF_AUDIT.healthOptimize();
       health=GROWTH_ENGINE.calcHealthScore();
+      
+      // 每轮发事件通知神经系统
+      EventBus.emit('audit:round',{round:round,phase:phase,health:health,issues:r.issues.length,passed:r.passed.length});
+      
+      // 自愈引擎自动触发：健康度低于70时主动修复
+      if(health<70&&typeof SELF_HEALING_ENGINE!=='undefined'){
+        try{
+          var healResult=SELF_HEALING_ENGINE.selfHeal();
+          EventBus.emit('healing:triggered',{round:round,health:health,healed:healResult.healed});
+        }catch(e){}
+      }
       
       // 记录本轮数据
       var roundData={round:round,phase:phase,type:phaseName,passed:r.passed.length,issues:r.issues.length,fixed:r.issues.length,health:health};
