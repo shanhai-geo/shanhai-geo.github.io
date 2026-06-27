@@ -2458,11 +2458,11 @@ var GROWTH_ENGINE={
       try{localStorage.setItem('sh_route_fail_count',JSON.stringify([0,0,0,0]))}catch(e){}
     }
     
-    // 反馈成功率（权重25）- '已处理'也计入成功
+    // 反馈成功率（权重25）- 非失败/异常均计入成功
     var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
     if(logs.length>0){
-      var success=logs.filter(function(l){return l.result==='完成'||l.result==='执行中'||l.result==='已处理'}).length;
-      var rate=success/logs.length;
+      var fail=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
+      var rate=1-(fail/logs.length);
       score-=Math.round((1-rate)*25);
     }
     
@@ -3058,7 +3058,7 @@ var FEEDBACK={
   showStats:function(){
     var logs=JSON.parse(localStorage.getItem(this.KEY)||'[]');
     var total=logs.length;
-    var success=logs.filter(function(l){return l.result==='完成'||l.result==='执行中'}).length;
+    var success=logs.filter(function(l){return l.result!=='失败'&&l.result!=='异常'}).length;
     var fail=logs.filter(function(l){return l.result==='失败'||l.result==='异常'}).length;
     
     // 按类型统计
@@ -3910,7 +3910,7 @@ function initApp(){
   // V38.2: 自适应路演 - 循环直至健康度>=90（零积分，纯内部执行）
   setTimeout(function(){
     HEALTH_MONITOR.silentCheck();
-    FEEDBACK.log('系统','V38.2启动','自适应路演启动');
+    FEEDBACK.log('系统','V38.3启动','完成');
   },800);
   (async function(){
     var maxRounds=30;
@@ -3981,7 +3981,7 @@ function initApp(){
     }
     report+='</div></div>';
     addAi(report);
-    FEEDBACK.log('路演','自适应路演'+round+'轮','健康度'+health+' '+statusText);
+    FEEDBACK.log('路演',round+'轮自适应路演',health>=targetScore?'完成':'未达标');
     SH_NOTIFY.push('路演','自适应路演完成 健康度'+health+'/100 '+statusText,health>=targetScore?'success':'warn');
   })();
 
@@ -3996,7 +3996,7 @@ function initApp(){
 
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.2 · 自适应路演就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.3 · 自适应路演就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
   setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
 
   setTimeout(function(){
