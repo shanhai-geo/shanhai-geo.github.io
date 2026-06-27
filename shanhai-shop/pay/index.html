@@ -124,8 +124,8 @@ function sendEmail(oid,phone,timeStr,subject){
   fetch('https://formsubmit.co/ajax/746876121@qq.com',{
     method:'POST',
     headers:{'Content-Type':'application/json','Accept':'application/json'},
-    body:JSON.stringify({name:'山海新订单 '+oid,phone:phone,message:orderText,_subject:subject,_template:'table'})
-  }).then(function(r){return r.json()}).then(function(d){console.log('邮件:',d)}).catch(function(e){console.log('邮件失败',e)});
+    body:JSON.stringify({name:'山海新订单 '+oid,phone:phone,message:orderText,_subject:subject,_template:'table','_captcha':'false','_honey':''})
+  }).then(function(r){return r.json()}).then(function(d){console.log('邮件通知:',d);if(d.success==='false'){console.error('邮件发送失败:',d.message)}}).catch(function(e){console.error('邮件请求异常:',e)});
 
   // 备用：Coze Bot记录
   try{fetch('https://api.coze.cn/v3/chat',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer YOUR_COZE_PAT'},body:JSON.stringify({bot_id:'7652290884557930559',user_id:'web_order',stream:true,auto_save_history:false,additional_messages:[{role:'user',content:'新订单：'+oid+' 手机'+phone+' 时间'+timeStr,content_type:'text'}]})}).then(function(r){return r.text()}).then(function(d){console.log('备用:',d)}).catch(function(e){console.log('备用失败',e)});}catch(e){}

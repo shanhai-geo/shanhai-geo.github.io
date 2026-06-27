@@ -557,7 +557,7 @@ function confirmPay(){
         对账方式:'按确认时间「'+timeStr+'」前后查找298元入账，匹配手机号'+phone
       })
       })
-    }).catch(function(){});
+    }).then(function(r){return r.json()}).then(function(d){console.log('商城邮件:',d)}).catch(function(e){console.error('商城邮件异常:',e)});
   }catch(e){}
   
   renderOrders();
