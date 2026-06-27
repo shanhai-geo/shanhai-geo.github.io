@@ -625,7 +625,7 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
     </div>
     <div class="nav-right">
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V38.5</span>
+      <span class="nav-badge ver" id="versionBadge">V38.6</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -734,7 +734,7 @@ var CHIP={
       {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
       {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
       {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.5',owner:'主权人'},
+      {id:'admin',name:'管理后台',url:'shanhai-admin',get v(){return CHIP.VERSION},owner:'主权人'},
       {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
       {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
       {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
@@ -2570,7 +2570,7 @@ var SELF_HEALING_ENGINE={
 };
 
 var GROWTH_ENGINE={
-  VERSION:'V38.6',
+  get VERSION(){return CHIP.VERSION},
   KEY_NUTRIENTS:'sh_growth_nutrients',
   KEY_EVOLUTION:'sh_evolution_log',
   KEY_HEALTH_SCORE:'sh_health_score',
@@ -3416,7 +3416,7 @@ function buildSystemContext(){
     ctx.push('进化:'+e2.length+'次');
   }catch(e){}
   ctx.push('引擎:4路(智谱GLM主+硅基/火山/CF备)');
-  ctx.push('版本:V38.6');
+  ctx.push('版本:'+(CHIP.VERSION||'V38.6'));
   // 铁律：AI回复必须基于真实数据
   ctx.push('铁律:回复系统状态相关问题时,必须引用上述精确数据,禁止使用"可能""也许""建议检查"等模糊措辞。如果所有维度满分就明确说满分。');
   return ctx.join('; ');
@@ -3945,7 +3945,7 @@ function buildGeoPanel(){
   var sites=[
     {id:'ai',name:'AI客服',url:'shanhai-ai.surge.sh',v:'V7'},
     {id:'shop',name:'商城',url:'shanhai-shop.surge.sh',v:'V7'},
-    {id:'admin',name:'管理后台',url:'shanhai-admin',v:'V38.5'},
+    {id:'admin',name:'管理后台',url:'shanhai-admin',get v(){return (typeof CHIP!=='undefined')?CHIP.VERSION:'V38.6'}},
     {id:'talk',name:'话术',url:'shanhai-talk.surge.sh',v:'V1'},
     {id:'seo',name:'SEO落地',url:'shanhai-seo.surge.sh',v:'V1'},
     {id:'kw1',name:'客服站1',url:'shanhai-kw1.surge.sh',v:'V1'},
@@ -4544,6 +4544,18 @@ CMD_ROUTER.init();
 MODULE_REGISTRY.load();
 
 function initApp(){
+  // 版本号动态同步：从CHIP.VERSION读取，自动更新所有显示位置
+  try{
+    var ver=CHIP.VERSION;
+    var badge=document.getElementById('versionBadge');
+    if(badge)badge.textContent=ver;
+    document.querySelectorAll('.nav-badge.ver').forEach(function(el){el.textContent=ver});
+    if(CHIP.sites&&CHIP.sites[0])CHIP.sites[0].v=ver;
+    // 更新DISPATCH中的版本号
+    if(typeof DISPATCH!=='undefined'&&DISPATCH.sites&&DISPATCH.sites[0])DISPATCH.sites[0].v=ver;
+    console.log('[版本同步] 所有模块已对齐到 '+ver);
+  }catch(e){console.warn('版本同步失败:',e)}
+  
   // 强制保活：防止认证链路中SESSION被意外重置
   try{
     SESSION.verified=true;
@@ -4571,7 +4583,7 @@ function initApp(){
 
   // 欢迎消息
   var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 V38.6 · 全神经系统就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
+  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>山海云枢 '+CHIP.VERSION+' · 全神经系统就绪<br>自生长+吸星大法+4路引擎+并行巡检<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
   setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">4路</div><div class="ec-name">智谱GLM主 + 硅基/火山/CF备</div><div class="ec-desc">自生长引擎 · 吸星大法 · 自动进化</div></div>')},800);
 
   setTimeout(function(){
@@ -4672,7 +4684,7 @@ function initApp(){
   // 阶段三(21-30): 全量自检 + 吸收 + 自我进化 + 深度分析
   setTimeout(function(){
     HEALTH_MONITOR.silentCheck();
-    FEEDBACK.log('系统','V38.5启动','完成');
+    FEEDBACK.log('系统',(CHIP.VERSION||'V38.6')+'启动','完成');
   },800);
   (async function(){
     try{
