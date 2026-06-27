@@ -1,0 +1,38 @@
+component: scf
+name: shanhai-api
+org: shanhai
+stage: prod
+
+inputs:
+  name: shanhai-api
+  src:
+    src: ./
+    exclude:
+      - .git/**
+      - node_modules/**
+      - deploy/**
+  handler: api/server.scfHandler
+  runtime: Nodejs16.13
+  region: ap-beijing
+  timeout: 60
+  memorySize: 256
+  events:
+    - apigw:
+        parameters:
+          protocols:
+            - https
+          environment: release
+          endpoints:
+            - path: /api/{proxy+}
+              method: ANY
+            - path: /health
+              method: GET
+  environment:
+    variables:
+      ZHIPU_API_KEY: ${env.ZHIPU_API_KEY}
+      SILICONFLOW_API_KEY: ${env.SILICONFLOW_API_KEY}
+      VOLCENGINE_API_KEY: ${env.VOLCENGINE_API_KEY}
+      ADMIN_KEY: ${env.ADMIN_KEY}
+      DATA_REGION: ap-beijing
+      CORS_ORIGINS: "https://shanhai-geo.github.io"
+      AUDIT_LOG: "true"

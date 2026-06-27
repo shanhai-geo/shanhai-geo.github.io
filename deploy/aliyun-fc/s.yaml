@@ -1,0 +1,39 @@
+edition: 3.0.0
+name: shanhai-api
+access: default
+
+vars:
+  region: cn-hangzhou
+
+resources:
+  shanhai-api:
+    component: fc3
+    props:
+      region: ${vars.region}
+      functionName: shanhai-api
+      runtime: nodejs18
+      handler: api/server.fcHandler
+      timeout: 60
+      memorySize: 256
+      cpu: 0.15
+      diskSize: 512
+      instanceConcurrency: 10
+      code: ./
+      environmentVariables:
+        ZHIPU_API_KEY: ${env.ZHIPU_API_KEY}
+        SILICONFLOW_API_KEY: ${env.SILICONFLOW_API_KEY}
+        VOLCENGINE_API_KEY: ${env.VOLCENGINE_API_KEY}
+        ADMIN_KEY: ${env.ADMIN_KEY}
+        DATA_REGION: cn-hangzhou
+        CORS_ORIGINS: "https://shanhai-geo.github.io,https://your-domain.com"
+        AUDIT_LOG: "true"
+      triggers:
+        - triggerName: http-trigger
+          triggerType: http
+          triggerConfig:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+              - OPTIONS
