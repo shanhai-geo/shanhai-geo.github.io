@@ -2346,6 +2346,7 @@ function processCmd(cmd){
 }
 
 // === AI 神经系统 (V32: 三路供电) ===
+var msgEl=null;
 var SH_API={
   routes:[
     {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',lsKey:'sh_api_key'},
@@ -2452,7 +2453,7 @@ var SH_API={
       var reader=result.resp.body.getReader();
       var decoder=new TextDecoder();
       var fullReply='';
-      var msgEl=null;
+      msgEl=null;
       var buffer='';
       var lastRender=0;
       while(true){
