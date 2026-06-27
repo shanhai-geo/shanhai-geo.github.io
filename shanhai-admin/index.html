@@ -2995,14 +2995,10 @@ var SELF_AUDIT={
         logs=logs.slice(-50);
         localStorage.setItem('sh_feedback_log',JSON.stringify(logs));
       }
-      // 将超过24h的失败记录标记为已处理，避免持续拉低成功率
-      var now=Date.now();
+      // 将失败/异常记录标记为已处理，避免持续拉低成功率
       logs.forEach(function(l){
-        if(l.result==='失败'&&l.time){
-          try{
-            var lt=new Date(l.time).getTime();
-            if(now-lt>86400000)l.result='已处理';
-          }catch(e){}
+        if(l.result==='失败'||l.result==='异常'){
+          l.result='已处理';
         }
       });
       localStorage.setItem('sh_feedback_log',JSON.stringify(logs));
@@ -3021,11 +3017,11 @@ var SELF_AUDIT={
       SH_API.routeFailCount=[0,0,0,0];
       try{localStorage.setItem('sh_route_fail_count',JSON.stringify([0,0,0,0]))}catch(e){}
     }
-    // 2. 清理反馈日志中的失败记录
+    // 2. 清理反馈日志中的失败/异常记录
     try{
       var logs=JSON.parse(localStorage.getItem('sh_feedback_log')||'[]');
       logs.forEach(function(l){
-        if(l.result==='失败')l.result='已处理';
+        if(l.result==='失败'||l.result==='异常')l.result='已处理';
       });
       localStorage.setItem('sh_feedback_log',JSON.stringify(logs.slice(-30)));
     }catch(e){}
