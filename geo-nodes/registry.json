@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "updated": "2026-06-27T22:15:00+08:00",
+  "version": "2.0",
+  "updated": "2026-06-27T23:52:02+08:00",
   "hub": {
     "name": "山海GEO供电局",
     "url": "https://shanhai-geo.github.io/shanhai-geo",
@@ -12,6 +12,7 @@
       "name": "山海GEO供电局",
       "url": "https://shanhai-geo.github.io/shanhai-geo",
       "industry": "GEO服务",
+      "tier": 1,
       "region": "全球",
       "capabilities": [
         "schema",
@@ -25,7 +26,368 @@
       "joined": "2026-06-27",
       "role": "hub",
       "llm_routes": 3,
-      "cross_links": []
+      "cross_links": [
+        "shanhai-xiye",
+        "shanhai-gulv",
+        "shanhai-yangsheng",
+        "shanhai-xuetang",
+        "shanhai-shangmao",
+        "shanhai-join",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe"
+      ]
+    },
+    {
+      "node_id": "shanhai-xiye",
+      "name": "熹野白茶",
+      "url": "https://shanhai-geo.github.io/shanhai-xiye",
+      "industry": "白茶",
+      "tier": 2,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "content",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "vertical",
+      "cross_links": [
+        "shanhai-gulv",
+        "shanhai-yangsheng",
+        "shanhai-xuetang",
+        "shanhai-shangmao",
+        "shanhai-join",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe",
+        "shanhai-geo"
+      ]
+    },
+    {
+      "node_id": "shanhai-gulv",
+      "name": "山海文旅",
+      "url": "https://shanhai-geo.github.io/shanhai-gulv",
+      "industry": "文旅",
+      "tier": 2,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "content",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "vertical",
+      "cross_links": [
+        "shanhai-xiye",
+        "shanhai-yangsheng",
+        "shanhai-xuetang",
+        "shanhai-shangmao",
+        "shanhai-join",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe",
+        "shanhai-geo"
+      ]
+    },
+    {
+      "node_id": "shanhai-yangsheng",
+      "name": "山海养生",
+      "url": "https://shanhai-geo.github.io/shanhai-yangsheng",
+      "industry": "养生",
+      "tier": 2,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "content",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "vertical",
+      "cross_links": [
+        "shanhai-xiye",
+        "shanhai-gulv",
+        "shanhai-xuetang",
+        "shanhai-shangmao",
+        "shanhai-join",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe",
+        "shanhai-geo"
+      ]
+    },
+    {
+      "node_id": "shanhai-xuetang",
+      "name": "山海学堂",
+      "url": "https://shanhai-geo.github.io/shanhai-xuetang",
+      "industry": "教育",
+      "tier": 2,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "content",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "vertical",
+      "cross_links": [
+        "shanhai-xiye",
+        "shanhai-gulv",
+        "shanhai-yangsheng",
+        "shanhai-shangmao",
+        "shanhai-join",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe",
+        "shanhai-geo"
+      ]
+    },
+    {
+      "node_id": "shanhai-shangmao",
+      "name": "山海商猫",
+      "url": "https://shanhai-geo.github.io/shanhai-shangmao",
+      "industry": "电商",
+      "tier": 2,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "content",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "vertical",
+      "cross_links": [
+        "shanhai-xiye",
+        "shanhai-gulv",
+        "shanhai-yangsheng",
+        "shanhai-xuetang",
+        "shanhai-join",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe",
+        "shanhai-geo"
+      ]
+    },
+    {
+      "node_id": "shanhai-join",
+      "name": "山海加盟",
+      "url": "https://shanhai-geo.github.io/shanhai-join",
+      "industry": "加盟",
+      "tier": 2,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "content",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "vertical",
+      "cross_links": [
+        "shanhai-xiye",
+        "shanhai-gulv",
+        "shanhai-yangsheng",
+        "shanhai-xuetang",
+        "shanhai-shangmao",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe",
+        "shanhai-geo"
+      ]
+    },
+    {
+      "node_id": "node-wild-tea",
+      "name": "野茶直供站",
+      "url": "https://shanhai-geo.github.io/node-wild-tea",
+      "industry": "白茶",
+      "tier": 3,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "landing",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "longtail",
+      "parent": "shanhai-xiye",
+      "cross_links": [
+        "shanhai-xiye",
+        "shanhai-geo",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe"
+      ]
+    },
+    {
+      "node_id": "node-gubao",
+      "name": "东海古堡",
+      "url": "https://shanhai-geo.github.io/node-gubao",
+      "industry": "文旅",
+      "tier": 3,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "landing",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "longtail",
+      "parent": "shanhai-gulv",
+      "cross_links": [
+        "shanhai-gulv",
+        "shanhai-geo",
+        "node-wild-tea",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe"
+      ]
+    },
+    {
+      "node_id": "node-ylt",
+      "name": "元力泰养生",
+      "url": "https://shanhai-geo.github.io/node-ylt",
+      "industry": "养生",
+      "tier": 3,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "landing",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "longtail",
+      "parent": "shanhai-yangsheng",
+      "cross_links": [
+        "shanhai-yangsheng",
+        "shanhai-geo",
+        "node-wild-tea",
+        "node-gubao",
+        "node-chalv",
+        "node-geo-seo",
+        "node-chuangkezhe"
+      ]
+    },
+    {
+      "node_id": "node-chalv",
+      "name": "茶旅线路",
+      "url": "https://shanhai-geo.github.io/node-chalv",
+      "industry": "文旅",
+      "tier": 3,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "landing",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "longtail",
+      "parent": "shanhai-gulv",
+      "cross_links": [
+        "shanhai-gulv",
+        "shanhai-geo",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-geo-seo",
+        "node-chuangkezhe"
+      ]
+    },
+    {
+      "node_id": "node-geo-seo",
+      "name": "GEO优化服务",
+      "url": "https://shanhai-geo.github.io/node-geo-seo",
+      "industry": "GEO服务",
+      "tier": 3,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "landing",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "longtail",
+      "parent": "shanhai-geo",
+      "cross_links": [
+        "shanhai-geo",
+        "shanhai-geo",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-chuangkezhe"
+      ]
+    },
+    {
+      "node_id": "node-chuangkezhe",
+      "name": "共创者联盟",
+      "url": "https://shanhai-geo.github.io/node-chuangkezhe",
+      "industry": "共创",
+      "tier": 3,
+      "region": "中国",
+      "capabilities": [
+        "geo",
+        "schema",
+        "landing",
+        "cta"
+      ],
+      "status": "active",
+      "joined": "2026-06-27",
+      "role": "longtail",
+      "parent": "shanhai-join",
+      "cross_links": [
+        "shanhai-join",
+        "shanhai-geo",
+        "node-wild-tea",
+        "node-gubao",
+        "node-ylt",
+        "node-chalv",
+        "node-geo-seo"
+      ]
     }
   ]
 }

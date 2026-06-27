@@ -1,15 +1,45 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "rules": {
     "max_cross_links_per_node": 20,
     "auto_link_on_join": true,
     "link_format": "dofollow",
-    "reciprocal_required": true
+    "reciprocal_required": true,
+    "tier1_links_all": true,
+    "tier2_links_tier1_and_peers": true,
+    "tier3_links_parent_and_hub": true
   },
   "auto_contribution": {
     "content_citation": true,
     "keyword_sharing": true,
     "schema_crossref": true,
     "traffic_sharing": true
+  },
+  "topology": {
+    "hub": "shanhai-geo",
+    "tier2": [
+      "shanhai-xiye",
+      "shanhai-gulv",
+      "shanhai-yangsheng",
+      "shanhai-xuetang",
+      "shanhai-shangmao",
+      "shanhai-join"
+    ],
+    "tier3": [
+      "node-wild-tea",
+      "node-gubao",
+      "node-ylt",
+      "node-chalv",
+      "node-geo-seo",
+      "node-chuangkezhe"
+    ],
+    "parent_map": {
+      "node-wild-tea": "shanhai-xiye",
+      "node-gubao": "shanhai-gulv",
+      "node-ylt": "shanhai-yangsheng",
+      "node-chalv": "shanhai-gulv",
+      "node-geo-seo": "shanhai-geo",
+      "node-chuangkezhe": "shanhai-join"
+    }
   }
 }

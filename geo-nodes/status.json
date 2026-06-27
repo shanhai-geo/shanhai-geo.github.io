@@ -1,8 +1,12 @@
 {
-  "total_nodes": 1,
-  "active_nodes": 1,
-  "total_cross_links": 0,
-  "total_industries": 1,
-  "ecosystem_health": "seed",
-  "last_update": "2026-06-27T22:15:00+08:00"
+  "version": "2.0",
+  "updated": "2026-06-27T23:52:02+08:00",
+  "total_nodes": 13,
+  "active_nodes": 13,
+  "tier1_nodes": 1,
+  "tier2_nodes": 6,
+  "tier3_nodes": 6,
+  "industries": 8,
+  "health": "growing",
+  "auto_generated": true
 }
