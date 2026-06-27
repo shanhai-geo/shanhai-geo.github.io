@@ -866,10 +866,10 @@ function resetInactivity(){SESSION.lastActive=Date.now()}
 function doPinAction(btn){
   if(doPinAction._lock) return;
   doPinAction._lock=true;
-  setTimeout(function(){doPinAction._lock=false},300);
+  setTimeout(function(){doPinAction._lock=false},100);
   try{
     btn.classList.add('pressed');
-    setTimeout(function(){btn.classList.remove('pressed')},180);
+    setTimeout(function(){btn.classList.remove('pressed')},80);
     var k=btn.getAttribute('data-k');
     if(!k)return;
     if(k==='clear'){PIN.clearInput();document.getElementById('pinStatus').textContent='已清除';return}
@@ -1094,7 +1094,7 @@ function setupPin(){/* placeholder */}
     e.preventDefault();
     handled=true;
     doPinAction(btn);
-    setTimeout(function(){handled=false},300);
+    setTimeout(function(){handled=false},100);
   },{passive:false});
   pad.addEventListener('click',function(e){
     var btn=e.target.closest('.pin-btn');
