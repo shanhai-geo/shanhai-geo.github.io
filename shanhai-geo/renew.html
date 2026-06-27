@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务续费 - 山海GEO生态</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #333; font-size: 1.8em; }
+        .notice { background: #fff3cd; padding: 15px; border-radius: 10px; color: #856404; margin-bottom: 20px; text-align: center; }
+        .notice strong { color: #d63031; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #333; font-weight: bold; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1em; }
+        .form-group input:focus { outline: none; border-color: #667eea; }
+        .key-preview { background: #2d3436; color: #55efc4; padding: 15px; border-radius: 8px; font-family: monospace; margin: 15px 0; word-break: break-all; }
+        .service-info { background: #e8f4f8; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #00b894; }
+        .price-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        .original-price { text-decoration: line-through; opacity: 0.7; font-size: 0.9em; }
+        .renew-price { font-size: 2.5em; font-weight: bold; }
+        .discount-tag { background: #ffd700; color: #333; padding: 5px 15px; border-radius: 20px; font-size: 0.9em; font-weight: bold; display: inline-block; margin-top: 10px; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; margin-top: 15px; }
+        .btn-primary { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); color: white; }
+        .btn-secondary { background: #f8f9fa; color: #333; border: 2px solid #ddd; }
+        .success-box { background: #d4edda; color: #155724; padding: 30px; border-radius: 10px; text-align: center; }
+        .countdown { font-size: 1.2em; color: #667eea; font-weight: bold; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header"><h1>服务续费</h1></div>
+            <div class="step active" id="step1">
+                <div class="notice" id="renewNotice">您的服务即将到期，续费可享老客户专属优惠</div>
+                <div class="form-group"><label>请输入原密钥</label><input type="text" id="originalKey" placeholder="请输入您的GEO密钥"></div>
+                <button class="btn btn-primary" onclick="verifyKey()">验证密钥</button>
+                <button class="btn btn-secondary" onclick="location.href='geo-service.html'">返回首页</button>
+            </div>
+            <div class="step" id="step2">
+                <div class="service-info">
+                    <h3>当前服务信息</h3>
+                    <p><strong>套餐：</strong><span id="currentPlan">-</span></p>
+                    <p><strong>密钥：</strong><span class="key-preview" id="displayKey">-</span></p>
+                    <p><strong>到期时间：</strong><span id="expireDate">-</span></p>
+                    <p><strong>剩余天数：</strong><span id="remainDays" style="color:#d63031;font-weight:bold;">-</span></p>
+                </div>
+                <div class="price-box">
+                    <div class="original-price">原价：¥<span id="originalPrice">-</span></div>
+                    <div class="renew-price">续费价：¥<span id="renewPrice">-</span></div>
+                    <div class="discount-tag">老客户专属8折</div>
+                </div>
+                <button class="btn btn-primary" onclick="goToPay()">前往续费付款</button>
+                <button class="btn btn-secondary" onclick="backToStep1()">返回</button>
+            </div>
+            <div class="step" id="step3">
+                <div class="success-box">
+                    <h2>续费成功</h2>
+                    <p style="margin:20px 0;">您的服务已延长1年</p>
+                    <p class="countdown" id="newExpireDate">-</p>
+                    <p style="margin-top:20px;">感谢您选择山海GEO生态</p>
+                </div>
+                <a href="geo-service.html" class="btn btn-primary" style="display:block;text-align:center;margin-top:20px;text-decoration:none;">返回首页</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const RENEW_PRICES = { 'starter': { original: 298, renew: 198 }, 'pro': { original: 998, renew: 698 }, '旗舰': { original: 4998, renew: 3998 } };
+        let currentPlan = null;
+        let keyInfo = null;
+
+        function verifyKey() {
+            const key = document.getElementById('originalKey').value.trim();
+            if (!key) { alert('请输入密钥'); return; }
+            const storedKey = localStorage.getItem('geo_key');
+            const storedPlan = localStorage.getItem('geo_plan');
+            const storedExpire = localStorage.getItem('geo_expire');
+            if (key === storedKey) {
+                keyInfo = { key: key, plan: storedPlan, expire: parseInt(storedExpire) || Date.now() };
+                showStep2();
+            } else { alert('密钥验证失败，请确认输入正确'); }
+        }
+
+        function showStep2() {
+            currentPlan = keyInfo.plan || 'starter';
+            const price = RENEW_PRICES[currentPlan] || RENEW_PRICES['starter'];
+            document.getElementById('currentPlan').textContent = getPlanName(currentPlan);
+            document.getElementById('displayKey').textContent = keyInfo.key;
+            const expireDate = new Date(keyInfo.expire);
+            document.getElementById('expireDate').textContent = expireDate.toLocaleString('zh-CN');
+            const remainMs = keyInfo.expire - Date.now();
+            const remainDays = Math.max(0, Math.ceil(remainMs / (1000 * 60 * 60 * 24)));
+            document.getElementById('remainDays').textContent = remainDays + '天';
+            document.getElementById('originalPrice').textContent = price.original;
+            document.getElementById('renewPrice').textContent = price.renew;
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+        }
+
+        function getPlanName(plan) {
+            const names = { 'starter': '入门版 - AI体检报告', 'pro': '专业版 - 年度健康管家', '旗舰': '旗舰版 - AI时代合伙人' };
+            return names[plan] || names['starter'];
+        }
+
+        function goToPay() {
+            const price = RENEW_PRICES[currentPlan] || RENEW_PRICES['starter'];
+            window.location.href = `shanhai-shop/pay/index.html?plan=${currentPlan}&price=${price.renew}&from=renew&key=${keyInfo.key}`;
+        }
+
+        function backToStep1() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+        }
+
+        function completeRenew() {
+            const newExpire = Date.now() + 365 * 24 * 60 * 60 * 1000;
+            localStorage.setItem('geo_expire', newExpire.toString());
+            const expireDate = new Date(newExpire);
+            document.getElementById('newExpireDate').textContent = '新到期时间：' + expireDate.toLocaleString('zh-CN');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+        }
+
+        function checkExpire() {
+            const expire = localStorage.getItem('geo_expire');
+            if (expire) {
+                const remainMs = parseInt(expire) - Date.now();
+                const remainDays = Math.ceil(remainMs / (1000 * 60 * 60 * 24));
+                if (remainDays <= 30 && remainDays > 0) {
+                    document.getElementById('renewNotice').innerHTML = `<strong>您的服务还有${remainDays}天到期</strong>，续费可享老客户专属优惠`;
+                }
+            }
+        }
+        checkExpire();
+    </script>
+</body>
+</html>

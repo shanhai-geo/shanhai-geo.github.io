@@ -1,372 +1,163 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-<meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://shanhai-geo.github.io;">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="robots" content="noindex,nofollow">
-<title>密钥发放确认 - 山海云枢管理</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;background:#060a12;min-height:100vh;padding:20px;color:#e8edf5}
-.card{background:#111827;border:1px solid #1e2d44;border-radius:16px;padding:24px 20px;max-width:400px;width:100%;margin:20px auto}
-.title{font-size:18px;font-weight:800;color:#d4a04a;text-align:center;margin-bottom:16px}
-.section{margin-bottom:16px}
-.section-title{font-size:13px;color:#94a3b8;margin-bottom:8px;font-weight:600}
-.order-info{background:#1a2236;border:1px solid #1e2d44;border-radius:10px;padding:16px;font-size:13px;line-height:2}
-.order-info .label{color:#94a3b8}
-.order-info .val{color:#e8edf5;font-weight:600}
-.order-info .highlight{color:#d4a04a;font-family:monospace}
-.key-box{background:#0c1220;border:2px dashed #d4a04a;border-radius:10px;padding:16px;text-align:center;margin-top:12px;position:relative}
-.key-box .key-label{font-size:11px;color:#94a3b8;margin-bottom:8px}
-.key-box .key-value{font-size:16px;font-weight:700;color:#10b981;font-family:monospace;word-break:break-all;letter-spacing:1px}
-.key-box .key-masked{font-size:16px;font-weight:700;color:#4b5c73;font-family:monospace;letter-spacing:2px}
-.key-box.hidden-key .key-value{display:none}
-.key-box.hidden-key .key-masked{display:block}
-.key-box.revealed-key .key-value{display:block}
-.key-box.revealed-key .key-masked{display:none}
-.copy-btn{display:inline-block;margin-top:10px;padding:8px 20px;font-size:12px;font-weight:700;color:#d4a04a;background:transparent;border:1px solid #d4a04a;border-radius:6px;cursor:pointer}
-.copy-btn:active{background:rgba(212,160,74,.15)}
-.btn{width:100%;padding:14px;font-size:16px;font-weight:700;border:none;border-radius:10px;cursor:pointer;margin-top:12px;transition:all .3s}
-.btn-confirm{background:linear-gradient(135deg,#10b981,#059669);color:#fff}
-.btn-confirm:disabled{opacity:.4;cursor:default}
-.btn-confirm.countdown{background:linear-gradient(135deg,#ef4444,#dc2626)}
-.btn-confirm:active:not(:disabled){opacity:.85}
-.status{text-align:center;padding:10px;border-radius:8px;margin-top:12px;font-size:13px;display:none}
-.status.ok{display:block;background:rgba(16,185,129,.1);color:#10b981;border:1px solid rgba(16,185,129,.3)}
-.status.err{display:block;background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
-.status.warn{display:block;background:rgba(234,179,8,.1);color:#eab308;border:1px solid rgba(234,179,8,.3)}
-.expired-box{text-align:center;padding:40px 20px}
-.expired-box .icon{font-size:48px;margin-bottom:16px}
-.expired-box .msg{font-size:16px;color:#ef4444;font-weight:700;margin-bottom:8px}
-.expired-box .sub{font-size:13px;color:#94a3b8}
-.tip{font-size:10px;color:#4b5c73;text-align:center;margin-top:12px;line-height:1.6}
-.forward-hint{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:12px;margin-top:12px;font-size:12px;color:#10b981;text-align:center;line-height:1.8;display:none}
-.history-sec{margin-top:20px;border-top:1px solid #1e2d44;padding-top:16px}
-.history-item{background:#0c1220;border-radius:8px;padding:10px;margin-bottom:6px;font-size:11px;line-height:1.8;color:#94a3b8}
-.history-item .done{color:#10b981}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单管理 - 山海GEO生态</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header h1 { color: #333; margin-bottom: 10px; }
+        .stats { display: flex; gap: 20px; margin-top: 20px; }
+        .stat-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; flex: 1; text-align: center; }
+        .stat-num { font-size: 2em; font-weight: bold; }
+        .stat-label { font-size: 0.9em; opacity: 0.9; }
+        .orders { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .order-item { border: 1px solid #eee; border-radius: 10px; padding: 20px; margin-bottom: 15px; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .order-id { font-weight: bold; color: #333; }
+        .order-time { color: #999; font-size: 0.9em; }
+        .order-plan { background: #e8f4f8; padding: 5px 15px; border-radius: 20px; color: #00b894; font-weight: bold; }
+        .order-price { font-size: 1.5em; color: #667eea; font-weight: bold; }
+        .order-status { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.9em; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d4edda; color: #155724; }
+        .order-details { color: #666; font-size: 0.95em; margin-bottom: 15px; }
+        .btn-group { display: flex; gap: 10px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.95em; }
+        .btn-confirm { background: #00b894; color: white; }
+        .btn-manual { background: #667eea; color: white; }
+        .btn-view { background: #f8f9fa; color: #333; border: 1px solid #ddd; }
+        .login-form { max-width: 400px; margin: 100px auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #333; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; }
+        .btn-submit { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; }
+        .key-info { background: #2d3436; color: #55efc4; padding: 10px; border-radius: 5px; font-family: monospace; margin-top: 10px; word-break: break-all; }
+        .empty { text-align: center; padding: 60px; color: #999; }
+        .hidden { display: none; }
+    </style>
 </head>
 <body>
-<div class="card">
-<div class="title">密钥发放确认</div>
+    <div class="container" id="loginContainer">
+        <div class="login-form">
+            <h2 style="text-align:center; margin-bottom:30px;">管理员登录</h2>
+            <div class="form-group"><label>管理员密钥</label><input type="password" id="adminKey" placeholder="请输入管理员密钥"></div>
+            <button class="btn-submit" onclick="adminLogin()">登录</button>
+        </div>
+    </div>
+    <div class="container hidden" id="mainContainer">
+        <div class="header">
+            <h1>山海GEO订单管理</h1>
+            <p>管理所有GEO生态订单和密钥发放</p>
+            <div class="stats">
+                <div class="stat-box"><div class="stat-num" id="totalOrders">0</div><div class="stat-label">总订单数</div></div>
+                <div class="stat-box"><div class="stat-num" id="pendingOrders">0</div><div class="stat-label">待确认</div></div>
+                <div class="stat-box"><div class="stat-num" id="confirmedOrders">0</div><div class="stat-label">已确认</div></div>
+            </div>
+        </div>
+        <div class="orders">
+            <h2 style="margin-bottom:20px;">待确认订单</h2>
+            <div id="ordersList"><div class="empty">暂无待处理订单</div></div>
+            <h2 style="margin: 30px 0 20px;">已确认订单</h2>
+            <div id="confirmedList"><div class="empty">暂无已确认订单</div></div>
+        </div>
+    </div>
+    <script>
+        const ADMIN_KEY = 'geo_admin_2024';
+        let orders = JSON.parse(localStorage.getItem('geo_admin_orders') || '[]');
 
-<!-- 过期提示 -->
-<div id="expiredSection" style="display:none">
-<div class="expired-box">
-<div class="icon">⏰</div>
-<div class="msg">链接已过期</div>
-<div class="sub">此确认链接已超过24小时，密钥已自动作废。<br>如需重新发放，请联系运营人员。</div>
-</div>
-</div>
+        function adminLogin() {
+            const key = document.getElementById('adminKey').value;
+            if (key === ADMIN_KEY) {
+                localStorage.setItem('geo_admin_logged', 'true');
+                document.getElementById('loginContainer').classList.add('hidden');
+                document.getElementById('mainContainer').classList.remove('hidden');
+                loadOrders();
+            } else { alert('密钥错误'); }
+        }
 
-<!-- 主内容区 -->
-<div id="mainSection">
-<!-- 订单信息 -->
-<div class="section" id="orderSection">
-<div class="section-title">订单信息</div>
-<div class="order-info" id="orderInfo"></div>
-</div>
+        function loadOrders() {
+            const allOrders = JSON.parse(localStorage.getItem('geo_all_orders') || '[]');
+            orders = [...orders, ...allOrders.filter(o => !orders.find(existing => existing.orderNo === o.orderNo))];
+            const pending = orders.filter(o => o.status === 'pending');
+            const confirmed = orders.filter(o => o.status === 'confirmed');
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('pendingOrders').textContent = pending.length;
+            document.getElementById('confirmedOrders').textContent = confirmed.length;
+            renderOrders(pending, 'ordersList');
+            renderOrders(confirmed, 'confirmedList');
+        }
 
-<!-- 密钥展示区 -->
-<div class="key-box hidden-key" id="keyBox">
-<div class="key-label">服务密钥</div>
-<div class="key-value" id="keyValue"></div>
-<div class="key-masked">••••••••••••••••</div>
-<button class="copy-btn" id="copyBtn" style="display:none" onclick="copyKey()">复制密钥</button>
-</div>
+        function renderOrders(orderList, containerId) {
+            const container = document.getElementById(containerId);
+            if (orderList.length === 0) { container.innerHTML = '<div class="empty">暂无订单</div>'; return; }
+            container.innerHTML = orderList.map(order => `
+                <div class="order-item">
+                    <div class="order-header">
+                        <div><span class="order-id">${order.orderNo}</span><span class="order-time">${new Date(order.time).toLocaleString('zh-CN')}</span></div>
+                        <div><span class="order-plan">${order.planName}</span><span class="order-status ${order.status === 'confirmed' ? 'status-confirmed' : 'status-pending'}">${order.status === 'confirmed' ? '已确认' : '待确认'}</span></div>
+                    </div>
+                    <div class="order-details">
+                        <p><strong>金额：</strong><span class="order-price">¥${order.price}</span></p>
+                        ${order.key ? `<div class="key-info">密钥：${order.key}</div>` : ''}
+                        ${order.nodeId ? `<p style="margin-top:10px;"><strong>节点ID：</strong>${order.nodeId}</p>` : ''}
+                    </div>
+                    <div class="btn-group">
+                        ${order.status === 'pending' ? `<button class="btn btn-confirm" onclick="confirmOrder('${order.orderNo}')">确认到款</button><button class="btn btn-manual" onclick="manualIssue('${order.orderNo}')">手动发放密钥</button>` : `<button class="btn btn-view" onclick="viewOrder('${order.orderNo}')">查看详情</button>`}
+                    </div>
+                </div>
+            `).join('');
+        }
 
-<!-- 确认按钮 -->
-<button class="btn btn-confirm" id="confirmBtn" disabled onclick="handleConfirm()">确认到款，发放密钥</button>
-<div class="status" id="statusBox"></div>
+        function generateKey() {
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            let key = 'shk_';
+            for (let i = 0; i < 32; i++) key += chars.charAt(Math.floor(Math.random() * chars.length));
+            return key;
+        }
 
-<!-- 发放成功后的转发提示 -->
-<div class="forward-hint" id="forwardHint">
-发放成功！请将本页面链接转发给客户，客户打开即可看到密钥。<br>
-<button class="copy-btn" onclick="copyPageLink()" style="margin-top:6px">复制页面链接</button>
-</div>
-</div>
+        function confirmOrder(orderNo) {
+            const order = orders.find(o => o.orderNo === orderNo);
+            if (order) {
+                order.status = 'confirmed';
+                order.key = generateKey();
+                order.nodeId = 'GEO-' + Math.floor(Math.random()*10000).toString().padStart(4,'0') + '-' + Math.floor(Math.random()*10000).toString().padStart(4,'0');
+                localStorage.setItem('geo_admin_orders', JSON.stringify(orders));
+                loadOrders();
+                alert('订单已确认，密钥已自动发放');
+            }
+        }
 
-<!-- 历史记录 -->
-<div class="history-sec" id="historySec" style="display:none">
-<div class="section-title">已发放记录</div>
-<div id="historyList"></div>
-</div>
+        function manualIssue(orderNo) {
+            const key = prompt('请输入要发放的密钥：');
+            if (key) {
+                const order = orders.find(o => o.orderNo === orderNo);
+                if (order) {
+                    order.status = 'confirmed';
+                    order.key = key;
+                    order.nodeId = 'GEO-' + Math.floor(Math.random()*10000).toString().padStart(4,'0') + '-' + Math.floor(Math.random()*10000).toString().padStart(4,'0');
+                    localStorage.setItem('geo_admin_orders', JSON.stringify(orders));
+                    loadOrders();
+                    alert('密钥已手动发放');
+                }
+            }
+        }
 
-<div class="tip" id="tipArea">
-确认链接24小时内有效，超时密钥自动作废<br>
-首次点击按钮进入倒计时，再次点击确认发放
-</div>
-</div>
+        function viewOrder(orderNo) {
+            const order = orders.find(o => o.orderNo === orderNo);
+            if (order) alert('订单详情：\n' + JSON.stringify(order, null, 2));
+        }
 
-<script>
-var orderId='',phone='',timeStr='',apiKey='',createdAt=0;
-var countdownTimer=null;
-var countdownLeft=0;
-var isConfirmed=false;
+        if (localStorage.getItem('geo_admin_logged') === 'true') {
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('mainContainer').classList.remove('hidden');
+            loadOrders();
+        }
 
-function parseUrlParams(){
-  var p={};
-  var q=window.location.search.substring(1);
-  if(!q)return p;
-  q.split('&').forEach(function(s){
-    var kv=s.split('=');
-    if(kv.length>=2){
-      var key=kv[0];
-      var val=kv.slice(1).join('=');
-      p[decodeURIComponent(key)]=decodeURIComponent(val);
-    }
-  });
-  return p;
-}
-
-function checkExpiry(){
-  if(!createdAt)return false;
-  var now=Date.now();
-  var diff=now-createdAt;
-  var hours24=24*60*60*1000;
-  return diff>hours24;
-}
-
-function formatTimeRemaining(){
-  if(!createdAt)return '';
-  var now=Date.now();
-  var diff=24*60*60*1000-(now-createdAt);
-  if(diff<=0)return '已过期';
-  var hours=Math.floor(diff/(60*60*1000));
-  var mins=Math.floor((diff%(60*60*1000))/(60*1000));
-  return '剩余 '+hours+'小时'+mins+'分钟';
-}
-
-function init(){
-  var p=parseUrlParams();
-  orderId=p.oid||'';
-  phone=p.phone||'';
-  timeStr=p.time||'';
-  apiKey=p.key||'';
-  createdAt=parseInt(p.created)||0;
-
-  if(!orderId||!phone){
-    // 没有URL参数，尝试从localStorage加载
-    loadFromLocalStorage();
-    return;
-  }
-
-  // 检查过期
-  if(checkExpiry()){
-    document.getElementById('mainSection').style.display='none';
-    document.getElementById('expiredSection').style.display='block';
-    document.getElementById('tipArea').style.display='none';
-    return;
-  }
-
-  // 检查是否已确认过
-  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  var existing=null;
-  for(var i=0;i<orders.length;i++){
-    if(orders[i].oid===orderId){existing=orders[i];break;}
-  }
-  if(existing&&existing.status==='delivered'){
-    showDeliveredState(existing);
-    return;
-  }
-
-  // 显示订单信息
-  document.getElementById('orderInfo').innerHTML=
-    '<div><span class="label">订单号：</span><span class="highlight">'+orderId+'</span></div>'+
-    '<div><span class="label">客户手机：</span><span class="val">'+phone+'</span></div>'+
-    '<div><span class="label">下单时间：</span><span class="val">'+timeStr+'</span></div>'+
-    '<div><span class="label">有效期：</span><span class="val" style="color:#eab308">'+formatTimeRemaining()+'</span></div>';
-
-  // 设置密钥（隐藏状态）
-  if(apiKey){
-    document.getElementById('keyValue').textContent=apiKey;
-    document.getElementById('keyBox').className='key-box hidden-key';
-  }
-
-  // 启用按钮
-  document.getElementById('confirmBtn').disabled=false;
-
-  // 保存到localStorage
-  if(!existing){
-    orders.push({oid:orderId,phone:phone,time:timeStr,key:apiKey,status:'pending',createdAt:createdAt,confirmTime:0});
-    localStorage.setItem('sh_orders',JSON.stringify(orders));
-  }
-
-  loadHistory();
-}
-
-function loadFromLocalStorage(){
-  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  var pending=orders.filter(function(o){return o.status==='pending'});
-  if(pending.length>0){
-    var o=pending[pending.length-1];
-    orderId=o.oid;phone=o.phone;timeStr=o.time;apiKey=o.key||'';createdAt=o.createdAt||0;
-    document.getElementById('orderInfo').innerHTML=
-      '<div><span class="label">订单号：</span><span class="highlight">'+o.oid+'</span></div>'+
-      '<div><span class="label">客户手机：</span><span class="val">'+o.phone+'</span></div>'+
-      '<div><span class="label">下单时间：</span><span class="val">'+o.time+'</span></div>';
-    if(o.key){
-      document.getElementById('keyValue').textContent=o.key;
-      document.getElementById('keyBox').className='key-box hidden-key';
-    }
-    document.getElementById('confirmBtn').disabled=false;
-  }else{
-    document.getElementById('orderInfo').innerHTML='<div style="color:#4b5c73;text-align:center;padding:20px">暂无待处理订单</div>';
-    document.getElementById('confirmBtn').disabled=true;
-  }
-  loadHistory();
-}
-
-function showDeliveredState(order){
-  isConfirmed=true;
-  document.getElementById('orderInfo').innerHTML=
-    '<div><span class="label">订单号：</span><span class="highlight">'+order.oid+'</span></div>'+
-    '<div><span class="label">客户手机：</span><span class="val">'+order.phone+'</span></div>'+
-    '<div><span class="label">下单时间：</span><span class="val">'+order.time+'</span></div>'+
-    '<div><span class="label">状态：</span><span class="val" style="color:#10b981">已发放</span></div>';
-  if(order.key){
-    document.getElementById('keyValue').textContent=order.key;
-    document.getElementById('keyBox').className='key-box revealed-key';
-    document.getElementById('copyBtn').style.display='inline-block';
-  }
-  document.getElementById('confirmBtn').disabled=true;
-  document.getElementById('confirmBtn').textContent='已发放';
-  document.getElementById('forwardHint').style.display='block';
-  document.getElementById('tipArea').style.display='none';
-}
-
-function handleConfirm(){
-  if(isConfirmed)return;
-  if(!apiKey){
-    showStatus('密钥信息缺失，无法发放','err');
-    return;
-  }
-
-  // 第一次点击：进入倒计时
-  if(countdownTimer===null){
-    countdownLeft=10;
-    var btn=document.getElementById('confirmBtn');
-    btn.className='btn btn-confirm countdown';
-    btn.textContent='再次点击确认发放 ('+countdownLeft+'秒)';
-    showStatus('即将向客户 '+phone+' 发放密钥，如误点请在倒计时内取消','warn');
-    countdownTimer=setInterval(function(){
-      countdownLeft--;
-      if(countdownLeft<=0){
-        clearInterval(countdownTimer);
-        countdownTimer=null;
-        resetButton();
-        showStatus('倒计时已结束，请重新点击确认','err');
-        setTimeout(function(){document.getElementById('statusBox').style.display='none'},3000);
-      }else{
-        document.getElementById('confirmBtn').textContent='再次点击确认发放 ('+countdownLeft+'秒)';
-      }
-    },1000);
-    return;
-  }
-
-  // 第二次点击：确认发放
-  clearInterval(countdownTimer);
-  countdownTimer=null;
-  doConfirm();
-}
-
-function resetButton(){
-  var btn=document.getElementById('confirmBtn');
-  btn.className='btn btn-confirm';
-  btn.textContent='确认到款，发放密钥';
-}
-
-function doConfirm(){
-  // 更新localStorage
-  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  for(var i=0;i<orders.length;i++){
-    if(orders[i].oid===orderId){
-      orders[i].status='delivered';
-      orders[i].deliveredAt=new Date().toISOString();
-      orders[i].confirmTime=Date.now();
-      break;
-    }
-  }
-  localStorage.setItem('sh_orders',JSON.stringify(orders));
-
-  isConfirmed=true;
-
-  // 显示密钥
-  document.getElementById('keyBox').className='key-box revealed-key';
-  document.getElementById('copyBtn').style.display='inline-block';
-
-  // 更新按钮
-  var btn=document.getElementById('confirmBtn');
-  btn.disabled=true;
-  btn.textContent='已发放';
-
-  // 显示成功提示
-  showStatus('密钥已发放！请将本页面链接转发给客户','ok');
-
-  // 显示转发提示
-  document.getElementById('forwardHint').style.display='block';
-  document.getElementById('tipArea').style.display='none';
-
-  // 更新订单信息
-  document.getElementById('orderInfo').innerHTML=
-    '<div><span class="label">订单号：</span><span class="highlight">'+orderId+'</span></div>'+
-    '<div><span class="label">客户手机：</span><span class="val">'+phone+'</span></div>'+
-    '<div><span class="label">下单时间：</span><span class="val">'+timeStr+'</span></div>'+
-    '<div><span class="label">发放时间：</span><span class="val" style="color:#10b981">'+new Date().toLocaleString()+'</span></div>'+
-    '<div><span class="label">状态：</span><span class="val" style="color:#10b981">已发放</span></div>';
-
-  loadHistory();
-}
-
-function showStatus(msg,type){
-  var el=document.getElementById('statusBox');
-  el.className='status '+type;
-  el.innerHTML=msg;
-}
-
-function copyKey(){
-  var text=apiKey||document.getElementById('keyValue').textContent;
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(text).then(function(){
-      document.getElementById('copyBtn').textContent='已复制';
-      setTimeout(function(){document.getElementById('copyBtn').textContent='复制密钥'},2000);
-    });
-  }else{
-    var inp=document.createElement('textarea');
-    inp.value=text;document.body.appendChild(inp);inp.select();document.execCommand('copy');
-    document.body.removeChild(inp);
-    document.getElementById('copyBtn').textContent='已复制';
-    setTimeout(function(){document.getElementById('copyBtn').textContent='复制密钥'},2000);
-  }
-}
-
-function copyPageLink(){
-  var url=location.href;
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(url).then(function(){alert('链接已复制，转发给客户即可')});
-  }else{
-    var inp=document.createElement('textarea');
-    inp.value=url;document.body.appendChild(inp);inp.select();document.execCommand('copy');
-    document.body.removeChild(inp);alert('链接已复制，转发给客户即可');
-  }
-}
-
-function loadHistory(){
-  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  var delivered=orders.filter(function(o){return o.status==='delivered'});
-  if(delivered.length>0){
-    document.getElementById('historySec').style.display='block';
-    var h='';
-    delivered.slice(-5).reverse().forEach(function(o){
-      h+='<div class="history-item"><span class="done">✓</span> '+o.oid+' | '+o.phone+' | '+(o.deliveredAt?new Date(o.deliveredAt).toLocaleDateString():'')+'</div>';
-    });
-    document.getElementById('historyList').innerHTML=h;
-  }
-}
-
-init();
-</script>
+        setInterval(() => { if (localStorage.getItem('geo_admin_logged') === 'true') loadOrders(); }, 30000);
+    </script>
 </body>
 </html>
