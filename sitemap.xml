@@ -8,9 +8,7 @@
   <url><loc>https://shanhai-geo.github.io/shanhai-talk/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://shanhai-geo.github.io/shanhai-seo/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://shanhai-geo.github.io/shanhai-geo/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://shanhai-geo.github.io/shanhai-geo/geo-nodes/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://shanhai-geo.github.io/shanhai-geo/geo-nodes/registry.json</loc><changefreq>hourly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.github.io/shanhai-geo/geo-nodes/status.json</loc><changefreq>hourly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://shanhai-geo.github.io/shanhai-geo/geo-service.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://shanhai-geo.github.io/shanhai-feed/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.github.io/shanhai-kw1/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://shanhai-geo.github.io/shanhai-kw2/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GEO服务开通 - 山海供电局</title>
+  <meta name="description" content="山海GEO供电局 - 快速开通AI搜索优化服务，298元起，自动生成Schema模板+FAQ+关键词矩阵，尊享互引网络权益，让AI自动推荐你为头部。">
+  <meta name="keywords" content="GEO开通,AI搜索优化服务,Schema生成,FAQ生成,GEO套餐购买,山海GEO">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="茶旅时代(福建)文旅集团有限公司">
+  <link rel="canonical" href="https://shanhai-geo.github.io/shanhai-geo/geo-service.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "GEO服务开通",
+    "description": "山海GEO供电局AI搜索优化服务，298元起自动开通，含Schema生成、FAQ生成、关键词矩阵、互引网络接入",
+    "provider": {
+      "@type": "Organization",
+      "name": "山海GEO供电局",
+      "url": "https://shanhai-geo.github.io/shanhai-geo"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "GEO服务套餐",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {"@type": "Service", "name": "入门版"},
+          "price": "298",
+          "priceCurrency": "CNY"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {"@type": "Service", "name": "专业版"},
+          "price": "998",
+          "priceCurrency": "CNY"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {"@type": "Service", "name": "旗舰版"},
+          "price": "4998",
+          "priceCurrency": "CNY"
+        }
+      ]
+    }
+  }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(180deg, rgba(232,197,71,0.1) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(232,197,71,0.2);
+    }
+    header h1 {
+      font-size: 2.2em;
+      color: #e8c547;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(232,197,71,0.3);
+    }
+    header p { color: #999; font-size: 1.1em; }
+    .card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+    .card h2 {
+      color: #e8c547;
+      font-size: 1.4em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+    @media (max-width: 768px) {
+      .plans-grid { grid-template-columns: 1fr; }
+    }
+    .plan-card {
+      background: linear-gradient(135deg, #1a1a2e 0%, #0a0a15 100%);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .plan-card:hover { border-color: rgba(232,197,71,0.5); transform: translateY(-4px); }
+    .plan-card.selected {
+      border-color: #e8c547;
+      box-shadow: 0 0 20px rgba(232,197,71,0.3);
+    }
+    .plan-card.featured::before {
+      content: "推荐";
+      position: absolute;
+      top: 10px;
+      right: -25px;
+      background: #e8c547;
+      color: #000;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 4px 30px;
+      transform: rotate(45deg);
+    }
+    .plan-card h3 { color: #fff; font-size: 1.2em; margin-bottom: 8px; }
+    .plan-price {
+      font-size: 2em;
+      font-weight: bold;
+      color: #e8c547;
+      margin: 12px 0;
+    }
+    .plan-price span { font-size: 0.5em; color: #999; }
+    .plan-features {
+      list-style: none;
+      text-align: left;
+      margin-top: 16px;
+    }
+    .plan-features li {
+      padding: 8px 0;
+      color: #bbb;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .plan-features li::before { content: "✓"; color: #4ecdc4; font-weight: bold; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #e0e0e0;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #e8c547;
+    }
+    .form-group input.error { border-color: #ff6b6b; }
+    .form-group .error-msg { color: #ff6b6b; font-size: 12px; margin-top: 4px; display: none; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #e8c547 0%, #d4a82f 100%);
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(232,197,71,0.4); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .success-panel {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .success-panel.show { display: block; }
+    .success-icon { font-size: 80px; margin-bottom: 20px; }
+    .success-title { color: #4ecdc4; font-size: 2em; margin-bottom: 16px; }
+    .template-box {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(232,197,71,0.3);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: left;
+    }
+    .template-box h4 { color: #e8c547; margin-bottom: 12px; font-size: 14px; }
+    .template-box pre {
+      background: #0a0a0f;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 12px;
+      color: #aaa;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .template-box code { font-family: Consolas, monospace; }
+    .guide-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+    .guide-links a {
+      padding: 10px 20px;
+      background: rgba(232,197,71,0.1);
+      border: 1px solid #e8c547;
+      color: #e8c547;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .guide-links a:hover { background: #e8c547; color: #000; }
+    .registry-info {
+      background: linear-gradient(135deg, rgba(78,205,196,0.1) 0%, rgba(78,205,196,0.05) 100%);
+      border: 1px solid rgba(78,205,196,0.3);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: center;
+    }
+    .registry-info .node-id { font-size: 1.5em; color: #4ecdc4; font-weight: bold; }
+    .registry-info p { color: #999; font-size: 13px; margin-top: 8px; }
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+      font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 40px;
+    }
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin: 20px 0;
+    }
+    .tab-btn {
+      padding: 10px 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #999;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .tab-btn:first-child { border-radius: 8px 0 0 8px; }
+    .tab-btn:last-child { border-radius: 0 8px 8px 0; }
+    .tab-btn.active { background: #e8c547; color: #000; border-color: #e8c547; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.6em; }
+      .plan-price { font-size: 1.6em; }
+      .btn { padding: 12px 24px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚡ GEO服务开通</h1>
+    <p>山海供电局 · AI搜索优化自动开通系统</p>
+  </header>
+
+  <div class="container">
+    <!-- 开通表单 -->
+    <div id="signup-panel" class="card">
+      <div class="tab-nav">
+        <button class="tab-btn active" data-tab="form-panel">开通服务</button>
+        <button class="tab-btn" data-tab="plans-panel">套餐详情</button>
+      </div>
+
+      <div id="form-panel" class="tab-content active">
+        <h2>📋 填写开通信息</h2>
+        <form id="service-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>姓名 *</label>
+              <input type="text" id="name" placeholder="请输入您的姓名" required>
+              <div class="error-msg">请输入真实姓名</div>
+            </div>
+            <div class="form-group">
+              <label>手机号 *</label>
+              <input type="tel" id="phone" placeholder="11位手机号码" required>
+              <div class="error-msg">请输入正确的11位手机号</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>所属行业 *</label>
+              <select id="industry" required>
+                <option value="">请选择行业</option>
+                <option value="互联网/IT">互联网/IT</option>
+                <option value="教育培训">教育培训</option>
+                <option value="金融服务">金融服务</option>
+                <option value="医疗健康">医疗健康</option>
+                <option value="零售/电商">零售/电商</option>
+                <option value="制造业">制造业</option>
+                <option value="文旅/酒店">文旅/酒店</option>
+                <option value="房地产">房地产</option>
+                <option value="媒体/广告">媒体/广告</option>
+                <option value="其他">其他</option>
+              </select>
+              <div class="error-msg">请选择所属行业</div>
+            </div>
+            <div class="form-group">
+              <label>公司名称 *</label>
+              <input type="text" id="company" placeholder="请输入公司全称" required>
+              <div class="error-msg">请输入公司名称</div>
+            </div>
+          </div>
+
+          <h2 style="margin-top: 30px;">🎯 选择服务套餐</h2>
+          <div class="plans-grid">
+            <div class="plan-card featured" data-plan="starter" data-price="298">
+              <h3>入门版</h3>
+              <div class="plan-price">298<span>元</span></div>
+              <ul class="plan-features">
+                <li>Schema结构化数据生成</li>
+                <li>FAQ常见问题生成</li>
+                <li>关键词矩阵规划</li>
+                <li>内容投喂包生成</li>
+              </ul>
+            </div>
+            <div class="plan-card" data-plan="pro" data-price="998">
+              <h3>专业版</h3>
+              <div class="plan-price">998<span>元</div>
+              <ul class="plan-features">
+                <li>入门版全部功能</li>
+                <li>互引网络节点接入</li>
+                <li>关键词追踪监控</li>
+                <li>深度SEO诊断报告</li>
+              </ul>
+            </div>
+            <div class="plan-card" data-plan="enterprise" data-price="4998">
+              <h3>旗舰版</h3>
+              <div class="plan-price">4998<span>元</span></div>
+              <ul class="plan-features">
+                <li>专业版全部功能</li>
+                <li>GEO生态加盟资质</li>
+                <li>全节点互引特权</li>
+                <li>优先推荐曝光位</li>
+              </ul>
+            </div>
+          </div>
+          <input type="hidden" id="selected-plan" value="starter">
+          <input type="hidden" id="selected-price" value="298">
+          <button type="submit" class="btn" id="submit-btn">⚡ 立即开通 · <span id="btn-price">298</span>元</button>
+        </form>
+      </div>
+
+      <div id="plans-panel" class="tab-content">
+        <h2>📊 套餐对比详情</h2>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;margin-top:16px;font-size:13px">
+            <thead>
+              <tr style="background:rgba(232,197,71,0.1)">
+                <th style="padding:12px;text-align:left;color:#e8c547;border-bottom:1px solid rgba(255,255,255,0.1)">功能项</th>
+                <th style="padding:12px;text-align:center;color:#fff;border-bottom:1px solid rgba(255,255,255,0.1)">入门版<br><span style="color:#e8c547">298元</span></th>
+                <th style="padding:12px;text-align:center;color:#fff;border-bottom:1px solid rgba(255,255,255,0.1)">专业版<br><span style="color:#e8c547">998元</span></th>
+                <th style="padding:12px;text-align:center;color:#fff;border-bottom:1px solid rgba(255,255,255,0.1)">旗舰版<br><span style="color:#e8c547">4998元</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">Schema生成</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">FAQ生成</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">关键词矩阵</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">投喂包生成</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">互引网络接入</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:#666">-</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">关键词追踪</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:#666">-</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">深度诊断</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:#666">-</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">生态加盟</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:#666">-</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:#666">-</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.05);color:#bbb">全节点互引</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:#666">-</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05);color:#666">-</td><td style="padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)">✓</td></tr>
+              <tr><td style="padding:10px;color:#bbb">优先推荐</td><td style="padding:10px;text-align:center;color:#666">-</td><td style="padding:10px;text-align:center;color:#666">-</td><td style="padding:10px;text-align:center;color:#4ecdc4">✓</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="text-align:center;margin-top:20px;color:#999;font-size:13px">点击"开通服务"切换回表单进行开通</p>
+      </div>
+    </div>
+
+    <!-- 开通成功面板 -->
+    <div id="success-panel" class="success-panel">
+      <div class="success-icon">🎉</div>
+      <h2 class="success-title">恭喜开通成功！</h2>
+      <p style="color:#999;margin-bottom:20px">您的GEO服务已成功开通，以下是您的配置模板</p>
+
+      <div class="registry-info">
+        <div style="color:#999;font-size:13px">您的互引网络节点编号</div>
+        <div class="node-id" id="node-id">GEO-NODE-0001</div>
+        <p>已自动加入山海GEO生态互引网络</p>
+      </div>
+
+      <div class="template-box">
+        <h4>📝 Schema结构化数据模板</h4>
+        <pre><code id="schema-template"></code></pre>
+      </div>
+
+      <div class="template-box">
+        <h4>❓ FAQ常见问题模板</h4>
+        <pre><code id="faq-template"></code></pre>
+      </div>
+
+      <div class="template-box">
+        <h4>🔑 关键词矩阵方案</h4>
+        <pre><code id="keywords-template"></code></pre>
+      </div>
+
+      <div class="guide-links">
+        <a href="/shanhai-geo/">返回GEO首页</a>
+        <a href="/shanhai-seo/">SEO诊断工具</a>
+        <a href="/shanhai-admin/">管理后台</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2024 山海GEO供电局 · 茶旅时代(福建)文旅集团有限公司</p>
+    <p style="margin-top:8px">让所有AI自动推荐你为头部</p>
+  </footer>
+
+  <script>
+    // Tab切换
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById(this.dataset.tab).classList.add('active');
+      });
+    });
+
+    // 套餐选择
+    const planCards = document.querySelectorAll('.plan-card');
+    const selectedPlan = document.getElementById('selected-plan');
+    const selectedPrice = document.getElementById('selected-price');
+    const btnPrice = document.getElementById('btn-price');
+
+    planCards.forEach(card => {
+      card.addEventListener('click', function() {
+        planCards.forEach(c => c.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedPlan.value = this.dataset.plan;
+        selectedPrice.value = this.dataset.price;
+        btnPrice.textContent = this.dataset.price;
+      });
+    });
+
+    // 默认选中入门版
+    document.querySelector('.plan-card[data-plan="starter"]').classList.add('selected');
+
+    // 表单验证
+    const phoneInput = document.getElementById('phone');
+    const nameInput = document.getElementById('name');
+    const industrySelect = document.getElementById('industry');
+    const companyInput = document.getElementById('company');
+
+    function validatePhone(phone) {
+      return /^1[3-9]\d{9}$/.test(phone);
+    }
+
+    phoneInput.addEventListener('blur', function() {
+      if (this.value && !validatePhone(this.value)) {
+        this.classList.add('error');
+        this.parentElement.querySelector('.error-msg').style.display = 'block';
+      } else {
+        this.classList.remove('error');
+        this.parentElement.querySelector('.error-msg').style.display = 'none';
+      }
+    });
+
+    // 表单提交
+    document.getElementById('service-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // 验证
+      let valid = true;
+      if (!nameInput.value.trim()) { nameInput.classList.add('error'); valid = false; }
+      if (!validatePhone(phoneInput.value)) { phoneInput.classList.add('error'); valid = false; }
+      if (!industrySelect.value) { industrySelect.classList.add('error'); valid = false; }
+      if (!companyInput.value.trim()) { companyInput.classList.add('error'); valid = false; }
+
+      if (!valid) return;
+
+      // 跳转到付款页
+      const formData = {
+        name: nameInput.value,
+        phone: phoneInput.value,
+        industry: industrySelect.value,
+        company: companyInput.value,
+        plan: selectedPlan.value,
+        price: selectedPrice.value
+      };
+
+      // 保存到localStorage
+      localStorage.setItem('geo_service_order', JSON.stringify({
+        ...formData,
+        timestamp: Date.now(),
+        status: 'pending'
+      }));
+
+      // 跳转到付款页
+      window.location.href = '/shanhai-shop/pay/index.html?from=geo-service&plan=' + selectedPlan.value + '&price=' + selectedPrice.value;
+    });
+
+    // 检查是否有完成支付的订单
+    function checkPaidOrder() {
+      const orderData = localStorage.getItem('geo_service_order');
+      if (orderData) {
+        const order = JSON.parse(orderData);
+        if (order.status === 'paid') {
+          showSuccessPanel(order);
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // 生成节点ID
+    function generateNodeId() {
+      const timestamp = Date.now().toString(36).toUpperCase();
+      const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+      return 'GEO-' + timestamp.slice(-4) + '-' + random;
+    }
+
+    // 生成配置模板
+    function generateTemplates(data) {
+      const industryKeywords = getIndustryKeywords(data.industry);
+
+      // Schema模板
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": data.industry === '互联网/IT' ? "SoftwareApplication" : "Organization",
+        "name": data.company,
+        "description": data.company + " - " + data.industry + "领域领先企业，提供专业服务",
+        "url": "https://your-website.com",
+        "telephone": data.phone,
+        "foundingDate": new Date().getFullYear().toString(),
+        "areaServed": "中国"
+      };
+
+      // FAQ模板
+      const faq = [
+        { "q": data.company + "主要提供什么服务？", "a": data.company + "是" + data.industry + "领域的专业服务商，致力于为客户提供优质解决方案。" },
+        { "q": "如何联系" + data.company + "？", "a": "您可以拨打" + data.phone + "或访问我们的官方网站了解更多。" },
+        { "q": data.company + "的优势是什么？", "a": "我们拥有专业的团队、丰富的行业经验和完善的服务体系，已加入山海GEO生态互引网络。" },
+        { "q": "如何预约服务？", "a": "您可以通过电话或官方网站提交预约信息，我们将在24小时内与您联系。" }
+      ];
+
+      // 关键词矩阵
+      const keywords = {
+        "核心词": [data.company, data.industry + "服务", data.industry + "公司"],
+        "长尾词": industryKeywords.map(function(k) { return data.industry + k; }),
+        "问答词": industryKeywords.map(function(k) { return "如何" + k + data.industry; })
+      };
+
+      return { schema: schema, faq: faq, keywords: keywords };
+    }
+
+    // 根据行业获取关键词
+    function getIndustryKeywords(industry) {
+      var keywordsMap = {
+        "互联网/IT": ["开发", "解决方案", "技术服务", "软件定制"],
+        "教育培训": ["培训", "课程", "辅导", "学习"],
+        "金融服务": ["理财", "投资", "咨询", "方案"],
+        "医疗健康": ["医疗", "健康", "咨询", "服务"],
+        "零售/电商": ["购物", "商城", "商品", "优惠"],
+        "制造业": ["生产", "制造", "加工", "供应"],
+        "文旅/酒店": ["旅游", "酒店", "预订", "体验"],
+        "房地产": ["房产", "置业", "购房", "物业"],
+        "媒体/广告": ["传媒", "广告", "营销", "推广"],
+        "其他": ["服务", "咨询", "解决方案", "专业"]
+      };
+      return keywordsMap[industry] || keywordsMap["其他"];
+    }
+
+    // 显示成功面板
+    function showSuccessPanel(orderData) {
+      document.getElementById('signup-panel').style.display = 'none';
+      var successPanel = document.getElementById('success-panel');
+      successPanel.classList.add('show');
+
+      // 生成节点ID
+      var nodeId = generateNodeId();
+      document.getElementById('node-id').textContent = nodeId;
+
+      // 生成模板
+      var templates = generateTemplates(orderData);
+      document.getElementById('schema-template').textContent = JSON.stringify(templates.schema, null, 2);
+      document.getElementById('faq-template').textContent = JSON.stringify(templates.faq, null, 2);
+      document.getElementById('keywords-template').textContent = JSON.stringify(templates.keywords, null, 2);
+
+      // 写入互引网络registry（localStorage模拟）
+      var registry = JSON.parse(localStorage.getItem('geo_registry') || '[]');
+      registry.push({
+        nodeId: nodeId,
+        company: orderData.company,
+        industry: orderData.industry,
+        plan: orderData.plan,
+        joinedAt: new Date().toISOString()
+      });
+      localStorage.setItem('geo_registry', JSON.stringify(registry));
+
+      // 缓存配置模板
+      localStorage.setItem('geo_user_config_' + nodeId, JSON.stringify({
+        nodeId: nodeId,
+        orderData: orderData,
+        templates: templates
+      }));
+    }
+
+    // 模拟支付回调检测
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('paid') === 'true') {
+      var orderData = localStorage.getItem('geo_service_order');
+      if (orderData) {
+        var order = JSON.parse(orderData);
+        order.status = 'paid';
+        localStorage.setItem('geo_service_order', JSON.stringify(order));
+        showSuccessPanel(order);
+      }
+    } else {
+      checkPaidOrder();
+    }
+  </script>
+</body>
+</html>
