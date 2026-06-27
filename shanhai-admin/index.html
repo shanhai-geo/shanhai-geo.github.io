@@ -866,7 +866,7 @@ function resetInactivity(){SESSION.lastActive=Date.now()}
 function doPinAction(btn){
   if(doPinAction._lock) return;
   doPinAction._lock=true;
-  setTimeout(function(){doPinAction._lock=false},100);
+  setTimeout(function(){doPinAction._lock=false},50);
   try{
     btn.classList.add('pressed');
     setTimeout(function(){btn.classList.remove('pressed')},80);
@@ -1094,7 +1094,7 @@ function setupPin(){/* placeholder */}
     e.preventDefault();
     handled=true;
     doPinAction(btn);
-    setTimeout(function(){handled=false},100);
+    setTimeout(function(){handled=false},50);
   },{passive:false});
   pad.addEventListener('click',function(e){
     var btn=e.target.closest('.pin-btn');
