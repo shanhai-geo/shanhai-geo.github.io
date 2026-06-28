@@ -732,6 +732,121 @@ async function smartRoute(messages, context = {}) {
   return { error: '所有端口均不可用' };
 }
 
+// ============================================
+// 自进化引擎 (Self-Evolution Engine)
+// ============================================
+/**
+ * 分析端口表现，生成优化建议
+ * 淘汰低效端口，推荐高效组合
+ */
+
+function analyzeEvolution() {
+  const analysis = {
+    timestamp: new Date().toISOString(),
+    portPerformance: {},
+    recommendations: [],
+    overallHealth: 'unknown'
+  };
+  
+  // 端口表现分析
+  Object.keys(PORTS).forEach(portId => {
+    const portExecs = growthData.executions.filter(e => e.port === portId);
+    if (portExecs.length === 0) {
+      analysis.portPerformance[portId] = { status: 'no_data' };
+      return;
+    }
+    
+    const successes = portExecs.filter(e => e.success);
+    const successRate = successes.length / portExecs.length;
+    const avgResponseTime = portExecs.reduce((sum, e) => sum + e.responseTime, 0) / portExecs.length;
+    const recentExecs = portExecs.slice(-10);
+    const recentSuccessRate = recentExecs.filter(e => e.success).length / recentExecs.length;
+    
+    analysis.portPerformance[portId] = {
+      totalExecutions: portExecs.length,
+      successRate: (successRate * 100).toFixed(1) + '%',
+      avgResponseTime: avgResponseTime.toFixed(0) + 'ms',
+      recentSuccessRate: (recentSuccessRate * 100).toFixed(1) + '%',
+      trend: recentSuccessRate > successRate ? 'improving' : recentSuccessRate < successRate ? 'declining' : 'stable'
+    };
+    
+    // 生成淘汰建议
+    if (successRate < 0.5 && portExecs.length >= 5) {
+      analysis.recommendations.push({
+        type: 'disable_port',
+        port: portId,
+        portName: PORTS[portId].name,
+        reason: `成功率过低 (${(successRate * 100).toFixed(1)}%, ${portExecs.length}次执行)`,
+        severity: 'high'
+      });
+    }
+    if (avgResponseTime > 10000 && portExecs.length >= 3) {
+      analysis.recommendations.push({
+        type: 'optimize_port',
+        port: portId,
+        portName: PORTS[portId].name,
+        reason: `响应时间过长 (${avgResponseTime.toFixed(0)}ms)`,
+        severity: 'medium'
+      });
+    }
+  });
+  
+  // 整体健康评估
+  const allSuccessRates = Object.values(analysis.portPerformance)
+    .filter(p => p.successRate && p.totalExecutions >= 3)
+    .map(p => parseFloat(p.successRate));
+  
+  if (allSuccessRates.length > 0) {
+    const avgHealth = allSuccessRates.reduce((a, b) => a + b, 0) / allSuccessRates.length;
+    analysis.overallHealth = avgHealth >= 90 ? 'excellent' : avgHealth >= 70 ? 'good' : avgHealth >= 50 ? 'degraded' : 'critical';
+  }
+  
+  return analysis;
+}
+
+// ============================================
+// 健康巡检 (Health Check)
+// ============================================
+/**
+ * 全面检查系统健康状态
+ * 包括端口状态、熔断器、黑名单、增长指标
+ */
+
+async function healthCheck() {
+  const report = {
+    timestamp: new Date().toISOString(),
+    ports: {},
+    overall: 'healthy',
+    growthMetrics: growthData.getMetrics(),
+    evolutionAnalysis: analyzeEvolution()
+  };
+  
+  for (const [portId, port] of Object.entries(PORTS)) {
+    if (!port.enabled || port.type === 'reserved' || port.type === 'destroyed') {
+      report.ports[portId] = { status: port.type === 'destroyed' ? 'destroyed' : 'disabled', name: port.name };
+      continue;
+    }
+    
+    // 检查熔断器状态
+    const breakerTripped = !circuitBreakers.isAvailable(portId);
+    const isBlacklisted = blacklist.has(portId);
+    
+    report.ports[portId] = {
+      name: port.name,
+      status: isBlacklisted ? 'blacklisted' : breakerTripped ? 'circuit_broken' : 'active',
+      circuitBreakerFailures: circuitBreakers.failures.get(portId)?.count || 0,
+      lastCheck: new Date().toISOString()
+    };
+    
+    if (isBlacklisted || breakerTripped) {
+      report.overall = 'degraded';
+    }
+  }
+  
+  return report;
+}
+
+
 // 鉴权
 function verifyAdmin(req) {
   const adminKey = process.env.ADMIN_KEY;
