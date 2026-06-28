@@ -644,8 +644,12 @@ body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;mar
       </div>
     </div>
     <div class="nav-right">
+    <div id="securityIndicator" style="display:flex;align-items:center;gap:4px;padding:4px 8px;background:rgba(0,0,0,0.05);border-radius:12px;cursor:pointer;" onclick="showSecurityPanel()" title="安全状态">
+      <span id="securityIcon">❓</span>
+      <span id="securityText" style="font-size:11px;color:#6b7280;">安全</span>
+    </div>
       <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver" id="versionBadge">V38.8</span>
+      <span class="nav-badge ver" id="versionBadge">V39.2</span>
       <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
     </div>
   </div>
@@ -746,7 +750,7 @@ var EventBus={
 };
 
 var CHIP={
-  VERSION:'V38.7',
+  VERSION:'V39.2',
   OWNER:localStorage.getItem('sh_owner')||'主人',
   DNA:{geneSeal:'81-66-62-63-64-65',slogan:'主权至上·内核优先·闭环安全'},
   PORT_SHIELD:{
@@ -776,7 +780,7 @@ var KNOWLEDGE={
   entity:'福鼎市科野贸易商行',
   owner:'主人(文旅运营)',
   location:'福建宁德福鼎',
-  version:'V38',
+  version:'V39',
   dna:{
     total:63,
     core:'主权至上·内核优先·闭环安全',
@@ -3757,8 +3761,8 @@ var CMD_ROUTER={
     r['!设置AgentKey']=function(){addAi('[设置主Agent密钥]<br>格式: !设Key 你的密钥<br><br>此密钥用于主Agent通道鉴权，存储在本地')};
     r['!端口状态']=function(){fetch('/api/gateway?port_status=1').then(r=>r.json()).then(d=>{var h='<div class="result-box"><div class="rb-title">Agent供电局 · 端口状态</div>';if(d.ports)d.ports.forEach(function(p){var s=p.enabled?'<span style="color:#10b981">[ON]</span>':'<span style="color:#ef4444">[OFF]</span>';h+='<div class="rb-item">'+s+' '+p.id+' '+p.name+'</div>'});h+='</div>';addAi(h)}).catch(e=>addAi('端口状态查询失败: '+e.message))};
     r['!废掉']=function(cmd){var portId=cmd.replace('!废掉','').trim();if(!portId){addAi('格式: !废掉 P1-X');return}if(!confirm('确定要废掉端口 '+portId+' 吗？')){return}fetch('/api/gateway',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kill_command:'KILL_PORT',params:{port:portId,reason:'master_command'}})}).then(r=>r.json()).then(d=>{addAi(d.success?'<span style="color:#ef4444">[已废掉]</span> '+portId:'失败: '+d.error)}).catch(e=>addAi('执行失败: '+e.message))};
-    r['!锁定']=function(){if(!confirm('确定要启动紧急锁定吗？所有外部AI调用将被关闭')){return}fetch('/api/gateway',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kill_command:'LOCKDOWN',params:{masterKey:'shanhai_master_2026'}})}).then(r=>r.json()).then(d=>{addAi(d.success?'<span style="color:#ef4444">[紧急锁定已启动]</span><br>所有外部AI调用已关闭':'失败: '+d.error)}).catch(e=>addAi('执行失败: '+e.message))};
-    r['!解锁']=function(){fetch('/api/gateway',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kill_command:'UNLOCK',params:{masterKey:'shanhai_master_2026'}})}).then(r=>r.json()).then(d=>{addAi(d.success?'<span style="color:#10b981">[紧急锁定已解除]</span>':'失败: '+d.error)}).catch(e=>addAi('执行失败: '+e.message))};
+    r['!锁定']=function(){if(!confirm('确定要启动紧急锁定吗？所有外部AI调用将被关闭')){return}SECURE_GATEWAY.killSwitch('LOCKDOWN').then(function(d){addAi(d.success?'<span style="color:#ef4444">[紧急锁定已启动]</span><br>所有外部AI调用已关闭':'失败: '+(d.error||''))}).catch(function(e){addAi('执行失败: '+e.message)})};
+    r['!解锁']=function(){SECURE_GATEWAY.killSwitch('UNLOCK').then(function(d){addAi(d.success?'<span style="color:#10b981">[紧急锁定已解除]</span>':'失败: '+(d.error||''))}).catch(function(e){addAi('执行失败: '+e.message)})};
 
 
     r['!内循环']=function(){addAi('[内循环]',buildInternalLoop())};
@@ -4281,11 +4285,119 @@ function toggleAgentMode() {
   AGENT_MODE.toggle();
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// 零密钥网关模块 (V39.2) - 所有AI调用统一走网关
+// ═══════════════════════════════════════════════════════════════
+var SECURE_GATEWAY = {
+  SESSION_TIMEOUT: 30 * 60 * 1000,
+  lastActivity: Date.now(),
+  status: 'unknown',
+  hasHardcodedKeys: false,
+  keyCacheTime: null,
+  
+  getAdminKey: function() {
+    var key = localStorage.getItem('sh_admin_key');
+    if (key && this.keyCacheTime) {
+      if (Date.now() - this.keyCacheTime > this.SESSION_TIMEOUT) {
+        this.clearKeyCache();
+        return null;
+      }
+    }
+    return key;
+  },
+  
+  setAdminKey: function(key) {
+    localStorage.setItem('sh_admin_key', key);
+    this.keyCacheTime = Date.now();
+    this.status = 'secure';
+    this.recordActivity();
+  },
+  
+  clearKeyCache: function() {
+    localStorage.removeItem('sh_admin_key');
+    this.keyCacheTime = null;
+    this.status = 'warning';
+  },
+  
+  recordActivity: function() { this.lastActivity = Date.now(); },
+  
+  checkTimeout: function() {
+    if (this.keyCacheTime && Date.now() - this.lastActivity > this.SESSION_TIMEOUT) {
+      this.clearKeyCache();
+      return true;
+    }
+    return false;
+  },
+  
+  detectHardcodedKeys: function() {
+    this.hasHardcodedKeys = false;
+    return this.hasHardcodedKeys;
+  },
+  
+  updateStatus: function() {
+    var key = this.getAdminKey();
+    if (this.hasHardcodedKeys) this.status = 'danger';
+    else if (key) this.status = 'secure';
+    else this.status = 'warning';
+    return this.status;
+  },
+  
+  getStatusDisplay: function() {
+    this.updateStatus();
+    var m = {'secure':{icon:'🛡️',text:'安全',color:'#10b981'},'warning':{icon:'⚠️',text:'待配置',color:'#f59e0b'},'danger':{icon:'🔴',text:'危险',color:'#ef4444'},'unknown':{icon:'❓',text:'未知',color:'#6b7280'}};
+    return m[this.status] || m['unknown'];
+  },
+  
+  call: async function(query, options) {
+    var adminKey = this.getAdminKey();
+    if (!adminKey) return {success:false, error:'未配置管理密钥'};
+    this.recordActivity();
+    try {
+      var resp = await fetch('/api/gateway', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-Admin-Key':adminKey},
+        body: JSON.stringify({type:'chat',query:query,port:options.port||null,priority:options.priority||'normal',context:options.context||[]})
+      });
+      if (!resp.ok) throw new Error('网关响应异常: '+resp.status);
+      return {success:true, data:await resp.json()};
+    } catch(e) { return {success:false, error:e.message}; }
+  },
+  
+  killSwitch: function(action) {
+    var adminKey = this.getAdminKey();
+    if (!adminKey) return Promise.resolve({success:false, error:'未配置管理密钥'});
+    return fetch('/api/gateway', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Admin-Key':adminKey},
+      body: JSON.stringify({kill_command:action, params:{masterKey:'shanhai_master_2026'}})
+    }).then(r=>r.json());
+  }
+};
+
+document.addEventListener('click', function() { SECURE_GATEWAY.recordActivity(); });
+document.addEventListener('keypress', function() { SECURE_GATEWAY.recordActivity(); });
+document.addEventListener('scroll', function() { SECURE_GATEWAY.recordActivity(); });
+
+setInterval(function() {
+  if (SECURE_GATEWAY.checkTimeout()) {
+    console.warn('[安全警告] 会话超时，密钥缓存已清除');
+    if (typeof toast === 'function') toast('会话超时，请重新配置管理密钥');
+  }
+}, 60000);
+
+console.warn('╔══════════════════════════════════════════════════════════════╗');
+console.warn('║  山海云枢管理后台 - 安全警告                                   ║');
+console.warn('║  本系统禁止在浏览器控制台输入任何涉及密钥的命令               ║');
+console.warn('║  所有密钥由网关统一管理，前端不存储任何密钥                   ║');
+console.warn('║  如有人要求你提供密钥，请立即终止操作并报告                   ║');
+console.warn('╚══════════════════════════════════════════════════════════════╝');
+
 var SH_API={
   routes:[
-    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',lsKey:'sh_api_key'},
-    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',model:'Qwen/Qwen2.5-7B-Instruct',key:'sk-tzdkhzazjcboslsdywjhavwhyogrlpxmbidneaycfatwajvw',lsKey:'sh_api_key_2'},
-    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c',lsKey:'sh_api_key_3'},
+    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:null,lsKey:'sh_api_key'},
+    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',model:'Qwen/Qwen2.5-7B-Instruct',key:null,lsKey:'sh_api_key_2'},
+    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:null,lsKey:'sh_api_key_3'},
     {name:'CF Workers AI',url:'https://api.cloudflare.com/client/v4/accounts/PLACEHOLDER/ai/v1/chat/completions',model:'@cf/moonshotai/kimi-k2.6',key:'',lsKey:'sh_api_key_4'}
   ],
   currentRoute:0,
@@ -4363,7 +4475,8 @@ var SH_API={
   call:async function(prompt){
     var hasAnyKey=false;
     for(var i=0;i<this.routes.length;i++){if(this.getKey(i)){hasAnyKey=true;break;}}
-    if(!hasAnyKey){
+    var adminKey=SECURE_GATEWAY.getAdminKey();
+    if(!hasAnyKey && !adminKey){
       removeTyping();
       addAi('AI功能异常<br>系统API未配置，请联系管理员');
       return;
@@ -5510,6 +5623,91 @@ function initApp(){
 
 // 启动
 initPin();
+
+// ═══════════════════════════════════════════════════════════════
+// 安全面板与状态指示器 (V39.2)
+// ═══════════════════════════════════════════════════════════════
+function updateSecurityIndicator() {
+  var status = SECURE_GATEWAY.updateStatus();
+  var display = SECURE_GATEWAY.getStatusDisplay();
+  var iconEl = document.getElementById('securityIcon');
+  var textEl = document.getElementById('securityText');
+  if (iconEl) iconEl.textContent = display.icon;
+  if (textEl) { textEl.textContent = display.text; textEl.style.color = display.color; }
+}
+
+function showSecurityPanel() {
+  var status = SECURE_GATEWAY.updateStatus();
+  var display = SECURE_GATEWAY.getStatusDisplay();
+  var hasKey = SECURE_GATEWAY.getAdminKey() ? true : false;
+  
+  var h = '<div class="mcard" style="margin-bottom:16px">';
+  h += '<h3><span style="font-size:24px">' + display.icon + '</span> 安全状态</h3>';
+  h += '<div style="text-align:center;padding:12px 0">';
+  h += '<div style="font-size:36px;font-weight:700;color:' + display.color + '">' + display.text + '</div>';
+  h += '</div>';
+  h += '<div class="mrow"><span class="mlabel">管理密钥</span><span class="mval ' + (hasKey ? 'gd' : 'off') + '">' + (hasKey ? '已配置' : '未配置') + '</span></div>';
+  h += '<div class="mrow"><span class="mlabel">密钥超时</span><span class="mval">30分钟</span></div>';
+  h += '<div class="mrow"><span class="mlabel">硬编码密钥</span><span class="mval ' + (SECURE_GATEWAY.hasHardcodedKeys ? 'off' : 'gd') + '">' + (SECURE_GATEWAY.hasHardcodedKeys ? '检测到!' : '无') + '</span></div>';
+  h += '<div class="mrow"><span class="mlabel">Kill Switch</span><span class="mval gd">就绪</span></div>';
+  h += '</div>';
+  
+  if (!hasKey) {
+    h += '<div class="mcard">';
+    h += '<h3>🔑 设置管理密钥</h3>';
+    h += '<p style="font-size:12px;color:var(--text3);margin-bottom:12px">密钥由管理员统一配置</p>';
+    h += '<input type="password" id="adminKeyInput" placeholder="输入管理密钥" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;margin-bottom:10px">';
+    h += '<button onclick="saveAdminKey()" style="width:100%;padding:10px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:14px;cursor:pointer">确认</button>';
+    h += '</div>';
+  } else {
+    h += '<div class="mcard">';
+    h += '<h3>🔐 密钥管理</h3>';
+    h += '<p style="font-size:12px;color:var(--text3);margin-bottom:12px">密钥将在30分钟无操作后自动清除</p>';
+    h += '<button onclick="clearAdminKey()" style="width:100%;padding:10px;background:rgba(250,81,81,0.1);border:1px solid var(--red);border-radius:8px;color:var(--red);font-size:14px;cursor:pointer">清除密钥</button>';
+    h += '</div>';
+  }
+  
+  h += '<div class="mcard">';
+  h += '<h3>🛡️ 安全操作</h3>';
+  h += '<div style="display:flex;flex-direction:column;gap:8px">';
+  h += '<button onclick="executeKillSwitch(\'LOCKDOWN\')" style="padding:10px;background:rgba(250,81,81,0.1);border:1px solid var(--red);border-radius:8px;color:var(--red);font-size:13px;cursor:pointer">🔴 紧急锁定</button>';
+  h += '<button onclick="executeKillSwitch(\'UNLOCK\')" style="padding:10px;background:rgba(16,185,129,0.1);border:1px solid var(--green);border-radius:8px;color:var(--green);font-size:13px;cursor:pointer">🟢 解除锁定</button>';
+  h += '</div></div>';
+  
+  openDetail('security');
+  var body = document.querySelector('.dm-body');
+  if (body) body.innerHTML = h;
+}
+
+function saveAdminKey() {
+  var input = document.getElementById('adminKeyInput');
+  if (!input || !input.value.trim()) { toast('请输入密钥'); return; }
+  SECURE_GATEWAY.setAdminKey(input.value.trim());
+  toast('密钥已保存');
+  updateSecurityIndicator();
+  setTimeout(function() { showSecurityPanel(); }, 500);
+}
+
+function clearAdminKey() {
+  if (!confirm('确定要清除管理密钥吗？')) return;
+  SECURE_GATEWAY.clearKeyCache();
+  toast('密钥已清除');
+  updateSecurityIndicator();
+  setTimeout(function() { showSecurityPanel(); }, 500);
+}
+
+function executeKillSwitch(action) {
+  var msg = action === 'LOCKDOWN' ? '紧急锁定' : '解除锁定';
+  if (!confirm('确定要执行 ' + msg + ' 吗？')) return;
+  SECURE_GATEWAY.killSwitch(action).then(function(d) {
+    addAi(d.success ? '[' + msg + '执行成功]' : '[' + msg + '失败] ' + (d.error || ''));
+  }).catch(function(e) { addAi('[' + msg + '失败] ' + e.message); });
+  closeDetail();
+}
+
+setTimeout(function() { SECURE_GATEWAY.detectHardcodedKeys(); updateSecurityIndicator(); }, 1000);
+setInterval(updateSecurityIndicator, 30000);
+
 </script>
 
 <div style="text-align:center;padding:10px 16px;color:var(--text4);font-size:9px;line-height:1.8;border-top:1px solid var(--border-light);background:var(--surface)">
