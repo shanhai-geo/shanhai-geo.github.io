@@ -1,0 +1,49 @@
+{
+  "name": "山海云枢·Agent供电局",
+  "description": "统一AI引擎网关，提供多模型对话路由、任务分发、健康巡检、自进化分析等能力。支持因子级Kill Switch护城河和六基因特质治理框架。",
+  "url": "https://shanhai-geo.github.io",
+  "version": "1.0.0",
+  "protocolVersion": "0.3.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "ai-chat",
+      "name": "AI对话路由",
+      "description": "调用4路AI引擎进行智能对话，支持自动路由和手动指定模型。",
+      "tags": ["ai", "chat", "llm", "multi-model"]
+    },
+    {
+      "id": "task-dispatch",
+      "name": "任务分发",
+      "description": "将复杂任务分解为子任务，支持5种协作模式。",
+      "tags": ["task", "dispatch", "collaboration"]
+    },
+    {
+      "id": "health-inspection",
+      "name": "健康巡检",
+      "description": "检查系统所有端口和引擎的健康状态。",
+      "tags": ["health", "monitoring"]
+    },
+    {
+      "id": "evolution-analysis",
+      "name": "自进化分析",
+      "description": "分析各端口历史表现，生成效率排名和优化建议。",
+      "tags": ["evolution", "optimization"]
+    },
+    {
+      "id": "governance",
+      "name": "治理框架",
+      "description": "9条红线、行为边界、审计日志，确保AI调用合规可控。",
+      "tags": ["governance", "compliance", "audit"]
+    }
+  ],
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "provider": {
+    "organization": "茶旅时代(福建)文旅集团有限公司",
+    "url": "https://shanhai-geo.github.io"
+  }
+}

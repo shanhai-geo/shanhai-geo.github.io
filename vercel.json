@@ -8,6 +8,14 @@
   ],
   "routes": [
     {
+      "src": "/api/mcp",
+      "dest": "/api/mcp.js"
+    },
+    {
+      "src": "/api/a2a",
+      "dest": "/api/a2a.js"
+    },
+    {
       "src": "/api/dispatch",
       "dest": "/api/dispatch.js"
     },
