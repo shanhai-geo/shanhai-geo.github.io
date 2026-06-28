@@ -1,5 +1,5 @@
 /**
- * 山海云枢 · Agent供电局统一网关 V39.1
+ * 山海云枢 · Agent供电局统一网关 V40.0
  * 
  * ════════════════════════════════════════════════════════
  * 基因特质 (GENE)
@@ -26,6 +26,8 @@
  * - Kill Switch(废掉端口、紧急锁定、核弹、黑名单)
  * - 端口管理(开关、状态查询)
  * - 审计日志与生长数据收集
+ * - 自生产能力(自生长/自修复/自进化/健康巡检)
+ * - 优选路径学习与智能路由
  * 
  * 环境变量:
  * - ADMIN_KEY: 管理员密钥
@@ -296,20 +298,86 @@ const circuitBreakers = {
   }
 };
 
-// 生长数据收集
+// ============================================
+// 生长数据收集 (增强版 - 支持自生产能力)
+// ============================================
+/**
+ * 注意: Vercel Serverless 环境下内存状态是临时的
+ * 每次函数调用可能运行在不同的容器实例上
+ * 生产环境建议将数据持久化到外部存储 (Redis/DB)
+ */
+
 const growthData = {
   executions: [],
-  maxHistory: 100,
+  maxHistory: 500,  // 增大历史容量以支持更好的学习
   
+  // 记录执行数据 (增强: 增加 taskType 和 mode)
   record(execution) {
     this.executions.push({
       timestamp: Date.now(),
       port: execution.port,
       success: execution.success,
       responseTime: execution.responseTime,
-      queryLength: execution.queryLength
+      queryLength: execution.queryLength,
+      taskType: execution.taskType || 'chat',  // 任务类型: chat/task/health_check
+      mode: execution.mode || 'auto'          // 协作模式: auto/backup/manual
     });
     if (this.executions.length > this.maxHistory) this.executions.shift();
+  },
+  
+  // 获取优选路径 (自生产能力核心)
+  getOptimalPath(taskType = 'chat') {
+    const taskExecs = this.executions.filter(e => e.taskType === taskType);
+    if (taskExecs.length < 3) return null;  // 需要至少3次执行才能学习
+    
+    // 按端口分组统计
+    const portStats = {};
+    taskExecs.forEach(exec => {
+      if (!portStats[exec.port]) {
+        portStats[exec.port] = { success: 0, total: 0, totalTime: 0 };
+      }
+      portStats[exec.port].total++;
+      portStats[exec.port].totalTime += exec.responseTime;
+      if (exec.success) portStats[exec.port].success++;
+    });
+    
+    // 计算综合评分: 成功率 * 0.7 + (1 - 归一化响应时间) * 0.3
+    const portScores = Object.entries(portStats).map(([portId, stats]) => {
+      const successRate = stats.success / stats.total;
+      const avgTime = stats.totalTime / stats.total;
+      const timeScore = Math.max(0, 1 - avgTime / 30000);  // 30s 归一化
+      const score = successRate * 0.7 + timeScore * 0.3;
+      return { portId, score: score.toFixed(3), ...stats };
+    });
+    
+    // 按评分排序
+    portScores.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+    
+    return portScores[0].score > 0.5 
+      ? [[portScores[0].portId], { count: portScores[0].total, successRate: portScores[0].success / portScores[0].total, avgTime: portScores[0].totalTime / portScores[0].total }]
+      : null;
+  },
+  
+  // 获取端口排名 (按成功率 + 响应时间)
+  getPortRanking() {
+    const allPorts = [...new Set(this.executions.map(e => e.port))];
+    const ranking = allPorts.map(portId => {
+      const portExecs = this.executions.filter(e => e.port === portId);
+      const successes = portExecs.filter(e => e.success);
+      return {
+        port: portId,
+        name: PORTS[portId]?.name || portId,
+        successRate: (successes.length / portExecs.length * 100).toFixed(1) + '%',
+        avgResponseTime: (portExecs.reduce((s, e) => s + e.responseTime, 0) / portExecs.length).toFixed(0) + 'ms',
+        totalExecutions: portExecs.length
+      };
+    });
+    // 按成功率降序、响应时间升序排序
+    return ranking.sort((a, b) => {
+      const rateDiff = parseFloat(b.successRate) - parseFloat(a.successRate);
+      if (Math.abs(rateDiff) > 5) return rateDiff;
+      return parseFloat(a.avgResponseTime) - parseFloat(b.avgResponseTime);
+    });
   },
   
   getMetrics() {
@@ -415,10 +483,73 @@ function handleKillSwitch(command, params) {
 }
 
 // ============================================
+// 自修复引擎 (Self-Healing Engine)
+// ============================================
+/**
+ * 自动检测并修复故障端口
+ * 原理: 记录配置快照，当端口熔断时尝试自动恢复
+ */
+
+const configVersions = [];
+const MAX_CONFIG_VERSIONS = 10;
+
+// 配置快照
+function snapshotConfig() {
+  configVersions.push({
+    version: configVersions.length + 1,
+    timestamp: Date.now(),
+    ports: JSON.parse(JSON.stringify(PORTS)),
+    blacklistSnapshot: Array.from(blacklist)
+  });
+  if (configVersions.length > MAX_CONFIG_VERSIONS) configVersions.shift();
+  logAudit({ action: 'config_snapshot', version: configVersions.length });
+}
+
+// 配置回滚
+function rollbackConfig(version) {
+  const target = version 
+    ? configVersions.find(v => v.version === version)
+    : configVersions[configVersions.length - 1];
+  if (!target) return { success: false, error: '无可回滚版本' };
+  
+  // 恢复端口配置
+  Object.keys(PORTS).forEach(k => delete PORTS[k]);
+  Object.assign(PORTS, JSON.parse(JSON.stringify(target.ports)));
+  
+  // 恢复黑名单
+  blacklist.clear();
+  target.blacklistSnapshot.forEach(p => blacklist.add(p));
+  
+  // 重置熔断器
+  circuitBreakers.failures.clear();
+  
+  logAudit({ action: 'config_rollback', version: target.version });
+  return { success: true, message: `已回滚到版本 ${target.version}`, version: target.version };
+}
+
+// 自动修复
+function autoHeal() {
+  const healed = [];
+  Object.entries(PORTS).forEach(([portId, port]) => {
+    if (port.type === 'reserved' || port.type === 'destroyed') return;
+    const breaker = circuitBreakers.failures.get(portId);
+    if (breaker && breaker.count >= circuitBreakers.thresholds.maxFailures) {
+      // 熔断器已触发，尝试恢复
+      circuitBreakers.reset(portId);
+      port.enabled = true;
+      healed.push(portId);
+      logAudit({ action: 'auto_healed_port', port: portId });
+    }
+  });
+  return healed;
+}
+
+// ============================================
 // AI引擎调用 (集成治理框架)
 // ============================================
 
 async function callAIEngine(portId, messages, context = {}) {
+  const taskType = context.taskType || 'chat';
   const startTime = Date.now();
   
   // 1. 熔断器检查
@@ -489,7 +620,7 @@ async function callAIEngine(portId, messages, context = {}) {
       circuitBreakers.reset(portId);
       logAudit({ action: 'port_call_success', port: portId, responseTime });
       metrics.record(portId, true, responseTime);
-      growthData.record({ port: portId, success: true, responseTime, queryLength: messages[messages.length - 1].content.length });
+      growthData.record({ port: portId, success: true, responseTime, queryLength: messages[messages.length - 1].content.length, taskType });
     }
     
     return result;
@@ -499,7 +630,7 @@ async function callAIEngine(portId, messages, context = {}) {
     circuitBreakers.recordFailure(portId);
     logAudit({ action: 'port_call_exception', port: portId, error: err.message, responseTime });
     metrics.record(portId, false, responseTime);
-    growthData.record({ port: portId, success: false, responseTime, queryLength: 0 });
+    growthData.record({ port: portId, success: false, responseTime, queryLength: 0, taskType });
     return { error: `端口 ${portId} 调用失败: ${err.message}` };
   }
 }
@@ -568,11 +699,29 @@ async function callCozeBot(query) {
   }
 }
 
-// 智能路由
+// 智能路由 (增强: 支持优选路径)
 async function smartRoute(messages, context = {}) {
+  const taskType = context.taskType || 'chat';
+  
+  // 查询优选路径
+  const optimal = growthData.getOptimalPath(taskType);
+  
+  // 获取可用端口并按优先级排序
   const enabledPorts = Object.entries(PORTS)
     .filter(([_, port]) => port.enabled && port.type !== 'reserved' && !blacklist.has(_))
     .sort(([_, a], [__, b]) => a.priority - b.priority);
+  
+  // 如果有优选路径且端口可用，优先使用
+  if (optimal) {
+    const [optimalPortId] = optimal[0].split(',');
+    const optimalIdx = enabledPorts.findIndex(([id]) => id === optimalPortId);
+    if (optimalIdx > 0) {
+      // 将优选端口移到最前
+      const [optimalEntry] = enabledPorts.splice(optimalIdx, 1);
+      enabledPorts.unshift(optimalEntry);
+      logAudit({ action: 'optimal_path_selected', taskType, port: optimalPortId, historicalSuccess: optimal[1].count });
+    }
+  }
   
   for (const [portId, port] of enabledPorts) {
     const result = await callAIEngine(portId, messages, context);
@@ -644,16 +793,41 @@ export default async function handler(req, res) {
       });
     }
     
+    // 健康巡检
+    if (query.health === '1') {
+      const report = await healthCheck();
+      return res.status(200).set(corsHeaders).json(report);
+    }
+    
+    // 进化分析
+    if (query.evolution === '1') {
+      return res.status(200).set(corsHeaders).json(analyzeEvolution());
+    }
+    
+    // 优选路径查询
+    if (query.optimal_path === '1') {
+      const taskType = query.task_type || 'chat';
+      const optimal = growthData.getOptimalPath(taskType);
+      return res.status(200).set(corsHeaders).json({
+        taskType,
+        optimalPath: optimal ? { ports: optimal[0], stats: optimal[1] } : null,
+        portRanking: growthData.getPortRanking()
+      });
+    }
+    
     // 默认状态页
     return res.status(200).set(corsHeaders).json({
       service: '山海云枢·Agent供电局统一网关',
-      version: 'V38.9',
+      version: 'V40.0',
       uptime: process.uptime?.() || 'N/A',
       ports: Object.keys(PORTS),
       queryParams: {
         governance: '返回治理数据',
         kill_status: '返回Kill Switch状态',
-        port_status: '返回端口状态'
+        port_status: '返回端口状态',
+        health: '返回健康巡检报告',
+        evolution: '返回进化分析',
+        optimal_path: '返回优选路径(可选参数: task_type)'
       }
     });
   }
@@ -670,6 +844,35 @@ export default async function handler(req, res) {
     const { kill_command, params } = req.body;
     const result = handleKillSwitch(kill_command, params || {});
     return res.status(result.error ? 400 : 200).set(corsHeaders).json(result);
+  }
+  
+  // ==========================================
+  // 自生产能力命令
+  // ==========================================
+  
+  // 配置回滚
+  if (req.body?.rollback_config) {
+    snapshotConfig(); // 先快照当前
+    const result = rollbackConfig(req.body.rollback_version);
+    return res.status(result.success ? 200 : 400).set(corsHeaders).json(result);
+  }
+  
+  // 手动触发健康巡检
+  if (req.body?.health_check) {
+    const report = await healthCheck();
+    return res.status(200).set(corsHeaders).json(report);
+  }
+  
+  // 手动触发自修复
+  if (req.body?.auto_heal) {
+    snapshotConfig(); // 修复前快照
+    const healed = autoHeal();
+    return res.status(200).set(corsHeaders).json({ success: true, healedPorts: healed });
+  }
+  
+  // 手动触发进化分析
+  if (req.body?.evolution_analysis) {
+    return res.status(200).set(corsHeaders).json(analyzeEvolution());
   }
   
   // ==========================================
