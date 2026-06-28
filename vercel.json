@@ -8,6 +8,14 @@
   ],
   "routes": [
     {
+      "src": "/api/dispatch",
+      "dest": "/api/dispatch.js"
+    },
+    {
+      "src": "/api/sse",
+      "dest": "/api/sse.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
