@@ -3755,6 +3755,11 @@ var CMD_ROUTER={
     r['!通道']=function(){var m=AGENT_MODE.isAgent()?'<span style="color:#7c4dff">主Agent模式</span>':'本地模式';addAi('[通道状态]<br>当前: '+m+'<br><br>输入 <b>!切换通道</b> 切换模式')};
     r['!切换通道']=function(){toggleAgentMode();addAi('已切换到 <b>'+(AGENT_MODE.isAgent()?'主Agent模式':'本地模式')+'</b>')};
     r['!设置AgentKey']=function(){addAi('[设置主Agent密钥]<br>格式: !设Key 你的密钥<br><br>此密钥用于主Agent通道鉴权，存储在本地')};
+    r['!端口状态']=function(){fetch('/api/gateway?port_status=1').then(r=>r.json()).then(d=>{var h='<div class="result-box"><div class="rb-title">Agent供电局 · 端口状态</div>';if(d.ports)d.ports.forEach(function(p){var s=p.enabled?'<span style="color:#10b981">[ON]</span>':'<span style="color:#ef4444">[OFF]</span>';h+='<div class="rb-item">'+s+' '+p.id+' '+p.name+'</div>'});h+='</div>';addAi(h)}).catch(e=>addAi('端口状态查询失败: '+e.message))};
+    r['!废掉']=function(cmd){var portId=cmd.replace('!废掉','').trim();if(!portId){addAi('格式: !废掉 P1-X');return}if(!confirm('确定要废掉端口 '+portId+' 吗？')){return}fetch('/api/gateway',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kill_command:'KILL_PORT',params:{port:portId,reason:'master_command'}})}).then(r=>r.json()).then(d=>{addAi(d.success?'<span style="color:#ef4444">[已废掉]</span> '+portId:'失败: '+d.error)}).catch(e=>addAi('执行失败: '+e.message))};
+    r['!锁定']=function(){if(!confirm('确定要启动紧急锁定吗？所有外部AI调用将被关闭')){return}fetch('/api/gateway',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kill_command:'LOCKDOWN',params:{masterKey:'shanhai_master_2026'}})}).then(r=>r.json()).then(d=>{addAi(d.success?'<span style="color:#ef4444">[紧急锁定已启动]</span><br>所有外部AI调用已关闭':'失败: '+d.error)}).catch(e=>addAi('执行失败: '+e.message))};
+    r['!解锁']=function(){fetch('/api/gateway',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kill_command:'UNLOCK',params:{masterKey:'shanhai_master_2026'}})}).then(r=>r.json()).then(d=>{addAi(d.success?'<span style="color:#10b981">[紧急锁定已解除]</span>':'失败: '+d.error)}).catch(e=>addAi('执行失败: '+e.message))};
+
 
     r['!内循环']=function(){addAi('[内循环]',buildInternalLoop())};
     r['!执行']=function(){addAi('[执行面板]',buildExecPanel())};
