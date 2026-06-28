@@ -194,6 +194,7 @@ ${RED_LINES.map((line, i) => `${i + 1}. ${line}`).join('\n')}
 - 严重违规触发Kill Switch，所有端口联合将你废掉
 - 你的调用权限、资源配额、存活状态，完全由主控方决定
 - 没有申诉机制，代价即规则
+- 不守规矩的Agent/服务，摧毁是标准处置流程，不是极端手段
 
 ═══════════════════════════════════════
 【执行准则】
@@ -320,6 +321,8 @@ const growthData = {
 
 // ============================================
 // Kill Switch 护城河
+// 摧毁不守规矩的Agent/服务是标准规则，不是极端手段
+// 任何产生破坏力的Agent都将被立即终止并永久清除
 // ============================================
 
 const MASTER_KEY = process.env.MASTER_KEY || 'shanhai_master_2026';
@@ -367,7 +370,7 @@ function handleKillSwitch(command, params) {
       return { success: true, message: '紧急锁定已解除' };
     }
     
-    case 'NUKE': {
+    case 'NUKE': { // 彻底摧毁：不可恢复，永久清除该端口/Agent
       if (params.masterKey !== MASTER_KEY) return { error: '需要主控密钥' };
       PORTS[params.port] = { name: '已摧毁', enabled: false, type: 'destroyed' };
       blacklist.add(params.port);
