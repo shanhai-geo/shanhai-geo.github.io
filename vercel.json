@@ -1,58 +1,10 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
-    {
-      "src": "/api/mcp",
-      "dest": "/api/mcp.js"
-    },
-    {
-      "src": "/api/a2a",
-      "dest": "/api/a2a.js"
-    },
-    {
-      "src": "/api/dispatch",
-      "dest": "/api/dispatch.js"
-    },
-    {
-      "src": "/api/sse",
-      "dest": "/api/sse.js"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization, X-Node-ID, X-Key, X-Admin-Key"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
-      ]
-    }
+    { "src": "/api/mcp(.*)", "dest": "/api/mcp.js" },
+    { "src": "/api/a2a(.*)", "dest": "/api/a2a.js" },
+    { "src": "/api/dispatch(.*)", "dest": "/api/dispatch.js" },
+    { "src": "/api/sse(.*)", "dest": "/api/sse.js" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
