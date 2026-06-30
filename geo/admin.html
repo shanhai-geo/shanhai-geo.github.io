@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山海订单管理</title>
+<style>
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:var(--bg);color:var(--text);padding:20px;line-height:1.6}
+h1{color:var(--gold);font-size:20px;margin-bottom:16px}
+h2{color:var(--gold);font-size:16px;margin:20px 0 12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.stat-num{font-size:24px;font-weight:700;color:var(--gold)}
+.stat-label{font-size:12px;color:var(--text2);margin-top:4px}
+.order-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.order-id{font-weight:600;color:var(--gold)}
+.status-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600}
+.status-open{background:rgba(255,152,0,.15);color:var(--warn)}
+.status-closed{background:rgba(76,175,80,.15);color:var(--ok)}
+.order-info{font-size:13px;color:var(--text2);line-height:1.8}
+.order-info span{color:var(--text)}
+.btn{padding:8px 16px;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600}
+.btn-deliver{background:var(--ok);color:#fff}
+.btn-link{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn:hover{opacity:.85}
+.action-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.action-bar button{padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:13px}
+.action-bar button:hover{border-color:var(--gold)}
+.key-gen{background:var(--bg3);padding:12px;border-radius:6px;margin-top:12px;font-family:monospace;color:var(--gold);word-break:break-all;font-size:13px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:13px}
+.tab.active{border-color:var(--gold);color:var(--gold)}
+.empty{text-align:center;color:var(--text2);padding:40px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<h1>山海订单管理</h1>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('pending')">待确认</div>
+  <div class="tab" onclick="switchTab('done')">已交付</div>
+</div>
+<div class="action-bar">
+  <button onclick="loadOrders()">刷新</button>
+  <button onclick="window.open('https://github.com/shanhai-geo/shanhai-geo.github.io/issues','_blank')">GitHub Issues</button>
+</div>
+<div class="stats" id="statsArea"></div>
+<div id="orderList"></div>
+
+<script>
+const OWNER='shanhai-geo', REPO='shanhai-geo.github.io';
+let currentTab = 'pending';
+let allIssues = [];
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderOrders();
+}
+
+function genKey() {
+  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
+  let k='sk-shanhai-';
+  for(let i=0;i<32;i++) k+=chars[Math.floor(Math.random()*chars.length)];
+  return k;
+}
+
+async function loadOrders() {
+  document.getElementById('orderList').innerHTML='<div class="empty">加载中...</div>';
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues?labels=order&state=all&per_page=100`, {
+      headers:{'Accept':'application/vnd.github.v3+json'}
+    });
+    allIssues = await resp.json();
+    
+    // 统计
+    const pending = allIssues.filter(i=>i.state==='open'&&i.labels.some(l=>l.name==='order'));
+    const done = allIssues.filter(i=>i.state==='closed'&&i.labels.some(l=>l.name==='order'));
+    
+    document.getElementById('statsArea').innerHTML = `
+      <div class="stat-card"><div class="stat-num">${pending.length}</div><div class="stat-label">待确认</div></div>
+      <div class="stat-card"><div class="stat-num">${done.length}</div><div class="stat-label">已交付</div></div>
+      <div class="stat-card"><div class="stat-num">${allIssues.length}</div><div class="stat-label">总订单</div></div>
+      <div class="stat-card"><div class="stat-num">¥${calcTotal(done)}</div><div class="stat-label">已交付金额</div></div>`;
+    
+    renderOrders();
+  } catch(e) {
+    document.getElementById('orderList').innerHTML='<div class="empty">加载失败，请刷新</div>';
+  }
+}
+
+function calcTotal(issues) {
+  return issues.reduce((sum, i) => {
+    const m = i.title.match(/¥(\d+)/);
+    return sum + (m ? parseInt(m[1]) : 0);
+  }, 0);
+}
+
+function parseOrder(issue) {
+  const body = issue.body || '';
+  const get = (label) => {
+    const m = body.match(new RegExp(label + '[：:]\\s*(.+?)(?:\\n|$)'));
+    return m ? m[1].trim() : '-';
+  };
+  const keyMatch = body.match(/API密钥：([\w-]+)/);
+  return {
+    orderId: get('订单号'),
+    plan: get('套餐'),
+    name: get('姓名'),
+    phone: get('手机号'),
+    email: get('邮箱'),
+    time: get('下单时间'),
+    status: get('状态'),
+    key: keyMatch ? keyMatch[1] : null,
+    issueUrl: issue.html_url,
+    number: issue.number,
+    state: issue.state,
+    labels: issue.labels
+  };
+}
+
+function renderOrders() {
+  const list = currentTab === 'pending' 
+    ? allIssues.filter(i=>i.state==='open'&&i.labels.some(l=>l.name==='order'))
+    : allIssues.filter(i=>i.state==='closed');
+  
+  if (!list.length) {
+    document.getElementById('orderList').innerHTML = `<div class="empty">${currentTab==='pending'?'暂无待确认订单':'暂无已交付订单'}</div>`;
+    return;
+  }
+  
+  document.getElementById('orderList').innerHTML = list.map(issue => {
+    const o = parseOrder(issue);
+    return `
+    <div class="order-card">
+      <div class="order-header">
+        <span class="order-id">${o.orderId}</span>
+        <span class="status-badge ${o.state==='open'?'status-open':'status-closed'}">${o.state==='open'?'待确认':'已交付'}</span>
+      </div>
+      <div class="order-info">
+        <div>姓名：<span>${o.name}</span> | 手机：<span>${o.phone}</span> | 邮箱：<span>${o.email}</span></div>
+        <div>套餐：<span>${o.plan}</span> | 时间：<span>${o.time}</span></div>
+        ${o.key ? `<div>密钥：<span style="color:var(--gold)">${o.key}</span></div>` : ''}
+      </div>
+      ${o.state==='open' ? `
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-deliver" onclick="deliverOrder(${o.number},'${o.phone}','${o.email}','${o.orderId}')">确认交付</button>
+          <a class="btn btn-link" href="${o.issueUrl}" target="_blank">查看Issue</a>
+        </div>
+        <div id="keyArea-${o.number}" style="display:none"></div>
+      ` : `
+        <a class="btn btn-link" href="${o.issueUrl}" target="_blank" style="display:inline-block;margin-top:8px;text-decoration:none">查看Issue</a>
+      `}
+    </div>`;
+  }).join('');
+}
+
+function deliverOrder(number, phone, email, orderId) {
+  const key = genKey();
+  const area = document.getElementById('keyArea-' + number);
+  area.style.display = 'block';
+  area.innerHTML = `
+    <div class="key-gen">
+      <div style="margin-bottom:8px;color:var(--text2)">生成的密钥：</div>
+      ${key}
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      ${email && email !== '-' ? `<button class="btn btn-deliver" onclick="sendKeyEmail('${email}','${orderId}','${key}')">发邮件给客户</button>` : ''}
+      <a class="btn btn-link" href="https://github.com/${OWNER}/${REPO}/issues/${number}" target="_blank" onclick="copyKeyForIssue('${key}')">去Issue关闭（复制密钥后粘贴）</a>
+    </div>`;
+}
+
+function sendKeyEmail(toEmail, orderId, key) {
+  const subject = encodeURIComponent(`【山海接口服务】您的API密钥 - ${orderId}`);
+  const body = encodeURIComponent(
+    `你好：\n\n你的API密钥已交付。\n\n` +
+    `订单号：${orderId}\nAPI密钥：${key}\n\n` +
+    `接入地址：https://api.shanhai.ai/v1/\n` +
+    `接入文档：https://shanhai-geo.github.io/geo/api-service.html#access\n\n` +
+    `如有问题，请在产品页右下角联系在线客服。\n\n山海接口服务团队`
+  );
+  window.location.href = `mailto:${toEmail}?subject=${subject}&body=${body}`;
+}
+
+function copyKeyForIssue(key) {
+  navigator.clipboard.writeText(key).then(()=>{
+    alert('密钥已复制到剪贴板，请到Issue中粘贴后关闭Issue');
+  });
+}
+
+loadOrders();
+</script>
+</body>
+</html>

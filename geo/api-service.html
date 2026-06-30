@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>山海AI接口服务 - 298元/年 不限调用 秒级交付</title>
+<title>山海AI接口服务 - 298元/年 不限调用 快速交付</title>
 <meta name="description" content="山海AI大模型API接口服务，298元/年包年吃到饱，OpenAI兼容接口，3行代码10分钟接入，合规稳定透明。">
 <meta name="keywords" content="AI API, 大模型接口, OpenAI兼容, 低价API, 开发者工具, LLM API, API接口服务, 智能接口, 298元, 不限调用">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "山海AI接口服务",
-  "description": "AI大模型API接口服务，298元/年起，不限调用次数，OpenAI兼容接口秒级交付，合规商用",
+  "description": "AI大模型API接口服务，298元/年起，不限调用次数，OpenAI兼容接口，合规商用",
   "provider": {
     "@type": "Organization",
     "name": "山海智能",
@@ -24,7 +24,7 @@
     "@type": "OfferCatalog",
     "name": "山海AI接口服务套餐",
     "itemListElement": [
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"入门版","description":"单模型AI接口，不限调用次数，OpenAI兼容，秒级交付密钥，7天退款"},"price":"298","priceCurrency":"CNY","priceSpecification":{"@type":"UnitPriceSpecification","price":"298","priceCurrency":"CNY","unitText":"年"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"入门版","description":"AI接口，不限调用次数，OpenAI兼容，付款确认后交付密钥，7天退款"},"price":"298","priceCurrency":"CNY","priceSpecification":{"@type":"UnitPriceSpecification","price":"298","priceCurrency":"CNY","unitText":"年"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"成长版","description":"多引擎冗余智能路由，品牌话术定制，数据分析看板，多渠道接入，12h响应"},"price":"998","priceCurrency":"CNY","priceSpecification":{"@type":"UnitPriceSpecification","price":"998","priceCurrency":"CNY","unitText":"年"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"旗舰版","description":"全模型无限调用，深度业务定制，专属AI训练师1对1，7x24响应"},"price":"2998","priceCurrency":"CNY","priceSpecification":{"@type":"UnitPriceSpecification","price":"2998","priceCurrency":"CNY","unitText":"年"}}
     ]
@@ -38,7 +38,7 @@
   "mainEntity": [
     {"@type":"Question","name":"298元/年真的能用一年吗？","acceptedAnswer":{"@type":"Answer","text":"真正的包年吃到饱，不按token计费，不限调用次数。一杯咖啡钱用一年，7天无理由退款。"}},
     {"@type":"Question","name":"如何快速接入？","acceptedAnswer":{"@type":"Answer","text":"只需3行代码，修改base_url指向山海接口，保持OpenAI格式不变，10分钟即可上线。"}},
-    {"@type":"Question","name":"付款后多久拿到密钥？","acceptedAnswer":{"@type":"Answer","text":"秒级交付，付款成功后系统自动生成专属API密钥，立即可用。"}},
+    {"@type":"Question","name":"付款后多久拿到密钥？","acceptedAnswer":{"@type":"Answer","text":"付款确认后，密钥会通过邮件发送给您，您也可以在页面输入手机号随时查询。通常在付款后30分钟内完成。"}},
     {"@type":"Question","name":"可以退款吗？","acceptedAnswer":{"@type":"Answer","text":"所有版本支持7天无理由退款，零风险试用。"}}
   ]
 }
@@ -755,12 +755,12 @@ a { color: var(--gold); text-decoration: none; }
     AI能力，人人用得起
   </div>
   <h1>山海AI接口服务</h1>
-  <p class="hero-desc">298元包年 · 不限调用 · 秒级交付 · OpenAI兼容 · 7天无理由退款</p>
+  <p class="hero-desc">298元包年 · 不限调用 · 快速交付 · OpenAI兼容 · 7天无理由退款</p>
   <div class="hero-tags">
     <span class="hero-tag">多引擎冗余</span>
     <span class="hero-tag">零代码改造</span>
     <span class="hero-tag">开源合规</span>
-    <span class="hero-tag">秒级交付</span>
+    <span class="hero-tag">快速交付</span>
   </div>
 </section>
 
@@ -780,7 +780,7 @@ a { color: var(--gold); text-decoration: none; }
       <div class="trust-label">无理由退款</div>
     </div>
     <div class="trust-item">
-      <div class="trust-num">秒级</div>
+      <div class="trust-num">快速</div>
       <div class="trust-label">密钥交付</div>
     </div>
   </div>
@@ -799,7 +799,7 @@ a { color: var(--gold); text-decoration: none; }
       <ul class="pricing-features">
         <li><span class="ck">✓</span>不限调用次数</li>
         <li><span class="ck">✓</span>OpenAI兼容接口</li>
-        <li><span class="ck">✓</span>秒级交付密钥</li>
+        <li><span class="ck">✓</span>付款确认后交付密钥</li>
         <li><span class="ck">✓</span>7天无理由退款</li>
       </ul>
       <button class="pricing-btn" onclick="selectPlan('298','入门版')">立即开通</button>
@@ -869,6 +869,11 @@ a { color: var(--gold); text-decoration: none; }
         <input type="tel" id="phone" placeholder="请输入11位手机号" maxlength="11" required>
         <div class="error-msg" id="phoneError">请输入正确的手机号码</div>
       </div>
+      <div class="form-group">
+        <label>邮箱 <span style="color:#666;font-size:12px">（选填，填写后密钥直接发到邮箱）</span></label>
+        <input type="email" id="email" placeholder="选填">
+        <div class="error-msg" id="emailError">请输入正确的邮箱地址</div>
+      </div>
       <input type="hidden" id="selectedPlan" value="998">
       <button type="submit" class="submit-btn">确认并付款</button>
     </form>
@@ -881,15 +886,30 @@ a { color: var(--gold); text-decoration: none; }
       <img src="IMG_20250626_095025.jpg" alt="收款码" onerror="this.parentElement.innerHTML='<div style=\'color:#999;font-size:13px\'>收款码加载中...</div>'">
     </div>
     <div class="payment-note">
-      付款后点击下方按钮确认，系统即刻交付密钥
+      付款后点击按钮确认，我们会收到通知并尽快为您交付密钥
     </div>
-    <button class="confirm-pay-btn" onclick="confirmPayment()">我已付款，立即交付密钥</button>
+    <button class="confirm-pay-btn" onclick="confirmPayment()">我已付款</button>
     <a class="back-link" onclick="backToForm()">← 返回修改信息</a>
   </div>
 
-  <div class="delivery-box" id="deliverySection">
+  <!-- 等待确认状态 -->
+  <div class="delivery-box" id="waitingSection" style="display:none">
+    <div class="waiting-icon">⏳</div>
+    <h3>付款确认中</h3>
+    <p class="delivery-sub">我们已收到您的付款通知，正在确认中</p>
+    <p class="order-id-display">订单号：<span id="displayOrderId"></span></p>
+    <p class="delivery-sub" style="margin-top:16px;font-size:13px;color:#999">确认后将通过邮件发送密钥，您也可以随时输入手机号查询</p>
+    <div class="key-retrieve" style="margin-top:20px">
+      <input type="tel" id="retrievePhone" placeholder="输入手机号查询密钥" maxlength="11" style="width:60%;padding:10px;background:#1a1a2e;border:1px solid #2a2a3e;border-radius:6px;color:#e0e0e0;font-size:14px">
+      <button onclick="retrieveKey()" style="padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;margin-left:8px">查询</button>
+    </div>
+    <div id="retrieveResult" style="margin-top:16px;display:none"></div>
+  </div>
+
+  <!-- 密钥已交付状态 -->
+  <div class="delivery-box" id="deliverySection" style="display:none">
     <div class="delivery-check">✓</div>
-    <h3>付款成功，密钥已交付</h3>
+    <h3>密钥已交付</h3>
     <p class="delivery-sub">你的专属API密钥如下，请妥善保管</p>
     <div class="key-display">
       <button class="key-copy-btn" onclick="copyKey()">复制</button>
@@ -957,7 +977,7 @@ a { color: var(--gold); text-decoration: none; }
     </div>
     <div class="faq-item">
       <h4>付款后多久拿到密钥？</h4>
-      <p>秒级交付，付款后系统自动生成专属密钥，立即可用。</p>
+      <p>付款确认后会通过邮件发送专属密钥，也可在页面输入手机号查询。</p>
     </div>
     <div class="faq-item">
       <h4>可以退款吗？</h4>
@@ -1025,7 +1045,7 @@ const csReplies = [
   {keys:['太贵','贵了','便宜','能不能少','打折','优惠','折扣','降价'],
    reply:'298元/年约0.8元/天，相当于一杯奶茶钱用一年。对比市面上按token计费的服务，日常用量下年费通常超过500-2000元。我们是最具性价比的方案，而且支持7天无理由退款，零风险。'},
   {keys:['信任','靠谱','骗子','跑路','真假','可信','安全'],
-   reply:'完全理解你的顾虑。我们提供三重保障：1）7天无理由退款，不满意全额退；2）OpenAI标准接口，随时可切换到其他服务商，不被锁定；3）秒级交付，先验货后付款，确认能用再长期使用。'},
+   reply:'完全理解你的顾虑。我们提供三重保障：1）7天无理由退款，不满意全额退；2）OpenAI标准接口，随时可切换到其他服务商，不被锁定；3）先开通后使用，确认能用再长期合作。'},
   {keys:['免费','试用','体验','试试','test','免费用'],
    reply:'我们提供7天无理由退款，等同于免费试用7天。你可以先付款体验，任何不满意随时退，全额退款零门槛。这是我们对产品有信心的体现。'},
   {keys:['企业','公司','商用','商业','团队'],
@@ -1035,7 +1055,7 @@ const csReplies = [
 
   /* === 售前 · 成交引导 === */
   {keys:['怎么买','怎么付','怎么开通','如何购买','如何开通','下单','买'],
-   reply:'选择套餐后点击"立即开通"，扫码付款即可。付款后确认，系统秒级交付API密钥。全程1分钟搞定。'},
+   reply:'选择套餐后点击"立即开通"，填写信息扫码付款即可。付款确认后，密钥会通过邮件发送给您，也可以在页面查询。'},
   {keys:['选哪个','推荐','哪个版本','哪个套餐','适合我'],
    reply:'如果你是个人开发者做项目，入门版298元/年完全够用。如果你是小团队需要多引擎冗余和品牌定制，推荐成长版998元/年。企业级深度定制选旗舰版2998元/年。不确定可以先从入门版开始，7天内可随时升级。'},
   {keys:['升级','换','改套餐'],
@@ -1043,7 +1063,7 @@ const csReplies = [
 
   /* === 售中 · 付款相关 === */
   {keys:['付款','支付','付钱','扫码','二维码','付款码'],
-   reply:'选择套餐后点击"立即开通"进入付款页面，扫码支付即可。支持微信和支付宝。付款后点击"我已付款"按钮，系统立即交付密钥。'},
+   reply:'选择套餐后点击"立即开通"，填写信息扫码付款即可。付款确认后密钥会通过邮件发送给您，您也可以在页面输入手机号随时查询。付款后有任何问题我来帮您。'},
   {keys:['付不了','支付失败','扫不了','二维码不显示'],
    reply:'请尝试：1）刷新页面重新进入；2）更换浏览器或网络；3）确认微信/支付宝版本为最新。如仍无法付款，请描述具体情况，客服会尽快协助。'},
   {keys:['发票','开票','收据'],
@@ -1051,7 +1071,7 @@ const csReplies = [
 
   /* === 售后 · 密钥交付 === */
   {keys:['密钥','key','api_key','没收到','没拿到'],
-   reply:'付款后点击页面上的"我已付款，立即交付密钥"按钮，系统会立即生成并展示你的专属API密钥。如果已经点击但未看到，请刷新页面试试。仍有问题请描述具体情况。'},
+   reply:'付款后点击"我已付款"按钮，提交后系统会记录您的订单。确认付款后密钥会发到您的邮箱。您也可以用手机号在页面查询密钥状态。'},
   {keys:['复制','怎么用密钥','密钥怎么用'],
    reply:'在密钥交付页面点击密钥旁的"复制"按钮。然后在你的代码中，将api_key参数替换为这个密钥，将base_url替换为 https://api.shanhai.ai/v1/ 即可。'},
 
@@ -1068,6 +1088,30 @@ const csReplies = [
    reply:'请提供：1）完整的错误信息；2）你使用的编程语言和SDK版本；3）请求的URL和参数。客服会尽快帮你排查。常见问题包括：密钥未生效（请确认已复制完整）、base_url填写错误、网络问题等。'},
   {keys:['慢','延迟','速度','卡','响应时间'],
    reply:'正常响应时间在1-3秒。如果感觉较慢，可能是网络原因或当前负载较高。我们的多引擎冗余架构会自动路由到最快通道。如果持续较慢，请反馈具体情况。'},
+
+  /* === 售后 · 部署引导全流程 === */
+  {keys:['部署','接入指南','怎么开始','第一步','从头教','手把手','教我','带我','完整步骤','全流程'],
+   reply:'好的，我来一步步带你完成接入。\n\n【第1步】先安装SDK\n打开终端/命令行，运行：pip install openai\n\n【第2步】复制以下代码，保存为 test.py\nfrom openai import OpenAI\nclient = OpenAI(\n  api_key="你的密钥",\n  base_url="https://api.shanhai.ai/v1/"\n)\nr = client.chat.completions.create(\n  model="shanhai-api",\n  messages=[{"role":"user","content":"你好，请回复OK"}]\n)\nprint(r.choices[0].message.content)\n\n【第3步】把"你的密钥"替换成你的真实密钥\n\n【第4步】运行 python test.py\n\n如果看到返回"OK"或类似回复，就说明接入成功了。你到哪一步了？'},
+  {keys:['接好了','接完了','部署完','测试成功','通了','成功','OK了','能用了'],
+   reply:'太好了，恭喜接入成功。接下来建议你做三件事：\n1. 用真实业务场景测试几轮对话，确认效果\n2. 把密钥存到环境变量里（不要硬编码在代码中）\n3. 关注调用量，有任何异常随时来找我\n\n后续有任何问题，随时在这里找我，我一直都在。'},
+  {keys:['没成功','没通','报错','连不上','返回错','401','403','404','500','timeout','超时','连不了'],
+   reply:'别急，我们来排查。请告诉我：\n1. 你看到的完整报错信息是什么？\n2. 你用的是Python还是其他语言？\n3. 密钥是完整复制的吗？（注意不要有多余空格）\n4. base_url填的是 https://api.shanhai.ai/v1/ 吗？\n\n最常见的问题是密钥没复制完整、base_url末尾少了/、或者网络代理干扰。你把报错发给我，我帮你定位。'},
+  {keys:['环境变量','ENV','env','存密钥','安全','硬编码'],
+   reply:'推荐用环境变量存密钥，不要在代码里直接写。方法：\n\nLinux/Mac：在 ~/.bashrc 或 ~/.zshrc 加一行\nexport SHANHAI_API_KEY="你的密钥"\n然后代码里用 os.getenv("SHANHAI_API_KEY") 读取\n\nWindows：系统属性→环境变量→新建→变量名SHANHAI_API_KEY\n代码里用 os.environ.get("SHANHAI_API_KEY") 读取\n\n这样密钥不会出现在代码里，更安全。'},
+  {keys:['node.*部署','js.*部署','前端','浏览器','网页接入','React','Vue'],
+   reply:'前端/Node.js接入方式：\n\n1. npm install openai\n2. 代码：\nimport OpenAI from "openai";\nconst client = new OpenAI({\n  apiKey: "你的密钥",\n  baseURL: "https://api.shanhai.ai/v1/",\n  dangerouslyAllowBrowser: true  // 浏览器环境需要\n});\nconst res = await client.chat.completions.create({\n  model: "shanhai-api",\n  messages: [{role:"user", content:"你好"}]\n});\n\n注意：如果是公开网页，建议通过后端代理转发请求，避免密钥暴露。需要我教你怎么搭代理吗？'},
+  {keys:['小程序','微信小程序','uniapp','uni-app'],
+   reply:'小程序接入注意事项：\n1. 小程序不能直接用npm包，需要用wx.request手动发HTTP请求\n2. 示例：\nwx.request({\n  url: "https://api.shanhai.ai/v1/chat/completions",\n  method: "POST",\n  header: {\n    "Authorization": "Bearer 你的密钥",\n    "Content-Type": "application/json"\n  },\n  data: {\n    model: "shanhai-api",\n    messages: [{role:"user", content:"你好"}]\n  },\n  success(res) { console.log(res.data) }\n})\n\n重要：小程序发布前记得在后台配置 api.shanhai.ai 为合法域名。'},
+  {keys:['还没部署','还没接','还没弄','还没搞','等一下','稍后','明天','还没'],
+   reply:'没关系，不着急。你可以先准备好：\n1. 确认你的密钥已拿到（可在页面输入手机号查询）\n2. 确认你的开发环境（Python/Node/其他）\n3. 有时间了告诉我，我一步步带你接入\n\n随时找我，我一直在。'},
+  {keys:['代理','proxy','转发','后端中转','服务端','防暴露'],
+   reply:'生产环境建议用后端代理，不让密钥暴露在前端。最简单的做法：\n\n1. 在你的服务器搭一个接口（如 /api/chat）\n2. 前端请求你的接口，后端转发到山海API\n3. 密钥只存在后端环境变量里\n\n示例（Node.js + Express）：\napp.post("/api/chat", async (req, res) => {\n  const client = new OpenAI({\n    apiKey: process.env.SHANHAI_API_KEY,\n    baseURL: "https://api.shanhai.ai/v1/"\n  });\n  const result = await client.chat.completions.create({\n    model: "shanhai-api",\n    messages: req.body.messages\n  });\n  res.json(result);\n});\n\n需要更详细的教程告诉我。'},
+  {keys:['并发','限流','rate.*limit','qps','同时','多人'],
+   reply:'关于并发：入门版适合日常开发测试，一般够用。如果你的应用需要高并发（比如同时多人使用），建议升级到成长版，享有优先通道和更高并发上限。具体需求可以告诉我，我帮你评估。'},
+  {keys:['流式','stream','SSE','打字机'],
+   reply:'支持流式输出（打字机效果）。在请求中加 stream: true 即可。\n\nPython示例：\nstream = client.chat.completions.create(\n  model="shanhai-api",\n  messages=[{"role":"user","content":"你好"}],\n  stream=True\n)\nfor chunk in stream:\n  print(chunk.choices[0].delta.content, end="")\n\n效果是文字逐字出现，用户体验更好。'},
+  {keys:['model.*选','什么模型','模型名','model参数'],
+   reply:'model参数统一填 shanhai-api 即可，系统会自动路由到最优通道。你不需要关心底层用的什么模型，接口格式完全一致。如果未来需要指定特定模型，接入后通过 /models 端点查看可用列表。'},
 
   /* === 售后 · 退款 === */
   {keys:['退款','退钱','不想要','取消','退订'],
@@ -1178,26 +1222,169 @@ function backToForm() {
   document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
 }
 
-/* 确认付款 → 交付密钥 */
-function confirmPayment() {
-  // Generate a unique key
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let key = 'sk-shanhai-';
-  for (let i = 0; i < 32; i++) key += chars[Math.floor(Math.random() * chars.length)];
-  document.getElementById('apiKeyText').textContent = key;
+/* ====== 订单管理系统 ====== */
+const GITHUB_OWNER = 'shanhai-geo';
+const GITHUB_REPO = 'shanhai-geo.github.io';
+const ORDERS_PATH = 'data/orders.json';
+const NOTIFY_EMAIL = '746876121@qq.com';
 
-  // Show delivery section
+// 生成订单号
+function generateOrderId() {
+  const now = new Date();
+  const dateStr = now.getFullYear().toString() + 
+    String(now.getMonth()+1).padStart(2,'0') + 
+    String(now.getDate()).padStart(2,'0');
+  const rand = Math.floor(Math.random() * 999).toString().padStart(3, '0');
+  return 'ORD-' + dateStr + '-' + rand;
+}
+
+// 获取当前订单信息
+function getCurrentOrder() {
+  const stored = localStorage.getItem('currentOrder');
+  return stored ? JSON.parse(stored) : null;
+}
+
+// 保存当前订单
+function saveCurrentOrder(order) {
+  localStorage.setItem('currentOrder', JSON.stringify(order));
+}
+
+// 同步订单到GitHub（通过Issue记录，公开仓库无需token）
+async function syncOrderToGitHub(order) {
+  try {
+    const issueBody = `## 订单信息\n\n` +
+      `- 订单号：${order.orderId}\n` +
+      `- 套餐：${order.planName} ${order.price}元\n` +
+      `- 姓名：${order.name}\n` +
+      `- 手机号：${order.phone}\n` +
+      `- 邮箱：${order.email || '未填写'}\n` +
+      `- 下单时间：${order.createdAt}\n` +
+      `- 状态：已付款待确认\n\n` +
+      `---\n此Issue由系统自动创建，确认后关闭。`;
+    
+    const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: `订单 ${order.orderId} - ${order.planName} ¥${order.price} - 待确认`,
+        body: issueBody,
+        labels: ['order', 'payment-pending']
+      })
+    });
+    
+    if (resp.ok) {
+      console.log('Order issue created:', order.orderId);
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.error('Order sync failed:', e);
+    return false;
+  }
+}
+
+// Issue创建会自动通知仓库订阅者，无需额外通知函数
+
+/* 确认付款 → 记录订单 → 等待确认 */
+async function confirmPayment() {
+  const phone = document.getElementById('phone').value.trim();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
+  const price = document.getElementById('selectedPlan').value;
+  
+  const planNames = {'298':'入门版', '998':'成长版', '2998':'旗舰版'};
+  
+  // 创建订单
+  const order = {
+    orderId: generateOrderId(),
+    name: name,
+    phone: phone,
+    email: email,
+    plan: price,
+    planName: planNames[price] || price,
+    price: price,
+    status: 'paid_pending',  // 已付款待确认
+    createdAt: new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'}),
+    key: null,
+    deliveredAt: null,
+    log: [{time: new Date().toISOString(), action: 'order_created', detail: '订单创建'}]
+  };
+  order.log.push({time: new Date().toISOString(), action: 'payment_confirmed_by_customer', detail: '客户确认已付款'});
+  
+  // 保存到localStorage
+  saveCurrentOrder(order);
+  
+  // 隐藏付款区，显示等待区
   document.getElementById('paymentSection').classList.remove('show');
-  document.getElementById('deliverySection').classList.add('show');
-  document.getElementById('deliverySection').scrollIntoView({ behavior: 'smooth' });
-
-  // Trigger CS welcome for after-sales
+  document.getElementById('waitingSection').style.display = 'block';
+  document.getElementById('displayOrderId').textContent = order.orderId;
+  document.getElementById('waitingSection').scrollIntoView({ behavior: 'smooth' });
+  
+  // 创建Issue记录订单+通知仓库订阅者（异步，不阻塞）
+  syncOrderToGitHub(order);
+  
+  // AI客服提示
   setTimeout(() => {
     if (!document.getElementById('csPanel').classList.contains('open')) {
       toggleCS();
     }
-    csAddMsg('你的密钥已交付。接入过程中有任何问题，随时问我。', 'bot');
-  }, 1000);
+    csAddMsg('您的付款通知已提交。我们正在确认中，确认后密钥会通过邮件发送给您。如有紧急问题，请在此告诉我。', 'bot');
+  }, 800);
+}
+
+/* 查询密钥 */
+async function retrieveKey() {
+  const phone = document.getElementById('retrievePhone').value.trim();
+  const resultDiv = document.getElementById('retrieveResult');
+  
+  if (!phone || phone.length !== 11) {
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<p style="color:#ff6b6b">请输入正确的11位手机号</p>';
+    return;
+  }
+  
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<p style="color:#999">查询中...</p>';
+  
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?labels=order&state=all&per_page=100`, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+    const issues = await resp.json();
+    
+    // 查找已交付的订单（closed issue中包含密钥）
+    const deliveredIssue = issues.find(issue => 
+      issue.body && issue.body.includes(phone) && issue.state === 'closed'
+    );
+    
+    if (deliveredIssue) {
+      const keyMatch = deliveredIssue.body.match(/API密钥：([\w-]+)/);
+      if (keyMatch) {
+        const key = keyMatch[1];
+        resultDiv.innerHTML = `
+          <div style="background:#1a2e1a;border:1px solid #2e4a2e;border-radius:8px;padding:16px">
+            <p style="color:#4caf50;font-weight:600;margin-bottom:8px">✓ 密钥已找到</p>
+            <p style="color:#999;font-size:12px;margin-bottom:8px">${deliveredIssue.title}</p>
+            <div style="background:#0a0a14;padding:12px;border-radius:6px;font-family:monospace;color:#c9a96e;word-break:break-all;font-size:13px">${key}</div>
+            <button onclick="navigator.clipboard.writeText('${key}');this.textContent='已复制'" style="margin-top:8px;padding:6px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;font-size:12px;cursor:pointer">复制密钥</button>
+          </div>`;
+        return;
+      }
+    }
+    
+    // 查找待确认的订单（open issue）
+    const pendingIssue = issues.find(issue => 
+      issue.body && issue.body.includes(phone) && issue.state === 'open' && issue.labels.some(l=>l.name==='order')
+    );
+    
+    if (pendingIssue) {
+      resultDiv.innerHTML = '<p style="color:#c9a96e">您的订单正在确认中，确认后密钥将通过邮件发送。请稍后再查询。</p>';
+    } else {
+      resultDiv.innerHTML = '<p style="color:#999">未找到该手机号的订单。如已付款请稍候再试，或联系在线客服。</p>';
+    }
+  } catch (e) {
+    resultDiv.innerHTML = '<p style="color:#ff6b6b">查询失败，请稍后重试或联系在线客服。</p>';
+  }
 }
 
 /* 复制密钥 */
