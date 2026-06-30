@@ -1369,25 +1369,52 @@ function goPay() {
   if (qrSection) qrSection.classList.add('show');
 
   if (isAndroid) {
-    // 方法：隐藏iframe + fallback超时，不导航当前页
-    try {
-      var ifr = document.createElement('iframe');
-      ifr.style.cssText = 'display:none!important;width:1px!important;height:1px!important;position:absolute!important;top:-9999px!important;left:-9999px!important;';
-      document.body.appendChild(ifr);
-      ifr.contentWindow.location.href = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;S.browser_fallback_url=https%3A%2F%2Fshanhai-geo.github.io%2Fgeo%2Fapi-service.html;end';
-      setTimeout(function() {
-        try { ifr.parentNode.removeChild(ifr); } catch(e) {}
-      }, 3000);
-    } catch(e) {
-      // fallback: 直接 location.href
-      window.location.href = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;end';
-    }
+    // Chrome for Android: intent:// 必须在主窗口触发，iframe 无效
+    var intentUrl = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;S.browser_fallback_url=https%3A%2F%2Fshanhai-geo.github.io%2Fgeo%2Fapi-service.html;end';
+    var t0 = Date.now();
+    var fallbackTimer = setTimeout(function() {
+      if (Date.now() - t0 < 3000) showQRFallback('自动打开微信失败，请手动操作');
+    }, 1500);
+    var onVis = function() {
+      if (document.hidden || document.webkitHidden) {
+        clearTimeout(fallbackTimer);
+        document.removeEventListener('visibilitychange', onVis);
+        document.removeEventListener('webkitvisibilitychange', onVis);
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+    document.addEventListener('webkitvisibilitychange', onVis);
+    window.location.href = intentUrl;
   } else if (isIOS) {
-    try {
-      window.location.href = 'weixin://';
-    } catch(e) {}
+    var t0 = Date.now();
+    var fallbackTimer = setTimeout(function() {
+      if (Date.now() - t0 < 3000) showQRFallback('自动打开微信失败，请手动操作');
+    }, 1500);
+    var onVis = function() {
+      if (document.hidden || document.webkitHidden) {
+        clearTimeout(fallbackTimer);
+        document.removeEventListener('visibilitychange', onVis);
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+    window.location.href = 'weixin://';
   } else {
-    alert('请在手机上操作：截图保存二维码，打开微信"扫一扫"→"从相册选取"');
+    showQRFallback('请在手机上操作');
+  }
+}
+
+/* 付款兜底：高亮二维码 + 操作指引 */
+function showQRFallback(msg) {
+  var qrImg = document.querySelector('.payment-qr img');
+  if (qrImg) {
+    qrImg.style.border = '3px solid #c9a96e';
+    qrImg.style.borderRadius = '12px';
+    qrImg.style.padding = '8px';
+    qrImg.style.background = '#fff';
+  }
+  var note = document.querySelector('.payment-note');
+  if (note) {
+    note.innerHTML = '<strong style="color:#c9a96e">' + msg + '</strong><br>① 长按上方收款码 → 保存到相册<br>② 打开微信 → 扫一扫 → 从相册选取';
   }
 }
 
