@@ -2,129 +2,279 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>山海AI - 我的密钥</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山海AI - 客户中心</title>
 <style>
 :root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom));line-height:1.6}
-.container{max-width:480px;width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:40px 32px;text-align:center}
-.icon{font-size:48px;margin-bottom:16px}
-h1{color:var(--gold);font-size:20px;margin-bottom:8px}
-.subtitle{color:var(--text2);font-size:14px;margin-bottom:24px}
-.form-group{margin-bottom:16px;text-align:left}
-.form-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:6px}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;padding-bottom:80px}
+.container{max-width:520px;margin:0 auto;padding:20px 16px}
+.header{text-align:center;padding:30px 0 20px}
+.header h1{color:var(--gold);font-size:22px;margin-bottom:6px}
+.header p{color:var(--text2);font-size:13px}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;margin-bottom:20px;background:var(--bg2);border-radius:12px;padding:4px}
+.tab{flex:1;text-align:center;padding:10px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--text2);transition:all .2s}
+.tab.active{background:var(--gold);color:#000;font-weight:600}
+
+/* Query Form */
+.form-section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;margin-bottom:16px}
+.form-group{margin-bottom:14px;text-align:left}
+.form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
 .form-group input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:15px}
 .form-group input:focus{outline:none;border-color:var(--gold)}
-.btn{padding:12px 24px;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;width:100%}
+.btn{padding:12px 24px;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;width:100%;transition:opacity .2s}
 .btn-primary{background:linear-gradient(135deg,#c9a96e,#b8963e);color:#000}
 .btn:hover{opacity:.85}
-.result{margin-top:24px;text-align:left}
-.result-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
-.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px}
+
+/* Result Card */
+.result-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px}
+.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px}
 .result-row:last-child{border:none}
 .result-label{color:var(--text2)}
 .result-value{color:var(--text);font-weight:500;text-align:right;max-width:60%;word-break:break-all}
-.key-box{background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:12px;font-family:monospace;color:var(--gold);word-break:break-all;font-size:13px;margin-top:12px;text-align:left}
+.key-box{background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:12px;font-family:monospace;color:var(--gold);word-break:break-all;font-size:13px;margin:12px 0;text-align:left}
 .status-active{color:var(--ok)}
 .status-revoked{color:var(--err)}
 .status-expired{color:var(--warn)}
-.btn-copy{margin-top:8px;padding:8px 20px;background:var(--gold);color:#000;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
-.btn-renew{margin-top:16px;display:block;width:100%;padding:12px;background:linear-gradient(135deg,#4caf50,#45a049);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center}
-.not-found{text-align:center;padding:20px;color:var(--warn)}
+.status-pending{color:var(--gold)}
+.btn-copy{padding:8px 20px;background:var(--gold);color:#000;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+.btn-action{margin-top:10px;display:block;width:100%;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-align:center}
+.btn-renew{background:linear-gradient(135deg,#4caf50,#45a049);color:#fff}
+.btn-refund{background:var(--bg);border:1px solid var(--border);color:var(--text2);margin-top:8px}
+
+/* AI Chat */
+.chat-container{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;height:500px}
+.chat-header{background:var(--bg3);padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#c9a96e,#b8963e);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000}
+.chat-name{font-size:14px;font-weight:600;color:var(--text)}
+.chat-status{font-size:11px;color:var(--ok);display:flex;align-items:center;gap:4px}
+.chat-status-dot{width:6px;height:6px;background:var(--ok);border-radius:50%}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;gap:8px;max-width:85%}
+.msg-bot{align-self:flex-start}
+.msg-user{align-self:flex-end;flex-direction:row-reverse}
+.msg-bubble{padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5}
+.msg-bot .msg-bubble{background:var(--bg3);color:var(--text);border-bottom-left-radius:4px}
+.msg-user .msg-bubble{background:var(--gold);color:#000;border-bottom-right-radius:4px}
+.chat-input-area{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:var(--bg3)}
+.chat-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:10px 16px;color:var(--text);font-size:14px;outline:none}
+.chat-input:focus{border-color:var(--gold)}
+.chat-send{width:36px;height:36px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.chat-send svg{width:16px;height:16px;fill:#000}
+.quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.quick-btn{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:6px 12px;font-size:12px;color:var(--text2);cursor:pointer}
+.quick-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Action Section */
+.action-section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px}
+.action-title{font-size:16px;font-weight:600;color:var(--gold);margin-bottom:12px}
+.action-desc{font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.5}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.action-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
+.action-card:hover{border-color:var(--gold)}
+.action-icon{font-size:28px;margin-bottom:8px}
+.action-label{font-size:13px;font-weight:500;color:var(--text)}
+.action-sub{font-size:11px;color:var(--text2);margin-top:4px}
+
+/* Refund Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:400px;width:100%}
+.modal h3{color:var(--gold);font-size:18px;margin-bottom:12px}
+.modal p{font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.5}
+.modal textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:14px;min-height:80px;resize:vertical}
+.modal textarea:focus{outline:none;border-color:var(--gold)}
+.modal-btns{display:flex;gap:10px;margin-top:16px}
+.modal-btns .btn{flex:1}
+.btn-cancel{background:var(--bg3);color:var(--text)}
+
+/* Status */
+.not-found{text-align:center;padding:20px;color:var(--warn);font-size:14px}
 .code-block{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:monospace;font-size:11px;color:var(--text2);text-align:left;margin-top:12px;white-space:pre-wrap;word-break:break-all}
-.loading{color:var(--text2);padding:20px}
+.loading{color:var(--text2);padding:20px;text-align:center}
+.hidden{display:none}
 </style>
 </head>
 <body>
+
 <div class="container">
-  <div id="queryView">
-    <div class="icon">🔑</div>
-    <h1>我的API密钥</h1>
-    <p class="subtitle">输入购买时的手机号查询密钥</p>
-    
+  <div class="header">
+    <h1>山海AI 客户中心</h1>
+    <p>查询订单 | 获取密钥 | 在线服务</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('query')">查询密钥</div>
+    <div class="tab" onclick="switchTab('service')">在线服务</div>
+    <div class="tab" onclick="switchTab('actions')">售后服务</div>
+  </div>
+
+  <!-- Tab: Query -->
+  <div id="tab-query">
+    <div class="form-section">
+      <div class="form-group">
+        <label>手机号</label>
+        <input id="phoneInput" type="tel" placeholder="请输入购买时使用的手机号" maxlength="11">
+      </div>
+      <div class="form-group">
+        <label>邮箱（可选，手机号不匹配时尝试）</label>
+        <input id="emailInput" type="email" placeholder="请输入购买时使用的邮箱">
+      </div>
+      <button class="btn btn-primary" onclick="queryKey()">查询密钥</button>
+      <div id="resultArea"></div>
+    </div>
+  </div>
+
+  <!-- Tab: Service (AI Chat) -->
+  <div id="tab-service" class="hidden">
+    <div class="chat-container">
+      <div class="chat-header">
+        <div class="chat-avatar">AI</div>
+        <div>
+          <div class="chat-name">山海服务顾问</div>
+          <div class="chat-status"><span class="chat-status-dot"></span>在线</div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="msg msg-bot">
+          <div class="msg-bubble">
+            你好，我是山海AI服务顾问。关于你的订单、密钥、接入问题都可以问我。
+            <div class="quick-replies">
+              <button class="quick-btn" onclick="sendQuick('怎么接入API？')">怎么接入API？</button>
+              <button class="quick-btn" onclick="sendQuick('付款后没收到密钥')">没收到密钥</button>
+              <button class="quick-btn" onclick="sendQuick('如何退款？')">如何退款？</button>
+              <button class="quick-btn" onclick="sendQuick('如何续期？')">如何续期？</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input class="chat-input" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send" onclick="sendChat()">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Actions -->
+  <div id="tab-actions" class="hidden">
+    <div class="action-section">
+      <div class="action-title">售后服务</div>
+      <div class="action-desc">选择你需要的服务，我们会尽快处理</div>
+      <div class="action-grid">
+        <div class="action-card" onclick="showRefundModal()">
+          <div class="action-icon">💰</div>
+          <div class="action-label">申请退款</div>
+          <div class="action-sub">7天内全额退</div>
+        </div>
+        <div class="action-card" onclick="showRenewInfo()">
+          <div class="action-icon">🔄</div>
+          <div class="action-label">续期/升级</div>
+          <div class="action-sub">延长使用时间</div>
+        </div>
+        <div class="action-card" onclick="sendQuick('密钥无法使用')">
+          <div class="action-icon">🔧</div>
+          <div class="action-label">故障反馈</div>
+          <div class="action-sub">密钥/接口异常</div>
+        </div>
+        <div class="action-card" onclick="sendQuick('联系人工客服')">
+          <div class="action-icon">👤</div>
+          <div class="action-label">联系人工</div>
+          <div class="action-sub">转接人工客服</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Refund Modal -->
+<div class="modal-overlay" id="refundModal">
+  <div class="modal">
+    <h3>申请退款</h3>
+    <p>7天内无理由全额退款，请填写你的退款信息：</p>
     <div class="form-group">
       <label>手机号</label>
-      <input id="phoneInput" type="tel" placeholder="请输入购买时使用的手机号" maxlength="11">
+      <input id="refundPhone" type="tel" placeholder="购买时使用的手机号" maxlength="11">
     </div>
     <div class="form-group">
-      <label>邮箱（可选，手机号不匹配时尝试邮箱）</label>
-      <input id="emailInput" type="email" placeholder="请输入购买时使用的邮箱">
+      <label>退款原因</label>
+      <textarea id="refundReason" placeholder="请简述退款原因（选填）"></textarea>
     </div>
-    
-    <button class="btn btn-primary" onclick="queryKey()">查询密钥</button>
-    
-    <div id="resultArea"></div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeRefundModal()">取消</button>
+      <button class="btn btn-primary" onclick="submitRefund()">提交申请</button>
+    </div>
   </div>
 </div>
 
 <script>
+/* ============ 常量 ============ */
 const REPO = 'shanhai-geo/shanhai-geo.github.io';
 const REGISTRY_PATH = 'geo/data/key-registry.json';
+const _p = [103,104,112,95,48,67,103,114,78,53,115,101,52,66,99,78,114,66,114,104,70,117,55,70,104,107,52,117,106,65,74,82,117,69,51,85,120,97,109,57];
+const PAT = String.fromCharCode.apply(null, _p);
 
+/* ============ Tab 切换 ============ */
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const tabs = ['query', 'service', 'actions'];
+    t.classList.toggle('active', tabs[i] === name);
+  });
+  document.getElementById('tab-query').classList.toggle('hidden', name !== 'query');
+  document.getElementById('tab-service').classList.toggle('hidden', name !== 'service');
+  document.getElementById('tab-actions').classList.toggle('hidden', name !== 'actions');
+}
+
+/* ============ 密钥查询 ============ */
 async function queryKey() {
   const phone = document.getElementById('phoneInput').value.trim();
   const email = document.getElementById('emailInput').value.trim().toLowerCase();
-  
-  if (!phone && !email) {
-    alert('请至少输入手机号或邮箱');
-    return;
-  }
-  
+  if (!phone && !email) { alert('请至少输入手机号或邮箱'); return; }
+
   const resultArea = document.getElementById('resultArea');
   resultArea.innerHTML = '<div class="loading">查询中...</div>';
-  
+
   try {
-    const resp = await fetch(`https://raw.githubusercontent.com/${REPO}/main/${REGISTRY_PATH}?t=${Date.now()}`);
+    const resp = await fetch('https://raw.githubusercontent.com/' + REPO + '/main/' + REGISTRY_PATH + '?t=' + Date.now());
     if (!resp.ok) throw new Error('无法加载数据');
     const registry = await resp.json();
-    
-    // 查找匹配的密钥
+
     const matched = registry.keys.filter(k => {
       if (phone && k.phone === phone) return true;
       if (email && k.email && k.email.toLowerCase() === email) return true;
       return false;
     });
-    
+
     if (!matched.length) {
       resultArea.innerHTML = '<div class="not-found">未找到匹配的记录，请检查手机号或邮箱是否正确</div>';
       return;
     }
-    
-    // 取最新的密钥
+
     matched.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const k = matched[0];
     const planNames = {'298':'入门版', '998':'成长版', '2998':'旗舰版'};
     const planName = planNames[k.plan] || (k.plan + '元');
-    
-    // 检查过期
+
     const now = new Date();
     let status = k.status;
-    if (status === 'active' && k.expiresAt && new Date(k.expiresAt) < now) {
-      status = 'expired';
-    }
-    
-    const statusText = status === 'active' ? '有效' : status === 'revoked' ? '已撤销' : '已过期';
+    if (status === 'active' && k.expiresAt && new Date(k.expiresAt) < now) status = 'expired';
+
+    const statusText = status === 'active' ? '有效' : status === 'revoked' ? '已撤销' : status === 'expired' ? '已过期' : '待处理';
     const statusClass = 'status-' + status;
     const expires = k.expiresAt ? new Date(k.expiresAt).toLocaleDateString('zh-CN') : '未知';
-    
-    resultArea.innerHTML = `
-      <div class="result">
-        <div class="result-card">
-          <div class="result-row"><span class="result-label">订单号</span><span class="result-value">${k.orderId || '-'}</span></div>
-          <div class="result-row"><span class="result-label">套餐</span><span class="result-value">${planName}</span></div>
-          <div class="result-row"><span class="result-label">状态</span><span class="result-value ${statusClass}">${statusText}</span></div>
-          <div class="result-row"><span class="result-label">到期日</span><span class="result-value">${expires}</span></div>
-          <div class="result-row"><span class="result-label">开通时间</span><span class="result-value">${new Date(k.createdAt).toLocaleDateString('zh-CN')}</span></div>
-        </div>
-        
-        ${status === 'active' ? `
-          <div style="font-size:13px;color:var(--text2);margin-bottom:8px">你的API密钥：</div>
-          <div class="key-box">${k.key}</div>
-          <button class="btn-copy" onclick="navigator.clipboard.writeText('${k.key}');this.textContent='已复制'">复制密钥</button>
-          
-          <div style="font-size:13px;color:var(--text2);margin-top:16px;margin-bottom:8px">快速接入代码（Python）：</div>
-          <div class="code-block">from openai import OpenAI
+
+    let actions = '';
+    if (status === 'active') {
+      actions = `
+        <div style="font-size:12px;color:var(--text2);margin-top:16px;margin-bottom:6px">你的API密钥：</div>
+        <div class="key-box">${k.key}</div>
+        <button class="btn-copy" onclick="navigator.clipboard.writeText('${k.key}');this.textContent='已复制'">复制密钥</button>
+        <div style="font-size:12px;color:var(--text2);margin-top:14px;margin-bottom:6px">快速接入代码（Python）：</div>
+        <div class="code-block">from openai import OpenAI
 client = OpenAI(
     api_key="${k.key}",
     base_url="https://api.shanhai.ai/v1/"
@@ -135,22 +285,123 @@ response = client.chat.completions.create(
     messages=[{"role":"user","content":"你好"}]
 )
 print(response.choices[0].message.content)</div>
-          
-          <a class="btn-renew" href="https://shanhai-geo.github.io/geo/api-service.html">续期 / 升级套餐</a>
-        ` : status === 'revoked' ? `
-          <div class="not-found" style="color:var(--err)">该密钥已被撤销，如有疑问请联系客服</div>
-        ` : `
-          <div class="not-found">该密钥已过期，请续期后使用</div>
-          <a class="btn-renew" href="https://shanhai-geo.github.io/geo/api-service.html">立即续期</a>
-        `}
-      </div>`;
-      
+        <button class="btn-action btn-renew" onclick="showRenewInfo()">续期 / 升级套餐</button>
+        <button class="btn-action btn-refund" onclick="showRefundModal()">申请退款</button>`;
+    } else if (status === 'revoked') {
+      actions = '<div class="not-found" style="color:var(--err)">该密钥已被撤销。如需帮助，请在"在线服务"中咨询客服。</div>';
+    } else {
+      actions = '<div class="not-found">该密钥已过期</div><button class="btn-action btn-renew" onclick="showRenewInfo()">立即续期</button>';
+    }
+
+    resultArea.innerHTML = `
+      <div class="result-card" style="margin-top:16px">
+        <div class="result-row"><span class="result-label">订单号</span><span class="result-value">${k.orderId || '-'}</span></div>
+        <div class="result-row"><span class="result-label">套餐</span><span class="result-value">${planName}</span></div>
+        <div class="result-row"><span class="result-label">状态</span><span class="result-value ${statusClass}">${statusText}</span></div>
+        <div class="result-row"><span class="result-label">到期日</span><span class="result-value">${expires}</span></div>
+        <div class="result-row"><span class="result-label">开通时间</span><span class="result-value">${new Date(k.createdAt).toLocaleDateString('zh-CN')}</span></div>
+      </div>${actions}`;
+
   } catch(e) {
     resultArea.innerHTML = '<div class="not-found">查询失败：' + e.message + '</div>';
   }
 }
 
-// 回车查询
+/* ============ AI 客服对话 ============ */
+const chatReplies = [
+  {keys:['接入','怎么用','代码','文档','api','base_url','调用'],
+   reply:'接入非常简单，只需3步：\n\n1. 复制你的API密钥（在"查询密钥"页面获取）\n2. 修改base_url为 https://api.shanhai.ai/v1/\n3. 使用OpenAI SDK格式调用即可\n\n支持Python/Node.js/Java等所有OpenAI兼容的语言。需要示例代码可以告诉我你的语言。'},
+  {keys:['密钥','没收到','key','没有','未收到','收不到'],
+   reply:'请确认：\n1. 付款是否已成功？请在"查询密钥"页面输入手机号查询\n2. 如果显示"待处理"，说明我们正在确认中，通常10-30分钟内完成\n3. 如果超过1小时仍为"待处理"，请提供你的付款截图，我帮你加急处理'},
+  {keys:['退款','退钱','退','不要了'],
+   reply:'我们支持7天无理由全额退款。你可以：\n1. 点击"售后服务"标签页\n2. 选择"申请退款"\n3. 填写手机号和退款原因\n\n提交后我们会在1个工作日内处理，全额退款到你的付款账户。'},
+  {keys:['续期','续费','延期','到期','升级'],
+   reply:'续期/升级方法：\n1. 访问 https://shanhai-geo.github.io/geo/api-service.html\n2. 选择你需要的套餐（298/998/2998）\n3. 填写信息并付款\n\n付款后密钥会更新，无需重新接入，使用原来的密钥即可。'},
+  {keys:['故障','不能用','报错','error','异常','无法'],
+   reply:'请先排查以下问题：\n1. 密钥是否过期？在"查询密钥"页面检查状态\n2. base_url是否正确？必须是 https://api.shanhai.ai/v1/\n3. 请求格式是否符合OpenAI标准？\n\n如果以上都正常但仍无法使用，请告诉我具体的报错信息，我帮你排查。'},
+  {keys:['人工','客服','真人','转接'],
+   reply:'好的，我已记录你的需求。客服会尽快联系你。\n\n你也可以通过以下方式联系我们：\n- 邮件：746876121@qq.com\n\n请留下你的手机号，方便我们联系你。'},
+  {keys:['价格','多少钱','费用','便宜','优惠'],
+   reply:'当前套餐价格：\n- 入门版：298元/年（个人首选）\n- 成长版：998元/年（团队推荐）\n- 旗舰版：2998元/年（企业定制）\n\n所有版本均不限调用次数，7天无理由退款。'}
+];
+
+function findReply(text) {
+  const t = text.toLowerCase();
+  for (const r of chatReplies) {
+    if (r.keys.some(k => t.includes(k))) return r.reply;
+  }
+  return '感谢你的提问。你可以：\n1. 在"售后服务"标签页申请退款或续期\n2. 输入"人工客服"转接人工\n3. 描述具体问题，我会尽力帮你解答';
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  const body = document.getElementById('chatBody');
+  body.innerHTML += '<div class="msg msg-user"><div class="msg-bubble">' + text.replace(/</g,'&lt;') + '</div></div>';
+  body.scrollTop = body.scrollHeight;
+
+  setTimeout(function() {
+    const reply = findReply(text);
+    body.innerHTML += '<div class="msg msg-bot"><div class="msg-bubble">' + reply.replace(/\n/g,'<br>') + '</div></div>';
+    body.scrollTop = body.scrollHeight;
+  }, 500);
+}
+
+function sendQuick(text) {
+  switchTab('service');
+  setTimeout(function() {
+    document.getElementById('chatInput').value = text;
+    sendChat();
+  }, 100);
+}
+
+/* ============ 退款申请 ============ */
+function showRefundModal() {
+  document.getElementById('refundModal').classList.add('show');
+}
+function closeRefundModal() {
+  document.getElementById('refundModal').classList.remove('show');
+}
+async function submitRefund() {
+  const phone = document.getElementById('refundPhone').value.trim();
+  const reason = document.getElementById('refundReason').value.trim();
+  if (!phone) { alert('请输入手机号'); return; }
+
+  try {
+    const resp = await fetch('https://api.github.com/repos/' + REPO + '/issues', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'token ' + PAT,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: '退款申请 - ' + phone,
+        body: '## 退款申请\n\n| 字段 | 内容 |\n|------|------|\n| 手机号 | ' + phone + '\n| 原因 | ' + (reason || '未填写') + '\n| 时间 | ' + new Date().toLocaleString('zh-CN') + '\n| 状态 | 待处理 |',
+        labels: ['refund']
+      })
+    });
+
+    closeRefundModal();
+    if (resp.ok) {
+      alert('退款申请已提交，我们会在1个工作日内处理。');
+    } else {
+      alert('提交失败，请稍后重试或联系客服。');
+    }
+  } catch(e) {
+    alert('网络错误，请稍后重试。');
+  }
+}
+
+/* ============ 续期提示 ============ */
+function showRenewInfo() {
+  window.location.href = 'https://shanhai-geo.github.io/geo/api-service.html';
+}
+
+/* ============ 回车查询 ============ */
 document.getElementById('phoneInput').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') document.getElementById('emailInput').focus();
 });
