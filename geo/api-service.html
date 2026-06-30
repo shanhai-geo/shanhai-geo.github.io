@@ -781,8 +781,8 @@ a { color: var(--gold); text-decoration: none; }
   .order-box, .payment-box { padding: 24px 20px; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
-  .cs-panel { position: fixed; left: 8px; right: 8px; max-width: none; width: auto; height: 55vh; max-height: 420px; bottom: 80px; border-radius: 16px; }
-  .cs-float { bottom: 16px !important; right: 12px !important; }
+  .cs-panel { position: fixed !important; left: 8px !important; right: 8px !important; max-width: none !important; width: auto !important; height: 55vh !important; max-height: 420px !important; bottom: 80px !important; border-radius: 16px !important; z-index: 99998 !important; }
+  .cs-float { bottom: 16px !important; right: 12px !important; z-index: 99999 !important; }
   .cs-btn { width: 52px !important; height: 52px !important; }
   .cs-btn svg { width: 24px; height: 24px; }
   .cs-btn .cs-label { display: none; }
@@ -1320,40 +1320,41 @@ function saveCurrentOrder(order) {
 }
 
 // 同步订单到GitHub（通过Issue记录，公开仓库无需token）
+// 通过FormSubmit免费服务自动发邮件通知管理员（无需token，无需后端）
+// 首次使用需到邮箱点击激活链接，之后每次提交自动发邮件
 async function syncOrderToGitHub(order) {
   try {
-    const issueBody = `## 订单信息\n\n` +
-      `- 订单号：${order.orderId}\n` +
-      `- 套餐：${order.planName} ${order.price}元\n` +
-      `- 姓名：${order.name}\n` +
-      `- 手机号：${order.phone}\n` +
-      `- 邮箱：${order.email || '未填写'}\n` +
-      `- 下单时间：${order.createdAt}\n` +
-      `- 状态：已付款待确认\n\n` +
-      `---\n此Issue由系统自动创建，确认后关闭。`;
-    
-    const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`, {
+    // 方式1：FormSubmit 自动发邮件
+    const formData = new URLSearchParams();
+    formData.append('_subject', '【新订单】' + order.orderId + ' - ' + order.planName + ' ¥' + order.price);
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
+    formData.append('订单号', order.orderId);
+    formData.append('套餐', order.planName + ' ' + order.price + '元');
+    formData.append('姓名', order.name);
+    formData.append('手机号', order.phone);
+    formData.append('邮箱', order.email || '未填写');
+    formData.append('下单时间', order.createdAt);
+    formData.append('状态', '已付款待确认');
+    formData.append('管理后台', 'https://shanhai-geo.github.io/geo/admin.html');
+
+    const resp = await fetch('https://formsubmit.co/ajax/746876121@qq.com', {
       method: 'POST',
-      headers: { 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: `订单 ${order.orderId} - ${order.planName} ¥${order.price} - 待确认`,
-        body: issueBody,
-        labels: ['order', 'payment-pending']
-      })
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+      body: formData.toString()
     });
-    
+
     if (resp.ok) {
-      console.log('Order issue created:', order.orderId);
+      console.log('Order email sent via FormSubmit:', order.orderId);
       return true;
     }
+    console.warn('FormSubmit returned:', resp.status);
     return false;
   } catch (e) {
-    console.error('Order sync failed:', e);
+    console.error('Order email failed:', e);
     return false;
   }
 }
-
-// Issue创建会自动通知仓库订阅者，无需额外通知函数
 
 /* 去付款 → 直接跳微信/支付宝扫码付款 */
 function goPay() {
@@ -1363,24 +1364,28 @@ function goPay() {
     alert('请在手机上打开此页面，长按识别二维码转账');
     return;
   }
-  // Android: 用intent scheme直接拉起微信
+  // Android: 用iframe触发intent scheme，不直接导航（避免页面崩溃）
   if (ua.indexOf('android') !== -1) {
-    window.location.href = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;end';
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'display:none;width:0;height:0;border:0;position:absolute;top:-9999px;left:-9999px';
+    iframe.src = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;end';
+    document.body.appendChild(iframe);
     setTimeout(() => {
+      try { document.body.removeChild(iframe); } catch(e) {}
       alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
-    }, 2000);
+    }, 2500);
     return;
   }
-  // iOS: 用weixin:// scheme
+  // iOS: 用iframe触发weixin:// scheme
   if (/iphone|ipad|ipod/i.test(ua)) {
     const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
+    iframe.style.cssText = 'display:none;width:0;height:0;border:0;position:absolute;top:-9999px;left:-9999px';
     iframe.src = 'weixin://';
     document.body.appendChild(iframe);
     setTimeout(() => {
-      document.body.removeChild(iframe);
+      try { document.body.removeChild(iframe); } catch(e) {}
       alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
-    }, 2000);
+    }, 2500);
     return;
   }
   alert('请截图保存二维码，打开微信或支付宝扫一扫完成付款');
@@ -1422,27 +1427,10 @@ async function confirmPayment() {
   document.getElementById('displayOrderId').textContent = order.orderId;
   document.getElementById('waitingSection').scrollIntoView({ behavior: 'smooth' });
   
-  // 创建GitHub Issue，系统自动通过GitHub通知发邮件给管理员（无需客户操作）
-  const issueResult = await syncOrderToGitHub(order);
-  if (!issueResult) {
-    // Issue创建失败时，降级使用mailto兜底
-    const mailSubject = encodeURIComponent('【新订单】' + order.orderId + ' - ' + order.planName + ' ¥' + order.price);
-    const mailBody = encodeURIComponent(
-      '新订单通知\n\n' +
-      '订单号：' + order.orderId + '\n' +
-      '套餐：' + order.planName + ' ¥' + order.price + '\n' +
-      '姓名：' + order.name + '\n' +
-      '手机号：' + order.phone + '\n' +
-      '邮箱：' + (order.email || '未填写') + '\n' +
-      '下单时间：' + order.createdAt + '\n\n' +
-      '请到管理后台确认交付：https://shanhai-geo.github.io/geo/admin.html'
-    );
-    const a = document.createElement('a');
-    a.href = 'mailto:746876121@qq.com?subject=' + mailSubject + '&body=' + mailBody;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  // 通过FormSubmit自动发邮件通知管理员（系统自动发送，客户无需操作）
+  const emailResult = await syncOrderToGitHub(order);
+  if (!emailResult) {
+    console.warn('邮件通知未送达，订单已保存在本地，客户可通过手机号查询');
   }
 }
 
