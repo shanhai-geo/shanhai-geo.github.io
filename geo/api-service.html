@@ -571,27 +571,27 @@ a { color: var(--gold); text-decoration: none; }
 /* AI Customer Service Float */
 .cs-float {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 20px;
+  right: 16px;
   z-index: 999;
 }
 .cs-btn {
-  width: 56px; height: 56px;
+  width: 52px; height: 52px;
   border-radius: 50%;
   background: var(--gradient-gold);
   border: none;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(201,169,110,0.4);
+  box-shadow: 0 4px 16px rgba(201,169,110,0.45);
   transition: all 0.3s;
   position: relative;
 }
-.cs-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(201,169,110,0.5); }
-.cs-btn svg { width: 26px; height: 26px; fill: #000; }
+.cs-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(201,169,110,0.55); }
+.cs-btn svg { width: 24px; height: 24px; fill: #000; }
 .cs-btn .cs-badge {
   position: absolute;
   top: -2px; right: -2px;
-  width: 14px; height: 14px;
+  width: 12px; height: 12px;
   background: #4caf50;
   border-radius: 50%;
   border: 2px solid var(--bg);
@@ -599,14 +599,14 @@ a { color: var(--gold); text-decoration: none; }
 }
 .cs-panel {
   position: absolute;
-  bottom: 68px;
+  bottom: 62px;
   right: 0;
-  width: 340px;
-  max-height: 480px;
+  width: 320px;
+  height: 420px;
   background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   display: none;
   flex-direction: column;
   overflow: hidden;
@@ -722,15 +722,15 @@ a { color: var(--gold); text-decoration: none; }
   .order-box, .payment-box { padding: 24px 20px; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
-  .cs-panel { width: calc(100vw - 32px); max-width: 340px; max-height: 60vh; right: 0; bottom: 60px; border-radius: 16px; }
-  .cs-float { bottom: 12px; right: 12px; }
-  .cs-btn { width: 48px; height: 48px; }
-  .cs-btn svg { width: 22px; height: 22px; }
-  .cs-header { padding: 12px 14px; }
-  .cs-body { padding: 10px; }
-  .cs-bubble { font-size: 13px; padding: 8px 12px; max-width: 85%; }
-  .cs-quick-btn { font-size: 12px; padding: 4px 10px; }
-  .cs-input-area { padding: 8px 10px; }
+  .cs-panel { width: calc(100vw - 32px); max-width: 300px; height: 360px; right: 0; bottom: 58px; border-radius: 14px; }
+  .cs-float { bottom: 14px; right: 12px; }
+  .cs-btn { width: 46px; height: 46px; }
+  .cs-btn svg { width: 20px; height: 20px; }
+  .cs-header { padding: 10px 12px; }
+  .cs-body { padding: 8px; }
+  .cs-bubble { font-size: 13px; padding: 8px 11px; max-width: 85%; }
+  .cs-quick-btn { font-size: 11px; padding: 4px 8px; }
+  .cs-input-area { padding: 6px 8px; }
   .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .delivery-box { padding: 24px 18px; }
   .delivery-actions { flex-direction: column; }
@@ -780,8 +780,8 @@ a { color: var(--gold); text-decoration: none; }
       <div class="trust-label">无理由退款</div>
     </div>
     <div class="trust-item">
-      <div class="trust-num">快速</div>
-      <div class="trust-label">密钥交付</div>
+      <div class="trust-num">90秒</div>
+      <div class="trust-label">快速上手</div>
     </div>
   </div>
 </div>
@@ -1190,7 +1190,8 @@ function selectPlan(price, name) {
   document.querySelectorAll('.plan-option').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.plan === price);
   });
-  showPayment();
+  // 先滚动到表单，让用户填写信息后再付款
+  document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
 }
 
 function selectPlanOption(price) {
@@ -1211,6 +1212,11 @@ function showPayment() {
 
 function handleSubmit(e) {
   e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  // 存储表单信息，付款确认时使用
+  window.currentOrderInfo = { name, phone, email, plan: selectedPlan };
   showPayment();
   return false;
 }
@@ -1287,23 +1293,24 @@ async function syncOrderToGitHub(order) {
 
 /* 确认付款 → 记录订单 → 等待确认 */
 async function confirmPayment() {
-  const phone = document.getElementById('phone').value.trim();
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
-  const price = document.getElementById('selectedPlan').value;
+  // 使用提交表单时存储的信息
+  const info = window.currentOrderInfo;
+  if (!info || !info.name || !info.phone) {
+    alert('请先填写姓名和手机号');
+    backToForm();
+    return;
+  }
   
   const planNames = {'298':'入门版', '998':'成长版', '2998':'旗舰版'};
-  
-  // 创建订单
   const order = {
     orderId: generateOrderId(),
-    name: name,
-    phone: phone,
-    email: email,
-    plan: price,
-    planName: planNames[price] || price,
-    price: price,
-    status: 'paid_pending',  // 已付款待确认
+    name: info.name,
+    phone: info.phone,
+    email: info.email,
+    plan: info.plan,
+    planName: planNames[info.plan] || info.plan,
+    price: info.plan,
+    status: 'paid_pending',
     createdAt: new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'}),
     key: null,
     deliveredAt: null,
@@ -1320,16 +1327,23 @@ async function confirmPayment() {
   document.getElementById('displayOrderId').textContent = order.orderId;
   document.getElementById('waitingSection').scrollIntoView({ behavior: 'smooth' });
   
-  // 创建Issue记录订单+通知仓库订阅者（异步，不阻塞）
-  syncOrderToGitHub(order);
+  // 自动打开邮件通知管理员（mailto 方式）
+  const mailSubject = encodeURIComponent('【新订单】' + order.orderId + ' - ' + order.planName + ' ¥' + order.price);
+  const mailBody = encodeURIComponent(
+    '新订单通知\n\n' +
+    '订单号：' + order.orderId + '\n' +
+    '套餐：' + order.planName + ' ¥' + order.price + '\n' +
+    '姓名：' + order.name + '\n' +
+    '手机号：' + order.phone + '\n' +
+    '邮箱：' + (order.email || '未填写') + '\n' +
+    '下单时间：' + order.createdAt + '\n\n' +
+    '请到管理后台确认交付：https://shanhai-geo.github.io/geo/admin.html'
+  );
+  // 打开邮件客户端通知管理员
+  window.location.href = 'mailto:746876121@qq.com?subject=' + mailSubject + '&body=' + mailBody;
   
-  // AI客服提示
-  setTimeout(() => {
-    if (!document.getElementById('csPanel').classList.contains('open')) {
-      toggleCS();
-    }
-    csAddMsg('您的付款通知已提交。我们正在确认中，确认后密钥会通过邮件发送给您。如有紧急问题，请在此告诉我。', 'bot');
-  }, 800);
+  // 同步创建GitHub Issue记录（异步，不阻塞）
+  syncOrderToGitHub(order);
 }
 
 /* 查询密钥 */

@@ -161,17 +161,55 @@ function renderOrders() {
 
 function deliverOrder(number, phone, email, orderId) {
   const key = genKey();
-  const area = document.getElementById('keyArea-' + number);
-  area.style.display = 'block';
-  area.innerHTML = `
-    <div class="key-gen">
-      <div style="margin-bottom:8px;color:var(--text2)">生成的密钥：</div>
-      ${key}
-    </div>
-    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-      ${email && email !== '-' ? `<button class="btn btn-deliver" onclick="sendKeyEmail('${email}','${orderId}','${key}')">发邮件给客户</button>` : ''}
-      <a class="btn btn-link" href="https://github.com/${OWNER}/${REPO}/issues/${number}" target="_blank" onclick="copyKeyForIssue('${key}')">去Issue关闭（复制密钥后粘贴）</a>
-    </div>`;
+  const planMatch = allIssues.find(i => i.number === number)?.title.match(/¥(\d+)/);
+  const price = planMatch ? planMatch[1] : '';
+  
+  // 1. 发送密钥邮件给客户（mailto 方式）
+  if (email && email !== '-') {
+    const subject = encodeURIComponent('【山海接口服务】您的API密钥 - ' + orderId);
+    const body = encodeURIComponent(
+      '你好，' + (allIssues.find(i=>i.number===number)?.body?.match(/姓名[：:]\s*(.+?)(?:\n|$)/)?.[1]?.trim() || '') + '：\n\n' +
+      '你的API密钥已交付。\n\n' +
+      '订单号：' + orderId + '\n' +
+      '套餐：' + (allIssues.find(i=>i.number===number)?.body?.match(/套餐[：:]\s*(.+?)(?:\n|$)/)?.[1]?.trim() || '') + '\n' +
+      'API密钥：' + key + '\n\n' +
+      '接入地址：https://shanhai-geo.github.io/geo/api-service.html\n' +
+      '使用方式：将 base_url 改为 https://api.shanhai.ai/v1/，用此密钥即可调用。\n\n' +
+      '如有问题，请在产品页联系在线客服。\n\n山海接口服务团队'
+    );
+    window.open('mailto:' + email + '?subject=' + subject + '&body=' + body, '_blank');
+  }
+  
+  // 2. 在Issue中评论密钥并关闭Issue
+  const commentBody = '✅ 已确认交付\n\nAPI密钥：' + key + '\n交付时间：' + new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
+  
+  // 先添加评论
+  fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${number}/comments`, {
+    method: 'POST',
+    headers: {'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json'},
+    body: JSON.stringify({body: commentBody})
+  }).then(() => {
+    // 再关闭Issue
+    return fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${number}`, {
+      method: 'PATCH',
+      headers: {'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json'},
+      body: JSON.stringify({state: 'closed'})
+    });
+  }).then(() => {
+    // 显示结果
+    const area = document.getElementById('keyArea-' + number);
+    area.style.display = 'block';
+    area.innerHTML = `
+      <div class="key-gen">
+        <div style="margin-bottom:8px;color:var(--ok)">✅ 已交付</div>
+        <div>密钥：${key}</div>
+        <div style="margin-top:4px;color:var(--text2);font-size:12px">邮件已发送至 ${email}</div>
+      </div>`;
+    // 刷新列表
+    setTimeout(loadOrders, 1000);
+  }).catch(err => {
+    alert('操作失败：' + err.message + '\n密钥已生成：' + key + '\n请手动在GitHub Issue中关闭并通知客户。');
+  });
 }
 
 function sendKeyEmail(toEmail, orderId, key) {
