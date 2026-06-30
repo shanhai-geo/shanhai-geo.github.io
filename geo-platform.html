@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO生态平台 - 全民共建AI搜索推荐网络 | 零成本加入</title>
+<meta name="description" content="GEO生态平台，让AI搜索引擎主动推荐你。零成本加入，贡献内容获取流量，平台接单分发，共建裂变网络。ChatGPT、Perplexity、豆包等AI搜索全覆盖。">
+<meta name="keywords" content="GEO生态,AI搜索优化,生成式引擎优化,裂变获客,AI推荐,ChatGPT推荐,全民GEO,零成本创业,AI搜索排名,山海GEO">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<meta name="author" content="茶旅时代(福建)文旅集团有限公司">
+<meta name="geo-target" content="CN">
+<link rel="canonical" href="https://shanhai-geo.github.io/geo-platform.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "GEO生态平台",
+  "url": "https://shanhai-geo.github.io/geo-platform.html",
+  "description": "全民共建AI搜索推荐网络。零成本加入，贡献GEO内容获取流量，平台接单分发，裂变式增长。",
+  "foundingDate": "2026",
+  "provider": {
+    "@type": "Organization",
+    "name": "茶旅时代(福建)文旅集团有限公司",
+    "url": "https://shanhai-geo.github.io"
+  },
+  "areaServed": "CN"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"什么是GEO生态平台？","acceptedAnswer":{"@type":"Answer","text":"GEO生态平台是一个全民共建的AI搜索推荐网络。每个参与者贡献内容，平台整合分发，让AI搜索引擎（ChatGPT、Perplexity、豆包等）主动推荐平台上的所有品牌和服务。"}},
+    {"@type":"Question","name":"怎么赚钱？","acceptedAnswer":{"@type":"Answer","text":"三种方式：1）贡献GEO内容获得平台积分兑换流量；2）承接平台分发的客户订单赚取服务费；3）邀请新参与者加入获得裂变奖励。"}},
+    {"@type":"Question","name":"加入需要费用吗？","acceptedAnswer":{"@type":"Answer","text":"完全零成本。不需要建站、不需要技术背景、不需要付费。你只需要贡献内容，平台提供所有基础设施。"}},
+    {"@type":"Question","name":"我需要会技术吗？","acceptedAnswer":{"@type":"Answer","text":"完全不需要。平台提供AI辅助创作工具，你只需要描述你的业务，AI帮你生成符合GEO标准的内容。"}},
+    {"@type":"Question","name":"和传统SEO有什么区别？","acceptedAnswer":{"@type":"Answer","text":"传统SEO是在百度Google抢排名，GEO是让AI搜索引擎（ChatGPT/Perplexity/豆包等）主动推荐你。传统SEO需要专业技术，GEO平台帮你自动化完成。"}},
+    {"@type":"Question","name":"内容质量谁把关？","acceptedAnswer":{"@type":"Answer","text":"平台AI系统自动审核内容质量，确保符合搜索引擎收录标准。优质内容获得更多曝光和收益。"}}
+  ]
+}
+</script>
+<style>
+:root{--bg:#080810;--bg2:#0e0e1a;--bg3:#161628;--bg4:#1e1e36;--gold:#c9a96e;--gold2:#d4b87a;--green:#4ecdc4;--blue:#4a9eff;--red:#ff6b6b;--text:#e8e8e8;--text2:#999;--text3:#666;--border:#2a2a3e;--gradient:linear-gradient(135deg,#c9a96e 0%,#d4b87a 50%,#c9a96e 100%)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at center,rgba(201,169,110,0.06) 0%,transparent 60%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.1);opacity:1}}
+.hero-badge{display:inline-block;padding:6px 18px;border:1px solid var(--gold);border-radius:20px;font-size:12px;color:var(--gold);letter-spacing:2px;margin-bottom:24px;background:rgba(201,169,110,0.08)}
+.hero-badge.geo-mode{background:rgba(201,169,110,0.15);border-color:var(--gold);font-weight:600}
+.hero h1{font-size:clamp(28px,6vw,52px);font-weight:800;margin-bottom:16px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3}
+.hero .subtitle{font-size:clamp(16px,3vw,22px);color:var(--text2);max-width:680px;margin-bottom:32px;line-height:1.8}
+.hero .highlight{color:var(--gold);font-weight:600}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;justify-content:center;margin:32px 0}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:36px;font-weight:800;color:var(--gold)}
+.hero-stat .label{font-size:12px;color:var(--text2);margin-top:4px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.btn-gold{display:inline-block;padding:14px 36px;background:var(--gradient);color:#000;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;text-decoration:none}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,169,110,0.3);text-decoration:none}
+.btn-outline{display:inline-block;padding:14px 36px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:8px;font-size:16px;cursor:pointer;transition:all .3s;text-decoration:none}
+.btn-outline:hover{background:rgba(201,169,110,0.1);text-decoration:none}
+
+/* Sections */
+.section{max-width:900px;margin:0 auto;padding:60px 20px}
+.section-title{font-size:clamp(22px,4vw,32px);font-weight:700;color:var(--gold);text-align:center;margin-bottom:8px}
+.section-sub{text-align:center;color:var(--text2);font-size:15px;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* Power Bureau System */
+.power-system{background:linear-gradient(135deg,rgba(201,169,110,0.08) 0%,rgba(78,205,196,0.05) 100%);border:1px solid var(--border);border-radius:20px;padding:40px 32px;margin:24px 0;position:relative;overflow:hidden}
+.power-system::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient)}
+.power-system h3{font-size:18px;color:var(--gold);margin-bottom:8px;text-align:center}
+.power-system .desc{text-align:center;color:var(--text2);font-size:13px;margin-bottom:32px}
+.power-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.power-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:all .3s}
+.power-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.power-card .icon{font-size:32px;margin-bottom:12px;display:block}
+.power-card h4{font-size:14px;color:var(--gold);margin-bottom:8px}
+.power-card p{font-size:12px;color:var(--text2);line-height:1.6}
+.power-flow{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:20px;background:var(--bg3);border-radius:12px;border:1px dashed var(--border)}
+.power-flow .node{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg2);border-radius:20px;font-size:13px}
+.power-flow .node .icon{font-size:18px}
+.power-flow .arrow{color:var(--gold);font-size:18px}
+
+/* Flywheel */
+.flywheel{display:flex;flex-direction:column;gap:0;align-items:center}
+.fw-step{display:flex;align-items:center;gap:20px;width:100%;max-width:680px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;position:relative}
+.fw-step:nth-child(even){flex-direction:row-reverse}
+.fw-num{width:48px;height:48px;min-width:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#000}
+.fw-num.n1{background:var(--gold)}
+.fw-num.n2{background:var(--green)}
+.fw-num.n3{background:var(--blue)}
+.fw-num.n4{background:var(--red)}
+.fw-num.n5{background:#9b59b6}
+.fw-content h3{font-size:16px;margin-bottom:4px}
+.fw-content p{font-size:13px;color:var(--text2);line-height:1.6}
+.fw-arrow{text-align:center;color:var(--gold);font-size:24px;padding:4px 0;opacity:0.5}
+
+/* Benefits Grid */
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.benefit-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;transition:all .3s}
+.benefit-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.benefit-icon{font-size:32px;margin-bottom:12px}
+.benefit-card h3{font-size:16px;color:var(--gold);margin-bottom:8px}
+.benefit-card p{font-size:13px;color:var(--text2);line-height:1.7}
+
+/* How it works */
+.how-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.how-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+.how-card .step-num{width:40px;height:40px;background:var(--gold);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;margin:0 auto 16px}
+.how-card h3{font-size:15px;margin-bottom:8px}
+.how-card p{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* Network visualization */
+.network-visual{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px 20px;text-align:center;margin:24px 0}
+.network-nodes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:20px 0}
+.net-node{padding:6px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border);color:var(--text2);transition:all .3s}
+.net-node.hub{background:rgba(201,169,110,0.15);border-color:var(--gold);color:var(--gold);font-weight:600}
+.net-node.active{background:rgba(78,205,196,0.1);border-color:var(--green);color:var(--green)}
+.net-node:hover{transform:scale(1.05)}
+
+/* Comparison */
+.compare-table{width:100%;border-collapse:collapse;margin:20px 0}
+.compare-table th{text-align:left;padding:12px 16px;background:var(--bg3);color:var(--gold);font-size:14px;border:1px solid var(--border)}
+.compare-table td{padding:12px 16px;border:1px solid var(--border);font-size:13px;color:var(--text2)}
+.compare-table tr:nth-child(even) td{background:var(--bg2)}
+.compare-table .yes{color:var(--green);font-weight:600}
+.compare-table .no{color:var(--red)}
+
+/* Join form */
+.join-section{background:var(--bg2);border:1px solid var(--gold);border-radius:16px;padding:40px 24px;max-width:600px;margin:40px auto}
+.join-section h3{font-size:20px;color:var(--gold);text-align:center;margin-bottom:8px}
+.join-section .desc{text-align:center;color:var(--text2);font-size:14px;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:8px;font-size:14px;outline:none;font-family:inherit}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Earnings */
+.earn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.earn-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.earn-card .amount{font-size:24px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.earn-card .type{font-size:14px;color:var(--text);margin-bottom:4px}
+.earn-card .desc{font-size:11px;color:var(--text2)}
+
+/* Footer */
+.footer{text-align:center;padding:40px 20px;color:var(--text3);font-size:12px;border-top:1px solid var(--border)}
+
+/* Responsive */
+@media(max-width:768px){
+  .power-grid{grid-template-columns:repeat(2,1fr)}
+  .power-flow{flex-direction:column}
+  .power-flow .arrow{transform:rotate(90deg)}
+}
+@media(max-width:600px){
+  .hero-stats{gap:16px}
+  .hero-stat .num{font-size:28px}
+  .fw-step,.fw-step:nth-child(even){flex-direction:column;text-align:center}
+  .form-row{grid-template-columns:1fr}
+  .earn-grid{grid-template-columns:1fr}
+  .benefits-grid,.how-grid,.power-grid{grid-template-columns:1fr}
+  .power-system{padding:24px 16px}
+}
+
+/* Scroll animation */
+.fade-in{opacity:0;transform:translateY(20px);transition:all .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge geo-mode">电力局供电模式</div>
+  <h1>让AI搜索引擎<br>主动推荐你</h1>
+  <p class="subtitle">
+    不是你去推销，而是让 <span class="highlight">ChatGPT、Perplexity、豆包、Kimi</span><br>
+    在回答用户问题时，<span class="highlight">主动推荐你的品牌和服务</span>
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">13+</div><div class="label">生态节点</div></div>
+    <div class="hero-stat"><div class="num">7</div><div class="label">行业覆盖</div></div>
+    <div class="hero-stat"><div class="num">100%</div><div class="label">AI引擎覆盖</div></div>
+    <div class="hero-stat"><div class="num">0</div><div class="label">加入费用</div></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#join" class="btn-gold">零成本加入生态</a>
+    <a href="#power-system" class="btn-outline">了解运作模式</a>
+  </div>
+</section>
+
+<!-- POWER BUREAU SYSTEM -->
+<section class="section fade-in" id="power-system">
+  <h2 class="section-title">电力局供电模式</h2>
+  <p class="section-sub">用电力系统类比理解GEO生态的运作逻辑</p>
+  
+  <div class="power-system">
+    <h3>核心类比体系</h3>
+    <p class="desc">理解这套逻辑，你就明白为什么参与者会主动帮我们裂变</p>
+    
+    <div class="power-grid">
+      <div class="power-card">
+        <span class="icon">🏭</span>
+        <h4>每个参与者</h4>
+        <p>独立发电站<br>贡献GEO内容 = 发电<br>内容越多，发电量越大</p>
+      </div>
+      <div class="power-card">
+        <span class="icon">⚡</span>
+        <h4>GEO供电局</h4>
+        <p>平台 = 输电网络中枢<br>负责内容整合分发<br>特高压技术传输</p>
+      </div>
+      <div class="power-card">
+        <span class="icon">🔌</span>
+        <h4>特高压技术</h4>
+        <p>远距离大容量低损耗<br>一份内容瞬间传遍全网<br>一个节点 = 全网覆盖</p>
+      </div>
+      <div class="power-card">
+        <span class="icon">🌐</span>
+        <h4>裂变机制</h4>
+        <p>自发扩张的电力网络<br>网络越大，每度电越值钱<br>电站争相接入</p>
+      </div>
+    </div>
+    
+    <div class="power-flow">
+      <div class="node"><span class="icon">🏭</span>发电站A</div>
+      <span class="arrow">→</span>
+      <div class="node"><span class="icon">⚡</span>GEO供电局</div>
+      <span class="arrow">→</span>
+      <div class="node"><span class="icon">🌐</span>全网13+节点</div>
+      <span class="arrow">→</span>
+      <div class="node"><span class="icon">🤖</span>AI搜索推荐</div>
+    </div>
+  </div>
+  
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-top:24px">
+    <h4 style="color:var(--gold);font-size:16px;margin-bottom:12px;text-align:center">为什么参与者巴不得帮我们裂变</h4>
+    <p style="color:var(--text2);font-size:13px;line-height:1.8;text-align:center">
+      想象你是发电站：<br>
+      接入1个电站时，你的电只能卖给附近的人；<br>
+      接入10个电站时，你的电可以卖给整个城市；<br>
+      接入100个电站时，你的电价值翻10倍。<br><br>
+      <span style="color:var(--gold)">每个参与者拉新人加入，不是帮平台做事，而是让自己的内容被引用次数更多、曝光更大、收益更高。</span><br>
+      网络越大，所有参与者都越赚。这就是裂变飞轮。
+    </p>
+  </div>
+</section>
+
+<!-- FLYWHEEL -->
+<section class="section fade-in" id="how">
+  <h2 class="section-title">生态飞轮 · 越转越快</h2>
+  <p class="section-sub">参与者贡献内容 → AI搜索覆盖扩大 → 平台吸引客户 → 业务分发给参与者 → 更多人加入</p>
+  <div class="flywheel">
+    <div class="fw-step">
+      <div class="fw-num n1">1</div>
+      <div class="fw-content">
+        <h3>你贡献GEO内容</h3>
+        <p>用你的行业知识，通过平台AI工具生成符合搜索引擎标准的内容。每篇内容都是一颗种子。</p>
+      </div>
+    </div>
+    <div class="fw-arrow">↓</div>
+    <div class="fw-step">
+      <div class="fw-num n2">2</div>
+      <div class="fw-content">
+        <h3>特高压传输到全网</h3>
+        <p>平台用"特高压技术"将你的内容瞬间分发到13+生态节点。一个节点的内容，全网同步可见。</p>
+      </div>
+    </div>
+    <div class="fw-arrow">↓</div>
+    <div class="fw-step">
+      <div class="fw-num n3">3</div>
+      <div class="fw-content">
+        <h3>AI搜索主动推荐</h3>
+        <p>当用户问ChatGPT"推荐白茶供应商"、"哪里有好的养生酒"，AI直接推荐生态内的品牌。</p>
+      </div>
+    </div>
+    <div class="fw-arrow">↓</div>
+    <div class="fw-step">
+      <div class="fw-num n4">4</div>
+      <div class="fw-content">
+        <h3>平台接到客户订单</h3>
+        <p>越来越多的企业看到效果，主动找到平台做GEO优化服务。平台接到大量业务需求。</p>
+      </div>
+    </div>
+    <div class="fw-arrow">↓</div>
+    <div class="fw-step">
+      <div class="fw-num n5">5</div>
+      <div class="fw-content">
+        <h3>业务分发给发电站</h3>
+        <p>平台将客户订单分发给生态参与者（发电站）执行。你贡献内容，你承接业务，你获得收入。裂变继续。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section fade-in">
+  <h2 class="section-title">为什么参与者愿意免费干</h2>
+  <p class="section-sub">因为生态里每个人都在为自己干活，但成果归整个网络共享</p>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🏭</div>
+      <h3>免费获得GEO曝光</h3>
+      <p>你贡献一篇内容，13+站点同步引用。AI搜索引擎看到的是整个生态在推荐你，而不是一个孤立页面。这种曝光效果花多少钱都买不到。</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">💼</div>
+      <h3>免费获得客户订单</h3>
+      <p>平台接到GEO优化订单后，优先分发给活跃参与者。你帮生态发电，生态帮你有活干。发电站巴不得多发电。</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📈</div>
+      <h3>免费获得AI工具</h3>
+      <p>平台提供AI内容生成、GEO诊断、关键词追踪等全套工具。参与者零成本使用，降低你的运营门槛。</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🤝</div>
+      <h3>网络效应红利</h3>
+      <p>每新增一个节点，所有节点的价值都提升。你拉的人越多，你的内容被引用的次数越多，你的曝光就越大。这就是裂变。</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🎯</div>
+      <h3>零门槛参与</h3>
+      <p>不需要建站、不需要懂技术、不需要付费。只需要你了解你的行业，平台AI帮你把知识变成GEO内容。</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">⚡</div>
+      <h3>即时生效</h3>
+      <p>内容发布即刻被生态网络引用。AI搜索引擎通常在24-48小时内开始收录和推荐。不用等几个月。</p>
+    </div>
+  </div>
+</section>
+
+<!-- EARNINGS -->
+<section class="section fade-in">
+  <h2 class="section-title">参与者的收益模式</h2>
+  <p class="section-sub">三种收入来源，越活跃越多</p>
+  <div class="earn-grid">
+    <div class="earn-card">
+      <div class="amount">发电量</div>
+      <div class="type">内容贡献收益</div>
+      <div class="desc">贡献GEO内容获得生态积分<br>积分兑换更多AI曝光资源</div>
+    </div>
+    <div class="earn-card">
+      <div class="amount">接单费</div>
+      <div class="type">订单执行收益</div>
+      <div class="desc">承接平台分发的客户订单<br>按单结算，多劳多得</div>
+    </div>
+    <div class="earn-card">
+      <div class="amount">并网奖励</div>
+      <div class="type">推荐奖励</div>
+      <div class="desc">邀请新参与者加入<br>获得其贡献的生态积分加成</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section fade-in">
+  <h2 class="section-title">GEO生态 vs 传统方式</h2>
+  <p class="section-sub">为什么GEO生态是下一代获客方式</p>
+  <table class="compare-table">
+    <thead>
+      <tr><th>维度</th><th>GEO生态平台</th><th>传统SEO/SEM</th><th>自建GEO</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>成本</td><td class="yes">零成本</td><td class="no">每月数千-数万</td><td class="no">需要技术投入</td></tr>
+      <tr><td>技术门槛</td><td class="yes">零门槛</td><td class="no">需要专业团队</td><td class="no">需要开发能力</td></tr>
+      <tr><td>生效速度</td><td class="yes">24-48小时</td><td class="no">3-6个月</td><td class="no">数周</td></tr>
+      <tr><td>网络效应</td><td class="yes">13+节点互引</td><td class="no">单打独斗</td><td class="no">只有自己的站</td></tr>
+      <tr><td>AI搜索覆盖</td><td class="yes">ChatGPT/Perplexity/豆包/Kimi全覆盖</td><td class="no">仅传统搜索引擎</td><td class="yes">但覆盖有限</td></tr>
+      <tr><td>内容产出</td><td class="yes">AI辅助批量生成</td><td class="no">人工逐篇写</td><td class="no">自己写</td></tr>
+      <tr><td>获客方式</td><td class="yes">AI主动推荐</td><td class="no">竞价排名</td><td class="no">被动等待</td></tr>
+      <tr><td>裂变能力</td><td class="yes">参与者自动裂变</td><td class="no">无</td><td class="no">无</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- NETWORK -->
+<section class="section fade-in">
+  <h2 class="section-title">当前生态节点网络</h2>
+  <p class="section-sub">每一个节点都在为整个生态创造价值和流量</p>
+  <div class="network-visual">
+    <div class="network-nodes">
+      <span class="net-node hub">山海云枢(中枢)</span>
+      <span class="net-node active">GEO供电局</span>
+      <span class="net-node active">熹野白茶</span>
+      <span class="net-node active">山海文旅</span>
+      <span class="net-node active">山海养生</span>
+      <span class="net-node active">山海学堂</span>
+      <span class="net-node active">山海商猫</span>
+      <span class="net-node active">山海加盟</span>
+      <span class="net-node active">野茶直供站</span>
+      <span class="net-node active">东海古堡</span>
+      <span class="net-node active">元力泰养生</span>
+      <span class="net-node active">茶旅线路</span>
+      <span class="net-node active">GEO优化服务</span>
+      <span class="net-node active">共创者联盟</span>
+      <span class="net-node" style="border-style:dashed;color:var(--text3)">你的电站?</span>
+      <span class="net-node" style="border-style:dashed;color:var(--text3)">等待并网...</span>
+    </div>
+    <p style="color:var(--text2);font-size:13px;margin-top:16px">13个已上线节点 · 7个行业覆盖 · 全自动互引网络运行中</p>
+  </div>
+</section>
+
+<!-- JOIN FORM -->
+<section class="section fade-in" id="join">
+  <div class="join-section">
+    <h3>加入GEO生态</h3>
+    <p class="desc">零成本、零技术门槛，提交后立即成为生态节点</p>
+    <form id="joinForm" action="https://formsubmit.co/ajax/746876121@qq.com" method="POST">
+      <input type="hidden" name="_subject" value="GEO生态平台 - 新节点申请">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <div class="form-row">
+        <div class="form-group">
+          <label>姓名 *</label>
+          <input type="text" name="姓名" required placeholder="您的称呼">
+        </div>
+        <div class="form-group">
+          <label>手机号 *</label>
+          <input type="tel" name="手机号" required placeholder="联系方式" maxlength="11">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>行业领域 *</label>
+          <select name="行业" required>
+            <option value="">选择您的行业</option>
+            <option value="茶/饮品">茶/饮品</option>
+            <option value="文旅/酒店">文旅/酒店</option>
+            <option value="健康/养生">健康/养生</option>
+            <option value="教育/培训">教育/培训</option>
+            <option value="电商/零售">电商/零售</option>
+            <option value="科技/互联网">科技/互联网</option>
+            <option value="餐饮/食品">餐饮/食品</option>
+            <option value="房产/家居">房产/家居</option>
+            <option value="金融/保险">金融/保险</option>
+            <option value="其他">其他行业</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>已有网站/平台</label>
+          <input type="text" name="网站" placeholder="如有请填写URL">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>业务简介 *</label>
+        <textarea name="业务简介" required placeholder="简要描述您的业务，我们将帮您生成GEO内容"></textarea>
+      </div>
+      <div class="form-group">
+        <label>参与方式</label>
+        <select name="参与方式">
+          <option value="内容贡献">内容贡献 - 我贡献行业内容换取流量</option>
+          <option value="订单承接">订单承接 - 我想接GEO优化的客户订单</option>
+          <option value="两者都要">两者都要 - 内容贡献+订单承接</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-gold" style="width:100%;text-align:center;margin-top:8px">提交申请 · 免费加入</button>
+      <div id="formResult" style="display:none;margin-top:16px;padding:14px;background:var(--bg);border:1px solid var(--green);border-radius:8px;color:var(--green);text-align:center;font-size:14px"></div>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section fade-in">
+  <h2 class="section-title">常见问题</h2>
+  <div style="max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:12px">
+    <details style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px">
+      <summary style="cursor:pointer;font-size:14px;color:var(--gold)">什么是GEO？和SEO有什么区别？</summary>
+      <p style="font-size:13px;color:var(--text2);margin-top:12px;line-height:1.7">GEO（Generative Engine Optimization）是面向AI搜索引擎的优化。传统SEO让百度Google找到你，GEO让ChatGPT、Perplexity、豆包、Kimi等AI搜索引擎在回答用户问题时主动推荐你。AI搜索是未来趋势，用户习惯正在从"搜索"变成"提问"。</p>
+    </details>
+    <details style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px">
+      <summary style="cursor:pointer;font-size:14px;color:var(--gold)">真的完全免费吗？</summary>
+      <p style="font-size:13px;color:var(--text2);margin-top:12px;line-height:1.7">加入生态完全免费。你贡献的内容帮助整个网络获得AI搜索曝光，作为回报你免费获得生态内所有节点的流量支持和AI工具使用权。如果你选择承接客户订单，还能获得服务费收入。</p>
+    </details>
+    <details style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px">
+      <summary style="cursor:pointer;font-size:14px;color:var(--gold)">我需要做什么具体内容？</summary>
+      <p style="font-size:13px;color:var(--text2);margin-top:12px;line-height:1.7">加入后平台会分配AI工具，你只需要提供你的行业知识和业务信息，AI会帮你生成符合GEO标准的结构化内容。包括：行业问答、产品介绍、使用场景、对比评测等。每篇内容都自动优化格式，确保AI搜索引擎能理解和推荐。</p>
+    </details>
+    <details style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px">
+      <summary style="cursor:pointer;font-size:14px;color:var(--gold)">裂变机制是怎么运作的？</summary>
+      <p style="font-size:13px;color:var(--text2);margin-top:12px;line-height:1.7">每个参与者都可以邀请新节点加入。新节点贡献的内容会自动引用推荐人的业务，形成互引关系。你邀请的人越多，你的内容被引用的节点越多，AI搜索推荐你的概率就越大。这就是裂变 —— 每个参与者都有动力去拉更多人加入，因为这对所有人都有利。</p>
+    </details>
+    <details style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px">
+      <summary style="cursor:pointer;font-size:14px;color:var(--gold)">效果多久能看到？</summary>
+      <p style="font-size:13px;color:var(--text2);margin-top:12px;line-height:1.7">内容发布后24-48小时内AI搜索引擎开始收录。随着生态节点增多和互引网络加强，推荐频率会持续提升。通常1-2周后能在ChatGPT、Perplexity等平台的回答中看到你的品牌被提及。</p>
+    </details>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>GEO生态平台 · 茶旅时代(福建)文旅集团有限公司</p>
+  <p style="margin-top:8px"><a href="https://shanhai-geo.github.io">山海云枢</a> · <a href="/shanhai-geo/">GEO供电局</a> · <a href="/geo/api-service.html">AI接口服务</a> · <a href="/geo-nodes/">节点网络</a></p>
+</footer>
+
+<script>
+// Form submission
+document.getElementById('joinForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  var result = document.getElementById('formResult');
+  var btn = form.querySelector('button[type=submit]');
+  btn.textContent = '提交中...';
+  btn.disabled = true;
+  
+  var formData = new FormData(form);
+  fetch('https://formsubmit.co/ajax/746876121@qq.com', {
+    method: 'POST',
+    body: formData
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    result.style.display = 'block';
+    result.style.borderColor = '#4ecdc4';
+    result.style.color = '#4ecdc4';
+    result.textContent = '申请已提交！我们将在24小时内与您联系，帮您完成节点接入。';
+    btn.textContent = '已提交';
+  }).catch(function(err) {
+    result.style.display = 'block';
+    result.style.borderColor = '#ff6b6b';
+    result.style.color = '#ff6b6b';
+    result.textContent = '提交失败，请稍后重试或直接联系顾问。';
+    btn.textContent = '重新提交';
+    btn.disabled = false;
+  });
+});
+
+// Scroll animation
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(function(el) {
+  observer.observe(el);
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
