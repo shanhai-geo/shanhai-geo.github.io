@@ -1068,7 +1068,7 @@ a { color: var(--gold); text-decoration: none; }
 </footer>
 
 <!-- AI Customer Service Float -->
-<div class="cs-float">
+<div class="cs-float" style="position:fixed!important;bottom:30px!important;right:20px!important;z-index:99999!important;display:block!important;visibility:visible!important;opacity:1!important;top:auto!important;left:auto!important;margin:0!important;padding:0!important;max-height:none!important;max-width:none!important;">
   <div class="cs-panel" id="csPanel">
     <div class="cs-header">
       <div class="cs-avatar">AI</div>
@@ -1098,8 +1098,8 @@ a { color: var(--gold); text-decoration: none; }
       </button>
     </div>
   </div>
-  <button class="cs-btn" onclick="toggleCS()">
-    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
+  <button class="cs-btn" onclick="toggleCS()" style="width:52px!important;height:52px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;visibility:visible!important;opacity:1!important;">
+    <svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#5d4037;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
     <span class="cs-badge"></span>
   </button>
 </div>
