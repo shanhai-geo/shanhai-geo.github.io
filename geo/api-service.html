@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI智能客服API - 298元/年 立即开通</title>
+<meta name="description" content="298元/年AI智能客服API，7×24自动接客，不限调用次数，秒级交付，7天无理由退款。全网最低价AI客服解决方案。">
+<meta name="keywords" content="AI客服,智能客服API,298元AI客服,自动接客,AI客服解决方案">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI智能客服API",
+  "description": "全网最低价AI智能客服API服务，298元/年起，7×24自动接客，不限调用次数，秒级交付",
+  "provider": {
+    "@type": "Organization",
+    "name": "山海智能",
+    "url": "https://shanhai-geo.github.io"
+  },
+  "areaServed": "CN",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "AI智能客服API套餐",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "入门版",
+          "description": "单模型AI客服，7×24自动接客，不限调用次数，秒级交付"
+        },
+        "price": "298",
+        "priceCurrency": "CNY"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "成长版",
+          "description": "双引擎智能路由，品牌专属话术定制，数据分析看板"
+        },
+        "price": "998",
+        "priceCurrency": "CNY"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "旗舰版",
+          "description": "全模型无限调用，1对1专属AI训练师，深度业务定制"
+        },
+        "price": "2998",
+        "priceCurrency": "CNY"
+      }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI智能客服298元/年能用吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "298元入门版采用通义千问7B模型，支持7×24小时自动接客，不限调用次数，适合小微商户、个体户、夫妻店日常客服场景。一杯咖啡钱用一年，7天无理由退款。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI客服API怎么开通？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "扫码付款后填写基本信息，系统秒级生成专属服务密钥，立即开通使用。全程自动化，无需等待人工审核。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "入门版和成长版有什么区别？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "入门版298元/年使用单模型AI引擎，适合基础客服需求。成长版998元/年升级为双引擎智能路由（通义千问+智谱GLM），故障自动切换零中断，支持品牌专属话术定制和数据分析看板。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI客服支持哪些渠道接入？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "入门版支持单渠道接入，成长版支持微信+网页+企微多渠道统一接入，旗舰版支持全渠道接入并提供API完整接入支持。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "不满意可以退款吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "所有版本均支持7天无理由退款。开通后7天内如不满意，联系客服即可全额退款，零风险试用。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI客服能接入我现有的网站或小程序吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以。入门版提供标准接入方式，成长版和旗舰版提供API完整接入支持，可嵌入网站、小程序、APP等任何支持JavaScript的环境。旗舰版还提供专属技术对接服务。"
+      }
+    }
+  ]
+}
+</script>
+<style>
+:root {
+  --bg: #0a0a14;
+  --bg2: #12121f;
+  --bg3: #1a1a2e;
+  --gold: #c9a96e;
+  --gold2: #d4b87a;
+  --text: #e0e0e0;
+  --text2: #999;
+  --ok: #4caf50;
+  --err: #e74c3c;
+  --warn: #f98000;
+  --border: #2a2a3e;
+  --card: #161622;
+  --accent: #5b8def;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:700;color:var(--gold);letter-spacing:2px}
+.logo span{color:var(--text2);font-size:13px;margin-left:8px}
+.nav{display:flex;gap:6px}
+.nav button{background:transparent;border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;transition:all .2s}
+.nav button:hover,.nav button.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.container{max-width:960px;margin:0 auto;padding:24px 16px}
+.hero{text-align:center;padding:48px 16px 32px}
+.hero h1{font-size:32px;color:var(--gold);margin-bottom:8px;letter-spacing:3px}
+.hero p{color:var(--text2);font-size:16px}
+.hero .tagline{display:inline-block;background:var(--bg3);border:1px solid var(--border);padding:6px 18px;border-radius:20px;font-size:13px;color:var(--accent);margin-top:12px}
+.tabs{display:flex;gap:8px;justify-content:center;margin-top:24px}
+.tab-btn{padding:10px 24px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:8px;cursor:pointer;font-size:14px;transition:all .2s}
+.tab-btn:hover{background:var(--bg3)}
+.tab-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:24px}
+.plan{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;transition:all .3s;cursor:pointer}
+.plan:hover{border-color:var(--gold);transform:translateY(-4px)}
+.plan.featured{background:var(--card);border-color:var(--gold);position:relative}
+.plan.featured::before{content:'\u63a8\u8350';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:4px 16px;border-radius:20px;font-size:12px;font-weight:600}
+.plan h3{color:var(--gold);font-size:18px;margin-bottom:4px}
+.plan .subtitle{color:var(--text2);font-size:12px;margin-bottom:12px}
+.price{font-size:36px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.price small{font-size:14px;font-weight:400;color:var(--text2)}
+.price-note{font-size:12px;color:var(--accent);margin-bottom:16px}
+.features{list-style:none;text-align:left;margin:16px 0}
+.features li{padding:8px 0;border-bottom:1px solid var(--border);color:var(--text2);font-size:14px}
+.features li:last-child{border-bottom:none}
+.features li::before{content:'\u2713 ';color:var(--ok);margin-right:8px}
+.plan-btn{width:100%;padding:12px;background:var(--gold);color:#000;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:12px}
+.plan-btn:hover{background:var(--gold2);transform:scale(1.02)}
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;max-width:600px;margin:24px auto}
+.form-card h3{color:var(--gold);font-size:18px;margin-bottom:16px;text-align:center}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:4px}
+.form-group label span{color:#e74c3c}
+.form-group input,.form-group select{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:14px;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group input.error{border-color:var(--err)}
+.error-msg{color:var(--err);font-size:12px;margin-top:4px;display:none}
+.submit-btn{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:8px}
+.submit-btn:hover{background:var(--gold2);transform:scale(1.02)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.payment-section{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;display:none}
+.payment-section.show{display:block}
+.payment-section h3{color:var(--gold);margin-bottom:8px}
+.payment-section .hint{color:var(--text2);font-size:13px;margin-bottom:24px}
+.qr-container{display:flex;flex-direction:column;align-items:center;gap:16px}
+.qr-code{width:200px;height:200px;border-radius:8px;border:2px solid var(--gold);background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:14px}
+.payment-note{background:var(--bg3);padding:12px 20px;border-radius:8px;font-size:13px;color:var(--text2);margin-top:16px}
+.back-link{display:inline-block;margin-top:16px;color:var(--gold);cursor:pointer}
+.back-link:hover{text-decoration:underline}
+.comparison-table{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:24px}
+.comparison-table h3{color:var(--gold);padding:16px;text-align:center;border-bottom:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+th{color:var(--gold);font-weight:500;background:var(--bg3)}
+tr:last-child td{border-bottom:none}
+tr:hover{background:var(--bg3)}
+.check{color:var(--ok)}
+.cross{color:var(--err)}
+.selling-points{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:32px 0}
+.sp-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center}
+.sp-item .sp-icon{font-size:28px;margin-bottom:8px}
+.sp-item h4{color:var(--gold);font-size:14px;margin-bottom:4px}
+.sp-item p{color:var(--text2);font-size:12px}
+.faq-section{margin:32px 0}
+.faq-section h3{color:var(--gold);text-align:center;margin-bottom:20px;font-size:18px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.faq-item h4{color:var(--text);font-size:14px;margin-bottom:8px}
+.faq-item p{color:var(--text2);font-size:13px;line-height:1.6}
+.wechat-info{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;margin-top:16px}
+.wechat-info .wx-id{color:var(--gold);font-size:16px;font-weight:600;letter-spacing:1px}
+.wechat-info .wx-note{color:var(--text2);font-size:12px;margin-top:4px}
+@media(max-width:600px){.header{flex-direction:column;gap:12px}.nav{flex-wrap:wrap;justify-content:center}.plans{grid-template-columns:1fr}.form-card,.payment-section{padding:20px}.selling-points{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="logo">AI智能客服 <span>API服务</span></div>
+  <nav class="nav">
+    <button class="active" onclick="switchTab('form')">立即开通</button>
+    <button onclick="switchTab('compare')">套餐对比</button>
+    <button onclick="switchTab('faq')">常见问题</button>
+  </nav>
+</header>
+<main class="container">
+  <section class="hero">
+    <h1>AI智能客服API</h1>
+    <p>7×24自动接客 · 不限调用次数 · 秒级交付</p>
+    <div class="tagline">一杯咖啡钱用一年 · 全网最低价AI客服</div>
+  </section>
+
+  <div class="selling-points">
+    <div class="sp-item">
+      <div class="sp-icon">🤖</div>
+      <h4>7×24自动接客</h4>
+      <p>全天候AI客服不休息<br>不漏掉每一个客户</p>
+    </div>
+    <div class="sp-item">
+      <div class="sp-icon">⚡</div>
+      <h4>秒级交付</h4>
+      <p>付款后立即开通<br>专属密钥自动分配</p>
+    </div>
+    <div class="sp-item">
+      <div class="sp-icon">🔒</div>
+      <h4>7天无理由退款</h4>
+      <p>零风险试用<br>不满意全额退</p>
+    </div>
+    <div class="sp-item">
+      <div class="sp-icon">📊</div>
+      <h4>不限调用次数</h4>
+      <p>用多少不限<br>没有隐形消费</p>
+    </div>
+  </div>
+
+  <div id="tab-form" class="tab-content active">
+    <div class="plans">
+      <div class="plan" onclick="selectPlan('298')">
+        <h3>入门版</h3>
+        <div class="subtitle">引流爆款 · 小微商户首选</div>
+        <div class="price">¥298<small>/年</small></div>
+        <div class="price-note">≈ 0.8元/天</div>
+        <ul class="features">
+          <li>单模型AI客服引擎</li>
+          <li>7×24小时自动接客</li>
+          <li>常见问答自动回复</li>
+          <li>专属服务密钥</li>
+          <li>不限调用次数</li>
+          <li>7天无理由退款</li>
+        </ul>
+        <button class="plan-btn">立即开通</button>
+      </div>
+      <div class="plan featured" onclick="selectPlan('998')">
+        <h3>成长版</h3>
+        <div class="subtitle">利润款 · 成长型企业首选</div>
+        <div class="price">¥998<small>/年</small></div>
+        <div class="price-note">≈ 2.7元/天</div>
+        <ul class="features">
+          <li>双引擎智能路由</li>
+          <li>故障自动切换·零中断</li>
+          <li>品牌专属话术定制</li>
+          <li>数据分析看板</li>
+          <li>多渠道统一接入</li>
+          <li>优先技术支持(12h响应)</li>
+        </ul>
+        <button class="plan-btn">立即开通</button>
+      </div>
+      <div class="plan" onclick="selectPlan('2998')">
+        <h3>旗舰版</h3>
+        <div class="subtitle">品牌款 · 中大型企业首选</div>
+        <div class="price">¥2998<small>/年</small></div>
+        <div class="price-note">≈ 8.2元/天</div>
+        <ul class="features">
+          <li>全部模型无限调用</li>
+          <li>深度业务定制</li>
+          <li>专属AI训练师1对1</li>
+          <li>7×24技术响应</li>
+          <li>API完整接入支持</li>
+          <li>季度优化报告</li>
+        </ul>
+        <button class="plan-btn">立即开通</button>
+      </div>
+    </div>
+
+    <div class="form-card" id="formCard">
+      <h3 id="formTitle">填写开通信息</h3>
+      <form id="openForm" onsubmit="return handleSubmit(event)">
+        <div class="form-group">
+          <label>姓名 <span>*</span></label>
+          <input type="text" id="name" placeholder="请输入您的姓名" required>
+          <div class="error-msg" id="nameError">请输入真实姓名</div>
+        </div>
+        <div class="form-group">
+          <label>手机号 <span>*</span></label>
+          <input type="tel" id="phone" placeholder="请输入11位手机号" maxlength="11" required>
+          <div class="error-msg" id="phoneError">请输入正确的手机号码</div>
+        </div>
+        <div class="form-group">
+          <label>所属行业 <span>*</span></label>
+          <select id="industry" required>
+            <option value="">请选择行业</option>
+            <option value="retail">零售/电商</option>
+            <option value="food">餐饮/美食</option>
+            <option value="beauty">美容/美发</option>
+            <option value="education">教育/培训</option>
+            <option value="realestate">房产/家居</option>
+            <option value="finance">金融/保险</option>
+            <option value="medical">医疗/健康</option>
+            <option value="travel">旅游/酒店</option>
+            <option value="tech">科技/互联网</option>
+            <option value="other">其他行业</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>店铺/公司名称</label>
+          <input type="text" id="company" placeholder="选填">
+        </div>
+        <div class="form-group">
+          <label>微信号</label>
+          <input type="text" id="wechat" placeholder="选填，方便后续沟通">
+        </div>
+        <input type="hidden" id="selectedPlan" value="">
+        <button type="submit" class="submit-btn" id="submitBtn">确认并付款</button>
+      </form>
+    </div>
+
+    <div class="payment-section" id="paymentSection">
+      <h3>扫码付款开通</h3>
+      <div class="hint" id="paymentHint">请使用微信或支付宝扫码付款</div>
+      <div class="qr-container">
+        <div class="qr-code" id="qrDisplay">收款码</div>
+        <p style="color:var(--text2);font-size:13px">付款后自动开通，无需等待</p>
+      </div>
+      <div class="wechat-info">
+        <div>开通咨询微信号</div>
+        <div class="wx-id">4009636853</div>
+        <div class="wx-note">付款后如有问题请添加微信联系</div>
+      </div>
+      <div class="payment-note">
+        付款即表示同意《AI智能客服服务协议》，支持7天无理由退款
+      </div>
+      <div class="back-link" onclick="backToForm()">← 返回修改信息</div>
+    </div>
+  </div>
+
+  <div id="tab-compare" class="tab-content">
+    <div class="comparison-table">
+      <h3>套餐功能对比</h3>
+      <table>
+        <tr>
+          <th>功能</th>
+          <th>入门版 ¥298/年</th>
+          <th>成长版 ¥998/年</th>
+          <th>旗舰版 ¥2998/年</th>
+        </tr>
+        <tr>
+          <td>AI引擎</td>
+          <td>单模型(通义千问7B)</td>
+          <td class="check">双引擎(通义千问+智谱GLM)</td>
+          <td class="check">全模型无限调用</td>
+        </tr>
+        <tr>
+          <td>服务时间</td>
+          <td class="check">7×24</td>
+          <td class="check">7×24</td>
+          <td class="check">7×24</td>
+        </tr>
+        <tr>
+          <td>调用次数</td>
+          <td class="check">不限</td>
+          <td class="check">不限</td>
+          <td class="check">不限</td>
+        </tr>
+        <tr>
+          <td>故障切换</td>
+          <td class="cross">—</td>
+          <td class="check">自动切换·零中断</td>
+          <td class="check">自动切换·零中断</td>
+        </tr>
+        <tr>
+          <td>品牌话术定制</td>
+          <td class="cross">—</td>
+          <td class="check">专属定制</td>
+          <td class="check">深度定制</td>
+        </tr>
+        <tr>
+          <td>数据分析</td>
+          <td class="cross">—</td>
+          <td class="check">看板</td>
+          <td class="check">季度报告</td>
+        </tr>
+        <tr>
+          <td>接入渠道</td>
+          <td>单渠道</td>
+          <td class="check">微信+网页+企微</td>
+          <td class="check">全渠道+API</td>
+        </tr>
+        <tr>
+          <td>技术支持</td>
+          <td>社群</td>
+          <td>优先响应(12h)</td>
+          <td class="check">1对1专属·24h</td>
+        </tr>
+        <tr>
+          <td>退款保障</td>
+          <td class="check">7天无理由</td>
+          <td class="check">7天无理由</td>
+          <td class="check">7天无理由</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-faq" class="tab-content">
+    <div class="faq-section">
+      <h3>常见问题</h3>
+      <div class="faq-item">
+        <h4>Q：298元/年真的能用吗？</h4>
+        <p>完全可以。入门版采用通义千问7B模型，能处理90%以上的常见客服场景。一杯咖啡钱用一年，7天无理由退款，零风险。</p>
+      </div>
+      <div class="faq-item">
+        <h4>Q：开通后多久能用？</h4>
+        <p>秒级交付。付款后系统自动生成专属服务密钥，立即可以接入使用，无需等待人工审核。</p>
+      </div>
+      <div class="faq-item">
+        <h4>Q：AI客服能处理哪些问题？</h4>
+        <p>产品咨询、价格查询、售后问题、常见问题解答、引导下单等。您可以自定义问答内容，让AI按照您的话术回复客户。</p>
+      </div>
+      <div class="faq-item">
+        <h4>Q：入门版和成长版怎么选？</h4>
+        <p>小店铺、个体户选入门版298就够了。如果您的业务对稳定性要求高、需要品牌话术定制或多渠道接入，建议选成长版998。双引擎不宕机，数据看板帮您优化客服效果。</p>
+      </div>
+      <div class="faq-item">
+        <h4>Q：可以接入我的网站或小程序吗？</h4>
+        <p>可以。所有版本都支持嵌入网站，成长版和旗舰版提供完整API接入，支持网站、小程序、APP等。</p>
+      </div>
+      <div class="faq-item">
+        <h4>Q：不满意怎么退款？</h4>
+        <p>开通7天内，添加微信号4009636853联系客服，说明退款即可，全额退回，无需理由。</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+let currentPlan='';
+const planNames={'298':'入门版 ¥298/年','998':'成长版 ¥998/年','2998':'旗舰版 ¥2998/年'};
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function selectPlan(plan){
+  currentPlan=plan;
+  document.getElementById('selectedPlan').value=plan;
+  document.getElementById('formTitle').textContent='开通'+planNames[plan];
+  document.getElementById('formCard').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function validateForm(){
+  let ok=true;
+  const name=document.getElementById('name');
+  const phone=document.getElementById('phone');
+  const industry=document.getElementById('industry');
+  if(!name.value.trim()){name.classList.add('error');document.getElementById('nameError').style.display='block';ok=false}
+  else{name.classList.remove('error');document.getElementById('nameError').style.display='none'}
+  if(!/^1[3-9]\d{9}$/.test(phone.value)){phone.classList.add('error');document.getElementById('phoneError').style.display='block';ok=false}
+  else{phone.classList.remove('error');document.getElementById('phoneError').style.display='none'}
+  if(!industry.value){ok=false}
+  return ok;
+}
+
+function handleSubmit(e){
+  e.preventDefault();
+  if(!currentPlan){alert('请先选择一个套餐');return false}
+  if(!validateForm())return false;
+  document.getElementById('formCard').style.display='none';
+  document.getElementById('paymentSection').classList.add('show');
+  document.getElementById('paymentHint').textContent='请使用微信或支付宝扫码支付 '+planNames[currentPlan];
+  document.getElementById('paymentSection').scrollIntoView({behavior:'smooth'});
+  return false;
+}
+
+function backToForm(){
+  document.getElementById('paymentSection').classList.remove('show');
+  document.getElementById('formCard').style.display='block';
+}
+
+document.querySelectorAll('.plan').forEach(p=>{
+  p.addEventListener('click',function(){
+    const btn=this.querySelector('.plan-btn');
+    if(btn)btn.click();
+  });
+});
+</script>
+</body>
+</html>
