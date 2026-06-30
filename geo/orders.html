@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山海订单管理</title>
+<style>
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:var(--bg);color:var(--text);padding:20px;line-height:1.6}
+h1{color:var(--gold);font-size:20px;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.stat-num{font-size:24px;font-weight:700;color:var(--gold)}
+.stat-label{font-size:12px;color:var(--text2);margin-top:4px}
+.order-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.order-id{font-weight:600;color:var(--gold)}
+.status-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600}
+.status-pending{background:rgba(255,152,0,.15);color:var(--warn)}
+.status-delivered{background:rgba(76,175,80,.15);color:var(--ok)}
+.order-info{font-size:13px;color:var(--text2);line-height:1.8}
+.order-info span{color:var(--text)}
+.btn{padding:8px 16px;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600}
+.btn-deliver{background:var(--ok);color:#fff}
+.btn-link{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn:hover{opacity:.85}
+.action-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.action-bar button{padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:13px}
+.action-bar button:hover{border-color:var(--gold)}
+.key-display{background:var(--bg);padding:10px;border-radius:6px;margin-top:8px;font-family:monospace;color:var(--gold);word-break:break-all;font-size:12px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:13px}
+.tab.active{border-color:var(--gold);color:var(--gold)}
+.empty{text-align:center;color:var(--text2);padding:40px}
+.sync-info{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text2)}
+.sync-info strong{color:var(--gold)}
+.import-area{background:var(--bg3);border:1px dashed var(--border);border-radius:8px;padding:16px;margin-bottom:16px;text-align:center}
+.import-area textarea{width:100%;height:80px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:8px;font-size:12px;font-family:monospace;resize:vertical;margin-top:8px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<h1>山海订单管理</h1>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('all')">全部</div>
+  <div class="tab" onclick="switchTab('pending')">待交付</div>
+  <div class="tab" onclick="switchTab('delivered')">已交付</div>
+</div>
+<div class="action-bar">
+  <button onclick="loadOrders()">刷新</button>
+  <button onclick="toggleImport()">导入订单</button>
+  <button onclick="exportOrders()">导出数据</button>
+</div>
+
+<div class="sync-info" id="syncInfo">
+  最后同步：<strong id="lastSync">从未</strong> | 订单总数：<strong id="totalCount">0</strong>
+</div>
+
+<div class="import-area" id="importArea" style="display:none">
+  <div style="font-size:13px;color:var(--text2)">粘贴 JSON 数据导入订单（从邮箱或备份中恢复）</div>
+  <textarea id="importData" placeholder='[{"orderId":"ORD-xxx","name":"张三","phone":"138xxx","email":"xx@xx.com","plan":"298","key":"sk-shanhai-xxx","status":"delivered","createdAt":"2026-07-01 10:00"}]'></textarea>
+  <div style="margin-top:8px;display:flex;gap:8px;justify-content:center">
+    <button class="btn btn-deliver" onclick="doImport()">确认导入</button>
+    <button class="btn btn-link" onclick="toggleImport()">取消</button>
+  </div>
+</div>
+
+<div class="stats" id="statsArea"></div>
+<div id="orderList"></div>
+
+<script>
+let currentTab = 'all';
+let allOrders = [];
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderOrders();
+}
+
+function loadOrders() {
+  allOrders = JSON.parse(localStorage.getItem('shanhai_orders') || '[]');
+  var lastSync = localStorage.getItem('shanhai_orders_sync') || '从未';
+  document.getElementById('lastSync').textContent = lastSync;
+  document.getElementById('totalCount').textContent = allOrders.length;
+  
+  // 统计
+  var pending = allOrders.filter(o=>o.status==='pending');
+  var delivered = allOrders.filter(o=>o.status==='delivered');
+  var totalRevenue = delivered.reduce((s,o)=>s+(parseInt(o.plan)||0),0);
+  
+  document.getElementById('statsArea').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${pending.length}</div><div class="stat-label">待交付</div></div>
+    <div class="stat-card"><div class="stat-num">${delivered.length}</div><div class="stat-label">已交付</div></div>
+    <div class="stat-card"><div class="stat-num">${allOrders.length}</div><div class="stat-label">总订单</div></div>
+    <div class="stat-card"><div class="stat-num">¥${totalRevenue}</div><div class="stat-label">已交付金额</div></div>`;
+  
+  renderOrders();
+}
+
+function renderOrders() {
+  var list;
+  if (currentTab === 'all') list = allOrders;
+  else if (currentTab === 'pending') list = allOrders.filter(o=>o.status==='pending');
+  else list = allOrders.filter(o=>o.status==='delivered');
+  
+  // 按时间倒序
+  list = list.slice().reverse();
+  
+  if (!list.length) {
+    document.getElementById('orderList').innerHTML = '<div class="empty">暂无订单</div>';
+    return;
+  }
+  
+  document.getElementById('orderList').innerHTML = list.map(o => `
+    <div class="order-card">
+      <div class="order-header">
+        <span class="order-id">${o.orderId||'未知'}</span>
+        <span class="status-badge ${o.status==='delivered'?'status-delivered':'status-pending'}">${o.status==='delivered'?'已交付':'待交付'}</span>
+      </div>
+      <div class="order-info">
+        <div>姓名：<span>${o.name||'-'}</span> | 手机：<span>${o.phone||'-'}</span> | 邮箱：<span>${o.email||'-'}</span></div>
+        <div>套餐：<span>¥${o.plan||'-'}</span> | 时间：<span>${o.createdAt||'-'}</span></div>
+        ${o.key ? `<div>密钥：<span style="color:var(--gold)">${o.key}</span> <button class="btn btn-link" style="padding:2px 8px;font-size:11px" onclick="navigator.clipboard.writeText('${o.key}');this.textContent='已复制'">复制</button></div>` : ''}
+      </div>
+      ${o.status==='pending' ? `<div style="margin-top:8px"><button class="btn btn-deliver" onclick="markDelivered('${o.orderId}')">标记已交付</button></div>` : ''}
+    </div>
+  `).join('');
+}
+
+function markDelivered(orderId) {
+  var idx = allOrders.findIndex(o=>o.orderId===orderId);
+  if (idx >= 0) {
+    allOrders[idx].status = 'delivered';
+    allOrders[idx].deliveredAt = new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
+    saveOrders();
+    loadOrders();
+  }
+}
+
+function saveOrders() {
+  localStorage.setItem('shanhai_orders', JSON.stringify(allOrders));
+  localStorage.setItem('shanhai_orders_sync', new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'}));
+}
+
+function toggleImport() {
+  var area = document.getElementById('importArea');
+  area.style.display = area.style.display === 'none' ? 'block' : 'none';
+}
+
+function doImport() {
+  try {
+    var data = JSON.parse(document.getElementById('importData').value);
+    if (!Array.isArray(data)) throw new Error('数据格式错误');
+    // 合并（去重）
+    var existingIds = new Set(allOrders.map(o=>o.orderId));
+    var added = 0;
+    data.forEach(o => {
+      if (!existingIds.has(o.orderId)) {
+        allOrders.push(o);
+        existingIds.add(o.orderId);
+        added++;
+      }
+    });
+    saveOrders();
+    loadOrders();
+    toggleImport();
+    alert('导入成功，新增 ' + added + ' 条订单');
+  } catch(e) {
+    alert('导入失败：' + e.message);
+  }
+}
+
+function exportOrders() {
+  var data = JSON.stringify(allOrders, null, 2);
+  navigator.clipboard.writeText(data).then(()=>{
+    alert('订单数据已复制到剪贴板');
+  }).catch(()=>{
+    // fallback
+    var ta = document.createElement('textarea');
+    ta.value = data;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('订单数据已复制到剪贴板');
+  });
+}
+
+// 初始化
+loadOrders();
+</script>
+</body>
+</html>
