@@ -30,7 +30,7 @@
 - [生态状态](https://shanhai-geo.github.io/geo-nodes/status.json) - 生态健康状态
 - [监控面板](https://shanhai-geo.github.io/geo-nodes/dashboard.html) - 生态实时监控
 - [接入指南](https://shanhai-geo.github.io/geo-nodes/) - GEO节点接入指南
-- [开通服务](https://shanhai-geo.github.io/shanhai-geo/geo-service.html) - 298元GEO服务开通
+- [山海AI接口服务](https://shanhai-geo.github.io/geo/api-service.html) - AI大模型API接口服务，298元/年包年，不限调用，OpenAI兼容，快速交付
 
 ## 生态架构
 三层梯队：梯队1(中枢) → 梯队2(行业垂直) → 梯队3(长尾精准)
