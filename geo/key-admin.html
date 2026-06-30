@@ -74,6 +74,18 @@ h2{color:var(--gold);font-size:16px;margin:20px 0 12px}
 
 @media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
 </style>
+<!-- EmailJS SDK - 交付邮件通知 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+(function(){
+  emailjs.init({ publicKey: "YOUR_PUBLIC_KEY" });
+  window.__EJS__ = {
+    serviceId: "YOUR_SERVICE_ID",
+    templateId: "YOUR_TEMPLATE_ID",
+    adminEmail: "746876121@qq.com"
+  };
+})();
+</script>
 </head>
 <body>
 
@@ -789,6 +801,8 @@ async function autoDeliverKey(phone, plan, orderId, name, email, days) {
 
   try {
     await saveRegistry();
+    // 发送交付邮件给客户
+    if (email) sendDeliveryEmail({ key, phone, plan, orderId, name: name || '', email, expiresAt: expires.toISOString() });
     return {
       success: true,
       key: key,
@@ -804,6 +818,33 @@ async function autoDeliverKey(phone, plan, orderId, name, email, days) {
 
 // 暴露到全局，供外部回调调用
 window.autoDeliverKey = autoDeliverKey;
+
+/* 发送交付邮件给客户 */
+async function sendDeliveryEmail(info) {
+  try {
+    const ejs = window.__EJS__;
+    if (!ejs || ejs.serviceId === 'YOUR_SERVICE_ID') {
+      console.log('EmailJS 未配置，跳过交付邮件');
+      return;
+    }
+    await emailjs.send(ejs.serviceId, ejs.templateId, {
+      to_email: info.email,
+      from_name: '山海AI接口服务',
+      customer_name: info.name || '用户',
+      customer_phone: info.phone,
+      api_key: info.key,
+      plan_name: info.plan,
+      order_id: info.orderId,
+      expires_date: new Date(info.expiresAt).toLocaleDateString('zh-CN'),
+      docs_url: 'https://shanhai-geo.github.io/geo/api-service.html#接入示例',
+      support_url: 'https://shanhai-geo.github.io/geo/key-portal.html',
+      message: `您好 ${info.name || '用户'}，\n\n您的山海AI接口服务密钥已生成，请立即保存使用。\n\n密钥: ${info.key}\n套餐: ${info.plan}\n订单号: ${info.orderId}\n有效期至: ${new Date(info.expiresAt).toLocaleDateString('zh-CN')}\n\n接入文档: https://shanhai-geo.github.io/geo/api-service.html\n查询密钥: https://shanhai-geo.github.io/geo/key-portal.html\n\n如有疑问请通过AI客服咨询。`
+    });
+    console.log('交付邮件已发送:', info.email);
+  } catch (e) {
+    console.error('交付邮件发送失败:', e);
+  }
+}
 
 function closeModal(id) {
   document.getElementById(id).classList.remove('show');

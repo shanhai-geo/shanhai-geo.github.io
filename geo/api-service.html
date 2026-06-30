@@ -811,6 +811,20 @@ a { color: var(--gold); text-decoration: none; }
   .delivery-actions { flex-direction: column; }
 }
 </style>
+<!-- EmailJS SDK - 订单邮件通知 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+(function(){
+  // 用户需在 EmailJS 后台获取以下三个值并替换
+  // 注册: https://www.emailjs.com/ 绑定 QQ邮箱 → 创建 Service + Template
+  emailjs.init({ publicKey: "YOUR_PUBLIC_KEY" });
+  window.__EJS__ = {
+    serviceId: "YOUR_SERVICE_ID",
+    templateId: "YOUR_TEMPLATE_ID",
+    adminEmail: "746876121@qq.com"
+  };
+})();
+</script>
 </head>
 <body>
 
@@ -1388,6 +1402,43 @@ async function syncOrderToGitHub(order) {
   }
 }
 
+/* 通过 EmailJS 发送订单邮件通知 */
+async function sendOrderEmail(order) {
+  try {
+    const ejs = window.__EJS__;
+    if (!ejs || ejs.serviceId === 'YOUR_SERVICE_ID') {
+      console.log('EmailJS 未配置，跳过邮件通知');
+      return false;
+    }
+    const deliverBase = 'https://shanhai-geo.github.io/geo/deliver.html';
+    const deliverLink = deliverBase + '?orderId=' + encodeURIComponent(order.orderId)
+      + '&name=' + encodeURIComponent(order.name)
+      + '&phone=' + encodeURIComponent(order.phone)
+      + '&email=' + encodeURIComponent(order.email || '')
+      + '&plan=' + encodeURIComponent(order.plan);
+
+    const result = await emailjs.send(ejs.serviceId, ejs.templateId, {
+      to_email: ejs.adminEmail,
+      from_name: '山海订单系统',
+      order_id: order.orderId,
+      plan_name: order.planName,
+      price: order.price,
+      customer_name: order.name,
+      customer_phone: order.phone,
+      customer_email: order.email || '未填写',
+      order_time: order.createdAt,
+      deliver_link: deliverLink,
+      admin_link: 'https://shanhai-geo.github.io/geo/key-admin.html',
+      message: `新订单通知\n\n订单号: ${order.orderId}\n套餐: ${order.planName} ¥${order.price}\n姓名: ${order.name}\n手机号: ${order.phone}\n邮箱: ${order.email || '未填写'}\n下单时间: ${order.createdAt}\n状态: 已付款待确认\n\n一键交付: ${deliverLink}\n管理后台: ${ejs.adminEmail}`
+    });
+    console.log('邮件通知已发送:', result.status);
+    return true;
+  } catch (e) {
+    console.error('邮件发送失败:', e);
+    return false;
+  }
+}
+
 /* 去付款 → 微信内显示二维码扫码，微信外直接跳转乐刷 */
 var LESHUA_PAY_URL = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
 
@@ -1471,10 +1522,11 @@ async function confirmPayment() {
   document.getElementById('displayOrderId').textContent = order.orderId;
   document.getElementById('waitingSection').scrollIntoView({ behavior: 'smooth' });
   
-  // 通过FormSubmit自动发邮件通知管理员（系统自动发送，客户无需操作）
-  const emailResult = await syncOrderToGitHub(order);
-  if (!emailResult) {
-    console.warn('邮件通知未送达，订单已保存在本地，客户可通过手机号查询');
+  // GitHub Issue记录 + 邮件通知双通道（并行发送，互不影响）
+  const ghResult = await syncOrderToGitHub(order);
+  const emailResult = await sendOrderEmail(order);
+  if (!ghResult && !emailResult) {
+    console.warn('订单通知双通道均未送达，订单已保存在本地，客户可通过手机号查询');
   }
 }
 
