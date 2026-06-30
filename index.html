@@ -354,7 +354,11 @@ async function sendChat() {
   document.getElementById('chatSend').disabled = true;
 
   const cfg = getConfig();
-  const keys = { '智谱GLM': cfg.zhipu, '硅基流动': cfg.silicon, '火山引擎': cfg.volc };
+  const keys = {
+    '智谱GLM': cfg.zhipu || '03daf1d1aef84c43bb36bc7d92678b0e.pZT5orK5lqkd4Vxt',
+    '硅基流动': cfg.silicon || 'sk-tzdkhzazjcboslsdywjhavwhyogrlpxmbidneaycfatwajvw',
+    '火山引擎': cfg.volc || 'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c'
+  };
   const engines = DEFAULT_ENGINES.filter(e => keys[e.name]);
 
   if (engines.length === 0) {
