@@ -1239,7 +1239,7 @@ a:hover { color: var(--gold2); text-decoration: none; }
         <div class="code-line">
           <span class="line-num">5</span>
           <span class="line-content">
-            &nbsp;&nbsp;&nbsp;&nbsp;model=<span class="line-string">"gpt-3.5-turbo"</span>, <span class="line-comment"># 模型名称保持不变</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;model=<span class="line-string">"shanhai-api"</span>, <span class="line-comment"># 模型名称保持不变</span>
           </span>
         </div>
         <div class="code-line">
@@ -1265,7 +1265,7 @@ a:hover { color: var(--gold2); text-decoration: none; }
         <div class="code-result-title">// 返回结果示例</div>
         <pre>{
   "id": "chatcmpl-xxx",
-  "model": "gpt-3.5-turbo",
+  "model": "shanhai-api",
   "choices": [{
     "message": {
       "role": "assistant", 
@@ -1678,7 +1678,7 @@ function backToForm() {
 function copyCode() {
   const code = `from openai import OpenAI
 client = OpenAI(api_key="YOUR_API_KEY", base_url="https://api.shanhai.ai/v1/")
-response = client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "你好"}])
+response = client.chat.completions.create(model="shanhai-api", messages=[{"role": "user", "content": "你好"}])
 print(response.choices[0].message.content)`;
   navigator.clipboard.writeText(code).then(() => {
     const btn = document.querySelector('.copy-btn');
