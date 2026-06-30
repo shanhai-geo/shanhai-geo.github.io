@@ -97,6 +97,29 @@ td{padding:10px;border-bottom:1px solid var(--border)}
 /* Responsive */
 @media(max-width:600px){.header{flex-direction:column;gap:8px}.nav{flex-wrap:wrap;justify-content:center}.chat-box{height:50vh}.card-grid{grid-template-columns:1fr 1fr}}
 </style>
+
+<!-- 百度统计（需替换ID） -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?TODO_REPLACE_BAIDU_ID";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- Google Analytics（需替换ID） -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=TODO_REPLACE_GA_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'TODO_REPLACE_GA_ID');
+</script>
+
+<!-- 不蒜子统计（无需注册，立即可用） -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 <body>
 
