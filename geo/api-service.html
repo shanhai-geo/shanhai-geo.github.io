@@ -831,59 +831,23 @@ a { color: var(--gold); text-decoration: none; }
 
 <!-- Order -->
 <section class="section order-section" id="order">
-  <div class="order-box" id="orderForm">
-    <h3>填写开通信息</h3>
-    <p class="sub">信息加密保护，仅用于开通服务</p>
-    <form onsubmit="return handleSubmit(event)">
-      <div class="form-group">
-        <label>选择套餐 <span class="req">*</span></label>
-        <div class="plan-selector">
-          <div class="plan-option" data-plan="298" onclick="selectPlanOption('298')">
-            <div class="pn">入门版</div>
-            <div class="pp">298<small>元</small></div>
-          </div>
-          <div class="plan-option selected" data-plan="998" onclick="selectPlanOption('998')">
-            <div class="pn">成长版</div>
-            <div class="pp">998<small>元</small></div>
-          </div>
-          <div class="plan-option" data-plan="2998" onclick="selectPlanOption('2998')">
-            <div class="pn">旗舰版</div>
-            <div class="pp">2998<small>元</small></div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>姓名 <span class="req">*</span></label>
-        <input type="text" id="name" placeholder="请输入姓名" required>
-        <div class="error-msg" id="nameError">请输入真实姓名</div>
-      </div>
-      <div class="form-group">
-        <label>手机号 <span class="req">*</span></label>
-        <input type="tel" id="phone" placeholder="请输入11位手机号" maxlength="11" required>
-        <div class="error-msg" id="phoneError">请输入正确的手机号码</div>
-      </div>
-      <input type="hidden" id="selectedPlan" value="998">
-      <button type="submit" class="submit-btn">确认并付款</button>
-    </form>
-  </div>
-
+  <!-- 直接付款区：点套餐后直接显示QR码 -->
   <div class="payment-box" id="paymentSection">
     <h3>扫码付款</h3>
-    <div class="payment-amount" id="paymentAmount">998<small>元</small></div>
+    <div class="payment-amount" id="paymentAmount">298<small>元</small></div>
     <div class="payment-qr">
       <img src="IMG_20250626_095025.jpg" alt="收款码" onerror="this.parentElement.innerHTML='<div style=\'color:#999;font-size:13px\'>收款码加载中...</div>'">
     </div>
     <div class="payment-note">
-      付款后点击下方按钮确认，系统即刻交付密钥
+      扫码支付后，点击下方按钮即刻交付密钥
     </div>
-    <button class="confirm-pay-btn" onclick="confirmPayment()">我已付款，立即交付密钥</button>
-    <a class="back-link" onclick="backToForm()">← 返回修改信息</a>
+    <button class="confirm-pay-btn" onclick="confirmPayment()">已付款，交付密钥</button>
   </div>
 
   <div class="delivery-box" id="deliverySection">
     <div class="delivery-check">✓</div>
-    <h3>付款成功，密钥已交付</h3>
-    <p class="delivery-sub">你的专属API密钥如下，请妥善保管</p>
+    <h3>密钥已交付</h3>
+    <p class="delivery-sub">你的专属API密钥，请妥善保管</p>
     <div class="key-display">
       <button class="key-copy-btn" onclick="copyKey()">复制</button>
       <span id="apiKeyText">sk-shanhai-</span>
@@ -891,19 +855,19 @@ a { color: var(--gold); text-decoration: none; }
     <div class="delivery-steps">
       <div class="delivery-step">
         <span class="step-num">1</span>
-        <div class="step-text"><strong>复制密钥</strong> — 点击上方复制按钮保存你的API密钥</div>
+        <div class="step-text"><strong>复制密钥</strong> — 点击上方复制按钮</div>
       </div>
       <div class="delivery-step">
         <span class="step-num">2</span>
-        <div class="step-text"><strong>替换base_url</strong> — 将代码中的base_url改为 <code style="color:var(--gold)">https://api.shanhai.ai/v1/</code></div>
+        <div class="step-text"><strong>替换base_url</strong> — 改为 <code style="color:var(--gold)">https://api.shanhai.ai/v1/</code></div>
       </div>
       <div class="delivery-step">
         <span class="step-num">3</span>
-        <div class="step-text"><strong>替换api_key</strong> — 用上面的密钥替换你的api_key参数</div>
+        <div class="step-text"><strong>替换api_key</strong> — 粘贴上面的密钥</div>
       </div>
       <div class="delivery-step">
         <span class="step-num">4</span>
-        <div class="step-text"><strong>开始调用</strong> — 兼容OpenAI格式，无需修改其他代码</div>
+        <div class="step-text"><strong>开始调用</strong> — 兼容OpenAI格式，无需改其他代码</div>
       </div>
     </div>
     <div class="delivery-actions">
@@ -1135,56 +1099,36 @@ function csGetReply(text) {
    ============================================ */
 function selectPlan(price, name) {
   selectedPlan = price;
-  document.getElementById('selectedPlan').value = price;
-  document.querySelectorAll('.plan-option').forEach(opt => {
-    opt.classList.toggle('selected', opt.dataset.plan === price);
-  });
   showPayment();
 }
 
 function selectPlanOption(price) {
   selectedPlan = price;
-  document.getElementById('selectedPlan').value = price;
-  document.querySelectorAll('.plan-option').forEach(opt => {
-    opt.classList.toggle('selected', opt.dataset.plan === price);
-  });
 }
 
 function showPayment() {
-  document.getElementById('orderForm').style.display = 'none';
   document.getElementById('paymentSection').classList.add('show');
   document.getElementById('deliverySection').classList.remove('show');
   document.getElementById('paymentAmount').innerHTML = selectedPlan + '<small>元</small>';
   document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  showPayment();
-  return false;
-}
-
 function backToForm() {
   document.getElementById('paymentSection').classList.remove('show');
   document.getElementById('deliverySection').classList.remove('show');
-  document.getElementById('orderForm').style.display = 'block';
-  document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
 }
 
 /* 确认付款 → 交付密钥 */
 function confirmPayment() {
-  // Generate a unique key
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let key = 'sk-shanhai-';
   for (let i = 0; i < 32; i++) key += chars[Math.floor(Math.random() * chars.length)];
   document.getElementById('apiKeyText').textContent = key;
 
-  // Show delivery section
   document.getElementById('paymentSection').classList.remove('show');
   document.getElementById('deliverySection').classList.add('show');
   document.getElementById('deliverySection').scrollIntoView({ behavior: 'smooth' });
 
-  // Trigger CS welcome for after-sales
   setTimeout(() => {
     if (!document.getElementById('csPanel').classList.contains('open')) {
       toggleCS();
