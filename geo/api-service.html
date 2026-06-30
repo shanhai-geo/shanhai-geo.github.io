@@ -1366,15 +1366,28 @@ async function syncOrderToGitHub(order) {
   }
 }
 
-/* 去付款 → 尝试打开微信/支付宝扫码 */
+/* 去付款 → 微信内直接显示收款码，微信外尝试跳转 */
 function goPay() {
   const ua = navigator.userAgent.toLowerCase();
+  const isWeChat = /micromessenger/i.test(ua);
   const isAndroid = ua.indexOf('android') !== -1;
   const isIOS = /iphone|ipad|ipod/i.test(ua);
 
   // 确保付款二维码区域可见
   const qrSection = document.getElementById('paymentSection');
   if (qrSection) qrSection.classList.add('show');
+
+  if (isWeChat) {
+    // 微信内置浏览器：直接显示收款码，让用户长按识别
+    showQRFallback('请在微信内支付');
+    var note = document.querySelector('.payment-note');
+    if (note) {
+      note.innerHTML = '<strong style="color:#c9a96e">请在微信内支付</strong><br>① 长按上方收款码 → 识别图中二维码<br>② 输入金额完成支付';
+    }
+    // 微信内直接滚动到二维码
+    if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
 
   if (isAndroid) {
     // Chrome for Android: intent:// 必须在主窗口触发，iframe 无效
