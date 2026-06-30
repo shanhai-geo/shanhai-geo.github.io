@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>山海订单管理</title>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <style>
 :root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -48,18 +48,7 @@ h2{color:var(--gold);font-size:16px;margin:20px 0 12px}
   <button onclick="loadOrders()">刷新</button>
   <button onclick="window.open('https://github.com/shanhai-geo/shanhai-geo.github.io/issues','_blank')">GitHub Issues</button>
 </div>
-<div id="emailjsSetup" style="background:var(--bg2);border:1px solid var(--warn);border-radius:8px;padding:16px;margin-bottom:16px;display:none">
-  <div style="color:var(--warn);font-weight:600;margin-bottom:8px">邮件服务配置（一次性设置）</div>
-  <div style="font-size:13px;color:var(--text2);margin-bottom:12px">使用 EmailJS 免费服务自动发送密钥邮件给客户。<a href="https://www.emailjs.com/" target="_blank" style="color:var(--gold)">注册EmailJS</a> → 添加Email Service → 创建模板 → 填入下方</div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
-    <input id="cfgPublicKey" placeholder="Public Key" style="flex:1;min-width:150px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:13px">
-    <input id="cfgServiceId" placeholder="Service ID" style="flex:1;min-width:120px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:13px">
-    <input id="cfgTemplateId" placeholder="Template ID" style="flex:1;min-width:120px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:13px">
-  </div>
-  <button class="btn" style="background:var(--warn);color:#fff" onclick="saveEmailJSCfg()">保存配置</button>
-  <button class="btn" style="background:var(--bg3);color:var(--text2);margin-left:8px" onclick="testEmailJS()">测试连接</button>
-  <div id="emailjsStatus" style="margin-top:8px;font-size:12px"></div>
-</div>
+
 <div class="stats" id="statsArea"></div>
 <div id="orderList"></div>
 
@@ -161,7 +150,7 @@ function renderOrders() {
       </div>
       ${o.state==='open' ? `
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-deliver" onclick="deliverOrder(${o.number},'${o.phone}','${o.email}','${o.orderId}')">确认交付</button>
+          <button class="btn btn-deliver" onclick="confirmDeliver(${o.number},'${o.phone}','${o.email}','${o.orderId}')">确认交付</button>
           <a class="btn btn-link" href="${o.issueUrl}" target="_blank">查看Issue</a>
         </div>
         <div id="keyArea-${o.number}" style="display:none"></div>
@@ -172,72 +161,37 @@ function renderOrders() {
   }).join('');
 }
 
-/* ===== EmailJS 配置 ===== */
-function getEmailJSCfg() {
-  const cfg = localStorage.getItem('emailjs_cfg');
-  return cfg ? JSON.parse(cfg) : null;
-}
-
-function saveEmailJSCfg() {
-  const publicKey = document.getElementById('cfgPublicKey').value.trim();
-  const serviceId = document.getElementById('cfgServiceId').value.trim();
-  const templateId = document.getElementById('cfgTemplateId').value.trim();
-  if (!publicKey || !serviceId || !templateId) {
-    document.getElementById('emailjsStatus').innerHTML = '<span style="color:var(--err)">请填写全部三个字段</span>';
-    return;
-  }
-  localStorage.setItem('emailjs_cfg', JSON.stringify({ publicKey, serviceId, templateId }));
-  emailjs.init(publicKey);
-  document.getElementById('emailjsStatus').innerHTML = '<span style="color:var(--ok)">配置已保存</span>';
-  document.getElementById('emailjsSetup').style.display = 'none';
-}
-
-function testEmailJS() {
-  const cfg = getEmailJSCfg();
-  if (!cfg) {
-    document.getElementById('emailjsStatus').innerHTML = '<span style="color:var(--err)">请先保存配置</span>';
-    return;
-  }
-  emailjs.init(cfg.publicKey);
-  emailjs.send(cfg.serviceId, cfg.templateId, {
-    to_email: '746876121@qq.com',
-    customer_name: '测试',
-    order_id: 'TEST-' + Date.now(),
-    plan_name: '测试套餐',
-    api_key: 'sk-shanhai-test',
-    access_url: 'https://shanhai-geo.github.io/geo/api-service.html'
-  }).then(() => {
-    document.getElementById('emailjsStatus').innerHTML = '<span style="color:var(--ok)">测试邮件发送成功</span>';
-  }).catch(err => {
-    document.getElementById('emailjsStatus').innerHTML = '<span style="color:var(--err)">发送失败: ' + (err.text || err.message || JSON.stringify(err)) + '</span>';
-  });
-}
-
-function initEmailJS() {
-  const cfg = getEmailJSCfg();
-  if (cfg) {
-    emailjs.init(cfg.publicKey);
-    document.getElementById('emailjsSetup').style.display = 'none';
-  } else {
-    document.getElementById('emailjsSetup').style.display = 'block';
-  }
-}
-
-async function sendKeyEmail(email, orderId, key, planName, customerName) {
-  const cfg = getEmailJSCfg();
-  if (!cfg) return { success: false, error: 'EmailJS 未配置' };
+/* ===== 通过 FormSubmit 自动发邮件给客户（零注册、零配置） ===== */
+async function sendKeyEmail(customerEmail, orderId, key, planName, customerName) {
   try {
-    await emailjs.send(cfg.serviceId, cfg.templateId, {
-      to_email: email,
-      customer_name: customerName || '用户',
-      order_id: orderId,
-      plan_name: planName || '',
-      api_key: key,
-      access_url: 'https://shanhai-geo.github.io/geo/api-service.html'
+    const formData = new URLSearchParams();
+    formData.append('_subject', '【山海AI】您的API密钥已交付 - ' + orderId);
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
+    formData.append('客户', customerName || '用户');
+    formData.append('订单号', orderId);
+    formData.append('套餐', planName || '');
+    formData.append('API密钥', key);
+    formData.append('接入地址', 'https://shanhai-geo.github.io/geo/api-service.html');
+    formData.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://api.shanhai.ai/v1/")');
+    formData.append('_replyto', '746876121@qq.com');
+
+    const resp = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(customerEmail), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+      body: formData.toString()
     });
-    return { success: true };
+    if (resp.ok) return { success: true };
+    return { success: false, error: 'HTTP ' + resp.status };
   } catch (e) {
-    return { success: false, error: e.text || e.message || '未知错误' };
+    return { success: false, error: e.message || '网络错误' };
+  }
+}
+
+/* ===== 核实到账确认（防止未付款就交付） ===== */
+function confirmDeliver(number, phone, email, orderId) {
+  if (confirm('【重要】请确认：\n\n1. 已核实该订单款项已到账\n2. 确认无误后点击"确定"\n\n系统将自动生成密钥并邮件发送给客户。')) {
+    deliverOrder(number, phone, email, orderId);
   }
 }
 
@@ -273,19 +227,17 @@ async function deliverOrder(number, phone, email, orderId) {
       body: JSON.stringify({state: 'closed'})
     });
     
-    // 2. 自动发邮件给客户
-    let emailStatus = '未配置邮件服务，密钥已记录到Issue';
+    // 2. 通过FormSubmit自动发邮件给客户（零注册）
+    let emailStatus = '密钥已记录到Issue';
     let emailOk = false;
-    if (email && email !== '-' && getEmailJSCfg()) {
+    if (email && email !== '-' && email.indexOf('@') > 0) {
       const result = await sendKeyEmail(email, orderId, key, planName, customerName);
       if (result.success) {
-        emailStatus = '邮件已自动发送至 ' + email;
+        emailStatus = '密钥邮件已自动发送至 ' + email;
         emailOk = true;
       } else {
-        emailStatus = '邮件发送失败: ' + result.error + '，密钥: ' + key;
+        emailStatus = '邮件发送失败(' + result.error + ')，密钥: ' + key;
       }
-    } else if (!getEmailJSCfg()) {
-      emailStatus = 'EmailJS未配置，请先到页面顶部设置邮件服务';
     } else {
       emailStatus = '客户未留邮箱，密钥已记录到Issue';
     }
@@ -311,7 +263,6 @@ async function deliverOrder(number, phone, email, orderId) {
 }
 
 loadOrders();
-initEmailJS();
 </script>
 </body>
 </html>
