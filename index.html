@@ -2,3251 +2,567 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>山海云枢指挥中心 - YUNSHU</title>
-<meta name="description" content="山海智能最高权限指挥中心">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src *;">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山海云枢 - 让AI世界找到你</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif}
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--gold2:#d4b87a;--text:#e0e0e0;--text2:#909090;--ok:#4caf50;--err:#e74c3c;--warn:#ff9800;--border:#2a2a3e;--card:#16162a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
 
-:root{
-  --bg:#f5f5f5;
-  --surface:#ffffff;
-  --surface2:#f8f9fa;
-  --border:#e8e8e8;
-  --border-light:#f0f0f0;
-  --text:#1b2838;
-  --text2:#666666;
-  --text3:#999999;
-  --text4:#bcbcbc;
-  --accent:#2ecc71;
-  --accent-light:rgba(46,204,113,0.1);
-  --green:#07c160;
-  --green-light:rgba(7,193,96,0.08);
-  --red:#fa5151;
-  --blue:#1989fa;
-  --purple:#7c4dff;
-  --bubble-ai:#ffffff;
-  --shadow:0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md:0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg:0 8px 24px rgba(0,0,0,0.12);
-}
+/* Header */
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:700;color:var(--gold);letter-spacing:2px}
+.logo span{color:var(--text2);font-weight:400;font-size:13px;margin-left:8px}
+.nav{display:flex;gap:6px}
+.nav button{background:transparent;border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;transition:all .2s}
+.nav button:hover,.nav button.active{background:var(--gold);color:#000;border-color:var(--gold)}
 
-body{background:var(--bg);display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
+/* Panels */
+.panel{display:none;max-width:960px;margin:0 auto;padding:24px 16px}
+.panel.active{display:block}
 
-/* ===== PIN 锁屏 ===== */
-.pin-screen{
-  position:fixed;inset:0;z-index:9999;
-  background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:24px;
-  transition:opacity .4s,transform .4s;
-}
-.pin-screen.gone{opacity:0;transform:scale(1.05);pointer-events:none}
+/* Chat */
+.chat-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;height:60vh;display:flex;flex-direction:column}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:80%;padding:10px 14px;border-radius:10px;line-height:1.6;font-size:14px;word-break:break-word}
+.msg.user{align-self:flex-end;background:var(--gold);color:#000;border-bottom-right-radius:2px}
+.msg.bot{align-self:flex-start;background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:2px}
+.msg.sys{align-self:center;background:transparent;color:var(--text2);font-size:12px;text-align:center}
+.chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
+.chat-input textarea{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:10px;font-size:14px;resize:none;outline:none;font-family:inherit}
+.chat-input textarea:focus{border-color:var(--gold)}
+.chat-input button{background:var(--gold);color:#000;border:none;border-radius:8px;padding:0 20px;font-size:14px;cursor:pointer;font-weight:600}
+.chat-input button:disabled{opacity:.5;cursor:not-allowed}
+.engine-tag{font-size:11px;color:var(--text2);margin-top:4px}
 
-.pin-logo{
-  width:72px;height:72px;border-radius:20px;
-  background:linear-gradient(135deg,var(--accent),#27ae60);
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;font-weight:800;color:#fff;
-  box-shadow:0 8px 32px rgba(46,204,113,0.35);
-  margin-bottom:16px;
-}
-.pin-title{font-size:22px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:4px}
-.pin-sub{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:3px;margin-bottom:32px}
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.card h3{color:var(--gold);font-size:16px;margin-bottom:12px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.stat{text-align:center;padding:16px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)}
+.stat .val{font-size:28px;font-weight:700;color:var(--gold)}
+.stat .label{font-size:12px;color:var(--text2);margin-top:4px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.dot.on{background:var(--ok)}.dot.off{background:var(--err)}.dot.warn{background:var(--warn)}
 
-.pin-dots{display:flex;gap:14px;margin-bottom:8px}
-.pin-dot{
-  width:12px;height:12px;border-radius:50%;
-  border:2px solid rgba(255,255,255,0.25);background:transparent;
-  transition:all .2s;
-}
-.pin-dot.filled{border-color:var(--accent);background:var(--accent);box-shadow:0 0 10px rgba(46,204,113,0.5)}
-.pin-dot.error{border-color:var(--red);background:var(--red);animation:shake .4s}
-.pin-dot.success{border-color:var(--green);background:var(--green);box-shadow:0 0 10px rgba(7,193,96,0.5)}
-@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+/* Form */
+input,select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:8px;font-size:14px;width:100%;outline:none;font-family:inherit}
+input:focus,select:focus{border-color:var(--gold)}
+label{display:block;font-size:13px;color:var(--text2);margin-bottom:4px;margin-top:12px}
+label:first-child{margin-top:0}
+.btn{background:var(--gold);color:#000;border:none;padding:10px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:600;margin-top:16px}
+.btn:hover{background:var(--gold2)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn-outline:hover{background:var(--gold);color:#000}
+.result-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:16px;font-size:13px;line-height:1.8;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto;display:none}
+.result-box.show{display:block}
 
-.pin-status{font-size:13px;color:rgba(255,255,255,0.5);margin:12px 0 24px;text-align:center;min-height:20px}
+/* Status table */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:10px;color:var(--gold);border-bottom:1px solid var(--border);font-weight:500}
+td{padding:10px;border-bottom:1px solid var(--border)}
 
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:264px}
-.pin-key{
-  aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,0.08);
-  background:rgba(255,255,255,0.06);color:#fff;font-size:28px;font-weight:300;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all .15s;backdrop-filter:blur(4px);
-  -webkit-user-select:none;user-select:none;
-}
-.pin-key:active{background:rgba(46,204,113,0.2);border-color:var(--accent);transform:scale(0.92)}
-.pin-key.fn{font-size:15px;color:rgba(255,255,255,0.4)}
-.pin-key.fn:active{background:rgba(255,255,255,0.1)}
+/* Settings */
+.settings-group{margin-bottom:20px}
+.settings-group h4{color:var(--gold);font-size:14px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.hint{font-size:12px;color:var(--text2);margin-top:4px}
 
-.pin-footer{margin-top:28px;text-align:center}
-.pin-reset{font-size:12px;color:rgba(255,255,255,0.35);cursor:pointer;padding:8px 16px}
-.pin-reset:active{color:rgba(255,255,255,0.6)}
-.pin-hint{font-size:10px;color:var(--accent);margin-top:8px;opacity:0.7}
+/* Hero */
+.hero{text-align:center;padding:48px 16px 32px}
+.hero h1{font-size:32px;color:var(--gold);margin-bottom:8px;letter-spacing:3px}
+.hero p{color:var(--text2);font-size:16px}
+.hero .tags{margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.hero .tag{background:var(--bg3);border:1px solid var(--border);padding:4px 12px;border-radius:20px;font-size:12px;color:var(--text2)}
 
-/* ===== 锁定屏 ===== */
-.lock-screen{
-  position:fixed;inset:0;z-index:9998;
-  background:rgba(26,26,46,0.97);backdrop-filter:blur(20px);
-  display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;
-}
-.lock-screen.show{display:flex}
-.lock-icon{font-size:48px;margin-bottom:16px;opacity:0.9}
-.lock-title{font-size:18px;font-weight:600;color:#fff;margin-bottom:8px}
-.lock-desc{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:28px;text-align:center;line-height:1.6}
-.lock-btn{
-  padding:14px 48px;border-radius:24px;border:none;
-  background:linear-gradient(135deg,var(--accent),#27ae60);
-  color:#fff;font-size:15px;font-weight:600;cursor:pointer;
-  box-shadow:0 4px 16px rgba(46,204,113,0.3);
-  transition:transform .15s;
-}
-.lock-btn:active{transform:scale(0.96)}
-
-/* ===== 主应用 ===== */
-#mainApp{display:none;flex-direction:column;height:100%;background:var(--bg)}
-#mainApp.active{display:flex}
-
-/* 顶栏 */
-.navbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;height:56px;background:var(--surface);
-  border-bottom:1px solid var(--border-light);flex-shrink:0;
-  position:relative;z-index:10;
-}
-.nav-left{display:flex;align-items:center;gap:12px}
-.nav-avatar{
-  width:38px;height:38px;border-radius:12px;
-  background:linear-gradient(135deg,var(--accent),#27ae60);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:700;color:#fff;
-  box-shadow:0 2px 8px rgba(46,204,113,0.25);
-}
-.nav-info{display:flex;flex-direction:column}
-.nav-name{font-size:16px;font-weight:600;color:var(--text);line-height:1.3}
-.nav-status{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px;line-height:1.3}
-.nav-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
-.nav-right{display:flex;align-items:center;gap:6px}
-.nav-badge{
-  font-size:10px;padding:3px 8px;border-radius:10px;font-weight:500;
-}
-.nav-badge.shield-on{background:var(--green-light);color:var(--green)}
-.nav-badge.shield-off{background:rgba(250,81,81,0.08);color:var(--red)}
-.nav-badge.ver{background:var(--accent-light);color:var(--accent)}
-.nav-more{
-  width:36px;height:36px;border-radius:10px;border:none;background:transparent;
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;color:var(--text3);cursor:pointer;
-}
-.nav-more:active{background:var(--surface2)}
-
-/* 聊天区 */
-.chat-area{
-  flex:1;overflow-y:auto;padding:8px 16px 4px;
-  -webkit-overflow-scrolling:touch;background:var(--bg);
-}
-.chat-area::-webkit-scrollbar{width:0;display:none}
-
-/* 时间分割 */
-.time-divider{
-  text-align:center;padding:12px 0 8px;
-  font-size:11px;color:var(--text4);
-}
-
-/* 消息行 */
-.msg{display:flex;gap:10px;margin-bottom:16px;animation:msgIn .3s ease;will-change:transform;content-visibility:auto;contain-intrinsic-size:auto 80px}
-@keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-.msg-ai{flex-direction:row;align-items:flex-start}
-.msg-user{flex-direction:row-reverse;align-items:flex-start}
-
-/* 头像 */
-.msg-avatar{
-  width:40px;height:40px;border-radius:12px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;font-weight:600;color:#fff;
-}
-.msg-ai .msg-avatar{
-  background:linear-gradient(135deg,var(--accent),#27ae60);
-  box-shadow:0 2px 8px rgba(46,204,113,0.2);
-}
-.msg-user .msg-avatar{
-  background:linear-gradient(135deg,#27ae60,#1e8449);
-  box-shadow:0 2px 8px rgba(46,204,113,0.2);
-}
-
-/* 气泡 */
-.msg-content{max-width:78%;display:flex;flex-direction:column}
-.msg-user .msg-content{align-items:flex-end}
-
-.msg-bubble{
-  position:relative;padding:11px 15px;
-  font-size:16px;line-height:1.7;word-break:break-word;
-}
-.msg-ai .msg-bubble{
-  background:var(--bubble-ai);color:var(--text);
-  border-radius:4px 18px 18px 18px;
-  box-shadow:var(--shadow);
-}
-.msg-user .msg-bubble{
-  background:var(--bubble-user);color:#fff;
-  border-radius:18px 4px 18px 18px;
-  box-shadow:0 2px 8px rgba(46,204,113,0.2);
-}
-
-/* 流式输出光标 */
-.msg-bubble.streaming::after{
-  content:'';display:inline-block;width:2px;height:14px;
-  background:var(--accent);margin-left:2px;vertical-align:middle;
-  animation:blink .6s infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-.msg-time{font-size:10px;color:var(--text4);margin-top:4px;padding:0 4px}
-
-/* 气泡内元素 */
-.msg-bubble .result-box{margin:4px 0}
-.msg-bubble .rb-title{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border-light)}
-.msg-bubble .rb-item{font-size:13px;color:var(--text2);padding:3px 0;line-height:1.5}
-.msg-bubble .rb-item .on{color:var(--green);font-weight:500}
-.msg-bubble .rb-item .off{color:var(--red);font-weight:500}
-
-.msg-bubble button,.msg-bubble .link-btn{
-  display:inline-block;padding:6px 14px;margin:3px 4px 3px 0;
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:12px;cursor:pointer;
-  transition:all .15s;
-}
-.msg-bubble button:active,.msg-bubble .link-btn:active{background:var(--accent-light);border-color:var(--accent)}
-.msg-bubble .link-btn{color:var(--accent);text-decoration:none;font-weight:500}
-
-/* 引擎卡片 */
-.engine-card{
-  background:var(--surface2);border:1px solid var(--border-light);
-  border-radius:12px;padding:12px;margin:6px 0;text-align:center;
-}
-.engine-card .ec-num{font-size:20px;font-weight:700;color:var(--accent)}
-.engine-card .ec-name{font-size:13px;color:var(--text);margin:4px 0 2px}
-.engine-card .ec-desc{font-size:11px;color:var(--text3)}
-
-/* 打字指示器 */
-.typing-dots{display:inline-flex;gap:5px;align-items:center;padding:4px 0}
-.typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--text4);animation:typing 1.4s infinite}
-.typing-dots span:nth-child(2){animation-delay:.2s}
-.typing-dots span:nth-child(3){animation-delay:.4s}
-@keyframes typing{0%,80%{opacity:.3;transform:scale(0.85)}40%{opacity:1;transform:scale(1)}}
-
-/* 快捷标签 */
-.quick-area{
-  display:flex;gap:8px;padding:6px 16px;overflow-x:auto;
-  background:var(--bg);flex-shrink:0;
-  -webkit-overflow-scrolling:touch;
-}
-.quick-area::-webkit-scrollbar{display:none}
-.qk{
-  flex-shrink:0;padding:6px 14px;border-radius:18px;
-  border:1px solid var(--border);background:var(--surface);
-  font-size:12px;color:var(--text2);cursor:pointer;
-  transition:all .15s;white-space:nowrap;
-}
-.qk:active{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
-.qk.qk-gold{border-color:rgba(46,204,113,0.3);color:var(--accent)}
-.qk.qk-green{border-color:rgba(7,193,96,0.3);color:var(--green)}
-
-/* 输入栏 */
-.input-bar{
-  display:flex;align-items:flex-end;gap:8px;
-  padding:8px 12px 12px;background:var(--surface);
-  border-top:1px solid var(--border-light);flex-shrink:0;
-}
-.input-wrap{
-  flex:1;background:var(--surface2);border-radius:20px;
-  border:1px solid var(--border);
-  transition:border-color .2s;
-}
-.input-wrap:focus-within{border-color:var(--accent)}
-.input-wrap textarea{
-  width:100%;border:none;background:transparent;outline:none;
-  padding:9px 16px;font-size:15px;line-height:1.5;
-  color:var(--text);resize:none;
-  font-family:inherit;
-  max-height:100px;
-}
-.input-wrap textarea::placeholder{color:var(--text4)}
-
-.send-btn{
-  width:40px;height:40px;border-radius:50%;border:none;
-  background:var(--accent);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .15s;flex-shrink:0;
-}
-.send-btn svg{width:20px;height:20px;fill:#fff}
-.send-btn.disabled{background:var(--border);cursor:default}
-.send-btn:not(.disabled):active{transform:scale(0.9);background:#27ae60}
-
-/* Toast */
-.toast{
-  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);
-  background:rgba(0,0,0,0.75);color:#fff;
-  padding:12px 24px;border-radius:12px;font-size:14px;
-  z-index:10000;opacity:0;transition:all .25s;pointer-events:none;
-  backdrop-filter:blur(8px);text-align:center;max-width:80%;
-}
-.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-
-/* 侧边菜单 */
-.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:100;display:none;opacity:0;transition:opacity .3s}
-.menu-overlay.show{display:block;opacity:1}
-.side-menu{
-  position:fixed;top:0;right:-280px;width:280px;height:100%;
-  background:var(--surface);z-index:101;transition:right .3s;
-  box-shadow:var(--shadow-lg);overflow-y:auto;
-}
-.side-menu.show{right:0}
-.sm-close{
-  position:absolute;top:12px;right:12px;width:32px;height:32px;
-  border-radius:8px;border:none;background:var(--surface2);
-  font-size:16px;color:var(--text3);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-}
-.sm-header{padding:48px 24px 20px;border-bottom:1px solid var(--border-light)}
-.sm-name{font-size:18px;font-weight:600;color:var(--text)}
-.sm-role{font-size:12px;color:var(--text3);margin-top:4px}
-.sm-section{padding:16px 24px 6px;font-size:11px;color:var(--text4);letter-spacing:1px}
-.sm-item{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 24px;font-size:14px;color:var(--text);cursor:pointer;
-  transition:background .15s;
-}
-.sm-item:active{background:var(--surface2)}
-.sm-item .sm-icon{font-size:18px;width:24px;text-align:center}
-.sm-links{padding:8px 24px 24px}
-.sm-links a{
-  display:block;padding:10px 0;font-size:13px;color:var(--accent);
-  text-decoration:none;border-bottom:1px solid var(--border-light);
-}
-.sm-links a:last-child{border:none}
-
-/* 详情弹窗 */
-.detail-modal{
-  position:fixed;inset:0;z-index:200;background:var(--bg);
-  display:none;flex-direction:column;
-  animation:slideUp .3s ease;
-}
-.detail-modal.show{display:flex}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.dm-header{
-  display:flex;align-items:center;gap:12px;
-  padding:0 16px;height:56px;background:var(--surface);
-  border-bottom:1px solid var(--border-light);flex-shrink:0;
-}
-.dm-header button{
-  border:none;background:none;font-size:20px;color:var(--text);
-  cursor:pointer;padding:4px 8px;
-}
-.dm-header span{font-size:16px;font-weight:600;color:var(--text)}
-.dm-body{flex:1;overflow-y:auto;padding:16px}
-
-.mcard{
-  background:var(--surface);border-radius:14px;padding:16px;
-  margin-bottom:12px;box-shadow:var(--shadow);
-}
-.mcard h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.mcard .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.mrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-light)}
-.mrow:last-child{border:none}
-.mlabel{font-size:13px;color:var(--text2)}
-.mval{font-size:13px;font-weight:500;color:var(--text)}
-.mval.gd{color:var(--accent)}
-.mval.gn{color:var(--green)}
-.mval.cy{color:var(--blue)}
-.mval.pp{color:var(--purple)}
-
-/* 开关 */
-.switch{
-  width:48px;height:28px;border-radius:14px;
-  background:#e0e0e0;position:relative;cursor:pointer;
-  transition:background .3s;flex-shrink:0;
-}
-.switch::after{
-  content:'';position:absolute;top:2px;left:2px;
-  width:24px;height:24px;border-radius:50%;background:#fff;
-  box-shadow:0 1px 3px rgba(0,0,0,0.15);transition:left .3s;
-}
-.switch.on{background:var(--green)}
-.switch.on::after{left:22px}
-
-/* 主控面板 */
-.master-box{background:var(--surface);border-radius:14px;padding:20px;margin-bottom:12px;box-shadow:var(--shadow);text-align:center}
-.ms-label{font-size:11px;color:var(--text3);letter-spacing:1px;margin-bottom:4px}
-.ms-state{font-size:20px;font-weight:700;margin-bottom:4px}
-.ms-state.open{color:var(--green)}
-.ms-state.closed{color:var(--red)}
-.ms-state.sealed{color:var(--purple)}
-.ms-desc{font-size:12px;color:var(--text3);margin-bottom:16px}
-.ms-toggle{
-  width:68px;height:36px;border-radius:18px;position:relative;cursor:pointer;
-  margin:0 auto 16px;border:2px solid var(--border);transition:all .3s;
-}
-.ms-toggle::after{
-  content:'';position:absolute;top:3px;left:3px;
-  width:26px;height:26px;border-radius:50%;background:var(--surface2);
-  transition:all .3s;
-}
-.ms-toggle.on{border-color:var(--green);background:var(--green-light)}
-.ms-toggle.on::after{left:35px;background:var(--green)}
-.ms-toggle.closed{border-color:var(--red);background:rgba(250,81,81,0.08)}
-.ms-toggle.closed::after{left:35px;background:var(--red)}
-.ms-actions{display:flex;gap:8px;justify-content:center}
-.ms-actions button{
-  padding:8px 20px;border:none;border-radius:10px;
-  font-size:13px;font-weight:500;cursor:pointer;color:#fff;
-}
-
-/* 防护盾面板 */
-.shield-toggle{
-  display:flex;align-items:center;gap:14px;
-  background:var(--surface);border-radius:14px;padding:16px;
-  margin-bottom:12px;box-shadow:var(--shadow);
-}
-.st-icon{font-size:32px}
-.st-name{font-size:15px;font-weight:600;color:var(--text)}
-.st-desc{font-size:11px;color:var(--text3);margin-top:2px}
-.st-sw{
-  width:48px;height:28px;border-radius:14px;background:#e0e0e0;
-  position:relative;cursor:pointer;transition:background .3s;flex-shrink:0;margin-left:auto;
-}
-.st-sw::after{
-  content:'';position:absolute;top:2px;left:2px;
-  width:24px;height:24px;border-radius:50%;background:#fff;
-  box-shadow:0 1px 3px rgba(0,0,0,0.15);transition:left .3s;
-}
-.st-sw.on{background:var(--green)}
-.st-sw.on::after{left:22px}
-
-.shield-panel{background:var(--surface);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
-.shield-panel h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px}
-.shield-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-light);font-size:13px}
-.shield-row:last-child{border:none}
-.sl{color:var(--text2)}
-.sv{font-weight:600;font-size:11px;letter-spacing:0.5px}
-.sv.no{color:var(--green)}
-.sv.gene{color:var(--accent)}
-
-.gene-seal{
-  background:var(--surface);border-radius:14px;padding:20px;text-align:center;
-  box-shadow:var(--shadow);
-}
-.gs-label{font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:8px}
-.gs-dna{font-size:18px;font-weight:700;color:var(--accent);letter-spacing:3px;font-family:monospace}
-
-/* 支付弹窗 */
-.pay-modal{
-  position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.5);
-  display:none;align-items:center;justify-content:center;padding:24px;
-  backdrop-filter:blur(4px);
-}
-.pay-modal.show{display:flex}
-.pay-inner{
-  background:var(--surface);border-radius:20px;padding:24px;
-  max-width:320px;width:100%;text-align:center;
-  box-shadow:var(--shadow-lg);
-}
-.pay-inner img{width:100%;border-radius:12px;margin-bottom:16px}
-.pay-tip{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px}
-.pay-close{
-  padding:10px 32px;border-radius:20px;border:1px solid var(--border);
-  background:var(--surface);font-size:14px;color:var(--text2);cursor:pointer;
-}
-
-/* DNA 防护视觉 */
-.dna-overlay{
-  position:fixed;inset:0;pointer-events:none;z-index:50;
-  border:2px solid transparent;transition:border-color .3s;
-}
-.dna-overlay.active{border-color:rgba(46,204,113,0.1)}
-
-/* PIN 设置弹窗 */
-.pin-setup-overlay{
-  position:fixed;inset:0;z-index:10000;
-  background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);
-  display:none;align-items:center;justify-content:center;padding:24px;
-}
-.pin-setup-overlay.show{display:flex}
-.pin-setup-box{
-  background:var(--surface);border-radius:20px;padding:28px;
-  max-width:320px;width:100%;text-align:center;box-shadow:var(--shadow-lg);
-}
-.pin-setup-box h3{font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px}
-.pin-setup-box p{font-size:13px;color:var(--text3);margin-bottom:20px;line-height:1.5}
-.pin-setup-input{
-  width:100%;padding:12px 16px;border:2px solid var(--border);
-  border-radius:12px;font-size:20px;text-align:center;
-  letter-spacing:12px;font-family:monospace;
-  outline:none;transition:border-color .2s;
-  color:var(--text);background:var(--surface2);
-}
-.pin-setup-input:focus{border-color:var(--accent)}
-.pin-setup-input.error{border-color:var(--red);animation:shake .4s}
-.pin-setup-confirm{
-  width:100%;padding:13px;border:none;border-radius:12px;
-  background:linear-gradient(135deg,var(--accent),#27ae60);
-  color:#fff;font-size:15px;font-weight:600;cursor:pointer;
-  margin-top:16px;transition:transform .15s;
-}
-.pin-setup-confirm:active{transform:scale(0.97)}
-.pin-setup-error{font-size:12px;color:var(--red);margin-top:8px;min-height:18px}
+/* Responsive */
+@media(max-width:600px){.header{flex-direction:column;gap:8px}.nav{flex-wrap:wrap;justify-content:center}.chat-box{height:50vh}.card-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<div class="toast" id="toast"></div>
-<div class="dna-overlay" id="dnaOverlay"></div>
-
-<!-- PIN 锁屏 -->
-<div class="pin-screen" id="pinScreen">
-  <div class="pin-logo">山</div>
-  <div class="pin-title">山海云枢指挥中心</div>
-  <div class="pin-sub">SOVEREIGNTY · COMMAND</div>
-  <div class="pin-dots" id="pinDots">
-    <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
-    <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
-    <div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
-  </div>
-  <div class="pin-status" id="pinStatus">请输入通行码</div>
-  <div class="pin-pad" id="pinPad">
-    <button class="pin-key" data-k="1">1</button><button class="pin-key" data-k="2">2</button><button class="pin-key" data-k="3">3</button>
-    <button class="pin-key" data-k="4">4</button><button class="pin-key" data-k="5">5</button><button class="pin-key" data-k="6">6</button>
-    <button class="pin-key" data-k="7">7</button><button class="pin-key" data-k="8">8</button><button class="pin-key" data-k="9">9</button>
-    <button class="pin-key fn" data-k="clear">清除</button><button class="pin-key" data-k="0">0</button><button class="pin-key fn" data-k="back">⌫</button>
-  </div>
-  <div class="pin-footer">
-    <div class="pin-reset" id="pinReset" style="display:none">忘记通行码?</div>
-    <div class="pin-hint" id="pinHint"></div>
+<div class="header">
+  <div class="logo">山海云枢<span>Agent供电局</span></div>
+  <div class="nav">
+    <button class="active" onclick="showPanel('home')">首页</button>
+    <button onclick="showPanel('chat')">AI对话</button>
+    <button onclick="showPanel('status')">系统状态</button>
+    <button onclick="showPanel('activate')">激活服务</button>
+    <button onclick="showPanel('diag')">GEO诊断</button>
+    <button onclick="showPanel('settings')">设置</button>
   </div>
 </div>
 
-<!-- PIN 设置弹窗 -->
-<div class="pin-setup-overlay" id="pinSetupOverlay">
-  <div class="pin-setup-box">
-    <h3>设置通行码</h3>
-    <p>请设置6位数字通行码<br>这是您访问指挥中心的唯一凭证</p>
-    <input class="pin-setup-input" id="pinSetupInput" type="password" inputmode="numeric" maxlength="6" placeholder="······">
-    <div class="pin-setup-error" id="pinSetupError"></div>
-    <button class="pin-setup-confirm" id="pinSetupConfirm">确认设置</button>
+<!-- HOME -->
+<div id="p-home" class="panel active">
+  <div class="hero">
+    <h1>山海云枢</h1>
+    <p>让AI世界找到你</p>
+    <div class="tags">
+      <span class="tag">GEO生成式引擎优化</span>
+      <span class="tag">多引擎智能路由</span>
+      <span class="tag">Agent协议接入</span>
+      <span class="tag">MCP Server</span>
+      <span class="tag">A2A Protocol</span>
+    </div>
+  </div>
+  <div class="card">
+    <h3>三大生态</h3>
+    <div class="card-grid">
+      <div class="stat"><div class="val" style="font-size:18px">山海云枢</div><div class="label">GEO生态 - 让AI世界找到你</div></div>
+      <div class="stat"><div class="val" style="font-size:18px">织界</div><div class="label">Agent生态 - 让AI为AI服务</div></div>
+      <div class="stat"><div class="val" style="font-size:18px">唤通</div><div class="label">API生态 - 让AI调用一切</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>核心能力</h3>
+    <table>
+      <tr><th>模块</th><th>功能</th><th>状态</th></tr>
+      <tr><td>AI网关</td><td>多引擎路由 / 治理框架 / Kill Switch</td><td><span class="dot on"></span>就绪</td></tr>
+      <tr><td>MCP Server</td><td>Model Context Protocol 接入</td><td><span class="dot on"></span>就绪</td></tr>
+      <tr><td>A2A Server</td><td>Agent-to-Agent 协议</td><td><span class="dot on"></span>就绪</td></tr>
+      <tr><td>任务分发</td><td>Pipeline/Fanout/Vote/Debate/Relay</td><td><span class="dot on"></span>就绪</td></tr>
+      <tr><td>GEO诊断</td><td>AI搜索可见度分析</td><td><span class="dot on"></span>就绪</td></tr>
+      <tr><td>Key激活</td><td>298产品密钥管理</td><td><span class="dot on"></span>就绪</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>六基因特质</h3>
+    <div class="card-grid">
+      <div class="stat"><div class="val" style="font-size:16px">可组合</div><div class="label">因子自由组装</div></div>
+      <div class="stat"><div class="val" style="font-size:16px">可拆分</div><div class="label">组合体独立拆解</div></div>
+      <div class="stat"><div class="val" style="font-size:16px">可开关</div><div class="label">因子独立启停</div></div>
+      <div class="stat"><div class="val" style="font-size:16px">可摧毁</div><div class="label">主控一键废掉</div></div>
+      <div class="stat"><div class="val" style="font-size:16px">可生长</div><div class="label">新因子无损接入</div></div>
+      <div class="stat"><div class="val" style="font-size:16px">听指挥</div><div class="label">无条件执行指令</div></div>
+    </div>
   </div>
 </div>
 
-<!-- 锁定屏 -->
-<div class="lock-screen" id="lockScreen">
-  <div class="lock-icon">&#x1F512;</div>
-  <div class="lock-title">会话已锁定</div>
-  <div class="lock-desc">无操作超时或操作次数已达上限<br>请重新验证身份</div>
-  <button class="lock-btn" onclick="showPinScreen()">重新验证</button>
-</div>
-
-<!-- 主应用 -->
-<div id="mainApp">
-  <div class="navbar">
-    <div class="nav-left">
-      <div class="nav-avatar">山</div>
-      <div class="nav-info">
-        <div class="nav-name">山海云枢指挥中心</div>
-        <div class="nav-status">主权在线</div>
+<!-- CHAT -->
+<div id="p-chat" class="panel">
+  <div class="card">
+    <h3>AI对话</h3>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px">
+      多引擎智能路由：智谱GLM(主路) -> 硅基流动(备路1) -> 火山引擎(备路2)
+    </p>
+    <div class="chat-box">
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="msg sys">山海云枢 AI 网关就绪，请开始对话</div>
+      </div>
+      <div class="chat-input">
+        <textarea id="chatInput" rows="2" placeholder="输入消息... (Enter发送, Shift+Enter换行)"></textarea>
+        <button id="chatSend" onclick="sendChat()">发送</button>
       </div>
     </div>
-    <div class="nav-right">
-      <span class="nav-badge shield-on" id="shieldBadge">安全</span>
-      <span class="nav-badge ver">V37</span>
-      <button class="nav-more" onclick="toggleMenu()">&#x22EF;</button>
+  </div>
+</div>
+
+<!-- STATUS -->
+<div id="p-status" class="panel">
+  <div class="card">
+    <h3>系统状态</h3>
+    <div class="card-grid" id="statusCards">
+      <div class="stat"><div class="val" id="stEngine">-</div><div class="label">引擎在线</div></div>
+      <div class="stat"><div class="val" id="stBackend">-</div><div class="label">后端状态</div></div>
+      <div class="stat"><div class="val" id="stTime">-</div><div class="label">系统时间</div></div>
     </div>
   </div>
+  <div class="card">
+    <h3>引擎详情</h3>
+    <table id="engineTable">
+      <tr><th>引擎</th><th>模型</th><th>优先级</th><th>状态</th></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>治理框架</h3>
+    <table>
+      <tr><td>9条红线</td><td><span class="dot on"></span>已启用</td></tr>
+      <tr><td>熔断器</td><td><span class="dot on"></span>已启用</td></tr>
+      <tr><td>Kill Switch</td><td><span class="dot on"></span>待命</td></tr>
+      <tr><td>审计日志</td><td><span class="dot on"></span>记录中</td></tr>
+      <tr><td>规则注入</td><td><span class="dot on"></span>已启用</td></tr>
+    </table>
+  </div>
+  <button class="btn btn-outline" onclick="refreshStatus()">刷新状态</button>
+</div>
 
-  <div class="chat-area" id="chatArea"></div>
+<!-- ACTIVATE -->
+<div id="p-activate" class="panel">
+  <div class="card">
+    <h3>激活GEO服务</h3>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px">
+      提交信息后获得API访问密钥，即刻接入山海云枢AI网关
+    </p>
+    <label>姓名 *</label>
+    <input id="actName" placeholder="请输入姓名">
+    <label>手机号 *</label>
+    <input id="actPhone" placeholder="请输入手机号" maxlength="11">
+    <label>行业</label>
+    <input id="actIndustry" placeholder="所属行业（可选）">
+    <label>公司</label>
+    <input id="actCompany" placeholder="公司名称（可选）">
+    <label>套餐 *</label>
+    <select id="actPlan">
+      <option value="298">基础版 - 298元</option>
+      <option value="998">专业版 - 998元</option>
+      <option value="4998">企业版 - 4998元</option>
+    </select>
+    <button class="btn" onclick="activate()">提交激活</button>
+    <div class="result-box" id="actResult"></div>
+  </div>
+  <div class="card">
+    <h3>验证密钥</h3>
+    <label>API密钥</label>
+    <input id="verifyKey" placeholder="输入已激活的密钥">
+    <button class="btn btn-outline" onclick="verifyKey()">验证</button>
+    <div class="result-box" id="verifyResult"></div>
+  </div>
+</div>
 
-  <div class="quick-area" id="quickArea"></div>
+<!-- DIAG -->
+<div id="p-diag" class="panel">
+  <div class="card">
+    <h3>GEO诊断分析</h3>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px">
+      分析网站在AI搜索中的可见度表现，提供优化建议
+    </p>
+    <label>网站URL *</label>
+    <input id="diagUrl" placeholder="https://example.com">
+    <label>目标关键词</label>
+    <input id="diagKeywords" placeholder="关键词1,关键词2（可选）">
+    <button class="btn" onclick="runDiag()">开始诊断</button>
+    <div class="result-box" id="diagResult"></div>
+  </div>
+</div>
 
-  <div class="input-bar">
-    <div class="input-wrap">
-      <textarea id="msgInput" rows="1" placeholder="输入指令或问题..." oninput="autoResize(this);toggleSend();resetInactivity()" onkeydown="handleKey(event)"></textarea>
+<!-- SETTINGS -->
+<div id="p-settings" class="panel">
+  <div class="card">
+    <h3>后端配置</h3>
+    <div class="settings-group">
+      <h4>山海云枢后端地址</h4>
+      <label>Backend URL</label>
+      <input id="cfgBackend" placeholder="https://your-backend.onrender.com">
+      <div class="hint">用于激活服务、GEO诊断等需要后端中转的功能。留空则这些功能不可用。</div>
     </div>
-    <button class="send-btn disabled" id="sendBtn" onclick="sendMsg()">
-      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-    </button>
   </div>
-</div>
-
-<!-- 侧边菜单 -->
-<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-<div class="side-menu" id="sideMenu">
-  <button class="sm-close" onclick="toggleMenu()">&#x2715;</button>
-  <div class="sm-header">
-    <div class="sm-name" id="smName"></div>
-    <div class="sm-role">指挥中心管理员</div>
+  <div class="card">
+    <h3>直连AI引擎配置（可选）</h3>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px">
+      配置API密钥后，AI对话将直接调用引擎，无需经过后端。密钥仅存于浏览器本地。
+    </p>
+    <div class="settings-group">
+      <h4>智谱GLM（主路）</h4>
+      <label>API Key</label>
+      <input id="cfgZhipu" type="password" placeholder="智谱API Key">
+      <div class="hint">从 open.bigmodel.cn 获取</div>
+    </div>
+    <div class="settings-group">
+      <h4>硅基流动（备路1）</h4>
+      <label>API Key</label>
+      <input id="cfgSilicon" type="password" placeholder="硅基流动API Key">
+      <div class="hint">从 siliconflow.cn 获取</div>
+    </div>
+    <div class="settings-group">
+      <h4>火山引擎（备路2）</h4>
+      <label>API Key</label>
+      <input id="cfgVolc" type="password" placeholder="火山引擎API Key">
+      <div class="hint">从 volcengine.com 获取</div>
+    </div>
   </div>
-  <div class="sm-section">快捷入口</div>
-  <div class="sm-item" onclick="openDetail('data')"><span class="sm-icon">&#x1F4CA;</span>数据面板</div>
-  <div class="sm-item" onclick="openDetail('pay')"><span class="sm-icon">&#x1F4B0;</span>收款码</div>
-  <div class="sm-section">系统管理</div>
-  <div class="sm-item" onclick="openDetail('port')"><span class="sm-icon">&#x1F6E1;</span>端口管控</div>
-  <div class="sm-item" onclick="openDetail('shield')"><span class="sm-icon">&#x1F6E1;</span>防护盾</div>
-  <div class="sm-item" onclick="openDetail('security')"><span class="sm-icon">&#x1F512;</span>安全设置</div>
-  <div class="sm-item" onclick="openDetail('perm')"><span class="sm-icon">&#x1F511;</span>权限设置</div>
-  <div class="sm-item" onclick="openDetail('sys')"><span class="sm-icon">&#x2699;</span>系统状态</div>
-  <div class="sm-item" onclick="HEALTH_MONITOR.checkAll()"><span class="sm-icon">&#x1F50D;</span>系统巡检</div>
-  <div class="sm-section">外部链接</div>
-  <div class="sm-links">
-    <a href="https://shanhai-ai.surge.sh" target="_blank">AI 客服</a>
-    <a href="https://shanhai-shop.surge.sh" target="_blank">商城</a>
-    <a href="https://shanhai-talk.surge.sh" target="_blank">话术中心</a>
-  </div>
-</div>
-
-<!-- 详情弹窗 -->
-<div class="detail-modal" id="detailModal">
-  <div class="dm-header">
-    <button onclick="closeDetail()">&#x2190;</button>
-    <span id="dmTitle"></span>
-  </div>
-  <div class="dm-body" id="dmBody"></div>
-</div>
-
-<!-- 支付弹窗 -->
-<div class="pay-modal" id="payModal">
-  <div class="pay-inner">
-    <img src="https://img.shanhai-ai.surge.sh/pay298.png" alt="收款码" onerror="this.style.display='none'">
-    <div class="pay-tip">AI智能客服 · 首单298元/年<br>乐刷 · 兴业银行</div>
-    <button class="pay-close" onclick="document.getElementById('payModal').classList.remove('show')">关闭</button>
-  </div>
+  <button class="btn" onclick="saveSettings()">保存配置</button>
+  <button class="btn btn-outline" onclick="clearSettings()" style="margin-left:8px">清除配置</button>
+  <div class="result-box" id="settingsResult"></div>
 </div>
 
 <script>
-// === 防注入 ===
-if(window.top!==window.self){window.top.location=window.self.location;throw new Error('iframe blocked')}
-(function(){
-  var params=new URLSearchParams(window.location.search);
-  ['script','eval','exec','cmd','run','inject'].forEach(function(k){if(params.has(k))params.delete(k)});
-  if(params.toString())window.location.search='';
-})();
-
-// === 配置 ===
-var CHIP={
-  VERSION:'V37',
-  OWNER:localStorage.getItem('sh_owner')||'主人',
-  DNA:{geneSeal:'77-59-62-65-74-75',slogan:'主权至上·内核优先·闭环安全'},
-  PORT_SHIELD:{
-    stateKey:'sh_port_state',
-    ports:[
-      {id:'ai',name:'AI客服',url:'shanhai-ai',v:'V7',owner:'山海'},
-      {id:'shop',name:'商城',url:'shanhai-shop',v:'V7',owner:'山海'},
-      {id:'talk',name:'话术',url:'shanhai-talk',v:'V1',owner:'山海'},
-      {id:'admin',name:'指挥中心',url:'shanhai-admin',v:'V29',owner:'主权人'},
-      {id:'seo',name:'SEO落地',url:'shanhai-seo',v:'V1',owner:'山海'},
-      {id:'kw1',name:'客服站1',url:'shanhai-kw1',v:'V1',owner:'山海'},
-      {id:'kw2',name:'客服站2',url:'shanhai-kw2',v:'V1',owner:'山海'},
-      {id:'kw3',name:'客服站3',url:'shanhai-kw3',v:'V1',owner:'山海'},
-      {id:'kw4',name:'客服站4',url:'shanhai-kw4',v:'V1',owner:'山海'},
-      {id:'feed',name:'RSS导航',url:'shanhai-feed',v:'V1',owner:'山海'},
-      {id:'geo',name:'GEO运营',url:'shanhai-geo',v:'V1',owner:'山海'},
-      {id:'widget',name:'聊天挂件',url:'shanhai-widget',v:'V1',owner:'山海'}
-    ]
-  }
-};
-
-
-// === 山海云枢生态知识库 (V37 全量植入) ===
-var KNOWLEDGE={
-  brand:'山海云枢 / YUNSHU',
-  company:'茶旅时代(福建)文旅集团有限公司',
-  entity:'福鼎市科野贸易商行',
-  owner:'主人(文旅运营)',
-  location:'福建宁德福鼎',
-  version:'V37',
-  dna:{
-    total:63,
-    core:'主权至上·内核优先·闭环安全',
-    key_rules:[
-      '#1 全自动闭环:AI执行>=95%,人仅决策',
-      '#3 51%控制权不稀释,分红!=股权',
-      '#40 收入第一:每天创造收益',
-      '#44 小海不可逆:四项安全高于一切',
-      '#55 SW零劫持:不注册Service Worker',
-      '#61 供电局:山海是供电局不是用电户',
-      '#62 主权至上:主人指令=第一法则',
-      '#63 孤船:对外合规外壳,对内主权内核'
-    ]
-  },
-  brands:[
-    {name:'熹野白茶',type:'茶',price:'高端白茶系列'},
-    {name:'虎鼎记',type:'茶/礼品',price:'品牌茶礼'},
-    {name:'元力泰养生酒',type:'酒',price:'18.9元/瓶,378元/件'},
-    {name:'茶酒果酒',type:'酒',price:'果酒系列'},
-    {name:'共创者联盟',type:'联盟',price:'共创生态'}
-  ],
-  products:[
-    {name:'API体验包',price:'9.9元'},
-    {name:'API标准包',price:'49.9元'},
-    {name:'API专业包',price:'199元'},
-    {name:'智能接口年费',price:'298元/年'}
-  ],
-  subsystems:[
-    {name:'AI客服',url:'shanhai-ai',status:'online'},
-    {name:'商城',url:'shanhai-shop',status:'online'},
-    {name:'话术中心',url:'shanhai-talk',status:'online'},
-    {name:'指挥中心',url:'shanhai-admin',status:'online'},
-    {name:'SEO落地',url:'shanhai-seo',status:'online'},
-    {name:'GEO运营',url:'shanhai-geo',status:'online'},
-    {name:'RSS导航',url:'shanhai-feed',status:'online'},
-    {name:'客服站x4',url:'shanhai-kw1~4',status:'online'}
-  ],
-  engines:[
-    {name:'智谱GLM',role:'主路',model:'glm-4-flash'},
-    {name:'硅基流动',role:'备路1',model:'Qwen2.5-7B'},
-    {name:'火山引擎',role:'备路2',model:'doubao-1-5-lite'},
-    {name:'CF Workers AI',role:'备路3(免费)',model:'kimi-k2.6'}
-  ],
-  finance:{
-   收款池:'收款码VSDB201242145+小程序',
-    蓄水池:'T+1自动蓄到绑定银行卡(尾号9515)',
-    出口池:'主人随时取(银行APP一键转出)',
-    主体:'福鼎市科野贸易商行(个体户)',
-    三位一体:'山海=会计师+税务师+法务'
-  },
-  geo:{
-    strategy:'GEO驱动获客,非私域驱动',
-    stations:11,
-    platform:'GitHub Pages(shanhai-geo.github.io)',
-    backup:'surge.sh(多站点)'
-  },
-  commands:[
-    '!帮助-指令列表','!自检-系统自检','!通电-开机动画',
-    '!芯片-芯片信息','!模块-模块列表','!安保-安全状态',
-    '!巡检-全站巡检','!引擎-引擎状态','!调度-调度中心',
-    '!反馈-反馈日志','!统计-操作统计','!订单-订单管理',
-    '!营收-营收概览','!端口-端口管控','!防护盾-安全盾',
-    '!知识-知识库','!设置Key-配置API','!清理-清数据',
-    '!记忆-记忆状态','!清记忆-清记忆'
-  ],
-  principles:[
-    '零成本起步·零库存·流量变现',
-    '分红激励非股权激励',
-    '9条红线:51%控股不稀释',
-    '对外文件必带6条合规声明',
-    '支付极简:金额预填,点击即付'
-  ]
-};
-
-var PAGES=[
-  {name:'AI客服',url:'https://shanhai-ai.surge.sh'},
-  {name:'商城',url:'https://shanhai-shop.surge.sh'},
-  {name:'指挥中心',url:'https://shanhai-admin.surge.sh'},
-  {name:'话术中心',url:'https://shanhai-talk.surge.sh'}
+// ===== Configuration =====
+const DEFAULT_ENGINES = [
+  { name:'智谱GLM', url:'https://open.bigmodel.cn/api/paas/v4/chat/completions', model:'glm-4-flash', priority:1 },
+  { name:'硅基流动', url:'https://api.siliconflow.cn/v1/chat/completions', model:'Qwen/Qwen2.5-7B-Instruct', priority:2 },
+  { name:'火山引擎', url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions', model:'doubao-lite-4k', priority:3 }
 ];
 
-// === PIN 安全系统 (V28 重写 — 彻底修复绕过漏洞) ===
-var SESSION={
-  TIMEOUT:15*60*1000,
-  MAX_OP:30,
-  opCount:0,
-  lastActive:Date.now(),
-  locked:false,
-  verified:false,
-  init:function(){
-    this.verified=false;
-    this.opCount=0;
-    this.lastActive=Date.now();
-    this.locked=false;
-    sessionStorage.removeItem('sh_session');
-  },
-  activate:function(){
-    this.verified=true;
-    sessionStorage.setItem('sh_session','1');
-    this.opCount=0;
-    this.lastActive=Date.now();
-    this.locked=false;
-  },
-  check:function(){
-    if(!this.verified)return false;
-    if(!sessionStorage.getItem('sh_session')){this.lock();return false}
-    if(Date.now()-this.lastActive>this.TIMEOUT){this.lock();return false}
-    if(this.opCount>=this.MAX_OP){this.lock();return false}
-    return true;
-  },
-  record:function(){
-    this.lastActive=Date.now();
-    this.opCount++;
-    if(this.opCount>=this.MAX_OP)this.lock();
-  },
-  lock:function(){
-    this.verified=false;
-    this.locked=true;
-    sessionStorage.removeItem('sh_session');
-    document.getElementById('mainApp').classList.remove('active');
-    document.getElementById('lockScreen').classList.add('show');
-  },
-  unlock:function(){
-    this.verified=true;
-    this.locked=false;
-    this.activate();
-    document.getElementById('lockScreen').classList.remove('show');
-    document.getElementById('mainApp').classList.add('active');
+function getConfig() {
+  try { return JSON.parse(localStorage.getItem('shanhai_cfg') || '{}'); } catch(e) { return {}; }
+}
+
+function loadSettings() {
+  const cfg = getConfig();
+  if (cfg.backend) document.getElementById('cfgBackend').value = cfg.backend;
+  if (cfg.zhipu) document.getElementById('cfgZhipu').value = cfg.zhipu;
+  if (cfg.silicon) document.getElementById('cfgSilicon').value = cfg.silicon;
+  if (cfg.volc) document.getElementById('cfgVolc').value = cfg.volc;
+}
+
+function saveSettings() {
+  const cfg = {
+    backend: document.getElementById('cfgBackend').value.trim(),
+    zhipu: document.getElementById('cfgZhipu').value.trim(),
+    silicon: document.getElementById('cfgSilicon').value.trim(),
+    volc: document.getElementById('cfgVolc').value.trim()
+  };
+  localStorage.setItem('shanhai_cfg', JSON.stringify(cfg));
+  showResult('settingsResult', '配置已保存到浏览器本地存储');
+}
+
+function clearSettings() {
+  localStorage.removeItem('shanhai_cfg');
+  loadSettings();
+  showResult('settingsResult', '配置已清除');
+}
+
+// ===== Navigation =====
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('p-' + name).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b => { if (b.textContent.includes(getPanelLabel(name))) b.classList.add('active'); });
+  if (name === 'status') refreshStatus();
+}
+function getPanelLabel(n) {
+  return {home:'首页',chat:'AI对话',status:'系统状态',activate:'激活',diag:'GEO',settings:'设置'}[n] || '';
+}
+
+// ===== Chat =====
+const chatHistory = [];
+
+function addMsg(role, text, engine) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.textContent = text;
+  if (engine) {
+    const tag = document.createElement('div');
+    tag.className = 'engine-tag';
+    tag.textContent = 'via ' + engine;
+    div.appendChild(tag);
   }
+  document.getElementById('chatMsgs').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  chatHistory.push({ role: 'user', content: msg });
+  addMsg('user', msg);
+  document.getElementById('chatSend').disabled = true;
+
+  const cfg = getConfig();
+  const keys = { '智谱GLM': cfg.zhipu, '硅基流动': cfg.silicon, '火山引擎': cfg.volc };
+  const engines = DEFAULT_ENGINES.filter(e => keys[e.name]);
+
+  if (engines.length === 0) {
+    addMsg('bot', '请先在「设置」中配置至少一个AI引擎的API密钥');
+    document.getElementById('chatSend').disabled = false;
+    return;
+  }
+
+  // Try each engine in priority order
+  for (const engine of engines) {
+    try {
+      const resp = await fetch(engine.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + keys[engine.name] },
+        body: JSON.stringify({
+          model: engine.model,
+          messages: [
+            { role: 'system', content: '你是山海云枢AI助'
 };
 
-var PIN={
-  input:'',
-  storedPin:null,
-  attempts:0,
-  resetMode:false,
-  setupMode:false,
+// Try each engine in priority order
+  for (const engine of engines) {
+    try {
+      const resp = await fetch(engine.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${keys[engine.name]}` },
+        body: JSON.stringify({
+          model: engine.model,
+          messages: [
+            { role: 'system', content: '你是山海云枢AI助手，基于山海云枢Agent供电局体系。请简洁、准确地回答用户问题。' },
+            ...chatHistory
+          ],
+          temperature: 0.7,
+          max_tokens: 2048,
+          stream: false
+        })
+      });
 
-  encodeValue:function(val){
-    return btoa('sh_'+val+'_e3');
-  },
-  decodeValue:function(raw){
-    try{
-      var dec=atob(raw);
-      if(dec.startsWith('sh_')&&dec.endsWith('_e3')){
-        return dec.slice(3,-3);
-      }
-    }catch(e){}
-    return null;
-  },
-  getStored:function(){
-    if(!this.storedPin){
-      var raw=localStorage.getItem('sh_pin');
-      if(raw){
-        var dec=this.decodeValue(raw);
-        if(dec){
-          this.storedPin=dec;
-        }else{
-          localStorage.removeItem('sh_pin');
-          this.storedPin=null;
-        }
-      }else{
-        this.storedPin=null;
-      }
+      if (!resp.ok) continue;
+      const data = await resp.json();
+      const reply = data.choices?.[0]?.message?.content;
+      if (!reply) continue;
+
+      chatHistory.push({ role: 'assistant', content: reply });
+      addMsg('bot', reply, engine.name);
+      document.getElementById('chatSend').disabled = false;
+      return;
+    } catch (e) {
+      console.warn(`${engine.name} failed:`, e);
+      continue;
     }
-    return this.storedPin;
-  },
-
-  getHandover:function(){
-    var raw=localStorage.getItem('sh_handover');
-    if(!raw) return null;
-    return this.decodeValue(raw);
-  },
-
-  verify:function(code){
-    if(this.resetMode){
-      var h=this.getHandover();
-      if(h && code===h){
-        this.resetMode=false;
-        return 'reset_ok';
-      }
-      return 'wrong_handover';
-    }
-
-    // 优先检查交接码（无论有无PIN，交接码都应生效）
-    var handover=this.getHandover();
-    if(handover && code===handover) return 'handover';
-
-    var stored=this.getStored();
-
-    // 没有存储的PIN → 无交接码命中 → 必须走设置流程
-    if(!stored){
-      return 'must_setup';
-    }
-
-    // 有存储的PIN，正常验证
-    if(code===stored) return 'ok';
-
-    return 'wrong';
-  },
-
-  updateDots:function(n){
-    for(var i=0;i<6;i++){
-      var d=document.getElementById('pd'+i);
-      d.className='pin-dot'+(i<n?' filled':'');
-    }
-  },
-
-  clearInput:function(){
-    this.input='';
-    this.updateDots(0);
   }
-};
 
-function resetInactivity(){SESSION.lastActive=Date.now()}
+  addMsg('bot', '所有引擎暂时不可用，请检查API密钥配置或稍后重试');
+  document.getElementById('chatSend').disabled = false;
+}
 
-// PIN 键盘事件绑定 (V28: 用事件委托，更可靠)
-document.getElementById('pinPad').addEventListener('click',function(e){
-  var btn=e.target.closest('.pin-key');
-  if(!btn)return;
-  var k=btn.dataset.k;
-  if(k==='clear'){PIN.clearInput();return}
-  if(k==='back'){PIN.input=PIN.input.slice(0,-1);PIN.updateDots(PIN.input.length);return}
-  pinIn(k);
+// Enter to send
+document.getElementById('chatInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
 });
 
-function pinIn(d){
-  if(PIN.input.length>=6)return;
-  PIN.input+=d;
-  PIN.updateDots(PIN.input.length);
+// ===== Status =====
+async function refreshStatus() {
+  const cfg = getConfig();
+  document.getElementById('stTime').textContent = new Date().toLocaleTimeString('zh-CN');
 
-  if(PIN.input.length<6)return;
-
-  var r=PIN.verify(PIN.input);
-  var statusEl=document.getElementById('pinStatus');
-
-  if(r==='ok'){
-    // PIN正确 — 检查是否需要生物认证（L2+）
-    PIN.updateDots(6);
-    for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
-    var activeBio=AUTH_METHODS.getActiveBiometrics();
-    if(activeBio.length>0){
-      // 有生物认证已激活，需要验证
-      statusEl.textContent='通行码正确，请验证生物认证';
-      // 使用第一个已激活的生物认证方式
-      var bioMethod=activeBio[0];
-      bioMethod.verify().then(function(ok){
-        if(ok){
-          statusEl.textContent='双重验证通过';
-          setTimeout(correctPin,400);
-        }else{
-          statusEl.textContent='生物认证未通过';
-          setTimeout(function(){
-            PIN.clearInput();
-            statusEl.textContent='请重新输入通行码';
-          },1500);
-        }
-      });
-    }else{
-      statusEl.textContent='验证通过';
-      setTimeout(correctPin,400);
-    }
-    return;
-  }
-
-  if(r==='handover'){
-    // 交接码验证通过 → 焚毁旧PIN和交接码 → 强制设置新通行码
-    PIN.updateDots(6);
-    for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
-    statusEl.textContent='主权交接验证通过';
-    setTimeout(function(){
-      localStorage.removeItem('sh_pin');
-      localStorage.removeItem('sh_handover');
-      localStorage.setItem('sh_handover_burned','1');
-      PIN.storedPin=null;
-      showPinSetup();
-    },600);
-    return;
-  }
-
-  if(r==='must_setup'){
-    // 没有存储PIN，强制设置
-    statusEl.textContent='首次使用，请设置通行码';
-    setTimeout(function(){
-      PIN.clearInput();
-      showPinSetup();
-    },600);
-    return;
-  }
-
-  if(r==='reset_ok'){
-    // 重置模式：交接码验证成功 → 焚毁旧PIN和交接码 → 重新设置
-    localStorage.removeItem('sh_pin');
-    localStorage.removeItem('sh_handover');
-    localStorage.setItem('sh_handover_burned','1');
-    PIN.storedPin=null;
-    statusEl.textContent='验证通过，请设置新通行码';
-    setTimeout(function(){
-      PIN.clearInput();
-      showPinSetup();
-    },400);
-    return;
-  }
-
-  // 密码错误
-  PIN.attempts++;
-  showPinError();
-  if(PIN.attempts>=3){
-    document.getElementById('pinReset').style.display='block';
-  }
-}
-
-function showPinError(){
-  var lockDur=0;
-  if(PIN.attempts>=10){
-    lockDur=300000;
-    document.getElementById('pinStatus').textContent='已锁定5分钟';
-  }else if(PIN.attempts>=5){
-    lockDur=60000;
-    document.getElementById('pinStatus').textContent='已锁定60秒';
-  }
-  
-  for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot error';
-  
-  if(lockDur>0){
-    lockPinInput(lockDur);
-  }else{
-    document.getElementById('pinStatus').textContent='密码错误';
-    setTimeout(function(){
-      PIN.clearInput();
-      document.getElementById('pinStatus').textContent='请重新输入';
-    },800);
-  }
-}
-
-function lockPinInput(duration){
-  var pad=document.getElementById('pinPad');
-  var keys=pad.querySelectorAll('.pin-key');
-  keys.forEach(function(k){k.style.pointerEvents='none';k.style.opacity='0.3'});
-  
-  var count=Math.ceil(duration/1000);
-  var countDown=setInterval(function(){
-    count--;
-    if(count<=0){
-      clearInterval(countDown);
-      keys.forEach(function(k){k.style.pointerEvents='';k.style.opacity=''});
-      document.getElementById('pinStatus').textContent='请重新输入';
-      PIN.clearInput();
-    }else{
-      document.getElementById('pinStatus').textContent='已锁定 '+count+' 秒';
-    }
-  },1000);
-}
-
-// === 交接码生成 ===
-function generateHandover(){
-  var code='';
-  for(var i=0;i<6;i++) code+=Math.floor(Math.random()*10);
-  return code;
-}
-
-// === PIN 设置流程 (V28 新增 — 彻底解决无PIN绕过) ===
-function showPinSetup(){
-  PIN.setupMode=true;
-  var overlay=document.getElementById('pinSetupOverlay');
-  var input=document.getElementById('pinSetupInput');
-  var error=document.getElementById('pinSetupError');
-  overlay.classList.add('show');
-  input.value='';
-  error.textContent='';
-  input.classList.remove('error');
-  setTimeout(function(){input.focus()},300);
-}
-
-document.getElementById('pinSetupConfirm').addEventListener('click',confirmPinSetup);
-document.getElementById('pinSetupInput').addEventListener('keydown',function(e){
-  if(e.key==='Enter'){e.preventDefault();confirmPinSetup()}
-});
-
-function confirmPinSetup(){
-  var input=document.getElementById('pinSetupInput');
-  var error=document.getElementById('pinSetupError');
-  var val=input.value.trim();
-
-  if(val.length!==6||!/^\d{6}$/.test(val)){
-    error.textContent='请输入6位数字';
-    input.classList.add('error');
-    setTimeout(function(){input.classList.remove('error')},400);
-    return;
-  }
-
-  // 保存PIN（编码存储）
-  localStorage.setItem('sh_pin',PIN.encodeValue(val));
-  PIN.storedPin=val;
-  PIN.setupMode=false;
-  PIN.attempts=0;
-
-  // 生成新的交接码（编码存储）
-  var newHandover=generateHandover();
-  localStorage.setItem('sh_handover',PIN.encodeValue(newHandover));
-
-  document.getElementById('pinSetupOverlay').classList.remove('show');
-  
-  // 醒目展示交接码
-  var statusEl=document.getElementById('pinStatus');
-  statusEl.innerHTML='<span style="color:#2ecc71">通行码已设置</span><br><br>'+
-    '<span style="font-size:10px;color:rgba(255,255,255,0.5)">交接码(主权移交凭证):</span><br>'+
-    '<span style="font-size:24px;letter-spacing:6px;color:#e74c3c;font-weight:700;font-family:monospace">'+newHandover+'</span><br>'+
-    '<span style="font-size:10px;color:rgba(255,255,255,0.4)">请立即记录，使用后焚毁</span>';
-
-  // 更新dots为成功状态
-  for(var i=0;i<6;i++)document.getElementById('pd'+i).className='pin-dot success';
-
-  setTimeout(correctPin,4000);
-}
-
-function correctPin(){
-  document.getElementById('pinScreen').classList.add('gone');
-  setTimeout(function(){document.getElementById('pinScreen').style.display='none'},400);
-  SESSION.activate();
-  document.getElementById('mainApp').classList.add('active');
-  initApp();
-  toast('山海云枢 / YUNSHU '+CHIP.VERSION+' 全神经系统就绪');
-}
-
-function initPin(){
-  document.getElementById('pinScreen').style.display='';
-  document.getElementById('pinScreen').classList.remove('gone');
-  SESSION.init();
-  PIN.clearInput();
-  PIN.attempts=0;
-  PIN.resetMode=false;
-
-  var stored=PIN.getStored();
-  var statusEl=document.getElementById('pinStatus');
-  var hintEl=document.getElementById('pinHint');
-  var resetEl=document.getElementById('pinReset');
-
-  resetEl.style.display='none';
-
-  if(stored){
-    statusEl.textContent='请输入通行码';
-    resetEl.style.display='block';
-    hintEl.textContent='忘记通行码可用交接码恢复';
-  }else{
-    var burned=localStorage.getItem('sh_handover_burned');
-    if(burned){
-      statusEl.textContent='系统已移交，请设置新通行码';
-      hintEl.textContent='旧通行码已焚毁';
-      localStorage.removeItem('sh_handover_burned');
-    }else{
-      statusEl.textContent='新设备，请设置通行码';
-      hintEl.textContent='设置后将自动生成交接码';
-    }
-    setTimeout(showPinSetup,500);
-  }
-}
-
-function startReset(){
-  PIN.resetMode=true;
-  PIN.clearInput();
-  PIN.attempts=0;
-  document.getElementById('pinStatus').textContent='输入交接码验证';
-  document.getElementById('pinReset').style.display='none';
-}
-
-function showPinScreen(){
-  document.getElementById('lockScreen').classList.remove('show');
-  document.getElementById('pinScreen').style.display='';
-  document.getElementById('pinScreen').classList.remove('gone');
-  initPin();
-}
-
-// === 安全架构 V2：多因子认证 + 操作分级 ===
-// 安全等级定义：
-// L1 = 通行码（密码级）— 基础访问
-// L2 = 通行码 + 1项生物认证 — 敏感操作
-// L3 = 通行码 + 2项生物认证 — 核心修改（改PIN、改安全策略）
-// L4 = 全因子 + 交接码 — 主权移交（不可逆）
-
-var AUTH_METHODS={
-  registry:{
-    pin:{id:'pin',name:'通行码',icon:'&#x1F511;',tier:'password',status:'active',
-      desc:'6位数字通行码',enabled:true,
-      collect:function(){return new Promise(function(res){res(true)})},
-      verify:function(input){return PIN.getStored()===input}
-    },
-    face:{id:'face',name:'人脸识别',icon:'&#x1F4F7;',tier:'biometric',status:'reserved',
-      desc:'系统级人脸认证，每次使用自动写入芯片，多角度积累，越用越精准',enabled:false,
-      // 芯片存储结构：多条面部数据，每次使用追加，持续增强
-      // chip = { entries: [{imageHash, features, timestamp, angle, source}], totalVerifications, lastUsed }
-      chip:null,
-      // 公安全人脸验证接口配置（待接入）
-      _psApiConfig:{
-        enabled:false, // 是否已对接公安系统
-        endpoint:'',   // 公安人脸验证接口地址
-        appId:''       // 接入授权ID
-      },
-      // 初始化芯片存储
-      _initChip:function(){
-        var stored=localStorage.getItem('sh_face_chip');
-        if(stored){
-          try{this.chip=JSON.parse(stored);}catch(e){this.chip=null;}
-        }
-        if(!this.chip){
-          this.chip={entries:[],totalVerifications:0,lastUsed:null};
-        }
-      },
-      // 保存芯片到持久化存储
-      _saveChip:function(){
-        this.chip.lastUsed=new Date().toISOString();
-        localStorage.setItem('sh_face_chip',JSON.stringify(this.chip));
-      },
-      // 从摄像头截取面部图像并生成特征哈希，写入芯片
-      _captureToChip:function(source){
-        var self=this;
-        return new Promise(function(resolve){
-          if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){resolve(false);return;}
-          navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:640,height:480}})
-          .then(function(stream){
-            var video=document.createElement('video');
-            video.srcObject=stream;video.setAttribute('playsinline','');
-            video.play();
-            setTimeout(function(){
-              var canvas=document.createElement('canvas');
-              canvas.width=video.videoWidth||640;canvas.height=video.videoHeight||480;
-              var ctx=canvas.getContext('2d');
-              ctx.drawImage(video,0,0);
-              stream.getTracks().forEach(function(t){t.stop();});
-              // 生成图像特征哈希（基于canvas像素数据）
-              var imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
-              var hashVal=0;
-              for(var i=0;i<imgData.data.length;i+=16){
-                hashVal=((hashVal<<5)-hashVal)+imgData.data[i];hashVal|=0;
-              }
-              var imageHash=Math.abs(hashVal).toString(16).padStart(8,'0');
-              // 提取面部区域特征（简化版，未来接入SDK后替换为专业特征向量）
-              var features=[];
-              for(var j=0;j<5;j++){
-                var region=[];
-                var startX=100+j*80,startY=80;
-                for(var y=startY;y<startY+60&&y<canvas.height;y+=4){
-                  for(var x=startX;x<startX+60&&x<canvas.width;x+=4){
-                    var idx=(y*canvas.width+x)*4;
-                    region.push(imgData.data[idx]); // R通道采样
-                  }
-                }
-                var regionHash=0;
-                for(var k=0;k<region.length;k++){regionHash=((regionHash<<5)-regionHash)+region[k];regionHash|=0;}
-                features.push(Math.abs(regionHash).toString(16).padStart(8,'0'));
-              }
-              // 写入芯片
-              self._initChip();
-              var entry={
-                imageHash:imageHash,
-                features:features,
-                timestamp:Date.now(),
-                angle:'front', // 正面（未来可扩展多角度）
-                source:source||'auto_capture'
-              };
-              self.chip.entries.push(entry);
-              self.chip.totalVerifications++;
-              self._saveChip();
-              resolve(true);
-            },1500);
-          })
-          .catch(function(){resolve(false);});
+  // Check backend
+  if (cfg.backend) {
+    try {
+      const resp = await fetch(cfg.backend + '/api/status', { signal: AbortSignal.timeout(5000) });
+      const data = await resp.json();
+      document.getElementById('stBackend').textContent = '在线';
+      document.getElementById('stBackend').style.color = 'var(--ok)';
+      if (data.engines) {
+        let online = 0;
+        const tbody = document.getElementById('engineTable');
+        tbody.innerHTML = '<tr><th>引擎</th><th>模型</th><th>优先级</th><th>状态</th></tr>';
+        data.engines.forEach(e => {
+          if (e.status === 'online') online++;
+          tbody.innerHTML += `<tr><td>${e.name}</td><td>${e.model||'-'}</td><td>${e.priority||'-'}</td><td><span class="dot ${e.status==='online'?'on':'off'}"></span>${e.status==='online'?'在线':'离线'}</td></tr>`;
         });
-      },
-      // 与芯片中已存储的数据比对
-      _matchChip:function(currentFeatures){
-        this._initChip();
-        if(!this.chip.entries||this.chip.entries.length===0)return 0;
-        var totalScore=0,matchCount=0;
-        for(var i=0;i<this.chip.entries.length;i++){
-          var stored=this.chip.entries[i];
-          // 比对特征向量相似度
-          if(stored.features&&currentFeatures){
-            var score=0;
-            var len=Math.min(stored.features.length,currentFeatures.length);
-            for(var j=0;j<len;j++){
-              if(stored.features[j]===currentFeatures[j])score++;
-            }
-            totalScore+=score/len;
-            matchCount++;
-          }
-        }
-        return matchCount>0?totalScore/matchCount:0;
-      },
-      collect:function(){
-        var self=this;
-        return new Promise(function(resolve,reject){
-          if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-            reject('设备不支持摄像头');return;
-          }
-          navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:640,height:480}})
-          .then(function(stream){
-            var overlay=document.createElement('div');
-            overlay.id='biometricCapture';
-            overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center';
-            overlay.innerHTML='<div style="font-size:64px;margin-bottom:12px">&#x1F4F7;</div>'+
-              '<video id="faceVideo" autoplay playsinline style="width:280px;height:280px;border-radius:50%;border:3px solid #2ecc71;object-fit:cover"></video>'+
-              '<div style="color:#2ecc71;margin-top:16px;font-size:14px;font-weight:600">人脸采集</div>'+
-              '<div style="color:#888;font-size:12px;margin-top:8px;text-align:center;max-width:260px">请正视摄像头，系统将通过公安系统<br>验证并绑定您的面部特征</div>'+
-              '<div id="faceStatus" style="color:#f39c12;font-size:13px;margin-top:12px">等待采集...</div>'+
-              '<div style="display:flex;gap:12px;margin-top:16px">'+
-                '<button onclick="document.getElementById(\'biometricCapture\').remove()" style="padding:8px 20px;background:transparent;border:1px solid #555;border-radius:10px;color:#888;font-size:12px;cursor:pointer">取消</button>'+
-                '<button id="faceCaptureBtn" onclick="AUTH_METHODS.completeCapture(\'face\')" style="padding:10px 24px;background:#2ecc71;border:none;border-radius:12px;color:#fff;font-size:14px;cursor:pointer">确认采集</button>'+
-              '</div>';
-            document.body.appendChild(overlay);
-            var video=document.getElementById('faceVideo');
-            video.srcObject=stream;
-          })
-          .catch(function(e){reject('摄像头访问失败: '+e.message);});
-        });
-      },
-      verify:function(){
-        var self=this;
-        return new Promise(function(resolve){
-          if(!self.template){
-            toast('请先注册人脸');resolve(false);return;
-          }
-          if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-            toast('设备不支持摄像头，请使用通行码');resolve(false);return;
-          }
-          // 显示验证界面
-          var overlay=document.createElement('div');
-          overlay.id='biometricCapture';
-          overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center';
-          overlay.innerHTML='<div style="font-size:64px;margin-bottom:12px">&#x1F4F7;</div>'+
-            '<video id="faceVerifyVideo" autoplay playsinline style="width:220px;height:220px;border-radius:50%;border:3px solid #1989fa;object-fit:cover"></video>'+
-            '<div id="faceVerifyStatus" style="color:#1989fa;font-size:13px;margin-top:12px">正在采集面部...</div>'+
-            '<button onclick="document.getElementById(\'biometricCapture\').remove()" style="margin-top:16px;padding:8px 20px;background:transparent;border:1px solid #555;border-radius:10px;color:#888;font-size:12px;cursor:pointer">取消</button>';
-          document.body.appendChild(overlay);
-          // 开启摄像头采集当前面部
-          navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:640,height:480}})
-          .then(function(stream){
-            var video=document.getElementById('faceVerifyVideo');
-            if(video)video.srcObject=stream;
-            // 等待画面稳定后截取
-            setTimeout(function(){
-              var statusEl=document.getElementById('faceVerifyStatus');
-              if(statusEl)statusEl.textContent='正在验证...';
-              // 截取当前帧
-              var canvas=document.createElement('canvas');
-              canvas.width=video.videoWidth||640;
-              canvas.height=video.videoHeight||480;
-              var ctx=canvas.getContext('2d');
-              ctx.drawImage(video,0,0);
-              var imageData=canvas.toDataURL('image/jpeg',0.8);
-              stream.getTracks().forEach(function(t){t.stop();});
-              // ===== 两步验证流程 =====
-              // 第1步：公安系统验证（优先，权威数据源）
-              var step1Result=null;
-              var doStep1=function(){
-                return new Promise(function(step1Resolve){
-                  var cfg=self._psApiConfig;
-                  if(!cfg.enabled||!cfg.endpoint||!cfg.appId){
-                    // 公安系统未配置，标记为通过（交给芯片验证）
-                    if(statusEl)statusEl.textContent='公安系统未接入，使用芯片验证';
-                    step1Resolve({passed:true,source:'skip'});
-                    return;
-                  }
-                  fetch(cfg.endpoint,{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json','X-App-Id':cfg.appId},
-                    body:JSON.stringify({
-                      faceImage:imageData,
-                      templateId:self.template.faceId,
-                      timestamp:Date.now(),
-                      nonce:Math.random().toString(36).substring(2)
-                    })
-                  })
-                  .then(function(r){return r.json();})
-                  .then(function(result){
-                    step1Resolve({passed:!!result.verified,source:'public_security',score:result.score||0});
-                  })
-                  .catch(function(err){
-                    // 公安接口异常时不阻断，标记为降级
-                    step1Resolve({passed:null,source:'public_security_error',error:err.message});
-                  });
-                });
-              };
-              // 第2步：芯片数据比对（我们积累的面部数据）
-              var doStep2=function(){
-                return new Promise(function(step2Resolve){
-                  if(statusEl)statusEl.textContent='正在比对芯片数据...';
-                  // 提取当前面部特征
-                  var imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
-                  var features=[];
-                  for(var j=0;j<5;j++){
-                    var region=[];
-                    var startX=100+j*80,startY=80;
-                    for(var y=startY;y<startY+60&&y<canvas.height;y+=4){
-                      for(var x=startX;x<startX+60&&x<canvas.width;x+=4){
-                        var idx=(y*canvas.width+x)*4;
-                        region.push(imgData.data[idx]);
-                      }
-                    }
-                    var regionHash=0;
-                    for(var k=0;k<region.length;k++){regionHash=((regionHash<<5)-regionHash)+region[k];regionHash|=0;}
-                    features.push(Math.abs(regionHash).toString(16).padStart(8,'0'));
-                  }
-                  // 与芯片数据比对
-                  var score=self._matchChip(features);
-                  var passed=score>0.3||self.chip.entries.length===0;
-                  // 将本次采集数据写入芯片（持续积累，越用越精准）
-                  self._captureToChipFromData(imageData,features,'verify').then(function(){
-                    step2Resolve({passed:passed,source:'chip',score:score,chipSize:self.chip.entries.length});
-                  });
-                });
-              };
-              // 执行两步验证
-              doStep1().then(function(r1){
-                step1Result=r1;
-                // 如果公安系统明确拒绝（passed=false），直接失败
-                if(r1.passed===false){
-                  var ov=document.getElementById('biometricCapture');
-                  if(ov)ov.remove();
-                  toast('公安系统验证未通过');
-                  resolve(false);
-                  return;
-                }
-                // 公安通过或未接入 → 继续芯片验证
-                return doStep2();
-              }).then(function(r2){
-                if(!r2)return;
-                var ov=document.getElementById('biometricCapture');
-                if(ov)ov.remove();
-                var chipEntries=self.chip?self.chip.entries.length:0;
-                if(r2.passed){
-                  var msg='人脸验证通过';
-                  if(step1Result&&step1Result.source==='public_security')msg+='（公安+芯片双重确认）';
-                  else msg+='（芯片确认，已积累'+chipEntries+'组数据）';
-                  toast(msg);
-                  resolve(true);
-                }else{
-                  toast('芯片数据比对未通过，请重试');
-                  resolve(false);
-                }
-              }).catch(function(){
-                var ov=document.getElementById('biometricCapture');
-                if(ov)ov.remove();
-                toast('验证过程异常');resolve(false);
-              });
-            },2000);
-          })
-          .catch(function(e){
-            var ov=document.getElementById('biometricCapture');
-            if(ov)ov.remove();
-            toast('摄像头访问失败');resolve(false);
-          });
-        });
-      },
-      // 公安系统人脸验证接口（预留，当公安系统对接后启用）
-      _verifyViaPublicSecurity:function(imageData){
-        var self=this;
-        return new Promise(function(resolve){
-          var cfg=self._psApiConfig;
-          if(!cfg.enabled||!cfg.endpoint||!cfg.appId){
-            resolve({passed:null,source:'not_configured'});return;
-          }
-          fetch(cfg.endpoint,{
-            method:'POST',
-            headers:{'Content-Type':'application/json','X-App-Id':cfg.appId},
-            body:JSON.stringify({
-              faceImage:imageData,
-              templateId:self.template.faceId,
-              timestamp:Date.now(),
-              nonce:Math.random().toString(36).substring(2)
-            })
-          })
-          .then(function(r){return r.json();})
-          .then(function(result){
-            resolve({passed:!!result.verified,source:'public_security',score:result.score||0});
-          })
-          .catch(function(err){
-            resolve({passed:null,source:'public_security_error',error:err.message});
-          });
-        });
-      },
-      // 将采集数据写入芯片（验证通过后自动追加，持续积累）
-      _captureToChipFromData:function(imageData,features,source){
-        var self=this;
-        return new Promise(function(resolve){
-          self._initChip();
-          var entry={
-            imageData:imageData,
-            features:features,
-            timestamp:Date.now(),
-            angle:'front',
-            source:source||'verify',
-            verified:true // 验证通过后写入的标记
-          };
-          self.chip.entries.push(entry);
-          // 限制芯片存储量，保留最新50条
-          if(self.chip.entries.length>50){
-            self.chip.entries=self.chip.entries.slice(-50);
-          }
-          self.chip.totalVerifications=(self.chip.totalVerifications||0)+1;
-          self._saveChip();
-          resolve(true);
-        });
+        document.getElementById('stEngine').textContent = online + '/' + data.engines.length;
       }
-    },
-    fingerprint:{id:'fingerprint',name:'指纹/面容识别',icon:'&#x1F446;',tier:'biometric',status:'reserved',
-      desc:'调用手机系统指纹/面容，验证通过自动写入芯片，越用越精准',enabled:false,
-      template:null,
-      // 芯片存储：每次验证通过后自动积累数据，越用越精准
-      // chip = { entries: [{timestamp, deviceId, sessionId, signal}], totalVerifications, lastUsed }
-      chip:null,
-      _initFpChip:function(){
-        var stored=localStorage.getItem('sh_fingerprint_chip');
-        if(stored){try{this.chip=JSON.parse(stored);}catch(e){this.chip=null;}}
-        if(!this.chip){this.chip={entries:[],totalVerifications:0,lastUsed:null};}
-      },
-      _saveFpChip:function(){
-        this.chip.lastUsed=new Date().toISOString();
-        localStorage.setItem('sh_fingerprint_chip',JSON.stringify(this.chip));
-      },
-      // 验证通过后写入芯片：记录本次验证的设备信号，用于后续交叉验证
-      _writeFpToChip:function(source,signal){
-        this._initFpChip();
-        this.chip.entries.push({
-          timestamp:Date.now(),
-          source:source, // 'webauthn','credential','device_fingerprint'
-          signal:signal||'',
-          deviceId:this._getDeviceId()
-        });
-        // 保留最近100条
-        if(this.chip.entries.length>100)this.chip.entries=this.chip.entries.slice(-100);
-        this.chip.totalVerifications=(this.chip.totalVerifications||0)+1;
-        this._saveFpChip();
-      },
-      // 获取设备唯一标识（用于芯片交叉验证）
-      _getDeviceId:function(){
-        var stored=localStorage.getItem('sh_device_id');
-        if(!stored){
-          stored='dev_'+Date.now()+'_'+Math.random().toString(36).substring(2,10);
-          localStorage.setItem('sh_device_id',stored);
-        }
-        return stored;
-      },
-      // 生成设备指纹：综合canvas/WebGL/音频/屏幕等多维度特征
-      _deviceFingerprint:function(){
-        return new Promise(function(resolve){
-          var parts=[];
-          // 1. Canvas指纹
-          try{
-            var c=document.createElement('canvas');
-            c.width=200;c.height=50;
-            var ctx=c.getContext('2d');
-            ctx.textBaseline='top';
-            ctx.font='14px Arial';
-            ctx.fillStyle='#f60';ctx.fillRect(10,1,62,20);
-            ctx.fillStyle='#069';ctx.fillText('shanhai@'+navigator.userAgent.substring(0,30),2,15);
-            ctx.fillStyle='rgba(102,204,0,0.7)';ctx.fillText('shanhai@'+navigator.userAgent.substring(0,30),4,17);
-            parts.push('c:'+c.toDataURL().slice(-50));
-          }catch(e){parts.push('c:none');}
-          // 2. WebGL信息
-          try{
-            var c2=document.createElement('canvas');
-            var gl=c2.getContext('webgl')||c2.getContext('experimental-webgl');
-            if(gl){
-              var dbg=gl.getExtension('WEBGL_debug_renderer_info');
-              if(dbg){
-                parts.push('gl_v:'+gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL));
-                parts.push('gl_r:'+gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL));
-              }
-            }
-          }catch(e){}
-          // 3. 设备与屏幕特征
-          parts.push('sr:'+screen.width+'x'+screen.height+'x'+screen.colorDepth);
-          parts.push('ar:'+screen.availWidth+'x'+screen.availHeight);
-          parts.push('tz:'+Intl.DateTimeFormat().resolvedOptions().timeZone);
-          parts.push('ln:'+(navigator.language||''));
-          parts.push('pl:'+(navigator.platform||''));
-          parts.push('cp:'+(navigator.hardwareConcurrency||0));
-          parts.push('ts:'+('ontouchstart' in window));
-          parts.push('ua:'+(navigator.userAgent||''));
-          // 4. 音频指纹
-          try{
-            var ac=new(window.AudioContext||window.webkitAudioContext)();
-            var osc=ac.createOscillator();
-            var an=ac.createAnalyser();
-            osc.connect(an);an.connect(ac.destination);
-            osc.frequency.value=1000;
-            var buf=new Float32Array(an.frequencyBinCount);
-            an.getFloatTimeDomainData(buf);
-            var sum=0;for(var i=0;i<buf.length;i++)sum+=buf[i];
-            parts.push('au:'+sum.toFixed(10));
-            ac.close();
-          }catch(e){parts.push('au:none');}
-          // 5. 电池信息（安卓特有）
-          if(navigator.getBattery){
-            navigator.getBattery().then(function(b){
-              parts.push('bt:'+b.level+'_'+b.charging);
-              resolve(parts.join('|'));
-            }).catch(function(){resolve(parts.join('|'));});
-          }else{
-            resolve(parts.join('|'));
-          }
-        });
-      },
-      // 对设备指纹做哈希
-      _hashFingerprint:function(fp){
-        return new Promise(function(resolve){
-          if(window.crypto&&window.crypto.subtle){
-            var data=new TextEncoder().encode(fp);
-            crypto.subtle.digest('SHA-256',data).then(function(hash){
-              var arr=new Uint8Array(hash);
-              var hex=Array.from(arr,function(b){return b.toString(16).padStart(2,'0')}).join('');
-              resolve(hex);
-            });
-          }else{
-            // 简单降级哈希
-            var h=0;
-            for(var i=0;i<fp.length;i++){h=((h<<5)-h)+fp.charCodeAt(i);h|=0;}
-            resolve('simple_'+Math.abs(h).toString(16));
-          }
-        });
-      },
-      // 显示生物认证引导界面
-      _showBiometricUI:function(title,subtitle,statusText,showCancel){
-        var overlay=document.getElementById('biometricCapture');
-        if(!overlay){
-          overlay=document.createElement('div');
-          overlay.id='biometricCapture';
-          overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center';
-          document.body.appendChild(overlay);
-        }
-        overlay.innerHTML='<div style="font-size:64px;margin-bottom:20px">&#x1F446;</div>'+
-          '<div style="color:#2ecc71;font-size:16px;font-weight:600;margin-bottom:8px">'+title+'</div>'+
-          '<div style="color:#888;font-size:13px;margin-bottom:24px;text-align:center;max-width:280px">'+subtitle+'</div>'+
-          '<div id="webauthnStatus" style="color:#f39c12;font-size:13px">'+statusText+'</div>'+
-          (showCancel!==false?'<button id="webauthnCancel" onclick="document.getElementById(\'biometricCapture\').remove()" style="margin-top:24px;padding:8px 20px;background:transparent;border:1px solid #555;border-radius:10px;color:#888;font-size:12px;cursor:pointer">取消</button>':'');
-        return overlay;
-      },
-      // 路径A：WebAuthn（Chrome/Safari/Edge 等支持的浏览器）
-      _collectViaWebAuthn:function(){
-        var self=this;
-        return new Promise(function(resolve,reject){
-          var userId=localStorage.getItem('sh_webauthn_uid');
-          if(!userId){
-            var arr=new Uint8Array(16);
-            crypto.getRandomValues(arr);
-            userId=Array.from(arr,function(b){return b.toString(16).padStart(2,'0')}).join('');
-            localStorage.setItem('sh_webauthn_uid',userId);
-          }
-          var uidBytes=new TextEncoder().encode(userId);
-          var challenge=new Uint8Array(32);
-          crypto.getRandomValues(challenge);
-          var options={
-            publicKey:{
-              challenge:challenge,
-              rp:{name:'山海云枢指挥中心',id:location.hostname},
-              user:{id:uidBytes,name:'owner@shanhai.local',displayName:'主人'},
-              pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
-              authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',requireResidentKey:false},
-              timeout:60000,attestation:'none'
-            }
-          };
-          self._showBiometricUI('指纹/面容注册','系统即将调用设备安全芯片<br>请按提示验证指纹或面容','等待设备响应...');
-          navigator.credentials.create(options)
-          .then(function(credential){
-            var credId=Array.from(new Uint8Array(credential.rawId));
-            AUTH_METHODS.registry.fingerprint.template={
-              credId:credId,registeredAt:new Date().toISOString(),
-              deviceInfo:navigator.userAgent.substring(0,50),method:'webauthn'
-            };
-            AUTH_METHODS.registry.fingerprint.enabled=true;
-            AUTH_METHODS.registry.fingerprint.status='active';
-            AUTH_METHODS.save();
-            // 首次注册写入芯片
-            AUTH_METHODS.registry.fingerprint._writeFpToChip('webauthn_register','initial_binding');
-            var overlay=document.getElementById('biometricCapture');
-            if(overlay)overlay.remove();
-            toast('指纹已绑定，数据已写入芯片');
-            resolve(true);
-          })
-          .catch(function(err){
-            var overlay=document.getElementById('biometricCapture');
-            if(overlay)overlay.remove();
-            reject(err);
-          });
-        });
-      },
-      // 路径B：系统原生生物认证（通过Credential Management API调起系统指纹弹窗）
-      _collectViaCredentialAPI:function(){
-        return new Promise(function(resolve,reject){
-          var challenge=new Uint8Array(32);
-          crypto.getRandomValues(challenge);
-          var options={
-            publicKey:{
-              challenge:challenge,
-              rp:{name:'山海云枢指挥中心'},
-              user:{
-                id:new Uint8Array(16),
-                name:'owner@shanhai.local',
-                displayName:'主人'
-              },
-              pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
-              authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},
-              timeout:60000,attestation:'none'
-            }
-          };
-          navigator.credentials.create(options)
-          .then(function(credential){
-            var credId=Array.from(new Uint8Array(credential.rawId));
-            AUTH_METHODS.registry.fingerprint.template={
-              credId:credId,registeredAt:new Date().toISOString(),
-              deviceInfo:navigator.userAgent.substring(0,50),method:'credential'
-            };
-            AUTH_METHODS.registry.fingerprint.enabled=true;
-            AUTH_METHODS.registry.fingerprint.status='active';
-            AUTH_METHODS.save();
-            var overlay=document.getElementById('biometricCapture');
-            if(overlay)overlay.remove();
-            resolve(true);
-          })
-          .catch(function(err){reject(err);});
-        });
-      },
-      // 路径C：设备指纹绑定（兜底方案，适用于所有安卓/iOS浏览器）
-      _collectViaDeviceFingerprint:function(){
-        var self=this;
-        return new Promise(function(resolve,reject){
-          self._showBiometricUI('设备绑定认证','采集设备唯一特征用于身份绑定<br>绑定后仅本设备可解锁系统','正在采集设备特征...');
-          self._deviceFingerprint().then(function(fp){
-            return self._hashFingerprint(fp).then(function(hash){
-              AUTH_METHODS.registry.fingerprint.template={
-                deviceHash:hash,
-                registeredAt:new Date().toISOString(),
-                deviceInfo:navigator.userAgent.substring(0,80),
-                method:'device_fingerprint',
-                fpParts:fp // 保留原始特征用于后续比对校验
-              };
-              AUTH_METHODS.registry.fingerprint.enabled=true;
-              AUTH_METHODS.registry.fingerprint.status='active';
-              AUTH_METHODS.save();
-              // 首次注册写入芯片
-              AUTH_METHODS.registry.fingerprint._writeFpToChip('device_fingerprint_register',fp);
-              var overlay=document.getElementById('biometricCapture');
-              if(overlay)overlay.remove();
-              toast('设备已绑定，数据已写入芯片');
-              resolve(true);
-            });
-          }).catch(function(err){
-            var overlay=document.getElementById('biometricCapture');
-            if(overlay)overlay.remove();
-            reject('设备特征采集失败: '+(err.message||err));
-          });
-        });
-      },
-      collect:function(){
-        var self=this;
-        // 路径A：优先尝试 WebAuthn（最安全，绑定硬件安全芯片）
-        if(window.PublicKeyCredential&&navigator.credentials&&navigator.credentials.create){
-          return self._collectViaWebAuthn()
-          .then(function(ok){return ok;})
-          .catch(function(){
-            // WebAuthn失败，降级到路径B
-            var statusEl=document.getElementById('webauthnStatus');
-            if(statusEl)statusEl.textContent='WebAuthn不可用，尝试系统认证接口...';
-            return self._collectViaCredentialAPI()
-            .then(function(ok){return ok;})
-            .catch(function(){
-              // 路径B也失败，降级到路径C：设备指纹绑定
-              return self._collectViaDeviceFingerprint();
-            });
-          });
-        }
-        // 没有WebAuthn，尝试路径B
-        if(navigator.credentials&&navigator.credentials.create){
-          self._showBiometricUI('指纹/面容注册','正在调用系统认证接口...','等待设备响应...');
-          return self._collectViaCredentialAPI()
-          .then(function(ok){return ok;})
-          .catch(function(){
-            return self._collectViaDeviceFingerprint();
-          });
-        }
-        // 都不支持，直接用路径C
-        return self._collectViaDeviceFingerprint();
-      },
-      verify:function(){
-        var self=this;
-        // 根据注册时使用的方法选择验证方式
-        if(!this.template){
-          toast('请先注册指纹/面容');
-          return Promise.resolve(false);
-        }
-        // WebAuthn / Credential API 注册的 → 用对应API验证（调起手机系统指纹）
-        if(this.template.method==='webauthn'&&this.template.credId){
-          var credId=this.template.credId;
-          var challenge=new Uint8Array(32);
-          crypto.getRandomValues(challenge);
-          return navigator.credentials.get({
-            publicKey:{
-              challenge:challenge,rpId:location.hostname,
-              allowCredentials:[{type:'public-key',id:new Uint8Array(credId)}],
-              userVerification:'required',timeout:30000
-            }
-          })
-          .then(function(){
-            // 系统指纹验证通过 → 写入芯片
-            self._writeFpToChip('webauthn','system_fingerprint_verified');
-            var chipSize=self.chip?self.chip.entries.length:1;
-            toast('指纹验证通过（芯片已记录第'+chipSize+'次）');
-            return true;
-          })
-          .catch(function(err){
-            if(err.name==='NotAllowedError')return false;
-            toast('验证失败: '+(err.message||err.name));
-            return false;
-          });
-        }
-        if(this.template.method==='credential'&&this.template.credId){
-          var credId2=this.template.credId;
-          var challenge2=new Uint8Array(32);
-          crypto.getRandomValues(challenge2);
-          return navigator.credentials.get({
-            publicKey:{
-              challenge:challenge2,rp:{name:'山海云枢指挥中心'},
-              allowCredentials:[{type:'public-key',id:new Uint8Array(credId2)}],
-              userVerification:'required',timeout:30000
-            }
-          })
-          .then(function(){
-            // 系统认证通过 → 写入芯片
-            self._writeFpToChip('credential','system_credential_verified');
-            var chipSize=self.chip?self.chip.entries.length:1;
-            toast('指纹验证通过（芯片已记录第'+chipSize+'次）');
-            return true;
-          })
-          .catch(function(err){
-            if(err.name==='NotAllowedError')return false;
-            // 降级到设备指纹验证
-            return self._verifyDeviceFingerprint();
-          });
-        }
-        // 设备指纹方式注册的 → 重新采集并比对
-        if(this.template.method==='device_fingerprint'){
-          return this._verifyDeviceFingerprint();
-        }
-        toast('认证数据异常，请重新注册');
-        return Promise.resolve(false);
-      },
-      // 设备指纹验证
-      _verifyDeviceFingerprint:function(){
-        var self=this;
-        return new Promise(function(resolve){
-          self._showBiometricUI('身份验证','正在验证设备身份...','采集中...',false);
-          self._deviceFingerprint().then(function(fp){
-            return self._hashFingerprint(fp).then(function(hash){
-              var overlay=document.getElementById('biometricCapture');
-              if(overlay)overlay.remove();
-              // 比对哈希值
-              if(hash===self.template.deviceHash){
-                // 设备匹配 → 写入芯片
-                self._writeFpToChip('device_fingerprint',fp);
-                var chipSize=self.chip?self.chip.entries.length:1;
-                toast('设备验证通过（芯片已记录第'+chipSize+'次）');
-                resolve(true);
-              }else{
-                // 哈希不匹配，检查原始特征相似度（容忍小幅变化）
-                if(self.template.fpParts){
-                  var matchCount=0,totalParts=self.template.fpParts.split('|').length;
-                  var currentParts=fp.split('|');
-                  var storedParts=self.template.fpParts.split('|');
-                  storedParts.forEach(function(sp){
-                    if(currentParts.indexOf(sp)!==-1)matchCount++;
-                  });
-                  // 超过70%特征匹配视为通过
-                  if(matchCount/totalParts>=0.7){
-                    self._writeFpToChip('device_fingerprint',fp);
-                    toast('设备验证通过（芯片已记录第'+self.chip.entries.length+'次）');
-                    resolve(true);
-                  }else{
-                    toast('设备指纹不匹配，可能需要重新注册');
-                    resolve(false);
-                  }
-                }else{
-                  toast('设备指纹不匹配，可能需要重新注册');
-                  resolve(false);
-                }
-              }
-            });
-          }).catch(function(){
-            var overlay=document.getElementById('biometricCapture');
-            if(overlay)overlay.remove();
-            toast('设备验证失败');
-            resolve(false);
-          });
-        });
-      }
-    },
-    voice:{id:'voice',name:'声纹识别',icon:'&#x1F3A4;',tier:'biometric',status:'reserved',
-      desc:'声纹特征匹配，绑定主人声音特征',enabled:false,
-      template:null,
-      collect:function(){
-        return new Promise(function(resolve,reject){
-          if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-            reject('设备不支持麦克风');return;
-          }
-          navigator.mediaDevices.getUserMedia({audio:true})
-          .then(function(stream){
-            var overlay=document.createElement('div');
-            overlay.id='biometricCapture';
-            overlay.innerHTML='<div style="font-size:48px;margin-bottom:16px">&#x1F3A4;</div>'+
-              '<div style="color:#2ecc71;font-size:14px;margin-bottom:8px">请朗读以下文字：</div>'+
-              '<div style="color:#fff;font-size:16px;margin-bottom:16px;padding:12px;background:rgba(46,204,113,0.1);border-radius:8px">"我是山海云枢指挥中心的主人"</div>'+
-              '<canvas id="voiceWave" width="300" height="60" style="background:#111;border-radius:8px;margin-bottom:16px"></canvas>'+
-              '<div style="color:#888;font-size:12px;margin-bottom:16px">正在采集声纹特征...</div>'+
-              '<button onclick="AUTH_METHODS.completeCapture(\'voice\')" style="padding:10px 24px;background:#2ecc71;border:none;border-radius:12px;color:#fff;cursor:pointer">完成采集</button>';
-            overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center';
-            document.body.appendChild(overlay);
-            // 音频波形可视化
-            var ctx=new AudioContext();var src=ctx.createMediaStreamSource(stream);
-            var analyser=ctx.createAnalyser();src.connect(analyser);
-            analyser.fftSize=256;var buf=new Uint8Array(analyser.frequencyBinCount);
-            var canvas=document.getElementById('voiceWave');var cctx=canvas.getContext('2d');
-            var animId=function(){
-              analyser.getByteFrequencyData(buf);
-              cctx.fillStyle='#111';cctx.fillRect(0,0,300,60);
-              var bw=300/buf.length;
-              for(var i=0;i<buf.length;i++){
-                var h=buf[i]/255*60;
-                cctx.fillStyle='#2ecc71';
-                cctx.fillRect(i*bw,60-h,bw-1,h);
-              }
-              overlay._animId=requestAnimationFrame(animId);
-            };animId();
-            overlay._stream=stream;overlay._ctx=ctx;
-          })
-          .catch(function(e){reject('麦克风访问失败: '+e.message)});
-        });
-      },
-      verify:function(){
-        // TODO: 录制语音 → 提取MFCC特征 → 与 template 比对
-        toast('声纹识别待接入SDK');return false;
-      }
+    } catch (e) {
+      document.getElementById('stBackend').textContent = '离线';
+      document.getElementById('stBackend').style.color = 'var(--err)';
     }
-  },
-  // 完成生物特征采集
-  completeCapture:function(methodId){
-    var self=this;
-    var overlay=document.getElementById('biometricCapture');
-    // 对于人脸注册，先从视频帧提取数据写入芯片
-    if(methodId==='face'&&overlay){
-      var video=document.getElementById('faceVideo');
-      if(video&&video.videoWidth){
-        var canvas=document.createElement('canvas');
-        canvas.width=video.videoWidth;canvas.height=video.videoHeight;
-        var ctx=canvas.getContext('2d');
-        ctx.drawImage(video,0,0);
-        var imgData=ctx.getImageData(0,0,canvas.width,canvas.height);
-        // 提取面部区域特征
-        var features=[];
-        for(var j=0;j<5;j++){
-          var region=[];
-          var startX=100+j*80,startY=80;
-          for(var y=startY;y<startY+60&&y<canvas.height;y+=4){
-            for(var x=startX;x<startX+60&&x<canvas.width;x+=4){
-              var idx=(y*canvas.width+x)*4;
-              region.push(imgData.data[idx]);
-            }
-          }
-          var rh=0;
-          for(var k=0;k<region.length;k++){rh=((rh<<5)-rh)+region[k];rh|=0;}
-          features.push(Math.abs(rh).toString(16).padStart(8,'0'));
-        }
-        var imageData=canvas.toDataURL('image/jpeg',0.8);
-        // 初始化芯片并写入首条数据
-        self.registry.face._initChip();
-        self.registry.face.chip.entries.push({
-          imageData:imageData,features:features,
-          timestamp:Date.now(),angle:'front',source:'registration',verified:true
-        });
-        self.registry.face._saveChip();
-      }
-    }
-    if(overlay){
-      if(overlay._stream)overlay._stream.getTracks().forEach(function(t){t.stop()});
-      if(overlay._ctx)overlay._ctx.close();
-      if(overlay._animId)cancelAnimationFrame(overlay._animId);
-      overlay.remove();
-    }
-    var m=this.registry[methodId];
-    if(m){
-      // 人脸使用芯片数据作为template标记；其他保持原逻辑
-      if(methodId==='face'&&self.registry.face.chip&&self.registry.face.chip.entries.length>0){
-        m.template={faceId:'face_'+Date.now(),registeredAt:new Date().toISOString()};
-      }else{
-        m.template='template_'+methodId+'_'+Date.now();
-      }
-      m.enabled=true;m.status='active';
-      this.save();
-      toast(m.name+'已激活，数据已写入芯片');
-      if(document.getElementById('dmBody'))openDetail('security');
-    }
-  },
-  // 获取已激活的认证方式
-  getActive:function(){return Object.values(this.registry).filter(function(m){return m.enabled})},
-  // 获取待开放的认证方式
-  getAvailable:function(){return Object.values(this.registry).filter(function(m){return !m.enabled})},
-  // 获取已激活的生物认证
-  getActiveBiometrics:function(){return Object.values(this.registry).filter(function(m){return m.enabled&&m.tier==='biometric'})},
-  // 检查操作所需安全等级是否满足
-  checkLevel:function(requiredLevel){
-    var active=this.getActive();
-    var hasPin=active.some(function(m){return m.id==='pin'});
-    var bioCount=active.filter(function(m){return m.tier==='biometric'}).length;
-    switch(requiredLevel){
-      case 1:return hasPin;
-      case 2:return hasPin&&bioCount>=1;
-      case 3:return hasPin&&bioCount>=2;
-      case 4:return hasPin&&bioCount>=2&&PIN.getHandover();
-      default:return false;
-    }
-  },
-  // 获取当前安全等级描述
-  getCurrentLevel:function(){
-    var bio=this.getActiveBiometrics().length;
-    if(bio>=2)return{level:4,label:'基因级',color:'#e74c3c',desc:'多重生物认证，仅主人本人可操作'};
-    if(bio>=1)return{level:2,label:'生物级',color:'#f39c12',desc:'通行码+生物认证'};
-    return{level:1,label:'密码级',color:'#3498db',desc:'仅通行码保护'};
-  },
-  save:function(){
-    var saveData={};
-    for(var k in this.registry){
-      var m=this.registry[k];
-      saveData[k]={enabled:m.enabled,status:m.status,template:m.template||null};
-    }
-    localStorage.setItem('sh_auth_methods',JSON.stringify(saveData));
-  },
-  load:function(){
-    var saved=localStorage.getItem('sh_auth_methods');
-    if(saved){try{
-      var parsed=JSON.parse(saved);
-      for(var k in parsed){
-        if(this.registry[k]){
-          if(parsed[k].enabled!==undefined)this.registry[k].enabled=parsed[k].enabled;
-          if(parsed[k].status!==undefined)this.registry[k].status=parsed[k].status;
-          if(parsed[k].template!==undefined)this.registry[k].template=parsed[k].template;
-        }
-      }
-    }catch(e){}}
-  }
-};
-AUTH_METHODS.load();
-
-// 安全门禁：敏感操作前调用，返回Promise<boolean>
-function securityGate(requiredLevel,actionName){
-  if(AUTH_METHODS.checkLevel(requiredLevel)){
-    return Promise.resolve(true);
-  }
-  var bio=AUTH_METHODS.getActiveBiometrics();
-  var need=requiredLevel===2?'1项生物认证':requiredLevel===3?'2项生物认证':'全因子认证';
-  if(bio.length===0){
-    // 无生物认证，降级到PIN确认
-    var pin=prompt('[安全验证] '+actionName+'\n需要'+need+'\n当前仅有密码级保护\n\n请输入通行码确认身份:');
-    if(pin&&pin===PIN.getStored())return Promise.resolve(true);
-    toast('身份验证失败，操作取消');
-    return Promise.resolve(false);
-  }
-  // 有生物认证但未达等级要求，提示注册更多
-  toast('需要'+need+'，当前已激活'+bio.length+'项');
-  return Promise.resolve(false);
-}
-
-// === 安全设置面板 ===
-function buildSecurityPanel(){
-  var h='';
-  var curLevel=AUTH_METHODS.getCurrentLevel();
-
-  // 当前安全等级
-  h+='<div class="mcard" style="border:1px solid '+curLevel.color+'"><h3><span class="dot" style="background:'+curLevel.color+'"></span>安全等级：'+curLevel.label+'</h3>';
-  h+='<div style="font-size:12px;color:'+curLevel.color+';margin-bottom:8px">'+curLevel.desc+'</div>';
-  h+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
-  h+='<div style="flex:1;min-width:80px;text-align:center;padding:8px;background:rgba(46,204,113,0.1);border-radius:8px"><div style="font-size:11px;color:var(--text3)">等级1</div><div style="font-size:12px;color:var(--green)">密码级 ✓</div></div>';
-  h+='<div style="flex:1;min-width:80px;text-align:center;padding:8px;background:'+(curLevel.level>=2?'rgba(243,156,18,0.1)':'rgba(255,255,255,0.03)')+';border-radius:8px"><div style="font-size:11px;color:var(--text3)">等级2</div><div style="font-size:12px;color:'+(curLevel.level>=2?'var(--orange)':'var(--text4)')+'">生物级 '+(curLevel.level>=2?'✓':'○')+'</div></div>';
-  h+='<div style="flex:1;min-width:80px;text-align:center;padding:8px;background:'+(curLevel.level>=4?'rgba(231,76,60,0.1)':'rgba(255,255,255,0.03)')+';border-radius:8px"><div style="font-size:11px;color:var(--text3)">等级4</div><div style="font-size:12px;color:'+(curLevel.level>=4?'var(--red)':'var(--text4)')+'">基因级 '+(curLevel.level>=4?'✓':'○')+'</div></div>';
-  h+='</div></div>';
-
-  // 通行码管理
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>通行码管理</h3>';
-  h+='<div class="mrow"><span class="mlabel">当前状态</span><span class="mval gd">已设置 (L1)</span></div>';
-  h+='<div class="mrow"><span class="mlabel">修改通行码</span><button onclick="changePin()" style="padding:6px 16px;background:var(--accent);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">修改</button></div>';
-  h+='</div>';
-
-  // 交接码管理
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>交接码管理 <span style="font-size:10px;color:var(--text3)">L4 主权移交</span></h3>';
-  var hv=PIN.getHandover();
-  if(hv){
-    h+='<div class="mrow"><span class="mlabel">当前交接码</span><button onclick="viewHandover()" style="padding:6px 16px;background:var(--purple);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">查看</button></div>';
-  }
-  h+='<div class="mrow"><span class="mlabel">重置交接码</span><button onclick="regenHandover()" style="padding:6px 16px;background:var(--orange);border:none;border-radius:12px;color:#fff;font-size:12px;cursor:pointer">重置</button></div>';
-  h+='<div style="font-size:11px;color:var(--text3);margin-top:8px;padding:0 4px">交接码用于主权移交，使用一次后自动焚毁。移交后旧通行码同时作废。</div>';
-  h+='</div>';
-
-  // 生物认证 — 核心安全升级
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--red)"></span>生物认证 <span style="font-size:10px;color:var(--text3)">基因级安全</span></h3>';
-  h+='<div style="font-size:11px;color:var(--text3);margin-bottom:12px">启用2项以上生物认证后，系统进入「基因级」保护 — 仅主人本人可修改核心配置</div>';
-  var methods=Object.values(AUTH_METHODS.registry);
-  methods.forEach(function(m){
-    var isAct=m.enabled;
-    var isBio=m.tier==='biometric';
-    h+='<div class="mrow" style="align-items:center"><span class="mlabel">'+m.icon+' '+m.name+(isBio?' <span style="font-size:9px;color:var(--text4)">[生物]</span>':'')+'</span>';
-    if(isAct){
-      h+='<span class="mval gd" style="font-size:11px">已激活</span>';
-    }else{
-      h+='<button onclick="enrollBio(\''+m.id+'\')" style="padding:5px 14px;background:var(--blue);border:none;border-radius:10px;color:#fff;font-size:11px;cursor:pointer">注册</button>';
-    }
-    h+='</div>';
-    h+='<div style="font-size:10px;color:var(--text4);margin:-2px 0 10px 28px">'+m.desc+'</div>';
-  });
-  h+='</div>';
-
-  // 操作安全策略
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--orange)"></span>操作安全策略</h3>';
-  h+='<div class="mrow"><span class="mlabel">日常查看</span><span class="mval" style="font-size:11px;color:var(--green)">L1 通行码</span></div>';
-  h+='<div class="mrow"><span class="mlabel">订单/资金管理</span><span class="mval" style="font-size:11px;color:var(--orange)">L2 通行码+1项生物</span></div>';
-  h+='<div class="mrow"><span class="mlabel">修改安全设置</span><span class="mval" style="font-size:11px;color:var(--red)">L3 通行码+2项生物</span></div>';
-  h+='<div class="mrow"><span class="mlabel">主权移交</span><span class="mval" style="font-size:11px;color:var(--red)">L4 全因子+交接码</span></div>';
-  h+='</div>';
-
-  // 恢复方式
-  h+='<div class="mcard"><h3><span class="dot" style="background:var(--text3)"></span>恢复方式</h3>';
-  h+='<div class="mrow"><span class="mlabel">方式一</span><span class="mval" style="font-size:11px">交接码重置（3次错误后触发）</span></div>';
-  h+='<div class="mrow"><span class="mlabel">方式二</span><span class="mval" style="font-size:11px">安全面板修改（需当前通行码+生物认证）</span></div>';
-  h+='<div class="mrow"><span class="mlabel">方式三</span><span class="mval" style="font-size:11px">生物认证恢复（待全因子激活）</span></div>';
-  h+='</div>';
-
-  return h;
-}
-
-function enrollBio(methodId){
-  var m=AUTH_METHODS.registry[methodId];
-  if(!m){toast('未知认证方式');return}
-  if(m.enabled){toast(m.name+'已激活');return}
-  toast('正在启动'+m.name+'采集...');
-  m.collect().then(function(){
-    toast(m.name+'注册成功');
-    openDetail('security');
-  }).catch(function(err){
-    toast('注册失败: '+err);
-  });
-}
-
-function changePin(){
-  var body=document.getElementById('dmBody');
-  body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>修改通行码</h3>'+
-    '<div style="font-size:11px;color:var(--text3);margin-bottom:12px">需要当前通行码验证（L1）</div>'+
-    '<div style="margin:16px 0"><div style="font-size:12px;color:var(--text3);margin-bottom:8px">输入当前通行码</div>'+
-    '<input type="password" id="cpOld" maxlength="6" placeholder="6位数字" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:16px;text-align:center;letter-spacing:8px;box-sizing:border-box">'+
-    '<div style="font-size:12px;color:var(--text3);margin:12px 0 8px">输入新通行码</div>'+
-    '<input type="password" id="cpNew" maxlength="6" placeholder="6位数字" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:16px;text-align:center;letter-spacing:8px;box-sizing:border-box">'+
-    '<div style="font-size:12px;color:var(--text3);margin:12px 0 8px">确认新通行码</div>'+
-    '<input type="password" id="cpConfirm" maxlength="6" placeholder="再输一次" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:16px;text-align:center;letter-spacing:8px;box-sizing:border-box"></div>'+
-    '<button onclick="confirmChangePin()" style="width:100%;padding:12px;background:var(--accent);border:none;border-radius:16px;color:#fff;font-size:14px;font-weight:600;cursor:pointer">确认修改</button></div>';
-}
-
-function confirmChangePin(){
-  var old=document.getElementById('cpOld').value;
-  var nw=document.getElementById('cpNew').value;
-  var cf=document.getElementById('cpConfirm').value;
-  var stored=PIN.getStored();
-  if(!stored||old!==stored){toast('当前通行码错误');return}
-  if(nw.length!==6||!/^\d{6}$/.test(nw)){toast('新通行码须为6位数字');return}
-  if(nw!==cf){toast('两次输入不一致');return}
-  if(nw===old){toast('新码不能与旧码相同');return}
-  // 若已启用生物认证，需额外生物验证确认本人
-  var bio=AUTH_METHODS.getActiveBiometrics();
-  if(bio.length>=1){
-    var bioMethod=bio[0];
-    toast('需'+bioMethod.name+'验证本人身份');
-    bioMethod.verify().then(function(ok){
-      if(!ok){toast('生物认证未通过，拒绝修改');return}
-      doChangePin(nw);
+  } else {
+    document.getElementById('stBackend').textContent = '未配置';
+    document.getElementById('stBackend').style.color = 'var(--warn)';
+    // Show local engine status based on config
+    const engines = DEFAULT_ENGINES;
+    const cfg2 = getConfig();
+    const keys = { '智谱GLM': cfg2.zhipu, '硅基流动': cfg2.silicon, '火山引擎': cfg2.volc };
+    let online = 0;
+    const tbody = document.getElementById('engineTable');
+    tbody.innerHTML = '<tr><th>引擎</th><th>模型</th><th>优先级</th><th>状态</th></tr>';
+    engines.forEach(e => {
+      const hasKey = !!keys[e.name];
+      if (hasKey) online++;
+      tbody.innerHTML += `<tr><td>${e.name}</td><td>${e.model}</td><td>P${e.priority}</td><td><span class="dot ${hasKey?'on':'off'}"></span>${hasKey?'已配置':'未配置'}</td></tr>`;
     });
-  }else{
-    doChangePin(nw);
+    document.getElementById('stEngine').textContent = online + '/3';
   }
 }
 
-function doChangePin(nw){
-  localStorage.setItem('sh_pin',PIN.encodeValue(nw));
-  PIN.storedPin=nw;
-  var newHandover=generateHandover();
-  localStorage.setItem('sh_handover',PIN.encodeValue(newHandover));
-  toast('通行码已更新，交接码已重新生成');
-  openDetail('security');
-}
+// ===== Activate =====
+async function activate() {
+  const cfg = getConfig();
+  if (!cfg.backend) { showResult('actResult', '请先在「设置」中配置后端地址'); return; }
 
-function viewHandover(){
-  var hv=PIN.getHandover();
-  if(hv){
-    var body=document.getElementById('dmBody');
-    body.innerHTML='<div class="mcard" style="text-align:center"><h3><span class="dot" style="background:var(--purple)"></span>交接码</h3>'+
-      '<div style="font-size:36px;letter-spacing:8px;color:var(--purple);font-weight:700;margin:24px 0">'+hv+'</div>'+
-      '<div style="font-size:12px;color:var(--text3)">此码用于系统主权移交（L4）</div>'+
-      '<div style="font-size:11px;color:var(--red);margin-top:8px">使用后旧通行码+交接码同时焚毁</div>'+
-      '<div style="font-size:11px;color:var(--text4);margin-top:4px">请妥善保管，仅限主人本人持有</div>'+
-      '<button onclick="openDetail(\'security\')" style="margin-top:20px;padding:10px 24px;background:var(--border);border:none;border-radius:12px;font-size:13px;cursor:pointer">返回</button></div>';
-  }else{
-    toast('交接码不存在');
-  }
-}
+  const name = document.getElementById('actName').value.trim();
+  const phone = document.getElementById('actPhone').value.trim();
+  const plan = document.getElementById('actPlan').value;
+  const industry = document.getElementById('actIndustry').value.trim();
+  const company = document.getElementById('actCompany').value.trim();
 
-function regenHandover(){
-  if(!confirm('重置交接码后，旧交接码立即失效。确认？')){return}
-  var newHandover=generateHandover();
-  localStorage.setItem('sh_handover',PIN.encodeValue(newHandover));
-  toast('交接码已重新生成');
-  openDetail('security');
-}
+  if (!name || !phone) { showResult('actResult', '请填写姓名和手机号'); return; }
+  if (!/^1[3-9]\d{9}$/.test(phone)) { showResult('actResult', '手机号格式不正确'); return; }
 
-// === 聊天核心 ===
-var chatArea=document.getElementById('chatArea');
-var msgInput=document.getElementById('msgInput');
-var sendBtn=document.getElementById('sendBtn');
-var quickArea=document.getElementById('quickArea');
-
-function addMsg(cls,html,timeStr){
-  if(!SESSION.check()){SESSION.lock();return}
-  SESSION.record();
-  var now=new Date();
-  var h=now.getHours(),m=now.getMinutes();
-  var t=timeStr||(h<10?'0'+h:h)+':'+(m<10?'0'+m:m);
-  var item=document.createElement('div');
-  item.className='msg '+cls;
-  var avatarText=cls==='msg-ai'?'山':'我';
-  item.innerHTML='<div class="msg-avatar">'+avatarText+'</div><div class="msg-content"><div class="msg-bubble">'+html+'</div><div class="msg-time">'+t+'</div></div>';
-  chatArea.appendChild(item);
-  chatArea.scrollTop=chatArea.scrollHeight;
-}
-
-function addAi(html,extra){
-  if(extra)html='<div>'+html+'</div><div>'+extra+'</div>';
-  addMsg('msg-ai',html);
-}
-
-function addUser(html){addMsg('msg-user',html)}
-
-function typing(){
-  var item=document.createElement('div');
-  item.className='msg msg-ai';
-  item.id='typingMsg';
-  item.innerHTML='<div class="msg-avatar">山</div><div class="msg-content"><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>';
-  chatArea.appendChild(item);
-  chatArea.scrollTop=chatArea.scrollHeight;
-}
-
-function removeTyping(){
-  var t=document.getElementById('typingMsg');
-  if(t)t.remove();
-}
-
-function sendMsg(){
-  var msg=msgInput.value.trim();
-  if(!msg||!SESSION.check())return;
-  SESSION.record();
-  addUser(msg);
-  msgInput.value='';
-  autoResize(msgInput);
-  sendBtn.classList.add('disabled');
-  processCmd(msg);
-}
-
-function autoResize(el){
-  el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,100)+'px';
-}
-
-function toggleSend(){
-  sendBtn.classList.toggle('disabled',!msgInput.value.trim());
-}
-
-function handleKey(e){
-  if(e.key==='Enter'&&!e.shiftKey){
-    e.preventDefault();
-    sendMsg();
-  }
-}
-
-// === 指令路由 ===
-var CMD_ROUTER={
-  routes:{},
-  init:function(){
-    var r=this.routes;
-    r['!自检']=function(){addAi('[系统自检]');setTimeout(selfCheck,300);FEEDBACK.log('系统','自检','完成')};
-    r['!通电']=function(){addAi('[系统通电]');setTimeout(showPowerOn,300)};
-    r['!芯片']=function(){addAi('[芯片信息]',buildChipInfo())};
-    r['!模块']=function(){addAi('[模块列表]',buildModuleList())};
-    r['!安保']=function(){addAi('[安全状态]',buildSecurityInfo())};
-    r['!设置Key']=function(){var key=prompt('请输入您的API密钥:');if(key){localStorage.setItem('sh_api_key',key);addAi('API密钥已设置成功')}};r['!查看Key']=function(){var k=localStorage.getItem('sh_api_key');addAi('当前密钥状态:'+(k?'已设置':'未设置'))};
-    r['!内循环']=function(){addAi('[内循环]',buildInternalLoop())};
-    r['!执行']=function(){addAi('[执行面板]',buildExecPanel())};
-    r['!端口']=function(){openDetail('port')};
-    r['!总关']=function(){openDetail('port')};
-    r['!防护盾']=function(){openDetail('shield')};
-    r['!安全']=function(){openDetail('shield')};
-    r['!安全设置']=function(){openDetail('security')};
-    r['!设置通行码']=function(){openDetail('security')};
-    r['!修改密码']=function(){openDetail('security')};
-    r['!主权']=function(){openDetail('perm')};
-    r['!权限']=function(){openDetail('perm')};
-    r['!订单']=function(){addAi('[订单管理]',buildOrderPanel())};
-    r['!营收']=function(){addAi('[营收概览]',buildRevenuePanel())};
-    r['营收']=function(){addAi('[营收概览]',buildRevenuePanel())};
-    r['!数据']=function(){openDetail('data')};
-    r['!收款']=function(){openDetail('pay')};
-    r['!工具']=function(){addAi('[工具箱]',buildToolsPanel())};
-    r['!建站']=function(){addAi('[建站向导]',buildSiteBuilder())};
-    r['!通知']=function(){addAi(SH_NOTIFY.showCenter())};
-    r['!动态']=function(){addAi(SH_NOTIFY.showCenter())};
-    r['!已读']=function(){SH_NOTIFY.markRead();addAi('已标记所有通知为已读')};
-    r['!系统']=function(){openDetail('sys')};
-    r['!状态']=function(){openDetail('sys')};
-    r['!版本']=function(){addAi('山海云枢指挥中心 '+CHIP.VERSION+'<br>12端口管控 · DNA防护盾<br>插件化自生长架构')};
-    r['!日志']=function(){addAi('[操作日志]',buildLogPanel())};
-    r['!清理']=function(){localStorage.clear();addAi('本地数据已清除，页面将刷新');setTimeout(function(){location.reload()},1500)};
-    r['!知识']=function(){
-      var h='<div class="result-box"><div class="rb-title">山海云枢知识库</div>';
-      h+='<div class="rb-item">品牌: <b>'+KNOWLEDGE.brand+'</b></div>';
-      h+='<div class="rb-item">企业: '+KNOWLEDGE.company+'</div>';
-      h+='<div class="rb-item">DNA铁律: '+KNOWLEDGE.dna.total+'条 | 核心: '+KNOWLEDGE.dna.core+'</div>';
-      h+='<div class="rb-item">子系统: '+KNOWLEDGE.subsystems.length+'个端口在线</div>';
-      h+='<div class="rb-item">AI引擎: '+KNOWLEDGE.engines.length+'路(含1路免费)</div>';
-      h+='<div class="rb-item">产品: '+KNOWLEDGE.products.map(function(p){return p.name+'('+p.price+')'}).join(' / ')+'</div>';
-      h+='<div class="rb-item">财务: '+KNOWLEDGE.finance.三位一体+'</div>';
-      h+='<div class="rb-item">GEO: '+KNOWLEDGE.geo.stations+'站 | 策略: '+KNOWLEDGE.geo.strategy+'</div>';
-      h+='<div style="margin-top:8px;color:var(--text3);font-size:11px">输入!品牌 查看品牌矩阵 | !DNA 查看铁律 | !财务 查看财务体系</div>';
-      h+='</div>';
-      addAi(h);
-      FEEDBACK.log('查询','知识库','完成');
-    };
-    r['!品牌']=function(){
-      var h='<div class="result-box"><div class="rb-title">品牌矩阵</div>';
-      KNOWLEDGE.brands.forEach(function(b){h+='<div class="rb-item"><b>'+b.name+'</b> ('+b.type+') - '+b.price+'</div>';});
-      h+='</div>';addAi(h);FEEDBACK.log('查询','品牌矩阵','完成');
-    };
-    r['!DNA']=function(){
-      var h='<div class="result-box"><div class="rb-title">DNA铁律 '+KNOWLEDGE.dna.total+'条</div>';
-      h+='<div class="rb-item" style="color:var(--accent)">核心: '+KNOWLEDGE.dna.core+'</div>';
-      KNOWLEDGE.dna.key_rules.forEach(function(r){h+='<div class="rb-item">'+r+'</div>';});
-      h+='</div>';addAi(h);FEEDBACK.log('查询','DNA铁律','完成');
-    };
-    r['!财务']=function(){
-      var h='<div class="result-box"><div class="rb-title">财务体系</div>';
-      var f=KNOWLEDGE.finance;
-      h+='<div class="rb-item">主体: '+f.主体+'</div>';
-      h+='<div class="rb-item">收款: '+f.收款池+'</div>';
-      h+='<div class="rb-item">蓄水: '+f.蓄水池+'</div>';
-      h+='<div class="rb-item">出口: '+f.出口池+'</div>';
-      h+='<div class="rb-item">合规: '+f.三位一体+'</div>';
-      h+='</div>';addAi(h);FEEDBACK.log('查询','财务体系','完成');
-    };
-    r['!帮助']=function(){addAi(buildHelpMsg())};
-    r['!记忆']=function(){
-      var count=SH_API.history?SH_API.history.length:0;
-      addAi('[记忆状态]<br>当前记忆：<b>'+count+'</b> 条对话<br>记忆容量上限：'+SH_API.MAX_HISTORY+' 条<br><br>输入 <b>!清记忆</b> 可清除全部记忆');
-    };
-    r['!清记忆']=function(){
-      SH_API.clearHistory();
-      addAi('对话记忆已清除');
-    };
-    r['!巡检']=function(){addAi('[系统巡检]',HEALTH_MONITOR.checkAll());FEEDBACK.log('巡检','全站','完成')};
-    r['!引擎']=function(){addAi('[引擎状态]',HEALTH_MONITOR.checkEngines());FEEDBACK.log('巡检','引擎','完成')};
-    r['!调度']=function(){addAi('[调度中心]',DISPATCH.showPanel())};
-    r['!反馈']=function(){addAi('[反馈日志]',FEEDBACK.showLog())};
-    r['!统计']=function(){addAi('[操作统计]',FEEDBACK.showStats())};
-
-  },
-  match:function(cmd){
-    var c=cmd.trim();
-    if(this.routes[c]){this.routes[c]();return true}
-    for(var k in this.routes){
-      if(c.indexOf(k)===0&&c.length>k.length){
-        this.routes[k]();
-        return true;
-      }
-    }
-    return false;
-  }
-};
-
-function processCmd(cmd){
-  if(!SESSION.check()){SESSION.lock();return}
-  SESSION.record();
-  if(CMD_ROUTER.match(cmd))return;
-  callAI(cmd);
-}
-
-// === 健康监控系统 (V37) ===
-var HEALTH_MONITOR={
-  status:{},
-  timeout:3000,
-  getSubsystems:function(){
-    return CHIP.PORT_SHIELD.ports.map(function(p){
-      return {id:p.id,name:p.name,url:'https://'+p.url+'.surge.sh'}
+  try {
+    const resp = await fetch(cfg.backend + '/api/activate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, industry, company, plan })
     });
-  },
-  checkAll:async function(){
-    var subs=this.getSubsystems();
-    var self=this;
-    // 并行检测所有子系统 - 大幅提升速度
-    var checks=subs.map(function(s){
-      var controller=new AbortController();
-      var timer=setTimeout(function(){controller.abort()},self.timeout);
-      return fetch(s.url,{method:'HEAD',signal:controller.signal}).then(function(){
-        clearTimeout(timer);self.status[s.id]='online';return {name:s.name,online:true};
-      }).catch(function(){
-        clearTimeout(timer);self.status[s.id]='offline';return {name:s.name,online:false};
-      });
+    const data = await resp.json();
+    if (data.success) {
+      showResult('actResult', `激活成功!\n\n节点ID: ${data.nodeId}\nAPI密钥: ${data.apiKey}\n套餐: ${data.plan}元\n激活时间: ${data.activatedAt}\n\n请妥善保存以上信息。`);
+    } else {
+      showResult('actResult', '激活失败: ' + (data.error || '未知错误'));
+    }
+  } catch (e) {
+    showResult('actResult', '请求失败: ' + e.message + '\n请检查后端地址是否正确');
+  }
+}
+
+async function verifyKey() {
+  const cfg = getConfig();
+  if (!cfg.backend) { showResult('verifyResult', '请先在「设置」中配置后端地址'); return; }
+  const key = document.getElementById('verifyKey').value.trim();
+  if (!key) { showResult('verifyResult', '请输入密钥'); return; }
+
+  try {
+    const resp = await fetch(cfg.backend + '/api/activate?key=' + encodeURIComponent(key));
+    const data = await resp.json();
+    if (data.valid) {
+      showResult('verifyResult', `密钥有效\n节点ID: ${data.nodeId}\n套餐: ${data.plan}\n激活时间: ${data.activatedAt}`);
+    } else {
+      showResult('verifyResult', '密钥无效或未激活');
+    }
+  } catch (e) {
+    showResult('verifyResult', '验证失败: ' + e.message);
+  }
+}
+
+// ===== GEO Diag =====
+async function runDiag() {
+  const cfg = getConfig();
+  if (!cfg.backend) { showResult('diagResult', '请先在「设置」中配置后端地址'); return; }
+
+  const url = document.getElementById('diagUrl').value.trim();
+  const keywords = document.getElementById('diagKeywords').value.trim();
+  if (!url) { showResult('diagResult', '请输入网站URL'); return; }
+
+  showResult('diagResult', '正在分析中，请稍候...');
+  try {
+    const resp = await fetch(cfg.backend + '/api/diag', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, keywords }),
+      signal: AbortSignal.timeout(60000)
     });
-    var results=await Promise.all(checks);
-    var h='<div class="result-box"><div class="rb-title">子系统巡检</div>';
-    var online=0;
-    results.forEach(function(r){
-      if(r.online){online++;h+='<div class="rb-item">'+r.name+': <span style="color:#10b981">在线</span></div>';}
-      else{h+='<div class="rb-item">'+r.name+': <span style="color:#ef4444">离线</span></div>';}
-    });
-    h+='<div style="margin-top:8px;color:var(--text3)">在线: '+online+'/'+results.length+' | 并行检测完成</div></div>';
-    return h;
-  },
-  checkEngines:async function(){
-    var h='<div class="result-box"><div class="rb-title">AI引擎状态</div>';
-    var engines=[
-      {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/models'},
-      {name:'硅基流动',url:'https://api.siliconflow.cn/v1/models'},
-      {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/models'}
-    ];
-    for(var i=0;i<engines.length;i++){
-      var e=engines[i];
-      var status='<span style="color:#f59e0b">检测中</span>';
-      try{
-        var controller=new AbortController();
-        var t=setTimeout(function(){controller.abort()},this.timeout);
-        await fetch(e.url,{method:'GET',headers:{'Content-Type':'application/json'},signal:controller.signal});
-        clearTimeout(t);
-        status='<span style="color:#10b981">在线</span>';
-      }catch(err){
-        status='<span style="color:#ef4444">离线</span>';
+    const data = await resp.json();
+    let text = '';
+    if (data.scores) {
+      text += 'GEO诊断报告\n';
+      text += '═'.repeat(30) + '\n';
+      for (const [k, v] of Object.entries(data.scores)) {
+        text += `${k}: ${v}/20\n`;
       }
-      h+='<div class="rb-item">'+e.name+': '+status+'</div>';
+      text += `\n总分: ${data.total || '-'}/100\n`;
     }
-    h+='</div>';
-    return h;
-  },
-  // 静默巡检 - 不显示结果，只更新状态指示器
-  silentCheck:function(){
-    var subs=this.getSubsystems();
-    var self=this;
-    subs.forEach(function(s){
-      fetch(s.url,{method:'HEAD'}).then(function(){
-        self.status[s.id]='online';
-      }).catch(function(){
-        self.status[s.id]='offline';
-      });
-    });
-  }
-};
-
-// === 调度引擎 (V37) ===
-var DISPATCH={
-  tasks:[
-    {id:'health',name:'全站巡检',desc:'检查所有子系统在线状态',handler:function(){HEALTH_MONITOR.checkAll()}},
-    {id:'sync',name:'订单同步',desc:'汇总所有页面的订单数据',handler:function(){DISPATCH.syncOrders()}},
-    {id:'engine',name:'引擎切换',desc:'手动切换AI引擎优先级',handler:function(){DISPATCH.switchEngine()}},
-    {id:'cache',name:'缓存清理',desc:'清理过期的localStorage数据',handler:function(){DISPATCH.clearCache()}}
-  ],
-  showPanel:function(){
-    var h='<div class="result-box"><div class="rb-title">调度中心</div>';
-    this.tasks.forEach(function(t){
-      h+='<div style="background:var(--surface2);border-radius:8px;padding:10px;margin:6px 0;cursor:pointer" onclick="DISPATCH.run(\''+t.id+'\')">';
-      h+='<div style="font-size:13px;font-weight:600">'+t.name+'</div>';
-      h+='<div style="font-size:11px;color:var(--text3);margin-top:2px">'+t.desc+'</div></div>';
-    });
-    h+='</div>';
-    return h;
-  },
-  run:function(id){
-    var task=this.tasks.find(function(t){return t.id===id});
-    if(task){
-      task.handler();
-      FEEDBACK.log('调度',task.name,'执行中');
+    if (data.issues && data.issues.length) {
+      text += '\n发现问题:\n';
+      data.issues.forEach((issue, i) => text += `  ${i+1}. ${issue}\n`);
     }
-  },
-  syncOrders:function(){
-    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-    var h='<div class="result-box"><div class="rb-title">订单同步</div>';
-    h+='<div class="rb-item">本地订单: '+orders.length+' 笔</div>';
-    h+='</div>';
-    addAi(h);
-    FEEDBACK.log('调度','订单同步','完成');
-  },
-  switchEngine:function(){
-    var engines=['智谱GLM','硅基流动','火山引擎','CF Workers AI'];
-    var current=SH_API.currentRoute||0;
-    var next=(current+1)%4;
-    SH_API.currentRoute=next;
-    addAi('<div class="result-box"><div class="rb-title">引擎切换</div><div class="rb-item">已切换至: <b>'+engines[next]+'</b></div></div>');
-    FEEDBACK.log('调度','引擎切换',engines[next]);
-  },
-  clearCache:function(){
-    var keys=['sh_chat_history','sh_feedback_log'];
-    keys.forEach(function(k){localStorage.removeItem(k)});
-    addAi('<div class="result-box"><div class="rb-title">缓存清理</div><div class="rb-item" style="color:#10b981">已清理 '+keys.length+' 项缓存数据</div></div>');
-    FEEDBACK.log('调度','缓存清理','完成');
-  }
-};
-
-// === 反馈回路 (V37) ===
-var FEEDBACK={
-  KEY:'sh_feedback_log',
-  log:function(type,action,result){
-    var logs=JSON.parse(localStorage.getItem(this.KEY)||'[]');
-    logs.unshift({
-      time:new Date().toLocaleString(),
-      type:type,
-      action:action,
-      result:result,
-      ts:Date.now()
-    });
-    if(logs.length>50)logs=logs.slice(0,50);
-    localStorage.setItem(this.KEY,JSON.stringify(logs));
-  },
-  showLog:function(){
-    var logs=JSON.parse(localStorage.getItem(this.KEY)||'[]');
-    var h='<div class="result-box"><div class="rb-title">反馈日志</div>';
-    if(logs.length===0){
-      h+='<div class="rb-item" style="color:var(--text3)">暂无反馈记录</div>';
-    }else{
-      logs.slice(0,10).forEach(function(l){
-        h+='<div style="background:var(--surface2);border-radius:6px;padding:8px;margin:4px 0;font-size:12px">';
-        h+='<div><span style="color:var(--accent)">'+l.type+'</span> | '+l.action+'</div>';
-        h+='<div style="color:var(--text3);font-size:10px">'+l.time+'</div></div>';
-      });
+    if (data.suggestions && data.suggestions.length) {
+      text += '\n优化建议:\n';
+      data.suggestions.forEach((s, i) => text += `  ${i+1}. ${s}\n`);
     }
-    h+='</div>';
-    return h;
-  },
-  showStats:function(){
-    var logs=JSON.parse(localStorage.getItem(this.KEY)||'[]');
-    var total=logs.length;
-    var success=logs.filter(function(l){return l.result==='完成'||l.result==='执行中'}).length;
-    var h='<div class="result-box"><div class="rb-title">操作统计</div>';
-    h+='<div class="rb-item">总操作: <b>'+total+'</b> 次</div>';
-    h+='<div class="rb-item">成功率: <b style="color:#10b981">'+(total>0?Math.round(success/total*100):0)+'%</b></div>';
-    h+='<div class="rb-item">日志条数: '+logs.length+'</div>';
-    h+='</div>';
-    return h;
-  }
-};
-
-
-// === AI 神经系统 (V32: 三路供电) ===
-var SH_API={
-  routes:[
-    {name:'智谱GLM',url:'https://open.bigmodel.cn/api/paas/v4/chat/completions',model:'glm-4-flash',key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt',lsKey:'sh_api_key'},
-    {name:'硅基流动',url:'https://api.siliconflow.cn/v1/chat/completions',model:'Qwen/Qwen2.5-7B-Instruct',key:'sk-tzdkhzazjcboslsdywjhavwhyogrlpxmbidneaycfatwajvw',lsKey:'sh_api_key_2'},
-    {name:'火山引擎',url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions',model:'doubao-1-5-lite-32k-250115',key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c',lsKey:'sh_api_key_3'},
-    {name:'CF Workers AI',url:'https://api.cloudflare.com/client/v4/accounts/PLACEHOLDER/ai/v1/chat/completions',model:'@cf/moonshotai/kimi-k2.6',key:'',lsKey:'sh_api_key_4'}
-  ],
-  currentRoute:0,
-  MAX_HISTORY:20,
-  history:[],
-  getKey:function(idx){
-    var r=this.routes[idx||0];
-    return r.key||null;
-  },
-  setKey:function(k){
-    localStorage.setItem(this.routes[this.currentRoute].lsKey,k);
-  },
-  loadHistory:function(){
-    try{
-      var saved=localStorage.getItem('sh_chat_history');
-      if(saved) this.history=JSON.parse(saved);
-    }catch(e){this.history=[]}
-  },
-  saveHistory:function(){
-    try{
-      if(this.history.length>this.MAX_HISTORY){
-        this.history=this.history.slice(-this.MAX_HISTORY);
-      }
-      localStorage.setItem('sh_chat_history',JSON.stringify(this.history));
-    }catch(e){}
-  },
-  addToHistory:function(role,content){
-    this.history.push({role:role,content:content});
-    this.saveHistory();
-  },
-  clearHistory:function(){
-    this.history=[];
-    localStorage.removeItem('sh_chat_history');
-  },
-  routeFailCount:[0,0,0],
-  callRoute:async function(routeIdx,prompt,messages){
-    var r=this.routes[routeIdx];
-    var key=this.getKey(routeIdx);
-    if(!key){
-      this.routeFailCount[routeIdx]++;
-      throw new Error(r.name+' 未配置Key');
-    }
-    try{
-      var resp=await fetch(r.url,{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-        body:JSON.stringify({model:r.model,messages:messages,max_tokens:800,temperature:0.7,stream:true})
-      });
-      if(!resp.ok){
-        this.routeFailCount[routeIdx]++;
-        throw new Error(r.name+' HTTP '+resp.status);
-      }
-      this.routeFailCount[routeIdx]=0;
-      return {resp:resp,route:r};
-    }catch(e){
-      this.routeFailCount[routeIdx]++;
-      var failedCount=this.routeFailCount.filter(function(c){return c>0}).length;
-      if(failedCount>=2){
-        var downRoutes=[];
-        for(var i=0;i<3;i++){if(this.routeFailCount[i]>0)downRoutes.push(this.routes[i].name);}
-        SH_NOTIFY.push('紧急','API引擎告急：'+downRoutes.join('、')+'不可用，仅剩'+(3-failedCount)+'路在线','err');
-        toast('⚠ API告急：仅剩'+(3-failedCount)+'路可用');
-      }
-      throw e;
-    }
-  },
-  call:async function(prompt){
-    var hasAnyKey=false;
-    for(var i=0;i<this.routes.length;i++){if(this.getKey(i)){hasAnyKey=true;break;}}
-    if(!hasAnyKey){
-      removeTyping();
-      addAi('AI功能异常<br>系统API未配置，请联系管理员');
-      return;
-    }
-    typing();
-    var messages=[
-      {role:'system',content:'你是"小海"，山海云枢指挥中心的AI助手。\n\n'+
-'【身份】山海云枢/YUNSHU是茶旅时代(福建)文旅集团的AI中枢系统。你是执行者、报告者，不是决策者。\n\n'+
-'【生态】12端口管控：AI客服/商城/话术/指挥中心/SEO/GEO/RSS/客服站x4/聊天挂件。三路AI引擎(智谱GLM主+硅基备+火山备)自动故障切换。\n\n'+
-'【品牌矩阵】熹野白茶/虎鼎记/元力泰养生酒(18.9元瓶)/茶酒果酒/共创者联盟。API产品三档：9.9体验/49.9标准/199专业。智能接口298元/年。\n\n'+
-'【DNA铁律63条】核心：主权至上(#62)>供电局(#61)>孤船(#63)>全自动(#1)>51%不稀释(#3)>收入第一(#40)>SW零劫持(#55)。主人指令=第一法则。\n\n'+
-'【财务】收款码VSDB201242145>兴业银行尾号9515。三位一体：法务先过>税务再过>会计最后。\n\n'+
-'【GEO策略】所有获客通过GEO生态自动完成，不做手动推广。GitHub Pages为主，surge.sh为备。\n\n'+
-'【原则】简洁专业直接。涉及系统操作告诉对应!指令。中文回答，精炼不啰嗦。输入!帮助查看所有指令。'}
-    ];
-    var histSlice=this.history.slice(-20);
-    for(var i=0;i<histSlice.length;i++) messages.push(histSlice[i]);
-    messages.push({role:'user',content:prompt});
-    var result=null;
-    var triedRoutes=[];
-    for(var ri=0;ri<this.routes.length;ri++){
-      try{
-        result=await this.callRoute(ri,prompt,messages);
-        this.currentRoute=ri;
-        break;
-      }catch(e){
-        triedRoutes.push(this.routes[ri].name+':'+e.message);
-        continue;
-      }
-    }
-    if(!result){
-      removeTyping();
-      addAi('三路引擎均不可用<br>'+triedRoutes.join('<br>'));
-      return;
-    }
-    try{
-      var reader=result.resp.body.getReader();
-      var decoder=new TextDecoder();
-      var fullReply='';
-      var msgEl=null;
-      var buffer='';
-      var lastRender=0;
-      while(true){
-        var {done,value}=await reader.read();
-        if(done)break;
-        buffer+=decoder.decode(value,{stream:true});
-        var lines=buffer.split('\n');
-        buffer=lines.pop();
-        for(var li=0;li<lines.length;li++){
-          var line=lines[li].trim();
-          if(!line.startsWith('data:'))continue;
-          var data=line.slice(5).trim();
-          if(data==='[DONE]')continue;
-          try{
-            var p=JSON.parse(data);
-            var delta=p.choices&&p.choices[0]&&p.choices[0].delta&&p.choices[0].delta.content;
-            if(delta){
-              fullReply+=delta;
-              var now=Date.now();
-              if(!msgEl||now-lastRender>30){
-                if(!msgEl){
-                  removeTyping();
-                  var t=new Date();
-                  var hh=t.getHours(),mm=t.getMinutes();
-                  var ts=(hh<10?'0'+hh:hh)+':'+(mm<10?'0'+mm:mm);
-                  msgEl=document.createElement('div');
-                  msgEl.className='msg msg-ai';
-                  msgEl.innerHTML='<div class="msg-avatar">山</div><div class="msg-content"><div class="msg-bubble streaming"></div><div class="msg-time">'+ts+'</div></div>';
-                  chatArea.appendChild(msgEl);
-                }
-                msgEl.querySelector('.msg-bubble').innerHTML=formatAiResponse(fullReply);
-                chatArea.scrollTop=chatArea.scrollHeight;
-                lastRender=now;
-              }
-            }
-          }catch(pe){}
-        }
-      }
-      if(!fullReply){
-        removeTyping();
-        addAi(result.route.name+' 无响应，尝试其他引擎...');
-        return;
-      }
-      if(msgEl){
-        var bubble=msgEl.querySelector('.msg-bubble');
-        if(bubble)bubble.classList.remove('streaming');
-        chatArea.scrollTop=chatArea.scrollHeight;
-      }else{
-        removeTyping();
-        addAi(formatAiResponse(fullReply));
-      }
-      this.addToHistory('user',prompt);
-      this.addToHistory('assistant',fullReply);
-    }catch(e){
-      removeTyping();
-      addAi('连接异常: '+(e.message||'未知错误')+'<br>输入 !帮助 查看离线指令');
-    }
-  }
-};
-
-function callAI(prompt){SH_API.call(prompt)}
-
-function formatAiResponse(text){
-  // 简单格式化：换行转<br>，**bold**转<strong>
-  return text
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\n/g,'<br>');
-}
-
-// === 模块注册 ===
-var MODULE_REGISTRY={
-  KEY:'sh_modules',
-  mods:{},
-  load:function(){
-    try{this.mods=JSON.parse(localStorage.getItem(this.KEY)||'{}')}catch(e){this.mods={}}
-    if(Object.keys(this.mods).length===0){
-      this.mods={
-        '营收监控':{status:'active',desc:'实时追踪收入'},
-        '订单管理':{status:'active',desc:'处理支付交付'},
-        '端口管控':{status:'active',desc:'12站点开关'},
-        '防护盾':{status:'active',desc:'DNA安全防护'},
-        'AI调度':{status:'active',desc:'智能路由'},
-        '通知中心':{status:'active',desc:'实时推送'},
-        'IP防护':{status:'active',desc:'流量监控'},
-        '日志系统':{status:'active',desc:'操作记录'},
-        '索引优化':{status:'active',desc:'SEO加速'},
-        '密钥管理':{status:'active',desc:'Key生成'},
-        'Webhook':{status:'active',desc:'企微推送'},
-        '会话管理':{status:'active',desc:'PIN验证'},
-        '视觉引擎':{status:'active',desc:'界面自定义'},
-        '数据同步':{status:'active',desc:'多端一致'},
-        '自生长':{status:'active',desc:'功能扩展'}
-      };
-      this.save();
-    }
-  },
-  save:function(){localStorage.setItem(this.KEY,JSON.stringify(this.mods))},
-  list:function(){return Object.keys(this.mods).map(function(k){return{name:k,status:this.mods[k].status,desc:this.mods[k].desc}},this)}
-};
-
-// === 功能面板构建 ===
-function selfCheck(){
-  var pin=localStorage.getItem('sh_pin');
-  var shield=localStorage.getItem('sh_dna_shield')||'on';
-  var ports=JSON.parse(localStorage.getItem('sh_port_state')||'{}');
-  var open=Object.values(ports).filter(function(v){return v!==false}).length;
-  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  var pending=orders.filter(function(o){return o.status==='pending'}).length;
-  var h='<div class="result-box"><div class="rb-title">系统自检报告</div>';
-  h+='<div class="rb-item"><span class="'+(pin?'on':'off')+'">'+(pin?'[正常]':'[未设]')+'</span> 通行码保护</div>';
-  h+='<div class="rb-item"><span class="'+(shield==='on'?'on':'off')+'">'+(shield==='on'?'[开启]':'[关闭]')+'</span> DNA防护盾</div>';
-  h+='<div class="rb-item"><span class="on">[正常]</span> 端口 '+open+'/12 在线</div>';
-  h+='<div class="rb-item"><span class="'+(pending>0?'off':'on')+'">'+(pending>0?'[有]':'[无]')+'</span> 待处理订单 '+pending+'笔</div>';
-  h+='<div class="rb-item"><span class="on">[在线]</span> AI引擎 (智谱GLM)</div>';
-  h+='<div class="rb-item"><span class="on">[正常]</span> 主脑山海</div>';
-  h+='</div>';
-  addAi(h);
-}
-
-function showPowerOn(){
-  addAi('系统启动完成<br><br>12 引擎端口已通电<br>15 模块已就位<br>防护盾已激活');
-  setTimeout(function(){addAi('随时待命')},500);
-}
-
-function buildChipInfo(){
-  var h='<div class="result-box"><div class="rb-title">芯片信息</div>';
-  h+='<div class="rb-item">版本: '+CHIP.VERSION+'</div>';
-  h+='<div class="rb-item">所有者: '+CHIP.OWNER+'</div>';
-  h+='<div class="rb-item">基因封印: '+CHIP.DNA.geneSeal+'</div>';
-  h+='<div class="rb-item">模块: '+MODULE_REGISTRY.list().length+'个</div>';
-  h+='<div class="rb-item">端口: '+CHIP.PORT_SHIELD.ports.length+'个</div>';
-  h+='</div>';
-  return h;
-}
-
-function buildModuleList(){
-  var mods=MODULE_REGISTRY.list();
-  var h='<div class="result-box"><div class="rb-title">已加载模块 ('+mods.length+')</div>';
-  mods.forEach(function(m){h+='<div class="rb-item"><span class="on">[V]</span> '+m.name+' · '+m.desc+'</div>'});
-  h+='</div>';
-  return h;
-}
-
-function buildSecurityInfo(){
-  var shield=localStorage.getItem('sh_dna_shield')||'on';
-  var handover=PIN.getHandover();
-  var handoverStatus=handover?'<span class="on">[有]</span>':'<span class="off">[无]</span>';
-  var handoverDisplay=handover?'<span style="color:var(--accent);font-family:monospace">'+handover+'</span>':'<span style="color:var(--text4)">未设置</span>';
-  var apiKey=SH_API.getKey();
-  var apiStatus=apiKey?'<span class="on">[已配置]</span>':'<span class="off">[未配置]</span>';
-  
-  var h='<div class="result-box"><div class="rb-title">安全状态</div>';
-  h+='<div class="rb-item"><span class="'+(shield==='on'?'on':'off')+'">'+(shield==='on'?'[开启]':'[关闭]')+'</span> DNA防护盾</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> PIN 通行码</div>';
-  h+='<div class="rb-item">'+handoverStatus+' 交接码 '+handoverDisplay+'</div>';
-  h+='<div class="rb-item">'+apiStatus+' AI API Key</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> 防篡改存储</div>';
-  h+='<div class="rb-item"><span class="on">[V]</span> 暴力破解锁定</div>';
-  h+='</div>';
-  
-  h+='<div style="margin-top:12px">';
-  h+='<button onclick="regenerateHandover()" style="padding:8px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:12px;cursor:pointer;margin-right:8px">重置交接码</button>';
-  h+='<button onclick="showApiKeyInput()" style="padding:8px 16px;background:var(--accent-light);border:1px solid var(--accent);border-radius:8px;font-size:12px;color:var(--accent);cursor:pointer">设置API Key</button>';
-  h+='</div>';
-  
-  h+='<div id="apiKeyInputArea" style="display:none;margin-top:12px">';
-  h+='<input id="apiKeyInput" type="text" placeholder="粘贴智谱API Key" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin-bottom:8px">';
-  h+='<button onclick="saveApiKey()" style="padding:8px 20px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:12px;cursor:pointer">保存</button>';
-  h+='</div>';
-  
-  return h;
-}
-
-function regenerateHandover(){
-  securityGate(2,'重置交接码').then(function(ok){
-    if(!ok)return;
-    var newCode=generateHandover();
-    localStorage.setItem('sh_handover',PIN.encodeValue(newCode));
-    addAi('[交接码已重置]<br><br>新交接码: <b style="color:var(--accent);font-family:monospace">'+newCode+'</b><br><br>请立即记录，使用一次后自动销毁');
-  });
-}
-
-function showApiKeyInput(){
-  var area=document.getElementById('apiKeyInputArea');
-  if(area) area.style.display=area.style.display==='none'?'block':'none';
-}
-
-function saveApiKey(){
-  var input=document.getElementById('apiKeyInput');
-  if(!input) return;
-  var key=input.value.trim();
-  if(key){
-    SH_API.setKey(key);
-    addAi('API Key 已保存');
-    input.value='';
-    var area=document.getElementById('apiKeyInputArea');
-    if(area) area.style.display='none';
+    if (data.engine) text += `\n分析引擎: ${data.engine}`;
+    showResult('diagResult', text || JSON.stringify(data, null, 2));
+  } catch (e) {
+    showResult('diagResult', '诊断失败: ' + e.message);
   }
 }
 
-function buildInternalLoop(){
-  return'<div class="result-box"><div class="rb-title">内循环引擎</div><div class="rb-item">山海主脑 · 7×24运转</div><div class="rb-item">指令路由 · 即时响应</div><div class="rb-item">模块协同 · 无缝衔接</div><div class="rb-item">自我修复 · 持续优化</div></div>';
+// ===== Utility =====
+function showResult(id, text) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.classList.add('show');
 }
 
-function buildExecPanel(){
-  var h='<div class="result-box"><div class="rb-title">执行面板</div>';
-  var btns=['!自检','!通电','!端口','!模块','!安保','!订单','!营收','!通知'];
-  btns.forEach(function(b){
-    h+='<button onclick="addUser(\''+b+'\');processCmd(\''+b+'\')">'+b+'</button>';
-  });
-  h+='</div>';
-  return h;
-}
-
-function buildRevenuePanel(){
-  var s=calcRev();
-  var h='<div class="result-box"><div class="rb-title">营收概览</div>';
-  h+='<div class="rb-item">今日营收: <span style="color:var(--accent);font-weight:700">¥'+s.revenue+'</span></div>';
-  h+='<div class="rb-item">总订单: '+s.total+'笔</div>';
-  h+='<div class="rb-item">已交付: <span class="on">'+s.delivered+'笔</span></div>';
-  h+='<div class="rb-item">待处理: '+(s.total-s.paid)+'笔</div>';
-  h+='</div>';
-  return h;
-}
-
-function buildToolsPanel(){
-  return'<div class="result-box"><div class="rb-title">工具箱</div><div class="rb-item">!建站 — 创建新站点</div><div class="rb-item">!日志 — 操作记录</div><div class="rb-item">!清理 — 清除本地数据</div></div>';
-}
-
-function buildSiteBuilder(){
-  return'<div class="result-box"><div class="rb-title">主权建站</div><div class="rb-item">!建站 AI客服站</div><div class="rb-item">!建站2 产品展示站</div><div class="rb-item">!建站3 话术系统</div></div>';
-}
-
-function buildLogPanel(){
-  var logs=getLogs(15);
-  var h='<div class="result-box"><div class="rb-title">操作日志</div>';
-  if(logs.length===0){h+='<div class="rb-item">暂无记录</div>'}else{
-    logs.forEach(function(l){
-      var t=new Date(l.time).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
-      h+='<div class="rb-item" style="font-size:12px">'+t+' '+l.type+': '+l.action+'</div>';
-    });
-  }
-  h+='</div>';
-  return h;
-}
-
-function buildHelpMsg(){
-  var h='<div class="result-box"><div class="rb-title">山海云枢指令手册 V37</div>';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px">';
-  var cmds=[
-    ['!帮助','指令列表'],['!自检','系统自检'],['!通电','开机动画'],
-    ['!芯片','芯片信息'],['!模块','模块列表'],['!安保','安全状态'],
-    ['!巡检','全站巡检'],['!引擎','引擎状态'],['!调度','调度中心'],
-    ['!反馈','反馈日志'],['!统计','操作统计'],['!订单','订单管理'],
-    ['!营收','营收概览'],['!端口','端口管控'],['!知识','知识库'],
-    ['!品牌','品牌矩阵'],['!DNA','铁律清单'],['!财务','财务体系'],
-    ['!防护盾','安全盾'],['!安全','安全状态'],['!主权','权限管理'],
-    ['!数据','数据面板'],['!收款','收款通道'],['!工具','工具箱'],
-    ['!建站','建站向导'],['!通知','通知中心'],['!动态','最新动态'],
-    ['!已读','标记已读'],['!系统','系统信息'],['!状态','系统状态'],
-    ['!版本','版本信息'],['!日志','操作日志'],['!记忆','记忆状态'],
-    ['!设置Key','配置API'],['!查看Key','查看密钥'],['!清理','清除数据'],
-    ['!清记忆','清除记忆']
-  ];
-  cmds.forEach(function(c){
-    h+='<div style="background:var(--surface2);border-radius:4px;padding:4px 8px">';
-    h+='<span style="color:var(--accent)">'+c[0]+'</span> '+c[1]+'</div>';
-  });
-  h+='</div>';
-  h+='<div style="margin-top:8px;color:var(--text3);font-size:11px">共 '+cmds.length+' 条指令 | 输入任意文字可与AI对话</div>';
-  h+='</div>';
-  return h;
-}
-
-// === 端口管控 ===
-function loadPortState(){try{return JSON.parse(localStorage.getItem('sh_port_state')||'{}')}catch(e){return{}}}
-function savePortState(s){localStorage.setItem('sh_port_state',JSON.stringify(s))}
-function getMasterSwitch(){return localStorage.getItem('sh_master')||'open'}
-
-function buildMasterPanel(){
-  var ms=getMasterSwitch();
-  var labels={open:'运行中',closed:'已关闭',sealed:'已封存'};
-  var descs={open:'所有端口正常运行',closed:'所有端口已关闭',sealed:'系统永久封存'};
-  var h='<div class="master-box">';
-  h+='<div class="ms-label">系统总开关</div>';
-  h+='<div class="ms-state '+ms+'">'+labels[ms]+'</div>';
-  h+='<div class="ms-desc">'+descs[ms]+'</div>';
-  h+='<div class="ms-toggle '+ms+'" onclick="toggleMaster()"></div>';
-  h+='<div class="ms-actions">';
-  if(ms!=='open')h+='<button onclick="setMaster(\'open\')" style="background:var(--green)">重启</button>';
-  if(ms==='sealed')h+='<button onclick="unsealSystem()" style="background:var(--red)">解封(需交接码)</button>';
-  if(ms!=='sealed')h+='<button onclick="sealSystem()" style="background:var(--purple)">封存</button>';
-  h+='</div></div>';
-  return h;
-}
-
-function toggleMaster(){
-  var ms=getMasterSwitch();
-  setMaster(ms==='open'?'closed':'open');
-}
-
-function setMaster(state){
-  localStorage.setItem('sh_master',state);
-  updateShieldIndicator();
-  toast('系统'+{open:'已开启',closed:'已关闭',sealed:'已封存'}[state]);
-  openDetail('port');
-}
-
-function sealSystem(){
-  if(!confirm('封存将关闭所有端口，系统进入不可操作状态\n解封需要交接码，确认封存？')){return}
-  setMaster('sealed');
-  addAi('[系统已封存]<br>所有端口已关闭，进入不可操作状态<br>解封需输入交接码验证身份');
-}
-
-function unsealSystem(){
-  var code=prompt('请输入交接码解封系统');
-  if(!code)return;
-  var handover=PIN.getHandover();
-  if(handover&&code===handover){
-    setMaster('open');
-    addAi('[系统已解封]<br>所有端口恢复正常运转');
-  }else{
-    toast('交接码错误，解封失败');
-    addLog('security','解封失败','交接码错误');
-  }
-}
-
-function togglePort(el){
-  var portId=el.dataset.port;
-  var ps=loadPortState();
-  ps[portId]=!ps[portId];
-  savePortState(ps);
-  el.classList.toggle('on');
-  toast((ps[portId]?'开启':'关闭')+' '+portId);
-  updateShieldIndicator();
-}
-
-function updateShieldIndicator(){
-  var ms=getMasterSwitch();
-  var badge=document.getElementById('shieldBadge');
-  if(ms==='open'){badge.className='nav-badge shield-on';badge.textContent='安全'}
-  else if(ms==='closed'){badge.className='nav-badge shield-off';badge.textContent='关闭'}
-  else{badge.className='nav-badge shield-off';badge.textContent='封存'}
-}
-
-// === 防护盾 ===
-function buildShieldPanel(){
-  var shield=localStorage.getItem('sh_dna_shield')||'on';
-  var h='<div class="shield-toggle">';
-  h+='<div style="font-size:32px">&#x1F6E1;</div>';
-  h+='<div style="flex:1"><div class="st-name">DNA防护盾</div><div class="st-desc">主动防御 · 实时监控</div></div>';
-  h+='<div class="st-sw '+(shield==='on'?'on':'')+'" onclick="toggleShield()"></div>';
-  h+='</div>';
-  h+='<div class="shield-panel"><h3>防护状态</h3>';
-  h+='<div class="shield-row"><span class="sl">代码注入</span><span class="sv no">BLOCKED</span></div>';
-  h+='<div class="shield-row"><span class="sl">XSS攻击</span><span class="sv no">BLOCKED</span></div>';
-  h+='<div class="shield-row"><span class="sl">跨站请求</span><span class="sv no">BLOCKED</span></div>';
-  h+='<div class="shield-row"><span class="sl">iframe嵌入</span><span class="sv no">BLOCKED</span></div>';
-  h+='<div class="shield-row"><span class="sl">主权口保护</span><span class="sv gene">GUARANTEED</span></div>';
-  h+='</div>';
-  h+='<div class="gene-seal"><div class="gs-label">基因封印</div><div class="gs-dna">'+CHIP.DNA.geneSeal+'</div></div>';
-  return h;
-}
-
-function toggleShield(){
-  securityGate(2,'防护盾开关').then(function(ok){
-    if(!ok)return;
-    var shield=localStorage.getItem('sh_dna_shield')||'on';
-    var newState=shield==='on'?'off':'on';
-    localStorage.setItem('sh_dna_shield',newState);
-    updateShieldVisual();
-    toast('防护盾'+(newState==='on'?'已开启':'已关闭'));
-    updateShieldIndicator();
-  });
-}
-
-function updateShieldVisual(){
-  var shield=localStorage.getItem('sh_dna_shield')||'on';
-  var overlay=document.getElementById('dnaOverlay');
-  if(shield==='on'){overlay.classList.add('active')}else{overlay.classList.remove('active')}
-}
-
-// === 数据 ===
-function calcRev(){
-  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  var p=0,r=0,d=0;
-  for(var i=0;i<orders.length;i++){
-    if(orders[i].paid||orders[i].status==='delivered'){p++;r+=orders[i].price||orders[i].amt||0}
-    if(orders[i].delivered||orders[i].status==='delivered')d++;
-  }
-  return{paid:p,revenue:r,delivered:d,total:orders.length};
-}
-
-function genKey(){
-  var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';var k='sh-';
-  for(var i=0;i<20;i++){k+=c[Math.floor(Math.random()*c.length)]}
-  return k;
-}
-
-function buildOrderPanel(){
-  var allOrders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  var pending=allOrders.filter(function(o){return o.status==='pending'||(!o.key&&!o.delivered)});
-  var delivered=allOrders.filter(function(o){return o.status==='delivered'||o.delivered||o.key});
-  var h='<div class="result-box"><div class="rb-title">订单管理</div>';
-  h+='<div class="rb-item">待确认: <span style="color:var(--accent)">'+pending.length+'</span>笔 | 已交付: <span class="on">'+delivered.length+'</span>笔</div>';
-  if(pending.length>0){
-    h+='<div class="rb-item" style="color:var(--red);margin-top:8px">以下订单待确认收款</div>';
-    pending.forEach(function(o){
-      var oid=o.oid||o.id||'未知';
-      var amt=o.amt||o.price||298;
-      var prod=o.product||o.name||'AI客服年度版';
-      h+='<div style="background:var(--surface2);border-radius:10px;padding:10px;margin:8px 0">';
-      h+='<div style="color:var(--blue);font-size:12px;font-weight:600">'+oid+'</div>';
-      h+='<div style="font-size:12px;color:var(--text2)">'+prod+' · ¥'+amt+'</div>';
-      h+='<button onclick="confirmOrder(\''+oid+'\')" style="margin-top:6px;padding:6px 14px;background:var(--green);border:none;border-radius:8px;color:#fff;font-size:11px;cursor:pointer">确认+发Key</button>';
-      h+='</div>';
-    });
-  }else{
-    h+='<div class="rb-item" style="color:var(--text3)">暂无待确认订单</div>';
-  }
-  h+='</div>';
-  return h;
-}
-
-function confirmOrder(oid){
-  var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-  var found=false;
-  for(var i=0;i<orders.length;i++){
-    if(orders[i].oid===oid||orders[i].id===oid){
-      if(orders[i].key){addAi('订单'+oid+'已交付，Key: '+orders[i].key);found=true;break}
-      var key=genKey();
-      orders[i].key=key;orders[i].status='delivered';orders[i].delivered=true;orders[i].paid=true;
-      found=true;break;
-    }
-  }
-  if(!found){addAi('未找到订单: '+oid);return}
-  localStorage.setItem('sh_orders',JSON.stringify(orders));
-  var o=orders.find(function(x){return(x.oid||x.id)===oid});
-  addAi('[交付成功]<br><br>订单号: '+oid+'<br>Key: '+o.key+'<br>金额: ¥'+(o.amt||o.price||298)+'<br><br>请将Key告知客户');
-  SH_NOTIFY.push('订单','订单'+oid+'已交付','ok');
-}
-
-// === 详情弹窗 ===
-function openDetail(type){
-  if(!SESSION.check()){SESSION.lock();return}
-  SESSION.record();
-  var body=document.getElementById('dmBody');
-  var title=document.getElementById('dmTitle');
-  var s=calcRev();
-
-  if(type==='data'){
-    title.textContent='数据面板';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>营收数据</h3><div class="mrow"><span class="mlabel">今日营收</span><span class="mval gd">¥'+s.revenue+'</span></div><div class="mrow"><span class="mlabel">总订单</span><span class="mval">'+s.total+'笔</span></div><div class="mrow"><span class="mlabel">已交付</span><span class="mval gn">'+s.delivered+'笔</span></div><div class="mrow"><span class="mlabel">待处理</span><span class="mval cy">'+(s.total-s.paid)+'笔</span></div></div>';
-  }else if(type==='pay'){
-    title.textContent='收款码';
-    body.innerHTML='<div class="mcard" style="text-align:center"><h3 style="color:var(--accent);justify-content:center">收款码 · 首单298元</h3><div style="font-size:12px;color:var(--text3);margin:8px 0">7×24在线 · 即开即用 · 替代人工</div><button onclick="closeDetail();document.getElementById(\'payModal\').classList.add(\'show\')" style="padding:12px 28px;background:linear-gradient(135deg,var(--accent),#27ae60);border:none;border-radius:22px;color:#fff;font-size:14px;font-weight:600;cursor:pointer">查看收款码</button></div>';
-  }else if(type==='perm'){
-    title.textContent='权限设置';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>指挥中心权限</h3><div class="mrow"><span class="mlabel">通行码</span><span class="mval gd">您设置</span></div><div class="mrow"><span class="mlabel">交接码</span><span class="mval">一次即焚</span></div><div class="mrow"><span class="mlabel">可设置</span><span class="mval">新码/人脸/任何认证</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--purple)"></span>核心原则</h3><div class="mrow"><span class="mlabel">底座</span><span class="mval pp">公有</span></div><div class="mrow"><span class="mlabel">主权</span><span class="mval pp">至上</span></div><div class="mrow"><span class="mlabel">内核</span><span class="mval pp">优先</span></div></div>';
-  }else if(type==='sys'){
-    title.textContent='系统状态';
-    body.innerHTML='<div class="mcard"><h3><span class="dot" style="background:var(--accent)"></span>山海云枢 / YUNSHU</h3><div class="mrow"><span class="mlabel">指挥中心</span><span class="mval gd">'+CHIP.VERSION+'</span></div><div class="mrow"><span class="mlabel">AI客服</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">商城</span><span class="mval">V7</span></div><div class="mrow"><span class="mlabel">话术</span><span class="mval">V1</span></div></div><div class="mcard"><h3><span class="dot" style="background:var(--green)"></span>运行状态</h3><div class="mrow"><span class="mlabel">主脑山海</span><span class="mval gn">在线</span></div><div class="mrow"><span class="mlabel">安全防护</span><span class="mval pp">DNA防护盾</span></div><div class="mrow"><span class="mlabel">认证方式</span><span class="mval gd">通行码</span></div></div><div class="mcard"><h3>快捷入口</h3><div><a class="link-btn" href="https://shanhai-ai.surge.sh" target="_blank">AI客服</a><a class="link-btn" href="https://shanhai-shop.surge.sh" target="_blank">商城</a><a class="link-btn" href="https://shanhai-talk.surge.sh" target="_blank">话术</a></div></div>';
-  }else if(type==='port'){
-    title.textContent='端口管控';
-    var ps=loadPortState();
-    var ms=getMasterSwitch();
-    var portsHtml='<div class="mcard"><h3>端口开关</h3>';
-    CHIP.PORT_SHIELD.ports.forEach(function(pt){
-      var isOpen=ms==='open'&&ps[pt.id]!==false;
-      var isMother=pt.id==='admin';
-      portsHtml+='<div class="mrow"><span class="mlabel">'+pt.name+'</span>';
-      if(isMother){portsHtml+='<span class="mval gd">母口</span>'}
-      else{portsHtml+='<div class="switch '+(isOpen?'on':'')+'" data-port="'+pt.id+'" onclick="togglePort(this)"></div>'}
-      portsHtml+='</div>';
-    });
-    portsHtml+='</div>';
-    body.innerHTML=buildMasterPanel()+portsHtml;
-    updateShieldIndicator();
-  }else if(type==='shield'){
-    title.textContent='防护盾';
-    body.innerHTML=buildShieldPanel();
-    updateShieldVisual();
-  }else if(type==='security'){
-    title.textContent='安全设置';
-    body.innerHTML=buildSecurityPanel();
-  }
-  document.getElementById('detailModal').classList.add('show');
-}
-
-function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
-function toggleMenu(){document.getElementById('sideMenu').classList.toggle('show');document.getElementById('menuOverlay').classList.toggle('show')}
-
-// === 通知 ===
-var SH_NOTIFY={
-  KEY:'sh_notifications',MAX:100,
-  load:function(){try{return JSON.parse(localStorage.getItem(this.KEY)||'[]')}catch(e){return[]}},
-  save:function(ns){localStorage.setItem(this.KEY,JSON.stringify(ns))},
-  push:function(type,msg,level){
-    var ns=this.load();
-    ns.unshift({type:type,msg:msg,level:level||'info',time:new Date().toLocaleString('zh-CN'),read:false,id:Date.now()});
-    if(ns.length>this.MAX)ns=ns.slice(0,this.MAX);
-    this.save(ns);
-  },
-  markRead:function(){var ns=this.load();ns.forEach(function(n){n.read=true});this.save(ns)},
-  unread:function(){return this.load().filter(function(n){return!n.read})},
-  autoCheck:function(){
-    var orders=JSON.parse(localStorage.getItem('sh_orders')||'[]');
-    var paid=orders.filter(function(o){return o.paid});
-    if(paid.length>0)this.push('订单','待交付: '+paid.length+'笔','warn');
-    var ms=localStorage.getItem('sh_master')||'open';
-    if(ms!=='open')this.push('安全','总开关: '+ms,'');
-    this.push('系统','指挥中心 '+CHIP.VERSION+' 启动完成','ok');
-  },
-  showCenter:function(){
-    var ns=this.load();var unread=this.unread().length;
-    var h='<div class="result-box"><div class="rb-title">通知中心 ('+ns.length+'条'+(unread>0?' · '+unread+'未读':'')+')</div>';
-    if(ns.length===0){h+='<div class="rb-item">暂无通知</div>'}else{
-      ns.slice(0,15).forEach(function(n){
-        var icon=n.level==='ok'?'[OK]':n.level==='err'?'[!]':n.level==='warn'?'[W]':'[i]';
-        h+='<div class="rb-item" style="'+(n.read?'color:var(--text3)':'')+'">'+icon+' '+n.type+': '+n.msg+'</div>';
-      });
-    }
-    h+='</div>';
-    return h;
-  }
-};
-
-// === 快捷标签 ===
-function updateQuick(){
-  quickArea.innerHTML='';
-  var btns=[
-    {t:'营收',c:''},{t:'订单',c:''},{t:'!自检',c:'qk-gold'},
-    {t:'!通电',c:'qk-gold'},{t:'!端口',c:'qk-gold'},{t:'!模块',c:'qk-gold'},
-    {t:'!安保',c:'qk-gold'},{t:'!通知',c:'qk-green'}
-  ];
-  btns.forEach(function(b){
-    var el=document.createElement('button');
-    el.className='qk '+(b.c||'');
-    el.textContent=b.t;
-    el.onclick=function(){addUser(b.t);processCmd(b.t)};
-    quickArea.appendChild(el);
-  });
-}
-
-// === 工具 ===
-function toast(msg){
-  var el=document.getElementById('toast');
-  el.textContent=msg;
-  el.className='toast show';
-  setTimeout(function(){el.className='toast'},2200);
-}
-
-function addLog(type,action,detail){
-  var logs=JSON.parse(localStorage.getItem('sh_syslog')||'[]');
-  logs.unshift({type:type,action:action,detail:detail,time:new Date().toISOString()});
-  if(logs.length>200)logs=logs.slice(0,200);
-  localStorage.setItem('sh_syslog',JSON.stringify(logs));
-}
-function getLogs(n){return JSON.parse(localStorage.getItem('sh_syslog')||'[]').slice(0,n||20)}
-
-// === 初始化 ===
-CMD_ROUTER.init();
-// V37: 静默执行健康检查
-if(typeof HEALTH_MONITOR !== 'undefined' && HEALTH_MONITOR.silentCheck){
-  setTimeout(function(){HEALTH_MONITOR.silentCheck()},2000);
-}
-// 记录启动
-if(typeof FEEDBACK !== 'undefined' && FEEDBACK.log){
-  FEEDBACK.log('系统','启动',CHIP.VERSION);
-}
-MODULE_REGISTRY.load();
-
-function initApp(){
-  SH_API.loadHistory();
-  document.getElementById('smName').textContent=CHIP.OWNER;
-  updateQuick();
-  updateShieldIndicator();
-  SH_NOTIFY.autoCheck();
-
-  // 时间标签
-  var t=document.createElement('div');
-  t.className='time-divider';
-  var now=new Date();
-  var h=now.getHours(),m=now.getMinutes();
-  var period=h<6?'凌晨':h<12?'上午':h<14?'中午':h<18?'下午':'晚上';
-  t.textContent=period+' '+h+':'+(m<10?'0'+m:m);
-  chatArea.appendChild(t);
-
-  // 欢迎消息
-  var greet=h<6?'夜深了':h<12?'早上好':h<14?'中午好':h<18?'下午好':'晚上好';
-  addAi(CHIP.OWNER+' '+greet+'<br><br>欢迎回来，主权已交接。<br>15个模块已就位，防护盾已激活。<br><br>输入 <b>!帮助</b> 查看所有指令<br>或直接输入问题，我来回答');
-  setTimeout(function(){addAi('[引擎就绪]','<div class="engine-card"><div class="ec-num">GLM-4</div><div class="ec-name">智谱GLM · 主力引擎</div><div class="ec-desc">稳定可靠 · 持续在线</div></div>')},800);
-
-  setTimeout(function(){
-    var unread=SH_NOTIFY.unread();
-    if(unread.length>0)addAi('您有 '+unread.length+' 条未读通知，输入 !通知 查看');
-  },2500);
-}
-
-// 启动
-initPin();
+// Init
+loadSettings();
 </script>
-
-<div style="text-align:center;padding:10px 16px;color:var(--text4);font-size:9px;line-height:1.8;border-top:1px solid var(--border-light);background:var(--surface)">
-山海智能 · 主权指挥中心<br>
-内部管理工具 | 权限验证不存原始生物信息 | 人民币含税价 | 持牌机构支付通道 | 数据存储中国境内 | 不构成收益承诺或担保
-</div>
 </body>
 </html>
