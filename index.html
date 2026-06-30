@@ -307,11 +307,23 @@ td{padding:10px;border-bottom:1px solid var(--border)}
     <div class="modal-hint" style="margin-bottom:16px">微信号</div>
     <div class="modal-id">4009636853</div>
     <p style="font-size:13px;color:var(--text2)">打开微信 → 搜索此微信号 → 添加好友</p>
-    <div class="modal-hint" style="margin-top:20px;margin-bottom:8px">微信收款码</div>
-    <img src="https://shanhai-geo.github.io/IMG_20260630_090950.png" style="width:180px;height:180px;border-radius:8px;border:2px solid #07c160;display:block;margin:0 auto" alt="微信收款码">
-    <div class="modal-hint" style="margin-top:20px;margin-bottom:8px">拉卡拉聚合码（支付宝/云闪付）</div>
-    <img src="https://shanhai-geo.github.io/IMG_20260626_095025.jpg" style="width:180px;height:180px;border-radius:8px;border:2px solid var(--gold);display:block;margin:0 auto" alt="拉卡拉收款码">
-    <p class="modal-hint">扫码后备注姓名+套餐，顾问30分钟内对接</p>
+    <div class="modal-hint" style="margin-top:20px;margin-bottom:8px">选择套餐</div>
+    <select id="modalPlan" onchange="updateQRCode()" style="width:100%;padding:10px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--text);margin-bottom:16px">
+      <option value="298">基础版 - 298元/年</option>
+      <option value="998">专业版 - 998元/年</option>
+      <option value="4998">企业版 - 4998元/年</option>
+    </select>
+    <div id="qr-298" style="display:block">
+      <div class="modal-hint" style="margin-bottom:8px">298元专属收款码（微信扫码）</div>
+      <img src="https://shanhai-geo.github.io/IMG_20260630_091412.png" style="width:200px;height:200px;border-radius:8px;border:2px solid #07c160;display:block;margin:0 auto" alt="298元收款码">
+    </div>
+    <div id="qr-other" style="display:none">
+      <div class="modal-hint" style="margin-bottom:8px">微信收款码</div>
+      <img src="https://shanhai-geo.github.io/IMG_20260630_090950.png" style="width:180px;height:180px;border-radius:8px;border:2px solid #07c160;display:block;margin:0 auto;margin-bottom:16px" alt="微信收款码">
+      <div class="modal-hint" style="margin-bottom:8px">拉卡拉聚合码（支付宝/云闪付）</div>
+      <img src="https://shanhai-geo.github.io/IMG_20260626_095025.jpg" style="width:180px;height:180px;border-radius:8px;border:2px solid var(--gold);display:block;margin:0 auto" alt="拉卡拉收款码">
+    </div>
+    <p class="modal-hint" style="margin-top:16px">扫码后备注姓名+套餐，顾问30分钟内对接</p>
   </div>
 </div>
 
@@ -598,6 +610,16 @@ function showContactModal() {
 }
 function closeContactModal() {
   document.getElementById('contactModal').style.display = 'none';
+}
+function updateQRCode() {
+  var plan = document.getElementById('modalPlan').value;
+  if (plan === '298') {
+    document.getElementById('qr-298').style.display = 'block';
+    document.getElementById('qr-other').style.display = 'none';
+  } else {
+    document.getElementById('qr-298').style.display = 'none';
+    document.getElementById('qr-other').style.display = 'block';
+  }
 }
 document.getElementById('contactModal').addEventListener('click', function(e) {
   if (e.target === this) closeContactModal();
