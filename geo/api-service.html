@@ -1366,62 +1366,37 @@ async function syncOrderToGitHub(order) {
   }
 }
 
-/* 去付款 → 微信内直接显示收款码，微信外尝试跳转 */
+/* 去付款 → 直接打开拉卡拉支付页面（支持微信/支付宝/浏览器） */
+var LAKALA_PAY_URL = 'https://q.lakala.com/r/225040800008008059335?qrChannel=01&merNo=82240305398001C&termNo=J2951720';
+
 function goPay() {
   const ua = navigator.userAgent.toLowerCase();
   const isWeChat = /micromessenger/i.test(ua);
-  const isAndroid = ua.indexOf('android') !== -1;
-  const isIOS = /iphone|ipad|ipod/i.test(ua);
 
   // 确保付款二维码区域可见
   const qrSection = document.getElementById('paymentSection');
   if (qrSection) qrSection.classList.add('show');
 
   if (isWeChat) {
-    // 微信内置浏览器：直接显示收款码，让用户长按识别
-    showQRFallback('请在微信内支付');
+    // 微信内：直接跳转拉卡拉支付页（拉卡拉页面自带微信支付）
     var note = document.querySelector('.payment-note');
     if (note) {
-      note.innerHTML = '<strong style="color:#c9a96e">请在微信内支付</strong><br>① 长按上方收款码 → 识别图中二维码<br>② 输入金额完成支付';
+      note.innerHTML = '<strong style="color:#c9a96e">正在跳转支付页面...</strong><br>如未自动跳转，请<a href="' + LAKALA_PAY_URL + '" style="color:#c9a96e;text-decoration:underline">点击这里</a>';
     }
-    // 微信内直接滚动到二维码
-    if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(function() {
+      window.location.href = LAKALA_PAY_URL;
+    }, 300);
     return;
   }
 
-  if (isAndroid) {
-    // Chrome for Android: intent:// 必须在主窗口触发，iframe 无效
-    var intentUrl = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;S.browser_fallback_url=https%3A%2F%2Fshanhai-geo.github.io%2Fgeo%2Fapi-service.html;end';
-    var t0 = Date.now();
-    var fallbackTimer = setTimeout(function() {
-      if (Date.now() - t0 < 3000) showQRFallback('自动打开微信失败，请手动操作');
-    }, 1500);
-    var onVis = function() {
-      if (document.hidden || document.webkitHidden) {
-        clearTimeout(fallbackTimer);
-        document.removeEventListener('visibilitychange', onVis);
-        document.removeEventListener('webkitvisibilitychange', onVis);
-      }
-    };
-    document.addEventListener('visibilitychange', onVis);
-    document.addEventListener('webkitvisibilitychange', onVis);
-    window.location.href = intentUrl;
-  } else if (isIOS) {
-    var t0 = Date.now();
-    var fallbackTimer = setTimeout(function() {
-      if (Date.now() - t0 < 3000) showQRFallback('自动打开微信失败，请手动操作');
-    }, 1500);
-    var onVis = function() {
-      if (document.hidden || document.webkitHidden) {
-        clearTimeout(fallbackTimer);
-        document.removeEventListener('visibilitychange', onVis);
-      }
-    };
-    document.addEventListener('visibilitychange', onVis);
-    window.location.href = 'weixin://';
-  } else {
-    showQRFallback('请在手机上操作');
+  // 其他浏览器：也直接打开拉卡拉页面
+  var note = document.querySelector('.payment-note');
+  if (note) {
+    note.innerHTML = '<strong style="color:#c9a96e">正在跳转支付页面...</strong><br>如未自动跳转，请<a href="' + LAKALA_PAY_URL + '" target="_blank" style="color:#c9a96e;text-decoration:underline">点击这里</a>';
   }
+  setTimeout(function() {
+    window.location.href = LAKALA_PAY_URL;
+  }, 300);
 }
 
 /* 付款兜底：高亮二维码 + 操作指引 */
