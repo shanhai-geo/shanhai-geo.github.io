@@ -571,45 +571,85 @@ a { color: var(--gold); text-decoration: none; }
 /* AI Customer Service Float */
 .cs-float {
   position: fixed;
-  bottom: 20px;
+  bottom: 24px;
   right: 16px;
-  z-index: 999;
+  z-index: 9999;
 }
 .cs-btn {
-  width: 52px; height: 52px;
+  width: 58px; height: 58px;
   border-radius: 50%;
-  background: var(--gradient-gold);
+  background: linear-gradient(135deg, #ffd700, #c9a96e, #ff9800);
   border: none;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 16px rgba(201,169,110,0.45);
+  box-shadow: 0 4px 20px rgba(255,152,0,0.5), 0 0 30px rgba(255,215,0,0.3);
   transition: all 0.3s;
   position: relative;
+  animation: bubblePulse 2s ease-in-out infinite;
 }
-.cs-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(201,169,110,0.55); }
-.cs-btn svg { width: 24px; height: 24px; fill: #000; }
+@keyframes bubblePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(255,152,0,0.5), 0 0 30px rgba(255,215,0,0.3); }
+  50% { transform: scale(1.12); box-shadow: 0 6px 30px rgba(255,152,0,0.7), 0 0 50px rgba(255,215,0,0.5); }
+}
+.cs-btn:hover { animation: none; transform: scale(1.15); box-shadow: 0 8px 36px rgba(255,152,0,0.8); }
+.cs-btn svg { width: 28px; height: 28px; fill: #000; }
 .cs-btn .cs-badge {
   position: absolute;
   top: -2px; right: -2px;
-  width: 12px; height: 12px;
-  background: #4caf50;
+  width: 14px; height: 14px;
+  background: #ff4444;
   border-radius: 50%;
   border: 2px solid var(--bg);
-  animation: pulse 2s infinite;
+  animation: badgeBlink 1s ease-in-out infinite;
+}
+@keyframes badgeBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.7); }
+}
+.cs-btn .cs-label {
+  position: absolute;
+  right: 66px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  animation: labelBounce 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.cs-btn .cs-label::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 6px solid #fff;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+@keyframes labelBounce {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(-4px); }
 }
 .cs-panel {
-  position: absolute;
-  bottom: 62px;
-  right: 0;
-  width: 320px;
-  height: 420px;
+  position: fixed;
+  bottom: 92px;
+  right: 16px;
+  width: 340px;
+  height: 460px;
   background: var(--bg2);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  border-radius: 18px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.6);
   display: none;
   flex-direction: column;
   overflow: hidden;
+  z-index: 9998;
 }
 .cs-panel.open { display: flex; }
 .cs-header {
@@ -722,10 +762,11 @@ a { color: var(--gold); text-decoration: none; }
   .order-box, .payment-box { padding: 24px 20px; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
-  .cs-panel { width: calc(100vw - 32px); max-width: 300px; height: 360px; right: 0; bottom: 58px; border-radius: 14px; }
-  .cs-float { bottom: 14px; right: 12px; }
-  .cs-btn { width: 46px; height: 46px; }
-  .cs-btn svg { width: 20px; height: 20px; }
+  .cs-panel { width: calc(100vw - 24px); max-width: 340px; height: 70vh; max-height: 460px; right: 12px; bottom: 84px; border-radius: 16px; }
+  .cs-float { bottom: 16px; right: 12px; }
+  .cs-btn { width: 50px; height: 50px; }
+  .cs-btn svg { width: 24px; height: 24px; }
+  .cs-btn .cs-label { display: none; }
   .cs-header { padding: 10px 12px; }
   .cs-body { padding: 8px; }
   .cs-bubble { font-size: 13px; padding: 8px 11px; max-width: 85%; }
@@ -1025,6 +1066,7 @@ a { color: var(--gold); text-decoration: none; }
   <button class="cs-btn" onclick="toggleCS()">
     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
     <span class="cs-badge"></span>
+    <span class="cs-label">💬 有问题？点我</span>
   </button>
 </div>
 
@@ -1131,7 +1173,10 @@ const csReplies = [
 ];
 
 function toggleCS() {
-  document.getElementById('csPanel').classList.toggle('open');
+  const panel = document.getElementById('csPanel');
+  const label = document.querySelector('.cs-label');
+  panel.classList.toggle('open');
+  if (label) label.style.display = panel.classList.contains('open') ? 'none' : '';
 }
 
 function csQuickReply(text) {
