@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>山海AI接口服务 - 298元/年 不限调用 快速交付</title>
 <meta name="description" content="山海AI大模型API接口服务，298元/年包年吃到饱，OpenAI兼容接口，3行代码10分钟接入，合规稳定透明。">
 <meta name="keywords" content="AI API, 大模型接口, OpenAI兼容, 低价API, 开发者工具, LLM API, API接口服务, 智能接口, 298元, 不限调用">
@@ -589,8 +589,8 @@ a { color: var(--gold); text-decoration: none; }
 /* AI Customer Service Float */
 .cs-float {
   position: fixed;
-  bottom: 60px;
-  right: 24px;
+  bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  right: calc(24px + env(safe-area-inset-right, 0px));
   z-index: 99999;
   display: block !important;
   visibility: visible !important;
@@ -784,7 +784,7 @@ a { color: var(--gold); text-decoration: none; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
   .cs-panel { position: fixed !important; left: 8px !important; right: 8px !important; max-width: none !important; width: auto !important; height: 55vh !important; max-height: 420px !important; bottom: 80px !important; border-radius: 16px !important; z-index: 99998 !important; }
-  .cs-float { bottom: 80px !important; right: 20px !important; z-index: 99999 !important; }
+  .cs-float { bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important; right: calc(24px + env(safe-area-inset-right, 0px)) !important; z-index: 99999 !important; }
   .cs-btn { width: 52px !important; height: 52px !important; }
   .cs-btn svg { width: 24px; height: 24px; }
   .cs-btn .cs-label { display: none; }
@@ -1366,7 +1366,7 @@ async function syncOrderToGitHub(order) {
   }
 }
 
-/* 去付款 → 直接打开拉卡拉支付页面（支持微信/支付宝/浏览器） */
+/* 去付款 → 微信内显示二维码扫码，微信外直接跳转拉卡拉 */
 var LAKALA_PAY_URL = 'https://q.lakala.com/r/225040800008008059335?qrChannel=01&merNo=82240305398001C&termNo=J2951720';
 
 function goPay() {
@@ -1378,18 +1378,17 @@ function goPay() {
   if (qrSection) qrSection.classList.add('show');
 
   if (isWeChat) {
-    // 微信内：直接跳转拉卡拉支付页（拉卡拉页面自带微信支付）
+    // 微信内：显示二维码让用户长按识别，同时提供链接备用
     var note = document.querySelector('.payment-note');
     if (note) {
-      note.innerHTML = '<strong style="color:#c9a96e">正在跳转支付页面...</strong><br>如未自动跳转，请<a href="' + LAKALA_PAY_URL + '" style="color:#c9a96e;text-decoration:underline">点击这里</a>';
+      note.innerHTML = '<strong style="color:#c9a96e">请使用微信扫描上方收款码付款</strong><br>① 长按上方收款码 → 识别图中二维码<br>② 或<a href="' + LAKALA_PAY_URL + '" style="color:#c9a96e;text-decoration:underline">点击此链接</a>在浏览器中打开支付';
     }
-    setTimeout(function() {
-      window.location.href = LAKALA_PAY_URL;
-    }, 300);
+    // 滚动到二维码位置
+    if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
-  // 其他浏览器：也直接打开拉卡拉页面
+  // 其他浏览器：直接打开拉卡拉页面
   var note = document.querySelector('.payment-note');
   if (note) {
     note.innerHTML = '<strong style="color:#c9a96e">正在跳转支付页面...</strong><br>如未自动跳转，请<a href="' + LAKALA_PAY_URL + '" target="_blank" style="color:#c9a96e;text-decoration:underline">点击这里</a>';
