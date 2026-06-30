@@ -193,9 +193,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 
 <!-- Refund Modal -->
 <div class="modal-overlay" id="refundModal">
-  <div class="modal">
+  <div class="modal" style="max-width:420px;max-height:85vh;overflow-y:auto">
     <h3>申请退款</h3>
-    <p>7天内无理由全额退款，请填写你的退款信息：</p>
+    <p>7天内无理由全额退款，请填写退款信息：</p>
     <div class="form-group">
       <label>手机号</label>
       <input id="refundPhone" type="tel" placeholder="购买时使用的手机号" maxlength="11">
@@ -203,6 +203,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
     <div class="form-group">
       <label>退款原因</label>
       <textarea id="refundReason" placeholder="请简述退款原因（选填）"></textarea>
+    </div>
+    <div class="form-group">
+      <label>退款方式</label>
+      <select id="refundMethod" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:15px">
+        <option value="原路退回">原路退回（微信/支付宝自动退回）</option>
+        <option value="微信转账">微信转账</option>
+        <option value="支付宝转账">支付宝转账</option>
+        <option value="银行卡转账">银行卡转账</option>
+      </select>
+    </div>
+    <div id="refundAccountArea">
+      <div class="form-group">
+        <label>收款账号</label>
+        <input id="refundAccount" type="text" placeholder="原路退回可不填，其他方式填写收款账号">
+      </div>
+    </div>
+    <div id="bankInfoArea" style="display:none">
+      <div class="form-group">
+        <label>持卡人姓名</label>
+        <input id="refundBankName" type="text" placeholder="银行卡开户姓名">
+      </div>
+      <div class="form-group">
+        <label>开户银行</label>
+        <input id="refundBank" type="text" placeholder="如：中国工商银行">
+      </div>
     </div>
     <div class="modal-btns">
       <button class="btn btn-cancel" onclick="closeRefundModal()">取消</button>
@@ -361,14 +386,36 @@ function sendQuick(text) {
 /* ============ 退款申请 ============ */
 function showRefundModal() {
   document.getElementById('refundModal').classList.add('show');
+  onRefundMethodChange();
 }
 function closeRefundModal() {
   document.getElementById('refundModal').classList.remove('show');
 }
+function onRefundMethodChange() {
+  var method = document.getElementById('refundMethod').value;
+  var bankArea = document.getElementById('bankInfoArea');
+  bankArea.style.display = method === '银行卡转账' ? 'block' : 'none';
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var sel = document.getElementById('refundMethod');
+  if (sel) sel.addEventListener('change', onRefundMethodChange);
+});
 async function submitRefund() {
   const phone = document.getElementById('refundPhone').value.trim();
   const reason = document.getElementById('refundReason').value.trim();
+  const method = document.getElementById('refundMethod').value;
+  const account = document.getElementById('refundAccount').value.trim();
+  const bankName = document.getElementById('refundBankName').value.trim();
+  const bankBranch = document.getElementById('refundBank').value.trim();
+
   if (!phone) { alert('请输入手机号'); return; }
+  if (method !== '原路退回' && !account) { alert('请填写收款账号'); return; }
+  if (method === '银行卡转账' && (!bankName || !bankBranch)) { alert('请填写持卡人姓名和开户银行'); return; }
+
+  var accountInfo = '原路退回';
+  if (method === '微信转账') accountInfo = '微信转账：' + account;
+  else if (method === '支付宝转账') accountInfo = '支付宝转账：' + account;
+  else if (method === '银行卡转账') accountInfo = '银行卡：' + bankName + ' / ' + bankBranch + ' / ' + account;
 
   try {
     const resp = await fetch('https://api.github.com/repos/' + REPO + '/issues', {
@@ -380,14 +427,14 @@ async function submitRefund() {
       },
       body: JSON.stringify({
         title: '退款申请 - ' + phone,
-        body: '## 退款申请\n\n| 字段 | 内容 |\n|------|------|\n| 手机号 | ' + phone + '\n| 原因 | ' + (reason || '未填写') + '\n| 时间 | ' + new Date().toLocaleString('zh-CN') + '\n| 状态 | 待处理 |',
+        body: '## 退款申请\n\n| 字段 | 内容 |\n|------|------|\n| 手机号 | ' + phone + '\n| 原因 | ' + (reason || '未填写') + '\n| 退款方式 | ' + accountInfo + '\n| 时间 | ' + new Date().toLocaleString('zh-CN') + '\n| 状态 | 待处理 |',
         labels: ['refund']
       })
     });
 
     closeRefundModal();
     if (resp.ok) {
-      alert('退款申请已提交，我们会在1个工作日内处理。');
+      alert('退款申请已提交，我们会在1个工作日内处理。退款将按你选择的方式返还。');
     } else {
       alert('提交失败，请稍后重试或联系客服。');
     }
