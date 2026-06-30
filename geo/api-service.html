@@ -722,8 +722,15 @@ a { color: var(--gold); text-decoration: none; }
   .order-box, .payment-box { padding: 24px 20px; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
-  .cs-panel { width: 300px; right: -8px; }
-  .cs-float { bottom: 16px; right: 16px; }
+  .cs-panel { width: calc(100vw - 32px); max-width: 340px; max-height: 60vh; right: 0; bottom: 60px; border-radius: 16px; }
+  .cs-float { bottom: 12px; right: 12px; }
+  .cs-btn { width: 48px; height: 48px; }
+  .cs-btn svg { width: 22px; height: 22px; }
+  .cs-header { padding: 12px 14px; }
+  .cs-body { padding: 10px; }
+  .cs-bubble { font-size: 13px; padding: 8px 12px; max-width: 85%; }
+  .cs-quick-btn { font-size: 12px; padding: 4px 10px; }
+  .cs-input-area { padding: 8px 10px; }
   .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .delivery-box { padding: 24px 18px; }
   .delivery-actions { flex-direction: column; }
@@ -970,7 +977,7 @@ a { color: var(--gold); text-decoration: none; }
     <div class="cs-header">
       <div class="cs-avatar">AI</div>
       <div class="cs-info">
-        <div class="cs-name">山海AI客服</div>
+        <div class="cs-name">山海接口服务顾问</div>
         <div class="cs-status"><span class="cs-status-dot"></span>在线</div>
       </div>
       <button class="cs-close" onclick="toggleCS()">✕</button>
@@ -978,7 +985,7 @@ a { color: var(--gold); text-decoration: none; }
     <div class="cs-body" id="csBody">
       <div class="cs-msg cs-msg-bot">
         <div class="cs-bubble">
-          你好，我是山海AI客服助手。有什么可以帮你的？
+          你好，我是山海接口服务顾问。有任何关于API接入的问题，随时问我。
           <div class="cs-quick-replies">
             <button class="cs-quick-btn" onclick="csQuickReply('怎么接入API？')">怎么接入API？</button>
             <button class="cs-quick-btn" onclick="csQuickReply('付款后没收到密钥')">付款后没收到密钥</button>
