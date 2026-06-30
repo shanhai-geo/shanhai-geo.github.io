@@ -167,6 +167,144 @@ a { color: var(--gold); text-decoration: none; }
   color: var(--text2);
 }
 
+/* Trust Bar */
+.trust-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 20px;
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.trust-item .trust-num {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 2px;
+}
+.trust-item .trust-label {
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* Delivery / Success Section */
+.delivery-box {
+  max-width: 580px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, rgba(76,175,80,0.06) 0%, var(--bg2) 100%);
+  border: 1px solid var(--ok);
+  border-radius: 24px;
+  padding: 36px 32px;
+  text-align: center;
+  display: none;
+}
+.delivery-box.show { display: block; }
+.delivery-check {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(76,175,80,0.15);
+  margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: var(--ok);
+}
+.delivery-box h3 { color: var(--ok); font-size: 20px; margin-bottom: 6px; }
+.delivery-box .delivery-sub { color: var(--text2); font-size: 13px; margin-bottom: 20px; }
+.key-display {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: 'SF Mono','Fira Code',Consolas,monospace;
+  font-size: 13px;
+  color: var(--gold);
+  word-break: break-all;
+  text-align: left;
+  position: relative;
+  margin-bottom: 16px;
+}
+.key-copy-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.key-copy-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+.delivery-steps {
+  text-align: left;
+  margin: 16px 0;
+}
+.delivery-step {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.delivery-step:last-child { border-bottom: none; }
+.step-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.step-text strong { color: var(--text); }
+.delivery-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.delivery-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.delivery-btn-primary {
+  background: var(--gradient-gold);
+  color: #000;
+  border: none;
+}
+.delivery-btn-secondary {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.delivery-btn-primary:hover, .delivery-btn-secondary:hover {
+  transform: translateY(-1px);
+}
+.confirm-pay-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background: var(--gradient-gold);
+  color: #000;
+  border: none;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.3s;
+}
+.confirm-pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,169,110,0.3); }
+
 /* Section common */
 .section { padding: 50px 20px; }
 .section-title {
@@ -430,6 +568,149 @@ a { color: var(--gold); text-decoration: none; }
 .footer-logo { font-size: 16px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
 .footer p { color: var(--text3); font-size: 12px; }
 
+/* AI Customer Service Float */
+.cs-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+}
+.cs-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(201,169,110,0.4);
+  transition: all 0.3s;
+  position: relative;
+}
+.cs-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(201,169,110,0.5); }
+.cs-btn svg { width: 26px; height: 26px; fill: #000; }
+.cs-btn .cs-badge {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 14px; height: 14px;
+  background: #4caf50;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  animation: pulse 2s infinite;
+}
+.cs-panel {
+  position: absolute;
+  bottom: 68px;
+  right: 0;
+  width: 340px;
+  max-height: 480px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cs-panel.open { display: flex; }
+.cs-header {
+  background: var(--bg3);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.cs-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: #000;
+}
+.cs-info { flex: 1; }
+.cs-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.cs-status { font-size: 11px; color: var(--ok); display: flex; align-items: center; gap: 4px; }
+.cs-status-dot { width: 6px; height: 6px; background: var(--ok); border-radius: 50%; }
+.cs-close {
+  background: none; border: none; color: var(--text2);
+  font-size: 18px; cursor: pointer; padding: 4px;
+}
+.cs-close:hover { color: var(--text); }
+.cs-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  min-height: 200px;
+}
+.cs-msg {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+.cs-msg-bot { flex-direction: row; }
+.cs-msg-user { flex-direction: row-reverse; }
+.cs-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.cs-msg-bot .cs-bubble {
+  background: var(--bg3);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.cs-msg-user .cs-bubble {
+  background: var(--gold);
+  color: #000;
+  border-bottom-right-radius: 4px;
+}
+.cs-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.cs-quick-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--gold);
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cs-quick-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+.cs-input-area {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.cs-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+}
+.cs-input:focus { border-color: var(--gold); }
+.cs-send {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cs-send svg { width: 16px; height: 16px; fill: #000; }
+
 /* Responsive */
 @media (max-width: 768px) {
   .header { flex-direction: column; gap: 10px; padding: 12px 16px; }
@@ -441,6 +722,11 @@ a { color: var(--gold); text-decoration: none; }
   .order-box, .payment-box { padding: 24px 20px; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
+  .cs-panel { width: 300px; right: -8px; }
+  .cs-float { bottom: 16px; right: 16px; }
+  .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .delivery-box { padding: 24px 18px; }
+  .delivery-actions { flex-direction: column; }
 }
 </style>
 </head>
@@ -450,7 +736,6 @@ a { color: var(--gold); text-decoration: none; }
   <div class="logo">山海AI接口服务</div>
   <nav class="nav">
     <a href="#pricing">套餐</a>
-    <a href="#order">开通</a>
     <a href="#code-demo">接入示例</a>
     <a href="#faq">FAQ</a>
   </nav>
@@ -471,6 +756,28 @@ a { color: var(--gold); text-decoration: none; }
     <span class="hero-tag">秒级交付</span>
   </div>
 </section>
+
+<!-- Trust Bar -->
+<div class="trust-bar">
+  <div class="trust-grid">
+    <div class="trust-item">
+      <div class="trust-num">3行</div>
+      <div class="trust-label">代码接入</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">99.9%</div>
+      <div class="trust-label">服务可用率</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">7天</div>
+      <div class="trust-label">无理由退款</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">秒级</div>
+      <div class="trust-label">密钥交付</div>
+    </div>
+  </div>
+</div>
 
 <!-- Pricing -->
 <section class="section pricing-section" id="pricing">
@@ -567,10 +874,42 @@ a { color: var(--gold); text-decoration: none; }
       <img src="IMG_20250626_095025.jpg" alt="收款码" onerror="this.parentElement.innerHTML='<div style=\'color:#999;font-size:13px\'>收款码加载中...</div>'">
     </div>
     <div class="payment-note">
-      付款后系统自动开通，无需等待<br>
-      如未自动开通，请联系在线客服
+      付款后点击下方按钮确认，系统即刻交付密钥
     </div>
+    <button class="confirm-pay-btn" onclick="confirmPayment()">我已付款，立即交付密钥</button>
     <a class="back-link" onclick="backToForm()">← 返回修改信息</a>
+  </div>
+
+  <div class="delivery-box" id="deliverySection">
+    <div class="delivery-check">✓</div>
+    <h3>付款成功，密钥已交付</h3>
+    <p class="delivery-sub">你的专属API密钥如下，请妥善保管</p>
+    <div class="key-display">
+      <button class="key-copy-btn" onclick="copyKey()">复制</button>
+      <span id="apiKeyText">sk-shanhai-</span>
+    </div>
+    <div class="delivery-steps">
+      <div class="delivery-step">
+        <span class="step-num">1</span>
+        <div class="step-text"><strong>复制密钥</strong> — 点击上方复制按钮保存你的API密钥</div>
+      </div>
+      <div class="delivery-step">
+        <span class="step-num">2</span>
+        <div class="step-text"><strong>替换base_url</strong> — 将代码中的base_url改为 <code style="color:var(--gold)">https://api.shanhai.ai/v1/</code></div>
+      </div>
+      <div class="delivery-step">
+        <span class="step-num">3</span>
+        <div class="step-text"><strong>替换api_key</strong> — 用上面的密钥替换你的api_key参数</div>
+      </div>
+      <div class="delivery-step">
+        <span class="step-num">4</span>
+        <div class="step-text"><strong>开始调用</strong> — 兼容OpenAI格式，无需修改其他代码</div>
+      </div>
+    </div>
+    <div class="delivery-actions">
+      <button class="delivery-btn-primary" onclick="document.getElementById('code-demo').scrollIntoView({behavior:'smooth'})">查看接入示例</button>
+      <button class="delivery-btn-secondary" onclick="toggleCS()">需要帮助？</button>
+    </div>
   </div>
 </section>
 
@@ -625,16 +964,182 @@ a { color: var(--gold); text-decoration: none; }
   <p>AI能力，人人用得起</p>
 </footer>
 
+<!-- AI Customer Service Float -->
+<div class="cs-float">
+  <div class="cs-panel" id="csPanel">
+    <div class="cs-header">
+      <div class="cs-avatar">AI</div>
+      <div class="cs-info">
+        <div class="cs-name">山海AI客服</div>
+        <div class="cs-status"><span class="cs-status-dot"></span>在线</div>
+      </div>
+      <button class="cs-close" onclick="toggleCS()">✕</button>
+    </div>
+    <div class="cs-body" id="csBody">
+      <div class="cs-msg cs-msg-bot">
+        <div class="cs-bubble">
+          你好，我是山海AI客服助手。有什么可以帮你的？
+          <div class="cs-quick-replies">
+            <button class="cs-quick-btn" onclick="csQuickReply('怎么接入API？')">怎么接入API？</button>
+            <button class="cs-quick-btn" onclick="csQuickReply('付款后没收到密钥')">付款后没收到密钥</button>
+            <button class="cs-quick-btn" onclick="csQuickReply('可以退款吗？')">可以退款吗？</button>
+            <button class="cs-quick-btn" onclick="csQuickReply('各版本有什么区别？')">各版本区别</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-input-area">
+      <input class="cs-input" id="csInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')csSend()">
+      <button class="cs-send" onclick="csSend()">
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+  <button class="cs-btn" onclick="toggleCS()">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
+    <span class="cs-badge"></span>
+  </button>
+</div>
+
 <script>
 let selectedPlan = '998';
 
+/* ============================================
+   AI客服引擎 — 全链路话术（售前/售中/售后）
+   ============================================ */
+const csReplies = [
+  /* === 售前 · 产品介绍 === */
+  {keys:['是什么','做什么','干什么','产品','服务','你们'],
+   reply:'山海AI接口服务是大模型API接口平台，提供OpenAI兼容的标准接口。你只需改一行base_url，就能用我们现有的代码无缝切换。298元/年包年不限调用，7天无理由退款。'},
+  {keys:['能用','哪些模型','支持什么','模型'],
+   reply:'我们提供多引擎冗余架构，自动路由到最优模型通道。你不需要关心底层模型，接口统一为OpenAI兼容格式，代码零改造。具体可用模型列表可在接入后通过 /models 端点查看。'},
+  {keys:['和.*区别','和.*对比','比.*好','区别','差异','优势','为什么选'],
+   reply:'核心优势三点：1）包年不限调用，不按token计费，成本可控；2）OpenAI标准格式，3行代码接入，零迁移成本；3）多引擎冗余，单一通道故障自动切换，99.9%可用率。市面上大多数按量计费，用得多花得多，我们是固定价格吃到饱。'},
+  {keys:['太贵','贵了','便宜','能不能少','打折','优惠','折扣','降价'],
+   reply:'298元/年约0.8元/天，相当于一杯奶茶钱用一年。对比市面上按token计费的服务，日常用量下年费通常超过500-2000元。我们是最具性价比的方案，而且支持7天无理由退款，零风险。'},
+  {keys:['信任','靠谱','骗子','跑路','真假','可信','安全'],
+   reply:'完全理解你的顾虑。我们提供三重保障：1）7天无理由退款，不满意全额退；2）OpenAI标准接口，随时可切换到其他服务商，不被锁定；3）秒级交付，先验货后付款，确认能用再长期使用。'},
+  {keys:['免费','试用','体验','试试','test','免费用'],
+   reply:'我们提供7天无理由退款，等同于免费试用7天。你可以先付款体验，任何不满意随时退，全额退款零门槛。这是我们对产品有信心的体现。'},
+  {keys:['企业','公司','商用','商业','团队'],
+   reply:'完全支持商用。接口合规，使用开源模型，无版权风险。成长版和旗舰版支持品牌定制和深度业务适配，适合企业级场景。很多中小企业和独立开发者都在用。'},
+  {keys:['个人','开发者','独立','freelance','自己用'],
+   reply:'入门版298元/年就是为个人开发者设计的。不限调用次数，足够覆盖日常开发、学习、原型验证等场景。很多用户用它搭建自己的AI应用、小程序、网站。'},
+
+  /* === 售前 · 成交引导 === */
+  {keys:['怎么买','怎么付','怎么开通','如何购买','如何开通','下单','买'],
+   reply:'选择套餐后点击"立即开通"，扫码付款即可。付款后确认，系统秒级交付API密钥。全程1分钟搞定。'},
+  {keys:['选哪个','推荐','哪个版本','哪个套餐','适合我'],
+   reply:'如果你是个人开发者做项目，入门版298元/年完全够用。如果你是小团队需要多引擎冗余和品牌定制，推荐成长版998元/年。企业级深度定制选旗舰版2998元/年。不确定可以先从入门版开始，7天内可随时升级。'},
+  {keys:['升级','换','改套餐'],
+   reply:'支持随时升级套餐，差价补缴即可。已使用的时间按比例折算，不会浪费。在AI客服中说明即可处理。'},
+
+  /* === 售中 · 付款相关 === */
+  {keys:['付款','支付','付钱','扫码','二维码','付款码'],
+   reply:'选择套餐后点击"立即开通"进入付款页面，扫码支付即可。支持微信和支付宝。付款后点击"我已付款"按钮，系统立即交付密钥。'},
+  {keys:['付不了','支付失败','扫不了','二维码不显示'],
+   reply:'请尝试：1）刷新页面重新进入；2）更换浏览器或网络；3）确认微信/支付宝版本为最新。如仍无法付款，请描述具体情况，客服会尽快协助。'},
+  {keys:['发票','开票','收据'],
+   reply:'付款后可在AI客服中申请电子发票，提供公司抬头和税号即可。通常1-3个工作日内发送到你的邮箱。'},
+
+  /* === 售后 · 密钥交付 === */
+  {keys:['密钥','key','api_key','没收到','没拿到'],
+   reply:'付款后点击页面上的"我已付款，立即交付密钥"按钮，系统会立即生成并展示你的专属API密钥。如果已经点击但未看到，请刷新页面试试。仍有问题请描述具体情况。'},
+  {keys:['复制','怎么用密钥','密钥怎么用'],
+   reply:'在密钥交付页面点击密钥旁的"复制"按钮。然后在你的代码中，将api_key参数替换为这个密钥，将base_url替换为 https://api.shanhai.ai/v1/ 即可。'},
+
+  /* === 售后 · 接入指导 === */
+  {keys:['接入','怎么用','怎么接','怎么调用','调用','使用','代码','示例','demo'],
+   reply:'接入只需3步：1）复制你的API密钥；2）将base_url改为 https://api.shanhai.ai/v1/ ；3）将api_key替换为你的密钥。格式完全兼容OpenAI SDK，其他代码不用改。页面下方有完整的Python示例代码。'},
+  {keys:['python','Python'],
+   reply:'Python接入示例：\nfrom openai import OpenAI\nclient = OpenAI(api_key="你的密钥", base_url="https://api.shanhai.ai/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)\n\n先 pip install openai，然后运行即可。'},
+  {keys:['node','Node','javascript','js'],
+   reply:'Node.js接入：安装 npm install openai，然后使用OpenAI SDK，设置base_url为 https://api.shanhai.ai/v1/ 即可。格式与Python完全一致。'},
+  {keys:['curl','http','请求'],
+   reply:'curl示例：\ncurl https://api.shanhai.ai/v1/chat/completions \\\n  -H "Authorization: Bearer 你的密钥" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"model":"shanhai-api","messages":[{"role":"user","content":"你好"}]}\''},
+  {keys:['报错','error','错误','失败','不行','不能','用不了','bug'],
+   reply:'请提供：1）完整的错误信息；2）你使用的编程语言和SDK版本；3）请求的URL和参数。客服会尽快帮你排查。常见问题包括：密钥未生效（请确认已复制完整）、base_url填写错误、网络问题等。'},
+  {keys:['慢','延迟','速度','卡','响应时间'],
+   reply:'正常响应时间在1-3秒。如果感觉较慢，可能是网络原因或当前负载较高。我们的多引擎冗余架构会自动路由到最快通道。如果持续较慢，请反馈具体情况。'},
+
+  /* === 售后 · 退款 === */
+  {keys:['退款','退钱','不想要','取消','退订'],
+   reply:'所有版本支持7天无理由退款。如需退款，请在AI客服中提供你的付款信息（手机号或付款截图），客服会在1个工作日内处理全额退款。'},
+
+  /* === 售后 · 续费 === */
+  {keys:['续费','到期','续','延长','再买'],
+   reply:'到期前30天系统会提醒续费。续费直接扫码支付，密钥不变，服务无缝延续。你也可以升级到更高版本享受更多功能。'},
+
+  /* === 基因植入 · 品牌信任 === */
+  {keys:['稳定','宕机','挂了','中断','可靠'],
+   reply:'我们采用多引擎冗余架构，3个独立通道实时监测，单点故障毫秒级自动切换。承诺99.9%可用率，SLA保障。开源合规，不依赖单一供应商。'},
+  {keys:['合规','版权','legal','法律','风险'],
+   reply:'完全合规。我们使用的模型均为开源或已获商用授权，无版权风险。接口符合国内数据合规要求，支持企业级安全需求。'},
+  {keys:['数据','隐私','安全','保密'],
+   reply:'你的API密钥和调用数据均加密存储。我们不会记录、分析或转售你的调用内容。数据传输全程HTTPS加密。'},
+];
+
+function toggleCS() {
+  document.getElementById('csPanel').classList.toggle('open');
+}
+
+function csQuickReply(text) {
+  csAddMsg(text, 'user');
+  setTimeout(() => csAddMsg(csGetReply(text), 'bot'), 400);
+}
+
+function csSend() {
+  const input = document.getElementById('csInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  csAddMsg(text, 'user');
+  setTimeout(() => {
+    const reply = csGetReply(text);
+    csAddMsg(reply, 'bot');
+    // After answering, if it's a pre-sale question, gently guide to purchase
+    if (!reply.includes('密钥') && !reply.includes('退款') && !reply.includes('报错') && !reply.includes('接入示例')) {
+      setTimeout(() => {
+        csAddMsg('如果还有其他问题，随时问我。准备好了可以直接选择套餐开通，298元/年就能用一整年。', 'bot');
+      }, 800);
+    }
+  }, 400);
+}
+
+function csAddMsg(text, role) {
+  const body = document.getElementById('csBody');
+  const div = document.createElement('div');
+  div.className = 'cs-msg cs-msg-' + role;
+  // Support line breaks in replies
+  div.innerHTML = '<div class="cs-bubble">' + text.replace(/\n/g, '<br>') + '</div>';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function csGetReply(text) {
+  const t = text.toLowerCase();
+  for (const item of csReplies) {
+    for (const key of item.keys) {
+      try {
+        if (new RegExp(key).test(t)) return item.reply;
+      } catch(e) {
+        if (t.includes(key)) return item.reply;
+      }
+    }
+  }
+  return '感谢你的提问，我已记录。请描述更多细节，或选择上方的快捷问题。如需人工协助，客服团队会尽快回复。';
+}
+
+/* ============================================
+   套餐选择 & 付款 & 密钥交付 — 全闭环
+   ============================================ */
 function selectPlan(price, name) {
   selectedPlan = price;
   document.getElementById('selectedPlan').value = price;
   document.querySelectorAll('.plan-option').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.plan === price);
   });
-  document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  showPayment();
 }
 
 function selectPlanOption(price) {
@@ -645,26 +1150,57 @@ function selectPlanOption(price) {
   });
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById('name');
-  const phone = document.getElementById('phone');
-  let ok = true;
-  if (!name.value.trim()) { name.classList.add('error'); document.getElementById('nameError').style.display='block'; ok=false; }
-  else { name.classList.remove('error'); document.getElementById('nameError').style.display='none'; }
-  if (!/^1[3-9]\d{9}$/.test(phone.value)) { phone.classList.add('error'); document.getElementById('phoneError').style.display='block'; ok=false; }
-  else { phone.classList.remove('error'); document.getElementById('phoneError').style.display='none'; }
-  if (!ok) return false;
+function showPayment() {
   document.getElementById('orderForm').style.display = 'none';
   document.getElementById('paymentSection').classList.add('show');
+  document.getElementById('deliverySection').classList.remove('show');
   document.getElementById('paymentAmount').innerHTML = selectedPlan + '<small>元</small>';
   document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  showPayment();
   return false;
 }
 
 function backToForm() {
   document.getElementById('paymentSection').classList.remove('show');
+  document.getElementById('deliverySection').classList.remove('show');
   document.getElementById('orderForm').style.display = 'block';
+  document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* 确认付款 → 交付密钥 */
+function confirmPayment() {
+  // Generate a unique key
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let key = 'sk-shanhai-';
+  for (let i = 0; i < 32; i++) key += chars[Math.floor(Math.random() * chars.length)];
+  document.getElementById('apiKeyText').textContent = key;
+
+  // Show delivery section
+  document.getElementById('paymentSection').classList.remove('show');
+  document.getElementById('deliverySection').classList.add('show');
+  document.getElementById('deliverySection').scrollIntoView({ behavior: 'smooth' });
+
+  // Trigger CS welcome for after-sales
+  setTimeout(() => {
+    if (!document.getElementById('csPanel').classList.contains('open')) {
+      toggleCS();
+    }
+    csAddMsg('你的密钥已交付。接入过程中有任何问题，随时问我。', 'bot');
+  }, 1000);
+}
+
+/* 复制密钥 */
+function copyKey() {
+  const key = document.getElementById('apiKeyText').textContent;
+  navigator.clipboard.writeText(key).then(() => {
+    const btn = document.querySelector('.key-copy-btn');
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制', 2000);
+  });
 }
 
 function copyCode() {
