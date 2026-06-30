@@ -290,6 +290,22 @@ a { color: var(--gold); text-decoration: none; }
 .delivery-btn-primary:hover, .delivery-btn-secondary:hover {
   transform: translateY(-1px);
 }
+.go-pay-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #07c160, #06ad56);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(7,193,96,0.3);
+}
+.go-pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(7,193,96,0.4); }
 .confirm-pay-btn {
   display: inline-block;
   padding: 12px 32px;
@@ -765,7 +781,7 @@ a { color: var(--gold); text-decoration: none; }
   .order-box, .payment-box { padding: 24px 20px; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
-  .cs-panel { width: calc(100vw - 32px); max-width: 340px; height: 55vh; max-height: 420px; right: 8px; bottom: 80px; border-radius: 16px; }
+  .cs-panel { position: fixed; left: 8px; right: 8px; max-width: none; width: auto; height: 55vh; max-height: 420px; bottom: 80px; border-radius: 16px; }
   .cs-float { bottom: 16px !important; right: 12px !important; }
   .cs-btn { width: 52px !important; height: 52px !important; }
   .cs-btn svg { width: 24px; height: 24px; }
@@ -932,6 +948,7 @@ a { color: var(--gold); text-decoration: none; }
     <div class="payment-note">
       付款后点击按钮确认，我们会收到通知并尽快为您交付密钥
     </div>
+    <a class="go-pay-btn" onclick="goPay()">去付款</a>
     <button class="confirm-pay-btn" onclick="confirmPayment()">我已付款</button>
     <a class="back-link" onclick="backToForm()">← 返回修改信息</a>
   </div>
@@ -1337,6 +1354,26 @@ async function syncOrderToGitHub(order) {
 }
 
 // Issue创建会自动通知仓库订阅者，无需额外通知函数
+
+/* 去付款 → 尝试打开微信/支付宝 */
+function goPay() {
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf('micromessenger') !== -1) {
+    // 已在微信内，无需跳转
+    alert('请在微信中长按二维码支付');
+    return;
+  }
+  if (ua.indexOf('alipay') !== -1) {
+    alert('请在支付宝中长按二维码支付');
+    return;
+  }
+  // 尝试打开微信
+  window.location.href = 'weixin://';
+  setTimeout(() => {
+    // 如果没跳转成功，提示用户扫码
+    alert('请打开微信或支付宝，扫描上方二维码完成付款');
+  }, 1500);
+}
 
 /* 确认付款 → 记录订单 → 等待确认 */
 async function confirmPayment() {
