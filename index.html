@@ -372,18 +372,6 @@ async function sendChat() {
         body: JSON.stringify({
           model: engine.model,
           messages: [
-            { role: 'system', content: '你是山海云枢AI助'
-};
-
-// Try each engine in priority order
-  for (const engine of engines) {
-    try {
-      const resp = await fetch(engine.url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${keys[engine.name]}` },
-        body: JSON.stringify({
-          model: engine.model,
-          messages: [
             { role: 'system', content: '你是山海云枢AI助手，基于山海云枢Agent供电局体系。请简洁、准确地回答用户问题。' },
             ...chatHistory
           ],
