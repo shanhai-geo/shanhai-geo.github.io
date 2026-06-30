@@ -1355,24 +1355,35 @@ async function syncOrderToGitHub(order) {
 
 // Issue创建会自动通知仓库订阅者，无需额外通知函数
 
-/* 去付款 → 尝试打开微信/支付宝 */
+/* 去付款 → 直接跳微信/支付宝扫码付款 */
 function goPay() {
   const ua = navigator.userAgent.toLowerCase();
-  if (ua.indexOf('micromessenger') !== -1) {
-    // 已在微信内，无需跳转
-    alert('请在微信中长按二维码支付');
+  const isMobile = /android|iphone|ipad|ipod/i.test(ua);
+  if (!isMobile) {
+    alert('请在手机上打开此页面，长按识别二维码转账');
     return;
   }
-  if (ua.indexOf('alipay') !== -1) {
-    alert('请在支付宝中长按二维码支付');
+  // Android: 用intent scheme直接拉起微信
+  if (ua.indexOf('android') !== -1) {
+    window.location.href = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;end';
+    setTimeout(() => {
+      alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
+    }, 2000);
     return;
   }
-  // 尝试打开微信
-  window.location.href = 'weixin://';
-  setTimeout(() => {
-    // 如果没跳转成功，提示用户扫码
-    alert('请打开微信或支付宝，扫描上方二维码完成付款');
-  }, 1500);
+  // iOS: 用weixin:// scheme
+  if (/iphone|ipad|ipod/i.test(ua)) {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = 'weixin://';
+    document.body.appendChild(iframe);
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+      alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
+    }, 2000);
+    return;
+  }
+  alert('请截图保存二维码，打开微信或支付宝扫一扫完成付款');
 }
 
 /* 确认付款 → 记录订单 → 等待确认 */
@@ -1411,23 +1422,28 @@ async function confirmPayment() {
   document.getElementById('displayOrderId').textContent = order.orderId;
   document.getElementById('waitingSection').scrollIntoView({ behavior: 'smooth' });
   
-  // 自动打开邮件通知管理员（mailto 方式）
-  const mailSubject = encodeURIComponent('【新订单】' + order.orderId + ' - ' + order.planName + ' ¥' + order.price);
-  const mailBody = encodeURIComponent(
-    '新订单通知\n\n' +
-    '订单号：' + order.orderId + '\n' +
-    '套餐：' + order.planName + ' ¥' + order.price + '\n' +
-    '姓名：' + order.name + '\n' +
-    '手机号：' + order.phone + '\n' +
-    '邮箱：' + (order.email || '未填写') + '\n' +
-    '下单时间：' + order.createdAt + '\n\n' +
-    '请到管理后台确认交付：https://shanhai-geo.github.io/geo/admin.html'
-  );
-  // 打开邮件客户端通知管理员
-  window.location.href = 'mailto:746876121@qq.com?subject=' + mailSubject + '&body=' + mailBody;
-  
-  // 同步创建GitHub Issue记录（异步，不阻塞）
-  syncOrderToGitHub(order);
+  // 创建GitHub Issue，系统自动通过GitHub通知发邮件给管理员（无需客户操作）
+  const issueResult = await syncOrderToGitHub(order);
+  if (!issueResult) {
+    // Issue创建失败时，降级使用mailto兜底
+    const mailSubject = encodeURIComponent('【新订单】' + order.orderId + ' - ' + order.planName + ' ¥' + order.price);
+    const mailBody = encodeURIComponent(
+      '新订单通知\n\n' +
+      '订单号：' + order.orderId + '\n' +
+      '套餐：' + order.planName + ' ¥' + order.price + '\n' +
+      '姓名：' + order.name + '\n' +
+      '手机号：' + order.phone + '\n' +
+      '邮箱：' + (order.email || '未填写') + '\n' +
+      '下单时间：' + order.createdAt + '\n\n' +
+      '请到管理后台确认交付：https://shanhai-geo.github.io/geo/admin.html'
+    );
+    const a = document.createElement('a');
+    a.href = 'mailto:746876121@qq.com?subject=' + mailSubject + '&body=' + mailBody;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }
 
 /* 查询密钥 */
