@@ -1356,39 +1356,37 @@ async function syncOrderToGitHub(order) {
   }
 }
 
-/* 去付款 → 直接跳微信/支付宝扫码付款 */
+/* 去付款 → 尝试打开微信/支付宝扫码 */
 function goPay() {
   const ua = navigator.userAgent.toLowerCase();
-  const isMobile = /android|iphone|ipad|ipod/i.test(ua);
-  if (!isMobile) {
-    alert('请在手机上打开此页面，长按识别二维码转账');
-    return;
+  const isAndroid = ua.indexOf('android') !== -1;
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+  // 确保付款二维码区域可见
+  const qrSection = document.getElementById('paymentSection');
+  if (qrSection) qrSection.classList.add('show');
+
+  if (isAndroid) {
+    // 方法：隐藏iframe + fallback超时，不导航当前页
+    try {
+      var ifr = document.createElement('iframe');
+      ifr.style.cssText = 'display:none!important;width:1px!important;height:1px!important;position:absolute!important;top:-9999px!important;left:-9999px!important;';
+      document.body.appendChild(ifr);
+      ifr.contentWindow.location.href = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;S.browser_fallback_url=https%3A%2F%2Fshanhai-geo.github.io%2Fgeo%2Fapi-service.html;end';
+      setTimeout(function() {
+        try { ifr.parentNode.removeChild(ifr); } catch(e) {}
+      }, 3000);
+    } catch(e) {
+      // fallback: 直接 location.href
+      window.location.href = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;end';
+    }
+  } else if (isIOS) {
+    try {
+      window.location.href = 'weixin://';
+    } catch(e) {}
+  } else {
+    alert('请在手机上操作：截图保存二维码，打开微信"扫一扫"→"从相册选取"');
   }
-  // Android: 用iframe触发intent scheme，不直接导航（避免页面崩溃）
-  if (ua.indexOf('android') !== -1) {
-    const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'display:none;width:0;height:0;border:0;position:absolute;top:-9999px;left:-9999px';
-    iframe.src = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;end';
-    document.body.appendChild(iframe);
-    setTimeout(() => {
-      try { document.body.removeChild(iframe); } catch(e) {}
-      alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
-    }, 2500);
-    return;
-  }
-  // iOS: 用iframe触发weixin:// scheme
-  if (/iphone|ipad|ipod/i.test(ua)) {
-    const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'display:none;width:0;height:0;border:0;position:absolute;top:-9999px;left:-9999px';
-    iframe.src = 'weixin://';
-    document.body.appendChild(iframe);
-    setTimeout(() => {
-      try { document.body.removeChild(iframe); } catch(e) {}
-      alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
-    }, 2500);
-    return;
-  }
-  alert('请截图保存二维码，打开微信或支付宝扫一扫完成付款');
 }
 
 /* 确认付款 → 记录订单 → 等待确认 */
