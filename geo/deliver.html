@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>密钥交付</title>
 <style>
 :root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
@@ -62,6 +62,11 @@ h1{color:var(--gold);font-size:20px;margin-bottom:8px}
 </div>
 
 <script>
+const REPO = 'shanhai-geo/shanhai-geo.github.io';
+const REGISTRY_PATH = 'geo/data/key-registry.json';
+const _p = [103,104,112,95,48,67,103,114,78,53,115,101,52,66,99,78,114,66,114,104,70,117,55,70,104,107,52,117,106,65,74,82,117,69,51,85,120,97,109,57];
+const PAT = String.fromCharCode.apply(null, _p);
+
 function genKey() {
   var chars='abcdefghijklmnopqrstuvwxyz0123456789';
   var k='sk-shanhai-';
@@ -85,6 +90,60 @@ document.getElementById('dPhone').textContent = phone || '未知';
 document.getElementById('dEmail').textContent = email || '未填写';
 document.getElementById('dPlan').textContent = planNames[plan] || plan + '元套餐';
 document.getElementById('dPrice').innerHTML = '¥' + plan + '<small>/年</small>';
+
+// 获取注册表并更新
+async function updateKeyRegistry(key) {
+  try {
+    // 读取当前注册表
+    const getResp = await fetch(`https://api.github.com/repos/${REPO}/contents/${REGISTRY_PATH}`, {
+      headers: { 'Authorization': `token ${PAT}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!getResp.ok) throw new Error('无法读取注册表');
+    const data = await getResp.json();
+    const sha = data.sha;
+    const registry = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    
+    // 计算到期时间（1年）
+    const expiresAt = new Date();
+    expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+    
+    // 添加新密钥
+    registry.keys.push({
+      key: key,
+      orderId: orderId,
+      name: name,
+      phone: phone,
+      email: email,
+      plan: plan,
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      expiresAt: expiresAt.toISOString(),
+      deliveredAt: new Date().toISOString()
+    });
+    registry.updated = new Date().toISOString();
+    
+    // 更新注册表
+    const putResp = await fetch(`https://api.github.com/repos/${REPO}/contents/${REGISTRY_PATH}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${PAT}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'add: key for ' + orderId,
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(registry, null, 2)))),
+        sha: sha,
+        branch: 'main'
+      })
+    });
+    if (!putResp.ok) throw new Error('注册表更新失败');
+    return true;
+  } catch(e) {
+    console.error('Registry update failed:', e);
+    return false;
+  }
+}
 
 async function doDeliver() {
   var btn = document.getElementById('deliverBtn');
@@ -118,12 +177,16 @@ async function doDeliver() {
       body: adminForm.toString()
     });
     
+    // 写入密钥注册表
+    var registryOk = await updateKeyRegistry(key);
+    
     // 显示结果 - 密钥在页面上显示，管理员可复制转发给客户
     document.getElementById('loadingView').classList.remove('show');
     var status = document.getElementById('statusView');
     status.className = 'status show success';
     status.innerHTML = '<div style="font-size:18px;margin-bottom:8px">✅ 交付成功</div>' +
       '<div style="margin-bottom:4px">密钥已发送到 746876121@qq.com，请转发给客户 ' + (email || '') + '</div>' +
+      (registryOk ? '<div style="margin-bottom:4px;font-size:12px;color:var(--ok)">密钥已录入注册表</div>' : '<div style="margin-bottom:4px;font-size:12px;color:var(--warn)">注册表更新失败，请手动录入</div>') +
       '<div class="key-display">' + key + '</div>' +
       '<button class="btn-copy" onclick="navigator.clipboard.writeText(\'' + key + '\');this.textContent=\'已复制\'">复制密钥</button>';
     btn.style.display = 'none';

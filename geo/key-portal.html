@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>山海AI - 我的密钥</title>
+<style>
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom));line-height:1.6}
+.container{max-width:480px;width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:40px 32px;text-align:center}
+.icon{font-size:48px;margin-bottom:16px}
+h1{color:var(--gold);font-size:20px;margin-bottom:8px}
+.subtitle{color:var(--text2);font-size:14px;margin-bottom:24px}
+.form-group{margin-bottom:16px;text-align:left}
+.form-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:6px}
+.form-group input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:15px}
+.form-group input:focus{outline:none;border-color:var(--gold)}
+.btn{padding:12px 24px;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;width:100%}
+.btn-primary{background:linear-gradient(135deg,#c9a96e,#b8963e);color:#000}
+.btn:hover{opacity:.85}
+.result{margin-top:24px;text-align:left}
+.result-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px}
+.result-row:last-child{border:none}
+.result-label{color:var(--text2)}
+.result-value{color:var(--text);font-weight:500;text-align:right;max-width:60%;word-break:break-all}
+.key-box{background:var(--bg);border:1px solid var(--gold);border-radius:8px;padding:12px;font-family:monospace;color:var(--gold);word-break:break-all;font-size:13px;margin-top:12px;text-align:left}
+.status-active{color:var(--ok)}
+.status-revoked{color:var(--err)}
+.status-expired{color:var(--warn)}
+.btn-copy{margin-top:8px;padding:8px 20px;background:var(--gold);color:#000;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+.btn-renew{margin-top:16px;display:block;width:100%;padding:12px;background:linear-gradient(135deg,#4caf50,#45a049);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center}
+.not-found{text-align:center;padding:20px;color:var(--warn)}
+.code-block{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:monospace;font-size:11px;color:var(--text2);text-align:left;margin-top:12px;white-space:pre-wrap;word-break:break-all}
+.loading{color:var(--text2);padding:20px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="queryView">
+    <div class="icon">🔑</div>
+    <h1>我的API密钥</h1>
+    <p class="subtitle">输入购买时的手机号查询密钥</p>
+    
+    <div class="form-group">
+      <label>手机号</label>
+      <input id="phoneInput" type="tel" placeholder="请输入购买时使用的手机号" maxlength="11">
+    </div>
+    <div class="form-group">
+      <label>邮箱（可选，手机号不匹配时尝试邮箱）</label>
+      <input id="emailInput" type="email" placeholder="请输入购买时使用的邮箱">
+    </div>
+    
+    <button class="btn btn-primary" onclick="queryKey()">查询密钥</button>
+    
+    <div id="resultArea"></div>
+  </div>
+</div>
+
+<script>
+const REPO = 'shanhai-geo/shanhai-geo.github.io';
+const REGISTRY_PATH = 'geo/data/key-registry.json';
+
+async function queryKey() {
+  const phone = document.getElementById('phoneInput').value.trim();
+  const email = document.getElementById('emailInput').value.trim().toLowerCase();
+  
+  if (!phone && !email) {
+    alert('请至少输入手机号或邮箱');
+    return;
+  }
+  
+  const resultArea = document.getElementById('resultArea');
+  resultArea.innerHTML = '<div class="loading">查询中...</div>';
+  
+  try {
+    const resp = await fetch(`https://raw.githubusercontent.com/${REPO}/main/${REGISTRY_PATH}?t=${Date.now()}`);
+    if (!resp.ok) throw new Error('无法加载数据');
+    const registry = await resp.json();
+    
+    // 查找匹配的密钥
+    const matched = registry.keys.filter(k => {
+      if (phone && k.phone === phone) return true;
+      if (email && k.email && k.email.toLowerCase() === email) return true;
+      return false;
+    });
+    
+    if (!matched.length) {
+      resultArea.innerHTML = '<div class="not-found">未找到匹配的记录，请检查手机号或邮箱是否正确</div>';
+      return;
+    }
+    
+    // 取最新的密钥
+    matched.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const k = matched[0];
+    const planNames = {'298':'入门版', '998':'成长版', '2998':'旗舰版'};
+    const planName = planNames[k.plan] || (k.plan + '元');
+    
+    // 检查过期
+    const now = new Date();
+    let status = k.status;
+    if (status === 'active' && k.expiresAt && new Date(k.expiresAt) < now) {
+      status = 'expired';
+    }
+    
+    const statusText = status === 'active' ? '有效' : status === 'revoked' ? '已撤销' : '已过期';
+    const statusClass = 'status-' + status;
+    const expires = k.expiresAt ? new Date(k.expiresAt).toLocaleDateString('zh-CN') : '未知';
+    
+    resultArea.innerHTML = `
+      <div class="result">
+        <div class="result-card">
+          <div class="result-row"><span class="result-label">订单号</span><span class="result-value">${k.orderId || '-'}</span></div>
+          <div class="result-row"><span class="result-label">套餐</span><span class="result-value">${planName}</span></div>
+          <div class="result-row"><span class="result-label">状态</span><span class="result-value ${statusClass}">${statusText}</span></div>
+          <div class="result-row"><span class="result-label">到期日</span><span class="result-value">${expires}</span></div>
+          <div class="result-row"><span class="result-label">开通时间</span><span class="result-value">${new Date(k.createdAt).toLocaleDateString('zh-CN')}</span></div>
+        </div>
+        
+        ${status === 'active' ? `
+          <div style="font-size:13px;color:var(--text2);margin-bottom:8px">你的API密钥：</div>
+          <div class="key-box">${k.key}</div>
+          <button class="btn-copy" onclick="navigator.clipboard.writeText('${k.key}');this.textContent='已复制'">复制密钥</button>
+          
+          <div style="font-size:13px;color:var(--text2);margin-top:16px;margin-bottom:8px">快速接入代码（Python）：</div>
+          <div class="code-block">from openai import OpenAI
+client = OpenAI(
+    api_key="${k.key}",
+    base_url="https://api.shanhai.ai/v1/"
+)
+
+response = client.chat.completions.create(
+    model="qwen3.5-plus",
+    messages=[{"role":"user","content":"你好"}]
+)
+print(response.choices[0].message.content)</div>
+          
+          <a class="btn-renew" href="https://shanhai-geo.github.io/geo/api-service.html">续期 / 升级套餐</a>
+        ` : status === 'revoked' ? `
+          <div class="not-found" style="color:var(--err)">该密钥已被撤销，如有疑问请联系客服</div>
+        ` : `
+          <div class="not-found">该密钥已过期，请续期后使用</div>
+          <a class="btn-renew" href="https://shanhai-geo.github.io/geo/api-service.html">立即续期</a>
+        `}
+      </div>`;
+      
+  } catch(e) {
+    resultArea.innerHTML = '<div class="not-found">查询失败：' + e.message + '</div>';
+  }
+}
+
+// 回车查询
+document.getElementById('phoneInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') document.getElementById('emailInput').focus();
+});
+document.getElementById('emailInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') queryKey();
+});
+</script>
+</body>
+</html>

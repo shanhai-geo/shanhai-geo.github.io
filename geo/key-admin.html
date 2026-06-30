@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>山海密钥管理</title>
+<style>
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:var(--bg);color:var(--text);padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom));line-height:1.6}
+h1{color:var(--gold);font-size:20px;margin-bottom:16px}
+h2{color:var(--gold);font-size:16px;margin:20px 0 12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.stat-num{font-size:24px;font-weight:700;color:var(--gold)}
+.stat-label{font-size:12px;color:var(--text2);margin-top:4px}
+.key-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.key-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.key-id{font-weight:600;color:var(--gold);font-size:14px}
+.status-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600}
+.status-active{background:rgba(76,175,80,.15);color:var(--ok)}
+.status-revoked{background:rgba(244,67,54,.15);color:var(--err)}
+.status-expired{background:rgba(255,152,0,.15);color:var(--warn)}
+.key-info{font-size:13px;color:var(--text2);line-height:1.8}
+.key-info span{color:var(--text)}
+.key-value{background:var(--bg);padding:8px;border-radius:6px;font-family:monospace;color:var(--gold);word-break:break-all;font-size:12px;margin-top:8px}
+.btn{padding:8px 16px;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600;margin-right:8px;margin-top:4px}
+.btn-revoke{background:var(--err);color:#fff}
+.btn-extend{background:var(--warn);color:#fff}
+.btn-renew{background:var(--ok);color:#fff}
+.btn-copy{background:var(--gold);color:#000}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.action-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.action-bar button{padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:13px}
+.action-bar button:hover{border-color:var(--gold)}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:13px}
+.tab.active{border-color:var(--gold);color:var(--gold)}
+.empty{text-align:center;color:var(--text2);padding:40px}
+.search-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;gap:8px;align-items:center}
+.search-box input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:14px}
+.search-box input:focus{outline:none;border-color:var(--gold)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:10000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:400px;width:100%;text-align:center}
+.modal h3{color:var(--gold);margin-bottom:16px}
+.modal p{color:var(--text2);font-size:14px;margin-bottom:16px}
+.modal input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:14px;margin-bottom:12px}
+.loading{text-align:center;color:var(--text2);padding:40px}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:10001;display:none}
+.toast.show{display:block}
+.toast.error{background:var(--err)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="loginView">
+  <div style="max-width:400px;margin:100px auto;text-align:center">
+    <h1>山海密钥管理</h1>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px">
+      <input id="pwdInput" type="password" placeholder="管理密码" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:16px;margin-bottom:16px">
+      <button class="btn btn-renew" style="width:100%;padding:12px;font-size:16px" onclick="doLogin()">进入管理</button>
+    </div>
+  </div>
+</div>
+
+<div id="mainView" style="display:none">
+  <h1>山海密钥管理</h1>
+  
+  <div class="search-box">
+    <input id="searchInput" placeholder="搜索手机号/邮箱/姓名/密钥..." oninput="filterKeys()">
+  </div>
+  
+  <div class="stats" id="statsArea"></div>
+  
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('active')">有效</div>
+    <div class="tab" onclick="switchTab('revoked')">已撤销</div>
+    <div class="tab" onclick="switchTab('expired')">已过期</div>
+    <div class="tab" onclick="switchTab('all')">全部</div>
+  </div>
+  
+  <div class="action-bar">
+    <button onclick="loadKeys()">刷新</button>
+    <button onclick="exportData()">导出JSON</button>
+  </div>
+  
+  <div id="keyList"><div class="loading">加载中...</div></div>
+</div>
+
+<!-- 撤销确认弹窗 -->
+<div class="modal-overlay" id="revokeModal">
+  <div class="modal">
+    <h3>确认撤销密钥</h3>
+    <p id="revokeInfo"></p>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button class="btn btn-revoke" onclick="confirmRevoke()">确认撤销</button>
+      <button class="btn" style="background:var(--bg3);color:var(--text)" onclick="closeModal('revokeModal')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 续期弹窗 -->
+<div class="modal-overlay" id="extendModal">
+  <div class="modal">
+    <h3>续期密钥</h3>
+    <p id="extendInfo"></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:12px">
+      <button class="btn btn-extend" onclick="doExtend(30)">续30天</button>
+      <button class="btn btn-extend" onclick="doExtend(90)">续90天</button>
+      <button class="btn btn-extend" onclick="doExtend(365)">续1年</button>
+    </div>
+    <button class="btn" style="background:var(--bg3);color:var(--text)" onclick="closeModal('extendModal')">取消</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const REPO = 'shanhai-geo/shanhai-geo.github.io';
+const REGISTRY_PATH = 'geo/data/key-registry.json';
+const _p = [103,104,112,95,48,67,103,114,78,53,115,101,52,66,99,78,114,66,114,104,70,117,55,70,104,107,52,117,106,65,74,82,117,69,51,85,120,97,109,57];
+const PAT = String.fromCharCode.apply(null, _p);
+const PASSWORD = 'shanhai2026';
+
+let registry = null;
+let currentTab = 'active';
+let pendingRevokeIndex = -1;
+let pendingExtendIndex = -1;
+let registrySha = '';
+
+function doLogin() {
+  var pwd = document.getElementById('pwdInput').value;
+  if (pwd === PASSWORD) {
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('mainView').style.display = 'block';
+    loadKeys();
+  } else {
+    alert('密码错误');
+  }
+}
+
+function toast(msg, isError) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+async function loadKeys() {
+  document.getElementById('keyList').innerHTML = '<div class="loading">加载中...</div>';
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${REPO}/contents/${REGISTRY_PATH}`, {
+      headers: { 'Authorization': `token ${PAT}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    registrySha = data.sha;
+    const content = atob(data.content.replace(/\n/g, ''));
+    registry = JSON.parse(content);
+    
+    // 检查过期
+    const now = new Date();
+    registry.keys.forEach(k => {
+      if (k.status === 'active' && k.expiresAt && new Date(k.expiresAt) < now) {
+        k.status = 'expired';
+      }
+    });
+    
+    renderStats();
+    renderKeys();
+  } catch(e) {
+    document.getElementById('keyList').innerHTML = '<div class="empty">加载失败：' + e.message + '</div>';
+  }
+}
+
+function renderStats() {
+  const active = registry.keys.filter(k => k.status === 'active');
+  const revoked = registry.keys.filter(k => k.status === 'revoked');
+  const expired = registry.keys.filter(k => k.status === 'expired');
+  const revenue = active.reduce((s, k) => s + (parseInt(k.plan) || 0), 0);
+  
+  document.getElementById('statsArea').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${active.length}</div><div class="stat-label">有效密钥</div></div>
+    <div class="stat-card"><div class="stat-num">${revoked.length}</div><div class="stat-label">已撤销</div></div>
+    <div class="stat-card"><div class="stat-num">${expired.length}</div><div class="stat-label">已过期</div></div>
+    <div class="stat-card"><div class="stat-num">¥${revenue}</div><div class="stat-label">有效收入</div></div>`;
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderKeys();
+}
+
+function filterKeys() {
+  renderKeys();
+}
+
+function renderKeys() {
+  const search = (document.getElementById('searchInput').value || '').toLowerCase();
+  let list = registry.keys;
+  
+  if (currentTab !== 'all') {
+    list = list.filter(k => k.status === currentTab);
+  }
+  
+  if (search) {
+    list = list.filter(k => 
+      (k.phone || '').includes(search) ||
+      (k.email || '').toLowerCase().includes(search) ||
+      (k.name || '').toLowerCase().includes(search) ||
+      (k.key || '').includes(search) ||
+      (k.orderId || '').toLowerCase().includes(search)
+    );
+  }
+  
+  // 按创建时间倒序
+  list = list.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+  if (!list.length) {
+    document.getElementById('keyList').innerHTML = '<div class="empty">暂无密钥</div>';
+    return;
+  }
+  
+  document.getElementById('keyList').innerHTML = list.map(k => {
+    const idx = registry.keys.indexOf(k);
+    const statusClass = k.status === 'active' ? 'status-active' : k.status === 'revoked' ? 'status-revoked' : 'status-expired';
+    const statusText = k.status === 'active' ? '有效' : k.status === 'revoked' ? '已撤销' : '已过期';
+    const planNames = {'298':'入门版', '998':'成长版', '2998':'旗舰版'};
+    const planName = planNames[k.plan] || (k.plan + '元');
+    const expires = k.expiresAt ? new Date(k.expiresAt).toLocaleDateString('zh-CN') : '未知';
+    
+    return `
+    <div class="key-card">
+      <div class="key-header">
+        <span class="key-id">${k.orderId || '未知订单'}</span>
+        <span class="status-badge ${statusClass}">${statusText}</span>
+      </div>
+      <div class="key-info">
+        <div>客户：<span>${k.name || '-'}</span> | 手机：<span>${k.phone || '-'}</span> | 邮箱：<span>${k.email || '-'}</span></div>
+        <div>套餐：<span>${planName}</span> | 到期：<span>${expires}</span> | 创建：<span>${new Date(k.createdAt).toLocaleDateString('zh-CN')}</span></div>
+      </div>
+      <div class="key-value">${k.key || '-'}</div>
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-copy" onclick="navigator.clipboard.writeText('${k.key}');this.textContent='已复制'">复制密钥</button>
+        ${k.status === 'active' ? `
+          <button class="btn btn-revoke" onclick="askRevoke(${idx})">撤销</button>
+          <button class="btn btn-extend" onclick="askExtend(${idx})">续期</button>
+        ` : ''}
+        ${k.status === 'revoked' ? `<button class="btn btn-renew" onclick="reactivate(${idx})">恢复</button>` : ''}
+        ${k.status === 'expired' ? `<button class="btn btn-renew" onclick="askExtend(${idx})">续期</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function askRevoke(idx) {
+  pendingRevokeIndex = idx;
+  const k = registry.keys[idx];
+  document.getElementById('revokeInfo').textContent = `确认撤销 ${k.name}(${k.phone}) 的密钥？撤销后客户将无法使用API。`;
+  document.getElementById('revokeModal').classList.add('show');
+}
+
+async function confirmRevoke() {
+  const idx = pendingRevokeIndex;
+  closeModal('revokeModal');
+  if (idx < 0) return;
+  
+  registry.keys[idx].status = 'revoked';
+  registry.keys[idx].revokedAt = new Date().toISOString();
+  
+  try {
+    await saveRegistry();
+    toast('密钥已撤销');
+    loadKeys();
+  } catch(e) {
+    toast('保存失败：' + e.message, true);
+  }
+}
+
+function askExtend(idx) {
+  pendingExtendIndex = idx;
+  const k = registry.keys[idx];
+  const expires = k.expiresAt ? new Date(k.expiresAt).toLocaleDateString('zh-CN') : '无';
+  document.getElementById('extendInfo').textContent = `当前到期日：${expires}，选择续期时长：`;
+  document.getElementById('extendModal').classList.add('show');
+}
+
+async function doExtend(days) {
+  const idx = pendingExtendIndex;
+  closeModal('extendModal');
+  if (idx < 0) return;
+  
+  const k = registry.keys[idx];
+  const baseDate = k.expiresAt && new Date(k.expiresAt) > new Date() ? new Date(k.expiresAt) : new Date();
+  baseDate.setDate(baseDate.getDate() + days);
+  k.expiresAt = baseDate.toISOString();
+  k.status = 'active';
+  k.lastExtended = new Date().toISOString();
+  
+  try {
+    await saveRegistry();
+    toast(`已续期 ${days} 天，新到期日：${baseDate.toLocaleDateString('zh-CN')}`);
+    loadKeys();
+  } catch(e) {
+    toast('保存失败：' + e.message, true);
+  }
+}
+
+async function reactivate(idx) {
+  registry.keys[idx].status = 'active';
+  if (!registry.keys[idx].expiresAt || new Date(registry.keys[idx].expiresAt) < new Date()) {
+    const d = new Date();
+    d.setDate(d.getDate() + 365);
+    registry.keys[idx].expiresAt = d.toISOString();
+  }
+  
+  try {
+    await saveRegistry();
+    toast('密钥已恢复');
+    loadKeys();
+  } catch(e) {
+    toast('保存失败：' + e.message, true);
+  }
+}
+
+async function saveRegistry() {
+  registry.updated = new Date().toISOString();
+  
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(registry, null, 2))));
+  
+  const resp = await fetch(`https://api.github.com/repos/${REPO}/contents/${REGISTRY_PATH}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${PAT}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: 'update: key registry ' + new Date().toISOString(),
+      content: content,
+      sha: registrySha,
+      branch: 'main'
+    })
+  });
+  
+  if (!resp.ok) {
+    const err = await resp.json();
+    throw new Error(err.message || 'HTTP ' + resp.status);
+  }
+  
+  const data = await resp.json();
+  registrySha = data.content.sha;
+}
+
+function exportData() {
+  const data = JSON.stringify(registry, null, 2);
+  navigator.clipboard.writeText(data).then(() => {
+    toast('数据已复制到剪贴板');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = data;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('数据已复制到剪贴板');
+  });
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+// 回车登录
+document.getElementById('pwdInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+</script>
+</body>
+</html>
