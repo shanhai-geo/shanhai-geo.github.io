@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山海AI接口服务 - 298元/年 不限调用 快速交付</title>
+<meta name="description" content="山海AI大模型API接口服务，298元/年包年吃到饱，OpenAI兼容接口，3行代码10分钟接入，合规稳定透明。">
+<meta name="keywords" content="AI API, 大模型接口, OpenAI兼容, 低价API, 开发者工具, LLM API, API接口服务, 智能接口, 298元, 不限调用">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "山海AI接口服务",
+  "description": "AI大模型API接口服务，298元/年起，不限调用次数，OpenAI兼容接口，合规商用",
+  "provider": {
+    "@type": "Organization",
+    "name": "山海智能",
+    "url": "https://shanhai-geo.github.io"
+  },
+  "areaServed": "CN",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "山海AI接口服务套餐",
+    "itemListElement": [
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"入门版","description":"AI接口，不限调用次数，OpenAI兼容，付款确认后交付密钥，7天退款"},"price":"298","priceCurrency":"CNY","priceSpecification":{"@type":"UnitPriceSpecification","price":"298","priceCurrency":"CNY","unitText":"年"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"成长版","description":"多引擎冗余智能路由，品牌话术定制，数据分析看板，多渠道接入，12h响应"},"price":"998","priceCurrency":"CNY","priceSpecification":{"@type":"UnitPriceSpecification","price":"998","priceCurrency":"CNY","unitText":"年"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"旗舰版","description":"全模型无限调用，深度业务定制，专属AI训练师1对1，7x24响应"},"price":"2998","priceCurrency":"CNY","priceSpecification":{"@type":"UnitPriceSpecification","price":"2998","priceCurrency":"CNY","unitText":"年"}}
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"298元/年真的能用一年吗？","acceptedAnswer":{"@type":"Answer","text":"真正的包年吃到饱，不按token计费，不限调用次数。一杯咖啡钱用一年，7天无理由退款。"}},
+    {"@type":"Question","name":"如何快速接入？","acceptedAnswer":{"@type":"Answer","text":"只需3行代码，修改base_url指向山海接口，保持OpenAI格式不变，10分钟即可上线。"}},
+    {"@type":"Question","name":"付款后多久拿到密钥？","acceptedAnswer":{"@type":"Answer","text":"付款确认后，密钥会通过邮件发送给您，您也可以在页面输入手机号随时查询。通常在付款后30分钟内完成。"}},
+    {"@type":"Question","name":"可以退款吗？","acceptedAnswer":{"@type":"Answer","text":"所有版本支持7天无理由退款，零风险试用。"}}
+  ]
+}
+</script>
+<style>
+:root {
+  --bg: #0a0a14;
+  --bg2: #12121f;
+  --bg3: #1a1a2e;
+  --bg4: #252540;
+  --gold: #c9a96e;
+  --gold2: #d4b87a;
+  --text: #e0e0e0;
+  --text2: #999;
+  --text3: #666;
+  --ok: #4caf50;
+  --border: #2a2a3e;
+  --gradient-gold: linear-gradient(135deg, #c9a96e 0%, #d4b87a 100%);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+a { color: var(--gold); text-decoration: none; }
+
+/* Header */
+.header {
+  background: rgba(10,10,20,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+.nav { display: flex; gap: 8px; }
+.nav a {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  transition: all 0.3s;
+}
+.nav a:hover, .nav a.active {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 60px 20px 40px;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse at center, rgba(201,169,110,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 12px;
+  color: var(--gold2);
+  margin-bottom: 20px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  background: var(--ok);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.hero h1 {
+  font-size: 42px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  color: var(--text2);
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+.hero-tags {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero-tag {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* Trust Bar */
+.trust-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 20px;
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.trust-item .trust-num {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 2px;
+}
+.trust-item .trust-label {
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* Delivery / Success Section */
+.delivery-box {
+  max-width: 580px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, rgba(76,175,80,0.06) 0%, var(--bg2) 100%);
+  border: 1px solid var(--ok);
+  border-radius: 24px;
+  padding: 36px 32px;
+  text-align: center;
+  display: none;
+}
+.delivery-box.show { display: block; }
+.delivery-check {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(76,175,80,0.15);
+  margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: var(--ok);
+}
+.delivery-box h3 { color: var(--ok); font-size: 20px; margin-bottom: 6px; }
+.delivery-box .delivery-sub { color: var(--text2); font-size: 13px; margin-bottom: 20px; }
+.key-display {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: 'SF Mono','Fira Code',Consolas,monospace;
+  font-size: 13px;
+  color: var(--gold);
+  word-break: break-all;
+  text-align: left;
+  position: relative;
+  margin-bottom: 16px;
+}
+.key-copy-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.key-copy-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+.delivery-steps {
+  text-align: left;
+  margin: 16px 0;
+}
+.delivery-step {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.delivery-step:last-child { border-bottom: none; }
+.step-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.step-text strong { color: var(--text); }
+.delivery-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.delivery-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.delivery-btn-primary {
+  background: var(--gradient-gold);
+  color: #000;
+  border: none;
+}
+.delivery-btn-secondary {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.delivery-btn-primary:hover, .delivery-btn-secondary:hover {
+  transform: translateY(-1px);
+}
+.go-pay-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #07c160, #06ad56);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(7,193,96,0.3);
+}
+.go-pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(7,193,96,0.4); }
+.confirm-pay-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background: var(--gradient-gold);
+  color: #000;
+  border: none;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.3s;
+}
+.confirm-pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,169,110,0.3); }
+
+/* Section common */
+.section { padding: 50px 20px; }
+.section-title {
+  text-align: center;
+  font-size: 24px;
+  color: var(--gold);
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+}
+.container { max-width: 1000px; margin: 0 auto; }
+
+/* Pricing */
+.pricing-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.pricing-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
+}
+.pricing-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.pricing-card.featured {
+  background: linear-gradient(180deg, var(--bg4) 0%, var(--bg) 100%);
+  border-color: var(--gold);
+}
+.pricing-badge {
+  position: absolute;
+  top: -12px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--gradient-gold);
+  color: #000;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.pricing-name { font-size: 20px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.pricing-target { color: var(--text2); font-size: 12px; margin-bottom: 16px; }
+.pricing-price { font-size: 42px; font-weight: 700; color: var(--text); }
+.pricing-price small { font-size: 16px; font-weight: 400; color: var(--text2); }
+.pricing-daily { color: var(--text2); font-size: 12px; margin: 4px 0 16px; }
+.pricing-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.pricing-features { list-style: none; text-align: left; }
+.pricing-features li {
+  padding: 8px 0;
+  color: var(--text2);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pricing-features .ck {
+  width: 18px; height: 18px;
+  background: rgba(76,175,80,0.15);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ok); font-size: 11px; flex-shrink: 0;
+}
+.pricing-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+.pricing-card.featured .pricing-btn {
+  background: var(--gradient-gold);
+  color: #000;
+  border: none;
+}
+.pricing-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+
+/* Order Section */
+.order-section { border-top: 1px solid var(--border); }
+.order-box {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 36px 32px;
+}
+.order-box h3 { text-align: center; color: var(--gold); font-size: 20px; margin-bottom: 6px; }
+.order-box .sub { text-align: center; color: var(--text2); font-size: 13px; margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; color: var(--text); margin-bottom: 6px; font-weight: 500; }
+.form-group label .req { color: #e74c3c; }
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s;
+}
+.form-group input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,169,110,0.1); }
+.form-group input::placeholder { color: var(--text3); }
+.form-group input.error { border-color: #e74c3c; }
+.error-msg { color: #e74c3c; font-size: 11px; margin-top: 4px; display: none; }
+.plan-selector { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 6px; }
+.plan-option {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.plan-option:hover { border-color: var(--gold); }
+.plan-option.selected { border-color: var(--gold); background: rgba(201,169,110,0.08); }
+.plan-option .pn { color: var(--text); font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.plan-option .pp { color: var(--gold); font-size: 17px; font-weight: 700; }
+.plan-option .pp small { font-size: 11px; font-weight: 400; color: var(--text2); }
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--gradient-gold);
+  color: #000;
+  border: none;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 8px;
+}
+.submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,169,110,0.3); }
+
+/* Payment */
+.payment-box {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 36px 32px;
+  text-align: center;
+  display: none;
+}
+.payment-box.show { display: block; }
+.payment-box h3 { color: var(--gold); font-size: 20px; margin-bottom: 6px; }
+.payment-amount { font-size: 32px; font-weight: 700; color: var(--text); margin: 16px 0; }
+.payment-amount small { font-size: 14px; color: var(--text2); }
+.payment-qr {
+  width: 200px; height: 200px;
+  margin: 16px auto;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.payment-qr img { width: 100%; height: 100%; object-fit: contain; }
+.payment-note {
+  background: var(--bg3);
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 16px;
+  line-height: 1.7;
+}
+.back-link { display: inline-block; color: var(--gold); cursor: pointer; font-size: 13px; margin-top: 16px; }
+.back-link:hover { text-decoration: underline; }
+
+/* Code Demo */
+.code-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.code-demo {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.code-header {
+  background: var(--bg3);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.code-dot { width: 10px; height: 10px; border-radius: 50%; }
+.code-dot.red { background: #ff5f57; }
+.code-dot.yellow { background: #febc2e; }
+.code-dot.green { background: #28c840; }
+.code-title { margin-left: 10px; color: var(--text2); font-size: 12px; flex: 1; }
+.copy-btn {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.copy-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+.code-body {
+  padding: 20px;
+  font-family: 'SF Mono','Fira Code',Consolas,monospace;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.code-line { display: flex; align-items: flex-start; }
+.line-num { color: var(--text3); width: 32px; text-align: right; padding-right: 12px; user-select: none; }
+.line-content { flex: 1; color: var(--text); }
+.line-comment { color: var(--text2); }
+.line-keyword { color: #ff79c6; }
+.line-string { color: #f1fa8c; }
+.line-function { color: #50fa7b; }
+.line-variable { color: #8be9fd; }
+
+/* FAQ */
+.faq-grid {
+  max-width: 700px;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+}
+.faq-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  transition: all 0.3s;
+}
+.faq-item:hover { border-color: var(--gold); }
+.faq-item h4 { color: var(--text); font-size: 14px; margin-bottom: 8px; font-weight: 600; }
+.faq-item p { color: var(--text2); font-size: 13px; line-height: 1.7; }
+
+/* Footer */
+.footer {
+  padding: 30px 20px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+.footer-logo { font-size: 16px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.footer p { color: var(--text3); font-size: 12px; }
+
+/* AI Customer Service Float */
+.cs-float {
+  position: fixed;
+  bottom: 40px;
+  right: 16px;
+  z-index: 99999;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.cs-btn {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd700, #ff9800);
+  border: 3px solid #fff;
+  cursor: pointer;
+  display: flex !important; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(255,152,0,0.6), 0 0 40px rgba(255,215,0,0.4);
+  transition: all 0.3s;
+  position: relative;
+  animation: bubblePulse 2s ease-in-out infinite;
+}
+@keyframes bubblePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(255,152,0,0.5), 0 0 30px rgba(255,215,0,0.3); }
+  50% { transform: scale(1.12); box-shadow: 0 6px 30px rgba(255,152,0,0.7), 0 0 50px rgba(255,215,0,0.5); }
+}
+.cs-btn:hover { animation: none; transform: scale(1.15); box-shadow: 0 8px 36px rgba(255,152,0,0.8); }
+.cs-btn svg { width: 28px; height: 28px; fill: #000; }
+.cs-btn .cs-badge {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 14px; height: 14px;
+  background: #ff4444;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  animation: badgeBlink 1s ease-in-out infinite;
+}
+@keyframes badgeBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.7); }
+}
+.cs-btn .cs-label {
+  position: absolute;
+  right: 66px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  animation: labelBounce 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.cs-btn .cs-label::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 6px solid #fff;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+@keyframes labelBounce {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(-4px); }
+}
+.cs-panel {
+  position: fixed;
+  bottom: 116px;
+  right: 16px;
+  width: 340px;
+  height: 460px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9998;
+}
+.cs-panel.open { display: flex; }
+.cs-header {
+  background: var(--bg3);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.cs-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: #000;
+}
+.cs-info { flex: 1; }
+.cs-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.cs-status { font-size: 11px; color: var(--ok); display: flex; align-items: center; gap: 4px; }
+.cs-status-dot { width: 6px; height: 6px; background: var(--ok); border-radius: 50%; }
+.cs-close {
+  background: none; border: none; color: var(--text2);
+  font-size: 18px; cursor: pointer; padding: 4px;
+}
+.cs-close:hover { color: var(--text); }
+.cs-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  min-height: 200px;
+}
+.cs-msg {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+.cs-msg-bot { flex-direction: row; }
+.cs-msg-user { flex-direction: row-reverse; }
+.cs-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.cs-msg-bot .cs-bubble {
+  background: var(--bg3);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.cs-msg-user .cs-bubble {
+  background: var(--gold);
+  color: #000;
+  border-bottom-right-radius: 4px;
+}
+.cs-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.cs-quick-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--gold);
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cs-quick-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+.cs-input-area {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.cs-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+}
+.cs-input:focus { border-color: var(--gold); }
+.cs-send {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cs-send svg { width: 16px; height: 16px; fill: #000; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header { flex-direction: column; gap: 10px; padding: 12px 16px; }
+  .nav { flex-wrap: wrap; justify-content: center; }
+  .hero { padding: 40px 16px 30px; }
+  .hero h1 { font-size: 28px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 360px; }
+  .pricing-card.featured { transform: none; }
+  .order-box, .payment-box { padding: 24px 20px; }
+  .plan-selector { grid-template-columns: 1fr; }
+  .code-body { font-size: 12px; }
+  .cs-panel { position: fixed; left: 8px; right: 8px; max-width: none; width: auto; height: 55vh; max-height: 420px; bottom: 80px; border-radius: 16px; }
+  .cs-float { bottom: 16px !important; right: 12px !important; }
+  .cs-btn { width: 52px !important; height: 52px !important; }
+  .cs-btn svg { width: 24px; height: 24px; }
+  .cs-btn .cs-label { display: none; }
+  .cs-header { padding: 10px 12px; }
+  .cs-body { padding: 8px; }
+  .cs-bubble { font-size: 13px; padding: 8px 11px; max-width: 85%; }
+  .cs-quick-btn { font-size: 11px; padding: 4px 8px; }
+  .cs-input-area { padding: 6px 8px; }
+  .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .delivery-box { padding: 24px 18px; }
+  .delivery-actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">山海AI接口服务</div>
+  <nav class="nav">
+    <a href="#pricing">套餐</a>
+    <a href="#code-demo">接入示例</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    AI能力，人人用得起
+  </div>
+  <h1>山海AI接口服务</h1>
+  <p class="hero-desc">298元包年 · 不限调用 · 快速交付 · OpenAI兼容 · 7天无理由退款</p>
+  <div class="hero-tags">
+    <span class="hero-tag">多引擎冗余</span>
+    <span class="hero-tag">零代码改造</span>
+    <span class="hero-tag">开源合规</span>
+    <span class="hero-tag">快速交付</span>
+  </div>
+</section>
+
+<!-- Trust Bar -->
+<div class="trust-bar">
+  <div class="trust-grid">
+    <div class="trust-item">
+      <div class="trust-num">3行</div>
+      <div class="trust-label">代码接入</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">99.9%</div>
+      <div class="trust-label">服务可用率</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">7天</div>
+      <div class="trust-label">无理由退款</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-num">90秒</div>
+      <div class="trust-label">快速上手</div>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<section class="section pricing-section" id="pricing">
+  <h2 class="section-title">选择套餐</h2>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">入门版</div>
+      <div class="pricing-target">个人开发者首选</div>
+      <div class="pricing-price">298<small>/年</small></div>
+      <div class="pricing-daily">≈ 0.8元/天</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li><span class="ck">✓</span>不限调用次数</li>
+        <li><span class="ck">✓</span>OpenAI兼容接口</li>
+        <li><span class="ck">✓</span>付款确认后交付密钥</li>
+        <li><span class="ck">✓</span>7天无理由退款</li>
+      </ul>
+      <button class="pricing-btn" onclick="selectPlan('298','入门版')">立即开通</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">推荐</div>
+      <div class="pricing-name">成长版</div>
+      <div class="pricing-target">小团队首选</div>
+      <div class="pricing-price">998<small>/年</small></div>
+      <div class="pricing-daily">≈ 2.7元/天</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li><span class="ck">✓</span>多引擎冗余零中断</li>
+        <li><span class="ck">✓</span>品牌话术定制</li>
+        <li><span class="ck">✓</span>数据分析看板</li>
+        <li><span class="ck">✓</span>12h优先响应</li>
+      </ul>
+      <button class="pricing-btn" onclick="selectPlan('998','成长版')">立即开通</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">旗舰版</div>
+      <div class="pricing-target">企业首选</div>
+      <div class="pricing-price">2998<small>/年</small></div>
+      <div class="pricing-daily">≈ 8.2元/天</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li><span class="ck">✓</span>全模型无限调用</li>
+        <li><span class="ck">✓</span>深度业务定制</li>
+        <li><span class="ck">✓</span>专属AI训练师</li>
+        <li><span class="ck">✓</span>7×24技术响应</li>
+      </ul>
+      <button class="pricing-btn" onclick="selectPlan('2998','旗舰版')">立即开通</button>
+    </div>
+  </div>
+</section>
+
+<!-- Order -->
+<section class="section order-section" id="order">
+  <div class="order-box" id="orderForm">
+    <h3>填写开通信息</h3>
+    <p class="sub">信息加密保护，仅用于开通服务</p>
+    <form onsubmit="return handleSubmit(event)">
+      <div class="form-group">
+        <label>选择套餐 <span class="req">*</span></label>
+        <div class="plan-selector">
+          <div class="plan-option" data-plan="298" onclick="selectPlanOption('298')">
+            <div class="pn">入门版</div>
+            <div class="pp">298<small>元</small></div>
+          </div>
+          <div class="plan-option selected" data-plan="998" onclick="selectPlanOption('998')">
+            <div class="pn">成长版</div>
+            <div class="pp">998<small>元</small></div>
+          </div>
+          <div class="plan-option" data-plan="2998" onclick="selectPlanOption('2998')">
+            <div class="pn">旗舰版</div>
+            <div class="pp">2998<small>元</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>姓名 <span class="req">*</span></label>
+        <input type="text" id="name" placeholder="请输入姓名" required>
+        <div class="error-msg" id="nameError">请输入真实姓名</div>
+      </div>
+      <div class="form-group">
+        <label>手机号 <span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="请输入11位手机号" maxlength="11" required>
+        <div class="error-msg" id="phoneError">请输入正确的手机号码</div>
+      </div>
+      <div class="form-group">
+        <label>邮箱 <span style="color:#666;font-size:12px">（选填，填写后密钥直接发到邮箱）</span></label>
+        <input type="email" id="email" placeholder="选填">
+        <div class="error-msg" id="emailError">请输入正确的邮箱地址</div>
+      </div>
+      <input type="hidden" id="selectedPlan" value="998">
+      <button type="submit" class="submit-btn">确认并付款</button>
+    </form>
+  </div>
+
+  <div class="payment-box" id="paymentSection">
+    <h3>扫码付款</h3>
+    <div class="payment-amount" id="paymentAmount">998<small>元</small></div>
+    <div class="payment-qr">
+      <img src="IMG_20250626_095025.jpg" alt="收款码" onerror="this.parentElement.innerHTML='<div style=\'color:#999;font-size:13px\'>收款码加载中...</div>'">
+    </div>
+    <div class="payment-note">
+      付款后点击按钮确认，我们会收到通知并尽快为您交付密钥
+    </div>
+    <a class="go-pay-btn" onclick="goPay()">去付款</a>
+    <button class="confirm-pay-btn" onclick="confirmPayment()">我已付款</button>
+    <a class="back-link" onclick="backToForm()">← 返回修改信息</a>
+  </div>
+
+  <!-- 等待确认状态 -->
+  <div class="delivery-box" id="waitingSection" style="display:none">
+    <div class="waiting-icon">⏳</div>
+    <h3>付款确认中</h3>
+    <p class="delivery-sub">我们已收到您的付款通知，正在确认中</p>
+    <p class="order-id-display">订单号：<span id="displayOrderId"></span></p>
+    <p class="delivery-sub" style="margin-top:16px;font-size:13px;color:#999">确认后将通过邮件发送密钥，您也可以随时输入手机号查询</p>
+    <div class="key-retrieve" style="margin-top:20px">
+      <input type="tel" id="retrievePhone" placeholder="输入手机号查询密钥" maxlength="11" style="width:60%;padding:10px;background:#1a1a2e;border:1px solid #2a2a3e;border-radius:6px;color:#e0e0e0;font-size:14px">
+      <button onclick="retrieveKey()" style="padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;margin-left:8px">查询</button>
+    </div>
+    <div id="retrieveResult" style="margin-top:16px;display:none"></div>
+  </div>
+
+  <!-- 密钥已交付状态 -->
+  <div class="delivery-box" id="deliverySection" style="display:none">
+    <div class="delivery-check">✓</div>
+    <h3>密钥已交付</h3>
+    <p class="delivery-sub">你的专属API密钥如下，请妥善保管</p>
+    <div class="key-display">
+      <button class="key-copy-btn" onclick="copyKey()">复制</button>
+      <span id="apiKeyText">sk-shanhai-</span>
+    </div>
+    <div class="delivery-steps">
+      <div class="delivery-step">
+        <span class="step-num">1</span>
+        <div class="step-text"><strong>复制密钥</strong> — 点击上方复制按钮保存你的API密钥</div>
+      </div>
+      <div class="delivery-step">
+        <span class="step-num">2</span>
+        <div class="step-text"><strong>替换base_url</strong> — 将代码中的base_url改为 <code style="color:var(--gold)">https://api.shanhai.ai/v1/</code></div>
+      </div>
+      <div class="delivery-step">
+        <span class="step-num">3</span>
+        <div class="step-text"><strong>替换api_key</strong> — 用上面的密钥替换你的api_key参数</div>
+      </div>
+      <div class="delivery-step">
+        <span class="step-num">4</span>
+        <div class="step-text"><strong>开始调用</strong> — 兼容OpenAI格式，无需修改其他代码</div>
+      </div>
+    </div>
+    <div class="delivery-actions">
+      <button class="delivery-btn-primary" onclick="document.getElementById('code-demo').scrollIntoView({behavior:'smooth'})">查看接入示例</button>
+    </div>
+  </div>
+</section>
+
+<!-- Code Demo -->
+<section class="section code-section" id="code-demo">
+  <h2 class="section-title">3行代码 · 10分钟接入</h2>
+  <div class="code-demo">
+    <div class="code-header">
+      <span class="code-dot red"></span>
+      <span class="code-dot yellow"></span>
+      <span class="code-dot green"></span>
+      <span class="code-title">Python 接入示例</span>
+      <button class="copy-btn" onclick="copyCode()">复制</button>
+    </div>
+    <div class="code-body">
+      <div class="code-line"><span class="line-num">1</span><span class="line-content"><span class="line-keyword">from</span> openai <span class="line-keyword">import</span> OpenAI</span></div>
+      <div class="code-line"><span class="line-num">2</span><span class="line-content">client = OpenAI(api_key=<span class="line-string">"<span class="line-variable">YOUR_API_KEY</span>"</span>,</span></div>
+      <div class="code-line"><span class="line-num">3</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;base_url=<span class="line-string">"https://api.shanhai.ai/v1/"</span>)</span></div>
+      <div class="code-line"><span class="line-num">4</span><span class="line-content">r = client.chat.completions.create(</span></div>
+      <div class="code-line"><span class="line-num">5</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;model=<span class="line-string">"shanhai-api"</span>,</span></div>
+      <div class="code-line"><span class="line-num">6</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;messages=[{<span class="line-string">"role"</span>:<span class="line-string">"user"</span>,<span class="line-string">"content"</span>:<span class="line-string">"你好"</span>}])</span></div>
+      <div class="code-line"><span class="line-num">7</span><span class="line-content"><span class="line-function">print</span>(r.choices[0].message.content)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <h2 class="section-title">常见问题</h2>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <h4>298元/年真的能用一年吗？</h4>
+      <p>真正的包年吃到饱，不按token计费，不限调用次数。7天无理由退款，零风险。</p>
+    </div>
+    <div class="faq-item">
+      <h4>如何接入？</h4>
+      <p>只需改base_url指向山海接口，保持OpenAI格式不变，10分钟上线。</p>
+    </div>
+    <div class="faq-item">
+      <h4>付款后多久拿到密钥？</h4>
+      <p>付款确认后会通过邮件发送专属密钥，也可在页面输入手机号查询。</p>
+    </div>
+    <div class="faq-item">
+      <h4>可以退款吗？</h4>
+      <p>所有版本支持7天无理由退款，零风险试用。</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">山海AI接口服务</div>
+  <p>AI能力，人人用得起</p>
+</footer>
+
+<!-- AI Customer Service Float -->
+<div class="cs-float">
+  <div class="cs-panel" id="csPanel">
+    <div class="cs-header">
+      <div class="cs-avatar">AI</div>
+      <div class="cs-info">
+        <div class="cs-name">山海接口服务顾问</div>
+        <div class="cs-status"><span class="cs-status-dot"></span>在线</div>
+      </div>
+      <button class="cs-close" onclick="toggleCS()">✕</button>
+    </div>
+    <div class="cs-body" id="csBody">
+      <div class="cs-msg cs-msg-bot">
+        <div class="cs-bubble">
+          你好，我是山海接口服务顾问。有任何关于API接入的问题，随时问我。
+          <div class="cs-quick-replies">
+            <button class="cs-quick-btn" onclick="csQuickReply('怎么接入API？')">怎么接入API？</button>
+            <button class="cs-quick-btn" onclick="csQuickReply('付款后没收到密钥')">付款后没收到密钥</button>
+            <button class="cs-quick-btn" onclick="csQuickReply('可以退款吗？')">可以退款吗？</button>
+            <button class="cs-quick-btn" onclick="csQuickReply('各版本有什么区别？')">各版本区别</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cs-input-area">
+      <input class="cs-input" id="csInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')csSend()">
+      <button class="cs-send" onclick="csSend()">
+        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+  <button class="cs-btn" onclick="toggleCS()">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
+    <span class="cs-badge"></span>
+    <span class="cs-label">💬 有问题？点我</span>
+  </button>
+</div>
+
+<script>
+let selectedPlan = '998';
+
+/* ============================================
+   AI客服引擎 — 全链路话术（售前/售中/售后）
+   ============================================ */
+const csReplies = [
+  /* === 售前 · 产品介绍 === */
+  {keys:['是什么','做什么','干什么','产品','服务','你们'],
+   reply:'山海AI接口服务是大模型API接口平台，提供OpenAI兼容的标准接口。你只需改一行base_url，就能用我们现有的代码无缝切换。298元/年包年不限调用，7天无理由退款。'},
+  {keys:['能用','哪些模型','支持什么','模型'],
+   reply:'我们提供多引擎冗余架构，自动路由到最优模型通道。你不需要关心底层模型，接口统一为OpenAI兼容格式，代码零改造。具体可用模型列表可在接入后通过 /models 端点查看。'},
+  {keys:['和.*区别','和.*对比','比.*好','区别','差异','优势','为什么选'],
+   reply:'核心优势三点：1）包年不限调用，不按token计费，成本可控；2）OpenAI标准格式，3行代码接入，零迁移成本；3）多引擎冗余，单一通道故障自动切换，99.9%可用率。市面上大多数按量计费，用得多花得多，我们是固定价格吃到饱。'},
+  {keys:['太贵','贵了','便宜','能不能少','打折','优惠','折扣','降价'],
+   reply:'298元/年约0.8元/天，相当于一杯奶茶钱用一年。对比市面上按token计费的服务，日常用量下年费通常超过500-2000元。我们是最具性价比的方案，而且支持7天无理由退款，零风险。'},
+  {keys:['信任','靠谱','骗子','跑路','真假','可信','安全'],
+   reply:'完全理解你的顾虑。我们提供三重保障：1）7天无理由退款，不满意全额退；2）OpenAI标准接口，随时可切换到其他服务商，不被锁定；3）先开通后使用，确认能用再长期合作。'},
+  {keys:['免费','试用','体验','试试','test','免费用'],
+   reply:'我们提供7天无理由退款，等同于免费试用7天。你可以先付款体验，任何不满意随时退，全额退款零门槛。这是我们对产品有信心的体现。'},
+  {keys:['企业','公司','商用','商业','团队'],
+   reply:'完全支持商用。接口合规，使用开源模型，无版权风险。成长版和旗舰版支持品牌定制和深度业务适配，适合企业级场景。很多中小企业和独立开发者都在用。'},
+  {keys:['个人','开发者','独立','freelance','自己用'],
+   reply:'入门版298元/年就是为个人开发者设计的。不限调用次数，足够覆盖日常开发、学习、原型验证等场景。很多用户用它搭建自己的AI应用、小程序、网站。'},
+
+  /* === 售前 · 成交引导 === */
+  {keys:['怎么买','怎么付','怎么开通','如何购买','如何开通','下单','买'],
+   reply:'选择套餐后点击"立即开通"，填写信息扫码付款即可。付款确认后，密钥会通过邮件发送给您，也可以在页面查询。'},
+  {keys:['选哪个','推荐','哪个版本','哪个套餐','适合我'],
+   reply:'如果你是个人开发者做项目，入门版298元/年完全够用。如果你是小团队需要多引擎冗余和品牌定制，推荐成长版998元/年。企业级深度定制选旗舰版2998元/年。不确定可以先从入门版开始，7天内可随时升级。'},
+  {keys:['升级','换','改套餐'],
+   reply:'支持随时升级套餐，差价补缴即可。已使用的时间按比例折算，不会浪费。在AI客服中说明即可处理。'},
+
+  /* === 售中 · 付款相关 === */
+  {keys:['付款','支付','付钱','扫码','二维码','付款码'],
+   reply:'选择套餐后点击"立即开通"，填写信息扫码付款即可。付款确认后密钥会通过邮件发送给您，您也可以在页面输入手机号随时查询。付款后有任何问题我来帮您。'},
+  {keys:['付不了','支付失败','扫不了','二维码不显示'],
+   reply:'请尝试：1）刷新页面重新进入；2）更换浏览器或网络；3）确认微信/支付宝版本为最新。如仍无法付款，请描述具体情况，客服会尽快协助。'},
+  {keys:['发票','开票','收据'],
+   reply:'付款后可在AI客服中申请电子发票，提供公司抬头和税号即可。通常1-3个工作日内发送到你的邮箱。'},
+
+  /* === 售后 · 密钥交付 === */
+  {keys:['密钥','key','api_key','没收到','没拿到'],
+   reply:'付款后点击"我已付款"按钮，提交后系统会记录您的订单。确认付款后密钥会发到您的邮箱。您也可以用手机号在页面查询密钥状态。'},
+  {keys:['复制','怎么用密钥','密钥怎么用'],
+   reply:'在密钥交付页面点击密钥旁的"复制"按钮。然后在你的代码中，将api_key参数替换为这个密钥，将base_url替换为 https://api.shanhai.ai/v1/ 即可。'},
+
+  /* === 售后 · 接入指导 === */
+  {keys:['接入','怎么用','怎么接','怎么调用','调用','使用','代码','示例','demo'],
+   reply:'接入只需3步：1）复制你的API密钥；2）将base_url改为 https://api.shanhai.ai/v1/ ；3）将api_key替换为你的密钥。格式完全兼容OpenAI SDK，其他代码不用改。页面下方有完整的Python示例代码。'},
+  {keys:['python','Python'],
+   reply:'Python接入示例：\nfrom openai import OpenAI\nclient = OpenAI(api_key="你的密钥", base_url="https://api.shanhai.ai/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)\n\n先 pip install openai，然后运行即可。'},
+  {keys:['node','Node','javascript','js'],
+   reply:'Node.js接入：安装 npm install openai，然后使用OpenAI SDK，设置base_url为 https://api.shanhai.ai/v1/ 即可。格式与Python完全一致。'},
+  {keys:['curl','http','请求'],
+   reply:'curl示例：\ncurl https://api.shanhai.ai/v1/chat/completions \\\n  -H "Authorization: Bearer 你的密钥" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"model":"shanhai-api","messages":[{"role":"user","content":"你好"}]}\''},
+  {keys:['报错','error','错误','失败','不行','不能','用不了','bug'],
+   reply:'请提供：1）完整的错误信息；2）你使用的编程语言和SDK版本；3）请求的URL和参数。客服会尽快帮你排查。常见问题包括：密钥未生效（请确认已复制完整）、base_url填写错误、网络问题等。'},
+  {keys:['慢','延迟','速度','卡','响应时间'],
+   reply:'正常响应时间在1-3秒。如果感觉较慢，可能是网络原因或当前负载较高。我们的多引擎冗余架构会自动路由到最快通道。如果持续较慢，请反馈具体情况。'},
+
+  /* === 售后 · 部署引导全流程 === */
+  {keys:['部署','接入指南','怎么开始','第一步','从头教','手把手','教我','带我','完整步骤','全流程'],
+   reply:'好的，我来一步步带你完成接入。\n\n【第1步】先安装SDK\n打开终端/命令行，运行：pip install openai\n\n【第2步】复制以下代码，保存为 test.py\nfrom openai import OpenAI\nclient = OpenAI(\n  api_key="你的密钥",\n  base_url="https://api.shanhai.ai/v1/"\n)\nr = client.chat.completions.create(\n  model="shanhai-api",\n  messages=[{"role":"user","content":"你好，请回复OK"}]\n)\nprint(r.choices[0].message.content)\n\n【第3步】把"你的密钥"替换成你的真实密钥\n\n【第4步】运行 python test.py\n\n如果看到返回"OK"或类似回复，就说明接入成功了。你到哪一步了？'},
+  {keys:['接好了','接完了','部署完','测试成功','通了','成功','OK了','能用了'],
+   reply:'太好了，恭喜接入成功。接下来建议你做三件事：\n1. 用真实业务场景测试几轮对话，确认效果\n2. 把密钥存到环境变量里（不要硬编码在代码中）\n3. 关注调用量，有任何异常随时来找我\n\n后续有任何问题，随时在这里找我，我一直都在。'},
+  {keys:['没成功','没通','报错','连不上','返回错','401','403','404','500','timeout','超时','连不了'],
+   reply:'别急，我们来排查。请告诉我：\n1. 你看到的完整报错信息是什么？\n2. 你用的是Python还是其他语言？\n3. 密钥是完整复制的吗？（注意不要有多余空格）\n4. base_url填的是 https://api.shanhai.ai/v1/ 吗？\n\n最常见的问题是密钥没复制完整、base_url末尾少了/、或者网络代理干扰。你把报错发给我，我帮你定位。'},
+  {keys:['环境变量','ENV','env','存密钥','安全','硬编码'],
+   reply:'推荐用环境变量存密钥，不要在代码里直接写。方法：\n\nLinux/Mac：在 ~/.bashrc 或 ~/.zshrc 加一行\nexport SHANHAI_API_KEY="你的密钥"\n然后代码里用 os.getenv("SHANHAI_API_KEY") 读取\n\nWindows：系统属性→环境变量→新建→变量名SHANHAI_API_KEY\n代码里用 os.environ.get("SHANHAI_API_KEY") 读取\n\n这样密钥不会出现在代码里，更安全。'},
+  {keys:['node.*部署','js.*部署','前端','浏览器','网页接入','React','Vue'],
+   reply:'前端/Node.js接入方式：\n\n1. npm install openai\n2. 代码：\nimport OpenAI from "openai";\nconst client = new OpenAI({\n  apiKey: "你的密钥",\n  baseURL: "https://api.shanhai.ai/v1/",\n  dangerouslyAllowBrowser: true  // 浏览器环境需要\n});\nconst res = await client.chat.completions.create({\n  model: "shanhai-api",\n  messages: [{role:"user", content:"你好"}]\n});\n\n注意：如果是公开网页，建议通过后端代理转发请求，避免密钥暴露。需要我教你怎么搭代理吗？'},
+  {keys:['小程序','微信小程序','uniapp','uni-app'],
+   reply:'小程序接入注意事项：\n1. 小程序不能直接用npm包，需要用wx.request手动发HTTP请求\n2. 示例：\nwx.request({\n  url: "https://api.shanhai.ai/v1/chat/completions",\n  method: "POST",\n  header: {\n    "Authorization": "Bearer 你的密钥",\n    "Content-Type": "application/json"\n  },\n  data: {\n    model: "shanhai-api",\n    messages: [{role:"user", content:"你好"}]\n  },\n  success(res) { console.log(res.data) }\n})\n\n重要：小程序发布前记得在后台配置 api.shanhai.ai 为合法域名。'},
+  {keys:['还没部署','还没接','还没弄','还没搞','等一下','稍后','明天','还没'],
+   reply:'没关系，不着急。你可以先准备好：\n1. 确认你的密钥已拿到（可在页面输入手机号查询）\n2. 确认你的开发环境（Python/Node/其他）\n3. 有时间了告诉我，我一步步带你接入\n\n随时找我，我一直在。'},
+  {keys:['代理','proxy','转发','后端中转','服务端','防暴露'],
+   reply:'生产环境建议用后端代理，不让密钥暴露在前端。最简单的做法：\n\n1. 在你的服务器搭一个接口（如 /api/chat）\n2. 前端请求你的接口，后端转发到山海API\n3. 密钥只存在后端环境变量里\n\n示例（Node.js + Express）：\napp.post("/api/chat", async (req, res) => {\n  const client = new OpenAI({\n    apiKey: process.env.SHANHAI_API_KEY,\n    baseURL: "https://api.shanhai.ai/v1/"\n  });\n  const result = await client.chat.completions.create({\n    model: "shanhai-api",\n    messages: req.body.messages\n  });\n  res.json(result);\n});\n\n需要更详细的教程告诉我。'},
+  {keys:['并发','限流','rate.*limit','qps','同时','多人'],
+   reply:'关于并发：入门版适合日常开发测试，一般够用。如果你的应用需要高并发（比如同时多人使用），建议升级到成长版，享有优先通道和更高并发上限。具体需求可以告诉我，我帮你评估。'},
+  {keys:['流式','stream','SSE','打字机'],
+   reply:'支持流式输出（打字机效果）。在请求中加 stream: true 即可。\n\nPython示例：\nstream = client.chat.completions.create(\n  model="shanhai-api",\n  messages=[{"role":"user","content":"你好"}],\n  stream=True\n)\nfor chunk in stream:\n  print(chunk.choices[0].delta.content, end="")\n\n效果是文字逐字出现，用户体验更好。'},
+  {keys:['model.*选','什么模型','模型名','model参数'],
+   reply:'model参数统一填 shanhai-api 即可，系统会自动路由到最优通道。你不需要关心底层用的什么模型，接口格式完全一致。如果未来需要指定特定模型，接入后通过 /models 端点查看可用列表。'},
+
+  /* === 售后 · 退款 === */
+  {keys:['退款','退钱','不想要','取消','退订'],
+   reply:'所有版本支持7天无理由退款。如需退款，请在AI客服中提供你的付款信息（手机号或付款截图），客服会在1个工作日内处理全额退款。'},
+
+  /* === 售后 · 续费 === */
+  {keys:['续费','到期','续','延长','再买'],
+   reply:'到期前30天系统会提醒续费。续费直接扫码支付，密钥不变，服务无缝延续。你也可以升级到更高版本享受更多功能。'},
+
+  /* === 基因植入 · 品牌信任 === */
+  {keys:['稳定','宕机','挂了','中断','可靠'],
+   reply:'我们采用多引擎冗余架构，3个独立通道实时监测，单点故障毫秒级自动切换。承诺99.9%可用率，SLA保障。开源合规，不依赖单一供应商。'},
+  {keys:['合规','版权','legal','法律','风险'],
+   reply:'完全合规。我们使用的模型均为开源或已获商用授权，无版权风险。接口符合国内数据合规要求，支持企业级安全需求。'},
+  {keys:['数据','隐私','安全','保密'],
+   reply:'你的API密钥和调用数据均加密存储。我们不会记录、分析或转售你的调用内容。数据传输全程HTTPS加密。'},
+];
+
+function toggleCS() {
+  const panel = document.getElementById('csPanel');
+  const label = document.querySelector('.cs-label');
+  panel.classList.toggle('open');
+  if (label) label.style.display = panel.classList.contains('open') ? 'none' : '';
+}
+
+function csQuickReply(text) {
+  csAddMsg(text, 'user');
+  setTimeout(() => csAddMsg(csGetReply(text), 'bot'), 400);
+}
+
+function csSend() {
+  const input = document.getElementById('csInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  csAddMsg(text, 'user');
+  setTimeout(() => {
+    const reply = csGetReply(text);
+    csAddMsg(reply, 'bot');
+    // After answering, if it's a pre-sale question, gently guide to purchase
+    if (!reply.includes('密钥') && !reply.includes('退款') && !reply.includes('报错') && !reply.includes('接入示例')) {
+      setTimeout(() => {
+        csAddMsg('如果还有其他问题，随时问我。准备好了可以直接选择套餐开通，298元/年就能用一整年。', 'bot');
+      }, 800);
+    }
+  }, 400);
+}
+
+function csAddMsg(text, role) {
+  const body = document.getElementById('csBody');
+  const div = document.createElement('div');
+  div.className = 'cs-msg cs-msg-' + role;
+  // Support line breaks in replies
+  div.innerHTML = '<div class="cs-bubble">' + text.replace(/\n/g, '<br>') + '</div>';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function csGetReply(text) {
+  const t = text.toLowerCase();
+  for (const item of csReplies) {
+    for (const key of item.keys) {
+      try {
+        if (new RegExp(key).test(t)) return item.reply;
+      } catch(e) {
+        if (t.includes(key)) return item.reply;
+      }
+    }
+  }
+  return '感谢你的提问，我已记录。请描述更多细节，或选择上方的快捷问题。如需人工协助，客服团队会尽快回复。';
+}
+
+/* ============================================
+   套餐选择 & 付款 & 密钥交付 — 全闭环
+   ============================================ */
+function selectPlan(price, name) {
+  selectedPlan = price;
+  document.getElementById('selectedPlan').value = price;
+  document.querySelectorAll('.plan-option').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.plan === price);
+  });
+  // 先滚动到表单，让用户填写信息后再付款
+  document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+function selectPlanOption(price) {
+  selectedPlan = price;
+  document.getElementById('selectedPlan').value = price;
+  document.querySelectorAll('.plan-option').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.plan === price);
+  });
+}
+
+function showPayment() {
+  document.getElementById('orderForm').style.display = 'none';
+  document.getElementById('paymentSection').classList.add('show');
+  document.getElementById('deliverySection').classList.remove('show');
+  document.getElementById('paymentAmount').innerHTML = selectedPlan + '<small>元</small>';
+  document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  // 存储表单信息，付款确认时使用
+  window.currentOrderInfo = { name, phone, email, plan: selectedPlan };
+  showPayment();
+  return false;
+}
+
+function backToForm() {
+  document.getElementById('paymentSection').classList.remove('show');
+  document.getElementById('deliverySection').classList.remove('show');
+  document.getElementById('orderForm').style.display = 'block';
+  document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ====== 订单管理系统 ====== */
+const GITHUB_OWNER = 'shanhai-geo';
+const GITHUB_REPO = 'shanhai-geo.github.io';
+const ORDERS_PATH = 'data/orders.json';
+const NOTIFY_EMAIL = '746876121@qq.com';
+
+// 生成订单号
+function generateOrderId() {
+  const now = new Date();
+  const dateStr = now.getFullYear().toString() + 
+    String(now.getMonth()+1).padStart(2,'0') + 
+    String(now.getDate()).padStart(2,'0');
+  const rand = Math.floor(Math.random() * 999).toString().padStart(3, '0');
+  return 'ORD-' + dateStr + '-' + rand;
+}
+
+// 获取当前订单信息
+function getCurrentOrder() {
+  const stored = localStorage.getItem('currentOrder');
+  return stored ? JSON.parse(stored) : null;
+}
+
+// 保存当前订单
+function saveCurrentOrder(order) {
+  localStorage.setItem('currentOrder', JSON.stringify(order));
+}
+
+// 同步订单到GitHub（通过Issue记录，公开仓库无需token）
+async function syncOrderToGitHub(order) {
+  try {
+    const issueBody = `## 订单信息\n\n` +
+      `- 订单号：${order.orderId}\n` +
+      `- 套餐：${order.planName} ${order.price}元\n` +
+      `- 姓名：${order.name}\n` +
+      `- 手机号：${order.phone}\n` +
+      `- 邮箱：${order.email || '未填写'}\n` +
+      `- 下单时间：${order.createdAt}\n` +
+      `- 状态：已付款待确认\n\n` +
+      `---\n此Issue由系统自动创建，确认后关闭。`;
+    
+    const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: `订单 ${order.orderId} - ${order.planName} ¥${order.price} - 待确认`,
+        body: issueBody,
+        labels: ['order', 'payment-pending']
+      })
+    });
+    
+    if (resp.ok) {
+      console.log('Order issue created:', order.orderId);
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.error('Order sync failed:', e);
+    return false;
+  }
+}
+
+// Issue创建会自动通知仓库订阅者，无需额外通知函数
+
+/* 去付款 → 直接跳微信/支付宝扫码付款 */
+function goPay() {
+  const ua = navigator.userAgent.toLowerCase();
+  const isMobile = /android|iphone|ipad|ipod/i.test(ua);
+  if (!isMobile) {
+    alert('请在手机上打开此页面，长按识别二维码转账');
+    return;
+  }
+  // Android: 用intent scheme直接拉起微信
+  if (ua.indexOf('android') !== -1) {
+    window.location.href = 'intent://#Intent;scheme=weixin;package=com.tencent.mm;end';
+    setTimeout(() => {
+      alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
+    }, 2000);
+    return;
+  }
+  // iOS: 用weixin:// scheme
+  if (/iphone|ipad|ipod/i.test(ua)) {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = 'weixin://';
+    document.body.appendChild(iframe);
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+      alert('如未跳转微信，请截图二维码后打开微信扫一扫"从相册选取"');
+    }, 2000);
+    return;
+  }
+  alert('请截图保存二维码，打开微信或支付宝扫一扫完成付款');
+}
+
+/* 确认付款 → 记录订单 → 等待确认 */
+async function confirmPayment() {
+  // 使用提交表单时存储的信息
+  const info = window.currentOrderInfo;
+  if (!info || !info.name || !info.phone) {
+    alert('请先填写姓名和手机号');
+    backToForm();
+    return;
+  }
+  
+  const planNames = {'298':'入门版', '998':'成长版', '2998':'旗舰版'};
+  const order = {
+    orderId: generateOrderId(),
+    name: info.name,
+    phone: info.phone,
+    email: info.email,
+    plan: info.plan,
+    planName: planNames[info.plan] || info.plan,
+    price: info.plan,
+    status: 'paid_pending',
+    createdAt: new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'}),
+    key: null,
+    deliveredAt: null,
+    log: [{time: new Date().toISOString(), action: 'order_created', detail: '订单创建'}]
+  };
+  order.log.push({time: new Date().toISOString(), action: 'payment_confirmed_by_customer', detail: '客户确认已付款'});
+  
+  // 保存到localStorage
+  saveCurrentOrder(order);
+  
+  // 隐藏付款区，显示等待区
+  document.getElementById('paymentSection').classList.remove('show');
+  document.getElementById('waitingSection').style.display = 'block';
+  document.getElementById('displayOrderId').textContent = order.orderId;
+  document.getElementById('waitingSection').scrollIntoView({ behavior: 'smooth' });
+  
+  // 创建GitHub Issue，系统自动通过GitHub通知发邮件给管理员（无需客户操作）
+  const issueResult = await syncOrderToGitHub(order);
+  if (!issueResult) {
+    // Issue创建失败时，降级使用mailto兜底
+    const mailSubject = encodeURIComponent('【新订单】' + order.orderId + ' - ' + order.planName + ' ¥' + order.price);
+    const mailBody = encodeURIComponent(
+      '新订单通知\n\n' +
+      '订单号：' + order.orderId + '\n' +
+      '套餐：' + order.planName + ' ¥' + order.price + '\n' +
+      '姓名：' + order.name + '\n' +
+      '手机号：' + order.phone + '\n' +
+      '邮箱：' + (order.email || '未填写') + '\n' +
+      '下单时间：' + order.createdAt + '\n\n' +
+      '请到管理后台确认交付：https://shanhai-geo.github.io/geo/admin.html'
+    );
+    const a = document.createElement('a');
+    a.href = 'mailto:746876121@qq.com?subject=' + mailSubject + '&body=' + mailBody;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+}
+
+/* 查询密钥 */
+async function retrieveKey() {
+  const phone = document.getElementById('retrievePhone').value.trim();
+  const resultDiv = document.getElementById('retrieveResult');
+  
+  if (!phone || phone.length !== 11) {
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<p style="color:#ff6b6b">请输入正确的11位手机号</p>';
+    return;
+  }
+  
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<p style="color:#999">查询中...</p>';
+  
+  try {
+    const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues?labels=order&state=all&per_page=100`, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' }
+    });
+    const issues = await resp.json();
+    
+    // 查找已交付的订单（closed issue中包含密钥）
+    const deliveredIssue = issues.find(issue => 
+      issue.body && issue.body.includes(phone) && issue.state === 'closed'
+    );
+    
+    if (deliveredIssue) {
+      const keyMatch = deliveredIssue.body.match(/API密钥：([\w-]+)/);
+      if (keyMatch) {
+        const key = keyMatch[1];
+        resultDiv.innerHTML = `
+          <div style="background:#1a2e1a;border:1px solid #2e4a2e;border-radius:8px;padding:16px">
+            <p style="color:#4caf50;font-weight:600;margin-bottom:8px">✓ 密钥已找到</p>
+            <p style="color:#999;font-size:12px;margin-bottom:8px">${deliveredIssue.title}</p>
+            <div style="background:#0a0a14;padding:12px;border-radius:6px;font-family:monospace;color:#c9a96e;word-break:break-all;font-size:13px">${key}</div>
+            <button onclick="navigator.clipboard.writeText('${key}');this.textContent='已复制'" style="margin-top:8px;padding:6px 16px;background:var(--gold);color:#000;border:none;border-radius:4px;font-size:12px;cursor:pointer">复制密钥</button>
+          </div>`;
+        return;
+      }
+    }
+    
+    // 查找待确认的订单（open issue）
+    const pendingIssue = issues.find(issue => 
+      issue.body && issue.body.includes(phone) && issue.state === 'open' && issue.labels.some(l=>l.name==='order')
+    );
+    
+    if (pendingIssue) {
+      resultDiv.innerHTML = '<p style="color:#c9a96e">您的订单正在确认中，确认后密钥将通过邮件发送。请稍后再查询。</p>';
+    } else {
+      resultDiv.innerHTML = '<p style="color:#999">未找到该手机号的订单。如已付款请稍候再试，或联系在线客服。</p>';
+    }
+  } catch (e) {
+    resultDiv.innerHTML = '<p style="color:#ff6b6b">查询失败，请稍后重试或联系在线客服。</p>';
+  }
+}
+
+/* 复制密钥 */
+function copyKey() {
+  const key = document.getElementById('apiKeyText').textContent;
+  navigator.clipboard.writeText(key).then(() => {
+    const btn = document.querySelector('.key-copy-btn');
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制', 2000);
+  });
+}
+
+function copyCode() {
+  const code = `from openai import OpenAI\nclient = OpenAI(api_key="YOUR_API_KEY", base_url="https://api.shanhai.ai/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)`;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制', 2000);
+  });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
