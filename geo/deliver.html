@@ -97,46 +97,19 @@ async function doDeliver() {
   var now = new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
   
   try {
-    // 1. 发送密钥邮件给客户（通过FormSubmit）
-    var emailOk = false;
-    if (email && email.indexOf('@') > 0) {
-      var formData = new URLSearchParams();
-      formData.append('_subject', '【山海AI】您的API密钥已交付 - ' + orderId);
-      formData.append('_template', 'table');
-      formData.append('_captcha', 'false');
-      formData.append('客户', name || '用户');
-      formData.append('订单号', orderId);
-      formData.append('套餐', planName);
-      formData.append('API密钥', key);
-      formData.append('接入地址', 'https://shanhai-geo.github.io/geo/api-service.html');
-      formData.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://api.shanhai.ai/v1/")');
-      formData.append('_replyto', '746876121@qq.com');
-      
-      try {
-        var emailResp = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(email), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
-          body: formData.toString()
-        });
-        emailOk = emailResp.ok;
-      } catch(e) {
-        emailOk = false;
-      }
-    }
-    
-    // 2. 发送交付记录给管理员（FormSubmit -> 746876121@qq.com）
+    // 密钥始终发到管理员邮箱（已激活FormSubmit，确保送达）
     var adminForm = new URLSearchParams();
-    adminForm.append('_subject', '【已交付】' + orderId + ' - ' + planName + ' ¥' + plan);
+    adminForm.append('_subject', '【密钥交付】' + orderId + ' - ' + planName + ' ¥' + plan);
     adminForm.append('_template', 'table');
     adminForm.append('_captcha', 'false');
     adminForm.append('订单号', orderId);
     adminForm.append('套餐', planName + ' ' + plan + '元');
     adminForm.append('客户', name);
     adminForm.append('手机', phone);
-    adminForm.append('邮箱', email || '未填写');
+    adminForm.append('客户邮箱', email || '未填写');
     adminForm.append('API密钥', key);
+    adminForm.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://api.shanhai.ai/v1/")');
     adminForm.append('交付时间', now);
-    adminForm.append('邮件状态', emailOk ? '已自动发送至客户' : '未发送-需手动转发');
     adminForm.append('状态', '已交付');
     
     await fetch('https://formsubmit.co/ajax/746876121@qq.com', {
@@ -145,12 +118,12 @@ async function doDeliver() {
       body: adminForm.toString()
     });
     
-    // 3. 显示结果
+    // 显示结果 - 密钥在页面上显示，管理员可复制转发给客户
     document.getElementById('loadingView').classList.remove('show');
     var status = document.getElementById('statusView');
     status.className = 'status show success';
     status.innerHTML = '<div style="font-size:18px;margin-bottom:8px">✅ 交付成功</div>' +
-      '<div style="margin-bottom:4px">' + (emailOk ? '密钥邮件已发送至 ' + email : '客户邮箱未激活，请手动转发密钥') + '</div>' +
+      '<div style="margin-bottom:4px">密钥已发送到 746876121@qq.com，请转发给客户 ' + (email || '') + '</div>' +
       '<div class="key-display">' + key + '</div>' +
       '<button class="btn-copy" onclick="navigator.clipboard.writeText(\'' + key + '\');this.textContent=\'已复制\'">复制密钥</button>';
     btn.style.display = 'none';
