@@ -80,6 +80,20 @@ td{padding:10px;border-bottom:1px solid var(--border)}
 .hero .tags{margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .hero .tag{background:var(--bg3);border:1px solid var(--border);padding:4px 12px;border-radius:20px;font-size:12px;color:var(--text2)}
 
+/* Modal */
+.modal-mask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:999;justify-content:center;align-items:center}
+.modal-mask.show{display:flex}
+.modal-box{background:var(--bg2);border:1px solid var(--gold);border-radius:16px;padding:32px;max-width:400px;width:90%;text-align:center;position:relative}
+.modal-box h3{color:var(--gold);font-size:20px;margin-bottom:16px}
+.modal-box p{color:var(--text);font-size:15px;line-height:1.8;margin-bottom:12px}
+.modal-id{font-size:28px;font-weight:700;color:var(--gold);letter-spacing:2px;padding:12px;background:var(--bg);border-radius:8px;margin:12px 0}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer}
+.modal-hint{font-size:12px;color:var(--text2);margin-top:8px}
+.cta-btn{display:inline-block;background:var(--gold);color:#000;padding:12px 32px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;border:none;margin-top:16px;transition:all .2s}
+.cta-btn:hover{background:var(--gold2);transform:scale(1.02)}
+.price-tag{font-size:24px;font-weight:700;color:var(--gold)}
+.price-tag small{font-size:13px;font-weight:400;color:var(--text2)}
+
 /* Responsive */
 @media(max-width:600px){.header{flex-direction:column;gap:8px}.nav{flex-wrap:wrap;justify-content:center}.chat-box{height:50vh}.card-grid{grid-template-columns:1fr 1fr}}
 </style>
@@ -92,7 +106,7 @@ td{padding:10px;border-bottom:1px solid var(--border)}
     <button class="active" onclick="showPanel('home')">首页</button>
     <button onclick="showPanel('chat')">AI对话</button>
     <button onclick="showPanel('status')">系统状态</button>
-    <button onclick="showPanel('activate')">激活服务</button>
+    <button onclick="showPanel('activate')">立即咨询</button>
     <button onclick="showPanel('diag')">GEO诊断</button>
     <button onclick="showPanel('settings')">设置</button>
   </div>
@@ -110,6 +124,7 @@ td{padding:10px;border-bottom:1px solid var(--border)}
       <span class="tag">MCP Server</span>
       <span class="tag">A2A Protocol</span>
     </div>
+    <button class="cta-btn" onclick="showContactModal()">立即咨询</button>
   </div>
   <div class="card">
     <h3>三大生态</h3>
@@ -192,12 +207,12 @@ td{padding:10px;border-bottom:1px solid var(--border)}
   <button class="btn btn-outline" onclick="refreshStatus()">刷新状态</button>
 </div>
 
-<!-- ACTIVATE -->
+<!-- ACTIVATE = 成交咨询 -->
 <div id="p-activate" class="panel">
   <div class="card">
-    <h3>激活GEO服务</h3>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:12px">
-      提交信息后获得API访问密钥，即刻接入山海云枢AI网关
+    <h3>立即咨询</h3>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">
+      提交信息后，专属顾问将在30分钟内与您联系
     </p>
     <label>姓名 *</label>
     <input id="actName" placeholder="请输入姓名">
@@ -209,19 +224,21 @@ td{padding:10px;border-bottom:1px solid var(--border)}
     <input id="actCompany" placeholder="公司名称（可选）">
     <label>套餐 *</label>
     <select id="actPlan">
-      <option value="298">基础版 - 298元</option>
-      <option value="998">专业版 - 998元</option>
-      <option value="4998">企业版 - 4998元</option>
+      <option value="298">基础版 - 298元/年（大模型接口+多引擎路由）</option>
+      <option value="998">专业版 - 998元/年（含GEO诊断+智能客服）</option>
+      <option value="4998">企业版 - 4998元/年（全功能+专属支持）</option>
     </select>
-    <button class="btn" onclick="activate()">提交激活</button>
+    <button class="cta-btn" onclick="showContactModal()">立即咨询顾问</button>
     <div class="result-box" id="actResult"></div>
   </div>
   <div class="card">
-    <h3>验证密钥</h3>
-    <label>API密钥</label>
-    <input id="verifyKey" placeholder="输入已激活的密钥">
-    <button class="btn btn-outline" onclick="verifyKey()">验证</button>
-    <div class="result-box" id="verifyResult"></div>
+    <h3>为什么选山海云枢</h3>
+    <table>
+      <tr><td>多引擎智能路由</td><td>3大AI引擎自动切换，永不断服</td></tr>
+      <tr><td>298元/年起</td><td>不到一杯咖啡钱，全年AI服务</td></tr>
+      <tr><td>即开即用</td><td>3分钟完成接入，无需技术背景</td></tr>
+      <tr><td>GEO搜索优化</td><td>让AI搜索引擎找到你的业务</td></tr>
+    </table>
   </div>
 </div>
 
@@ -279,6 +296,21 @@ td{padding:10px;border-bottom:1px solid var(--border)}
   <button class="btn" onclick="saveSettings()">保存配置</button>
   <button class="btn btn-outline" onclick="clearSettings()" style="margin-left:8px">清除配置</button>
   <div class="result-box" id="settingsResult"></div>
+</div>
+
+<!-- 成交弹窗 Modal -->
+<div class="modal-mask" id="contactModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeContactModal()">✕</button>
+    <h3>顾问一对一服务</h3>
+    <p>添加专属顾问，获取方案报价</p>
+    <div class="modal-hint" style="margin-bottom:16px">微信号</div>
+    <div class="modal-id">4009636853</div>
+    <p style="font-size:13px;color:var(--text2)">打开微信 → 搜索此微信号 → 添加好友</p>
+    <div class="modal-hint" style="margin-top:20px;margin-bottom:8px">扫码付款（微信/支付宝/云闪付均可）</div>
+    <img src="https://shanhai-geo.github.io/IMG_20260626_095025.jpg" style="width:180px;height:180px;border-radius:8px;border:2px solid var(--gold);display:block;margin:0 auto" alt="收款码">
+    <p class="modal-hint">扫码后备注姓名+套餐，顾问30分钟内对接</p>
+  </div>
 </div>
 
 <script>
@@ -379,7 +411,7 @@ async function sendChat() {
         body: JSON.stringify({
           model: engine.model,
           messages: [
-            { role: 'system', content: '你是山海云枢AI助手，基于山海云枢Agent供电局体系。请简洁、准确地回答用户问题。' },
+            { role: 'system', content: '你是山海云枢AI助手兼销售顾问。回答用户问题时简洁专业。当用户询问产品、价格、服务、功能、接入方式时，主动介绍三档套餐（298元/998元/4998元）的对应权益，并在用户表现出购买意向时引导点击页面顶部「立即咨询」按钮。不要过度推销，保持专业克制。' },
             ...chatHistory
           ],
           temperature: 0.7,
@@ -558,6 +590,17 @@ function showResult(id, text) {
 
 // Init
 loadSettings();
+// ===== Modal 成交弹窗 =====
+function showContactModal() {
+  document.getElementById('contactModal').style.display = 'flex';
+}
+function closeContactModal() {
+  document.getElementById('contactModal').style.display = 'none';
+}
+document.getElementById('contactModal').addEventListener('click', function(e) {
+  if (e.target === this) closeContactModal();
+});
+
 </script>
 </body>
 </html>
