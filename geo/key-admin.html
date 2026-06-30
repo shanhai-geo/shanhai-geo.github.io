@@ -99,6 +99,7 @@ h2{color:var(--gold);font-size:16px;margin:20px 0 12px}
   <div class="tabs">
     <div class="tab active" onclick="switchMainTab('keys',this)">密钥管理</div>
     <div class="tab tab-refund" onclick="switchMainTab('refunds',this);loadRefundIssues()">退款处理 <span class="badge" id="refundBadge" style="display:none">0</span></div>
+    <div class="tab" onclick="switchMainTab('deliver',this)">快捷发key</div>
   </div>
 
   <!-- 密钥管理面板 -->
@@ -124,6 +125,59 @@ h2{color:var(--gold);font-size:16px;margin:20px 0 12px}
       <button onclick="loadRefundIssues()">刷新退款列表</button>
     </div>
     <div id="refundList"><div class="loading">加载中...</div></div>
+  </div>
+
+  <!-- 快捷发key面板 -->
+  <div id="panelDeliver" style="display:none">
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:500px">
+      <h2 style="margin-top:0">快捷发放密钥</h2>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px">客户付款后，输入信息一键生成密钥并写入注册表。后续收款系统回调时也可调用 autoDeliverKey() 接口自动发放。</p>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:12px;color:var(--text2);margin-bottom:5px">客户姓名</label>
+        <input id="deliverName" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:14px" placeholder="客户姓名">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:12px;color:var(--text2);margin-bottom:5px">手机号</label>
+        <input id="deliverPhone" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:14px" placeholder="购买时使用的手机号" maxlength="11">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:12px;color:var(--text2);margin-bottom:5px">邮箱</label>
+        <input id="deliverEmail" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:14px" placeholder="客户的邮箱（选填）">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:12px;color:var(--text2);margin-bottom:5px">套餐</label>
+        <select id="deliverPlan" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:14px">
+          <option value="298">入门版 - 298元/年</option>
+          <option value="998">成长版 - 998元/年</option>
+          <option value="2998">旗舰版 - 2998元/年</option>
+        </select>
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:12px;color:var(--text2);margin-bottom:5px">订单号</label>
+        <input id="deliverOrderId" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:14px" placeholder="订单号（选填，不填自动生成）">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-size:12px;color:var(--text2);margin-bottom:5px">有效期</label>
+        <select id="deliverDuration" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:14px">
+          <option value="365">365天（1年）</option>
+          <option value="30">30天</option>
+          <option value="90">90天</option>
+          <option value="730">730天（2年）</option>
+        </select>
+      </div>
+      <button class="btn btn-renew" style="width:100%;padding:12px;font-size:16px" onclick="quickDeliverKey()">生成密钥并注册</button>
+      <div id="deliverResult" style="margin-top:16px"></div>
+    </div>
+
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:500px;margin-top:20px">
+      <h2 style="margin-top:0">接口预留说明</h2>
+      <div style="font-size:13px;color:var(--text2);line-height:1.8">
+        <p>当前通道（乐刷）：手动确认到账 → 快捷发key</p>
+        <p style="margin-top:8px">预留接口（后续接入）：收款系统回调 → 自动调用 <code style="background:var(--bg);padding:2px 6px;border-radius:4px;color:var(--gold)">autoDeliverKey(phone, plan, orderId)</code></p>
+        <p style="margin-top:8px">支持对接：H5收款回调 / 商家收款码回调 / 其他支付系统</p>
+        <p style="margin-top:8px;color:var(--warn)">不影响当前乐刷通道运行，两条链路独立</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -214,6 +268,7 @@ function switchMainTab(panel, el) {
   if(el) el.classList.add('active');
   document.getElementById('panelKeys').style.display = panel === 'keys' ? 'block' : 'none';
   document.getElementById('panelRefunds').style.display = panel === 'refunds' ? 'block' : 'none';
+  document.getElementById('panelDeliver').style.display = panel === 'deliver' ? 'block' : 'none';
 }
 
 /* ============ 密钥管理 ============ */
@@ -630,6 +685,125 @@ function exportData() {
     toast('数据已复制到剪贴板');
   });
 }
+
+/* ============ 快捷发key ============ */
+function generateKey() {
+  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var key = 'sk-';
+  for (var i = 0; i < 48; i++) key += chars.charAt(Math.floor(Math.random() * chars.length));
+  return key;
+}
+
+function generateOrderId() {
+  var d = new Date();
+  var ts = d.getFullYear().toString() +
+    ('0' + (d.getMonth() + 1)).slice(-2) +
+    ('0' + d.getDate()).slice(-2) +
+    ('0' + d.getHours()).slice(-2) +
+    ('0' + d.getMinutes()).slice(-2) +
+    ('0' + d.getSeconds()).slice(-2);
+  return 'ORD-' + ts + '-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+}
+
+async function quickDeliverKey() {
+  var name = document.getElementById('deliverName').value.trim();
+  var phone = document.getElementById('deliverPhone').value.trim();
+  var email = document.getElementById('deliverEmail').value.trim();
+  var plan = document.getElementById('deliverPlan').value;
+  var orderId = document.getElementById('deliverOrderId').value.trim() || generateOrderId();
+  var days = parseInt(document.getElementById('deliverDuration').value) || 365;
+
+  if (!name) { toast('请输入客户姓名', true); return; }
+  if (!phone || phone.length !== 11) { toast('请输入正确的11位手机号', true); return; }
+
+  var result = await autoDeliverKey(phone, plan, orderId, name, email, days);
+
+  var resultEl = document.getElementById('deliverResult');
+  if (result.success) {
+    resultEl.innerHTML =
+      '<div style="background:rgba(76,175,80,.1);border:1px solid var(--ok);border-radius:8px;padding:16px;text-align:left">' +
+      '<div style="color:var(--ok);font-weight:600;margin-bottom:8px">密钥生成成功</div>' +
+      '<div style="font-size:12px;color:var(--text2);line-height:1.8">' +
+      '<div>订单号：<span style="color:var(--text)">' + orderId + '</span></div>' +
+      '<div>客户：<span style="color:var(--text)">' + name + ' / ' + phone + '</span></div>' +
+      '<div>套餐：<span style="color:var(--text)">' + plan + '元</span></div>' +
+      '<div>密钥：<span style="color:var(--gold);word-break:break-all">' + result.key + '</span></div>' +
+      '<div>到期：<span style="color:var(--text)">' + result.expires + '</span></div>' +
+      '</div></div>';
+
+    // Clear form
+    document.getElementById('deliverName').value = '';
+    document.getElementById('deliverPhone').value = '';
+    document.getElementById('deliverEmail').value = '';
+    document.getElementById('deliverOrderId').value = '';
+  } else {
+    resultEl.innerHTML = '<div style="color:var(--err);font-size:13px">' + result.error + '</div>';
+  }
+}
+
+/**
+ * autoDeliverKey - 自动发放密钥接口（预留）
+ * 后续收款系统（H5/商家收款码）回调时直接调用此函数
+ * @param {string} phone - 客户手机号
+ * @param {string} plan - 套餐金额（298/998/2998）
+ * @param {string} orderId - 订单号
+ * @param {string} name - 客户姓名（选填）
+ * @param {string} email - 客户邮箱（选填）
+ * @param {number} days - 有效天数（默认365）
+ * @returns {Promise<{success: boolean, key?: string, expires?: string, error?: string}>}
+ */
+async function autoDeliverKey(phone, plan, orderId, name, email, days) {
+  if (!registry) {
+    // 如果 registry 未加载，先加载
+    try {
+      var resp = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + REGISTRY_PATH, {
+        headers: { 'Authorization': 'token ' + PAT, 'Accept': 'application/vnd.github.v3+json' }
+      });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      var data = await resp.json();
+      registrySha = data.sha;
+      registry = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    } catch(e) {
+      return { success: false, error: '加载注册表失败：' + e.message };
+    }
+  }
+
+  var key = generateKey();
+  var now = new Date();
+  var expires = new Date(now);
+  expires.setDate(expires.getDate() + (days || 365));
+
+  var newEntry = {
+    key: key,
+    phone: phone,
+    email: email || '',
+    name: name || '',
+    plan: plan,
+    orderId: orderId,
+    status: 'active',
+    createdAt: now.toISOString(),
+    expiresAt: expires.toISOString()
+  };
+
+  registry.keys.push(newEntry);
+
+  try {
+    await saveRegistry();
+    return {
+      success: true,
+      key: key,
+      expires: expires.toLocaleDateString('zh-CN'),
+      orderId: orderId
+    };
+  } catch(e) {
+    // 回滚
+    registry.keys.pop();
+    return { success: false, error: '保存失败：' + e.message };
+  }
+}
+
+// 暴露到全局，供外部回调调用
+window.autoDeliverKey = autoDeliverKey;
 
 function closeModal(id) {
   document.getElementById(id).classList.remove('show');
