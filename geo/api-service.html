@@ -571,18 +571,21 @@ a { color: var(--gold); text-decoration: none; }
 /* AI Customer Service Float */
 .cs-float {
   position: fixed;
-  bottom: 24px;
+  bottom: 40px;
   right: 16px;
-  z-index: 9999;
+  z-index: 99999;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 .cs-btn {
-  width: 58px; height: 58px;
+  width: 64px; height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffd700, #c9a96e, #ff9800);
-  border: none;
+  background: linear-gradient(135deg, #ffd700, #ff9800);
+  border: 3px solid #fff;
   cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(255,152,0,0.5), 0 0 30px rgba(255,215,0,0.3);
+  display: flex !important; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(255,152,0,0.6), 0 0 40px rgba(255,215,0,0.4);
   transition: all 0.3s;
   position: relative;
   animation: bubblePulse 2s ease-in-out infinite;
@@ -762,10 +765,10 @@ a { color: var(--gold); text-decoration: none; }
   .order-box, .payment-box { padding: 24px 20px; }
   .plan-selector { grid-template-columns: 1fr; }
   .code-body { font-size: 12px; }
-  .cs-panel { width: calc(100vw - 24px); max-width: 340px; height: 70vh; max-height: 460px; right: 12px; bottom: 84px; border-radius: 16px; }
-  .cs-float { bottom: 16px; right: 12px; }
-  .cs-btn { width: 50px; height: 50px; }
-  .cs-btn svg { width: 24px; height: 24px; }
+  .cs-panel { width: calc(100vw - 24px); max-width: 360px; height: 65vh; max-height: 480px; right: 12px; bottom: 100px; border-radius: 16px; }
+  .cs-float { bottom: 32px !important; right: 16px !important; }
+  .cs-btn { width: 56px !important; height: 56px !important; }
+  .cs-btn svg { width: 26px; height: 26px; }
   .cs-btn .cs-label { display: none; }
   .cs-header { padding: 10px 12px; }
   .cs-body { padding: 8px; }
