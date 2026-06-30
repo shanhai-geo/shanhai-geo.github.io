@@ -1326,7 +1326,14 @@ function saveCurrentOrder(order) {
 // 首次使用需到邮箱点击激活链接，之后每次提交自动发邮件
 async function syncOrderToGitHub(order) {
   try {
-    // 方式1：FormSubmit 自动发邮件
+    // 构建一键交付链接（包含订单全部信息）
+    const deliverBase = 'https://shanhai-geo.github.io/geo/deliver.html';
+    const deliverLink = deliverBase + '?orderId=' + encodeURIComponent(order.orderId)
+      + '&name=' + encodeURIComponent(order.name)
+      + '&phone=' + encodeURIComponent(order.phone)
+      + '&email=' + encodeURIComponent(order.email || '')
+      + '&plan=' + encodeURIComponent(order.plan);
+
     const formData = new URLSearchParams();
     formData.append('_subject', '【新订单】' + order.orderId + ' - ' + order.planName + ' ¥' + order.price);
     formData.append('_template', 'table');
@@ -1338,6 +1345,7 @@ async function syncOrderToGitHub(order) {
     formData.append('邮箱', order.email || '未填写');
     formData.append('下单时间', order.createdAt);
     formData.append('状态', '已付款待确认');
+    formData.append('⚡一键交付', deliverLink);
     formData.append('管理后台', 'https://shanhai-geo.github.io/geo/admin.html');
 
     const resp = await fetch('https://formsubmit.co/ajax/746876121@qq.com', {

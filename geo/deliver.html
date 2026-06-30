@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>密钥交付</title>
+<style>
+:root{--bg:#0a0a14;--bg2:#12121f;--bg3:#1a1a2e;--gold:#c9a96e;--text:#e0e0e0;--text2:#999;--border:#2a2a3e;--ok:#4caf50;--warn:#ff9800;--err:#f44336}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{max-width:480px;width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:40px 32px;text-align:center}
+.icon{font-size:48px;margin-bottom:16px}
+h1{color:var(--gold);font-size:20px;margin-bottom:8px}
+.subtitle{color:var(--text2);font-size:14px;margin-bottom:24px}
+.info-card{background:var(--bg3);border-radius:12px;padding:16px;text-align:left;margin-bottom:24px}
+.info-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.info-row:last-child{border:none}
+.info-label{color:var(--text2)}
+.info-value{color:var(--text);font-weight:500}
+.price-tag{font-size:28px;font-weight:800;color:var(--gold);margin:16px 0}
+.price-tag small{font-size:14px;color:var(--text2);font-weight:400}
+.btn-deliver{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#4caf50,#45a049);color:#fff;border:none;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer;transition:all .3s;margin-bottom:12px}
+.btn-deliver:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(76,175,80,0.3)}
+.btn-deliver:disabled{opacity:0.6;cursor:not-allowed;transform:none;box-shadow:none}
+.status{margin-top:16px;padding:16px;border-radius:12px;font-size:14px;display:none}
+.status.show{display:block}
+.status.success{background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.3);color:var(--ok)}
+.status.error{background:rgba(244,67,54,0.1);border:1px solid rgba(244,67,54,0.3);color:var(--err)}
+.key-display{background:var(--bg);padding:12px;border-radius:8px;font-family:monospace;color:var(--gold);word-break:break-all;font-size:13px;margin-top:12px;text-align:left}
+.btn-copy{margin-top:8px;padding:8px 20px;background:var(--gold);color:#000;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+.loading{display:none;margin:20px 0}
+.loading.show{display:block}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="confirmView">
+    <div class="icon">🔑</div>
+    <h1>密钥交付确认</h1>
+    <p class="subtitle">请确认款项已到账后，点击下方按钮交付密钥</p>
+    
+    <div class="info-card">
+      <div class="info-row"><span class="info-label">订单号</span><span class="info-value" id="dOrderId">-</span></div>
+      <div class="info-row"><span class="info-label">客户</span><span class="info-value" id="dName">-</span></div>
+      <div class="info-row"><span class="info-label">手机</span><span class="info-value" id="dPhone">-</span></div>
+      <div class="info-row"><span class="info-label">邮箱</span><span class="info-value" id="dEmail">-</span></div>
+      <div class="info-row"><span class="info-label">套餐</span><span class="info-value" id="dPlan">-</span></div>
+    </div>
+    <div class="price-tag" id="dPrice">¥298<small>/年</small></div>
+    
+    <button class="btn-deliver" id="deliverBtn" onclick="doDeliver()">确认到账，交付密钥</button>
+    
+    <div class="loading" id="loadingView">
+      <div class="spinner"></div>
+      <p style="color:var(--text2);font-size:13px">正在生成密钥并发送...</p>
+    </div>
+    
+    <div class="status" id="statusView"></div>
+  </div>
+</div>
+
+<script>
+function genKey() {
+  var chars='abcdefghijklmnopqrstuvwxyz0123456789';
+  var k='sk-shanhai-';
+  for(var i=0;i<32;i++) k+=chars[Math.floor(Math.random()*chars.length)];
+  return k;
+}
+
+// 读取URL参数
+var params = new URLSearchParams(window.location.search);
+var orderId = params.get('orderId') || '';
+var name = decodeURIComponent(params.get('name') || '');
+var phone = params.get('phone') || '';
+var email = decodeURIComponent(params.get('email') || '');
+var plan = params.get('plan') || '298';
+var planNames = {'298':'入门版', '998':'成长版', '2998':'旗舰版'};
+
+// 填充页面
+document.getElementById('dOrderId').textContent = orderId || '未知';
+document.getElementById('dName').textContent = name || '未知';
+document.getElementById('dPhone').textContent = phone || '未知';
+document.getElementById('dEmail').textContent = email || '未填写';
+document.getElementById('dPlan').textContent = planNames[plan] || plan + '元套餐';
+document.getElementById('dPrice').innerHTML = '¥' + plan + '<small>/年</small>';
+
+async function doDeliver() {
+  var btn = document.getElementById('deliverBtn');
+  btn.disabled = true;
+  btn.textContent = '处理中...';
+  document.getElementById('loadingView').classList.add('show');
+  
+  var key = genKey();
+  var planName = planNames[plan] || plan + '元套餐';
+  var now = new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
+  
+  try {
+    // 1. 发送密钥邮件给客户（通过FormSubmit）
+    var emailOk = false;
+    if (email && email.indexOf('@') > 0) {
+      var formData = new URLSearchParams();
+      formData.append('_subject', '【山海AI】您的API密钥已交付 - ' + orderId);
+      formData.append('_template', 'table');
+      formData.append('_captcha', 'false');
+      formData.append('客户', name || '用户');
+      formData.append('订单号', orderId);
+      formData.append('套餐', planName);
+      formData.append('API密钥', key);
+      formData.append('接入地址', 'https://shanhai-geo.github.io/geo/api-service.html');
+      formData.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://api.shanhai.ai/v1/")');
+      formData.append('_replyto', '746876121@qq.com');
+      
+      try {
+        var emailResp = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(email), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+          body: formData.toString()
+        });
+        emailOk = emailResp.ok;
+      } catch(e) {
+        emailOk = false;
+      }
+    }
+    
+    // 2. 发送交付记录给管理员（FormSubmit -> 746876121@qq.com）
+    var adminForm = new URLSearchParams();
+    adminForm.append('_subject', '【已交付】' + orderId + ' - ' + planName + ' ¥' + plan);
+    adminForm.append('_template', 'table');
+    adminForm.append('_captcha', 'false');
+    adminForm.append('订单号', orderId);
+    adminForm.append('套餐', planName + ' ' + plan + '元');
+    adminForm.append('客户', name);
+    adminForm.append('手机', phone);
+    adminForm.append('邮箱', email || '未填写');
+    adminForm.append('API密钥', key);
+    adminForm.append('交付时间', now);
+    adminForm.append('邮件状态', emailOk ? '已自动发送至客户' : '未发送-需手动转发');
+    adminForm.append('状态', '已交付');
+    
+    await fetch('https://formsubmit.co/ajax/746876121@qq.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+      body: adminForm.toString()
+    });
+    
+    // 3. 显示结果
+    document.getElementById('loadingView').classList.remove('show');
+    var status = document.getElementById('statusView');
+    status.className = 'status show success';
+    status.innerHTML = '<div style="font-size:18px;margin-bottom:8px">✅ 交付成功</div>' +
+      '<div style="margin-bottom:4px">' + (emailOk ? '密钥邮件已发送至 ' + email : '客户邮箱未激活，请手动转发密钥') + '</div>' +
+      '<div class="key-display">' + key + '</div>' +
+      '<button class="btn-copy" onclick="navigator.clipboard.writeText(\'' + key + '\');this.textContent=\'已复制\'">复制密钥</button>';
+    btn.style.display = 'none';
+    
+  } catch(err) {
+    document.getElementById('loadingView').classList.remove('show');
+    var status = document.getElementById('statusView');
+    status.className = 'status show error';
+    status.innerHTML = '<div style="font-size:18px;margin-bottom:8px">❌ 异常</div>' +
+      '<div style="font-size:13px">' + err.message + '</div>' +
+      '<div style="margin-top:12px;font-size:12px;color:var(--text2)">密钥已生成，请手动记录：</div>' +
+      '<div class="key-display">' + key + '</div>' +
+      '<button class="btn-copy" onclick="navigator.clipboard.writeText(\'' + key + '\');this.textContent=\'已复制\'">复制密钥</button>';
+    btn.disabled = false;
+    btn.textContent = '重试';
+  }
+}
+</script>
+</body>
+</html>
