@@ -36,6 +36,28 @@ h1{color:var(--gold);font-size:20px;margin-bottom:8px}
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
+<script>
+/* === 自动缓存清除机制 v1 === */
+/* 每次页面加载时，向服务器请求最新版本对比。若本地是旧版，自动刷新。 */
+(function(){
+  try {
+    if (sessionStorage.getItem('_sh_refreshed')) return; // 本次会话已刷新过一次，不再循环
+    var pageUrl = location.href.split('?')[0].split('#')[0];
+    fetch(pageUrl + '?_r=' + Math.random().toString(36).slice(2), {
+      cache: 'no-store',
+      headers: {'Cache-Control':'no-cache'}
+    }).then(function(r){ return r.text(); }).then(function(fresh){
+      // 比较前4000字符（含header/meta/CSS核心部分），避免比较整个DOM
+      var a = fresh.substring(0, 4000);
+      var b = document.documentElement.outerHTML.substring(0, 4000);
+      if (a.length > 500 && b.length > 500 && a !== b) {
+        sessionStorage.setItem('_sh_refreshed', '1');
+        location.replace(pageUrl + '?_v=' + Date.now());
+      }
+    }).catch(function(){});
+  } catch(e){}
+})();
+</script>
 </head>
 <body>
 <div class="container">
