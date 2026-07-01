@@ -1301,7 +1301,28 @@ function toggleCS(e) {
 
 function csQuickReply(text) {
   csAddMsg(text, 'user');
-  setTimeout(() => csAddMsg(csGetReply(text), 'bot'), 400);
+  var body = document.getElementById('csBody');
+  var loadingId = 'cs-ql-' + Date.now();
+  if (body) {
+    var ld = document.createElement('div');
+    ld.className = 'cs-msg cs-msg-bot';
+    ld.id = loadingId;
+    ld.innerHTML = '<div class="cs-bubble" style="opacity:0.6">正在思考...</div>';
+    body.appendChild(ld);
+    body.scrollTop = body.scrollHeight;
+  }
+  setTimeout(function() {
+    try {
+      var reply = csGetReply(text);
+      var el = document.getElementById(loadingId);
+      if (el) el.remove();
+      csAddMsg(reply || '你好，我是山海接口服务顾问，有什么可以帮你的？', 'bot');
+    } catch(e) {
+      var el = document.getElementById(loadingId);
+      if (el) el.remove();
+      csAddMsg('你好，我是山海接口服务顾问，有什么可以帮你的？', 'bot');
+    }
+  }, 400);
 }
 
 function csSend() {
@@ -1310,9 +1331,30 @@ function csSend() {
   if (!text) return;
   input.value = '';
   csAddMsg(text, 'user');
-  setTimeout(() => {
-    const reply = csGetReply(text);
-    csAddMsg(reply, 'bot');
+  // 先显示"正在思考"提示，确保用户看到反馈
+  const loadingId = 'cs-loading-' + Date.now();
+  const body = document.getElementById('csBody');
+  if (body) {
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'cs-msg cs-msg-bot';
+    loadingDiv.id = loadingId;
+    loadingDiv.innerHTML = '<div class="cs-bubble" style="opacity:0.6">正在思考...</div>';
+    body.appendChild(loadingDiv);
+    body.scrollTop = body.scrollHeight;
+  }
+  setTimeout(function() {
+    try {
+      const reply = csGetReply(text);
+      // 移除loading提示
+      var loadingEl = document.getElementById(loadingId);
+      if (loadingEl) loadingEl.remove();
+      csAddMsg(reply || '你好，我是山海接口服务顾问，有什么可以帮你的？', 'bot');
+    } catch(e) {
+      // 即使出错也要给用户回复
+      var loadingEl = document.getElementById(loadingId);
+      if (loadingEl) loadingEl.remove();
+      csAddMsg('你好，我是山海接口服务顾问，有什么可以帮你的？', 'bot');
+    }
   }, 300);
 }
 
@@ -1526,21 +1568,20 @@ function goPay() {
     return;
   }
 
-  // 扣子/嵌入式webview：展示付款链接+二维码+可复制链接
+  // 扣子/嵌入式webview：展示二维码+复制链接（不直接跳转外部页面）
   if (/coze|lark|feishu|dingtalk/i.test(ua)) {
     if (qrSection) qrSection.classList.add('show');
     if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     var note = document.querySelector('.payment-note');
     if (note) {
-      note.innerHTML = '<div style="text-align:center;margin:8px 0">'
-        + '<a href="' + LESHUA_PAY_URL + '" style="display:inline-block;background:linear-gradient(135deg,#07c160,#06ad56);color:#fff;font-size:18px;font-weight:bold;padding:14px 32px;border-radius:12px;text-decoration:none;box-shadow:0 4px 16px rgba(7,193,96,0.4);cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0.1);user-select:none" data-action="directPay">点此直接付款</a>'
-        + '</div>'
+      note.innerHTML = '<p style="color:#c9a96e;font-size:14px;font-weight:bold;margin:8px 0;text-align:center">请长按上方收款码识别付款</p>'
         + '<p style="color:#999;font-size:13px;margin-top:8px;text-align:center">'
-        + '① 点击绿色按钮跳转付款<br>'
-        + '② 或长按上方收款码图片识别付款<br>'
-        + '③ 或复制链接到浏览器打开支付</p>'
+        + '或复制下方链接到手机浏览器打开支付</p>'
         + '<div style="text-align:center;margin:8px 0">'
         + '<input value="' + LESHUA_PAY_URL + '" readonly style="width:85%;padding:8px;background:#1a1a2e;border:1px solid #2a2a3e;border-radius:6px;color:#c9a96e;font-size:11px;text-align:center" data-action="selectText">'
+        + '</div>'
+        + '<div style="text-align:center;margin:8px 0">'
+        + '<button type="button" data-action="copyPayLink" style="background:linear-gradient(135deg,#c9a96e,#b8944d);color:#000;font-size:14px;font-weight:bold;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0.1);user-select:none">复制付款链接</button>'
         + '</div>';
     }
     return;
@@ -1734,6 +1775,26 @@ function copyCode() {
       var href = target.getAttribute('href');
       if (href && href !== 'javascript:void(0)') {
         setTimeout(function(){ window.location.href = href; }, 50);
+      }
+    } else if (action === 'copyPayLink') {
+      try {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(LESHUA_PAY_URL).then(function(){
+            target.textContent = '已复制';
+            setTimeout(function(){ target.textContent = '复制付款链接'; }, 2000);
+          });
+        } else {
+          var tmpInput = document.createElement('input');
+          tmpInput.value = LESHUA_PAY_URL;
+          document.body.appendChild(tmpInput);
+          tmpInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tmpInput);
+          target.textContent = '已复制';
+          setTimeout(function(){ target.textContent = '复制付款链接'; }, 2000);
+        }
+      } catch(e) {
+        target.textContent = '复制失败，请手动复制上方链接';
       }
     } else if (action === 'copyDynamicKey') {
       var key = target.getAttribute('data-key');
