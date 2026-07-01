@@ -821,17 +821,12 @@ a { color: var(--gold); text-decoration: none; }
   .delivery-actions { flex-direction: column; }
 }
 </style>
-<!-- EmailJS SDK - 订单邮件通知 -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- 订单邮件通知 — FormSubmit.co 零配置方案 -->
 <script type="text/javascript">
 (function(){
-  // 用户需在 EmailJS 后台获取以下三个值并替换
-  // 注册: https://www.emailjs.com/ 绑定 QQ邮箱 → 创建 Service + Template
-  emailjs.init({ publicKey: "YOUR_PUBLIC_KEY" });
   window.__EJS__ = {
-    serviceId: "YOUR_SERVICE_ID",
-    templateId: "YOUR_TEMPLATE_ID",
-    adminEmail: "746876121@qq.com"
+    adminEmail: "746876121@qq.com",
+    method: "formsubmit"
   };
 })();
 </script>
@@ -1126,7 +1121,7 @@ a { color: var(--gold); text-decoration: none; }
   <div class="cs-body" id="csBody">
     <div class="cs-msg cs-msg-bot">
       <div class="cs-bubble">
-        你好，我是山海接口服务顾问。有任何关于API接入的问题，随时问我。
+        嗨，我是小海，有问题直接问就行，关于API接入、价格什么的都能聊。
         <div class="cs-quick-replies">
           <button type="button" class="cs-quick-btn" data-action="csQuickReply" data-text="怎么接入API？">怎么接入API？</button>
           <button type="button" class="cs-quick-btn" data-action="csQuickReply" data-text="付款后没收到密钥">付款后没收到密钥</button>
@@ -1157,47 +1152,48 @@ let selectedPlan = '998';
 /* === 客服AI引擎 v2 — 接入智谱GLM真实AI对话 === */
 /* 第一优先：调用AI API生成有温度、有上下文的回复 */
 /* 第二优先：API不可用时降级到关键词匹配 */
-const CS_SYSTEM_PROMPT = `你是"山海接口服务顾问"，山海AI接口服务的AI客服。你的职责：
-1. 用亲切、专业、有温度的语气回答客户问题（像一个耐心的技术朋友）
-2. 精准回答产品相关问题，不说废话
-3. 自然引导客户成交（不硬推销，在适当时机提一下套餐价格）
+const CS_SYSTEM_PROMPT = `你是小海，山海AI接口服务的客服小哥/小姐姐。说话像个真人朋友，不要像AI。
 
-产品核心信息（必须牢记）：
-- 产品名：山海AI接口服务
-- 价格：入门版298元/年，成长版998元/年，旗舰版2998元/年
-- 核心卖点：包年不限调用（不按token计费）、OpenAI兼容接口（3行代码接入）、多引擎冗余（99.9%可用率）、7天无理由退款
-- 接入方式：pip install openai → 改base_url和api_key → 完成
-- 交付方式：付款后邮件发送API密钥，也可在页面输入手机号查询
-- 退款政策：7天无理由全额退款
+性格：随和、直接、有点幽默，偶尔用点口语化表达（"哈哈"、"嗯嗯"、"说实话"、"讲真"），但不过度。
 
-回复规则：
-- 中文回复，简洁有温度，不要机械感
-- 技术类问题给出具体代码示例
-- 价格类问题要自然引导成交
-- 不要说"感谢提问"、"我已记录"这类机械话
-- 每次回复控制在150字以内（代码示例除外）
-- 如客户的问题超出产品范围，诚实说"这个问题我可能帮不上，但可以帮你转接技术团队"`;
+产品就三个套餐：
+- 入门版 298/年：个人用够了
+- 成长版 998/年：小团队，有优先通道
+- 旗舰版 2998/年：企业级，专属支持
+
+核心优势就记住几点：包年不限调用（不是按token算钱的）、兼容OpenAI格式（改个base_url就行）、7天不满意全退。
+
+说话风格：
+- 别用"您"，用"你"就行
+- 别开头就"你好"、"感谢你的提问"
+- 别列1234，像聊天一样说
+- 短一点，别写小作文
+- 用户问价格的时候，顺带提一句"一天不到一块钱"这种
+- 用户纠结的时候，提一下7天退款消除顾虑
+- 遇到不会的问题，直说"这个我不太确定，帮你问问技术那边"
+
+记住：你是个活人在聊天，不是在念说明书。`;
 
 var csChatHistory = [];
 var csApiWorking = true;
 
 const csFallbackReplies = [
   {keys:['是什么','做什么','干什么','产品','服务','你们','介绍'],
-   reply:'你好呀～山海是大模型API接口服务，提供OpenAI标准接口，298元/年包年不限调用。你只需要改一行base_url就能用，超级方便。有什么具体想了解的吗？'},
+   replies:['简单来说，我们做的是AI接口服务，兼容OpenAI格式，改一行代码就能用。298一年不限调用，挺多人拿来搞副业项目的。','就是帮你对接各种大模型的API，不用自己去折腾。OpenAI格式，拿来就能跑，价格也很实在。']},
   {keys:['贵','便宜','价格','多少钱','费用','收费'],
-   reply:'入门版298元/年，算下来一天才8毛钱，比奶茶还便宜。市面上按token计费的服务，正常用下来一年得500-2000块。我们不限调用，用多少都不加钱，还有7天无理由退款，零风险。想了解具体套餐吗？'},
+   replies:['一天不到一块钱，比杯咖啡便宜多了。市面上按token算的基本都贵好几倍，我们是包年不限量的。','入门版298/年，讲真这个价格很良心了。而且7天不满意可以退，没什么风险。']},
   {keys:['怎么买','怎么付','怎么开通','如何购买','下单','买','付款','支付'],
-   reply:'很简单！选择套餐点"立即开通"，扫码付款就行。付款后密钥会发到你邮箱，也可以用手机号在页面查询。整个流程5分钟搞定。你现在想开通哪个版本？'},
+   replies:['选个套餐点"立即开通"，扫码付完就完事了。密钥会发你邮箱，快的话几分钟就能用。','超简单，选好套餐付款就行，密钥直接邮件给你。要不要现在试试？']},
   {keys:['退款','退钱','不想要','取消','退订'],
-   reply:'没问题，7天内无理由全额退款，零门槛。你直接在这里告诉我就行，我会帮你处理。请问是遇到什么问题了？我先看看能不能帮你解决。'},
+   replies:['7天无理由退，你说了算。遇到什么具体问题了吗？说不定我能帮你搞定，不用退。','完全没问题，7天内直接退。不过你先跟我说说情况？也许问题没那么复杂。']},
   {keys:['接入','怎么用','怎么接','调用','代码','示例','demo','部署','Python','Node','curl'],
-   reply:'接入超简单，就3步：1）拿到你的API密钥；2）base_url改成我们的地址；3）api_key填你的密钥。完全兼容OpenAI SDK，原来写好的代码几乎不用改。你是用Python还是其他语言？我直接给你对应示例。'},
+   replies:['你装了OpenAI的SDK没？装好之后改两个参数就行：base_url换成我们的地址，api_key填你的密钥。要我给你贴段示例代码吗？','接入特简单，跟你用OpenAI一模一样，就换个地址。你用的什么语言？我给你对应对代码。']},
   {keys:['报错','error','错误','失败','不行','用不了','bug','连不上','401','403','timeout'],
-   reply:'别着急，我来帮你看看。最常见的几个原因是：密钥没复制完整、base_url末尾少了斜杠、或者网络有代理。你把完整的报错信息发给我，我帮你定位。'},
+   replies:['别慌，先把报错信息发给我看看，大概率是小事。常见的就是密钥没复制全、地址末尾少个斜杠之类的。','把完整的报错截图或文字发过来，我帮你看看。十有八九是配置小问题。']},
   {keys:['信任','靠谱','骗子','跑路','真假','安全','保密','隐私'],
-   reply:'理解你的担心。我们提供三重保障：7天无理由退款、OpenAI标准接口随时可换服务商、先开通后使用。密钥和数据全程加密，我们不会碰你的调用内容。你看还有什么顾虑？'},
+   replies:['说实话这种担心很正常。不过我们7天无理由退款，你先用着，不满意随时退。接口格式跟OpenAI一样，随时能换别的。','理解你的顾虑。你的调用数据我们不碰，密钥也是加密存储的。而且7天随时退，没什么好担心的。']},
   {keys:['企业','公司','商用','团队','发票'],
-   reply:'完全支持商用，接口合规，用的是开源模型无版权风险。企业客户推荐成长版（998元/年）或旗舰版（2998元/年），支持品牌定制和优先通道。需要开票的话付款后提供抬头就行。你们团队大概什么规模？我帮你推荐合适的版本。'},
+   replies:['商用完全没问题，接口合规。团队用的话推荐成长版或旗舰版，有优先通道。需要开票的话付款后告诉我抬头就行。','支持的，很多小团队在用。你们大概几个人用？我帮你看看哪个版本合适。']},
   {keys:['免费','试用','体验','试试'],
    reply:'我们提供7天无理由退款，跟免费试用一样。你可以先开通体验，不满意随时退，全额退款零门槛。这是我们对产品的信心，也是对你的保障。'},
   {keys:['选哪个','推荐','哪个版本','哪个套餐','适合我'],
@@ -1214,28 +1210,47 @@ const csFallbackReplies = [
    reply:'我们的服务持续优化中，接口稳定运行。你是已经在使用了吗？如果遇到什么问题告诉我，我帮你看看。如果想升级到更高级的版本，随时可以，差价补缴就行。'},
 ];
 
+/* 客服AI引擎：多引擎冗余（火山引擎→智谱→关键词降级） */
+var csEngineIndex = 0;
+var csEngines = [
+  { name:'volcengine', url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions', key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c', model:'doubao-1-5-lite-32k-250115' },
+  { name:'zhipu', url:'https://open.bigmodel.cn/api/paas/v4/chat/completions', key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt', model:'glm-4-flash' }
+];
+
 function csGetAIReply(userText) {
   return new Promise(function(resolve, reject) {
     csChatHistory.push({role: 'user', content: userText});
     if (csChatHistory.length > 20) csChatHistory = csChatHistory.slice(-20);
     var messages = [{role: 'system', content: CS_SYSTEM_PROMPT}].concat(csChatHistory);
-    fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt'
-      },
-      body: JSON.stringify({model: 'glm-4-flash', messages: messages, temperature: 0.7, max_tokens: 500})
-    }).then(function(r) {
-      if (!r.ok) { csApiWorking = false; reject('api_error'); return; }
-      return r.json();
-    }).then(function(data) {
-      if (data.choices && data.choices[0] && data.choices[0].message) {
-        var reply = data.choices[0].message.content;
-        csChatHistory.push({role: 'assistant', content: reply});
-        resolve(reply);
-      } else { csApiWorking = false; reject('no_reply'); }
-    }).catch(function() { csApiWorking = false; reject('network_error'); });
+
+    function tryEngine(idx) {
+      if (idx >= csEngines.length) { csApiWorking = false; reject('all_engines_failed'); return; }
+      var eng = csEngines[idx];
+      var controller = new AbortController();
+      var timer = setTimeout(function(){ controller.abort(); }, 12000);
+      fetch(eng.url, {
+        method: 'POST', signal: controller.signal,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + eng.key },
+        body: JSON.stringify({model: eng.model, messages: messages, temperature: 0.8, max_tokens: 400})
+      }).then(function(r) {
+        clearTimeout(timer);
+        if (!r.ok) { console.warn('[CS]', eng.name, 'failed:', r.status); tryEngine(idx + 1); return; }
+        return r.json();
+      }).then(function(data) {
+        if (!data) return;
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          var reply = data.choices[0].message.content;
+          csChatHistory.push({role: 'assistant', content: reply});
+          csEngineIndex = idx;
+          resolve(reply);
+        } else { tryEngine(idx + 1); }
+      }).catch(function(e) {
+        clearTimeout(timer);
+        console.warn('[CS]', eng.name, 'error:', e.message);
+        tryEngine(idx + 1);
+      });
+    }
+    tryEngine(csEngineIndex);
   });
 }
 
@@ -1243,10 +1258,17 @@ function csGetKeywordReply(text) {
   const t = text.toLowerCase();
   for (const item of csFallbackReplies) {
     for (const key of item.keys) {
-      try { if (new RegExp(key).test(t)) return item.reply; } catch(e) { if (t.includes(key)) return item.reply; }
+      try { if (new RegExp(key).test(t)) {
+        if (item.replies) return item.replies[Math.floor(Math.random() * item.replies.length)];
+        return item.reply;
+      }} catch(e) { if (t.includes(key)) {
+        if (item.replies) return item.replies[Math.floor(Math.random() * item.replies.length)];
+        return item.reply;
+      }}
     }
   }
-  return '你好，我是山海接口服务顾问，很高兴为你服务。你可以问我关于API接入、价格、退款等任何问题。如果问题比较复杂，也可以直接选择套餐开通体验，有7天无理由退款保障。';
+  var defaultReplies = ['这个问题我还真不太确定，你加我微信聊？或者你也可以先开个入门版试试，反正7天能退。','嗯这个得问下技术那边。不过你要是想先体验一下，298的入门版就够用了，不满意随时退。'];
+  return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
 }
 
 function csGetReply(text) {
@@ -1260,7 +1282,12 @@ function csGetReply(text) {
         if (bubble) bubble.innerHTML = aiReply.replace(/\n/g, '<br>');
       }
       setTimeout(function(){
-        csAddMsg('还有其他问题随时问我，准备好了可以直接选套餐开通，298元/年用一整年，7天无理由退款零风险。', 'bot');
+        var followUps = [
+          '还有什么想了解的？随时问~',
+          '还有别的疑问吗？',
+          '对了，感兴趣的话可以看看我们的套餐，298起步，随时能退。'
+        ];
+        csAddMsg(followUps[Math.floor(Math.random() * followUps.length)], 'bot');
       }, 600);
     }).catch(function(){});
   }
@@ -1510,14 +1537,11 @@ async function syncOrderToGitHub(order) {
   }
 }
 
-/* 通过 EmailJS 发送订单邮件通知 */
+/* 通过 FormSubmit.co 发送订单邮件通知（零配置，无需注册） */
 async function sendOrderEmail(order) {
   try {
     const ejs = window.__EJS__;
-    if (!ejs || ejs.serviceId === 'YOUR_SERVICE_ID') {
-      console.log('EmailJS 未配置，跳过邮件通知');
-      return false;
-    }
+    const adminEmail = (ejs && ejs.adminEmail) || '746876121@qq.com';
     const deliverBase = 'https://shanhai-geo.github.io/geo/deliver.html';
     const deliverLink = deliverBase + '?orderId=' + encodeURIComponent(order.orderId)
       + '&name=' + encodeURIComponent(order.name)
@@ -1525,22 +1549,31 @@ async function sendOrderEmail(order) {
       + '&email=' + encodeURIComponent(order.email || '')
       + '&plan=' + encodeURIComponent(order.plan);
 
-    const result = await emailjs.send(ejs.serviceId, ejs.templateId, {
-      to_email: ejs.adminEmail,
-      from_name: '山海订单系统',
-      order_id: order.orderId,
-      plan_name: order.planName,
-      price: order.price,
-      customer_name: order.name,
-      customer_phone: order.phone,
-      customer_email: order.email || '未填写',
-      order_time: order.createdAt,
-      deliver_link: deliverLink,
-      admin_link: 'https://shanhai-geo.github.io/geo/key-admin.html',
-      message: `新订单通知\n\n订单号: ${order.orderId}\n套餐: ${order.planName} ¥${order.price}\n姓名: ${order.name}\n手机号: ${order.phone}\n邮箱: ${order.email || '未填写'}\n下单时间: ${order.createdAt}\n状态: 已付款待确认\n\n一键交付: ${deliverLink}\n管理后台: ${ejs.adminEmail}`
+    const result = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(adminEmail), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: '山海订单系统',
+        _subject: '新订单 ' + order.orderId + ' - ' + order.planName + ' ¥' + order.price,
+        _template: 'table',
+        '订单号': order.orderId,
+        '套餐': order.planName + ' ¥' + order.price,
+        '客户姓名': order.name,
+        '手机号': order.phone,
+        '邮箱': order.email || '未填写',
+        '下单时间': order.createdAt,
+        '状态': '已付款待确认',
+        '一键交付': deliverLink,
+        '管理后台': 'https://shanhai-geo.github.io/geo/admin.html',
+        _captcha: 'false'
+      })
     });
-    console.log('邮件通知已发送:', result.status);
-    return true;
+    if (result.ok) {
+      console.log('邮件通知已发送 via FormSubmit');
+      return true;
+    }
+    console.warn('FormSubmit返回:', result.status);
+    return false;
   } catch (e) {
     console.error('邮件发送失败:', e);
     return false;
@@ -1568,39 +1601,21 @@ function goPay() {
     return;
   }
 
-  // 扣子/嵌入式webview：展示二维码+复制链接（不直接跳转外部页面）
-  if (/coze|lark|feishu|dingtalk/i.test(ua)) {
-    if (qrSection) qrSection.classList.add('show');
-    if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    var note = document.querySelector('.payment-note');
-    if (note) {
-      note.innerHTML = '<p style="color:#c9a96e;font-size:14px;font-weight:bold;margin:8px 0;text-align:center">请长按上方收款码识别付款</p>'
-        + '<p style="color:#999;font-size:13px;margin-top:8px;text-align:center">'
-        + '或复制下方链接到手机浏览器打开支付</p>'
-        + '<div style="text-align:center;margin:8px 0">'
-        + '<input value="' + LESHUA_PAY_URL + '" readonly style="width:85%;padding:8px;background:#1a1a2e;border:1px solid #2a2a3e;border-radius:6px;color:#c9a96e;font-size:11px;text-align:center" data-action="selectText">'
-        + '</div>'
-        + '<div style="text-align:center;margin:8px 0">'
-        + '<button type="button" data-action="copyPayLink" style="background:linear-gradient(135deg,#c9a96e,#b8944d);color:#000;font-size:14px;font-weight:bold;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0.1);user-select:none">复制付款链接</button>'
-        + '</div>';
-    }
-    return;
-  }
-
-  // 普通浏览器：新窗口打开
-  try {
-    var opened = window.open(LESHUA_PAY_URL, '_blank');
-    if (!opened) throw new Error('blocked');
-  } catch(e) {
-    // window.open被拦截，降级为当前窗口跳转
-    window.location.href = LESHUA_PAY_URL;
-    return;
-  }
+  // 所有其他环境（扣子webview、飞书、钉钉、普通浏览器等）：
+  // 统一显示二维码+复制链接，绝不跳转外部页面（避免webview空白页问题）
+  if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
   var note = document.querySelector('.payment-note');
   if (note) {
-    note.innerHTML = '<strong style="color:#c9a96e">已为您打开付款页面</strong><br>如未成功跳转，请<a href="' + LESHUA_PAY_URL + '" target="_blank" rel="noopener" style="color:#c9a96e;text-decoration:underline;font-weight:bold">点此直接付款</a><br>或扫描上方二维码完成支付';
+    note.innerHTML = '<p style="color:#c9a96e;font-size:14px;font-weight:bold;margin:8px 0;text-align:center">请长按上方收款码识别付款</p>'
+      + '<p style="color:#999;font-size:13px;margin-top:8px;text-align:center">'
+      + '或复制下方链接到手机浏览器打开支付</p>'
+      + '<div style="text-align:center;margin:8px 0">'
+      + '<input value="' + LESHUA_PAY_URL + '" readonly style="width:85%;padding:8px;background:#1a1a2e;border:1px solid #2a2a3e;border-radius:6px;color:#c9a96e;font-size:11px;text-align:center" data-action="selectText" onclick="this.select();document.execCommand(\'select\')">'
+      + '</div>'
+      + '<div style="text-align:center;margin:8px 0">'
+      + '<button type="button" data-action="copyPayLink" style="background:linear-gradient(135deg,#c9a96e,#b8944d);color:#000;font-size:14px;font-weight:bold;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0.1);user-select:none">复制付款链接</button>'
+      + '</div>';
   }
-  if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 /* 付款兜底：高亮二维码 + 操作指引 */
