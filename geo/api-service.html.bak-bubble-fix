@@ -672,12 +672,10 @@ a { color: var(--gold); text-decoration: none; }
 }
 .cs-panel {
   position: fixed;
-  bottom: 80px;
+  bottom: 116px;
   right: 16px;
   width: 340px;
-  max-width: calc(100vw - 32px);
   height: 460px;
-  max-height: calc(100vh - 100px);
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -1014,7 +1012,7 @@ a { color: var(--gold); text-decoration: none; }
       </div>
       <div class="delivery-step">
         <span class="step-num">2</span>
-        <div class="step-text"><strong>替换base_url</strong> — 将代码中的base_url改为 <code style="color:var(--gold)">https://shanhai-geo-github-io-klcc.vercel.app/v1/</code></div>
+        <div class="step-text"><strong>替换base_url</strong> — 将代码中的base_url改为 <code style="color:var(--gold)">https://api.shanhai.ai/v1/</code></div>
       </div>
       <div class="delivery-step">
         <span class="step-num">3</span>
@@ -1045,7 +1043,7 @@ a { color: var(--gold); text-decoration: none; }
     <div class="code-body">
       <div class="code-line"><span class="line-num">1</span><span class="line-content"><span class="line-keyword">from</span> openai <span class="line-keyword">import</span> OpenAI</span></div>
       <div class="code-line"><span class="line-num">2</span><span class="line-content">client = OpenAI(api_key=<span class="line-string">"<span class="line-variable">YOUR_API_KEY</span>"</span>,</span></div>
-      <div class="code-line"><span class="line-num">3</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;base_url=<span class="line-string">"https://shanhai-geo-github-io-klcc.vercel.app/v1/"</span>)</span></div>
+      <div class="code-line"><span class="line-num">3</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;base_url=<span class="line-string">"https://api.shanhai.ai/v1/"</span>)</span></div>
       <div class="code-line"><span class="line-num">4</span><span class="line-content">r = client.chat.completions.create(</span></div>
       <div class="code-line"><span class="line-num">5</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;model=<span class="line-string">"shanhai-api"</span>,</span></div>
       <div class="code-line"><span class="line-num">6</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;messages=[{<span class="line-string">"role"</span>:<span class="line-string">"user"</span>,<span class="line-string">"content"</span>:<span class="line-string">"你好"</span>}])</span></div>
@@ -1165,17 +1163,17 @@ const csReplies = [
   {keys:['密钥','key','api_key','没收到','没拿到'],
    reply:'付款后点击"我已付款"按钮，提交后系统会记录您的订单。确认付款后密钥会发到您的邮箱。您也可以用手机号在页面查询密钥状态。'},
   {keys:['复制','怎么用密钥','密钥怎么用'],
-   reply:'在密钥交付页面点击密钥旁的"复制"按钮。然后在你的代码中，将api_key参数替换为这个密钥，将base_url替换为 https://shanhai-geo-github-io-klcc.vercel.app/v1/ 即可。'},
+   reply:'在密钥交付页面点击密钥旁的"复制"按钮。然后在你的代码中，将api_key参数替换为这个密钥，将base_url替换为 https://api.shanhai.ai/v1/ 即可。'},
 
   /* === 售后 · 接入指导 === */
   {keys:['接入','怎么用','怎么接','怎么调用','调用','使用','代码','示例','demo'],
-   reply:'接入只需3步：1）复制你的API密钥；2）将base_url改为 https://shanhai-geo-github-io-klcc.vercel.app/v1/ ；3）将api_key替换为你的密钥。格式完全兼容OpenAI SDK，其他代码不用改。页面下方有完整的Python示例代码。'},
+   reply:'接入只需3步：1）复制你的API密钥；2）将base_url改为 https://api.shanhai.ai/v1/ ；3）将api_key替换为你的密钥。格式完全兼容OpenAI SDK，其他代码不用改。页面下方有完整的Python示例代码。'},
   {keys:['python','Python'],
-   reply:'Python接入示例：\nfrom openai import OpenAI\nclient = OpenAI(api_key="你的密钥", base_url="https://shanhai-geo-github-io-klcc.vercel.app/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)\n\n先 pip install openai，然后运行即可。'},
+   reply:'Python接入示例：\nfrom openai import OpenAI\nclient = OpenAI(api_key="你的密钥", base_url="https://api.shanhai.ai/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)\n\n先 pip install openai，然后运行即可。'},
   {keys:['node','Node','javascript','js'],
-   reply:'Node.js接入：安装 npm install openai，然后使用OpenAI SDK，设置base_url为 https://shanhai-geo-github-io-klcc.vercel.app/v1/ 即可。格式与Python完全一致。'},
+   reply:'Node.js接入：安装 npm install openai，然后使用OpenAI SDK，设置base_url为 https://api.shanhai.ai/v1/ 即可。格式与Python完全一致。'},
   {keys:['curl','http','请求'],
-   reply:'curl示例：\ncurl https://shanhai-geo-github-io-klcc.vercel.app/v1/chat/completions \\\n  -H "Authorization: Bearer 你的密钥" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"model":"shanhai-api","messages":[{"role":"user","content":"你好"}]}\''},
+   reply:'curl示例：\ncurl https://api.shanhai.ai/v1/chat/completions \\\n  -H "Authorization: Bearer 你的密钥" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"model":"shanhai-api","messages":[{"role":"user","content":"你好"}]}\''},
   {keys:['报错','error','错误','失败','不行','不能','用不了','bug'],
    reply:'请提供：1）完整的错误信息；2）你使用的编程语言和SDK版本；3）请求的URL和参数。客服会尽快帮你排查。常见问题包括：密钥未生效（请确认已复制完整）、base_url填写错误、网络问题等。'},
   {keys:['慢','延迟','速度','卡','响应时间'],
@@ -1183,21 +1181,21 @@ const csReplies = [
 
   /* === 售后 · 部署引导全流程 === */
   {keys:['部署','接入指南','怎么开始','第一步','从头教','手把手','教我','带我','完整步骤','全流程'],
-   reply:'好的，我来一步步带你完成接入。\n\n【第1步】先安装SDK\n打开终端/命令行，运行：pip install openai\n\n【第2步】复制以下代码，保存为 test.py\nfrom openai import OpenAI\nclient = OpenAI(\n  api_key="你的密钥",\n  base_url="https://shanhai-geo-github-io-klcc.vercel.app/v1/"\n)\nr = client.chat.completions.create(\n  model="shanhai-api",\n  messages=[{"role":"user","content":"你好，请回复OK"}]\n)\nprint(r.choices[0].message.content)\n\n【第3步】把"你的密钥"替换成你的真实密钥\n\n【第4步】运行 python test.py\n\n如果看到返回"OK"或类似回复，就说明接入成功了。你到哪一步了？'},
+   reply:'好的，我来一步步带你完成接入。\n\n【第1步】先安装SDK\n打开终端/命令行，运行：pip install openai\n\n【第2步】复制以下代码，保存为 test.py\nfrom openai import OpenAI\nclient = OpenAI(\n  api_key="你的密钥",\n  base_url="https://api.shanhai.ai/v1/"\n)\nr = client.chat.completions.create(\n  model="shanhai-api",\n  messages=[{"role":"user","content":"你好，请回复OK"}]\n)\nprint(r.choices[0].message.content)\n\n【第3步】把"你的密钥"替换成你的真实密钥\n\n【第4步】运行 python test.py\n\n如果看到返回"OK"或类似回复，就说明接入成功了。你到哪一步了？'},
   {keys:['接好了','接完了','部署完','测试成功','通了','成功','OK了','能用了'],
    reply:'太好了，恭喜接入成功。接下来建议你做三件事：\n1. 用真实业务场景测试几轮对话，确认效果\n2. 把密钥存到环境变量里（不要硬编码在代码中）\n3. 关注调用量，有任何异常随时来找我\n\n后续有任何问题，随时在这里找我，我一直都在。'},
   {keys:['没成功','没通','报错','连不上','返回错','401','403','404','500','timeout','超时','连不了'],
-   reply:'别急，我们来排查。请告诉我：\n1. 你看到的完整报错信息是什么？\n2. 你用的是Python还是其他语言？\n3. 密钥是完整复制的吗？（注意不要有多余空格）\n4. base_url填的是 https://shanhai-geo-github-io-klcc.vercel.app/v1/ 吗？\n\n最常见的问题是密钥没复制完整、base_url末尾少了/、或者网络代理干扰。你把报错发给我，我帮你定位。'},
+   reply:'别急，我们来排查。请告诉我：\n1. 你看到的完整报错信息是什么？\n2. 你用的是Python还是其他语言？\n3. 密钥是完整复制的吗？（注意不要有多余空格）\n4. base_url填的是 https://api.shanhai.ai/v1/ 吗？\n\n最常见的问题是密钥没复制完整、base_url末尾少了/、或者网络代理干扰。你把报错发给我，我帮你定位。'},
   {keys:['环境变量','ENV','env','存密钥','安全','硬编码'],
    reply:'推荐用环境变量存密钥，不要在代码里直接写。方法：\n\nLinux/Mac：在 ~/.bashrc 或 ~/.zshrc 加一行\nexport SHANHAI_API_KEY="你的密钥"\n然后代码里用 os.getenv("SHANHAI_API_KEY") 读取\n\nWindows：系统属性→环境变量→新建→变量名SHANHAI_API_KEY\n代码里用 os.environ.get("SHANHAI_API_KEY") 读取\n\n这样密钥不会出现在代码里，更安全。'},
   {keys:['node.*部署','js.*部署','前端','浏览器','网页接入','React','Vue'],
-   reply:'前端/Node.js接入方式：\n\n1. npm install openai\n2. 代码：\nimport OpenAI from "openai";\nconst client = new OpenAI({\n  apiKey: "你的密钥",\n  baseURL: "https://shanhai-geo-github-io-klcc.vercel.app/v1/",\n  dangerouslyAllowBrowser: true  // 浏览器环境需要\n});\nconst res = await client.chat.completions.create({\n  model: "shanhai-api",\n  messages: [{role:"user", content:"你好"}]\n});\n\n注意：如果是公开网页，建议通过后端代理转发请求，避免密钥暴露。需要我教你怎么搭代理吗？'},
+   reply:'前端/Node.js接入方式：\n\n1. npm install openai\n2. 代码：\nimport OpenAI from "openai";\nconst client = new OpenAI({\n  apiKey: "你的密钥",\n  baseURL: "https://api.shanhai.ai/v1/",\n  dangerouslyAllowBrowser: true  // 浏览器环境需要\n});\nconst res = await client.chat.completions.create({\n  model: "shanhai-api",\n  messages: [{role:"user", content:"你好"}]\n});\n\n注意：如果是公开网页，建议通过后端代理转发请求，避免密钥暴露。需要我教你怎么搭代理吗？'},
   {keys:['小程序','微信小程序','uniapp','uni-app'],
-   reply:'小程序接入注意事项：\n1. 小程序不能直接用npm包，需要用wx.request手动发HTTP请求\n2. 示例：\nwx.request({\n  url: "https://shanhai-geo-github-io-klcc.vercel.app/v1/chat/completions",\n  method: "POST",\n  header: {\n    "Authorization": "Bearer 你的密钥",\n    "Content-Type": "application/json"\n  },\n  data: {\n    model: "shanhai-api",\n    messages: [{role:"user", content:"你好"}]\n  },\n  success(res) { console.log(res.data) }\n})\n\n重要：小程序发布前记得在后台配置 shanhai-geo-github-io-klcc.vercel.app 为合法域名。'},
+   reply:'小程序接入注意事项：\n1. 小程序不能直接用npm包，需要用wx.request手动发HTTP请求\n2. 示例：\nwx.request({\n  url: "https://api.shanhai.ai/v1/chat/completions",\n  method: "POST",\n  header: {\n    "Authorization": "Bearer 你的密钥",\n    "Content-Type": "application/json"\n  },\n  data: {\n    model: "shanhai-api",\n    messages: [{role:"user", content:"你好"}]\n  },\n  success(res) { console.log(res.data) }\n})\n\n重要：小程序发布前记得在后台配置 api.shanhai.ai 为合法域名。'},
   {keys:['还没部署','还没接','还没弄','还没搞','等一下','稍后','明天','还没'],
    reply:'没关系，不着急。你可以先准备好：\n1. 确认你的密钥已拿到（可在页面输入手机号查询）\n2. 确认你的开发环境（Python/Node/其他）\n3. 有时间了告诉我，我一步步带你接入\n\n随时找我，我一直在。'},
   {keys:['代理','proxy','转发','后端中转','服务端','防暴露'],
-   reply:'生产环境建议用后端代理，不让密钥暴露在前端。最简单的做法：\n\n1. 在你的服务器搭一个接口（如 /api/chat）\n2. 前端请求你的接口，后端转发到山海API\n3. 密钥只存在后端环境变量里\n\n示例（Node.js + Express）：\napp.post("/api/chat", async (req, res) => {\n  const client = new OpenAI({\n    apiKey: process.env.SHANHAI_API_KEY,\n    baseURL: "https://shanhai-geo-github-io-klcc.vercel.app/v1/"\n  });\n  const result = await client.chat.completions.create({\n    model: "shanhai-api",\n    messages: req.body.messages\n  });\n  res.json(result);\n});\n\n需要更详细的教程告诉我。'},
+   reply:'生产环境建议用后端代理，不让密钥暴露在前端。最简单的做法：\n\n1. 在你的服务器搭一个接口（如 /api/chat）\n2. 前端请求你的接口，后端转发到山海API\n3. 密钥只存在后端环境变量里\n\n示例（Node.js + Express）：\napp.post("/api/chat", async (req, res) => {\n  const client = new OpenAI({\n    apiKey: process.env.SHANHAI_API_KEY,\n    baseURL: "https://api.shanhai.ai/v1/"\n  });\n  const result = await client.chat.completions.create({\n    model: "shanhai-api",\n    messages: req.body.messages\n  });\n  res.json(result);\n});\n\n需要更详细的教程告诉我。'},
   {keys:['并发','限流','rate.*limit','qps','同时','多人'],
    reply:'关于并发：入门版适合日常开发测试，一般够用。如果你的应用需要高并发（比如同时多人使用），建议升级到成长版，享有优先通道和更高并发上限。具体需求可以告诉我，我帮你评估。'},
   {keys:['流式','stream','SSE','打字机'],
@@ -1598,7 +1596,7 @@ function copyKey() {
 }
 
 function copyCode() {
-  const code = `from openai import OpenAI\nclient = OpenAI(api_key="YOUR_API_KEY", base_url="https://shanhai-geo-github-io-klcc.vercel.app/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)`;
+  const code = `from openai import OpenAI\nclient = OpenAI(api_key="YOUR_API_KEY", base_url="https://api.shanhai.ai/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)`;
   navigator.clipboard.writeText(code).then(() => {
     const btn = document.querySelector('.copy-btn');
     btn.textContent = '已复制';

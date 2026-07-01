@@ -173,7 +173,7 @@ async function sendKeyEmail(customerEmail, orderId, key, planName, customerName)
     formData.append('套餐', planName || '');
     formData.append('API密钥', key);
     formData.append('接入地址', 'https://shanhai-geo.github.io/geo/api-service.html');
-    formData.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://api.shanhai.ai/v1/")');
+    formData.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://shanhai-geo-github-io-klcc.vercel.app/v1/")');
     formData.append('_replyto', '746876121@qq.com');
 
     const resp = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(customerEmail), {

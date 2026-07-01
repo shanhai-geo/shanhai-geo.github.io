@@ -302,7 +302,7 @@ async function queryKey() {
         <div class="code-block">from openai import OpenAI
 client = OpenAI(
     api_key="${k.key}",
-    base_url="https://api.shanhai.ai/v1/"
+    base_url="https://shanhai-geo-github-io-klcc.vercel.app/v1/"
 )
 
 response = client.chat.completions.create(
@@ -335,7 +335,7 @@ print(response.choices[0].message.content)</div>
 /* ============ AI 客服对话 ============ */
 const chatReplies = [
   {keys:['接入','怎么用','代码','文档','api','base_url','调用'],
-   reply:'接入非常简单，只需3步：\n\n1. 复制你的API密钥（在"查询密钥"页面获取）\n2. 修改base_url为 https://api.shanhai.ai/v1/\n3. 使用OpenAI SDK格式调用即可\n\n支持Python/Node.js/Java等所有OpenAI兼容的语言。需要示例代码可以告诉我你的语言。'},
+   reply:'接入非常简单，只需3步：\n\n1. 复制你的API密钥（在"查询密钥"页面获取）\n2. 修改base_url为 https://shanhai-geo-github-io-klcc.vercel.app/v1/\n3. 使用OpenAI SDK格式调用即可\n\n支持Python/Node.js/Java等所有OpenAI兼容的语言。需要示例代码可以告诉我你的语言。'},
   {keys:['密钥','没收到','key','没有','未收到','收不到'],
    reply:'请确认：\n1. 付款是否已成功？请在"查询密钥"页面输入手机号查询\n2. 如果显示"待处理"，说明我们正在确认中，通常10-30分钟内完成\n3. 如果超过1小时仍为"待处理"，请提供你的付款截图，我帮你加急处理'},
   {keys:['退款','退钱','退','不要了'],
@@ -343,7 +343,7 @@ const chatReplies = [
   {keys:['续期','续费','延期','到期','升级'],
    reply:'续期/升级方法：\n1. 访问 https://shanhai-geo.github.io/geo/api-service.html\n2. 选择你需要的套餐（298/998/2998）\n3. 填写信息并付款\n\n付款后密钥会更新，无需重新接入，使用原来的密钥即可。'},
   {keys:['故障','不能用','报错','error','异常','无法'],
-   reply:'请先排查以下问题：\n1. 密钥是否过期？在"查询密钥"页面检查状态\n2. base_url是否正确？必须是 https://api.shanhai.ai/v1/\n3. 请求格式是否符合OpenAI标准？\n\n如果以上都正常但仍无法使用，请告诉我具体的报错信息，我帮你排查。'},
+   reply:'请先排查以下问题：\n1. 密钥是否过期？在"查询密钥"页面检查状态\n2. base_url是否正确？必须是 https://shanhai-geo-github-io-klcc.vercel.app/v1/\n3. 请求格式是否符合OpenAI标准？\n\n如果以上都正常但仍无法使用，请告诉我具体的报错信息，我帮你排查。'},
   {keys:['人工','客服','真人','转接'],
    reply:'好的，我已记录你的需求。客服会尽快联系你。\n\n你也可以通过以下方式联系我们：\n- 邮件：746876121@qq.com\n\n请留下你的手机号，方便我们联系你。'},
   {keys:['价格','多少钱','费用','便宜','优惠'],
