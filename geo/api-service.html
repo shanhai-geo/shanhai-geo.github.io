@@ -1312,13 +1312,7 @@ function csSend() {
   setTimeout(() => {
     const reply = csGetReply(text);
     csAddMsg(reply, 'bot');
-    // After answering, if it's a pre-sale question, gently guide to purchase
-    if (!reply.includes('密钥') && !reply.includes('退款') && !reply.includes('报错') && !reply.includes('接入示例')) {
-      setTimeout(() => {
-        csAddMsg('如果还有其他问题，随时问我。准备好了可以直接选择套餐开通，298元/年就能用一整年。', 'bot');
-      }, 800);
-    }
-  }, 400);
+  }, 300);
 }
 
 function csAddMsg(text, role) {
