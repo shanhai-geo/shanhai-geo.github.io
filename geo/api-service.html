@@ -1480,30 +1480,33 @@ var LESHUA_PAY_URL = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
 function goPay() {
   const ua = navigator.userAgent.toLowerCase();
   const isWeChat = /micromessenger/i.test(ua);
+  const isWebview = /coze|wechat|micromessenger|dingtalk|lark|feishu/i.test(ua);
 
   // 确保付款二维码区域可见
   const qrSection = document.getElementById('paymentSection');
   if (qrSection) qrSection.classList.add('show');
 
   if (isWeChat) {
-    // 微信内：显示二维码让用户长按识别，同时提供链接备用
+    // 微信内：显示二维码让用户长按识别
     var note = document.querySelector('.payment-note');
     if (note) {
       note.innerHTML = '<strong style="color:#c9a96e">请使用微信扫描上方收款码付款</strong><br>① 长按上方收款码 → 识别图中二维码<br>② 或<a href="' + LESHUA_PAY_URL + '" style="color:#c9a96e;text-decoration:underline">点击此链接</a>在浏览器中打开支付';
     }
-    // 滚动到二维码位置
     if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
-  // 其他浏览器：直接打开乐刷页面
+  // 通用方案：新窗口打开付款链接 + 同时展示二维码作为备用
+  try {
+    window.open(LESHUA_PAY_URL, '_blank');
+  } catch(e) {
+    console.log('window.open blocked, fallback to QR code');
+  }
   var note = document.querySelector('.payment-note');
   if (note) {
-    note.innerHTML = '<strong style="color:#c9a96e">正在跳转支付页面...</strong><br>如未自动跳转，请<a href="' + LESHUA_PAY_URL + '" target="_blank" style="color:#c9a96e;text-decoration:underline">点击这里</a>';
+    note.innerHTML = '<strong style="color:#c9a96e">已为您打开付款页面</strong><br>如未成功跳转，请<a href="' + LESHUA_PAY_URL + '" target="_blank" style="color:#c9a96e;text-decoration:underline;font-weight:bold">点此直接付款</a><br>或扫描上方二维码完成支付';
   }
-  setTimeout(function() {
-    window.location.href = LESHUA_PAY_URL;
-  }, 300);
+  if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 /* 付款兜底：高亮二维码 + 操作指引 */
