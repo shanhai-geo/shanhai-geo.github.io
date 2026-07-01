@@ -1528,7 +1528,6 @@ function goPay() {
 
   // 扣子/嵌入式webview：展示付款链接+二维码+可复制链接
   if (/coze|lark|feishu|dingtalk/i.test(ua)) {
-    var qrSection = document.getElementById('paymentSection');
     if (qrSection) qrSection.classList.add('show');
     if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     var note = document.querySelector('.payment-note');
