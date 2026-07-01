@@ -923,7 +923,7 @@ a { color: var(--gold); text-decoration: none; }
         <li><span class="ck">✓</span>付款确认后交付密钥</li>
         <li><span class="ck">✓</span>7天无理由退款</li>
       </ul>
-      <button class="pricing-btn" ontouchstart="window._sp=298;setTimeout(function(){if(window._sp===298){selectPlan('298','入门版');window._sp=0;}},300);return false;" onclick="if(window._sp!==298){selectPlan('298','入门版');}window._sp=0;">立即开通</button>
+      <button class="pricing-btn" onclick="selectPlan('298','入门版')">立即开通</button>
     </div>
     <div class="pricing-card featured">
       <div class="pricing-badge">推荐</div>
@@ -938,7 +938,7 @@ a { color: var(--gold); text-decoration: none; }
         <li><span class="ck">✓</span>数据分析看板</li>
         <li><span class="ck">✓</span>12h优先响应</li>
       </ul>
-      <button class="pricing-btn" ontouchstart="window._sp=998;setTimeout(function(){if(window._sp===998){selectPlan('998','成长版');window._sp=0;}},300);return false;" onclick="if(window._sp!==998){selectPlan('998','成长版');}window._sp=0;">立即开通</button>
+      <button class="pricing-btn" onclick="selectPlan('998','成长版')">立即开通</button>
     </div>
     <div class="pricing-card">
       <div class="pricing-name">旗舰版</div>
@@ -952,7 +952,7 @@ a { color: var(--gold); text-decoration: none; }
         <li><span class="ck">✓</span>专属AI训练师</li>
         <li><span class="ck">✓</span>7×24技术响应</li>
       </ul>
-      <button class="pricing-btn" ontouchstart="window._sp=2998;setTimeout(function(){if(window._sp===2998){selectPlan('2998','旗舰版');window._sp=0;}},300);return false;" onclick="if(window._sp!==2998){selectPlan('2998','旗舰版');}window._sp=0;">立即开通</button>
+      <button class="pricing-btn" onclick="selectPlan('2998','旗舰版')">立即开通</button>
     </div>
   </div>
 </section>
@@ -966,15 +966,15 @@ a { color: var(--gold); text-decoration: none; }
       <div class="form-group">
         <label>选择套餐 <span class="req">*</span></label>
         <div class="plan-selector">
-          <div class="plan-option" data-plan="298" ontouchstart="window._spo=298;setTimeout(function(){if(window._spo===298){selectPlanOption('298');window._spo=0;}},300);return false;" onclick="if(window._spo!==298){selectPlanOption('298');}window._spo=0;">
+          <div class="plan-option" data-plan="298" onclick="selectPlanOption('298')">
             <div class="pn">入门版</div>
             <div class="pp">298<small>元</small></div>
           </div>
-          <div class="plan-option selected" data-plan="998" ontouchstart="window._spo=998;setTimeout(function(){if(window._spo===998){selectPlanOption('998');window._spo=0;}},300);return false;" onclick="if(window._spo!==998){selectPlanOption('998');}window._spo=0;">
+          <div class="plan-option selected" data-plan="998" onclick="selectPlanOption('998')">
             <div class="pn">成长版</div>
             <div class="pp">998<small>元</small></div>
           </div>
-          <div class="plan-option" data-plan="2998" ontouchstart="window._spo=2998;setTimeout(function(){if(window._spo===2998){selectPlanOption('2998');window._spo=0;}},300);return false;" onclick="if(window._spo!==2998){selectPlanOption('2998');}window._spo=0;">
+          <div class="plan-option" data-plan="2998" onclick="selectPlanOption('2998')">
             <div class="pn">旗舰版</div>
             <div class="pp">2998<small>元</small></div>
           </div>
@@ -1121,31 +1121,31 @@ a { color: var(--gold); text-decoration: none; }
       <div class="cs-name">山海接口服务顾问</div>
       <div class="cs-status"><span class="cs-status-dot"></span>在线</div>
     </div>
-    <button class="cs-close" onclick="toggleCS()">✕</button>
+    <button type="button" class="cs-close" onclick="toggleCS(event)">✕</button>
   </div>
   <div class="cs-body" id="csBody">
     <div class="cs-msg cs-msg-bot">
       <div class="cs-bubble">
         你好，我是山海接口服务顾问。有任何关于API接入的问题，随时问我。
         <div class="cs-quick-replies">
-          <button class="cs-quick-btn" onclick="csQuickReply('怎么接入API？')">怎么接入API？</button>
-          <button class="cs-quick-btn" onclick="csQuickReply('付款后没收到密钥')">付款后没收到密钥</button>
-          <button class="cs-quick-btn" onclick="csQuickReply('可以退款吗？')">可以退款吗？</button>
-          <button class="cs-quick-btn" onclick="csQuickReply('各版本有什么区别？')">各版本区别</button>
+          <button type="button" class="cs-quick-btn" onclick="csQuickReply('怎么接入API？')">怎么接入API？</button>
+          <button type="button" class="cs-quick-btn" onclick="csQuickReply('付款后没收到密钥')">付款后没收到密钥</button>
+          <button type="button" class="cs-quick-btn" onclick="csQuickReply('可以退款吗？')">可以退款吗？</button>
+          <button type="button" class="cs-quick-btn" onclick="csQuickReply('各版本有什么区别？')">各版本区别</button>
         </div>
       </div>
     </div>
   </div>
   <div class="cs-input-area">
-    <input class="cs-input" id="csInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')csSend()">
-    <button class="cs-send" onclick="csSend()">
+    <input type="text" class="cs-input" id="csInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')csSend()" autocomplete="off" autocapitalize="off">
+    <button type="button" class="cs-send" onclick="csSend()">
       <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
     </button>
   </div>
 </div>
 <!-- AI Customer Service Float Button -->
 <div class="cs-float" style="position:fixed!important;bottom:24px!important;right:16px!important;z-index:99999!important;left:auto!important;top:auto!important;">
-  <button type="button" class="cs-btn" ontouchstart="window._csTouch=true;setTimeout(function(){if(window._csTouch){toggleCS();window._csTouch=false;}},300);return false;" onclick="if(!window._csTouch){toggleCS();}window._csTouch=false;">
+  <button type="button" class="cs-btn" onclick="toggleCS(event)">
     <svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#5d4037;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
     <span class="cs-badge"></span>
   </button>
@@ -1287,7 +1287,8 @@ function applyMobileConstraint() {
 window.addEventListener("resize", applyMobileConstraint);
 window.addEventListener("orientationchange", function(){ setTimeout(applyMobileConstraint, 300); });
 
-function toggleCS() {
+function toggleCS(e) {
+  if (e) { e.preventDefault(); e.stopPropagation(); }
   const panel = document.getElementById("csPanel");
   const label = document.querySelector(".cs-label");
   panel.classList.toggle("open");
