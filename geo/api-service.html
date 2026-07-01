@@ -1226,39 +1226,34 @@ const csReplies = [
    reply:'你的API密钥和调用数据均加密存储。我们不会记录、分析或转售你的调用内容。数据传输全程HTTPS加密。'},
 ];
 
-/* 手机端气泡尺寸监听 */
-/* 页面加载后立即强制约束手机端面板尺寸 */
+/* 手机端气泡尺寸监听 - v5终极版 */
 function applyMobileConstraint() {
   var p = document.getElementById("csPanel");
-  if (p && window.innerWidth <= 900) {
-    p.style.setProperty("position","fixed","important");
-    p.style.setProperty("left","10px","important");
-    p.style.setProperty("right","10px","important");
-    p.style.setProperty("top","auto","important");
-    p.style.setProperty("bottom","70px","important");
-    p.style.setProperty("max-width",(window.innerWidth - 20) + "px","important");
-    p.style.setProperty("max-height", Math.min(window.innerHeight * 0.5, 380) + "px","important");
-    p.style.setProperty("width","auto","important");
-    p.style.setProperty("height","auto","important");
-    p.style.setProperty("box-sizing","border-box","important");
+  if (!p) return;
+  var vw = window.innerWidth || document.documentElement.clientWidth || 375;
+  var vh = window.innerHeight || document.documentElement.clientHeight || 667;
+  if (vw <= 900) {
+    var pw = Math.max(vw - 20, 280);
+    var ph = Math.min(Math.floor(vh * 0.45), 360);
+    p.style.cssText = "position:fixed!important;left:10px!important;right:10px!important;top:auto!important;bottom:70px!important;width:" + pw + "px!important;max-width:" + pw + "px!important;height:auto!important;max-height:" + ph + "px!important;min-height:200px!important;box-sizing:border-box!important;overflow-y:auto!important;z-index:99998!important;border-radius:14px!important;";
   }
 }
-document.addEventListener("DOMContentLoaded", function() {
-  setTimeout(applyMobileConstraint, 100);
-  setTimeout(applyMobileConstraint, 500);
-  setTimeout(applyMobileConstraint, 1500);
-});
-
-window.addEventListener("resize", function() { applyMobileConstraint(); });
+/* DOM加载后多轮强制约束，覆盖webview延迟渲染 */
+(function(){
+  var ticks = [50, 200, 500, 1200, 2500];
+  ticks.forEach(function(t){ setTimeout(applyMobileConstraint, t); });
+})();
+window.addEventListener("resize", applyMobileConstraint);
+window.addEventListener("orientationchange", function(){ setTimeout(applyMobileConstraint, 300); });
 
 function toggleCS() {
   const panel = document.getElementById("csPanel");
   const label = document.querySelector(".cs-label");
   panel.classList.toggle("open");
   if (label) label.style.display = panel.classList.contains("open") ? "none" : "";
-  /* 手机端强制约束 */
+  /* 手机端强制约束 - 打开时立即应用 */
   if (window.innerWidth <= 900 && panel.classList.contains("open")) {
-    panel.style.cssText = "position:fixed!important;left:10px!important;right:10px!important;top:auto!important;bottom:70px!important;max-width:" + (window.innerWidth - 20) + "px!important;max-height:" + Math.min(window.innerHeight * 0.5, 380) + "px!important;width:auto!important;height:auto!important;box-sizing:border-box!important;";
+    applyMobileConstraint();
   }
 }
 
@@ -1480,7 +1475,6 @@ var LESHUA_PAY_URL = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
 function goPay() {
   const ua = navigator.userAgent.toLowerCase();
   const isWeChat = /micromessenger/i.test(ua);
-  const isWebview = /coze|wechat|micromessenger|dingtalk|lark|feishu/i.test(ua);
 
   // 确保付款二维码区域可见
   const qrSection = document.getElementById('paymentSection');
@@ -1496,15 +1490,36 @@ function goPay() {
     return;
   }
 
-  // 通用方案：新窗口打开付款链接 + 同时展示二维码作为备用
+  // 扣子/嵌入式webview：使用隐藏<a>标签模拟用户点击，兼容性最好
+  if (/coze|lark|feishu|dingtalk/i.test(ua)) {
+    var a = document.createElement('a');
+    a.href = LESHUA_PAY_URL;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.cssText = 'position:fixed;top:-9999px;left:-9999px;';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ document.body.removeChild(a); }, 500);
+    var note = document.querySelector('.payment-note');
+    if (note) {
+      note.innerHTML = '<strong style="color:#c9a96e">正在打开付款页面...</strong><br>如未跳转，请<a href="' + LESHUA_PAY_URL + '" target="_blank" rel="noopener" style="color:#c9a96e;text-decoration:underline;font-weight:bold">点此直接付款</a><br>或扫描上方二维码完成支付';
+    }
+    if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // 普通浏览器：新窗口打开
   try {
-    window.open(LESHUA_PAY_URL, '_blank');
+    var opened = window.open(LESHUA_PAY_URL, '_blank');
+    if (!opened) throw new Error('blocked');
   } catch(e) {
-    console.log('window.open blocked, fallback to QR code');
+    // window.open被拦截，降级为当前窗口跳转
+    window.location.href = LESHUA_PAY_URL;
+    return;
   }
   var note = document.querySelector('.payment-note');
   if (note) {
-    note.innerHTML = '<strong style="color:#c9a96e">已为您打开付款页面</strong><br>如未成功跳转，请<a href="' + LESHUA_PAY_URL + '" target="_blank" style="color:#c9a96e;text-decoration:underline;font-weight:bold">点此直接付款</a><br>或扫描上方二维码完成支付';
+    note.innerHTML = '<strong style="color:#c9a96e">已为您打开付款页面</strong><br>如未成功跳转，请<a href="' + LESHUA_PAY_URL + '" target="_blank" rel="noopener" style="color:#c9a96e;text-decoration:underline;font-weight:bold">点此直接付款</a><br>或扫描上方二维码完成支付';
   }
   if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
