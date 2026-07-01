@@ -64,6 +64,11 @@
   --gradient-gold: linear-gradient(135deg, #c9a96e 0%, #d4b87a 100%);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+}
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
   background: var(--bg);
@@ -1117,7 +1122,7 @@ a { color: var(--gold); text-decoration: none; }
   </div>
 </div>
 <!-- AI Customer Service Float Button -->
-<div class="cs-float">
+<div class="cs-float" style="position:fixed!important;bottom:24px!important;right:16px!important;z-index:99999!important;left:auto!important;top:auto!important;">
   <button class="cs-btn" onclick="toggleCS()">
     <svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#5d4037;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
     <span class="cs-badge"></span>
