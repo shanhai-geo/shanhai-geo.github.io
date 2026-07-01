@@ -1145,7 +1145,7 @@ a { color: var(--gold); text-decoration: none; }
 </div>
 <!-- AI Customer Service Float Button -->
 <div class="cs-float" style="position:fixed!important;bottom:24px!important;right:16px!important;z-index:99999!important;left:auto!important;top:auto!important;">
-  <button class="cs-btn" onclick="toggleCS()">
+  <button type="button" class="cs-btn" ontouchstart="toggleCS()" onclick="toggleCS()">
     <svg viewBox="0 0 24 24" style="width:26px;height:26px;fill:#5d4037;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/></svg>
     <span class="cs-badge"></span>
   </button>
@@ -1525,14 +1525,23 @@ function goPay() {
     return;
   }
 
-  // 扣子/嵌入式webview：直接展示付款链接和二维码，不依赖JS跳转
+  // 扣子/嵌入式webview：展示付款链接+二维码+可复制链接
   if (/coze|lark|feishu|dingtalk/i.test(ua)) {
     var qrSection = document.getElementById('paymentSection');
     if (qrSection) qrSection.classList.add('show');
     if (qrSection) qrSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     var note = document.querySelector('.payment-note');
     if (note) {
-      note.innerHTML = '<div style="text-align:center;margin:8px 0"><a href="' + LESHUA_PAY_URL + '" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(135deg,#07c160,#06ad56);color:#fff;font-size:18px;font-weight:bold;padding:14px 32px;border-radius:12px;text-decoration:none;box-shadow:0 4px 16px rgba(7,193,96,0.4)"> 点此直接付款</a></div><p style="color:#999;font-size:13px;margin-top:8px">点击上方绿色按钮即可跳转到付款页面<br>或扫描上方二维码完成支付</p>';
+      note.innerHTML = '<div style="text-align:center;margin:8px 0">'
+        + '<a href="' + LESHUA_PAY_URL + '" style="display:inline-block;background:linear-gradient(135deg,#07c160,#06ad56);color:#fff;font-size:18px;font-weight:bold;padding:14px 32px;border-radius:12px;text-decoration:none;box-shadow:0 4px 16px rgba(7,193,96,0.4);cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0.1);user-select:none" onclick="var self=this;setTimeout(function(){window.location.href=self.href;},100);return false;">点此直接付款</a>'
+        + '</div>'
+        + '<p style="color:#999;font-size:13px;margin-top:8px;text-align:center">'
+        + '① 点击绿色按钮跳转付款<br>'
+        + '② 或长按上方收款码图片识别付款<br>'
+        + '③ 或复制链接到浏览器打开支付</p>'
+        + '<div style="text-align:center;margin:8px 0">'
+        + '<input value="' + LESHUA_PAY_URL + '" readonly style="width:85%;padding:8px;background:#1a1a2e;border:1px solid #2a2a3e;border-radius:6px;color:#c9a96e;font-size:11px;text-align:center" onclick="this.select();try{document.execCommand(\'selectAll\')}catch(e){}">'
+        + '</div>';
     }
     return;
   }
