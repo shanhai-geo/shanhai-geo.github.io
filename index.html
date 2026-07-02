@@ -131,7 +131,6 @@ var _hmt = _hmt || [];
     <button onclick="showPanel('status')">系统状态</button>
     <button onclick="showPanel('activate')">立即咨询</button>
     <button onclick="showPanel('diag')">GEO诊断</button>
-    <button onclick="window.open('/geo-platform.html','_blank')">GEO生态</button>
     <button onclick="showPanel('settings')">设置</button>
   </div>
 </div>
@@ -149,7 +148,7 @@ var _hmt = _hmt || [];
       <span class="tag">A2A Protocol</span>
     </div>
     <button class="cta-btn" onclick="showContactModal()">立即咨询</button>
-    <a href="/geo/api-service.html" class="cta-btn" style="background:var(--bg3);border:1px solid var(--gold);color:var(--gold);margin-left:8px;">立即开通 ¥298起</a>
+    <a href="/geo/geo-service.html" class="cta-btn" style="background:var(--bg3);border:1px solid var(--gold);color:var(--gold);margin-left:8px;">立即开通 ¥298起</a>
   </div>
   <div class="card">
     <h3>三大生态</h3>
@@ -444,55 +443,38 @@ async function sendChat() {
   addMsg('user', msg);
   document.getElementById('chatSend').disabled = true;
 
-  const cfg = getConfig();
-  const keys = {
-    '智谱GLM': cfg.zhipu || '03daf1d1aef84c43bb36bc7d92678b0e.pZT5orK5lqkd4Vxt',
-    '硅基流动': cfg.silicon || 'sk-tzdkhzazjcboslsdywjhavwhyogrlpxmbidneaycfatwajvw',
-    '火山引擎': cfg.volc || 'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c'
-  };
-  const engines = DEFAULT_ENGINES.filter(e => keys[e.name]);
+  // 使用阿里云FC API代理（密钥安全存储在服务端）
+  const PROXY_URL = 'https://api-proxy-daezqenetk.cn-beijing.fcapp.run';
 
-  if (engines.length === 0) {
-    addMsg('bot', '请先在「设置」中配置至少一个AI引擎的API密钥');
-    document.getElementById('chatSend').disabled = false;
-    return;
-  }
+  try {
+    const resp = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: '你是山海云枢AI助手兼销售顾问。回答用户问题时简洁专业。当用户询问产品、价格、服务、功能、接入方式时，主动介绍三档套餐（298元/998元/4998元）的对应权益，并在用户表现出购买意向时引导点击页面顶部「立即咨询」按钮。不要过度推销，保持专业克制。' },
+          ...chatHistory
+        ]
+      })
+    });
 
-  // Try each engine in priority order
-  for (const engine of engines) {
-    try {
-      const resp = await fetch(engine.url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + keys[engine.name] },
-        body: JSON.stringify({
-          model: engine.model,
-          messages: [
-            { role: 'system', content: '你是山海云枢AI助手兼销售顾问。回答用户问题时简洁专业。当用户询问产品、价格、服务、功能、接入方式时，主动介绍三档套餐（298元/998元/4998元）的对应权益，并在用户表现出购买意向时引导点击页面顶部「立即咨询」按钮。不要过度推销，保持专业克制。' },
-            ...chatHistory
-          ],
-          temperature: 0.7,
-          max_tokens: 2048,
-          stream: false
-        })
-      });
-
-      if (!resp.ok) continue;
-      const data = await resp.json();
-      const reply = data.choices?.[0]?.message?.content;
-      if (!reply) continue;
-
-      chatHistory.push({ role: 'assistant', content: reply });
-      addMsg('bot', reply, engine.name);
-      document.getElementById('chatSend').disabled = false;
-      return;
-    } catch (e) {
-      console.warn(`${engine.name} failed:`, e);
-      continue;
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.error || `HTTP ${resp.status}`);
     }
-  }
 
-  addMsg('bot', '所有引擎暂时不可用，请检查API密钥配置或稍后重试');
-  document.getElementById('chatSend').disabled = false;
+    const data = await resp.json();
+    const reply = data.choices?.[0]?.message?.content;
+    if (!reply) throw new Error('Empty response');
+
+    chatHistory.push({ role: 'assistant', content: reply });
+    addMsg('bot', reply, '阿里云FC代理');
+    document.getElementById('chatSend').disabled = false;
+  } catch (e) {
+    console.error('API proxy failed:', e);
+    addMsg('bot', '服务暂时不可用，请稍后重试');
+    document.getElementById('chatSend').disabled = false;
+  }
 }
 
 // Enter to send
