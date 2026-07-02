@@ -1210,8 +1210,12 @@ const csFallbackReplies = [
    reply:'我们的服务持续优化中，接口稳定运行。你是已经在使用了吗？如果遇到什么问题告诉我，我帮你看看。如果想升级到更高级的版本，随时可以，差价补缴就行。'},
 ];
 
-/* 客服AI：通过Worker代理调用（密钥在服务端，前端无暴露） */
-var CS_API_URL = 'https://shanhai-api.animated-farm.workers.dev/v1/chat/completions/cs';
+/* 客服AI引擎：多引擎冗余（火山引擎→智谱→关键词降级） */
+var csEngineIndex = 0;
+var csEngines = [
+  { name:'volcengine', url:'https://ark.cn-beijing.volces.com/api/v3/chat/completions', key:'ark-ca7805e1-5194-4855-9eb2-cd0fc71ac07f-8754c', model:'doubao-1-5-lite-32k-250115' },
+  { name:'zhipu', url:'https://open.bigmodel.cn/api/paas/v4/chat/completions', key:'03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt', model:'glm-4-flash' }
+];
 
 function csGetAIReply(userText) {
   return new Promise(function(resolve, reject) {
@@ -1219,31 +1223,34 @@ function csGetAIReply(userText) {
     if (csChatHistory.length > 20) csChatHistory = csChatHistory.slice(-20);
     var messages = [{role: 'system', content: CS_SYSTEM_PROMPT}].concat(csChatHistory);
 
-    var controller = new AbortController();
-    var timer = setTimeout(function(){ controller.abort(); }, 15000);
-
-    fetch(CS_API_URL, {
-      method: 'POST', signal: controller.signal,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({messages: messages, temperature: 0.8, max_tokens: 400})
-    }).then(function(r) {
-      clearTimeout(timer);
-      if (!r.ok) { console.warn('[CS] Worker returned:', r.status); reject('api_error'); return; }
-      return r.json();
-    }).then(function(data) {
-      if (!data) return;
-      if (data.choices && data.choices[0] && data.choices[0].message) {
-        var reply = data.choices[0].message.content;
-        csChatHistory.push({role: 'assistant', content: reply});
-        csApiWorking = true;
-        resolve(reply);
-      } else { reject('invalid_response'); }
-    }).catch(function(e) {
-      clearTimeout(timer);
-      console.warn('[CS] error:', e.message);
-      csApiWorking = false;
-      reject('network_error');
-    });
+    function tryEngine(idx) {
+      if (idx >= csEngines.length) { csApiWorking = false; reject('all_engines_failed'); return; }
+      var eng = csEngines[idx];
+      var controller = new AbortController();
+      var timer = setTimeout(function(){ controller.abort(); }, 12000);
+      fetch(eng.url, {
+        method: 'POST', signal: controller.signal,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + eng.key },
+        body: JSON.stringify({model: eng.model, messages: messages, temperature: 0.8, max_tokens: 400})
+      }).then(function(r) {
+        clearTimeout(timer);
+        if (!r.ok) { console.warn('[CS]', eng.name, 'failed:', r.status); tryEngine(idx + 1); return; }
+        return r.json();
+      }).then(function(data) {
+        if (!data) return;
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          var reply = data.choices[0].message.content;
+          csChatHistory.push({role: 'assistant', content: reply});
+          csEngineIndex = idx;
+          resolve(reply);
+        } else { tryEngine(idx + 1); }
+      }).catch(function(e) {
+        clearTimeout(timer);
+        console.warn('[CS]', eng.name, 'error:', e.message);
+        tryEngine(idx + 1);
+      });
+    }
+    tryEngine(csEngineIndex);
   });
 }
 
