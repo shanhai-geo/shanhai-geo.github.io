@@ -192,7 +192,7 @@ async function doDeliver() {
     adminForm.append('手机', phone);
     adminForm.append('客户邮箱', email || '未填写');
     adminForm.append('API密钥', key);
-    adminForm.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://shanhai-api.animated-farm.workers.dev/v1/")');
+    adminForm.append('接入代码', 'from openai import OpenAI\nclient = OpenAI(api_key="' + key + '", base_url="https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/")');
     adminForm.append('交付时间', now);
     adminForm.append('状态', '已交付');
     

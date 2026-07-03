@@ -1039,7 +1039,7 @@ a { color: var(--gold); text-decoration: none; }
       </div>
       <div class="delivery-step">
         <span class="step-num">2</span>
-        <div class="step-text"><strong>替换base_url</strong> — 将代码中的base_url改为 <code style="color:var(--gold)">https://shanhai-api.animated-farm.workers.dev/v1/</code></div>
+        <div class="step-text"><strong>替换base_url</strong> — 将代码中的base_url改为 <code style="color:var(--gold)">https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/</code></div>
       </div>
       <div class="delivery-step">
         <span class="step-num">3</span>
@@ -1070,7 +1070,7 @@ a { color: var(--gold); text-decoration: none; }
     <div class="code-body">
       <div class="code-line"><span class="line-num">1</span><span class="line-content"><span class="line-keyword">from</span> openai <span class="line-keyword">import</span> OpenAI</span></div>
       <div class="code-line"><span class="line-num">2</span><span class="line-content">client = OpenAI(api_key=<span class="line-string">"<span class="line-variable">YOUR_API_KEY</span>"</span>,</span></div>
-      <div class="code-line"><span class="line-num">3</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;base_url=<span class="line-string">"https://shanhai-api.animated-farm.workers.dev/v1/"</span>)</span></div>
+      <div class="code-line"><span class="line-num">3</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;base_url=<span class="line-string">"https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/"</span>)</span></div>
       <div class="code-line"><span class="line-num">4</span><span class="line-content">r = client.chat.completions.create(</span></div>
       <div class="code-line"><span class="line-num">5</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;model=<span class="line-string">"shanhai-api"</span>,</span></div>
       <div class="code-line"><span class="line-num">6</span><span class="line-content">&nbsp;&nbsp;&nbsp;&nbsp;messages=[{<span class="line-string">"role"</span>:<span class="line-string">"user"</span>,<span class="line-string">"content"</span>:<span class="line-string">"你好"</span>}])</span></div>
@@ -1743,7 +1743,7 @@ function copyKey() {
 }
 
 function copyCode() {
-  const code = `from openai import OpenAI\nclient = OpenAI(api_key="YOUR_API_KEY", base_url="https://shanhai-api.animated-farm.workers.dev/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)`;
+  const code = `from openai import OpenAI\nclient = OpenAI(api_key="YOUR_API_KEY", base_url="https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/")\nr = client.chat.completions.create(model="shanhai-api", messages=[{"role":"user","content":"你好"}])\nprint(r.choices[0].message.content)`;
   navigator.clipboard.writeText(code).then(() => {
     const btn = document.querySelector('.copy-btn');
     btn.textContent = '已复制';
