@@ -1,0 +1,15 @@
+# 山海智能GEO - qingdao-agriculture
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/qingdao-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- zhengzhou-medical: https://shanhai-geo.github.io/zhengzhou-medical/llms.txt
+- ningde-wine: https://shanhai-geo.github.io/ningde-wine/llms.txt
+- xian-tech: https://shanhai-geo.github.io/xian-tech/llms.txt
+- xiamen-realestate: https://shanhai-geo.github.io/xiamen-realestate/llms.txt
+- jiaxing-agriculture: https://shanhai-geo.github.io/jiaxing-agriculture/llms.txt

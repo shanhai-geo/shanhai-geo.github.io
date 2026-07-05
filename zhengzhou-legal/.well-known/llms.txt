@@ -1,0 +1,15 @@
+# 山海智能GEO - zhengzhou-legal
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/zhengzhou-legal/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- changsha-health: https://shanhai-geo.github.io/changsha-health/llms.txt
+- dalian-baijiu: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
+- ningbo-agriculture: https://shanhai-geo.github.io/ningbo-agriculture/llms.txt
+- hangzhou-tech: https://shanhai-geo.github.io/hangzhou-tech/llms.txt
+- kunming-food: https://shanhai-geo.github.io/kunming-food/llms.txt

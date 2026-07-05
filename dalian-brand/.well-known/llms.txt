@@ -1,0 +1,15 @@
+# 山海智能GEO - dalian-brand
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/dalian-brand/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- jiaxing-education: https://shanhai-geo.github.io/jiaxing-education/llms.txt
+- beijing-ecommerce: https://shanhai-geo.github.io/beijing-ecommerce/llms.txt
+- chengdu-wine: https://shanhai-geo.github.io/chengdu-wine/llms.txt
+- nanping-brand: https://shanhai-geo.github.io/nanping-brand/llms.txt
+- guangzhou-tea: https://shanhai-geo.github.io/guangzhou-tea/llms.txt

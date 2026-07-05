@@ -1,0 +1,15 @@
+# 山海智能GEO - changsha-agriculture
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/changsha-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- jinan-ecommerce: https://shanhai-geo.github.io/jinan-ecommerce/llms.txt
+- fuding-auto: https://shanhai-geo.github.io/fuding-auto/llms.txt
+- wenzhou-hotel: https://shanhai-geo.github.io/wenzhou-hotel/llms.txt
+- nanjing-health: https://shanhai-geo.github.io/nanjing-health/llms.txt
+- wuhan-tech: https://shanhai-geo.github.io/wuhan-tech/llms.txt

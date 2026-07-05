@@ -1,0 +1,15 @@
+# 山海智能GEO - hangzhou-hotel
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/hangzhou-hotel/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- hangzhou-medical: https://shanhai-geo.github.io/hangzhou-medical/llms.txt
+- xian-travel: https://shanhai-geo.github.io/xian-travel/llms.txt
+- changsha-brand: https://shanhai-geo.github.io/changsha-brand/llms.txt
+- kunming-finance: https://shanhai-geo.github.io/kunming-finance/llms.txt
+- fuzhou-agriculture: https://shanhai-geo.github.io/fuzhou-agriculture/llms.txt

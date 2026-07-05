@@ -1,0 +1,15 @@
+# 山海智能GEO - nanping-agriculture
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/nanping-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- hefei-baijiu: https://shanhai-geo.github.io/hefei-baijiu/llms.txt
+- wenzhou-health: https://shanhai-geo.github.io/wenzhou-health/llms.txt
+- beijing-education: https://shanhai-geo.github.io/beijing-education/llms.txt
+- putian-travel: https://shanhai-geo.github.io/putian-travel/llms.txt
+- ningde-wine: https://shanhai-geo.github.io/ningde-wine/llms.txt

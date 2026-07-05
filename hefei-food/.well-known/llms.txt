@@ -1,0 +1,15 @@
+# 山海智能GEO - hefei-food
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/hefei-food/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- fuding-finance: https://shanhai-geo.github.io/fuding-finance/llms.txt
+- hangzhou-tech: https://shanhai-geo.github.io/hangzhou-tech/llms.txt
+- hangzhou-wine: https://shanhai-geo.github.io/hangzhou-wine/llms.txt
+- changsha-brand: https://shanhai-geo.github.io/changsha-brand/llms.txt
+- guangzhou-tea: https://shanhai-geo.github.io/guangzhou-tea/llms.txt

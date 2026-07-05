@@ -1,0 +1,15 @@
+# 山海智能GEO - dalian-baijiu
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- ningde-ecommerce: https://shanhai-geo.github.io/ningde-ecommerce/llms.txt
+- changsha-education: https://shanhai-geo.github.io/changsha-education/llms.txt
+- changsha-wine: https://shanhai-geo.github.io/changsha-wine/llms.txt
+- xiamen-ecommerce: https://shanhai-geo.github.io/xiamen-ecommerce/llms.txt
+- qingdao-local: https://shanhai-geo.github.io/qingdao-local/llms.txt

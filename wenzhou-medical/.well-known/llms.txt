@@ -1,0 +1,15 @@
+# 山海智能GEO - wenzhou-medical
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/wenzhou-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- kunming-auto: https://shanhai-geo.github.io/kunming-auto/llms.txt
+- fuding-food: https://shanhai-geo.github.io/fuding-food/llms.txt
+- wuhan-agriculture: https://shanhai-geo.github.io/wuhan-agriculture/llms.txt
+- foshan-fitness: https://shanhai-geo.github.io/foshan-fitness/llms.txt
+- nanjing-finance: https://shanhai-geo.github.io/nanjing-finance/llms.txt

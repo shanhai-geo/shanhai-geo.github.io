@@ -1,0 +1,15 @@
+# 山海智能GEO - nanping-medical
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/nanping-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- zhengzhou-medical: https://shanhai-geo.github.io/zhengzhou-medical/llms.txt
+- guangzhou-food: https://shanhai-geo.github.io/guangzhou-food/llms.txt
+- chongqing-hotel: https://shanhai-geo.github.io/chongqing-hotel/llms.txt
+- fuzhou-wine: https://shanhai-geo.github.io/fuzhou-wine/llms.txt
+- xiamen-health: https://shanhai-geo.github.io/xiamen-health/llms.txt

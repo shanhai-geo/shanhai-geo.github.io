@@ -1,0 +1,15 @@
+# 山海智能GEO - fuding-brand
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/fuding-brand/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- jinan-auto: https://shanhai-geo.github.io/jinan-auto/llms.txt
+- changsha-medical: https://shanhai-geo.github.io/changsha-medical/llms.txt
+- hangzhou-ecommerce: https://shanhai-geo.github.io/hangzhou-ecommerce/llms.txt
+- shanghai-health: https://shanhai-geo.github.io/shanghai-health/llms.txt
+- kunming-ecommerce: https://shanhai-geo.github.io/kunming-ecommerce/llms.txt

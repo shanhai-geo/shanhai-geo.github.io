@@ -1,0 +1,15 @@
+# 山海智能GEO - jiaxing-brand
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/jiaxing-brand/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- hangzhou-health: https://shanhai-geo.github.io/hangzhou-health/llms.txt
+- chongqing-hotel: https://shanhai-geo.github.io/chongqing-hotel/llms.txt
+- wenzhou-hotel: https://shanhai-geo.github.io/wenzhou-hotel/llms.txt
+- nanjing-health: https://shanhai-geo.github.io/nanjing-health/llms.txt
+- qingdao-health: https://shanhai-geo.github.io/qingdao-health/llms.txt

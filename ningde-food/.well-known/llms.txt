@@ -1,0 +1,15 @@
+# 山海智能GEO - ningde-food
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/ningde-food/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- ningbo-brand: https://shanhai-geo.github.io/ningbo-brand/llms.txt
+- wenzhou-medical: https://shanhai-geo.github.io/wenzhou-medical/llms.txt
+- guangzhou-fitness: https://shanhai-geo.github.io/guangzhou-fitness/llms.txt
+- shanghai-education: https://shanhai-geo.github.io/shanghai-education/llms.txt
+- kunming-health: https://shanhai-geo.github.io/kunming-health/llms.txt

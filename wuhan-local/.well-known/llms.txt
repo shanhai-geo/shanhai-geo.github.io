@@ -1,0 +1,15 @@
+# 山海智能GEO - wuhan-local
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/wuhan-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- xian-tea: https://shanhai-geo.github.io/xian-tea/llms.txt
+- putian-medical: https://shanhai-geo.github.io/putian-medical/llms.txt
+- kunming-hotel: https://shanhai-geo.github.io/kunming-hotel/llms.txt
+- quanzhou-local: https://shanhai-geo.github.io/quanzhou-local/llms.txt
+- qingdao-brand: https://shanhai-geo.github.io/qingdao-brand/llms.txt

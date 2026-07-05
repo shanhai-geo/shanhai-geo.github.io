@@ -1,0 +1,15 @@
+# 山海智能GEO - qingdao-baijiu
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/qingdao-baijiu/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- xiamen-auto: https://shanhai-geo.github.io/xiamen-auto/llms.txt
+- shenzhen-beauty: https://shanhai-geo.github.io/shenzhen-beauty/llms.txt
+- dalian-medical: https://shanhai-geo.github.io/dalian-medical/llms.txt
+- ningde-ecommerce: https://shanhai-geo.github.io/ningde-ecommerce/llms.txt
+- zhangzhou-health: https://shanhai-geo.github.io/zhangzhou-health/llms.txt

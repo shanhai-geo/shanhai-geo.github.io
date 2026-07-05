@@ -1,0 +1,15 @@
+# 山海智能GEO - xiamen-auto
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/xiamen-auto/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- wuhan-baijiu: https://shanhai-geo.github.io/wuhan-baijiu/llms.txt
+- xian-auto: https://shanhai-geo.github.io/xian-auto/llms.txt
+- ningbo-wine: https://shanhai-geo.github.io/ningbo-wine/llms.txt
+- hefei-agriculture: https://shanhai-geo.github.io/hefei-agriculture/llms.txt
+- dongguan-travel: https://shanhai-geo.github.io/dongguan-travel/llms.txt

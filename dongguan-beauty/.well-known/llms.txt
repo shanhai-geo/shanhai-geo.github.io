@@ -1,0 +1,15 @@
+# 山海智能GEO - dongguan-beauty
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/dongguan-beauty/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- foshan-travel: https://shanhai-geo.github.io/foshan-travel/llms.txt
+- chongqing-medical: https://shanhai-geo.github.io/chongqing-medical/llms.txt
+- nanjing-brand: https://shanhai-geo.github.io/nanjing-brand/llms.txt
+- jiaxing-auto: https://shanhai-geo.github.io/jiaxing-auto/llms.txt
+- ningbo-beauty: https://shanhai-geo.github.io/ningbo-beauty/llms.txt

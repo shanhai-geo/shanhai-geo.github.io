@@ -1,0 +1,15 @@
+# 山海智能GEO - wenzhou-fitness
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/wenzhou-fitness/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- qingdao-wine: https://shanhai-geo.github.io/qingdao-wine/llms.txt
+- xiamen-ecommerce: https://shanhai-geo.github.io/xiamen-ecommerce/llms.txt
+- ningde-food: https://shanhai-geo.github.io/ningde-food/llms.txt
+- hefei-fitness: https://shanhai-geo.github.io/hefei-fitness/llms.txt
+- shanghai-local: https://shanhai-geo.github.io/shanghai-local/llms.txt

@@ -1,0 +1,15 @@
+# 山海智能GEO - quanzhou-tech
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/quanzhou-tech/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- nanjing-auto: https://shanhai-geo.github.io/nanjing-auto/llms.txt
+- dongguan-hotel: https://shanhai-geo.github.io/dongguan-hotel/llms.txt
+- jiaxing-beauty: https://shanhai-geo.github.io/jiaxing-beauty/llms.txt
+- ningbo-local: https://shanhai-geo.github.io/ningbo-local/llms.txt
+- wenzhou-medical: https://shanhai-geo.github.io/wenzhou-medical/llms.txt

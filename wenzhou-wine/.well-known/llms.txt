@@ -1,0 +1,15 @@
+# 山海智能GEO - wenzhou-wine
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/wenzhou-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- changsha-legal: https://shanhai-geo.github.io/changsha-legal/llms.txt
+- nanping-baijiu: https://shanhai-geo.github.io/nanping-baijiu/llms.txt
+- beijing-medical: https://shanhai-geo.github.io/beijing-medical/llms.txt
+- hefei-tech: https://shanhai-geo.github.io/hefei-tech/llms.txt
+- jiaxing-ecommerce: https://shanhai-geo.github.io/jiaxing-ecommerce/llms.txt

@@ -1,0 +1,15 @@
+# 山海智能GEO - wenzhou-beauty
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/wenzhou-beauty/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- quanzhou-education: https://shanhai-geo.github.io/quanzhou-education/llms.txt
+- putian-travel: https://shanhai-geo.github.io/putian-travel/llms.txt
+- hangzhou-ecommerce: https://shanhai-geo.github.io/hangzhou-ecommerce/llms.txt
+- xian-realestate: https://shanhai-geo.github.io/xian-realestate/llms.txt
+- dalian-finance: https://shanhai-geo.github.io/dalian-finance/llms.txt

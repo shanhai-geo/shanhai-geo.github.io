@@ -1,0 +1,15 @@
+# 山海智能GEO - shanghai-tech
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/shanghai-tech/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- ningbo-food: https://shanhai-geo.github.io/ningbo-food/llms.txt
+- fuding-finance: https://shanhai-geo.github.io/fuding-finance/llms.txt
+- zhangzhou-agriculture: https://shanhai-geo.github.io/zhangzhou-agriculture/llms.txt
+- jiaxing-food: https://shanhai-geo.github.io/jiaxing-food/llms.txt
+- wenzhou-health: https://shanhai-geo.github.io/wenzhou-health/llms.txt

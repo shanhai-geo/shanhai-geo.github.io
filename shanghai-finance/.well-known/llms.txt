@@ -1,0 +1,15 @@
+# 山海智能GEO - shanghai-finance
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/shanghai-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- quanzhou-ecommerce: https://shanhai-geo.github.io/quanzhou-ecommerce/llms.txt
+- kunming-agriculture: https://shanhai-geo.github.io/kunming-agriculture/llms.txt
+- chengdu-agriculture: https://shanhai-geo.github.io/chengdu-agriculture/llms.txt
+- shanghai-beauty: https://shanhai-geo.github.io/shanghai-beauty/llms.txt
+- shanghai-realestate: https://shanhai-geo.github.io/shanghai-realestate/llms.txt

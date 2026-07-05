@@ -1,0 +1,15 @@
+# 山海智能GEO - hefei-brand
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/hefei-brand/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- wuhan-brand: https://shanhai-geo.github.io/wuhan-brand/llms.txt
+- zhangzhou-finance: https://shanhai-geo.github.io/zhangzhou-finance/llms.txt
+- fuzhou-legal: https://shanhai-geo.github.io/fuzhou-legal/llms.txt
+- zhangzhou-travel: https://shanhai-geo.github.io/zhangzhou-travel/llms.txt
+- guangzhou-auto: https://shanhai-geo.github.io/guangzhou-auto/llms.txt

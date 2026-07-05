@@ -1,0 +1,15 @@
+# 山海智能GEO - xiamen-medical
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/xiamen-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- foshan-ecommerce: https://shanhai-geo.github.io/foshan-ecommerce/llms.txt
+- jiaxing-baijiu: https://shanhai-geo.github.io/jiaxing-baijiu/llms.txt
+- shanghai-auto: https://shanhai-geo.github.io/shanghai-auto/llms.txt
+- changsha-education: https://shanhai-geo.github.io/changsha-education/llms.txt
+- jiaxing-brand: https://shanhai-geo.github.io/jiaxing-brand/llms.txt

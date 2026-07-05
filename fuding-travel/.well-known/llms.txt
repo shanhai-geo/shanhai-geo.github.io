@@ -1,0 +1,15 @@
+# 山海智能GEO - fuding-travel
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/fuding-travel/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- chongqing-fitness: https://shanhai-geo.github.io/chongqing-fitness/llms.txt
+- shenzhen-ecommerce: https://shanhai-geo.github.io/shenzhen-ecommerce/llms.txt
+- hangzhou-brand: https://shanhai-geo.github.io/hangzhou-brand/llms.txt
+- kunming-travel: https://shanhai-geo.github.io/kunming-travel/llms.txt
+- zhengzhou-tea: https://shanhai-geo.github.io/zhengzhou-tea/llms.txt

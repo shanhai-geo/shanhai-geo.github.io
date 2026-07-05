@@ -1,0 +1,15 @@
+# 山海智能GEO - shanghai-auto
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/shanghai-auto/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- chongqing-tech: https://shanhai-geo.github.io/chongqing-tech/llms.txt
+- kunming-realestate: https://shanhai-geo.github.io/kunming-realestate/llms.txt
+- ningbo-health: https://shanhai-geo.github.io/ningbo-health/llms.txt
+- quanzhou-legal: https://shanhai-geo.github.io/quanzhou-legal/llms.txt
+- xian-tea: https://shanhai-geo.github.io/xian-tea/llms.txt

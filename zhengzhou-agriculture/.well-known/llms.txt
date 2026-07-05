@@ -1,0 +1,15 @@
+# 山海智能GEO - zhengzhou-agriculture
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/zhengzhou-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- jinan-tech: https://shanhai-geo.github.io/jinan-tech/llms.txt
+- jinan-travel: https://shanhai-geo.github.io/jinan-travel/llms.txt
+- wenzhou-agriculture: https://shanhai-geo.github.io/wenzhou-agriculture/llms.txt
+- wenzhou-ecommerce: https://shanhai-geo.github.io/wenzhou-ecommerce/llms.txt
+- fuding-medical: https://shanhai-geo.github.io/fuding-medical/llms.txt

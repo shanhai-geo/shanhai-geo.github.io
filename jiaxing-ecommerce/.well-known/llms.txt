@@ -1,0 +1,15 @@
+# 山海智能GEO - jiaxing-ecommerce
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/jiaxing-ecommerce/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- nanjing-wine: https://shanhai-geo.github.io/nanjing-wine/llms.txt
+- shenzhen-brand: https://shanhai-geo.github.io/shenzhen-brand/llms.txt
+- quanzhou-finance: https://shanhai-geo.github.io/quanzhou-finance/llms.txt
+- jinan-medical: https://shanhai-geo.github.io/jinan-medical/llms.txt
+- guangzhou-agriculture: https://shanhai-geo.github.io/guangzhou-agriculture/llms.txt

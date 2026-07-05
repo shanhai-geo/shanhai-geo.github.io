@@ -1,0 +1,15 @@
+# 山海智能GEO - chongqing-education
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/chongqing-education/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- fuding-health: https://shanhai-geo.github.io/fuding-health/llms.txt
+- shenzhen-local: https://shanhai-geo.github.io/shenzhen-local/llms.txt
+- zhengzhou-fitness: https://shanhai-geo.github.io/zhengzhou-fitness/llms.txt
+- zhengzhou-hotel: https://shanhai-geo.github.io/zhengzhou-hotel/llms.txt
+- beijing-travel: https://shanhai-geo.github.io/beijing-travel/llms.txt

@@ -1,0 +1,15 @@
+# 山海智能GEO - kunming-travel
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/kunming-travel/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- chongqing-travel: https://shanhai-geo.github.io/chongqing-travel/llms.txt
+- qingdao-local: https://shanhai-geo.github.io/qingdao-local/llms.txt
+- qingdao-food: https://shanhai-geo.github.io/qingdao-food/llms.txt
+- hangzhou-finance: https://shanhai-geo.github.io/hangzhou-finance/llms.txt
+- shenzhen-local: https://shanhai-geo.github.io/shenzhen-local/llms.txt

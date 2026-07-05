@@ -1,0 +1,15 @@
+# 山海智能GEO - fuzhou-education
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/fuzhou-education/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- hangzhou-wine: https://shanhai-geo.github.io/hangzhou-wine/llms.txt
+- kunming-medical: https://shanhai-geo.github.io/kunming-medical/llms.txt
+- jiaxing-beauty: https://shanhai-geo.github.io/jiaxing-beauty/llms.txt
+- dalian-baijiu: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
+- putian-tea: https://shanhai-geo.github.io/putian-tea/llms.txt

@@ -1,0 +1,15 @@
+# 山海智能GEO - qingdao-health
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/qingdao-health/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- wuhan-local: https://shanhai-geo.github.io/wuhan-local/llms.txt
+- guangzhou-hotel: https://shanhai-geo.github.io/guangzhou-hotel/llms.txt
+- guangzhou-realestate: https://shanhai-geo.github.io/guangzhou-realestate/llms.txt
+- hefei-auto: https://shanhai-geo.github.io/hefei-auto/llms.txt
+- zhengzhou-education: https://shanhai-geo.github.io/zhengzhou-education/llms.txt

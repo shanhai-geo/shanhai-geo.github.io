@@ -1,0 +1,15 @@
+# 山海智能GEO - shenzhen-brand
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/shenzhen-brand/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- shanghai-beauty: https://shanhai-geo.github.io/shanghai-beauty/llms.txt
+- hangzhou-tech: https://shanhai-geo.github.io/hangzhou-tech/llms.txt
+- changsha-tea: https://shanhai-geo.github.io/changsha-tea/llms.txt
+- dongguan-ecommerce: https://shanhai-geo.github.io/dongguan-ecommerce/llms.txt
+- nanping-finance: https://shanhai-geo.github.io/nanping-finance/llms.txt

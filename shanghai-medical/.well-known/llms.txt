@@ -1,0 +1,15 @@
+# 山海智能GEO - shanghai-medical
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/shanghai-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- jiaxing-auto: https://shanhai-geo.github.io/jiaxing-auto/llms.txt
+- shanghai-tea: https://shanhai-geo.github.io/shanghai-tea/llms.txt
+- dalian-hotel: https://shanhai-geo.github.io/dalian-hotel/llms.txt
+- putian-medical: https://shanhai-geo.github.io/putian-medical/llms.txt
+- hefei-wine: https://shanhai-geo.github.io/hefei-wine/llms.txt

@@ -1,0 +1,15 @@
+# 山海智能GEO - chongqing-medical
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/chongqing-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- qingdao-wine: https://shanhai-geo.github.io/qingdao-wine/llms.txt
+- kunming-hotel: https://shanhai-geo.github.io/kunming-hotel/llms.txt
+- changsha-fitness: https://shanhai-geo.github.io/changsha-fitness/llms.txt
+- quanzhou-wine: https://shanhai-geo.github.io/quanzhou-wine/llms.txt
+- hefei-finance: https://shanhai-geo.github.io/hefei-finance/llms.txt

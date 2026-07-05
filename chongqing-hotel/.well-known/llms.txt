@@ -1,0 +1,15 @@
+# 山海智能GEO - chongqing-hotel
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/chongqing-hotel/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- shenzhen-tech: https://shanhai-geo.github.io/shenzhen-tech/llms.txt
+- chengdu-hotel: https://shanhai-geo.github.io/chengdu-hotel/llms.txt
+- hefei-agriculture: https://shanhai-geo.github.io/hefei-agriculture/llms.txt
+- foshan-beauty: https://shanhai-geo.github.io/foshan-beauty/llms.txt
+- guangzhou-medical: https://shanhai-geo.github.io/guangzhou-medical/llms.txt

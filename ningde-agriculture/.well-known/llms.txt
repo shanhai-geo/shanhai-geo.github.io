@@ -1,0 +1,15 @@
+# 山海智能GEO - ningde-agriculture
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/ningde-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- nanjing-medical: https://shanhai-geo.github.io/nanjing-medical/llms.txt
+- chongqing-hotel: https://shanhai-geo.github.io/chongqing-hotel/llms.txt
+- nanjing-hotel: https://shanhai-geo.github.io/nanjing-hotel/llms.txt
+- ningde-brand: https://shanhai-geo.github.io/ningde-brand/llms.txt
+- shanghai-tea: https://shanhai-geo.github.io/shanghai-tea/llms.txt

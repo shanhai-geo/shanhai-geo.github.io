@@ -1,0 +1,15 @@
+# 山海智能GEO - foshan-local
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/foshan-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- quanzhou-medical: https://shanhai-geo.github.io/quanzhou-medical/llms.txt
+- zhengzhou-ecommerce: https://shanhai-geo.github.io/zhengzhou-ecommerce/llms.txt
+- guangzhou-baijiu: https://shanhai-geo.github.io/guangzhou-baijiu/llms.txt
+- quanzhou-travel: https://shanhai-geo.github.io/quanzhou-travel/llms.txt
+- shenzhen-wine: https://shanhai-geo.github.io/shenzhen-wine/llms.txt

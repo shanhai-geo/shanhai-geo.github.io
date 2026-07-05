@@ -1,0 +1,15 @@
+# 山海智能GEO - quanzhou-ecommerce
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/quanzhou-ecommerce/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- shanghai-auto: https://shanhai-geo.github.io/shanghai-auto/llms.txt
+- dalian-legal: https://shanhai-geo.github.io/dalian-legal/llms.txt
+- shenzhen-fitness: https://shanhai-geo.github.io/shenzhen-fitness/llms.txt
+- nanjing-tech: https://shanhai-geo.github.io/nanjing-tech/llms.txt
+- guangzhou-agriculture: https://shanhai-geo.github.io/guangzhou-agriculture/llms.txt

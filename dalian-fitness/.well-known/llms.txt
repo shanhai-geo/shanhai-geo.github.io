@@ -1,0 +1,15 @@
+# 山海智能GEO - dalian-fitness
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/dalian-fitness/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- kunming-beauty: https://shanhai-geo.github.io/kunming-beauty/llms.txt
+- changsha-travel: https://shanhai-geo.github.io/changsha-travel/llms.txt
+- qingdao-baijiu: https://shanhai-geo.github.io/qingdao-baijiu/llms.txt
+- shenzhen-beauty: https://shanhai-geo.github.io/shenzhen-beauty/llms.txt
+- chengdu-fitness: https://shanhai-geo.github.io/chengdu-fitness/llms.txt

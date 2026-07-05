@@ -1,0 +1,15 @@
+# 山海智能GEO - nanjing-beauty
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/nanjing-beauty/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- ningbo-education: https://shanhai-geo.github.io/ningbo-education/llms.txt
+- shenzhen-fitness: https://shanhai-geo.github.io/shenzhen-fitness/llms.txt
+- nanping-wine: https://shanhai-geo.github.io/nanping-wine/llms.txt
+- nanping-beauty: https://shanhai-geo.github.io/nanping-beauty/llms.txt
+- zhangzhou-hotel: https://shanhai-geo.github.io/zhangzhou-hotel/llms.txt

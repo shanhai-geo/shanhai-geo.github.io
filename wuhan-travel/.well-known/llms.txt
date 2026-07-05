@@ -1,0 +1,15 @@
+# 山海智能GEO - wuhan-travel
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/wuhan-travel/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- qingdao-food: https://shanhai-geo.github.io/qingdao-food/llms.txt
+- wenzhou-tea: https://shanhai-geo.github.io/wenzhou-tea/llms.txt
+- ningde-education: https://shanhai-geo.github.io/ningde-education/llms.txt
+- zhengzhou-health: https://shanhai-geo.github.io/zhengzhou-health/llms.txt
+- foshan-realestate: https://shanhai-geo.github.io/foshan-realestate/llms.txt

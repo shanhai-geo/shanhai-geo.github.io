@@ -1,0 +1,15 @@
+# 山海智能GEO - changsha-food
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/changsha-food/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- fuzhou-finance: https://shanhai-geo.github.io/fuzhou-finance/llms.txt
+- wenzhou-travel: https://shanhai-geo.github.io/wenzhou-travel/llms.txt
+- nanping-wine: https://shanhai-geo.github.io/nanping-wine/llms.txt
+- qingdao-fitness: https://shanhai-geo.github.io/qingdao-fitness/llms.txt
+- fuzhou-legal: https://shanhai-geo.github.io/fuzhou-legal/llms.txt

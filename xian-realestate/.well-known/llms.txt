@@ -1,0 +1,15 @@
+# 山海智能GEO - xian-realestate
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/xian-realestate/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- putian-realestate: https://shanhai-geo.github.io/putian-realestate/llms.txt
+- hefei-wine: https://shanhai-geo.github.io/hefei-wine/llms.txt
+- zhangzhou-beauty: https://shanhai-geo.github.io/zhangzhou-beauty/llms.txt
+- changsha-health: https://shanhai-geo.github.io/changsha-health/llms.txt
+- nanjing-fitness: https://shanhai-geo.github.io/nanjing-fitness/llms.txt

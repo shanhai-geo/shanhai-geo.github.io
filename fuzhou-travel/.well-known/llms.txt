@@ -1,0 +1,15 @@
+# 山海智能GEO - fuzhou-travel
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/fuzhou-travel/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- quanzhou-finance: https://shanhai-geo.github.io/quanzhou-finance/llms.txt
+- hangzhou-education: https://shanhai-geo.github.io/hangzhou-education/llms.txt
+- jiaxing-tech: https://shanhai-geo.github.io/jiaxing-tech/llms.txt
+- shenzhen-beauty: https://shanhai-geo.github.io/shenzhen-beauty/llms.txt
+- zhengzhou-agriculture: https://shanhai-geo.github.io/zhengzhou-agriculture/llms.txt

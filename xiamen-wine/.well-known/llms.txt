@@ -1,0 +1,15 @@
+# 山海智能GEO - xiamen-wine
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/xiamen-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- qingdao-ecommerce: https://shanhai-geo.github.io/qingdao-ecommerce/llms.txt
+- ningde-wine: https://shanhai-geo.github.io/ningde-wine/llms.txt
+- chongqing-legal: https://shanhai-geo.github.io/chongqing-legal/llms.txt
+- beijing-health: https://shanhai-geo.github.io/beijing-health/llms.txt
+- putian-food: https://shanhai-geo.github.io/putian-food/llms.txt

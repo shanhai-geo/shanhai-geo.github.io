@@ -1,0 +1,15 @@
+# 山海智能GEO - beijing-wine
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/beijing-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- putian-medical: https://shanhai-geo.github.io/putian-medical/llms.txt
+- fuding-tea: https://shanhai-geo.github.io/fuding-tea/llms.txt
+- ningbo-travel: https://shanhai-geo.github.io/ningbo-travel/llms.txt
+- dongguan-brand: https://shanhai-geo.github.io/dongguan-brand/llms.txt
+- dalian-agriculture: https://shanhai-geo.github.io/dalian-agriculture/llms.txt

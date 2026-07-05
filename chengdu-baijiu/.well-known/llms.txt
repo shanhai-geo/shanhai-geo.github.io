@@ -1,0 +1,15 @@
+# 山海智能GEO - chengdu-baijiu
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/chengdu-baijiu/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- fuding-tea: https://shanhai-geo.github.io/fuding-tea/llms.txt
+- wuhan-food: https://shanhai-geo.github.io/wuhan-food/llms.txt
+- wenzhou-food: https://shanhai-geo.github.io/wenzhou-food/llms.txt
+- kunming-baijiu: https://shanhai-geo.github.io/kunming-baijiu/llms.txt
+- putian-brand: https://shanhai-geo.github.io/putian-brand/llms.txt

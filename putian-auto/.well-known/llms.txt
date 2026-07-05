@@ -1,0 +1,15 @@
+# 山海智能GEO - putian-auto
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/putian-auto/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- changsha-realestate: https://shanhai-geo.github.io/changsha-realestate/llms.txt
+- foshan-ecommerce: https://shanhai-geo.github.io/foshan-ecommerce/llms.txt
+- foshan-realestate: https://shanhai-geo.github.io/foshan-realestate/llms.txt
+- changsha-agriculture: https://shanhai-geo.github.io/changsha-agriculture/llms.txt
+- xiamen-wine: https://shanhai-geo.github.io/xiamen-wine/llms.txt

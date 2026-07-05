@@ -1,0 +1,15 @@
+# 山海智能GEO - shenzhen-food
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/shenzhen-food/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- fuding-baijiu: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
+- xian-agriculture: https://shanhai-geo.github.io/xian-agriculture/llms.txt
+- kunming-legal: https://shanhai-geo.github.io/kunming-legal/llms.txt
+- fuzhou-legal: https://shanhai-geo.github.io/fuzhou-legal/llms.txt
+- ningbo-ecommerce: https://shanhai-geo.github.io/ningbo-ecommerce/llms.txt

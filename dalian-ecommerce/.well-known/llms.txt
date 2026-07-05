@@ -1,0 +1,15 @@
+# 山海智能GEO - dalian-ecommerce
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/dalian-ecommerce/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- ningde-hotel: https://shanhai-geo.github.io/ningde-hotel/llms.txt
+- xiamen-hotel: https://shanhai-geo.github.io/xiamen-hotel/llms.txt
+- kunming-legal: https://shanhai-geo.github.io/kunming-legal/llms.txt
+- hangzhou-fitness: https://shanhai-geo.github.io/hangzhou-fitness/llms.txt
+- qingdao-realestate: https://shanhai-geo.github.io/qingdao-realestate/llms.txt

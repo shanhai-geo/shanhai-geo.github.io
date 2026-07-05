@@ -1,0 +1,15 @@
+# 山海智能GEO - nanping-fitness
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/nanping-fitness/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- wenzhou-travel: https://shanhai-geo.github.io/wenzhou-travel/llms.txt
+- xiamen-wine: https://shanhai-geo.github.io/xiamen-wine/llms.txt
+- chongqing-auto: https://shanhai-geo.github.io/chongqing-auto/llms.txt
+- chongqing-legal: https://shanhai-geo.github.io/chongqing-legal/llms.txt
+- hangzhou-tech: https://shanhai-geo.github.io/hangzhou-tech/llms.txt

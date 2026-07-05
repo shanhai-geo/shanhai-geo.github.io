@@ -1,0 +1,15 @@
+# 山海智能GEO - changsha-wine
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/changsha-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- fuding-baijiu: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
+- quanzhou-legal: https://shanhai-geo.github.io/quanzhou-legal/llms.txt
+- xiamen-tea: https://shanhai-geo.github.io/xiamen-tea/llms.txt
+- shanghai-realestate: https://shanhai-geo.github.io/shanghai-realestate/llms.txt
+- dongguan-agriculture: https://shanhai-geo.github.io/dongguan-agriculture/llms.txt

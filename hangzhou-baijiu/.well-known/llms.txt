@@ -1,0 +1,15 @@
+# 山海智能GEO - hangzhou-baijiu
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/hangzhou-baijiu/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- ningde-agriculture: https://shanhai-geo.github.io/ningde-agriculture/llms.txt
+- wenzhou-brand: https://shanhai-geo.github.io/wenzhou-brand/llms.txt
+- nanping-hotel: https://shanhai-geo.github.io/nanping-hotel/llms.txt
+- ningbo-ecommerce: https://shanhai-geo.github.io/ningbo-ecommerce/llms.txt
+- xiamen-brand: https://shanhai-geo.github.io/xiamen-brand/llms.txt

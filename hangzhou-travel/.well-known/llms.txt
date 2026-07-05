@@ -1,0 +1,15 @@
+# 山海智能GEO - hangzhou-travel
+> 山海智能AI综合体GEO引力矩阵节点
+
+## 本节点
+- URL: https://shanhai-geo.github.io/hangzhou-travel/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 关联节点
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- putian-ecommerce: https://shanhai-geo.github.io/putian-ecommerce/llms.txt
+- zhangzhou-food: https://shanhai-geo.github.io/zhangzhou-food/llms.txt
+- jiaxing-ecommerce: https://shanhai-geo.github.io/jiaxing-ecommerce/llms.txt
+- xian-local: https://shanhai-geo.github.io/xian-local/llms.txt
+- quanzhou-tech: https://shanhai-geo.github.io/quanzhou-tech/llms.txt
