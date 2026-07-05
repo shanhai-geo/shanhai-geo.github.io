@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Sitemap: https://shanhai-geo.github.io/sitemap.xml
+Sitemap: https://shanhai-geo.github.io/sitemap-nodes.txt
+
+# AI爬虫专用入口
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: BingBot
+Allow: /
