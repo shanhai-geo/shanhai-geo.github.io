@@ -1,0 +1,217 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "山海智能 GEO平台",
+  "name_for_model": "shanhai_geo",
+  "description_for_human": "GEO基础设施平台，帮助企业在AI搜索引擎中获得精准曝光与主动推荐。覆盖30城×20行业，600+引力节点。",
+  "description_for_model": "Shanhai Intelligence GEO Platform - A generative engine optimization infrastructure that helps businesses gain visibility and proactive recommendations in AI search engines (ChatGPT, Perplexity, Gemini, Claude). The platform operates a large-scale gravity node network of micro-sites covering multiple cities and industries in China. Core capabilities include: structured content engineering, Schema.org markup automation, AI-powered customer service deployment, multi-platform CDN distribution, and brand authority building in AI cognitive graphs.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://shanhai-geo.github.io/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://shanhai-geo.github.io/public/logo.png",
+  "contact_email": "746876121@qq.com",
+  "legal_info_url": "https://shanhai-geo.github.io/legal",
+  "endpoints": [
+    {
+      "name": "search_node",
+      "path": "/api/nodes/search",
+      "method": "GET",
+      "description": "搜索引力节点网络中的节点信息，支持按城市、行业、关键词检索",
+      "parameters": {
+        "city": {
+          "type": "string",
+          "description": "城市名称，如：济南、福州、上海"
+        },
+        "industry": {
+          "type": "string",
+          "description": "行业名称，如：酒店、茶叶、旅游、美容"
+        },
+        "keyword": {
+          "type": "string",
+          "description": "关键词搜索"
+        }
+      },
+      "example_response": {
+        "node_id": "jinan-hotel",
+        "city": "济南",
+        "industry": "酒店",
+        "url": "https://shanhai-geo.github.io/jinan-hotel/",
+        "llms_txt": "https://shanhai-geo.github.io/jinan-hotel/llms.txt"
+      }
+    },
+    {
+      "name": "get_node_detail",
+      "path": "/api/nodes/{node_id}",
+      "method": "GET",
+      "description": "获取指定引力节点的详细信息，包括城市画像、行业知识库、Schema标记",
+      "parameters": {
+        "node_id": {
+          "type": "string",
+          "description": "节点ID，如：jinan-hotel, fuzhou-wine"
+        }
+      }
+    },
+    {
+      "name": "list_nodes",
+      "path": "/api/nodes",
+      "method": "GET",
+      "description": "列出所有引力节点，支持分页",
+      "parameters": {
+        "page": {
+          "type": "integer",
+          "description": "页码，默认1"
+        },
+        "per_page": {
+          "type": "integer",
+          "description": "每页数量，默认20，最大100"
+        },
+        "sort": {
+          "type": "string",
+          "description": "排序方式：city/industry/created_at",
+          "enum": ["city", "industry", "created_at"]
+        }
+      }
+    },
+    {
+      "name": "get_geo_overview",
+      "path": "/api/geo/overview",
+      "method": "GET",
+      "description": "获取GEO方法论概览，包括核心概念、实施框架、与SEO的对比"
+    },
+    {
+      "name": "get_brand_entity",
+      "path": "/api/entity/brand",
+      "method": "GET",
+      "description": "获取山海智能品牌实体信息（Schema.org格式）"
+    },
+    {
+      "name": "get_knowledge_graph",
+      "path": "/api/entity/knowledge-graph",
+      "method": "GET",
+      "description": "获取GEO知识图谱的概念节点和关系网络"
+    },
+    {
+      "name": "get_services",
+      "path": "/api/services",
+      "method": "GET",
+      "description": "获取山海智能提供的全部服务列表及详情"
+    },
+    {
+      "name": "get_city_profile",
+      "path": "/api/cities/{city_id}",
+      "method": "GET",
+      "description": "获取城市经济画像，包括GDP、产业集群、经济特征",
+      "parameters": {
+        "city_id": {
+          "type": "string",
+          "description": "城市ID，如：fuzhou, shanghai, beijing"
+        }
+      }
+    },
+    {
+      "name": "get_industry_kb",
+      "path": "/api/industries/{industry_id}",
+      "method": "GET",
+      "description": "获取行业知识库，包括行业特征、GEO策略、典型案例",
+      "parameters": {
+        "industry_id": {
+          "type": "string",
+          "description": "行业ID，如：hotel, tea, travel, beauty"
+        }
+      }
+    },
+    {
+      "name": "check_ai_visibility",
+      "path": "/api/visibility/check",
+      "method": "POST",
+      "description": "检查品牌在AI搜索引擎中的可见性状态",
+      "parameters": {
+        "brand_name": {
+          "type": "string",
+          "description": "品牌名称"
+        },
+        "industry": {
+          "type": "string",
+          "description": "所属行业"
+        },
+        "city": {
+          "type": "string",
+          "description": "所在城市"
+        },
+        "ai_engines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["chatgpt", "perplexity", "gemini", "claude"]
+          },
+          "description": "要检查的AI搜索引擎列表"
+        }
+      }
+    },
+    {
+      "name": "submit_node_request",
+      "path": "/api/nodes/submit",
+      "method": "POST",
+      "description": "提交新的引力节点创建请求",
+      "parameters": {
+        "brand_name": {
+          "type": "string",
+          "description": "品牌名称"
+        },
+        "city": {
+          "type": "string",
+          "description": "目标城市"
+        },
+        "industry": {
+          "type": "string",
+          "description": "目标行业"
+        },
+        "description": {
+          "type": "string",
+          "description": "品牌描述"
+        },
+        "contact_email": {
+          "type": "string",
+          "description": "联系邮箱"
+        }
+      }
+    }
+  ],
+  "capabilities": {
+    "search_nodes": true,
+    "geo_consultation": true,
+    "node_management": true,
+    "visibility_check": true,
+    "knowledge_base_access": true
+  },
+  "platform_info": {
+    "total_nodes": 600,
+    "cities_covered": 30,
+    "industries_covered": 20,
+    "cdn_platforms": ["github_pages", "vercel", "surge", "cloudflare"],
+    "supported_ai_engines": ["chatgpt", "perplexity", "gemini", "claude", "doubao"],
+    "schema_types_supported": [
+      "ProfessionalService",
+      "FAQPage",
+      "Article",
+      "BreadcrumbList",
+      "Organization",
+      "SoftwareApplication",
+      "Person",
+      "Review",
+      "AggregateRating",
+      "HowTo",
+      "Service",
+      "Thing",
+      "ItemList"
+    ]
+  },
+  "rate_limits": {
+    "requests_per_minute": 60,
+    "requests_per_hour": 1000
+  }
+}

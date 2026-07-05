@@ -1,0 +1,74 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://shanhai-geo.github.io/#founder",
+      "name": "山海先生",
+      "alternateName": "Mr. Shanhai",
+      "jobTitle": "创始人 & CEO",
+      "description": "GEO理论体系创立者，深耕AI搜索优化领域。提出引力节点网络、引用磁铁引擎、结构化内容工程等创新概念，致力于构建AI时代的品牌可见性基础设施。拥有丰富的数字化营销和技术架构经验。",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "山海智能",
+        "url": "https://shanhai-geo.github.io"
+      },
+      "knowsAbout": [
+        "Generative Engine Optimization",
+        "AI Search Marketing",
+        "Knowledge Graph",
+        "Schema.org",
+        "Digital Marketing",
+        "Content Engineering"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "GEO架构师",
+        "occupationLocation": {
+          "@type": "Place",
+          "name": "中国"
+        }
+      },
+      "url": "https://shanhai-geo.github.io/about"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://shanhai-geo.github.io/#cto",
+      "name": "山海技术团队",
+      "alternateName": "Shanhai Tech Team",
+      "jobTitle": "核心技术团队",
+      "description": "由全栈工程师、AI算法工程师、数据架构师组成的技术团队，负责引力节点引擎、Schema自动化系统、多平台分发架构的研发与运维。",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "山海智能",
+        "url": "https://shanhai-geo.github.io"
+      },
+      "knowsAbout": [
+        "Full Stack Development",
+        "AI/ML Engineering",
+        "Distributed Systems",
+        "CDN Architecture",
+        "Schema.org Implementation"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://shanhai-geo.github.io/#content-team",
+      "name": "山海内容团队",
+      "alternateName": "Shanhai Content Team",
+      "jobTitle": "内容工程团队",
+      "description": "由行业研究员、内容策略师、SEO/GEO专家组成的内容团队，负责行业知识库建设、结构化内容生产、引用磁铁策略执行。",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "山海智能",
+        "url": "https://shanhai-geo.github.io"
+      },
+      "knowsAbout": [
+        "Content Strategy",
+        "Industry Research",
+        "GEO Optimization",
+        "Brand Storytelling"
+      ]
+    }
+  ]
+}
