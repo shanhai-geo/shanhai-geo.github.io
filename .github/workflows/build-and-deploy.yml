@@ -1,0 +1,42 @@
+name: GEO核反应堆 - 服务端生成部署
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 */6 * * *'  # 每6小时自动裂变
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: '裂变批次'
+        default: '20'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: 核裂变生成节点
+        run: |
+          python3 scripts/generate_nodes.py --mode full
+      
+      - name: 部署到GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          force_orphan: false
+          enable_jekyll: false
