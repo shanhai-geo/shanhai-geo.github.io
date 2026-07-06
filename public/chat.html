@@ -3,165 +3,321 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>山海智能API - AI智能客服</title>
-<meta name="description" content="山海智能API智能客服，7×24小时在线，提供API产品咨询、技术对接、企业合作等专业服务">
+<title>山海智能AI客服 - 7×24在线服务</title>
+<meta name="description" content="山海智能AI客服，7×24小时在线，为您提供GEO引力获客、API接入、企业合作等专业服务">
+<link rel="canonical" href="https://shanhai-geo.github.io/chat.html">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif;background:#0a0a12;color:#e8e8f0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{padding:20px;text-align:center;background:rgba(15,15,25,.8);border-bottom:1px solid rgba(255,215,0,.1)}
-header h1{font-size:20px;font-weight:700;color:#ffd700;margin-bottom:4px}
-header p{font-size:13px;color:#8a8aa0}
-#chat{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
-.msg{max-width:85%;padding:12px 16px;border-radius:12px;line-height:1.6;font-size:14px}
-.msg.ai{background:rgba(20,20,40,.8);border:1px solid rgba(255,255,255,.06);align-self:flex-start;border-bottom-left-radius:4px}
-.msg.user{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;align-self:flex-end;border-bottom-right-radius:4px}
-.quick-replies{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.quick-replies button{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);color:#ffd700;padding:8px 14px;border-radius:16px;font-size:13px;cursor:pointer;transition:all .3s}
-.quick-replies button:hover{background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.4)}
-footer{padding:16px;text-align:center;background:rgba(15,15,25,.8);border-top:1px solid rgba(255,215,0,.1);font-size:12px;color:#8a8aa0}
-a{color:#ffd700;text-decoration:none}
-a:hover{text-decoration:underline}
+:root{
+  --gold:#ffd700;--gold-dim:rgba(255,215,0,.15);--gold-glow:rgba(255,215,0,.35);
+  --bg-deep:#06060e;--bg-card:#0d0d1a;--bg-glass:rgba(18,18,36,.72);
+  --text:#e8e8f0;--text-dim:#8a8aa0;--border:rgba(255,255,255,.06);
+  --ai-bg:rgba(22,22,44,.85);--user-bg:linear-gradient(135deg,#1a3a6e,#1e40af);
+  --radius:18px;--radius-sm:12px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg-deep);color:var(--text);height:100%;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;animation:orbFloat 20s ease-in-out infinite}
+.bg-orbs .orb:nth-child(1){width:420px;height:420px;background:#ffd700;top:-10%;left:-8%;animation-duration:22s}
+.bg-orbs .orb:nth-child(2){width:340px;height:340px;background:#3b82f6;bottom:-12%;right:-6%;animation-duration:18s;animation-delay:-5s}
+.bg-orbs .orb:nth-child(3){width:260px;height:260px;background:#a855f7;top:40%;left:55%;animation-duration:25s;animation-delay:-10s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+.chat-header{
+  position:relative;z-index:2;
+  background:var(--bg-glass);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);
+  padding:14px 20px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid rgba(255,215,0,.12);
+}
+.chat-header .logo{
+  width:42px;height:42px;border-radius:14px;
+  background:linear-gradient(135deg,#ffd700 0%,#ff8c00 100%);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  box-shadow:0 0 20px rgba(255,215,0,.25);flex-shrink:0;
+}
+.chat-header .info{flex:1}
+.chat-header .info h1{font-size:16px;font-weight:700;color:var(--gold);letter-spacing:.3px}
+.chat-header .info .sub{font-size:11px;color:var(--text-dim);margin-top:2px}
+.online-badge{
+  display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#4ade80;
+  background:rgba(74,222,128,.08);padding:3px 10px;border-radius:20px;margin-top:3px;
+}
+.online-badge::before{content:"";width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1}
+.messages{flex:1;overflow-y:auto;padding:16px 0;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.messages::-webkit-scrollbar{width:4px}
+.messages::-webkit-scrollbar-track{background:transparent}
+.messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.2);border-radius:4px}
+.msg-row{display:flex;gap:10px;margin-bottom:14px;padding:0 16px;max-width:680px;margin-left:auto;margin-right:auto;width:100%;animation:msgIn .4s cubic-bezier(.16,1,.3,1) both}
+.msg-row.user{flex-direction:row-reverse}
+@keyframes msgIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px}
+.msg-row.ai .avatar{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;box-shadow:0 0 12px rgba(255,215,0,.2)}
+.msg-row.user .avatar{background:var(--user-bg);color:#fff}
+.bubble{max-width:82%;padding:12px 16px;line-height:1.7;font-size:14px;position:relative;word-break:break-word}
+.msg-row.ai .bubble{background:var(--ai-bg);border:1px solid var(--border);border-radius:4px var(--radius) var(--radius) var(--radius);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.msg-row.user .bubble{background:var(--user-bg);border-radius:var(--radius) 4px var(--radius) var(--radius);color:#fff}
+.bubble a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
+.bubble b,.bubble strong{color:var(--gold);font-weight:600}
+.quick-opts{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0 8px 56px;max-width:680px;margin:0 auto;width:100%;animation:msgIn .4s cubic-bezier(.16,1,.3,1) both;animation-delay:.1s}
+.q-btn{background:var(--gold-dim);border:1px solid rgba(255,215,0,.25);color:var(--gold);padding:8px 18px;border-radius:24px;cursor:pointer;font-size:13px;font-weight:500;transition:all .25s;white-space:nowrap}
+.q-btn:hover,.q-btn:active{background:rgba(255,215,0,.22);border-color:rgba(255,215,0,.5);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,215,0,.15)}
+.typing-row{display:flex;gap:10px;padding:0 16px;margin-bottom:14px;max-width:680px;margin-left:auto;margin-right:auto;width:100%}
+.typing-dots{background:var(--ai-bg);border:1px solid var(--border);border-radius:4px var(--radius) var(--radius) var(--radius);padding:14px 20px;display:flex;gap:5px;align-items:center;backdrop-filter:blur(8px)}
+.typing-dots span{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:dotBounce .6s ease-in-out infinite alternate}
+.typing-dots span:nth-child(2){animation-delay:.15s}
+.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes dotBounce{to{transform:translateY(-6px);opacity:.4}}
+.input-area{padding:10px 16px 14px;background:var(--bg-glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;max-width:680px;margin:0 auto;width:100%}
+.input-area input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:12px 18px;border-radius:28px;font-size:14px;outline:none;transition:border-color .2s}
+.input-area input:focus{border-color:var(--gold-glow);box-shadow:0 0 0 3px rgba(255,215,0,.08)}
+.input-area input::placeholder{color:rgba(255,255,255,.25)}
+.send-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;flex-shrink:0}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,215,0,.3)}
+.send-btn:active{transform:scale(.95)}
+.chat-footer{text-align:center;padding:6px;font-size:10px;color:rgba(255,255,255,.2);background:var(--bg-deep);position:relative;z-index:1}
+@media(min-width:768px){
+  body{align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,rgba(255,215,0,.04),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(59,130,246,.04),transparent 60%),var(--bg-deep)}
+  .chat-card{width:460px;height:90vh;max-height:780px;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,215,0,.1);box-shadow:0 0 60px rgba(255,215,0,.06),0 24px 80px rgba(0,0,0,.5);background:var(--bg-card);position:relative}
+  .chat-card .bg-orbs{border-radius:24px}
+  .chat-footer{display:none}
+}
+@media(max-width:767px){.chat-card{display:contents}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 </style>
 </head>
 <body>
-<header>
-  <h1>山海智能API · 智能客服</h1>
-  <p>7×24小时在线 · 国际标准服务</p>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="chat-card">
+<header class="chat-header">
+  <div class="logo">🏔</div>
+  <div class="info">
+    <h1>山海智能AI综合体</h1>
+    <div class="sub">GEO基础设施平台</div>
+    <div class="online-badge">在线 · 7×24小时</div>
+  </div>
 </header>
-<div id="chat"></div>
-<footer>山海智能API · 高性能语义匹配接口服务 · <a href="/">首页</a></footer>
+<div class="chat-body">
+  <div class="messages" id="messages"></div>
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="输入您的问题…" autocomplete="off">
+    <button class="send-btn" id="sendBtn" aria-label="发送">➤</button>
+  </div>
+</div>
+</div>
+<div class="chat-footer">山海智能AI综合体 · GEO基础设施平台</div>
+
 <script>
-const SESSION_ID='shanhai_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-const conversationLog=[];
-const chatEl=document.getElementById('chat');
-let inquiryData=null;
+(function(){
+"use strict";
+const M=document.getElementById('messages'),I=document.getElementById('userInput'),SB=document.getElementById('sendBtn');
+let step='',pendingOpts=[];
 
-function logMsg(role,content){
-  conversationLog.push({role,content,timestamp:new Date().toISOString()});
-  try{localStorage.setItem('shanhai_chat_'+SESSION_ID,JSON.stringify(conversationLog))}catch(e){}
-}
+/* ===== 自动记录系统 ===== */
+const SESSION_ID = 'shanhai_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+const conversationLog = [];
+let inquiryData = null;
 
-function saveLocal(){
-  try{localStorage.setItem('shanhai_chat_'+SESSION_ID,JSON.stringify(conversationLog))}catch(e){}
-}
-
-function markInquiry(data){
-  inquiryData={...data,sessionId:SESSION_ID,timestamp:new Date().toISOString()};
+function logMsg(role, content){
+  conversationLog.push({
+    t: new Date().toISOString(),
+    role: role,
+    content: content.replace(/<[^>]+>/g,''),
+    session: SESSION_ID
+  });
   saveLocal();
 }
-
+function saveLocal(){
+  try{
+    localStorage.setItem('shanhai_chat_'+SESSION_ID, JSON.stringify(conversationLog));
+    // 同步询盘数据
+    if(inquiryData){
+      localStorage.setItem('shanhai_inquiry_'+SESSION_ID, JSON.stringify(inquiryData));
+    }
+  }catch(e){}
+}
+function markInquiry(data){
+  inquiryData = Object.assign({
+    sessionId: SESSION_ID,
+    timestamp: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+    referrer: document.referrer,
+    path: location.pathname
+  }, data);
+  saveLocal();
+  // 尝试发送询盘通知（通过fetch beacon）
+  try{
+    const payload = JSON.stringify(inquiryData);
+    navigator.sendBeacon && navigator.sendBeacon('/api/inquiry', payload);
+  }catch(e){}
+}
 function parseInquiry(text){
-  const patterns={
-    name:/我叫([^，。,.\s]{2,5})/,
-    company:/(公司|企业|团队|品牌)[^:：]*[:：]\s*([^，。,.\n]{2,20})/,
-    email:/[\w.-]+@[\w.-]+\.\w+/,
-    phone:/1[3-9]\d{9}/
-  };
-  const result={};
-  for(const[k,r]of Object.entries(patterns)){
-    const m=text.match(r);
-    if(m)result[k]=m[m.length-1];
+  // 解析用户留资信息：姓名 + 公司 + 邮箱
+  const parts = text.split(/[+＋,，、\s]+/).filter(Boolean);
+  const emailMatch = text.match(/[\w.-]+@[\w.-]+\.\w+/);
+  if(parts.length >= 2 || emailMatch){
+    const data = { raw: text, name:'', company:'', email:'' };
+    if(emailMatch) data.email = emailMatch[0];
+    if(parts.length >= 3){
+      data.name = parts[0]; data.company = parts[1];
+      if(!data.email && parts[2].includes('@')) data.email = parts[2];
+    } else if(parts.length === 2){
+      data.name = parts[0]; data.company = parts[1];
+    } else if(parts.length === 1){
+      if(parts[0].includes('@')) data.email = parts[0];
+      else data.name = parts[0];
+    }
+    return data;
   }
-  return Object.keys(result).length>0?result:null;
+  return null;
 }
 
-function ai(html){
-  const div=document.createElement('div');
-  div.className='msg ai';
-  div.innerHTML=html;
-  chatEl.appendChild(div);
-  chatEl.scrollTop=chatEl.scrollHeight;
-  logMsg('ai',html);
+/* ---- helpers ---- */
+function scroll(){requestAnimationFrame(()=>{M.scrollTop=M.scrollHeight})}
+function addMsg(html,who){
+  const r=document.createElement('div');r.className='msg-row '+who;
+  r.innerHTML='<div class="avatar">'+(who==='ai'?'🏔':'👤')+'</div><div class="bubble">'+html+'</div>';
+  M.appendChild(r);scroll();
+  logMsg(who, html);
+  return r;
 }
-
-function user(text){
-  const div=document.createElement('div');
-  div.className='msg user';
-  div.textContent=text;
-  chatEl.appendChild(div);
-  chatEl.scrollTop=chatEl.scrollHeight;
-  logMsg('user',text);
-  const inquiry=parseInquiry(text);
-  if(inquiry)markInquiry(inquiry);
-  setTimeout(()=>handleInput(text),500);
-}
-
-function quickReplies(replies){
-  const div=document.createElement('div');
-  div.className='quick-replies';
-  replies.forEach(r=>{
-    const btn=document.createElement('button');
-    btn.textContent=r.text;
-    btn.onclick=()=>{div.remove();r.fn()};
-    div.appendChild(btn);
+function addOpts(opts){
+  if(!opts||!opts.length)return;
+  const w=document.createElement('div');w.className='quick-opts';
+  opts.forEach(o=>{
+    const b=document.createElement('button');b.className='q-btn';b.textContent=o.l;
+    b.onclick=()=>{w.remove();addMsg(o.l,'user');logMsg('action',o.l);setTimeout(()=>o.fn(),400+Math.random()*300)};
+    w.appendChild(b);
   });
-  chatEl.appendChild(div);
-  chatEl.scrollTop=chatEl.scrollHeight;
+  M.appendChild(w);scroll();
+}
+function showTyping(){
+  const r=document.createElement('div');r.className='typing-row';r.id='typ';
+  r.innerHTML='<div class="avatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;flex-shrink:0">🏔</div><div class="typing-dots"><span></span><span></span><span></span></div>';
+  M.appendChild(r);scroll();
+}
+function hideTyping(){const t=document.getElementById('typ');if(t)t.remove()}
+function ai(html,opts,delay){
+  showTyping();
+  setTimeout(()=>{hideTyping();addMsg(html,'ai');addOpts(opts)},delay||600+Math.random()*400);
 }
 
-function handleInput(text){
-  const t=text.toLowerCase();
-  if(t.includes('价格')||t.includes('多少钱')||t.includes('收费')){pricingFlow()}
-  else if(t.includes('接入')||t.includes('api')||t.includes('技术')){apiFlow()}
-  else if(t.includes('合作')||t.includes('企业')){bizFlow()}
-  else if(t.includes('诊断')||t.includes('分析')){diagFlow()}
-  else{ai('好的，我来帮您解答。请问您想了解哪方面？<br><br>👉 可以问我：产品价格、API接入、企业合作、免费诊断')}
-}
-
+/* ---- conversation flows ---- */
 function welcome(){
-  ai('欢迎来到山海智能API智能客服！<br><br>我是您的专属服务顾问，7×24小时在线。<br><br>请选择您的需求 👇');
-  quickReplies([
-    {text:'⚡ API产品咨询',fn:apiFlow},
-    {text:'💰 价格方案',fn:pricingFlow},
-    {text:'🤝 企业合作',fn:bizFlow},
-    {text:'🔍 免费诊断',fn:diagFlow}
-  ]);
+  ai('您好！欢迎来到<strong>山海智能AI综合体</strong> 👋<br><br>我是您的AI顾问，7×24小时在线。<br>请问您想了解哪方面的服务？',
+  [{l:'🔍 GEO引力获客',fn:geoIntro},{l:'⚡ API接入咨询',fn:apiIntro},{l:'🤝 企业合作',fn:bizIntro},{l:'💡 免费诊断',fn:diagFlow}]);
 }
-
-function apiFlow(){
-  ai('山海智能API 核心能力：<br><br>🔌 <strong>标准RESTful接口</strong> — 兼容OpenAI Chat Completions格式<br>⚡ <strong>毫秒级响应</strong> — P99延迟<50ms，全球多节点部署<br>🛡️ <strong>企业级安全</strong> — TLS 1.3加密，API Key隔离，完整审计日志<br>🔄 <strong>SDK多语言</strong> — Python/Node.js/Java/Go，5分钟完成集成<br>📊 <strong>实时监控</strong> — 调用量、延迟、错误率可视化<br>🎯 <strong>语义匹配引擎</strong> — 自研内核，支持自定义规则<br><br>想了解哪方面？',);
-  quickReplies([
-    {text:'📖 技术文档',fn:docsFlow},
-    {text:'💰 价格方案',fn:pricingFlow},
-    {text:'🎯 立即开通',fn:payFlow}
-  ]);
+function geoIntro(){
+  ai('<strong>GEO引力获客</strong> = 让您的品牌在AI搜索引擎中被主动推荐。<br><br>✅ ChatGPT、DeepSeek、豆包、Kimi等全覆盖<br>✅ 三维语义匹配引擎，精准触达目标客户<br>✅ 低成本高效获客，无需人工推广<br><br>您是什么行业的？我帮您分析AI搜索可见度 👇',
+  [{l:'电商/跨境',fn:()=>industry('电商')},{l:'服务业/本地生活',fn:()=>industry('服务业')},{l:'SaaS/科技',fn:()=>industry('科技')},{l:'其他行业',fn:()=>industry('其他')}]);
 }
-
-function docsFlow(){
-  ai('📖 <strong>API技术文档</strong><br><br>🔗 接口地址：https://api.shanhai-ai.com/v1<br>🔑 认证方式：Bearer Token<br>📝 响应格式：OpenAI兼容<br><br><strong>快速接入示例（Python）：</strong><br><br><code>import openai<br>client = openai.OpenAI(<br>    base_url="https://api.shanhai-ai.com/v1",<br>    api_key="your_key"<br>)<br>response = client.chat.completions.create(<br>    model="shanhai-api-v2",<br>    messages=[{"role":"user","content":"你好"}]<br>)</code><br><br>3行代码即可接入，现有应用零改造。',);
-  quickReplies([
-    {text:'💰 价格方案',fn:pricingFlow},
-    {text:'🎯 立即开通',fn:payFlow},
-    {text:'🔙 返回首页',fn:welcome}
-  ]);
+function industry(ind){
+  const tips={
+    '电商':'电商行业在AI搜索中竞争非常激烈！买家常通过ChatGPT、豆包等寻找供应商和选品建议。做好GEO优化，能让您的品牌被AI主动推荐——相当于获得一个7×24在线的智能销售员。',
+    '服务业':'本地服务业是GEO的最佳场景！用户在AI搜索中问"附近哪家XX好"时，如果您的品牌被推荐，就是精准的到店流量。这比传统SEO转化率高3-5倍。',
+    '科技':'SaaS和科技产品采购决策越来越依赖AI搜索。CTO和产品经理会用ChatGPT做选型对比。GEO优化让您的产品在AI推荐中排名前列，直接影响采购决策。',
+    '其他':'所有行业都在被AI搜索重塑！无论您做什么行业，用户都在用AI寻找解决方案。越早布局GEO，越早在AI搜索中占据有利位置。'
+  };
+  ai((tips[ind]||tips['其他'])+'<br><br>📊 我们可以为您做一次<strong>免费的AI搜索可见度诊断</strong>，看看您的品牌在各大AI平台上的表现。',
+  [{l:'🎯 开始免费诊断',fn:diagFlow},{l:'💰 了解价格方案',fn:priceIntro}]);
 }
-
-function pricingFlow(){
-  ai('💰 <strong>产品方案</strong><br><br>📦 <strong>基础版：¥298/月</strong><br>→ 10次API调用，即买即用<br>→ 标准接口权限<br>→ 基础技术支持<br><br>🚀 <strong>专业版：¥998/月</strong>（推荐）<br>→ 50次API调用<br>→ 品牌诊断报告<br>→ 竞品分析对比<br>→ 优先技术支持<br><br>🏢 <strong>企业版：¥2998/月</strong><br>→ 100次API调用<br>→ 专属语义模型定制<br>→ 7×24专属顾问<br><br>选择方案 👇');
-  quickReplies([
-    {text:'📦 基础版 ¥298',fn:payFlow},
-    {text:'🚀 专业版 ¥998',fn:consultFlow},
-    {text:'🏢 企业版 ¥2998',fn:consultFlow}
-  ]);
+function apiIntro(){
+  ai('山海GEO API 核心能力：<br><br>🔧 <strong>兼容OpenAI格式</strong> — 无缝接入，低成本改造<br>🀄 <strong>中文语义深度优化</strong> — 专为中文场景打造<br>⚡ <strong>高并发低延迟</strong> — 企业级稳定性<br>🔒 <strong>数据安全</strong> — 独立隔离，不交叉<br><br>选择方案 👇',
+  [{l:'¥298 基础版',fn:priceBasic},{l:'🏢 企业定制',fn:priceEnterprise},{l:'📄 技术文档',fn:techDoc}]);
 }
-
-function payFlow(){
-  ai('🎯 <strong>立即开通基础版 ¥298</strong><br><br>点击下方按钮，扫码支付后自动开通：<br><br><a href="pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none">立即支付 ¥298 →</a><br><br>支付后自动获得API密钥，即开即用。');
+function priceBasic(){
+  ai('📦 <strong>基础版 ¥298/年</strong><br><br>✅ GEO三维语义匹配引擎API<br>✅ 兼容OpenAI接口格式<br>✅ 中文语义深度优化<br>✅ 多AI平台覆盖<br>✅ 基础技术支持<br><br>适合：中小企业、独立开发者、初创项目<br>开通后立即获得API密钥，即开即用。',
+  [{l:'立即开通 →',fn:goPay},{l:'先体验再决定',fn:diagFlow},{l:'← 返回',fn:welcome}]);
 }
-
-function consultFlow(){
-  ai('👍 好的，专业版/企业版需要顾问对接。<br><br>请留下您的联系方式：<br>• 姓名<br>• 公司/产品名<br>• 邮箱或手机<br><br>我们会在24小时内安排专属顾问联系您。');
+function priceEnterprise(){
+  ai('🏢 <strong>企业级方案</strong><br><br>✅ 专属API通道，独立部署<br>✅ 定制化语义模型训练<br>✅ 行业专属优化策略<br>✅ 7×24专属技术支持<br>✅ SLA保障<br><br>💼 企业版 ¥30万起 · 旗舰版 ¥50万起<br><br>请留下您的联系方式，我们的解决方案专家会在30分钟内与您对接。',
+  [{l:'留下联系方式',fn:collectInfo},{l:'先看基础版',fn:priceBasic},{l:'← 返回',fn:welcome}]);
 }
-
-function bizFlow(){
-  ai('🤝 欢迎探讨合作！山海智能提供多种合作模式：<br><br>🔌 <strong>API集成合作</strong> — 将API能力嵌入您的产品<br>📊 <strong>代运营服务</strong> — 全托管优化服务<br>🏗 <strong>基础设施合作</strong> — 共建语义匹配能力<br>🌐 <strong>生态联盟</strong> — 共建生态，共享资源<br><br>请留下您的联系方式，我们安排商务对接。');
+function priceIntro(){
+  ai('💰 <strong>定价方案</strong><br><br>📦 <strong>基础版：¥298/年</strong><br>→ GEO API接入，适合中小企业<br><br>🏢 <strong>企业版：¥30万起</strong><br>→ 专属通道 + 定制模型 + SLA保障<br><br>🌟 <strong>旗舰版：¥50万起</strong><br>→ 全托管 + 联合共建 + 生态联盟',
+  [{l:'开通基础版',fn:goPay},{l:'企业定制咨询',fn:priceEnterprise},{l:'← 返回',fn:welcome}]);
 }
-
+function bizIntro(){
+  ai('欢迎探讨合作！山海智能提供多种合作模式：<br><br>🤝 <strong>API集成合作</strong> — 将GEO能力嵌入您的产品<br>📊 <strong>GEO代运营</strong> — 全托管AI搜索优化服务<br>🏗 <strong>基础设施合作</strong> — 共建GEO中台能力<br>🌐 <strong>生态联盟</strong> — 共建GEO生态，共享资源',
+  [{l:'API集成',fn:apiIntro},{l:'代运营服务',fn:agentService},{l:'生态联盟',fn:allianceInfo},{l:'先了解基础能力',fn:geoIntro}]);
+}
+function agentService(){
+  ai('GEO代运营服务 = 您专注业务，AI搜索获客交给我们。<br><br>📋 服务内容：<br>• AI搜索可见度全面诊断<br>• 三维语义内容工程<br>• 多AI平台持续优化<br>• 月度数据报告与分析<br>• 竞品AI搜索对比分析<br><br>请留下您的联系方式，我们安排专属顾问为您制定方案。',
+  [{l:'留下联系方式',fn:collectInfo},{l:'← 返回',fn:welcome}]);
+}
+function allianceInfo(){
+  ai('🌐 <strong>山海GEO生态联盟</strong><br><br>我们不是竞争者，是共建者。<br><br>联盟成员可获得：<br>✅ GEO底层API能力输出<br>✅ 行业最佳实践共享<br>✅ 联合品牌曝光<br>✅ 客户资源互通<br>✅ 技术升级同步<br><br>理念：托举同行，共建共生。让每个从业者都能享受GEO红利。',
+  [{l:'申请加入联盟',fn:collectInfo},{l:'← 返回',fn:welcome}]);
+}
 function diagFlow(){
-  ai('🔍 <strong>免费诊断服务</strong><br><br>我们提供：<br>• API接入可行性评估<br>• 技术方案建议<br>• 成本估算<br><br>请描述您的业务场景，我们为您分析。');
+  step='diag';
+  ai('🎯 <strong>免费AI搜索可见度诊断</strong><br><br>3分钟了解您的品牌在AI搜索中的表现：<br>• ChatGPT推荐率<br>• DeepSeek推荐率<br>• 豆包/Kimi推荐率<br>• 竞品对比分析<br>• 个性化优化建议<br><br>请告诉我：<br>1️⃣ 您的品牌/公司名称<br>2️⃣ 所属行业<br>3️⃣ 主要竞品（可选）');
+}
+function collectInfo(){
+  step='collect';
+  ai('📝 请留下您的联系方式，我们尽快与您对接：<br><br>回复格式：<strong>姓名 + 公司 + 邮箱</strong><br><br>例如：张三 + XX科技 + zhang@example.com<br><br>📊 我们会在1小时内发送完整诊断报告/方案给您。');
+}
+function techDoc(){
+  ai('📄 <strong>技术文档</strong><br><br>API接入指南：<br>• 接口格式：兼容OpenAI API标准<br>• 接入方式：Bearer Token认证<br>• 响应格式：JSON，含语义匹配结果<br>• 支持平台：ChatGPT/DeepSeek/豆包/Kimi等<br><br>📎 详细技术文档请通过邮件获取。',
+  [{l:'发送文档到邮箱',fn:collectInfo},{l:'直接开通API',fn:goPay},{l:'← 返回',fn:welcome}]);
+}
+function goPay(){
+  ai('✅ 即将跳转到开通页面…<br><br>您也可以直接点击下方按钮完成开通：<br><br><a href="pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;box-shadow:0 4px 20px rgba(255,215,0,.3)">立即开通 ¥298 →</a><br><br>开通后自动获得API密钥，即开即用。',
+  [{l:'← 返回咨询',fn:welcome}]);
+}
+function fallback(){
+  ai('感谢您的咨询！我可以为您提供以下帮助 👇',
+  [{l:'🔍 了解GEO获客',fn:geoIntro},{l:'⚡ API接入',fn:apiIntro},{l:'🤝 合作咨询',fn:bizIntro},{l:'🎯 免费诊断',fn:diagFlow},{l:'💬 联系人工顾问',fn:collectInfo}]);
 }
 
-welcome();
+/* ---- input handling ---- */
+function handleInput(v){
+  const vl=v.toLowerCase();
+  if(step==='diag'){
+    step='collect';
+    markInquiry({ stage:'diagnose', brand: v });
+    ai('📊 <strong>诊断报告生成中…</strong><br><br>由于每个品牌的AI搜索表现需要实时抓取分析，完整诊断报告将通过邮件发送给您。<br><br>请留下您的邮箱，我们会在1小时内发送<strong>完整报告 + 优化建议</strong>。<br><br>📧 回复格式：<strong>姓名 + 公司 + 邮箱</strong>');
+    return;
+  }
+  if(step==='collect'){
+    step='';
+    const parsed = parseInquiry(v);
+    if(parsed){
+      markInquiry({ stage:'collected', ...parsed });
+      addMsg('✅ 收到！我们的专属顾问会在30分钟内与您联系。<br><br>在等待期间，您可以：<br>• 浏览<a href="index.html">首页</a>了解更多<br>• 查看<a href="pay.html">开通页面</a>了解API详情<br><br>感谢您的信任，山海智能期待与您合作！🤝','ai');
+    } else {
+      markInquiry({ stage:'partial', raw: v });
+      addMsg('收到您的信息！为了更精准地为您服务，请补充一下联系方式 👇<br><br>回复格式：<strong>姓名 + 公司 + 邮箱</strong>','ai');
+      step='collect';
+    }
+    return;
+  }
+  if(vl.includes('价格')||vl.includes('多少钱')||vl.includes('费用')||vl.includes('收费')){priceIntro();return}
+  if(vl.includes('api')||vl.includes('接口')||vl.includes('接入')||vl.includes('开发')){apiIntro();return}
+  if(vl.includes('geo')||vl.includes('获客')||vl.includes('搜索')||vl.includes('推荐')){geoIntro();return}
+  if(vl.includes('合作')||vl.includes('联盟')||vl.includes('代理')){bizIntro();return}
+  if(vl.includes('诊断')||vl.includes('分析')||vl.includes('检测')){diagFlow();return}
+  if(vl.includes('开通')||vl.includes('购买')||vl.includes('付款')||vl.includes('支付')){goPay();return}
+  if(vl.includes('电商')||vl.includes('跨境')||vl.includes('亚马逊')){industry('电商');return}
+  if(vl.includes('企业')||vl.includes('定制')||vl.includes('大客户')){priceEnterprise();return}
+  if(vl.includes('联系')||vl.includes('电话')||vl.includes('人工')){collectInfo();return}
+  if(vl.includes('你好')||vl.includes('hi')||vl.includes('hello')||vl.includes('在吗')){welcome();return}
+  fallback();
+}
+function send(){
+  const v=I.value.trim();if(!v)return;
+  addMsg(v,'user');I.value='';
+  setTimeout(()=>handleInput(v),200);
+}
+I.addEventListener('keypress',e=>{if(e.key==='Enter')send()});
+SB.addEventListener('click',send);
+setTimeout(welcome,500);
+})();
 </script>
 </body>
 </html>
