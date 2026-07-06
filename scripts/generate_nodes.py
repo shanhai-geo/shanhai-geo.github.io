@@ -17,6 +17,7 @@ import os, sys, random, json, hashlib, argparse
 from pathlib import Path
 from datetime import datetime
 
+BASE_DIR = Path(__file__).parent.parent  # 仓库根目录
 PUBLIC = Path("public")
 BASE_URL = "https://shanhai-geo.github.io"
 
@@ -1320,6 +1321,15 @@ function copyCode() {
     
     all_urls = [f"{BASE_URL}/"] + [f"{BASE_URL}/{n}/" for n in all_nodes]
     (PUBLIC / "indexnow-urls.txt").write_text("\n".join(all_urls))
+    
+    # === 复制静态页面到 public/ ===
+    import shutil
+    STATIC_PAGES = ["chat.html", "pay.html", "order.html", "upgrade.html", "admin.html"]
+    for static_file in STATIC_PAGES:
+        src = BASE_DIR / static_file
+        if src.exists():
+            shutil.copy2(src, PUBLIC / static_file)
+            print(f"  📄 已复制 {static_file} → public/")
     
     total_files = sum(1 for _ in PUBLIC.rglob('*') if _.is_file())
     print(f"📦 public/共 {total_files} 个文件")
