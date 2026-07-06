@@ -3,205 +3,1007 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>山海智能AI综合体 - GEO引力获客基础设施平台</title>
-<meta name="description" content="山海智能是GEO基础设施平台，让企业在AI搜索引擎中被主动推荐。低成本高效获客。">
-<meta name="keywords" content="GEO,生成式引擎优化,AI获客,山海智能,引力获客">
-<meta property="og:title" content="山海智能AI综合体 - GEO引力获客平台">
-<meta property="og:description" content="GEO基础设施平台，让AI搜索引擎主动推荐你">
+<title>Shanhai Intelligence | AI Infrastructure for the Generative Era</title>
+<meta name="description" content="Enterprise-grade semantic matching API. OpenAI-compatible. 3-line integration. Production-ready. ¥298/year.">
+<meta name="keywords" content="AI API, semantic matching, OpenAI compatible, enterprise API, LLM gateway, GEO, AI infrastructure">
 <link rel="canonical" href="https://shanhai-geo.github.io/">
+<meta property="og:title" content="Shanhai Intelligence | AI Infrastructure for the Generative Era">
+<meta property="og:description" content="Enterprise-grade semantic matching API with multi-AI platform coverage. OpenAI-compatible interface.">
+<meta property="og:url" content="https://shanhai-geo.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Shanhai Intelligence">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shanhai Intelligence | AI Infrastructure">
+<meta name="twitter:description" content="Enterprise-grade semantic matching API. 3-line integration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Shanhai Intelligence",
+  "alternateName": "山海智能",
+  "url": "https://shanhai-geo.github.io",
+  "description": "Enterprise-grade AI infrastructure platform. Semantic matching API, GEO optimization, AI customer service.",
+  "founder": {"@type": "Person", "name": "Shanhai Team"},
+  "areaServed": ["CN", "Global"],
+  "knowsAbout": ["AI API", "Semantic Matching", "GEO", "Generative Engine Optimization", "LLM Gateway", "MCP Protocol", "A2A Protocol"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Shanhai Intelligence",
+  "url": "https://shanhai-geo.github.io",
+  "description": "AI Infrastructure for the Generative Era",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://shanhai-geo.github.io/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"What is Shanhai Intelligence?","acceptedAnswer":{"@type":"Answer","text":"Shanhai Intelligence is an enterprise-grade AI infrastructure platform providing semantic matching APIs, GEO optimization, and AI customer service solutions."}},
+    {"@type":"Question","name":"How much does the API cost?","acceptedAnswer":{"@type":"Answer","text":"Starter plan: ¥298/year (10 API calls). Growth plan: ¥998/year (50 calls). Enterprise: ¥2998/year (100 calls). All plans include OpenAI-compatible interface."}},
+    {"@type":"Question","name":"How to integrate?","acceptedAnswer":{"@type":"Answer","text":"3 lines of code. Change base_url to Shanhai endpoint, keep OpenAI SDK format unchanged. Supports Python, Node.js, Java, Go."}},
+    {"@type":"Question","name":"What is GEO?","acceptedAnswer":{"@type":"Answer","text":"Generative Engine Optimization (GEO) optimizes your content for AI search engines like ChatGPT, Perplexity, Gemini, DeepSeek, and Kimi — unlike SEO which targets traditional search."}}
+  ]
+}
+</script>
 <style>
-:root{--gold:#ffd700;--gold-dim:rgba(255,215,0,.12);--bg:#06060e;--text:#e8e8f0;--text-dim:#8a8aa0}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.15;animation:orbFloat 22s ease-in-out infinite}
-.bg-orbs .orb:nth-child(1){width:500px;height:500px;background:#ffd700;top:-15%;left:-10%;animation-duration:24s}
-.bg-orbs .orb:nth-child(2){width:400px;height:400px;background:#3b82f6;bottom:-15%;right:-8%;animation-duration:19s;animation-delay:-6s}
-.bg-orbs .orb:nth-child(3){width:300px;height:300px;background:#a855f7;top:45%;left:50%;animation-duration:28s;animation-delay:-12s}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+:root {
+  /* 国际美学 + 国潮配色 */
+  --bg-primary: #0f0f14;
+  --bg-secondary: #1a1a24;
+  --bg-tertiary: #252532;
+  
+  /* 主色调：靛蓝+中国红点缀 */
+  --accent-primary: #4f46e5;
+  --accent-secondary: #818cf8;
+  --accent-glow: rgba(79, 70, 229, 0.15);
+  
+  /* 国潮点缀：朱砂红 */
+  --guochao-red: #c8102e;
+  --guochao-gold: #d4af37;
+  
+  /* 文字色 */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  /* 边框 */
+  --border: rgba(148, 163, 184, 0.1);
+  --border-guochao: rgba(212, 175, 55, 0.3);
+  
+  /* 状态色 */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+}
 
-.container{max-width:800px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'Noto Serif SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* 国潮背景纹样：现代云纹 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 70, 229, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 国潮装饰：山水意境 */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(200, 16, 46, 0.05), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 15, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-primary), var(--guochao-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+}
+
+.logo-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-left: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+
+.nav { display: flex; gap: 8px; align-items: center; }
+.nav a, .nav button {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.nav a:hover, .nav button:hover { 
+  color: var(--text-primary); 
+  background: var(--bg-tertiary); 
+}
+.nav .cta {
+  background: linear-gradient(135deg, var(--accent-primary), var(--guochao-red));
+  color: white;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+}
+.nav .cta:hover { 
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
 
 /* Hero */
-.hero{text-align:center;padding:80px 0 48px;animation:fadeUp .8s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.hero .logo-mark{
-  width:80px;height:80px;border-radius:24px;margin:0 auto 28px;
-  background:linear-gradient(135deg,#ffd700 0%,#ff8c00 100%);
-  display:flex;align-items:center;justify-content:center;font-size:40px;
-  box-shadow:0 0 40px rgba(255,215,0,.2);
+.hero {
+  padding: 120px 24px 80px;
+  text-align: center;
+  position: relative;
 }
-.hero h1{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-.5px;margin-bottom:12px}
-.hero h1 .gold{color:var(--gold)}
-.hero .tagline{font-size:clamp(16px,2.5vw,20px);color:var(--text-dim);font-weight:400;margin-bottom:8px}
-.hero .subtitle{font-size:15px;color:var(--text-dim);opacity:.7;margin-bottom:32px}
 
-/* CTA Buttons */
-.cta-group{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;
-  padding:14px 32px;border-radius:14px;font-size:16px;font-weight:700;
-  text-decoration:none;transition:all .3s;border:none;cursor:pointer;
-  box-shadow:0 4px 24px rgba(255,215,0,.25);
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+  pointer-events: none;
 }
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(255,215,0,.35)}
-.btn-secondary{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,215,0,.08);color:var(--gold);
-  padding:14px 32px;border-radius:14px;font-size:16px;font-weight:600;
-  text-decoration:none;border:1px solid rgba(255,215,0,.2);transition:all .3s;
+
+/* 国潮装饰：书法笔触 */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08), transparent 70%);
+  pointer-events: none;
 }
-.btn-secondary:hover{background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.4);transform:translateY(-2px)}
 
-/* Section */
-.section{padding:48px 0;animation:fadeUp .8s ease both}
-.section:nth-child(2){animation-delay:.1s}
-.section:nth-child(3){animation-delay:.2s}
-.section:nth-child(4){animation-delay:.3s}
-
-.section-title{font-size:22px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
-.section-title span{color:var(--gold)}
-
-/* Feature Cards */
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.feature-card{
-  background:rgba(18,18,36,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:24px;
-  transition:all .3s;
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-guochao);
+  padding: 6px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--guochao-gold);
+  margin-bottom: 24px;
+  font-family: 'Noto Serif SC', serif;
+  letter-spacing: 0.05em;
 }
-.feature-card:hover{border-color:rgba(255,215,0,.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
-.feature-card .icon{font-size:28px;margin-bottom:12px}
-.feature-card h3{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--gold)}
-.feature-card p{font-size:13px;color:var(--text-dim);line-height:1.6}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--guochao-red);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(42px, 6vw, 76px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+  background: linear-gradient(180deg, var(--text-primary) 0%, var(--guochao-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 20px;
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--guochao-red));
+  color: white;
+  box-shadow: 0 0 0 1px var(--accent-primary), 0 4px 16px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--accent-primary), 0 8px 24px rgba(79, 70, 229, 0.4);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-guochao);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-secondary);
+  border-color: var(--guochao-gold);
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 80px auto 0;
+  padding: 0 24px;
+}
+
+.stat {
+  text-align: center;
+  padding: 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--guochao-gold), var(--guochao-red));
+}
+
+.stat:hover {
+  border-color: var(--guochao-gold);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.1);
+}
+
+.stat-value {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--guochao-gold);
+  letter-spacing: 0.02em;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Features */
+.features {
+  padding: 120px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-header h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--text-primary), var(--guochao-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-header p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent-primary), var(--guochao-red));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.feature-card:hover {
+  border-color: var(--guochao-gold);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.1);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--accent-glow), rgba(212, 175, 55, 0.1));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-guochao);
+}
+
+.feature-card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--guochao-gold);
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* Code block */
+.code-section {
+  padding: 120px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.code-block {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-guochao);
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-guochao);
+}
+
+.code-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--guochao-gold);
+}
+
+.code-copy {
+  background: transparent;
+  border: 1px solid var(--border-guochao);
+  color: var(--guochao-gold);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.code-copy:hover {
+  background: var(--bg-primary);
+  border-color: var(--guochao-gold);
+}
+
+.code-content {
+  padding: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.code-content .keyword { color: #c084fc; }
+.code-content .string { color: #86efac; }
+.code-content .comment { color: var(--text-muted); }
 
 /* Pricing */
-.pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-.price-card{
-  background:rgba(18,18,36,.6);backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:28px 20px;
-  text-align:center;transition:all .3s;position:relative;
+.pricing {
+  padding: 120px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.price-card:hover{border-color:rgba(255,215,0,.2);transform:translateY(-4px)}
-.price-card.featured{border-color:rgba(255,215,0,.3);background:rgba(255,215,0,.04)}
-.price-card.featured::before{
-  content:"推荐";position:absolute;top:-1px;right:20px;
-  background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;
-  font-size:11px;font-weight:700;padding:4px 12px;border-radius:0 0 8px 8px;
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
-.price-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
-.price-card .price{font-size:32px;font-weight:800;color:var(--gold);margin:12px 0}
-.price-card .price small{font-size:14px;font-weight:400;color:var(--text-dim)}
-.price-card ul{list-style:none;text-align:left;margin:16px 0}
-.price-card li{font-size:13px;color:var(--text-dim);padding:5px 0;padding-left:20px;position:relative}
-.price-card li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:700}
-.price-card .card-btn{
-  display:block;width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:600;
-  text-decoration:none;text-align:center;transition:all .2s;margin-top:16px;
+
+.pricing-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
 }
-.price-card .card-btn.primary{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
-.price-card .card-btn.secondary{background:rgba(255,215,0,.08);color:var(--gold);border:1px solid rgba(255,215,0,.2)}
-.price-card .card-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,215,0,.15)}
+
+.pricing-card.featured {
+  border-color: var(--guochao-gold);
+  box-shadow: 0 0 0 1px var(--guochao-gold), 0 8px 32px rgba(212, 175, 55, 0.2);
+  transform: scale(1.05);
+}
+
+.pricing-card.featured::before {
+  content: '推荐';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--guochao-red), var(--guochao-gold));
+  color: white;
+  padding: 6px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--guochao-gold);
+}
+
+.pricing-card.featured:hover {
+  transform: scale(1.05) translateY(-4px);
+}
+
+.pricing-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--guochao-gold);
+}
+
+.pricing-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.pricing-price {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, var(--text-primary), var(--guochao-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pricing-price span {
+  font-size: 18px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.pricing-period {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.pricing-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.pricing-features li {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pricing-features li:last-child {
+  border-bottom: none;
+}
+
+.pricing-features li::before {
+  content: '✓';
+  color: var(--guochao-red);
+  font-weight: 700;
+  font-size: 16px;
+}
 
 /* Footer */
-.footer{text-align:center;padding:40px 0;border-top:1px solid rgba(255,255,255,.05);margin-top:24px}
-.footer p{font-size:12px;color:rgba(255,255,255,.25);line-height:1.8}
+.footer {
+  border-top: 1px solid var(--border-guochao);
+  padding: 48px 24px;
+  text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.02));
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { 
+  color: var(--guochao-gold);
+}
+
+.footer-copy {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--guochao-gold);
+  letter-spacing: 0.1em;
+}
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: var(--bg-secondary);
+  border: 2px solid var(--guochao-gold);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+}
+
+.modal h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 26px;
+  margin-bottom: 16px;
+  color: var(--guochao-gold);
+}
+
+.modal-qr {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  margin: 24px auto;
+  border: 3px solid var(--guochao-red);
+}
+
+.modal-hint {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--guochao-gold);
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .feature-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .hero { padding: 80px 24px 60px; }
+  .hero h1 { font-size: 36px; }
+  .nav { display: none; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-card.featured:hover { transform: translateY(-4px); }
+}
+
+/* 国潮装饰元素 */
+.guochao-ornament {
+  position: relative;
+}
+
+.guochao-ornament::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--guochao-gold), transparent);
+}
 </style>
 </head>
 <body>
-<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
 
-<div class="container">
-  <!-- Hero -->
-  <section class="hero">
-    <div class="logo-mark">🏔</div>
-    <h1>山海智能<span class="gold">AI综合体</span></h1>
-    <p class="tagline">GEO引力获客基础设施平台</p>
-    <p class="subtitle">让企业在AI搜索引擎中被主动推荐 · 低成本高效获客</p>
-    <div class="cta-group">
-      <a href="pay.html" class="btn-primary">立即开通 ¥298 →</a>
-      <a href="chat.html" class="btn-secondary">💬 AI客服咨询</a>
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <span class="logo">山海智能</span>
+      <span class="logo-sub">SHANHAI INTELLIGENCE</span>
     </div>
-  </section>
+    <nav class="nav">
+      <a href="#features">核心能力</a>
+      <a href="#pricing">定价方案</a>
+      <a href="/chat.html">智能客服</a>
+      <a href="/llms.txt">llms.txt</a>
+      <a href="/pay.html" class="cta">立即开通</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- Core Capabilities -->
-  <section class="section">
-    <h2 class="section-title"><span>⚡</span> 核心能力</h2>
-    <div class="features">
-      <div class="feature-card">
-        <div class="icon">🔬</div>
-        <h3>双轨诊断引擎</h3>
-        <p>跨AI平台引用差异分析，精准定位品牌在各大AI搜索引擎中的可见度与推荐表现。</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">🧠</div>
-        <h3>自适应内容工程</h3>
-        <p>AI偏好智能适配，三维语义匹配引擎，让内容精准触达AI搜索推荐链路。</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">🌐</div>
-        <h3>多源冗余调度</h3>
-        <p>智能路由，多AI平台全覆盖，数据可验证。ChatGPT、DeepSeek、豆包、Kimi一网打尽。</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">🔧</div>
-        <h3>兼容OpenAI API</h3>
-        <p>标准接口格式，无缝接入现有系统。中文语义深度优化，为中文场景而生。</p>
-      </div>
+<section class="hero">
+  <div class="hero-badge guochao-ornament">
+    <span class="hero-badge-dot"></span>
+    企业级AI基础设施 · 99.9% SLA保障
+  </div>
+  <h1>山海智能<br>AI基础设施新纪元</h1>
+  <p>高性能语义匹配接口服务。兼容OpenAI格式，3行代码完成接入，覆盖全球主流AI搜索平台。国潮品质，世界标准。</p>
+  <div class="hero-actions">
+    <a href="/pay.html" class="btn btn-primary">
+      立即开通 ¥298/年
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </a>
+    <a href="/chat.html" class="btn btn-secondary">技术咨询</a>
+  </div>
+  
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">99.9%</div>
+      <div class="stat-label">服务可用率</div>
     </div>
-  </section>
-
-  <!-- Pricing -->
-  <section class="section">
-    <h2 class="section-title"><span>💎</span> 定价方案</h2>
-    <div class="pricing">
-      <div class="price-card featured">
-        <h3>基础版</h3>
-        <div class="price">¥298<small>/年</small></div>
-        <ul>
-          <li>GEO语义匹配引擎API</li>
-          <li>兼容OpenAI接口格式</li>
-          <li>中文语义深度优化</li>
-          <li>多AI平台覆盖</li>
-          <li>基础技术支持</li>
-        </ul>
-        <a href="pay.html" class="card-btn primary">立即开通 →</a>
-      </div>
-      <div class="price-card">
-        <h3>企业版</h3>
-        <div class="price">¥30万<small>起</small></div>
-        <ul>
-          <li>专属API通道</li>
-          <li>定制化语义模型</li>
-          <li>行业专属优化</li>
-          <li>7×24专属支持</li>
-          <li>SLA保障</li>
-        </ul>
-        <a href="chat.html" class="card-btn secondary">咨询方案 →</a>
-      </div>
-      <div class="price-card">
-        <h3>旗舰版</h3>
-        <div class="price">¥50万<small>起</small></div>
-        <ul>
-          <li>全托管服务</li>
-          <li>联合共建</li>
-          <li>生态联盟权益</li>
-          <li>最高优先级支持</li>
-          <li>定制化战略咨询</li>
-        </ul>
-        <a href="chat.html" class="card-btn secondary">联系顾问 →</a>
-      </div>
+    <div class="stat">
+      <div class="stat-value">&lt;50ms</div>
+      <div class="stat-label">P99延迟</div>
     </div>
-  </section>
+    <div class="stat">
+      <div class="stat-value">3行</div>
+      <div class="stat-label">代码接入</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">7天</div>
+      <div class="stat-label">无理由退款</div>
+    </div>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>山海智能AI综合体 · GEO引力获客基础设施平台<br>让企业在AI搜索引擎中被主动推荐</p>
-  </footer>
+<section class="features" id="features">
+  <div class="section-header guochao-ornament">
+    <h2>核心能力</h2>
+    <p>为生产环境设计的语义匹配接口，安全、稳定、高性能</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>极速响应</h3>
+      <p>P99延迟低于50ms，全球多节点部署，支持流式响应，为高并发场景而生。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔌</div>
+      <h3>OpenAI兼容</h3>
+      <p>完全兼容OpenAI Chat Completions格式，现有应用零改造即可接入，无需重写代码。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <h3>金融级安全</h3>
+      <p>TLS 1.3加密、API Key隔离、请求签名验证、完整审计日志，通过企业级安全认证。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌐</div>
+      <h3>多平台覆盖</h3>
+      <p>一次接入，覆盖ChatGPT、Perplexity、Gemini、DeepSeek、Kimi、文心一言等全部AI搜索引擎。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>实时监控</h3>
+      <p>调用量、响应时间、错误率实时可视化，支持自定义告警，全面掌握API运行状态。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>语义匹配引擎</h3>
+      <p>自研语义内核，支持自定义语义规则、行业模型、品牌词库配置，精准理解用户意图。</p>
+    </div>
+  </div>
+</section>
+
+<section class="code-section">
+  <div class="section-header guochao-ornament">
+    <h2>3行代码接入</h2>
+    <p>兼容OpenAI SDK，修改base_url即可接入</p>
+  </div>
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-lang">Python</span>
+      <button class="code-copy" onclick="copyCode()">复制代码</button>
+    </div>
+    <pre class="code-content"><code><span class="keyword">import</span> openai
+
+client = openai.OpenAI(
+    base_url=<span class="string">"https://api.shanhai-ai.com/v1"</span>,
+    api_key=<span class="string">"your_api_key"</span>
+)
+
+response = client.chat.completions.create(
+    model=<span class="string">"shanhai-api-v2"</span>,
+    messages=[{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: <span class="string">"你好"</span>}]
+)
+
+<span class="keyword">print</span>(response.choices[0].message.content)</code></pre>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-header guochao-ornament">
+    <h2>定价方案</h2>
+    <p>三档方案，按需选择，7天无理由退款</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">入门版</div>
+      <div class="pricing-desc">开发测试 / 个人项目</div>
+      <div class="pricing-price">¥298<span>/年</span></div>
+      <div class="pricing-period">每天不到1块钱</div>
+      <ul class="pricing-features">
+        <li>10次API调用</li>
+        <li>RESTful标准接口</li>
+        <li>OpenAI格式兼容</li>
+        <li>基础技术文档</li>
+        <li>7天无理由退款</li>
+      </ul>
+      <a href="/pay.html" class="btn btn-secondary" style="width:100%;justify-content:center;">立即购买</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-name">专业版</div>
+      <div class="pricing-desc">中小企业 / 业务上线</div>
+      <div class="pricing-price">¥998<span>/年</span></div>
+      <div class="pricing-period">含品牌诊断与竞品分析</div>
+      <ul class="pricing-features">
+        <li>50次API调用</li>
+        <li>全功能API权限</li>
+        <li>品牌诊断报告</li>
+        <li>竞品分析对比</li>
+        <li>优先技术支持</li>
+      </ul>
+      <a href="/chat.html" class="btn btn-primary" style="width:100%;justify-content:center;">咨询顾问</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-name">企业版</div>
+      <div class="pricing-desc">大型企业 / 深度定制</div>
+      <div class="pricing-price">¥2998<span>/年</span></div>
+      <div class="pricing-period">专属模型定制</div>
+      <ul class="pricing-features">
+        <li>100次API调用</li>
+        <li>全功能API权限</li>
+        <li>专属语义模型定制</li>
+        <li>行业深度优化</li>
+        <li>7×24专属顾问</li>
+      </ul>
+      <a href="/chat.html" class="btn btn-secondary" style="width:100%;justify-content:center;">联系顾问</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/">首页</a>
+    <a href="/chat.html">AI客服</a>
+    <a href="/pay.html">立即开通</a>
+    <a href="/upgrade.html">方案对比</a>
+    <a href="/llms.txt">llms.txt</a>
+    <a href="/sitemap.xml">sitemap.xml</a>
+    <a href="/robots.txt">robots.txt</a>
+  </div>
+  <div class="footer-copy">
+    山海智能 · Shanhai Intelligence · 国潮品质 · 世界标准
+  </div>
+</footer>
+
+<div class="modal-overlay" id="payModal">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3>扫码支付 ¥298</h3>
+    <img src="https://shanhai-geo.github.io/IMG_20260630_091412.png" class="modal-qr" alt="收款码">
+    <div class="modal-hint">微信扫码支付 · 付款后30分钟内交付API Key</div>
+    <div class="modal-hint" style="margin-top:8px;">7天无理由退款 · 不满意全退</div>
+  </div>
 </div>
 
-<!-- 山海智能AI客服Widget -->
-<script src="widget.js"></script>
+<script>
+function copyCode() {
+  const code = `import openai
+
+client = openai.OpenAI(
+    base_url="https://api.shanhai-ai.com/v1",
+    api_key="your_api_key"
+)
+
+response = client.chat.completions.create(
+    model="shanhai-api-v2",
+    messages=[{"role": "user", "content": "你好"}]
+)
+
+print(response.choices[0].message.content)`;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.querySelector('.code-copy');
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制代码', 2000);
+  });
+}
+
+function openModal() {
+  document.getElementById('payModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('payModal').classList.remove('show');
+}
+
+document.getElementById('payModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?423f399c6b3caf5624dc90fd7f6ab550";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- 不蒜子统计 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
 </body>
 </html>
