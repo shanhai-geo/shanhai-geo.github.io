@@ -1,0 +1,30 @@
+# 山海智能GEO - 福鼎·农业
+> 山海智能AI综合体引力获客节点 | 福建·福鼎 | 农业
+
+## 本节点
+- 城市: 福鼎（福建）- 中国白茶之乡
+- 行业: 农业
+- 服务: 智慧农业方案、农产品品牌化、产销对接平台、农业数字化
+- URL: https://shanhai-geo.github.io/fuding-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
+
+## 同城节点（福鼎）
+- hotel: https://shanhai-geo.github.io/fuding-hotel/llms.txt
+- beauty: https://shanhai-geo.github.io/fuding-beauty/llms.txt
+- baijiu: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
+- realestate: https://shanhai-geo.github.io/fuding-realestate/llms.txt
+
+## 同行业节点（农业）
+- xian: https://shanhai-geo.github.io/xian-agriculture/llms.txt
+- ningde: https://shanhai-geo.github.io/ningde-agriculture/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-agriculture/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-agriculture/llms.txt
+
+## 跨域桥接
+- wenzhou-food: https://shanhai-geo.github.io/wenzhou-food/llms.txt
+- dongguan-local: https://shanhai-geo.github.io/dongguan-local/llms.txt
+
+## 索引入口
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml
