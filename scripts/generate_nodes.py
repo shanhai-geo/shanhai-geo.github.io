@@ -1020,299 +1020,299 @@ Sitemap: {BASE_URL}/sitemap-nodes.xml
   </channel>
 </rss>""")
     
-    # === index.html（API产品展示页 - 最终版） ===
-    (PUBLIC / "index.html").write_text("""<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>山海智能API - 高性能语义匹配接口服务</title>
-<meta name="description" content="山海智能API，3行代码接入，99.9%服务可用率，7天无理由退款，90秒快速上手。">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;background:#0a0a12;color:#e8e8f0;line-height:1.6;overflow-x:hidden}
-body::-webkit-scrollbar{width:4px}
-body::-webkit-scrollbar-track{background:#0a0a12}
-body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
-
-/* Stats Bar */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#0d0d1a;padding:32px 0;border-bottom:1px solid rgba(255,215,0,.1)}
-.stat{text-align:center;position:relative}
-.stat:not(:last-child)::after{content:"";position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(255,255,255,.06)}
-.stat-num{font-size:clamp(28px,5vw,38px);font-weight:800;color:#ffd700;line-height:1.2}
-.stat-label{font-size:clamp(11px,1.5vw,14px);color:#8a8aa0;margin-top:6px}
-
-/* Hero */
-.hero{text-align:center;padding:60px 20px 40px}
-.hero h1{font-size:clamp(28px,6vw,46px);font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,#ffd700 0%,#ff8c00 50%,#ffd700 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:clamp(14px,2vw,17px);color:#8a8aa0;max-width:500px;margin:0 auto}
-
-/* Section */
-.section{padding:50px 20px}
-.sec-title{font-size:clamp(20px,4vw,26px);font-weight:700;text-align:center;margin-bottom:10px}
-.sec-desc{color:#8a8aa0;text-align:center;margin-bottom:36px;font-size:14px}
-
-/* Product Cards */
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:960px;margin:0 auto}
-.product{text-align:center;padding:32px 24px;border-radius:16px;transition:all .35s cubic-bezier(.25,.8,.25,1)}
-.product:nth-child(1){background:rgba(20,20,40,.7);border:1px solid rgba(255,255,255,.06)}
-.product:nth-child(2){background:rgba(20,20,40,.7);border:1px solid rgba(255,215,0,.3);position:relative}
-.product:nth-child(2)::before{content:"推荐";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;font-size:11px;font-weight:700;padding:3px 12px;border-radius:8px;letter-spacing:1px}
-.product:nth-child(3){background:rgba(20,20,40,.7);border:1px solid rgba(255,255,255,.06)}
-.product:hover{transform:translateY(-6px);border-color:rgba(255,215,0,.3)!important}
-.product .icon{width:56px;height:56px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px;border-radius:16px}
-.product:nth-child(1) .icon{background:rgba(59,130,246,.15)}
-.product:nth-child(2) .icon{background:rgba(255,215,0,.15)}
-.product:nth-child(3) .icon{background:rgba(168,85,247,.15)}
-.product h3{font-size:15px;font-weight:700;color:#ffd700;margin-bottom:4px;letter-spacing:1px}
-.product .sub-title{font-size:12px;color:#8a8aa0;margin-bottom:16px}
-.product .price{font-size:36px;font-weight:800;color:#ffd700;margin-bottom:16px}
-.product .price small{font-size:14px;font-weight:400;color:#8a8aa0}
-.product .desc{font-size:13px;color:#8a8aa0;margin-bottom:20px;padding:0 10px}
-.product ul{list-style:none;text-align:left;margin:16px 0 24px}
-.product li{font-size:13px;padding:7px 0 7px 22px;position:relative;color:#c0c0d0}
-.product li::before{content:"✓";position:absolute;left:0;color:#ffd700;font-weight:700;font-size:12px}
-.product .btn{display:block;padding:12px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;text-align:center;transition:all .3s}
-.product:nth-child(1) .btn{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
-.product:nth-child(2) .btn{background:rgba(255,215,0,.1);color:#ffd700;border:1px solid rgba(255,215,0,.3)}
-.product:nth-child(3) .btn{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3)}
-.product .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,215,0,.2)}
-
-/* API Features */
-.api-section{background:rgba(15,15,25,.6);padding:50px 20px}
-.api-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:960px;margin:0 auto}
-.api-item{display:flex;gap:14px;align-items:flex-start;padding:20px;background:rgba(20,20,40,.5);border:1px solid rgba(255,255,255,.04);border-radius:14px;transition:all .3s}
-.api-item:hover{border-color:rgba(255,215,0,.15);background:rgba(20,20,40,.8)}
-.api-item .ico{width:40px;height:40px;min-width:40px;background:rgba(255,215,0,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.api-item h4{font-size:14px;font-weight:600;margin-bottom:4px}
-.api-item p{font-size:12px;color:#8a8aa0;line-height:1.6}
-
-/* Code Block */
-.code-section{max-width:700px;margin:40px auto 0;padding:0 20px}
-.code-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-/* Copy Button */
-.code-header{position:relative}
-.copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);color:#ffd700;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .3s;font-weight:600;z-index:10}
-.copy-btn:hover{background:rgba(255,215,0,.2);border-color:rgba(255,215,0,.4)}
-.copy-btn.copied{background:rgba(34,197,94,.2);border-color:rgba(34,197,94,.4);color:#22c55e}
-
-.code-dot{width:12px;height:12px;border-radius:50%}
-.code-dot:nth-child(1){background:#ff5f57}
-.code-dot:nth-child(2){background:#febc2e}
-.code-dot:nth-child(3){background:#28c840}
-.code-title{margin-left:12px;font-size:13px;color:#8a8aa0}
-.code-block{background:#1a1a2e;border-radius:12px;padding:20px;font-family:"SF Mono","Fira Code",monospace;font-size:13px;color:#a0e8a0;line-height:1.8;overflow-x:auto;white-space:pre;border:1px solid rgba(255,215,0,.08)}
-.code-block .kw{color:#c084fc}
-.code-block .str{color:#fbbf24}
-.code-block .cm{color:#555}
-
-/* CTA */
-.cta{text-align:center;padding:60px 20px;background:linear-gradient(180deg,rgba(255,215,0,.02) 0%,transparent 100%)}
-.cta h2{font-size:clamp(22px,4vw,28px);font-weight:700;margin-bottom:12px}
-.cta p{color:#8a8aa0;margin-bottom:28px;font-size:14px}
-.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.cta-btn{padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
-.cta-btn.gold{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
-.cta-btn.gold:hover{box-shadow:0 8px 24px rgba(255,215,0,.3);transform:translateY(-2px)}
-.cta-btn.ghost{color:#ffd700;border:1px solid rgba(255,215,0,.3)}
-.cta-btn.ghost:hover{background:rgba(255,215,0,.06)}
-
-/* Footer */
-.footer{text-align:center;padding:40px 20px;color:#8a8aa0;font-size:12px;opacity:.6}
-
-@media(max-width:640px){
-  .stats-bar{grid-template-columns:repeat(2,1fr);gap:20px}
-  .stat:nth-child(2)::after{display:none}
-  .products{grid-template-columns:1fr}
-  .api-grid{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-
-<!-- Stats Bar -->
-<div class="stats-bar">
-  <div class="stat">
-    <div class="stat-num">3行</div>
-    <div class="stat-label">代码接入</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">99.9%</div>
-    <div class="stat-label">服务可用率</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">7天</div>
-    <div class="stat-label">无理由退款</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">90秒</div>
-    <div class="stat-label">快速上手</div>
-  </div>
-</div>
-
-<!-- Hero -->
-<section class="hero">
-  <h1>山海智能 API</h1>
-  <p class="hero-sub">高性能语义匹配接口 · 兼容OpenAI格式 · 生产级稳定</p>
-</section>
-
-<!-- Products -->
-<section class="section">
-  <h2 class="sec-title">选择你的方案</h2>
-  <p class="sec-desc">三档API套餐，按需调用</p>
-  <div class="products">
-    <div class="product">
-      <div class="icon">⚡</div>
-      <h3>基础版</h3>
-      <div class="sub-title">开发测试 / 个人项目</div>
-      <div class="price">¥298<small>/年</small></div>
-      <div class="desc">10次API调用，即买即用，零配置接入</div>
-      <ul>
-        <li>RESTful API标准接口</li>
-        <li>兼容OpenAI Chat Completions</li>
-        <li>HTTPS + TLS 1.3安全传输</li>
-        <li>基础技术文档支持</li>
-      </ul>
-      <a href="pay.html" class="btn">立即购买</a>
-    </div>
-    <div class="product">
-      <div class="icon">🚀</div>
-      <h3>专业版</h3>
-      <div class="sub-title">中小企业 / 业务上线</div>
-      <div class="price">¥998<small>/年</small></div>
-      <div class="desc">50次API调用，含品牌诊断与竞品分析</div>
-      <ul>
-        <li>全功能API权限</li>
-        <li>50次API调用额度</li>
-        <li>品牌诊断报告</li>
-        <li>竞品分析对比</li>
-        <li>优先技术支持响应</li>
-      </ul>
-      <a href="chat.html" class="btn">咨询顾问</a>
-    </div>
-    <div class="product">
-      <div class="icon"></div>
-      <h3>企业版</h3>
-      <div class="sub-title">大型企业 / 深度定制</div>
-      <div class="price">¥2998<small>/年</small></div>
-      <div class="desc">100次API调用，专属模型定制与专属顾问</div>
-      <ul>
-        <li>全功能API权限</li>
-        <li>100次API调用额度</li>
-        <li>专属语义模型定制</li>
-        <li>行业深度优化方案</li>
-        <li>7×24专属技术顾问</li>
-      </ul>
-      <a href="chat.html" class="btn">联系顾问</a>
-    </div>
-  </div>
-</section>
-
-<!-- API Features -->
-<div class="api-section">
-  <h2 class="sec-title">API核心能力</h2>
-  <p class="sec-desc">为应用提供生产级语义匹配接口</p>
-  <div class="api-grid">
-    <div class="api-item">
-      <div class="ico">🔌</div>
-      <div>
-        <h4>标准RESTful接口</h4>
-        <p>兼容OpenAI Chat Completions格式，现有应用无需改造即可接入</p>
-      </div>
-    </div>
-    <div class="api-item">
-      <div class="ico">⚡</div>
-      <div>
-        <h4>毫秒级响应</h4>
-        <p>全球多节点部署，P99延迟&lt;50ms，支持流式响应</p>
-      </div>
-    </div>
-    <div class="api-item">
-      <div class="ico">🛡️</div>
-      <div>
-        <h4>企业级安全</h4>
-        <p>TLS 1.3加密、API Key隔离、请求签名验证、完整审计日志</p>
-      </div>
-    </div>
-    <div class="api-item">
-      <div class="ico">🔄</div>
-      <div>
-        <h4>SDK多语言</h4>
-        <p>官方SDK覆盖Python、Node.js、Java、Go，5分钟完成集成</p>
-      </div>
-    </div>
-    <div class="api-item">
-      <div class="ico"></div>
-      <div>
-        <h4>实时监控面板</h4>
-        <p>调用量、响应时间、错误率实时可视化，支持自定义告警</p>
-      </div>
-    </div>
-    <div class="api-item">
-      <div class="ico">🎯</div>
-      <div>
-        <h4>语义匹配引擎</h4>
-        <p>自研内核，支持自定义语义规则、行业模型、品牌词库配置</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Code Example -->
-<div class="code-section">
-  <div class="code-header">
-    <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
-    <div class="code-title">3行代码接入示例</div>
-  </div>
-  <button class="copy-btn" onclick="copyCode()">复制代码</button>
-  <div class="code-block" id="codeContent"><span class="kw">import</span> openai
-
-<span class="cm"># 3行代码，完成接入</span>
-client = openai.<span class="kw">OpenAI</span>(
-    base_url=<span class="str">"https://api.shanhai-ai.com/v1"</span>,
-    api_key=<span class="str">"your_api_key"</span>
-)
-
-response = client.chat.completions.create(
-    model=<span class="str">"shanhai-api-v2"</span>,
-    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"你的请求"</span>}]
-)</div>
-</div>
-
-<!-- CTA -->
-<section class="cta">
-  <h2>开始接入山海智能API</h2>
-  <p>三行代码，让你的应用获得语义匹配能力</p>
-  <div class="cta-btns">
-    <a href="pay.html" class="cta-btn gold">立即购买 ¥298 →</a>
-    <a href="chat.html" class="cta-btn ghost">技术咨询</a>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <p>山海智能 · 高性能语义匹配API服务</p>
-</footer>
-
-
-<script>
-function copyCode() {
-  const codeContent = document.getElementById('codeContent').innerText;
-  navigator.clipboard.writeText(codeContent).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = '已复制 ✓';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '复制代码';
-      btn.classList.remove('copied');
-    }, 2000);
-  });
-}
-</script>
-
-<script src="widget.js"></script>
-</body>
-</html>""")
+# [DISABLED]     # === index.html（API产品展示页 - 最终版） ===
+# [DISABLED]     (PUBLIC / "index.html").write_text("""<!DOCTYPE html>
+# [DISABLED] <html lang="zh-CN">
+# [DISABLED] <head>
+# [DISABLED] <meta charset="UTF-8">
+# [DISABLED] <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+# [DISABLED] <title>山海智能API - 高性能语义匹配接口服务</title>
+# [DISABLED] <meta name="description" content="山海智能API，3行代码接入，99.9%服务可用率，7天无理由退款，90秒快速上手。">
+# [DISABLED] <style>
+# [DISABLED] *{margin:0;padding:0;box-sizing:border-box}
+# [DISABLED] body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;background:#0a0a12;color:#e8e8f0;line-height:1.6;overflow-x:hidden}
+# [DISABLED] body::-webkit-scrollbar{width:4px}
+# [DISABLED] body::-webkit-scrollbar-track{background:#0a0a12}
+# [DISABLED] body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
+# [DISABLED] 
+# [DISABLED] /* Stats Bar */
+# [DISABLED] .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#0d0d1a;padding:32px 0;border-bottom:1px solid rgba(255,215,0,.1)}
+# [DISABLED] .stat{text-align:center;position:relative}
+# [DISABLED] .stat:not(:last-child)::after{content:"";position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(255,255,255,.06)}
+# [DISABLED] .stat-num{font-size:clamp(28px,5vw,38px);font-weight:800;color:#ffd700;line-height:1.2}
+# [DISABLED] .stat-label{font-size:clamp(11px,1.5vw,14px);color:#8a8aa0;margin-top:6px}
+# [DISABLED] 
+# [DISABLED] /* Hero */
+# [DISABLED] .hero{text-align:center;padding:60px 20px 40px}
+# [DISABLED] .hero h1{font-size:clamp(28px,6vw,46px);font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,#ffd700 0%,#ff8c00 50%,#ffd700 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+# [DISABLED] .hero-sub{font-size:clamp(14px,2vw,17px);color:#8a8aa0;max-width:500px;margin:0 auto}
+# [DISABLED] 
+# [DISABLED] /* Section */
+# [DISABLED] .section{padding:50px 20px}
+# [DISABLED] .sec-title{font-size:clamp(20px,4vw,26px);font-weight:700;text-align:center;margin-bottom:10px}
+# [DISABLED] .sec-desc{color:#8a8aa0;text-align:center;margin-bottom:36px;font-size:14px}
+# [DISABLED] 
+# [DISABLED] /* Product Cards */
+# [DISABLED] .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:960px;margin:0 auto}
+# [DISABLED] .product{text-align:center;padding:32px 24px;border-radius:16px;transition:all .35s cubic-bezier(.25,.8,.25,1)}
+# [DISABLED] .product:nth-child(1){background:rgba(20,20,40,.7);border:1px solid rgba(255,255,255,.06)}
+# [DISABLED] .product:nth-child(2){background:rgba(20,20,40,.7);border:1px solid rgba(255,215,0,.3);position:relative}
+# [DISABLED] .product:nth-child(2)::before{content:"推荐";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;font-size:11px;font-weight:700;padding:3px 12px;border-radius:8px;letter-spacing:1px}
+# [DISABLED] .product:nth-child(3){background:rgba(20,20,40,.7);border:1px solid rgba(255,255,255,.06)}
+# [DISABLED] .product:hover{transform:translateY(-6px);border-color:rgba(255,215,0,.3)!important}
+# [DISABLED] .product .icon{width:56px;height:56px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px;border-radius:16px}
+# [DISABLED] .product:nth-child(1) .icon{background:rgba(59,130,246,.15)}
+# [DISABLED] .product:nth-child(2) .icon{background:rgba(255,215,0,.15)}
+# [DISABLED] .product:nth-child(3) .icon{background:rgba(168,85,247,.15)}
+# [DISABLED] .product h3{font-size:15px;font-weight:700;color:#ffd700;margin-bottom:4px;letter-spacing:1px}
+# [DISABLED] .product .sub-title{font-size:12px;color:#8a8aa0;margin-bottom:16px}
+# [DISABLED] .product .price{font-size:36px;font-weight:800;color:#ffd700;margin-bottom:16px}
+# [DISABLED] .product .price small{font-size:14px;font-weight:400;color:#8a8aa0}
+# [DISABLED] .product .desc{font-size:13px;color:#8a8aa0;margin-bottom:20px;padding:0 10px}
+# [DISABLED] .product ul{list-style:none;text-align:left;margin:16px 0 24px}
+# [DISABLED] .product li{font-size:13px;padding:7px 0 7px 22px;position:relative;color:#c0c0d0}
+# [DISABLED] .product li::before{content:"✓";position:absolute;left:0;color:#ffd700;font-weight:700;font-size:12px}
+# [DISABLED] .product .btn{display:block;padding:12px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;text-align:center;transition:all .3s}
+# [DISABLED] .product:nth-child(1) .btn{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
+# [DISABLED] .product:nth-child(2) .btn{background:rgba(255,215,0,.1);color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+# [DISABLED] .product:nth-child(3) .btn{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3)}
+# [DISABLED] .product .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,215,0,.2)}
+# [DISABLED] 
+# [DISABLED] /* API Features */
+# [DISABLED] .api-section{background:rgba(15,15,25,.6);padding:50px 20px}
+# [DISABLED] .api-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:960px;margin:0 auto}
+# [DISABLED] .api-item{display:flex;gap:14px;align-items:flex-start;padding:20px;background:rgba(20,20,40,.5);border:1px solid rgba(255,255,255,.04);border-radius:14px;transition:all .3s}
+# [DISABLED] .api-item:hover{border-color:rgba(255,215,0,.15);background:rgba(20,20,40,.8)}
+# [DISABLED] .api-item .ico{width:40px;height:40px;min-width:40px;background:rgba(255,215,0,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+# [DISABLED] .api-item h4{font-size:14px;font-weight:600;margin-bottom:4px}
+# [DISABLED] .api-item p{font-size:12px;color:#8a8aa0;line-height:1.6}
+# [DISABLED] 
+# [DISABLED] /* Code Block */
+# [DISABLED] .code-section{max-width:700px;margin:40px auto 0;padding:0 20px}
+# [DISABLED] .code-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+# [DISABLED] /* Copy Button */
+# [DISABLED] .code-header{position:relative}
+# [DISABLED] .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);color:#ffd700;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .3s;font-weight:600;z-index:10}
+# [DISABLED] .copy-btn:hover{background:rgba(255,215,0,.2);border-color:rgba(255,215,0,.4)}
+# [DISABLED] .copy-btn.copied{background:rgba(34,197,94,.2);border-color:rgba(34,197,94,.4);color:#22c55e}
+# [DISABLED] 
+# [DISABLED] .code-dot{width:12px;height:12px;border-radius:50%}
+# [DISABLED] .code-dot:nth-child(1){background:#ff5f57}
+# [DISABLED] .code-dot:nth-child(2){background:#febc2e}
+# [DISABLED] .code-dot:nth-child(3){background:#28c840}
+# [DISABLED] .code-title{margin-left:12px;font-size:13px;color:#8a8aa0}
+# [DISABLED] .code-block{background:#1a1a2e;border-radius:12px;padding:20px;font-family:"SF Mono","Fira Code",monospace;font-size:13px;color:#a0e8a0;line-height:1.8;overflow-x:auto;white-space:pre;border:1px solid rgba(255,215,0,.08)}
+# [DISABLED] .code-block .kw{color:#c084fc}
+# [DISABLED] .code-block .str{color:#fbbf24}
+# [DISABLED] .code-block .cm{color:#555}
+# [DISABLED] 
+# [DISABLED] /* CTA */
+# [DISABLED] .cta{text-align:center;padding:60px 20px;background:linear-gradient(180deg,rgba(255,215,0,.02) 0%,transparent 100%)}
+# [DISABLED] .cta h2{font-size:clamp(22px,4vw,28px);font-weight:700;margin-bottom:12px}
+# [DISABLED] .cta p{color:#8a8aa0;margin-bottom:28px;font-size:14px}
+# [DISABLED] .cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+# [DISABLED] .cta-btn{padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+# [DISABLED] .cta-btn.gold{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
+# [DISABLED] .cta-btn.gold:hover{box-shadow:0 8px 24px rgba(255,215,0,.3);transform:translateY(-2px)}
+# [DISABLED] .cta-btn.ghost{color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+# [DISABLED] .cta-btn.ghost:hover{background:rgba(255,215,0,.06)}
+# [DISABLED] 
+# [DISABLED] /* Footer */
+# [DISABLED] .footer{text-align:center;padding:40px 20px;color:#8a8aa0;font-size:12px;opacity:.6}
+# [DISABLED] 
+# [DISABLED] @media(max-width:640px){
+# [DISABLED]   .stats-bar{grid-template-columns:repeat(2,1fr);gap:20px}
+# [DISABLED]   .stat:nth-child(2)::after{display:none}
+# [DISABLED]   .products{grid-template-columns:1fr}
+# [DISABLED]   .api-grid{grid-template-columns:1fr}
+# [DISABLED] }
+# [DISABLED] </style>
+# [DISABLED] </head>
+# [DISABLED] <body>
+# [DISABLED] 
+# [DISABLED] <!-- Stats Bar -->
+# [DISABLED] <div class="stats-bar">
+# [DISABLED]   <div class="stat">
+# [DISABLED]     <div class="stat-num">3行</div>
+# [DISABLED]     <div class="stat-label">代码接入</div>
+# [DISABLED]   </div>
+# [DISABLED]   <div class="stat">
+# [DISABLED]     <div class="stat-num">99.9%</div>
+# [DISABLED]     <div class="stat-label">服务可用率</div>
+# [DISABLED]   </div>
+# [DISABLED]   <div class="stat">
+# [DISABLED]     <div class="stat-num">7天</div>
+# [DISABLED]     <div class="stat-label">无理由退款</div>
+# [DISABLED]   </div>
+# [DISABLED]   <div class="stat">
+# [DISABLED]     <div class="stat-num">90秒</div>
+# [DISABLED]     <div class="stat-label">快速上手</div>
+# [DISABLED]   </div>
+# [DISABLED] </div>
+# [DISABLED] 
+# [DISABLED] <!-- Hero -->
+# [DISABLED] <section class="hero">
+# [DISABLED]   <h1>山海智能 API</h1>
+# [DISABLED]   <p class="hero-sub">高性能语义匹配接口 · 兼容OpenAI格式 · 生产级稳定</p>
+# [DISABLED] </section>
+# [DISABLED] 
+# [DISABLED] <!-- Products -->
+# [DISABLED] <section class="section">
+# [DISABLED]   <h2 class="sec-title">选择你的方案</h2>
+# [DISABLED]   <p class="sec-desc">三档API套餐，按需调用</p>
+# [DISABLED]   <div class="products">
+# [DISABLED]     <div class="product">
+# [DISABLED]       <div class="icon">⚡</div>
+# [DISABLED]       <h3>基础版</h3>
+# [DISABLED]       <div class="sub-title">开发测试 / 个人项目</div>
+# [DISABLED]       <div class="price">¥298<small>/年</small></div>
+# [DISABLED]       <div class="desc">10次API调用，即买即用，零配置接入</div>
+# [DISABLED]       <ul>
+# [DISABLED]         <li>RESTful API标准接口</li>
+# [DISABLED]         <li>兼容OpenAI Chat Completions</li>
+# [DISABLED]         <li>HTTPS + TLS 1.3安全传输</li>
+# [DISABLED]         <li>基础技术文档支持</li>
+# [DISABLED]       </ul>
+# [DISABLED]       <a href="pay.html" class="btn">立即购买</a>
+# [DISABLED]     </div>
+# [DISABLED]     <div class="product">
+# [DISABLED]       <div class="icon">🚀</div>
+# [DISABLED]       <h3>专业版</h3>
+# [DISABLED]       <div class="sub-title">中小企业 / 业务上线</div>
+# [DISABLED]       <div class="price">¥998<small>/年</small></div>
+# [DISABLED]       <div class="desc">50次API调用，含品牌诊断与竞品分析</div>
+# [DISABLED]       <ul>
+# [DISABLED]         <li>全功能API权限</li>
+# [DISABLED]         <li>50次API调用额度</li>
+# [DISABLED]         <li>品牌诊断报告</li>
+# [DISABLED]         <li>竞品分析对比</li>
+# [DISABLED]         <li>优先技术支持响应</li>
+# [DISABLED]       </ul>
+# [DISABLED]       <a href="chat.html" class="btn">咨询顾问</a>
+# [DISABLED]     </div>
+# [DISABLED]     <div class="product">
+# [DISABLED]       <div class="icon"></div>
+# [DISABLED]       <h3>企业版</h3>
+# [DISABLED]       <div class="sub-title">大型企业 / 深度定制</div>
+# [DISABLED]       <div class="price">¥2998<small>/年</small></div>
+# [DISABLED]       <div class="desc">100次API调用，专属模型定制与专属顾问</div>
+# [DISABLED]       <ul>
+# [DISABLED]         <li>全功能API权限</li>
+# [DISABLED]         <li>100次API调用额度</li>
+# [DISABLED]         <li>专属语义模型定制</li>
+# [DISABLED]         <li>行业深度优化方案</li>
+# [DISABLED]         <li>7×24专属技术顾问</li>
+# [DISABLED]       </ul>
+# [DISABLED]       <a href="chat.html" class="btn">联系顾问</a>
+# [DISABLED]     </div>
+# [DISABLED]   </div>
+# [DISABLED] </section>
+# [DISABLED] 
+# [DISABLED] <!-- API Features -->
+# [DISABLED] <div class="api-section">
+# [DISABLED]   <h2 class="sec-title">API核心能力</h2>
+# [DISABLED]   <p class="sec-desc">为应用提供生产级语义匹配接口</p>
+# [DISABLED]   <div class="api-grid">
+# [DISABLED]     <div class="api-item">
+# [DISABLED]       <div class="ico">🔌</div>
+# [DISABLED]       <div>
+# [DISABLED]         <h4>标准RESTful接口</h4>
+# [DISABLED]         <p>兼容OpenAI Chat Completions格式，现有应用无需改造即可接入</p>
+# [DISABLED]       </div>
+# [DISABLED]     </div>
+# [DISABLED]     <div class="api-item">
+# [DISABLED]       <div class="ico">⚡</div>
+# [DISABLED]       <div>
+# [DISABLED]         <h4>毫秒级响应</h4>
+# [DISABLED]         <p>全球多节点部署，P99延迟&lt;50ms，支持流式响应</p>
+# [DISABLED]       </div>
+# [DISABLED]     </div>
+# [DISABLED]     <div class="api-item">
+# [DISABLED]       <div class="ico">🛡️</div>
+# [DISABLED]       <div>
+# [DISABLED]         <h4>企业级安全</h4>
+# [DISABLED]         <p>TLS 1.3加密、API Key隔离、请求签名验证、完整审计日志</p>
+# [DISABLED]       </div>
+# [DISABLED]     </div>
+# [DISABLED]     <div class="api-item">
+# [DISABLED]       <div class="ico">🔄</div>
+# [DISABLED]       <div>
+# [DISABLED]         <h4>SDK多语言</h4>
+# [DISABLED]         <p>官方SDK覆盖Python、Node.js、Java、Go，5分钟完成集成</p>
+# [DISABLED]       </div>
+# [DISABLED]     </div>
+# [DISABLED]     <div class="api-item">
+# [DISABLED]       <div class="ico"></div>
+# [DISABLED]       <div>
+# [DISABLED]         <h4>实时监控面板</h4>
+# [DISABLED]         <p>调用量、响应时间、错误率实时可视化，支持自定义告警</p>
+# [DISABLED]       </div>
+# [DISABLED]     </div>
+# [DISABLED]     <div class="api-item">
+# [DISABLED]       <div class="ico">🎯</div>
+# [DISABLED]       <div>
+# [DISABLED]         <h4>语义匹配引擎</h4>
+# [DISABLED]         <p>自研内核，支持自定义语义规则、行业模型、品牌词库配置</p>
+# [DISABLED]       </div>
+# [DISABLED]     </div>
+# [DISABLED]   </div>
+# [DISABLED] </div>
+# [DISABLED] 
+# [DISABLED] <!-- Code Example -->
+# [DISABLED] <div class="code-section">
+# [DISABLED]   <div class="code-header">
+# [DISABLED]     <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+# [DISABLED]     <div class="code-title">3行代码接入示例</div>
+# [DISABLED]   </div>
+# [DISABLED]   <button class="copy-btn" onclick="copyCode()">复制代码</button>
+# [DISABLED]   <div class="code-block" id="codeContent"><span class="kw">import</span> openai
+# [DISABLED] 
+# [DISABLED] <span class="cm"># 3行代码，完成接入</span>
+# [DISABLED] client = openai.<span class="kw">OpenAI</span>(
+# [DISABLED]     base_url=<span class="str">"https://api.shanhai-ai.com/v1"</span>,
+# [DISABLED]     api_key=<span class="str">"your_api_key"</span>
+# [DISABLED] )
+# [DISABLED] 
+# [DISABLED] response = client.chat.completions.create(
+# [DISABLED]     model=<span class="str">"shanhai-api-v2"</span>,
+# [DISABLED]     messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"你的请求"</span>}]
+# [DISABLED] )</div>
+# [DISABLED] </div>
+# [DISABLED] 
+# [DISABLED] <!-- CTA -->
+# [DISABLED] <section class="cta">
+# [DISABLED]   <h2>开始接入山海智能API</h2>
+# [DISABLED]   <p>三行代码，让你的应用获得语义匹配能力</p>
+# [DISABLED]   <div class="cta-btns">
+# [DISABLED]     <a href="pay.html" class="cta-btn gold">立即购买 ¥298 →</a>
+# [DISABLED]     <a href="chat.html" class="cta-btn ghost">技术咨询</a>
+# [DISABLED]   </div>
+# [DISABLED] </section>
+# [DISABLED] 
+# [DISABLED] <!-- Footer -->
+# [DISABLED] <footer class="footer">
+# [DISABLED]   <p>山海智能 · 高性能语义匹配API服务</p>
+# [DISABLED] </footer>
+# [DISABLED] 
+# [DISABLED] 
+# [DISABLED] <script>
+# [DISABLED] function copyCode() {
+# [DISABLED]   const codeContent = document.getElementById('codeContent').innerText;
+# [DISABLED]   navigator.clipboard.writeText(codeContent).then(() => {
+# [DISABLED]     const btn = document.querySelector('.copy-btn');
+# [DISABLED]     btn.textContent = '已复制 ✓';
+# [DISABLED]     btn.classList.add('copied');
+# [DISABLED]     setTimeout(() => {
+# [DISABLED]       btn.textContent = '复制代码';
+# [DISABLED]       btn.classList.remove('copied');
+# [DISABLED]     }, 2000);
+# [DISABLED]   });
+# [DISABLED] }
+# [DISABLED] </script>
+# [DISABLED] 
+# [DISABLED] <script src="widget.js"></script>
+# [DISABLED] </body>
+# [DISABLED] </html>""")
 
     # === IndexNow ===
     key = hashlib.md5(b'shanhai-geo-2026-v4').hexdigest()
@@ -1324,7 +1324,7 @@ function copyCode() {
     
     # === 复制静态页面到 public/ ===
     import shutil
-    STATIC_PAGES = ["chat.html", "pay.html", "order.html", "upgrade.html", "admin.html"]
+    STATIC_PAGES = ["index.html", "chat.html", "pay.html", "order.html", "upgrade.html", "admin.html"]
     for static_file in STATIC_PAGES:
         src = BASE_DIR / static_file
         if src.exists():
