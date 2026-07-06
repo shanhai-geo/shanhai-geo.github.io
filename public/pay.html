@@ -4,66 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GEO API 开通 - 山海智能</title>
-<meta name="description" content="开通GEO API，三档方案灵活选择">
+<meta name="description" content="¥298开通GEO API，10次调用">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:#0a0a1a; color:#fff; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
 .container { max-width:480px; width:100%; padding:20px; text-align:center; }
 h1 { font-size:2em; color:#ffd700; margin-bottom:20px; }
-.tabs { display:flex; gap:8px; justify-content:center; margin-bottom:30px; flex-wrap:wrap; }
-.tab { padding:10px 20px; border-radius:10px; cursor:pointer; border:1px solid rgba(255,215,0,.2); background:rgba(255,215,0,.05); color:#ccc; font-weight:600; transition:all .3s; }
-.tab.active { background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000; border-color:#ffd700; }
-.tab:hover { border-color:#ffd700; }
-.price { font-size:4em; font-weight:800; color:#ffd700; margin:10px 0; }
-.desc { font-size:1.1em; color:#aaa; margin-bottom:10px; }
-.features { text-align:left; margin:20px auto; max-width:300px; }
-.features li { color:#bbb; padding:6px 0; padding-left:24px; position:relative; list-style:none; }
-.features li::before { content:"✓"; position:absolute; left:0; color:#ffd700; font-weight:700; }
-.btn { display:inline-block; background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000; padding:20px 40px; text-decoration:none; border-radius:12px; font-weight:bold; font-size:1.2em; margin-top:20px; transition:all .3s; }
-.btn:hover { transform:translateY(-2px); box-shadow:0 8px 36px rgba(255,215,0,.35); }
-.note { margin-top:20px; opacity:0.6; font-size:0.9em; }
+.price { font-size:4em; font-weight:800; color:#ffd700; margin:30px 0; }
+.btn { display:inline-block; background:#ffd700; color:#000; padding:20px 40px; text-decoration:none; border-radius:12px; font-weight:bold; font-size:1.2em; margin-top:30px; }
 </style>
 </head>
 <body>
 <div class="container">
 <h1>GEO API 开通</h1>
-<div class="tabs">
-  <div class="tab" onclick="selectPlan(298)" id="tab-298">基础版</div>
-  <div class="tab active" onclick="selectPlan(998)" id="tab-998">专业版</div>
-  <div class="tab" onclick="selectPlan(2998)" id="tab-2998">企业版</div>
+<p>10次API调用，数据可验证</p>
+<div class="price">¥298</div>
+<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="btn">立即支付 →</a>
+<p style="margin-top:20px;opacity:0.7;">扫码或点击支付</p>
 </div>
-<div id="plan-display">
-  <div class="price" id="plan-price">¥998</div>
-  <div class="desc" id="plan-desc">50次API调用 · 品牌诊断 · 竞品分析</div>
-  <ul class="features" id="plan-features">
-    <li>GEO语义匹配引擎API</li>
-    <li>50次API调用</li>
-    <li>品牌诊断报告</li>
-    <li>竞品分析对比</li>
-    <li>优先技术支持</li>
-  </ul>
-</div>
-<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="btn" id="pay-btn">立即支付 →</a>
-<p class="note">支持微信 / 支付宝 / 银行卡</p>
-</div>
-<script>
-const plans = {
-  298: { price:'¥298', desc:'10次API调用 · 基础体验', features:['GEO语义匹配引擎API','10次API调用','兼容OpenAI接口格式','多AI平台覆盖','基础技术支持'] },
-  998: { price:'¥998', desc:'50次API调用 · 品牌诊断 · 竞品分析', features:['GEO语义匹配引擎API','50次API调用','品牌诊断报告','竞品分析对比','优先技术支持'] },
-  2998: { price:'¥2998', desc:'100次API调用 · 专属定制 · 专属顾问', features:['GEO全功能API接入','100次API调用','专属语义模型定制','行业深度优化','7×24专属顾问'] }
-};
-function selectPlan(p) {
-  const plan = plans[p];
-  document.getElementById('plan-price').textContent = plan.price;
-  document.getElementById('plan-desc').textContent = plan.desc;
-  document.getElementById('plan-features').innerHTML = plan.features.map(f=>'<li>'+f+'</li>').join('');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+p).classList.add('active');
-}
-// Auto-select from URL param
-const params = new URLSearchParams(location.search);
-const selected = parseInt(params.get('plan'));
-if (plans[selected]) selectPlan(selected);
-</script>
 </body>
 </html>
