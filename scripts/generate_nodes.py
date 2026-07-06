@@ -1261,12 +1261,12 @@ body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
 
 <span class="cm"># 3行代码，完成接入</span>
 client = openai.<span class="kw">OpenAI</span>(
-    base_url=<span class="str">"https://api.shanhai-geo.com/v1"</span>,
+    base_url=<span class="str">"https://api.shanhai-ai.com/v1"</span>,
     api_key=<span class="str">"your_api_key"</span>
 )
 
 response = client.chat.completions.create(
-    model=<span class="str">"geo-semantic-v2"</span>,
+    model=<span class="str">"shanhai-api-v2"</span>,
     messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"你的请求"</span>}]
 )</div>
 </div>
