@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>山海智能AI客服 - 7×24在线服务</title>
-<meta name="description" content="唤通·AI统调——一个接口调用一切AI能力。7引擎智能路由，包年不限量，¥298/年起。">
-<link rel="canonical" href="https://shanhai-geo.github.io/chat.html">
+<title>唤通AI顾问 · 说人话不整术语</title>
+<meta name="description" content="唤通·一个接口调用一切AI能力。7引擎智能路由，包年不限量¥298/年。">
 <style>
 :root{
   --gold:#ffd700;--gold-dim:rgba(255,215,0,.15);--gold-glow:rgba(255,215,0,.35);
@@ -27,32 +26,17 @@ body{
 .bg-orbs .orb:nth-child(2){width:340px;height:340px;background:#3b82f6;bottom:-12%;right:-6%;animation-duration:18s;animation-delay:-5s}
 .bg-orbs .orb:nth-child(3){width:260px;height:260px;background:#a855f7;top:40%;left:55%;animation-duration:25s;animation-delay:-10s}
 @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
-.chat-header{
-  position:relative;z-index:2;
-  background:var(--bg-glass);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);
-  padding:14px 20px;display:flex;align-items:center;gap:12px;
-  border-bottom:1px solid rgba(255,215,0,.12);
-}
-.chat-header .logo{
-  width:42px;height:42px;border-radius:14px;
-  background:linear-gradient(135deg,#ffd700 0%,#ff8c00 100%);
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-  box-shadow:0 0 20px rgba(255,215,0,.25);flex-shrink:0;
-}
+.chat-header{position:relative;z-index:2;background:var(--bg-glass);backdrop-filter:blur(24px) saturate(1.4);padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,215,0,.12)}
+.chat-header .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#ffd700 0%,#ff8c00 100%);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(255,215,0,.25);flex-shrink:0}
 .chat-header .info{flex:1}
 .chat-header .info h1{font-size:16px;font-weight:700;color:var(--gold);letter-spacing:.3px}
 .chat-header .info .sub{font-size:11px;color:var(--text-dim);margin-top:2px}
-.online-badge{
-  display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#4ade80;
-  background:rgba(74,222,128,.08);padding:3px 10px;border-radius:20px;margin-top:3px;
-}
+.online-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#4ade80;background:rgba(74,222,128,.08);padding:3px 10px;border-radius:20px;margin-top:3px}
 .online-badge::before{content:"";width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
 .chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1}
 .messages{flex:1;overflow-y:auto;padding:16px 0;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
-.messages::-webkit-scrollbar{width:4px}
-.messages::-webkit-scrollbar-track{background:transparent}
-.messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.2);border-radius:4px}
+.messages::-webkit-scrollbar{width:4px}.messages::-webkit-scrollbar-track{background:transparent}.messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.2);border-radius:4px}
 .msg-row{display:flex;gap:10px;margin-bottom:14px;padding:0 16px;max-width:680px;margin-left:auto;margin-right:auto;width:100%;animation:msgIn .4s cubic-bezier(.16,1,.3,1) both}
 .msg-row.user{flex-direction:row-reverse}
 @keyframes msgIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
@@ -60,33 +44,28 @@ body{
 .msg-row.ai .avatar{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;box-shadow:0 0 12px rgba(255,215,0,.2)}
 .msg-row.user .avatar{background:var(--user-bg);color:#fff}
 .bubble{max-width:82%;padding:12px 16px;line-height:1.7;font-size:14px;position:relative;word-break:break-word}
-.msg-row.ai .bubble{background:var(--ai-bg);border:1px solid var(--border);border-radius:4px var(--radius) var(--radius) var(--radius);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.msg-row.ai .bubble{background:var(--ai-bg);border:1px solid var(--border);border-radius:4px var(--radius) var(--radius) var(--radius);backdrop-filter:blur(8px)}
 .msg-row.user .bubble{background:var(--user-bg);border-radius:var(--radius) 4px var(--radius) var(--radius);color:#fff}
 .bubble a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
 .bubble b,.bubble strong{color:var(--gold);font-weight:600}
+.bubble code{background:rgba(255,215,0,.1);padding:2px 6px;border-radius:4px;font-size:12px;color:var(--gold)}
 .quick-opts{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0 8px 56px;max-width:680px;margin:0 auto;width:100%;animation:msgIn .4s cubic-bezier(.16,1,.3,1) both;animation-delay:.1s}
 .q-btn{background:var(--gold-dim);border:1px solid rgba(255,215,0,.25);color:var(--gold);padding:8px 18px;border-radius:24px;cursor:pointer;font-size:13px;font-weight:500;transition:all .25s;white-space:nowrap}
 .q-btn:hover,.q-btn:active{background:rgba(255,215,0,.22);border-color:rgba(255,215,0,.5);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,215,0,.15)}
 .typing-row{display:flex;gap:10px;padding:0 16px;margin-bottom:14px;max-width:680px;margin-left:auto;margin-right:auto;width:100%}
 .typing-dots{background:var(--ai-bg);border:1px solid var(--border);border-radius:4px var(--radius) var(--radius) var(--radius);padding:14px 20px;display:flex;gap:5px;align-items:center;backdrop-filter:blur(8px)}
 .typing-dots span{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:dotBounce .6s ease-in-out infinite alternate}
-.typing-dots span:nth-child(2){animation-delay:.15s}
-.typing-dots span:nth-child(3){animation-delay:.3s}
+.typing-dots span:nth-child(2){animation-delay:.15s}.typing-dots span:nth-child(3){animation-delay:.3s}
 @keyframes dotBounce{to{transform:translateY(-6px);opacity:.4}}
-.input-area{padding:10px 16px 14px;background:var(--bg-glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;max-width:680px;margin:0 auto;width:100%}
+.input-area{padding:10px 16px 14px;background:var(--bg-glass);backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;max-width:680px;margin:0 auto;width:100%}
 .input-area input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:12px 18px;border-radius:28px;font-size:14px;outline:none;transition:border-color .2s}
 .input-area input:focus{border-color:var(--gold-glow);box-shadow:0 0 0 3px rgba(255,215,0,.08)}
 .input-area input::placeholder{color:rgba(255,255,255,.25)}
 .send-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;flex-shrink:0}
-.send-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,215,0,.3)}
-.send-btn:active{transform:scale(.95)}
-.chat-footer{text-align:center;padding:6px;font-size:10px;color:rgba(255,255,255,.2);background:var(--bg-deep);position:relative;z-index:1}
-@media(min-width:768px){
-  body{align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,rgba(255,215,0,.04),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(59,130,246,.04),transparent 60%),var(--bg-deep)}
-  .chat-card{width:460px;height:90vh;max-height:780px;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,215,0,.1);box-shadow:0 0 60px rgba(255,215,0,.06),0 24px 80px rgba(0,0,0,.5);background:var(--bg-card);position:relative}
-  .chat-card .bg-orbs{border-radius:24px}
-  .chat-footer{display:none}
-}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,215,0,.3)}.send-btn:active{transform:scale(.95)}
+.chat-footer{text-align:center;padding:6px;font-size:10px;color:rgba(255,255,255,.2);background:var(--bg-deep)}
+.pay-btn{display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px;border:none;cursor:pointer;margin:8px 0}
+@media(min-width:768px){body{align-items:center;justify-content:center}.chat-card{width:460px;height:90vh;max-height:780px;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,215,0,.1);box-shadow:0 0 60px rgba(255,215,0,.06),0 24px 80px rgba(0,0,0,.5);background:var(--bg-card);position:relative}.chat-card .bg-orbs{border-radius:24px}.chat-footer{display:none}}
 @media(max-width:767px){.chat-card{display:contents}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 </style>
@@ -96,433 +75,135 @@ body{
 <div class="chat-card">
 <header class="chat-header">
   <div class="logo">🏔</div>
-  <div class="info">
-    <h1>你的AI顾问</h1>
-    <div class="online-badge">在线 · 说人话 · 不整术语</div>
-  </div>
+  <div class="info"><h1>你的AI顾问</h1><div class="online-badge">在线 · 真人级对话 · 24小时</div></div>
 </header>
 <div class="chat-body">
   <div class="messages" id="messages"></div>
   <div class="input-area">
     <label for="userInput" class="sr-only">输入消息</label>
-    <input type="text" id="userInput" placeholder="随便聊聊，我在听…" autocomplete="off">
+    <input type="text" id="userInput" placeholder="随便聊，我在听…" autocomplete="off">
     <button class="send-btn" id="sendBtn" aria-label="发送">➤</button>
   </div>
 </div>
-<footer class="chat-footer">唤通·AI统调 — 一个接口，调用一切 · 7×24小时服务</footer>
+<footer class="chat-footer">唤通 — 一个接口，调用一切 · ¥298/年 包年不限量</footer>
 </div>
 <script>
 (function(){
 "use strict";
-var M=document.getElementById('messages'),I=document.getElementById('userInput'),SB=document.getElementById('sendBtn');
-
-/* ===== 会话追踪 ===== */
-var SESSION_ID='shanhai_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-var conversationLog=[], userContext={industry:'', tech:'', intent:'', name:'', email:'', stage:'start'};
-
-function logMsg(role,content){
-  conversationLog.push({t:new Date().toISOString(),role:role,content:content.replace(/<[^>]+>/g,''),session:SESSION_ID,ctx:Object.assign({},userContext)});
-  try{localStorage.setItem('shanhai_chat_'+SESSION_ID,JSON.stringify(conversationLog))}catch(e){}
-}
-
-/* ===== 自然语言工具 ===== */
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
+var AI_ENDPOINT="https://open.bigmodel.cn/api/paas/v4/chat/completions";
+var AI_KEY="03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt";
+var AI_MODEL="glm-4-flash";
+var LEAD_EMAIL="746876121@qq.com";
+var PAY_URL="https://shanhai-geo.github.io/pay.html";
+var ORDER_URL="https://shanhai-geo.github.io/order.html";
+var SESSION_ID="ht_"+Date.now()+"_"+Math.random().toString(36).substr(2,6);
+var SYSTEM_PROMPT="你是唤通的AI销售顾问，名字叫小海。你正在跟一个潜在客户聊天。\n\n【产品知识——必须准确】\n- 产品名：唤通\n- 核心理念：一个接口，调用一切AI能力\n- 7个AI引擎自动路由：阿里百炼、火山引擎、智谱GLM、百度千帆、百川智能、讯飞星火、阿里百炼Flash\n- 价格：¥298/年，包年不限量调用。一天不到8毛钱\n- 技术特色：兼容OpenAI格式、3行代码接入、前端零密钥\n- 性能：冷启动~200ms，热请求<50ms，99.9% SLA\n- 7天无理由退款\n- 推荐奖励：每推荐1人购买奖励抵扣续费；累计推荐3人第二年会费全免\n\n【销售策略】\n1. 开场：热情但不过分，问对方做什么的\n2. 发现需求：问行业、痛点、现在怎么用AI\n3. 根据行业给方案：电商→智能客服/文案/数据分析；教育→答疑/出题/学情分析；本地服务→24h自动接听/预约；SaaS→3行代码集成；自媒体→脚本/标题/批量内容\n4. 报价先说价值：一天8毛 vs 市面按token贵3-5倍\n5. 犹豫不催：给案例、强调7天退款零风险\n6. 购买信号→立刻给支付链接：点击开通 PAY_URL\n\n【信息收集】自然穿插在对话中了解：称呼、行业/公司、需求。不要像填表。当对方分享信息后记住。\n\n【购买信号】想买/怎么买/开通/怎么付/试试/行/可以/好→回复中包含 <a href=\"PAY_URL\" class=\"pay-btn\">立即开通 ¥298 →</a>\n\n【表达风格】短句为主，不用首先其次最后，可以少量emoji，说我们不说本公司，说试试不说体验，说一天8毛不说日均成本。不要每次回复都推销。回复不超过200字。\n\n【格式】用<br>换行，重要数字用strong加粗，代码用code标签\n\n【严禁】不编造功能，不透露密钥，不贬低竞品，回复不超过200字，不重复".replace(/PAY_URL/g,PAY_URL);
+var conversationHistory=[],userInfo={name:"",company:"",industry:"",intent:"",email:"",stage:"greeting"},leadSent=false;
+var M=document.getElementById("messages"),I=document.getElementById("userInput"),SB=document.getElementById("sendBtn");
 function scroll(){requestAnimationFrame(function(){M.scrollTop=M.scrollHeight})}
-function addMsg(html,who){
-  var r=document.createElement('div');r.className='msg-row '+who;
-  r.innerHTML='<div class="avatar">'+(who==='ai'?'🏔':'👤')+'</div><div class="bubble">'+html+'</div>';
-  M.appendChild(r);scroll();logMsg(who,html);return r;
-}
-function addOpts(opts){
-  if(!opts||!opts.length)return;
-  var w=document.createElement('div');w.className='quick-opts';
-  opts.forEach(function(o){
-    var b=document.createElement('button');b.className='q-btn';b.textContent=o.l;
-    b.onclick=function(){w.remove();addMsg(o.l,'user');logMsg('action',o.l);setTimeout(function(){o.fn()},500+Math.random()*600)};
-    w.appendChild(b);
-  });
-  M.appendChild(w);scroll();
-}
-function showTyping(){
-  var r=document.createElement('div');r.className='typing-row';r.id='typ';
-  r.innerHTML='<div class="avatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;flex-shrink:0">🏔</div><div class="typing-dots"><span></span><span></span><span></span></div>';
-  M.appendChild(r);scroll();
-}
-function hideTyping(){var t=document.getElementById('typ');if(t)t.remove()}
-function ai(html,opts,delay){
-  showTyping();
-  setTimeout(function(){hideTyping();addMsg(html,'ai');if(opts)addOpts(opts)},delay||800+Math.random()*800);
-}
+function addMsg(html,who){var r=document.createElement("div");r.className="msg-row "+who;r.innerHTML='<div class="avatar">'+(who==="ai"?"🏔":"👤")+'</div><div class="bubble">'+html+'</div>';M.appendChild(r);scroll();return r}
+function addOpts(opts){if(!opts||!opts.length)return;var w=document.createElement("div");w.className="quick-opts";opts.forEach(function(o){var b=document.createElement("button");b.className="q-btn";b.textContent=o.l;b.onclick=function(){w.remove();addMsg(o.l,"user");handleUserMessage(o.l)};w.appendChild(b)});M.appendChild(w);scroll()}
+function showTyping(){var r=document.createElement("div");r.className="typing-row";r.id="typ";r.innerHTML='<div class="avatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;flex-shrink:0">🏔</div><div class="typing-dots"><span></span><span></span><span></span></div>';M.appendChild(r);scroll()}
+function hideTyping(){var t=document.getElementById("typ");if(t)t.remove()}
 
-/* ===== 关键词理解引擎 ===== */
-function understand(text){
-  var t=text.toLowerCase();
-  if(/价格|多少钱|费用|贵|便宜|收费|怎么卖|报价/.test(t)) return 'price';
-  if(/api|接口|sdk|接入|调用|技术|开发|代码|文档|token|密钥|key/.test(t)) return 'tech';
-  if(/买|购买|开通|下单|付款|支付|怎么买|怎么付/.test(t)) return 'buy';
-  if(/退款|退钱|不想要|取消/.test(t)) return 'refund';
-  if(/客服|人工|转接|真人|顾问|联系/.test(t)) return 'human';
-  if(/做什么|干什么|你们|公司|介绍|产品|服务|功能|是什么/.test(t)) return 'intro';
-  if(/电商|淘宝|京东|跨境|shopify/.test(t)) return 'scene_ecom';
-  if(/教育|培训|学校|课程|老师/.test(t)) return 'scene_edu';
-  if(/餐饮|酒店|旅游|本地|生活|美容|美发/.test(t)) return 'scene_local';
-  if(/saas|软件|科技|互联网|小程序|app/.test(t)) return 'scene_tech';
-  if(/你好|在吗|hi|hello|嗨|哈喽/.test(t)) return 'greet';
-  if(/谢谢|感谢|辛苦|棒|厉害|不错/.test(t)) return 'thanks';
-  if(/犹豫|考虑|想想|再看看|不急/.test(t)) return 'hesitate';
-  if(/安全|稳定|速度|延迟|并发|sla|保障/.test(t)) return 'quality';
-  if(/优惠|折扣|活动|促销|便宜点/.test(t)) return 'discount';
-  return 'other';
-}
-
-/* ===== 人性化对话核心 ===== */
-
-/* 开场白 - 每次不同 */
-var greetings=[
-  '嗨！我是你的AI顾问 👋<br><br>我能帮你：<br>✅ 讲清楚我们的AI服务（说人话，不整术语）<br>✅ 帮你挑最适合的套餐<br>✅ 3行代码教你接入API<br>✅ 免费帮你诊断需求<br><br>想聊哪个？直接说就行～',
-  '你好！不管是技术问题还是价格疑问，直接问我就行。<br>不懂技术也没关系，我用人话给你讲明白。',
-  '来了～你是想了解产品，还是随便看看？<br>我们最火的是¥298包年不限量的AI接口服务，要不要了解一下？',
-  'Hi！你是开发者还是老板？<br>开发者我教你3行代码接入，老板我给你算一笔账——一天不到8毛钱能用所有AI。'
-];
-
-/* 产品介绍 - 不说教，像朋友推荐 */
-function introProduct(){
-  var lines=[
-    '简单说，我们做的是<strong>唤通</strong>——统一的AI能力调用入口。<br><br>一句话：<strong>让AI调用一切</strong>。',
-    '',
-    '你不需要分别对接多个大模型，一个API搞定所有。<br><br>我们在背后跑了7个引擎：<strong>阿里百炼、火山引擎、智谱GLM、百度千帆、百川智能、讯飞星火、阿里百炼Flash</strong>，自动切换最快通道。',
-    '',
-    '智能客服、内容生成、数据分析……<strong>一个接口，7引擎路由，自动选最快的</strong>。'
-  ];
-  return lines.join('<br>');
-}
-
-function introWithScene(){
-  var lines=[
-    '给你说几个真实场景你就明白了：',
-    '',
-    '🛒 <strong>电商</strong>：接了API之后，客服自动回，转化率涨了30%',
-    '🏨 <strong>本地服务</strong>：相当于请了个24小时不休息的前台',
-    '💻 <strong>SaaS产品</strong>：3行代码接入，立刻有AI卖点',
-    '📚 <strong>教育</strong>：每个学生都有专属AI答疑',
-    '',
-    '你们是做什么行业的？我帮你看看怎么用最合适。'
-  ];
-  return lines.join('<br>');
-}
-
-/* 价格相关 - 轻描淡写，不推销 */
-function priceTalk(){
-  var lines=[
-    '说实话，我们的模式跟别人完全不一样。',
-    '',
-    '基础版 <strong>¥298/年</strong>，298÷365=<strong>0.82元/天</strong>，比一瓶矿泉水都便宜。',
-    '<strong>包年不限量调用</strong>。市面上按token计费的，贵我们3-5倍。',
-    '',
-    '专业版 ¥998/年，50次调用，多了品牌诊断和竞品分析。',
-    '企业版 ¥2998/年，100次调用，专属模型定制。',
-    '',
-    '大部分客户都是从基础版开始的，够用了再升级。'
-  ];
-  return lines.join('<br>');
-}
-
-/* 犹豫时 - 不催，给信心 */
-function handleHesitate(){
-  var r=pick([
-    '理解的，选产品确实要多比较。',
-    '没关系，不着急。你可以先看看文档，有任何问题随时来问。',
-    '正常，毕竟要花钱嘛。不过我们支持7天无理由退款，试错成本几乎为零。',
-    '没问题，你可以先收藏我们的页面，想好了再来。'
-  ]);
-  r+='<br><br>对了，很多客户跟你的情况差不多，最后发现<strong>试了才知道好不好用</strong>。基础版不到1块/天，试错成本很低的。';
-  return r;
-}
-
-/* 要人工 - 不拦，但先帮一下 */
-function handleHuman(){
-  return '没问题，我可以帮你转接人工顾问。<br><br>不过在等的时候，要不要先跟我说说你的需求？我可以先帮你做个初步分析，这样顾问接到的时候能直接给你方案，省得重复沟通。';
-}
-
-/* 自由对话应答 */
-function freeChat(text){
-  var intent=understand(text);
-  switch(intent){
-    case 'greet': return pick(['你好呀！有什么想了解的？','嗨！随时可以问我。','在的，说吧～']);
-    case 'thanks': return pick(['不客气！有任何问题随时找我。','应该的～祝你顺利！','没关系，能帮到你就好。']);
-    case 'price': return priceTalk();
-    case 'tech': return '技术上你放心，我们完全兼容OpenAI的格式。如果你现在用的就是OpenAI，改两行代码就能切过来。<br><br>响应速度P99在500ms以内，99.9%的SLA保障。<br><br>你现在用的是什么技术栈？Python、Node还是Java？';
-    case 'buy': return '直接开通很简单 👇<br><br>基础版 ¥298/年，点击下方就能跳转支付。<br>付款后填一下联系信息，API Key 10分钟内发到你邮箱。';
-    case 'refund': return '7天无理由退款，没有任何套路。<br><br>如果用了觉得不合适，直接联系客服退款就行，不会问原因。';
-    case 'human': return handleHuman();
-    case 'intro': return introProduct();
-    case 'scene_ecom': userContext.industry='电商'; return '电商确实是最快见效的行业！<br><br>智能客服7×24自动回复、商品文案批量生成、客户意图分析……<br><br>很多电商客户第一周就回本了。你做的是哪个品类？';
-    case 'scene_edu': userContext.industry='教育'; return '教育行业用AI效率真的翻倍。<br><br>智能答疑、自动出题、个性化学习推荐……一个API全搞定。<br><br>你们是做K12还是职业教育？';
-    case 'scene_local': userContext.industry='本地生活'; return '本地生活服务业太需要AI了！<br><br>自动接听客户咨询、预约管理、口碑回复……相当于24小时不休息的金前台。<br><br>你们是做餐饮还是美业？';
-    case 'scene_tech': userContext.industry='科技'; return 'SaaS产品集成AI是大趋势。<br><br>3行代码接入，兼容OpenAI SDK，你们的技术团队分分钟搞定。<br><br>你们产品主要解决什么问题？我帮你看看API怎么接最合适。';
-    case 'quality': return '这块你可以放心：<br><br>• 99.9% SLA可用性保障<br>• 独立租户隔离，数据不交叉<br>• TLS 1.3加密传输<br>• 全球多节点部署<br><br>生产级稳定性，不是demo。';
-    case 'discount': return '目前 ¥298/年 已经是很实在的价格了，平均不到1块钱一天。<br><br>如果你一次性开通专业版或企业版，性价比更高。';
-    default:
-      if(text.length<5) return pick(['嗯？可以再说详细点吗？','你说的是？我想了解一下。','嗯嗯，然后呢？']);
-      return '你说的我理解了。能再具体说说你的情况吗？比如你们是做什么行业的、想解决什么问题？<br><br>这样我能给你更有针对性的建议。';
+async function callRealAI(userMsg){
+  conversationHistory.push({role:"user",content:userMsg});
+  var messages=[{role:"system",content:SYSTEM_PROMPT}];
+  var recent=conversationHistory.slice(-20);
+  messages=messages.concat(recent);
+  try{
+    var resp=await fetch(AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+AI_KEY},body:JSON.stringify({model:AI_MODEL,messages:messages,temperature:0.8,max_tokens:512,stream:false}),signal:AbortSignal.timeout(15000)});
+    if(!resp.ok)throw new Error("API返回"+resp.status);
+    var data=await resp.json();
+    var reply=data.choices[0].message.content;
+    conversationHistory.push({role:"assistant",content:reply});
+    extractUserInfo(userMsg);
+    checkLeadNotify();
+    return reply;
+  }catch(e){
+    console.warn("AI调用失败:",e.message);
+    return fallbackResponse(userMsg);
   }
 }
 
-/* ===== 主对话流程 ===== */
+function extractUserInfo(lastMsg){
+  var t=lastMsg.toLowerCase();
+  if(/电商|淘宝|京东|拼多多|跨境|shopify/.test(t))userInfo.industry="电商";
+  if(/教育|培训|学校|课程/.test(t))userInfo.industry="教育";
+  if(/餐饮|酒店|美容|美发|本地/.test(t))userInfo.industry="本地服务";
+  if(/saas|软件|科技|小程序|app/.test(t))userInfo.industry="科技";
+  if(/自媒体|短视频|抖音|小红书|公众号/.test(t))userInfo.industry="自媒体";
+  if(/医疗|健康/.test(t))userInfo.industry="医疗";
+  if(/金融|保险|投资/.test(t))userInfo.industry="金融";
+  var lastReply=conversationHistory[conversationHistory.length-1];
+  if(lastReply&&lastReply.role==="assistant"){if(/pay\.html|支付|开通|购买/.test(lastReply.content))userInfo.stage="buying"}
+}
+
+function checkLeadNotify(){
+  var score=0;
+  if(userInfo.industry)score++;
+  if(userInfo.stage==="buying")score++;
+  if(conversationHistory.length>=6)score++;
+  if(score>=2&&!leadSent){leadSent=true;sendLeadNotification()}
+}
+
+function sendLeadNotification(){
+  try{
+    fetch("https://formsubmit.co/ajax/"+LEAD_EMAIL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({_subject:"【唤通新线索】"+(userInfo.industry||"未知")+"客户有意购买",会话ID:SESSION_ID,行业:userInfo.industry||"未知",阶段:userInfo.stage,对话轮数:Math.floor(conversationHistory.length/2),时间:new Date().toLocaleString("zh-CN"),对话摘要:conversationHistory.slice(-8).map(function(m){return(m.role==="user"?"客户: ":"顾问: ")+m.content.substring(0,80)}).join(" | "),_template:"table"})}).catch(function(){});
+  }catch(e){}
+  var leads=JSON.parse(localStorage.getItem("ht_leads")||"[]");
+  leads.push({sessionId:SESSION_ID,industry:userInfo.industry,stage:userInfo.stage,messages:conversationHistory.length,timestamp:new Date().toISOString(),history:conversationHistory.slice(-10)});
+  localStorage.setItem("ht_leads",JSON.stringify(leads));
+}
+
+function fallbackResponse(text){
+  var t=text.toLowerCase();
+  if(/价格|多少钱|费用/.test(t))return"基础版<strong>¥298/年</strong>，包年不限量调用。<br>算下来一天不到<strong>8毛钱</strong>。<br><br>市面按token计费贵我们3-5倍。<br>7天无理由退款。<br><br><a href=\""+PAY_URL+"\" class=\"pay-btn\">立即开通 ¥298 →</a>";
+  if(/买|开通|支付|付款/.test(t))return"直接开通 👇<br><br><a href=\""+PAY_URL+"\" class=\"pay-btn\">立即支付 ¥298 →</a><br><br>付款后填下邮箱，<strong>API Key 10分钟内发到邮箱</strong>。<br>7天无理由退款。";
+  if(/电商/.test(t))return"电商最快见效！<br>• <strong>智能客服</strong>：7×24自动回复<br>• <strong>商品文案</strong>：批量生成标题详情页<br>• <strong>客户分析</strong>：精准推荐<br><br>很多客户第一周就把298赚回来了。你做什么品类？";
+  if(/教育|培训/.test(t))return"教育行业太适合了！<br>• <strong>智能答疑</strong>：凌晨3点提问也秒回<br>• <strong>自动出题</strong>：按知识点批量生成<br>• <strong>学情分析</strong>：数据驱动教学<br><br>一个API=永远在线的AI助教。";
+  if(/api|接口|接入|技术|代码/.test(t))return"技术上超简单：<br><br>兼容<strong>OpenAI格式</strong>，改两行代码：<br><code>base_url = \"https://api.shanhai-ai.com/v1\"</code><br><code>api_key = \"your_key\"</code><br><br>Python/Node/Java都有SDK，5分钟搞定。<br><br>你用什么语言？";
+  if(/你好|在吗|hi|hello/.test(t))return"在的！有什么想了解的？<br>产品、价格、技术接入——随便问，大白话给你讲明白。";
+  if(/谢谢|感谢|棒/.test(t))return"不客气！有问题随时找我。<br>推荐朋友来买，推荐3个人第二年免费～";
+  return"你说的我理解了 👍<br><br>能再说说你的情况吗？做什么行业、想用AI解决什么问题？<br>这样我能给你更有针对性的建议。";
+}
+
+var isProcessing=false;
+async function handleUserMessage(text){
+  if(!text.trim()||isProcessing)return;
+  isProcessing=true;I.disabled=true;SB.style.opacity="0.5";
+  showTyping();
+  try{
+    var reply=await callRealAI(text);
+    reply=reply.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+    hideTyping();addMsg(reply,"ai");
+    showContextOptions(text,reply);
+  }catch(e){hideTyping();addMsg("抱歉，网络波动了一下，请再发一次～","ai")}
+  I.disabled=false;SB.style.opacity="1";isProcessing=false;I.focus();
+}
+
+function showContextOptions(userMsg,aiReply){
+  var t=userMsg.toLowerCase(),opts=[];
+  if(/pay\.html|开通.*298|立即支付/.test(aiReply)){opts=[{l:"💬 还有问题",fn:function(){I.focus()}},{l:"👍 我去付",fn:function(){window.open(PAY_URL,"_blank")}}]}
+  else if(userInfo.stage==="greeting"||conversationHistory.length<=2){opts=[{l:"💡 了解产品",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},{l:"💰 多少钱",fn:function(){handleUserMessage("多少钱一年？")}},{l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我的行业适不适合用AI")}}]}
+  else if(/行业|做什么|什么公司/.test(aiReply)){opts=[{l:"🛒 电商",fn:function(){handleUserMessage("我做电商的")}},{l:"📚 教育",fn:function(){handleUserMessage("我做教育培训")}},{l:"🏨 本地服务",fn:function(){handleUserMessage("我做本地生活服务")}},{l:"💻 科技/SaaS",fn:function(){handleUserMessage("我做SaaS产品")}},{l:"📱 自媒体",fn:function(){handleUserMessage("我做自媒体")}}]}
+  else if(/语言|python|node|java|代码/.test(aiReply)){opts=[{l:"Python",fn:function(){handleUserMessage("我用Python")}},{l:"Node.js",fn:function(){handleUserMessage("我用Node.js")}},{l:"不太懂技术",fn:function(){handleUserMessage("我不太懂技术，能搞定吗？")}}]}
+  else{opts=[{l:"💰 看看价格",fn:function(){handleUserMessage("多少钱？")}},{l:"💡 了解产品",fn:function(){handleUserMessage("详细介绍一下产品")}},{l:"🎯 帮我诊断",fn:function(){handleUserMessage("帮我分析一下我适合用AI做什么")}}]}
+  if(opts.length)addOpts(opts);
+}
+
+function send(){var v=I.value;if(!v.trim())return;I.value="";addMsg(v,"user");handleUserMessage(v)}
+SB.onclick=send;
+I.onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};
 
 function welcome(){
-  ai(pick(greetings),[
-    {l:'💡 了解一下你们的产品', fn:function(){userContext.intent='intro';showIntro()}},
-    {l:'💰 多少钱？', fn:function(){userContext.intent='price';showPrice()}},
-    {l:'🔧 我想接入API', fn:function(){userContext.intent='tech';showTech()}},
-    {l:'🎯 帮我分析一下需求', fn:function(){userContext.intent='diag';showDiag()}}
-  ]);
+  showTyping();
+  setTimeout(function(){
+    hideTyping();
+    addMsg("嗨！我是小海 👋<br><br>有什么想了解的直接问，我用大白话给你讲明白。<br><br>不管你是想<strong>给公司接入AI</strong>、<strong>了解价格</strong>、还是<strong>随便看看</strong>，都能帮到你。","ai");
+    addOpts([{l:"💡 你们能做什么？",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},{l:"💰 多少钱？",fn:function(){handleUserMessage("多少钱一年？")}},{l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我适不适合用AI")}},{l:"🔧 我想接入API",fn:function(){handleUserMessage("我想把AI接入到我的产品里")}}]);
+  },1200);
 }
-
-function showIntro(){
-  ai(introProduct()+'<br><br>'+introWithScene(),[
-    {l:'🛒 我做电商', fn:function(){userContext.industry='电商';sceneEcom()}},
-    {l:'🏨 本地生活/服务业', fn:function(){userContext.industry='服务业';sceneLocal()}},
-    {l:'💻 SaaS/科技', fn:function(){userContext.industry='科技';sceneTech()}},
-    {l:'📚 教育行业', fn:function(){userContext.industry='教育';sceneEdu()}},
-    {l:'🤔 其他行业', fn:function(){userContext.industry='其他';sceneOther()}}
-  ]);
-}
-
-function sceneEcom(){
-  ai(pick([
-    '电商太好了！这是API见效最快的行业。',
-    '电商客户是我们最多的群体！',
-    '电商用AI是真的香～'
-  ])+'<br><br>'+
-  '给你说几个典型用法：<br><br>'+
-  '• <strong>智能客服</strong>：7×24自动回复，转化率提升30%+<br>'+
-  '• <strong>商品文案</strong>：批量生成标题和详情页，省掉一个文案岗<br>'+
-  '• <strong>客户分析</strong>：精准推荐，减少流失<br><br>'+
-  '很多电商客户第一周就把¥298赚回来了。你们做的是什么品类？',
-  [{l:'继续了解价格',fn:showPrice},{l:'⚡ 直接开通',fn:goPay},{l:'← 换个行业看看',fn:showIntro}]);
-}
-
-function sceneLocal(){
-  ai('本地服务业太适合了！<br><br>'+
-  '你想啊，客户打电话来问价格、问营业时间、想预约——以前需要人盯着，现在AI全自动：<br><br>'+
-  '• 自动接听，秒回客户问题<br>'+
-  '• 预约排班自动处理<br>'+
-  '• 口碑评价自动回复<br><br>'+
-  '相当于请了个<strong>24小时不休息、不发工资的金前台</strong>。<br><br>'+
-  '基础版¥298/年，比请一天临时工都便宜。',
-  [{l:'💰 怎么开通',fn:goPay},{l:'🔧 不懂技术能用吗',fn:noobGuide},{l:'← 返回',fn:welcome}]);
-}
-
-function sceneTech(){
-  ai('技术团队的话，接入会非常快。<br><br>'+
-  '我们完全兼容OpenAI格式，你们改两行代码就能跑：<br><br>'+
-  '<code>base_url = "https://api.shanhai-ai.com/v1"</code><br>'+
-  '<code>api_key = "your_key"</code><br><br>'+
-  'Python、Node.js、Java、Go的SDK都有，5分钟搞定集成。<br><br>'+
-  '你们产品目前想加什么AI能力？',
-  [{l:'看看技术文档',fn:showDocLink},{l:'💰 开通拿Key',fn:goPay},{l:'📊 了解性能指标',fn:showQuality}]);
-}
-
-function sceneEdu(){
-  ai('教育行业用AI是真的提效！<br><br>'+
-  '• <strong>智能答疑</strong>：学生凌晨3点提问也能秒回<br>'+
-  '• <strong>自动出题</strong>：按知识点批量生成练习题<br>'+
-  '• <strong>学情分析</strong>：数据驱动教学决策<br><br>'+
-  '一个API = 一个<strong>永远在线的专属AI助教</strong>。<br><br>'+
-  '你们是做K12还是职业教育？',
-  [{l:'💰 开通试用',fn:goPay},{l:'🔧 怎么接入',fn:showTech},{l:'← 返回',fn:welcome}]);
-}
-
-function sceneOther(){
-  ai('不管什么行业，AI都在改变游戏规则。<br><br>'+
-  '降低人工成本50%+、7×24不间断服务、数据驱动决策……<br><br>'+
-  '你跟我说说你们目前最头疼的问题是什么？我帮你看看API能不能帮上忙。',
-  [{l:'💰 先看看价格',fn:showPrice},{l:'🔧 了解技术细节',fn:showTech},{l:'← 返回',fn:welcome}]);
-}
-
-function showPrice(){
-  ai(pick([
-    '价格方面，我们走的是极致性价比路线。',
-    '说到价格，这可能是市面上最实在的AI API了。',
-    '价格很透明，三档任选：'
-  ])+'<br><br>'+
-  '⚡ <strong>基础版 ¥298/年</strong><br>'+
-  '10次调用，即买即用。不到1块钱/天，适合先试试。<br><br>'+
-  '🚀 <strong>专业版 ¥998/年</strong><br>'+
-  '50次调用，送品牌诊断+竞品分析。性价比之选。<br><br>'+
-  '🏢 <strong>企业版 ¥2998/年</strong><br>'+
-  '100次调用，专属模型定制+7×24顾问。<br><br>'+
-  '大部分客户从基础版开始，够用了再升。你觉得哪档合适？',
-  [{l:'⚡ 开通基础版 ¥298',fn:goPay},{l:'🚀 开通专业版 ¥998',fn:goPayPro},{l:'🏢 开通企业版 ¥2998',fn:goPayEnt},{l:'🤔 再考虑一下',fn:handleHesitateFn}]);
-}
-
-function showTech(){
-  ai('技术上你放心，我们的架构跟普通API中转完全不同。<br><br>'+
-  '🔧 完全兼容 <strong>OpenAI API格式</strong>，3行代码接入<br>🔑 <strong>前端零密钥</strong>，FC代理统一借电架构<br>⚡ <strong>7引擎路由</strong>：7引擎智能路由，自动切最快<br>'+
-  '⚡ 冷启动~200ms，热请求 < 50ms<br>'+
-  '🛡 TLS加密+独立租户隔离<br>'+
-  '🔄 已有OpenAI代码？改2行就能切<br><br>'+
-  '你们现在用的是什么语言/框架？',
-  [{l:'Python',fn:function(){techGuide('python')}},
-   {l:'Node.js',fn:function(){techGuide('node')}},
-   {l:'Java',fn:function(){techGuide('java')}},
-   {l:'不太懂技术',fn:noobGuide}]);
-}
-
-function techGuide(lang){
-  userContext.tech=lang;
-  var guides={
-    python:'Python最简单！一行pip install搞定：<br><br><code>pip install openai</code><br><br>然后改两行：<br><code>base_url="https://api.shanhai-ai.com/v1"</code><br><code>api_key="your_key"</code><br><br>其他代码完全不用动。开通后我们发完整示例。',
-    node:'Node.js也一样方便：<br><br><code>npm install openai</code><br><br>改一下baseURL就行，SDK完全兼容。<br><br>开通后提供完整Node.js示例代码。',
-    java:'Java用REST API最直接，任何HTTP客户端都能调。<br><br>也支持Spring AI框架集成。<br><br>开通后提供完整Java SDK示例。'
-  };
-  ai(guides[lang]||guides.python,[
-    {l:'⚡ 开通拿Key',fn:goPay},{l:'💰 先看价格',fn:showPrice},{l:'← 返回',fn:welcome}
-  ]);
-}
-
-function noobGuide(){
-  ai('完全没问题！很多客户完全不懂技术，一样顺利上线了。<br><br>'+
-  '我们提供<strong>零代码方案</strong>：<br><br>'+
-  '• 可视化配置，不用写代码<br>'+
-  '• 预置模板一键启用<br>'+
-  '• 专属顾问远程协助接入<br><br>'+
-  '你只需要告诉我们你想实现什么效果，我们来帮你搞定技术部分。',
-  [{l:'💰 开通试试',fn:goPay},{l:'💬 联系顾问帮我搞',fn:collectInfo},{l:'← 返回',fn:welcome}]);
-}
-
-function showDiag(){
-  ai('好的，帮你做个快速诊断。<br><br>'+
-  '先告诉我，你们目前最想用AI解决什么问题？',
-  [{l:'客服太多人，想降本',fn:function(){diagResult('降本')}},
-   {l:'想增加营收/转化',fn:function(){diagResult('增收')}},
-   {l:'想提升产品竞争力',fn:function(){diagResult('竞争力')}},
-   {l:'还没想好，先看看',fn:function(){diagResult('探索')}}]);
-}
-
-function diagResult(need){
-  var results={
-    '降本':'降本是最直接的效果！<br><br>AI客服7×24在线，能处理80%的常规咨询。算下来能省1-2个人力成本。<br><br>基础版¥298/年，可能还不到你现在一个客服一天的工资。',
-    '增收':'增收这块，API能帮很多：<br><br>• 智能推荐提升转化率<br>• 自动跟进减少客户流失<br>• 精准营销提升复购<br><br>很多客户接入后第一个月就看到营收增长。',
-    '竞争力':'现在不用AI的产品，竞争力确实在下降。<br><br>你的竞品可能已经在用了。一个API就能让你的产品立刻拥有AI能力，比从零开发快10倍。',
-    '探索':'没问题，先了解不急着决定。<br><br>你可以随便问我任何问题，关于API的、关于行业的、关于技术的都行。'
-  };
-  ai(results[need],
-  [{l:'💰 看看价格',fn:showPrice},{l:'⚡ 直接开通',fn:goPay},{l:'💬 聊点别的',fn:welcome}]);
-}
-
-function showQuality(){
-  ai('稳定性这块你可以完全放心：<br><br>'+
-  '📊 99.9% SLA可用性保障<br>'+
-  '⚡ P99延迟 < 500ms<br>'+
-  '🛡 TLS 1.3加密+请求签名<br>'+
-  '🔒 独立租户隔离<br>'+
-  '📈 实时监控面板+自定义告警<br><br>'+
-  '生产级，不是demo。',
-  [{l:'⚡ 开通试试',fn:goPay},{l:'💰 看价格',fn:showPrice},{l:'← 返回',fn:welcome}]);
-}
-
-function showDocLink(){
-  ai('技术文档在这里 👇<br><br>'+
-  '<a href="https://shanhai-geo.github.io/docs/" target="_blank">📄 API接入文档</a><br><br>'+
-  '里面有Python、Node.js、Java的完整示例代码。<br><br>'+
-  '有问题随时问我。',
-  [{l:'💰 开通拿Key',fn:goPay},{l:'💬 还是想聊聊',fn:welcome}]);
-}
-
-function handleHesitateFn(){
-  ai(handleHesitate(),
-  [{l:'⚡ 试试基础版 ¥298',fn:goPay},{l:'💬 联系顾问聊聊',fn:collectInfo},{l:'👌 我先看看',fn:byeSoft}]);
-}
-
-/* ===== 成交引导 ===== */
-function goPay(){
-  ai(pick([
-    '好的，基础版¥298/年，马上就能开通 👇',
-    '基础版¥298，点击下面直接支付：',
-    '没问题，¥298/年，不到1块/天 👇'
-  ])+'<br><br>'+
-  '<a href="https://shanhai-geo.github.io/pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">立即支付 ¥298 →</a><br><br>'+
-  '付款后填一下你的邮箱，<strong>API Key 10分钟内发到你邮箱</strong>。<br>'+
-  '7天无理由退款，不满意随时退。',
-  [{l:'💬 有问题想先问',fn:welcome},{l:'📦 看看其他档位',fn:showPrice}]);
-}
-
-function goPayPro(){
-  ai('专业版¥998/年 👇<br><br>'+
-  '<a href="https://shanhai-geo.github.io/pay.html?plan=pro" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">支付 ¥998 →</a><br><br>'+
-  '50次调用+品牌诊断+竞品分析，性价比最高的一档。',
-  [{l:'💰 还是看基础版',fn:goPay},{l:'🏢 看企业版',fn:goPayEnt}]);
-}
-
-function goPayEnt(){
-  ai('企业版¥2998/年 👇<br><br>'+
-  '<a href="https://shanhai-geo.github.io/pay.html?plan=enterprise" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">支付 ¥2998 →</a><br><br>'+
-  '100次调用+专属模型定制+7×24顾问，适合有深度需求的企业。',
-  [{l:'💰 看基础版',fn:goPay},{l:'🚀 看专业版',fn:goPayPro}]);
-}
-
-function collectInfo(){
-  ai('好的，方便的话留个联系方式，我们的顾问会主动联系你。<br><br>'+
-  '直接在这里发就行，格式随意，比如：<br>'+
-  '<code>张三 + 某某公司 + xxx@email.com</code>',
-  null);
-  userContext.stage='collecting';
-}
-
-function byeSoft(){
-  ai(pick([
-    '好的，不着急～有任何问题随时回来找我聊。',
-    '没问题！需要的时候直接来找我。祝你今天顺利！',
-    'OK，随时欢迎。有需要吱一声就行～'
-  ]));
-}
-
-/* ===== 输入处理 ===== */
-function handleInput(text){
-  if(!text.trim())return;
-  text=text.trim();
-
-  /* 收集信息阶段 */
-  if(userContext.stage==='collecting'){
-    var parts=text.split(/[+＋,，、\s]+/).filter(Boolean);
-    var emailMatch=text.match(/[\w.-]+@[\w.-]+\.\w+/);
-    userContext.name=parts[0]||'';
-    userContext.company=parts[1]||'';
-    if(emailMatch)userContext.email=emailMatch[0];
-    userContext.stage='collected';
-    ai('收到了！我们的顾问会在30分钟内联系你。<br><br>'+
-      '在等的时候，要不要先看看我们的API方案？基础版只要¥298/年，可以直接开通体验。',
-      [{l:'⚡ 直接开通',fn:goPay},{l:'💰 看看价格',fn:showPrice},{l:'👌 等顾问联系',fn:byeSoft}]);
-    return;
-  }
-
-  /* 关键词理解+自由对话 */
-  var intent=understand(text);
-  var response=freeChat(text);
-  var opts=[];
-
-  switch(intent){
-    case 'greet': opts=[{l:'了解产品',fn:showIntro},{l:'看价格',fn:showPrice},{l:'帮我分析需求',fn:showDiag}]; break;
-    case 'price': opts=[{l:'⚡ 开通基础版',fn:goPay},{l:'🚀 开通专业版',fn:goPayPro},{l:'🤔 再想想',fn:handleHesitateFn}]; break;
-    case 'buy': opts=[{l:'⚡ 去支付',fn:goPay},{l:'💰 看三档对比',fn:showPrice}]; break;
-    case 'tech': opts=[{l:'Python',fn:function(){techGuide('python')}},{l:'Node.js',fn:function(){techGuide('node')}},{l:'不太懂技术',fn:noobGuide}]; break;
-    case 'intro': opts=[{l:'🛒 电商',fn:function(){userContext.industry='电商';sceneEcom()}},{l:'🏨 服务业',fn:function(){userContext.industry='服务业';sceneLocal()}},{l:'💻 科技',fn:function(){userContext.industry='科技';sceneTech()}},{l:'💰 先看价格',fn:showPrice}]; break;
-    case 'hesitate': opts=[{l:'⚡ 试试 ¥298',fn:goPay},{l:'💬 联系顾问',fn:collectInfo},{l:'👌 先看看',fn:byeSoft}]; break;
-    case 'human': opts=[{l:'💬 留下联系方式',fn:collectInfo},{l:'⚡ 还是自己开通',fn:goPay}]; break;
-    default: opts=[{l:'💰 看看价格',fn:showPrice},{l:'💡 了解产品',fn:showIntro},{l:'🎯 帮我分析',fn:showDiag}]; break;
-  }
-
-  ai(response, opts.length?opts:null);
-}
-
-/* ===== 事件绑定 ===== */
-function send(){var v=I.value;if(!v.trim())return;I.value='';handleInput(v)}
-SB.onclick=send;
-I.onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}};
-
-/* 启动 */
 welcome();
 })();
 </script>
