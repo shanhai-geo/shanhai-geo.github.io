@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山海智能 · 询盘汇总</title>
+<style>
+:root{--gold:#ffd700;--bg:#06060e;--card:#0d0d1a;--text:#e8e8f0;--dim:#8a8aa0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:24px;color:var(--gold);margin-bottom:8px}
+.subtitle{color:var(--dim);font-size:14px;margin-bottom:24px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid rgba(255,215,0,.1);border-radius:14px;padding:18px;text-align:center}
+.stat-card .num{font-size:32px;font-weight:800;color:var(--gold)}
+.stat-card .label{font-size:12px;color:var(--dim);margin-top:4px}
+.inquiry-list{display:flex;flex-direction:column;gap:12px}
+.inquiry-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:18px;transition:all .2s}
+.inquiry-card:hover{border-color:rgba(255,215,0,.15)}
+.inquiry-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.inquiry-name{font-size:16px;font-weight:600;color:var(--gold)}
+.inquiry-time{font-size:11px;color:var(--dim)}
+.inquiry-meta{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--dim)}
+.inquiry-meta span{display:flex;align-items:center;gap:4px}
+.inquiry-stage{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.stage-collected{background:rgba(74,222,128,.1);color:#4ade80}
+.stage-diagnose{background:rgba(255,215,0,.1);color:#ffd700}
+.stage-partial{background:rgba(251,146,60,.1);color:#fb923c}
+.empty{text-align:center;padding:60px 20px;color:var(--dim)}
+.empty .icon{font-size:48px;margin-bottom:16px}
+.refresh-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);color:var(--gold);padding:8px 20px;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:20px;transition:all .2s}
+.refresh-btn:hover{background:rgba(255,215,0,.15)}
+.export-btn{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80}
+.export-btn:hover{background:rgba(74,222,128,.15)}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📊 询盘汇总面板</h1>
+  <p class="subtitle">AI客服自动记录的询盘数据</p>
+  
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="refresh-btn" onclick="loadInquiries()">🔄 刷新数据</button>
+    <button class="refresh-btn export-btn" onclick="exportCSV()">📥 导出CSV</button>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <div class="inquiry-list" id="list"></div>
+</div>
+
+<script>
+let allInquiries = [];
+
+function loadInquiries(){
+  allInquiries = [];
+  for(let i=0; i<localStorage.length; i++){
+    const key = localStorage.key(i);
+    if(key.startsWith('shanhai_inquiry_')){
+      try{
+        const data = JSON.parse(localStorage.getItem(key));
+        allInquiries.push(data);
+      }catch(e){}
+    }
+  }
+  // 按时间倒序
+  allInquiries.sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
+  render();
+}
+
+function render(){
+  // 统计
+  const total = allInquiries.length;
+  const collected = allInquiries.filter(i=>i.stage==='collected').length;
+  const diagnose = allInquiries.filter(i=>i.stage==='diagnose').length;
+  const partial = allInquiries.filter(i=>i.stage==='partial').length;
+  const withEmail = allInquiries.filter(i=>i.email).length;
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="num">${total}</div><div class="label">总询盘数</div></div>
+    <div class="stat-card"><div class="num">${collected}</div><div class="label">完整留资</div></div>
+    <div class="stat-card"><div class="num">${withEmail}</div><div class="label">有邮箱</div></div>
+    <div class="stat-card"><div class="num">${diagnose}</div><div class="label">诊断中</div></div>
+  `;
+
+  // 列表
+  if(!allInquiries.length){
+    document.getElementById('list').innerHTML = '<div class="empty"><div class="icon">💬</div><p>暂无询盘记录<br>等待客户通过AI客服咨询</p></div>';
+    return;
+  }
+
+  document.getElementById('list').innerHTML = allInquiries.map(i=>{
+    const stageMap = {
+      'collected': {cls:'stage-collected',text:'✅ 已留资'},
+      'diagnose': {cls:'stage-diagnose',text:'🔍 诊断中'},
+      'partial': {cls:'stage-partial',text:'⚠️ 待补充'}
+    };
+    const s = stageMap[i.stage] || {cls:'',text:i.stage};
+    const time = new Date(i.timestamp).toLocaleString('zh-CN');
+    return `<div class="inquiry-card">
+      <div class="inquiry-header">
+        <span class="inquiry-name">${i.name || '未提供姓名'}</span>
+        <span class="inquiry-time">${time}</span>
+      </div>
+      <div class="inquiry-meta">
+        <span class="inquiry-stage ${s.cls}">${s.text}</span>
+        ${i.company?'<span>🏢 '+i.company+'</span>':''}
+        ${i.email?'<span>📧 '+i.email+'</span>':''}
+        ${i.brand?'<span>🔍 '+i.brand+'</span>':''}
+        <span>📱 '+i.sessionId.split('_')[1].substring(0,8)+'</span>
+      </div>
+      ${i.raw && !i.name?'<div style="margin-top:8px;font-size:12px;color:var(--dim)">原始输入：'+i.raw+'</div>':''}
+    </div>`;
+  }).join('');
+}
+
+function exportCSV(){
+  if(!allInquiries.length){alert('暂无数据可导出');return}
+  const header = '时间,姓名,公司,邮箱,阶段,品牌,会话ID,来源\n';
+  const rows = allInquiries.map(i=>{
+    return [
+      new Date(i.timestamp).toLocaleString('zh-CN'),
+      i.name||'',
+      i.company||'',
+      i.email||'',
+      i.stage,
+      i.brand||'',
+      i.sessionId,
+      i.referrer||'直接访问'
+    ].join(',');
+  }).join('\n');
+  
+  const blob = new Blob(['\ufeff'+header+rows],{type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '询盘汇总_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+// 自动刷新
+loadInquiries();
+setInterval(loadInquiries, 30000);
+</script>
+</body>
+</html>
