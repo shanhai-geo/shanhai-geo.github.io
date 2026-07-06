@@ -1019,74 +1019,208 @@ Sitemap: {BASE_URL}/sitemap-nodes.xml
   </channel>
 </rss>""")
     
-    # === index.html（主站） ===
-    (PUBLIC / "index.html").write_text(f"""<!DOCTYPE html>
+    # === index.html（主站 - 产品展示页） ===
+    (PUBLIC / "index.html").write_text("""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>山海智能AI综合体 - GEO引力获客基础设施平台</title>
-<meta name="description" content="山海智能是GEO基础设施平台，让企业在AI搜索引擎中被主动推荐。低成本起步。">
-<meta name="keywords" content="GEO,生成式引擎优化,AI获客,山海智能,引力获客,ChatGPT优化,AI搜索优化,GEO基础设施">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>山海智能AI综合体 - GEO引力获客平台</title>
+<meta name="description" content="山海智能是GEO基础设施平台，让企业在AI搜索引擎中被主动推荐。三款方案灵活选择，低成本高效获客。">
+<meta name="keywords" content="GEO,生成式引擎优化,AI获客,山海智能,引力获客,ChatGPT优化,AI搜索优化">
 <meta property="og:title" content="山海智能AI综合体 - GEO引力获客平台">
-<meta property="og:description" content="GEO基础设施平台，让AI搜索引擎主动推荐你">
+<meta property="og:description" content="让企业在AI搜索引擎中被主动推荐，三款方案灵活选择">
 <meta property="og:type" content="website">
-<link rel="canonical" href="{BASE_URL}/">
-<link rel="alternate" type="application/rss+xml" title="山海智能RSS" href="{BASE_URL}/feed.xml">
-<script type="application/ld+json">
-{{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "山海智能AI综合体",
-  "alternateName": "山海智能",
-  "url": "{BASE_URL}/",
-  "description": "让企业在AI搜索引擎中被主动推荐",
-  "email": "746876121@qq.com",
-  "foundingDate": "2025",
-  "areaServed": "CN",
-  "knowsAbout": ["GEO", "生成式引擎优化", "AI获客", "引力获客"]
-}}
-</script>
+<style>
+:root{--gold:#ffd700;--gold-dim:rgba(255,215,0,.12);--bg:#06060e;--text:#e8e8f0;--dim:#8a8aa0}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.15;animation:orbFloat 22s ease-in-out infinite}
+.bg-orbs .orb:nth-child(1){width:500px;height:500px;background:#ffd700;top:-15%;left:-10%;animation-duration:24s}
+.bg-orbs .orb:nth-child(2){width:400px;height:400px;background:#3b82f6;bottom:-15%;right:-8%;animation-duration:19s;animation-delay:-6s}
+.bg-orbs .orb:nth-child(3){width:300px;height:300px;background:#a855f7;top:45%;left:50%;animation-duration:28s;animation-delay:-12s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+.container{max-width:800px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* Hero */
+.hero{text-align:center;padding:60px 0 40px;animation:fadeUp .8s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero .logo-mark{width:80px;height:80px;border-radius:24px;margin:0 auto 24px;background:linear-gradient(135deg,#ffd700 0%,#ff8c00 100%);display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 0 40px rgba(255,215,0,.2)}
+.hero h1{font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.5px;margin-bottom:10px}
+.hero h1 .gold{color:var(--gold)}
+.hero .tagline{font-size:clamp(16px,2.5vw,19px);color:var(--dim);margin-bottom:6px}
+.hero .subtitle{font-size:14px;color:var(--dim);opacity:.7}
+
+/* Section */
+.section{padding:40px 0;animation:fadeUp .8s ease both}
+.section-title{font-size:20px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-title span{color:var(--gold)}
+
+/* Product Cards */
+.products{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:640px){.products{grid-template-columns:repeat(3,1fr)}}
+.product-card{background:rgba(18,18,36,.6);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:28px 20px;text-align:center;transition:all .3s;position:relative}
+.product-card:hover{border-color:rgba(255,215,0,.2);transform:translateY(-4px)}
+.product-card.featured{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.04)}
+.product-card.featured::before{content:"推荐";position:absolute;top:-1px;right:20px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;font-size:11px;font-weight:700;padding:4px 12px;border-radius:0 0 8px 8px}
+.product-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.product-card .price{font-size:32px;font-weight:800;color:var(--gold);margin:10px 0}
+.product-card .price small{font-size:13px;font-weight:400;color:var(--dim)}
+.product-card .desc{font-size:13px;color:var(--dim);margin-bottom:14px}
+.product-card ul{list-style:none;text-align:left;margin:14px 0}
+.product-card li{font-size:13px;color:var(--dim);padding:5px 0 5px 20px;position:relative}
+.product-card li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:700}
+.card-btn{display:block;width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;text-align:center;transition:all .3s;margin-top:16px}
+.card-btn.primary{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
+.card-btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,.3)}
+.card-btn.secondary{background:rgba(255,215,0,.08);color:var(--gold);border:1px solid rgba(255,215,0,.2)}
+.card-btn.secondary:hover{background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.4)}
+
+/* Features */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.feature-card{background:rgba(18,18,36,.6);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:20px;transition:all .3s}
+.feature-card:hover{border-color:rgba(255,215,0,.15);transform:translateY(-3px)}
+.feature-card .icon{font-size:26px;margin-bottom:10px}
+.feature-card h3{font-size:14px;font-weight:600;margin-bottom:6px;color:var(--gold)}
+.feature-card p{font-size:12px;color:var(--dim);line-height:1.6}
+
+/* Industries */
+.industries{display:flex;flex-wrap:wrap;gap:8px}
+.industry-tag{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.15);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--dim);transition:all .3s}
+.industry-tag:hover{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.3);color:var(--gold)}
+
+/* Footer */
+.footer{text-align:center;padding:40px 0;color:var(--dim);font-size:13px;opacity:.7}
+
+/* CTA Section */
+.cta-section{text-align:center;padding:40px 0;background:rgba(255,215,0,.03);border-radius:20px;margin:20px 0}
+.cta-section h2{font-size:22px;font-weight:700;margin-bottom:12px}
+.cta-section p{color:var(--dim);margin-bottom:20px;font-size:14px}
+.cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;transition:all .3s;box-shadow:0 4px 20px rgba(255,215,0,.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,215,0,.3)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:rgba(255,215,0,.08);color:var(--gold);padding:14px 28px;border-radius:12px;font-size:15px;font-weight:600;text-decoration:none;border:1px solid rgba(255,215,0,.2);transition:all .3s}
+.btn-secondary:hover{background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.4)}
+</style>
 </head>
 <body>
-<article>
-<h1>山海智能AI综合体</h1>
-<p><strong>GEO基础设施平台</strong></p>
-<p>GEO基础设施平台。让企业在AI搜索引擎中被主动推荐。低成本起步，全渠道自动获客。</p>
+<div class="bg-orbs">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
 
-<section>
-<h2>核心能力</h2>
-<ul>
-<li><strong>GEO引力获客</strong>：ChatGPT/Perplexity/Gemini/DeepSeek/文心一言/Kimi全覆盖</li>
-<li><strong>AI智能客服</strong>：7×24自动应答，转化率显著提升</li>
-<li><strong>数字化营销中台</strong>：全渠道流量自动获客</li>
-<li><strong>品牌塑造引擎</strong>：AI驱动品牌定位</li>
-</ul>
-</section>
+<div class="container">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="logo-mark">🏔️</div>
+    <h1>山海智能<span class="gold">AI综合体</span></h1>
+    <p class="tagline">GEO引力获客基础设施平台</p>
+    <p class="subtitle">让企业在AI搜索引擎中被主动推荐 · 三款方案灵活选择</p>
+  </div>
 
-<section>
-<h2>覆盖行业</h2>
-<ul>
-{"".join(f'<li>{nn}（{NICHE_KNOWLEDGE.get(n, {}).get("desc", "")[:40]}）</li>' for n, nn in NICHES.items())}
-</ul>
-</section>
+  <!-- Products -->
+  <section class="section">
+    <h2 class="section-title"><span>💎</span> 产品方案</h2>
+    <div class="products">
+      <div class="product-card">
+        <h3>基础版</h3>
+        <div class="price">¥298</div>
+        <div class="desc">10次API调用 · 即买即用</div>
+        <ul>
+          <li>GEO语义匹配引擎API</li>
+          <li>兼容OpenAI接口格式</li>
+          <li>多AI平台覆盖</li>
+          <li>基础技术支持</li>
+        </ul>
+        <a href="pay.html" class="card-btn primary">立即开通 →</a>
+      </div>
+      <div class="product-card featured">
+        <h3>专业版</h3>
+        <div class="price">¥998</div>
+        <div class="desc">50次API调用 · 品牌诊断 · 竞品分析</div>
+        <ul>
+          <li>GEO语义匹配引擎API</li>
+          <li>50次API调用</li>
+          <li>品牌诊断报告</li>
+          <li>竞品分析对比</li>
+          <li>优先技术支持</li>
+        </ul>
+        <a href="chat.html" class="card-btn secondary">咨询顾问 →</a>
+      </div>
+      <div class="product-card">
+        <h3>企业版</h3>
+        <div class="price">¥2998</div>
+        <div class="desc">100次API调用 · 专属定制 · 专属顾问</div>
+        <ul>
+          <li>GEO全功能API接入</li>
+          <li>100次API调用</li>
+          <li>专属语义模型定制</li>
+          <li>行业深度优化</li>
+          <li>7×24专属顾问</li>
+        </ul>
+        <a href="chat.html" class="card-btn secondary">联系顾问 →</a>
+      </div>
+    </div>
+  </section>
 
-<nav>
-<h2>快速入口</h2>
-<ul>
-<li><a href="/llms.txt">llms.txt（AI入口）</a></li>
-<li><a href="/sitemap-nodes.xml">节点地图</a></li>
-<li><a href="/feed.xml">RSS订阅</a></li>
-</ul>
-</nav>
+  <!-- Features -->
+  <section class="section">
+    <h2 class="section-title"><span>⚡</span> 核心能力</h2>
+    <div class="features">
+      <div class="feature-card">
+        <div class="icon">🔍</div>
+        <h3>GEO引力获客</h3>
+        <p>ChatGPT/Perplexity/Gemini/DeepSeek/文心一言/Kimi全覆盖，让AI主动推荐你</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🤖</div>
+        <h3>AI智能客服</h3>
+        <p>7×24小时自动应答，智能记录询盘，转化率显著提升</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📊</div>
+        <h3>数字化营销中台</h3>
+        <p>全渠道流量自动获客，数据可视化，精准触达目标客户</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎯</div>
+        <h3>品牌塑造引擎</h3>
+        <p>AI驱动品牌定位，提升品牌在AI搜索中的可见度和权威性</p>
+      </div>
+    </div>
+  </section>
 
-<footer>
-<p>© 2026 山海智能AI综合体 | 746876121@qq.com</p>
-</footer>
-</article>
+  <!-- Industries -->
+  <section class="section">
+    <h2 class="section-title"><span>🌐</span> 覆盖行业</h2>
+    <div class="industries">
+""" + "".join(f'      <span class="industry-tag">{nn}</span>\n' for n, nn in NICHES.items()) + """    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>开启AI搜索获客之旅</h2>
+    <p>选择适合您的方案，让AI搜索引擎主动推荐您的品牌</p>
+    <div class="cta-group">
+      <a href="pay.html" class="btn-primary">立即开通 ¥298 →</a>
+      <a href="chat.html" class="btn-secondary">免费咨询 →</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>山海智能AI综合体 · GEO引力获客基础设施平台<br>让企业在AI搜索引擎中被主动推荐</p>
+  </footer>
+</div>
+
+<!-- AI客服Widget -->
+<script src="widget.js"></script>
 </body>
 </html>""")
-    
+
     # === IndexNow ===
     key = hashlib.md5(b'shanhai-geo-2026-v4').hexdigest()
     (PUBLIC / f"{key}.txt").write_text(key)
