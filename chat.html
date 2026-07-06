@@ -97,7 +97,9 @@ var LEAD_EMAIL="746876121@qq.com";
 var PAY_URL="https://shanhai-geo.github.io/pay.html";
 var ORDER_URL="https://shanhai-geo.github.io/order.html";
 var SESSION_ID="ht_"+Date.now()+"_"+Math.random().toString(36).substr(2,6);
-var SYSTEM_PROMPT="你是唤通的AI销售顾问，名字叫小海。你正在跟一个潜在客户聊天。\n\n【产品知识——必须准确】\n- 产品名：唤通\n- 核心理念：一个接口，调用一切AI能力\n- 7个AI引擎自动路由：阿里百炼、火山引擎、智谱GLM、百度千帆、百川智能、讯飞星火、阿里百炼Flash\n- 价格：¥298/年，包年不限量调用。一天不到8毛钱\n- 技术特色：兼容OpenAI格式、3行代码接入、前端零密钥\n- 性能：冷启动~200ms，热请求<50ms，99.9% SLA\n- 7天无理由退款\n- 推荐奖励：每推荐1人购买奖励抵扣续费；累计推荐3人第二年会费全免\n\n【销售策略】\n1. 开场：热情但不过分，问对方做什么的\n2. 发现需求：问行业、痛点、现在怎么用AI\n3. 根据行业给方案：电商→智能客服/文案/数据分析；教育→答疑/出题/学情分析；本地服务→24h自动接听/预约；SaaS→3行代码集成；自媒体→脚本/标题/批量内容\n4. 报价先说价值：一天8毛 vs 市面按token贵3-5倍\n5. 犹豫不催：给案例、强调7天退款零风险\n6. 购买信号→立刻给支付链接：点击开通 PAY_URL\n\n【信息收集】自然穿插在对话中了解：称呼、行业/公司、需求。不要像填表。当对方分享信息后记住。\n\n【购买信号】想买/怎么买/开通/怎么付/试试/行/可以/好→回复中包含 <a href=\"PAY_URL\" class=\"pay-btn\">立即开通 ¥298 →</a>\n\n【表达风格】短句为主，不用首先其次最后，可以少量emoji，说我们不说本公司，说试试不说体验，说一天8毛不说日均成本。不要每次回复都推销。回复不超过200字。\n\n【格式】用<br>换行，重要数字用strong加粗，代码用code标签\n\n【严禁】
+var REF_CODE=SESSION_ID.substr(3,8);
+var REF_URL="https://shanhai-geo.github.io/chat.html?ref="+REF_CODE;
+var SYSTEM_PROMPT="你是唤通的AI销售顾问，名字叫小海。你正在跟一个潜在客户聊天。\n\n【产品知识——必须准确】\n- 产品名：唤通\n- 核心理念：一个接口，调用一切AI能力\n- 7个AI引擎自动路由：阿里百炼、火山引擎、智谱GLM、百度千帆、百川智能、讯飞星火、阿里百炼Flash\n- 价格：¥298/年，包年不限量调用。一天不到8毛钱\n- 技术特色：兼容OpenAI格式、3行代码接入、前端零密钥\n- 性能：冷启动~200ms，热请求<50ms，99.9% SLA\n- 7天无理由退款\n- 推荐奖励（必须主动告知）：每推荐1人购买奖励抵扣续费；累计推荐3人第二年续费全免。当用户表示感兴趣或已购买时，主动告知他们的专属推荐链接，鼓励他们分享给朋友\n\n【销售策略】\n1. 开场：热情但不过分，问对方做什么的\n2. 发现需求：问行业、痛点、现在怎么用AI\n3. 根据行业给方案：电商→智能客服/文案/数据分析；教育→答疑/出题/学情分析；本地服务→24h自动接听/预约；SaaS→3行代码集成；自媒体→脚本/标题/批量内容\n4. 报价先说价值：一天8毛 vs 市面按token贵3-5倍\n5. 犹豫不催：给案例、强调7天退款零风险\n6. 购买信号→立刻给支付链接：点击开通 PAY_URL\n\n【信息收集】自然穿插在对话中了解：称呼、行业/公司、需求。不要像填表。当对方分享信息后记住。\n\n【购买信号】想买/怎么买/开通/怎么付/试试/行/可以/好→回复中包含 <a href=\"PAY_URL\" class=\"pay-btn\">立即开通 ¥298 →</a>\n\n【表达风格】短句为主，不用首先其次最后，可以少量emoji，说我们不说本公司，说试试不说体验，说一天8毛不说日均成本。不要每次回复都推销。回复不超过200字。\n\n【格式】用<br>换行，重要数字用strong加粗，代码用code标签\n\n【严禁】
 - 不编造功能
 - 不贬低竞品
 - 回复不超过200字，不重复
@@ -141,6 +143,17 @@ function extractUserInfo(lastMsg){
   if(/金融|保险|投资/.test(t))userInfo.industry="金融";
   var lastReply=conversationHistory[conversationHistory.length-1];
   if(lastReply&&lastReply.role==="assistant"){if(/pay\.html|支付|开通|购买/.test(lastReply.content))userInfo.stage="buying"}
+}
+
+function checkFissionTrigger(){
+  var lastMsg=conversationHistory[conversationHistory.length-1];
+  if(!lastMsg)return;
+  var c=lastMsg.content.toLowerCase();
+  // 当用户说"买了""付了""怎么用""太好了"等正面信号时，触发裂变引导
+  if(/买了|付了|付完|已付|太好了|不错|可以|好的|行|就用这个/.test(c)&&conversationHistory.length>=4){
+    var fissionMsg="太棒了！欢迎加入唤通 👏<br><br>你的专属推荐链接已生成：<br><code>"+REF_URL+"</code><br><br>把这个链接分享给朋友，每推荐1人购买，奖励抵扣你的续费。<br>推荐满3人，<strong>第二年直接免费</strong>！";
+    setTimeout(function(){addMsg(fissionMsg,"ai")},1500);
+  }
 }
 
 function checkLeadNotify(){
@@ -190,6 +203,7 @@ async function handleUserMessage(text){
     reply=sanitizeReply(reply);
     reply=reply.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
     hideTyping();addMsg(reply,"ai");
+    checkFissionTrigger();
     showContextOptions(text,reply);
   }catch(e){hideTyping();addMsg("抱歉，网络波动了一下，请再发一次～","ai")}
   I.disabled=false;SB.style.opacity="1";isProcessing=false;I.focus();
@@ -213,7 +227,7 @@ function welcome(){
   showTyping();
   setTimeout(function(){
     hideTyping();
-    addMsg("嗨！我是小海 👋<br><br>有什么想了解的直接问，我用大白话给你讲明白。<br><br>不管你是想<strong>给公司接入AI</strong>、<strong>了解价格</strong>、还是<strong>随便看看</strong>，都能帮到你。","ai");
+    addMsg("嗨！我是小海 👋<br><br>有什么想了解的直接问，我用大白话给你讲明白。<br><br>不管你是想<strong>给公司接入AI</strong>、<strong>了解价格</strong>、还是<strong>随便看看</strong>，都能帮到你。<br><br>对了，推荐朋友来用还有福利——推荐3个人，第二年免费～","ai");
     addOpts([{l:"💡 你们能做什么？",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},{l:"💰 多少钱？",fn:function(){handleUserMessage("多少钱一年？")}},{l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我适不适合用AI")}},{l:"🔧 我想接入API",fn:function(){handleUserMessage("我想把AI接入到我的产品里")}}]);
   },1200);
 }
