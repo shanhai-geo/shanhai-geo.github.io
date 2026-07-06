@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>山海智能AI客服 - 7×24在线服务</title>
-<meta name="description" content="山海智能AI客服，7×24小时在线，为您提供GEO引力获客、API接入、企业合作等专业服务">
+<meta name="description" content="山海智能AI客服，7×24小时在线，为您提供API接入、智能客服、企业合作等专业服务">
 <link rel="canonical" href="https://shanhai-geo.github.io/chat.html">
 <style>
 :root{
@@ -98,7 +98,7 @@ body{
   <div class="logo">🏔</div>
   <div class="info">
     <h1>山海智能AI综合体</h1>
-    <div class="sub">GEO基础设施平台</div>
+    <div class="sub">AI智能API服务</div>
     <div class="online-badge">在线 · 7×24小时</div>
   </div>
 </header>
@@ -110,7 +110,7 @@ body{
   </div>
 </div>
 </div>
-<div class="chat-footer">山海智能AI综合体 · GEO基础设施平台</div>
+<div class="chat-footer">山海智能AI综合体 · AI智能API服务</div>
 
 <script>
 (function(){
@@ -210,28 +210,42 @@ function ai(html,opts,delay){
 /* ---- conversation flows ---- */
 function welcome(){
   ai('您好！欢迎来到<strong>山海智能AI综合体</strong> 👋<br><br>我是您的AI顾问，7×24小时在线。<br>请问您想了解哪方面的服务？',
-  [{l:'🔍 GEO引力获客',fn:geoIntro},{l:'⚡ API接入咨询',fn:apiIntro},{l:'🤝 企业合作',fn:bizIntro},{l:'💡 免费诊断',fn:diagFlow}]);
+  [{l:'⚡ API产品介绍',fn:apiProduct},{l:'⚡ API接入咨询',fn:apiIntro},{l:'🤝 企业合作',fn:bizIntro},{l:'💡 免费诊断',fn:diagFlow}]);
+}
+function apiProduct(){
+  ai("<strong>山海智能API</strong> — AI时代的智能接口服务。<br><br>✅ <strong>兼容OpenAI格式</strong> — 现有代码无需改造<br>✅ <strong>中文语义深度优化</strong> — 专为中文场景打造<br>✅ <strong>7×24稳定运行</strong> — 99.9%可用率<br>✅ <strong>3行代码接入</strong> — 90秒上手<br><br>您的业务场景是什么？我帮您匹配最合适的方案 👇",
+  [{l:"电商/跨境",fn:()=>apiScene("电商")},{l:"本地生活/服务业",fn:()=>apiScene("服务业")},{l:"SaaS/科技",fn:()=>apiScene("科技")},{l:"其他行业",fn:()=>apiScene("其他")}]);
+}
+function apiScene(ind){
+  const tips={
+    "电商":"电商竞争这么激烈，AI能帮您24小时自动接客、智能回复、不漏一单。API接入后，您的店铺等于多了一个永不休息的金牌销售。",
+    "服务业":"本地服务最怕客户来了没人接。AI客服7×24在线，客户问什么秒回，自动引导下单。一个API就解决人力问题。",
+    "科技":"SaaS产品接入AI能力是大趋势。我们的API兼容OpenAI格式，3行代码就能让你的产品拥有智能对话能力。",
+    "其他":"不管什么行业，AI都在改变获客和服务方式。298/年，一个API解决智能客服+获客两大问题。"
+  };
+  ai((tips[ind]||tips["其他"])+"<br><br>💰 <strong>¥298/年</strong>，不到1元/天。竞品1980+起步。<br><br>📦 包含：<br>• 10次API调用额度<br>• AI智能客服能力<br>• 兼容OpenAI接口<br>• 7天无理由退款",
+  [{l:"立即开通 ¥298 →",fn:goPay},{l:"看技术方案",fn:apiIntro},{l:"← 返回",fn:welcome}]);
 }
 function geoIntro(){
-  ai('<strong>GEO引力获客</strong> = 让您的品牌在AI搜索引擎中被主动推荐。<br><br>✅ ChatGPT、DeepSeek、豆包、Kimi等全覆盖<br>✅ 三维语义匹配引擎，精准触达目标客户<br>✅ 低成本高效获客，无需人工推广<br><br>您是什么行业的？我帮您分析AI搜索可见度 👇',
+  ai('<strong>AI智能获客</strong> = 让您的品牌在AI搜索引擎中被主动推荐。<br><br>✅ ChatGPT、DeepSeek、豆包、Kimi等全覆盖<br>✅ 三维语义匹配引擎，精准触达目标客户<br>✅ 低成本高效获客，无需人工推广<br><br>您是什么行业的？我帮您分析AI搜索可见度 👇',
   [{l:'电商/跨境',fn:()=>industry('电商')},{l:'服务业/本地生活',fn:()=>industry('服务业')},{l:'SaaS/科技',fn:()=>industry('科技')},{l:'其他行业',fn:()=>industry('其他')}]);
 }
 function industry(ind){
   const tips={
-    '电商':'电商行业在AI搜索中竞争非常激烈！买家常通过ChatGPT、豆包等寻找供应商和选品建议。做好GEO优化，能让您的品牌被AI主动推荐——相当于获得一个7×24在线的智能销售员。',
-    '服务业':'本地服务业是GEO的最佳场景！用户在AI搜索中问"附近哪家XX好"时，如果您的品牌被推荐，就是精准的到店流量。这比传统SEO转化率高3-5倍。',
-    '科技':'SaaS和科技产品采购决策越来越依赖AI搜索。CTO和产品经理会用ChatGPT做选型对比。GEO优化让您的产品在AI推荐中排名前列，直接影响采购决策。',
-    '其他':'所有行业都在被AI搜索重塑！无论您做什么行业，用户都在用AI寻找解决方案。越早布局GEO，越早在AI搜索中占据有利位置。'
+    '电商':'电商行业在AI搜索中竞争非常激烈！买家常通过ChatGPT、豆包等寻找供应商和选品建议。做好AI优化，能让您的品牌被AI主动推荐——相当于获得一个7×24在线的智能销售员。',
+    '服务业':'本地服务业是AI的最佳场景！用户在AI搜索中问"附近哪家XX好"时，如果您的品牌被推荐，就是精准的到店流量。这比传统SEO转化率高3-5倍。',
+    '科技':'SaaS和科技产品采购决策越来越依赖AI搜索。CTO和产品经理会用ChatGPT做选型对比。AI优化让您的产品在AI推荐中排名前列，直接影响采购决策。',
+    '其他':'所有行业都在被AI搜索重塑！无论您做什么行业，用户都在用AI寻找解决方案。越早接入AI，越早在智能时代占据有利位置。'
   };
   ai((tips[ind]||tips['其他'])+'<br><br>📊 我们可以为您做一次<strong>免费的AI搜索可见度诊断</strong>，看看您的品牌在各大AI平台上的表现。',
   [{l:'🎯 开始免费诊断',fn:diagFlow},{l:'💰 了解价格方案',fn:priceIntro}]);
 }
 function apiIntro(){
-  ai('山海GEO API 核心能力：<br><br>🔧 <strong>兼容OpenAI格式</strong> — 无缝接入，低成本改造<br>🀄 <strong>中文语义深度优化</strong> — 专为中文场景打造<br>⚡ <strong>高并发低延迟</strong> — 企业级稳定性<br>🔒 <strong>数据安全</strong> — 独立隔离，不交叉<br><br>选择方案 👇',
+  ai('山海智能API 核心能力：<br><br>🔧 <strong>兼容OpenAI格式</strong> — 无缝接入，低成本改造<br>🀄 <strong>中文语义深度优化</strong> — 专为中文场景打造<br>⚡ <strong>高并发低延迟</strong> — 企业级稳定性<br>🔒 <strong>数据安全</strong> — 独立隔离，不交叉<br><br>选择方案 👇',
   [{l:'¥298 基础版',fn:priceBasic},{l:'🏢 企业定制',fn:priceEnterprise},{l:'📄 技术文档',fn:techDoc}]);
 }
 function priceBasic(){
-  ai('📦 <strong>基础版 ¥298/年</strong><br><br>✅ GEO三维语义匹配引擎API<br>✅ 兼容OpenAI接口格式<br>✅ 中文语义深度优化<br>✅ 多AI平台覆盖<br>✅ 基础技术支持<br><br>适合：中小企业、独立开发者、初创项目<br>开通后立即获得API密钥，即开即用。',
+  ai('📦 <strong>基础版 ¥298/年</strong><br><br>✅ 智能语义匹配引擎API<br>✅ 兼容OpenAI接口格式<br>✅ 中文语义深度优化<br>✅ 多AI平台覆盖<br>✅ 基础技术支持<br><br>适合：中小企业、独立开发者、初创项目<br>开通后立即获得API密钥，即开即用。',
   [{l:'立即开通 →',fn:goPay},{l:'先体验再决定',fn:diagFlow},{l:'← 返回',fn:welcome}]);
 }
 function priceEnterprise(){
@@ -239,19 +253,19 @@ function priceEnterprise(){
   [{l:'留下联系方式',fn:collectInfo},{l:'先看基础版',fn:priceBasic},{l:'← 返回',fn:welcome}]);
 }
 function priceIntro(){
-  ai('💰 <strong>定价方案</strong><br><br>📦 <strong>基础版：¥298/年</strong><br>→ GEO API接入，适合中小企业<br><br>🏢 <strong>企业版：¥30万起</strong><br>→ 专属通道 + 定制模型 + SLA保障<br><br>🌟 <strong>旗舰版：¥50万起</strong><br>→ 全托管 + 联合共建 + 生态联盟',
+  ai('💰 <strong>定价方案</strong><br><br>📦 <strong>基础版：¥298/年</strong><br>→ AI API接入，适合中小企业<br><br>🏢 <strong>企业版：¥30万起</strong><br>→ 专属通道 + 定制模型 + SLA保障<br><br>🌟 <strong>旗舰版：¥50万起</strong><br>→ 全托管 + 联合共建 + 生态联盟',
   [{l:'开通基础版',fn:goPay},{l:'企业定制咨询',fn:priceEnterprise},{l:'← 返回',fn:welcome}]);
 }
 function bizIntro(){
-  ai('欢迎探讨合作！山海智能提供多种合作模式：<br><br>🤝 <strong>API集成合作</strong> — 将GEO能力嵌入您的产品<br>📊 <strong>GEO代运营</strong> — 全托管AI搜索优化服务<br>🏗 <strong>基础设施合作</strong> — 共建GEO中台能力<br>🌐 <strong>生态联盟</strong> — 共建GEO生态，共享资源',
-  [{l:'API集成',fn:apiIntro},{l:'代运营服务',fn:agentService},{l:'生态联盟',fn:allianceInfo},{l:'先了解基础能力',fn:geoIntro}]);
+  ai('欢迎探讨合作！山海智能提供多种合作模式：<br><br>🤝 <strong>API集成合作</strong> — 将AI能力嵌入您的产品<br>📊 <strong>AI代运营</strong> — 全托管AI搜索优化服务<br>🏗 <strong>基础设施合作</strong> — 共建AI中台能力<br>🌐 <strong>生态联盟</strong> — 共建AI生态，共享资源',
+  [{l:'API集成',fn:apiIntro},{l:'代运营服务',fn:agentService},{l:'生态联盟',fn:allianceInfo},{l:'先了解API能力",fn:apiProduct}]);
 }
 function agentService(){
-  ai('GEO代运营服务 = 您专注业务，AI搜索获客交给我们。<br><br>📋 服务内容：<br>• AI搜索可见度全面诊断<br>• 三维语义内容工程<br>• 多AI平台持续优化<br>• 月度数据报告与分析<br>• 竞品AI搜索对比分析<br><br>请留下您的联系方式，我们安排专属顾问为您制定方案。',
+  ai('AI代运营服务 = 您专注业务，AI搜索获客交给我们。<br><br>📋 服务内容：<br>• AI搜索可见度全面诊断<br>• 三维语义内容工程<br>• 多AI平台持续优化<br>• 月度数据报告与分析<br>• 竞品AI搜索对比分析<br><br>请留下您的联系方式，我们安排专属顾问为您制定方案。',
   [{l:'留下联系方式',fn:collectInfo},{l:'← 返回',fn:welcome}]);
 }
 function allianceInfo(){
-  ai('🌐 <strong>山海GEO生态联盟</strong><br><br>我们不是竞争者，是共建者。<br><br>联盟成员可获得：<br>✅ GEO底层API能力输出<br>✅ 行业最佳实践共享<br>✅ 联合品牌曝光<br>✅ 客户资源互通<br>✅ 技术升级同步<br><br>理念：托举同行，共建共生。让每个从业者都能享受GEO红利。',
+  ai('🌐 <strong>山海智能生态联盟</strong><br><br>我们不是竞争者，是共建者。<br><br>联盟成员可获得：<br>✅ AI底层API能力输出<br>✅ 行业最佳实践共享<br>✅ 联合品牌曝光<br>✅ 客户资源互通<br>✅ 技术升级同步<br><br>理念：托举同行，共建共生。让每个从业者都能享受AI红利。',
   [{l:'申请加入联盟',fn:collectInfo},{l:'← 返回',fn:welcome}]);
 }
 function diagFlow(){
@@ -272,7 +286,7 @@ function goPay(){
 }
 function fallback(){
   ai('感谢您的咨询！我可以为您提供以下帮助 👇',
-  [{l:'🔍 了解GEO获客',fn:geoIntro},{l:'⚡ API接入',fn:apiIntro},{l:'🤝 合作咨询',fn:bizIntro},{l:'🎯 免费诊断',fn:diagFlow},{l:'💬 联系人工顾问',fn:collectInfo}]);
+  [{l:'⚡ API产品介绍',fn:apiProduct},{l:'⚡ API接入',fn:apiIntro},{l:'🤝 合作咨询',fn:bizIntro},{l:'🎯 免费诊断',fn:diagFlow},{l:'💬 联系人工顾问',fn:collectInfo}]);
 }
 
 /* ---- input handling ---- */
@@ -299,7 +313,7 @@ function handleInput(v){
   }
   if(vl.includes('价格')||vl.includes('多少钱')||vl.includes('费用')||vl.includes('收费')){priceIntro();return}
   if(vl.includes('api')||vl.includes('接口')||vl.includes('接入')||vl.includes('开发')){apiIntro();return}
-  if(vl.includes('geo')||vl.includes('获客')||vl.includes('搜索')||vl.includes('推荐')){geoIntro();return}
+  if(vl.includes('api')||vl.includes('产品')||vl.includes('能力')||vl.includes('接口')){apiProduct();return}
   if(vl.includes('合作')||vl.includes('联盟')||vl.includes('代理')){bizIntro();return}
   if(vl.includes('诊断')||vl.includes('分析')||vl.includes('检测')){diagFlow();return}
   if(vl.includes('开通')||vl.includes('购买')||vl.includes('付款')||vl.includes('支付')){goPay();return}
