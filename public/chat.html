@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>山海智能AI客服 - 7×24在线服务</title>
-<meta name="description" content="山海智能AI客服，7×24小时在线，为您提供API接入、智能客服、企业合作等专业服务">
+<meta name="description" content="山海智能AI综合体，为企业提供API接入、智能客服、智能获客等一站式AI服务">
 <link rel="canonical" href="https://shanhai-geo.github.io/chat.html">
 <style>
 :root{
@@ -98,7 +98,7 @@ body{
   <div class="logo">🏔</div>
   <div class="info">
     <h1>山海智能AI综合体</h1>
-    <div class="sub">AI智能API服务</div>
+    <div class="sub">AI智能API服务平台</div>
     <div class="online-badge">在线 · 7×24小时</div>
   </div>
 </header>
@@ -110,225 +110,382 @@ body{
   </div>
 </div>
 </div>
-<div class="chat-footer">山海智能AI综合体 · AI智能API服务</div>
+<div class="chat-footer">山海智能AI综合体 · API服务平台</div>
 
 <script>
 (function(){
 "use strict";
-const M=document.getElementById('messages'),I=document.getElementById('userInput'),SB=document.getElementById('sendBtn');
-let step='',pendingOpts=[];
+var M=document.getElementById('messages'),I=document.getElementById('userInput'),SB=document.getElementById('sendBtn');
+var step='',pendingOpts=[];
 
 /* ===== 自动记录系统 ===== */
-const SESSION_ID = 'shanhai_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-const conversationLog = [];
-let inquiryData = null;
+var SESSION_ID = 'shanhai_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+var conversationLog = [];
+var inquiryData = null;
 
 function logMsg(role, content){
-  conversationLog.push({
-    t: new Date().toISOString(),
-    role: role,
-    content: content.replace(/<[^>]+>/g,''),
-    session: SESSION_ID
-  });
+  conversationLog.push({t:new Date().toISOString(), role:role, content:content.replace(/<[^>]+>/g,''), session:SESSION_ID});
   saveLocal();
 }
 function saveLocal(){
   try{
     localStorage.setItem('shanhai_chat_'+SESSION_ID, JSON.stringify(conversationLog));
-    // 同步询盘数据
-    if(inquiryData){
-      localStorage.setItem('shanhai_inquiry_'+SESSION_ID, JSON.stringify(inquiryData));
-    }
+    if(inquiryData) localStorage.setItem('shanhai_inquiry_'+SESSION_ID, JSON.stringify(inquiryData));
   }catch(e){}
 }
 function markInquiry(data){
-  inquiryData = Object.assign({
-    sessionId: SESSION_ID,
-    timestamp: new Date().toISOString(),
-    userAgent: navigator.userAgent,
-    referrer: document.referrer,
-    path: location.pathname
-  }, data);
+  inquiryData = Object.assign({sessionId:SESSION_ID, timestamp:new Date().toISOString(), userAgent:navigator.userAgent, referrer:document.referrer, path:location.pathname}, data);
   saveLocal();
-  // 尝试发送询盘通知（通过fetch beacon）
-  try{
-    const payload = JSON.stringify(inquiryData);
-    navigator.sendBeacon && navigator.sendBeacon('/api/inquiry', payload);
-  }catch(e){}
+  try{ navigator.sendBeacon && navigator.sendBeacon('/api/inquiry', JSON.stringify(inquiryData)); }catch(e){}
 }
 function parseInquiry(text){
-  // 解析用户留资信息：姓名 + 公司 + 邮箱
-  const parts = text.split(/[+＋,，、\s]+/).filter(Boolean);
-  const emailMatch = text.match(/[\w.-]+@[\w.-]+\.\w+/);
+  var parts = text.split(/[+＋,，、\s]+/).filter(Boolean);
+  var emailMatch = text.match(/[\w.-]+@[\w.-]+\.\w+/);
   if(parts.length >= 2 || emailMatch){
-    const data = { raw: text, name:'', company:'', email:'' };
+    var data = {raw:text, name:'', company:'', email:''};
     if(emailMatch) data.email = emailMatch[0];
-    if(parts.length >= 3){
-      data.name = parts[0]; data.company = parts[1];
-      if(!data.email && parts[2].includes('@')) data.email = parts[2];
-    } else if(parts.length === 2){
-      data.name = parts[0]; data.company = parts[1];
-    } else if(parts.length === 1){
-      if(parts[0].includes('@')) data.email = parts[0];
-      else data.name = parts[0];
-    }
+    if(parts.length >= 3){ data.name=parts[0]; data.company=parts[1]; if(!data.email && parts[2].indexOf('@')!==-1) data.email=parts[2]; }
+    else if(parts.length === 2){ data.name=parts[0]; data.company=parts[1]; }
+    else if(parts.length === 1){ if(parts[0].indexOf('@')!==-1) data.email=parts[0]; else data.name=parts[0]; }
     return data;
   }
   return null;
 }
 
 /* ---- helpers ---- */
-function scroll(){requestAnimationFrame(()=>{M.scrollTop=M.scrollHeight})}
+function scroll(){requestAnimationFrame(function(){M.scrollTop=M.scrollHeight})}
 function addMsg(html,who){
-  const r=document.createElement('div');r.className='msg-row '+who;
+  var r=document.createElement('div');r.className='msg-row '+who;
   r.innerHTML='<div class="avatar">'+(who==='ai'?'🏔':'👤')+'</div><div class="bubble">'+html+'</div>';
-  M.appendChild(r);scroll();
-  logMsg(who, html);
-  return r;
+  M.appendChild(r);scroll();logMsg(who,html);return r;
 }
 function addOpts(opts){
   if(!opts||!opts.length)return;
-  const w=document.createElement('div');w.className='quick-opts';
-  opts.forEach(o=>{
-    const b=document.createElement('button');b.className='q-btn';b.textContent=o.l;
-    b.onclick=()=>{w.remove();addMsg(o.l,'user');logMsg('action',o.l);setTimeout(()=>o.fn(),400+Math.random()*300)};
+  var w=document.createElement('div');w.className='quick-opts';
+  opts.forEach(function(o){
+    var b=document.createElement('button');b.className='q-btn';b.textContent=o.l;
+    b.onclick=function(){w.remove();addMsg(o.l,'user');logMsg('action',o.l);setTimeout(function(){o.fn()},400+Math.random()*300)};
     w.appendChild(b);
   });
   M.appendChild(w);scroll();
 }
 function showTyping(){
-  const r=document.createElement('div');r.className='typing-row';r.id='typ';
+  var r=document.createElement('div');r.className='typing-row';r.id='typ';
   r.innerHTML='<div class="avatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;flex-shrink:0">🏔</div><div class="typing-dots"><span></span><span></span><span></span></div>';
   M.appendChild(r);scroll();
 }
-function hideTyping(){const t=document.getElementById('typ');if(t)t.remove()}
+function hideTyping(){var t=document.getElementById('typ');if(t)t.remove()}
 function ai(html,opts,delay){
   showTyping();
-  setTimeout(()=>{hideTyping();addMsg(html,'ai');addOpts(opts)},delay||600+Math.random()*400);
+  setTimeout(function(){hideTyping();addMsg(html,'ai');addOpts(opts)},delay||600+Math.random()*400);
 }
 
-/* ---- conversation flows ---- */
+/* ========== 对话流程：以API成交为核心 ========== */
+
 function welcome(){
-  ai('您好！欢迎来到<strong>山海智能AI综合体</strong> 👋<br><br>我是您的AI顾问，7×24小时在线。<br>请问您想了解哪方面的服务？',
-  [{l:'⚡ API产品介绍',fn:apiProduct},{l:'⚡ API接入咨询',fn:apiIntro},{l:'🤝 企业合作',fn:bizIntro},{l:'💡 免费诊断',fn:diagFlow}]);
+  step='';
+  ai('您好！欢迎来到<strong>山海智能AI综合体</strong> 👋<br><br>我们为企业提供一站式AI能力接入服务。<br>请问您今天想了解什么？',
+  [
+    {l:'💡 了解API产品', fn:apiProduct},
+    {l:'🔧 技术接入咨询', fn:apiTechIntro},
+    {l:'💰 查看价格方案', fn:priceIntro},
+    {l:'🎯 免费需求诊断', fn:diagFlow}
+  ]);
 }
+
+/* --- 核心销售路径：API产品介绍 → 行业场景 → 成交 --- */
 function apiProduct(){
-  ai("<strong>山海智能API</strong> — AI时代的智能接口服务。<br><br>✅ <strong>兼容OpenAI格式</strong> — 现有代码无需改造<br>✅ <strong>中文语义深度优化</strong> — 专为中文场景打造<br>✅ <strong>7×24稳定运行</strong> — 99.9%可用率<br>✅ <strong>3行代码接入</strong> — 90秒上手<br><br>您的业务场景是什么？我帮您匹配最合适的方案 👇",
-  [{l:"电商/跨境",fn:()=>apiScene("电商")},{l:"本地生活/服务业",fn:()=>apiScene("服务业")},{l:"SaaS/科技",fn:()=>apiScene("科技")},{l:"其他行业",fn:()=>apiScene("其他")}]);
+  ai('山海智能API是一套<strong>企业级AI能力接口</strong>，帮您用最低成本让业务拥有AI能力。<br><br>'+
+     '✅ <strong>即开即用</strong> — 开通即获API密钥，90秒接入<br>'+
+     '✅ <strong>兼容OpenAI格式</strong> — 现有代码零改造<br>'+
+     '✅ <strong>中文深度优化</strong> — 比通用API更懂中文业务<br>'+
+     '✅ <strong>全场景覆盖</strong> — 智能客服、内容生成、数据分析一站搞定<br><br>'+
+     '先了解一下您的业务场景，我帮您匹配最佳方案 👇',
+  [
+    {l:'电商/跨境', fn:function(){apiScene('电商')}},
+    {l:'本地生活/服务业', fn:function(){apiScene('服务业')}},
+    {l:'SaaS/科技', fn:function(){apiScene('科技')}},
+    {l:'教育/培训', fn:function(){apiScene('教育')}},
+    {l:'其他行业', fn:function(){apiScene('其他')}}
+  ]);
 }
+
 function apiScene(ind){
-  const tips={
-    "电商":"电商竞争这么激烈，AI能帮您24小时自动接客、智能回复、不漏一单。API接入后，您的店铺等于多了一个永不休息的金牌销售。",
-    "服务业":"本地服务最怕客户来了没人接。AI客服7×24在线，客户问什么秒回，自动引导下单。一个API就解决人力问题。",
-    "科技":"SaaS产品接入AI能力是大趋势。我们的API兼容OpenAI格式，3行代码就能让你的产品拥有智能对话能力。",
-    "其他":"不管什么行业，AI都在改变获客和服务方式。298/年，一个API解决智能客服+获客两大问题。"
+  markInquiry({stage:'scene_selected', industry:ind});
+  var tips = {
+    '电商': '电商行业用AI最见效！<br><br>'+
+      '• <strong>智能客服</strong>：7×24自动回复，转化率提升30%+<br>'+
+      '• <strong>商品文案生成</strong>：批量生成标题、详情页<br>'+
+      '• <strong>客户意图分析</strong>：精准推荐，减少流失<br><br>'+
+      '很多电商客户接入后第一周就回本了。',
+    '服务业': '本地服务业最适合用AI降本！<br><br>'+
+      '• <strong>自动接听</strong>：客户咨询秒回，不漏一单<br>'+
+      '• <strong>预约管理</strong>：自动排班、提醒、确认<br>'+
+      '• <strong>口碑管理</strong>：自动生成回复，提升评分<br><br>'+
+      '一个API = 一个永不下线的金牌前台。',
+    '科技': 'SaaS产品集成AI能力是大趋势！<br><br>'+
+      '• <strong>3行代码接入</strong>：兼容OpenAI SDK<br>'+
+      '• <strong>私有化部署可选</strong>：数据不出企业<br>'+
+      '• <strong>弹性计费</strong>：用多少付多少，不浪费<br><br>'+
+      '让您的产品立刻拥有AI竞争力。',
+    '教育': '教育行业用AI效率翻倍！<br><br>'+
+      '• <strong>智能答疑</strong>：学生问题秒回，减轻老师负担<br>'+
+      '• <strong>内容生成</strong>：自动出题、批改、个性化推荐<br>'+
+      '• <strong>学情分析</strong>：数据驱动教学决策<br><br>'+
+      '让每个学生都有专属AI助教。',
+    '其他': '不管什么行业，AI都在重塑业务效率！<br><br>'+
+      '• 降低人工成本 50%+<br>'+
+      '• 7×24不间断服务<br>'+
+      '• 数据驱动决策<br>'+
+      '• 快速上线，即开即用<br><br>'+
+      '很多客户接入后第一个月就看到了明显效果。'
   };
-  ai((tips[ind]||tips["其他"])+"<br><br>💰 <strong>¥298/年</strong>，不到1元/天。竞品1980+起步。<br><br>📦 包含：<br>• 10次API调用额度<br>• AI智能客服能力<br>• 兼容OpenAI接口<br>• 7天无理由退款",
-  [{l:"立即开通 ¥298 →",fn:goPay},{l:"看技术方案",fn:apiIntro},{l:"← 返回",fn:welcome}]);
+  ai((tips[ind]||tips['其他'])+'<br><br>💰 基础版只要 <strong>¥298/年</strong>，不到1元/天。<br>您想进一步了解哪个方面？',
+  [
+    {l:'📦 查看套餐详情', fn:priceBasic},
+    {l:'🔧 了解接入方式', fn:apiTechIntro},
+    {l:'⚡ 立即开通', fn:goPay},
+    {l:'← 返回', fn:welcome}
+  ]);
 }
-function geoIntro(){
-  ai('<strong>AI智能获客</strong> = 让您的品牌在AI搜索引擎中被主动推荐。<br><br>✅ ChatGPT、DeepSeek、豆包、Kimi等全覆盖<br>✅ 三维语义匹配引擎，精准触达目标客户<br>✅ 低成本高效获客，无需人工推广<br><br>您是什么行业的？我帮您分析AI搜索可见度 👇',
-  [{l:'电商/跨境',fn:()=>industry('电商')},{l:'服务业/本地生活',fn:()=>industry('服务业')},{l:'SaaS/科技',fn:()=>industry('科技')},{l:'其他行业',fn:()=>industry('其他')}]);
+
+/* --- 技术接入咨询 --- */
+function apiTechIntro(){
+  ai('山海智能API <strong>技术特性</strong>：<br><br>'+
+     '🔧 <strong>接口标准</strong>：完全兼容OpenAI API格式<br>'+
+     '🔑 <strong>认证方式</strong>：Bearer Token，一行Header搞定<br>'+
+     '⚡ <strong>响应速度</strong>：平均延迟 < 500ms<br>'+
+     '🛡 <strong>数据安全</strong>：独立租户隔离，不交叉<br>'+
+     '📊 <strong>可用率</strong>：99.9% SLA保障<br>'+
+     '🔄 <strong>无缝迁移</strong>：已有OpenAI代码改3行即可接入<br><br>'+
+     '您目前的技术栈是什么？',
+  [
+    {l:'Python/Flask/Django', fn:function(){techStack('python')}},
+    {l:'Node.js/前端', fn:function(){techStack('node')}},
+    {l:'Java/Spring', fn:function(){techStack('java')}},
+    {l:'还没有技术团队', fn:function(){techStack('noob')}}
+  ]);
 }
-function industry(ind){
-  const tips={
-    '电商':'电商行业在AI搜索中竞争非常激烈！买家常通过ChatGPT、豆包等寻找供应商和选品建议。做好AI优化，能让您的品牌被AI主动推荐——相当于获得一个7×24在线的智能销售员。',
-    '服务业':'本地服务业是AI的最佳场景！用户在AI搜索中问"附近哪家XX好"时，如果您的品牌被推荐，就是精准的到店流量。这比传统SEO转化率高3-5倍。',
-    '科技':'SaaS和科技产品采购决策越来越依赖AI搜索。CTO和产品经理会用ChatGPT做选型对比。AI优化让您的产品在AI推荐中排名前列，直接影响采购决策。',
-    '其他':'所有行业都在被AI搜索重塑！无论您做什么行业，用户都在用AI寻找解决方案。越早接入AI，越早在智能时代占据有利位置。'
+
+function techStack(stack){
+  var guides = {
+    'python': '太好了！Python接入最简单：<br><br>'+
+      '<code>pip install openai</code><br><br>'+
+      '只需要修改 base_url 和 api_key 两行，就能从OpenAI无缝切换到山海API。<br><br>'+
+      '开通后我们会提供完整的Python SDK示例代码。',
+    'node': 'Node.js接入也非常方便：<br><br>'+
+      '<code>npm install openai</code><br><br>'+
+      '改一下 baseURL 就行，其他代码完全不用动。<br><br>'+
+      '开通后提供完整的Node.js示例。',
+    'java': 'Java/Spring接入也很简单：<br><br>'+
+      '使用我们的REST API，任何HTTP客户端都能直接调用。<br>'+
+      '也支持Spring AI框架集成。<br><br>'+
+      '开通后提供完整的Java SDK示例。',
+    'noob': '完全没问题！我们提供<strong>零代码方案</strong>：<br><br>'+
+      '• 可视化配置面板，无需写代码<br>'+
+      '• 预置模板一键启用<br>'+
+      '• 专属顾问远程协助接入<br><br>'+
+      '很多客户完全不懂技术，一样顺利上线。'
   };
-  ai((tips[ind]||tips['其他'])+'<br><br>📊 我们可以为您做一次<strong>免费的AI搜索可见度诊断</strong>，看看您的品牌在各大AI平台上的表现。',
-  [{l:'🎯 开始免费诊断',fn:diagFlow},{l:'💰 了解价格方案',fn:priceIntro}]);
+  ai((guides[stack]||guides['noob'])+'<br><br>要不要现在开通试试？7天无理由退款。',
+  [
+    {l:'⚡ 立即开通 ¥298', fn:goPay},
+    {l:'📦 先看套餐详情', fn:priceBasic},
+    {l:'💬 联系技术顾问', fn:collectInfo},
+    {l:'← 返回', fn:welcome}
+  ]);
 }
-function apiIntro(){
-  ai('山海智能API 核心能力：<br><br>🔧 <strong>兼容OpenAI格式</strong> — 无缝接入，低成本改造<br>🀄 <strong>中文语义深度优化</strong> — 专为中文场景打造<br>⚡ <strong>高并发低延迟</strong> — 企业级稳定性<br>🔒 <strong>数据安全</strong> — 独立隔离，不交叉<br><br>选择方案 👇',
-  [{l:'¥298 基础版',fn:priceBasic},{l:'🏢 企业定制',fn:priceEnterprise},{l:'📄 技术文档',fn:techDoc}]);
-}
-function priceBasic(){
-  ai('📦 <strong>基础版 ¥298/年</strong><br><br>✅ 智能语义匹配引擎API<br>✅ 兼容OpenAI接口格式<br>✅ 中文语义深度优化<br>✅ 多AI平台覆盖<br>✅ 基础技术支持<br><br>适合：中小企业、独立开发者、初创项目<br>开通后立即获得API密钥，即开即用。',
-  [{l:'立即开通 →',fn:goPay},{l:'先体验再决定',fn:diagFlow},{l:'← 返回',fn:welcome}]);
-}
-function priceEnterprise(){
-  ai('🏢 <strong>企业级方案</strong><br><br>✅ 专属API通道，独立部署<br>✅ 定制化语义模型训练<br>✅ 行业专属优化策略<br>✅ 7×24专属技术支持<br>✅ SLA保障<br><br>💼 企业版 ¥30万起 · 旗舰版 ¥50万起<br><br>请留下您的联系方式，我们的解决方案专家会在30分钟内与您对接。',
-  [{l:'留下联系方式',fn:collectInfo},{l:'先看基础版',fn:priceBasic},{l:'← 返回',fn:welcome}]);
-}
+
+/* --- 价格方案 --- */
 function priceIntro(){
-  ai('💰 <strong>定价方案</strong><br><br>📦 <strong>基础版：¥298/年</strong><br>→ AI API接入，适合中小企业<br><br>🏢 <strong>企业版：¥30万起</strong><br>→ 专属通道 + 定制模型 + SLA保障<br><br>🌟 <strong>旗舰版：¥50万起</strong><br>→ 全托管 + 联合共建 + 生态联盟',
-  [{l:'开通基础版',fn:goPay},{l:'企业定制咨询',fn:priceEnterprise},{l:'← 返回',fn:welcome}]);
+  ai('💰 <strong>山海智能API 定价方案</strong><br><br>'+
+     '📦 <strong>基础版：¥298/年</strong><br>'+
+     '→ 标准API接入，适合中小企业和独立开发者<br>'+
+     '→ 即开即用，含技术支持<br><br>'+
+     '🏢 <strong>企业版：¥998/年</strong><br>'+
+     '→ 更高配额 + 优先通道 + 专属优化<br>'+
+     '→ 适合有一定用量的成长型企业<br><br>'+
+     '🌟 <strong>旗舰版：¥2998/年</strong><br>'+
+     '→ 海量配额 + 独立部署 + 定制服务<br>'+
+     '→ 适合大型企业和平台级客户',
+  [
+    {l:'开通基础版 ¥298', fn:goPay},
+    {l:'开通企业版 ¥998', fn:goPayEnterprise},
+    {l:'开通旗舰版 ¥2998', fn:goPayFlagship},
+    {l:'🤝 企业定制咨询', fn:collectInfo}
+  ]);
 }
-function bizIntro(){
-  ai('欢迎探讨合作！山海智能提供多种合作模式：<br><br>🤝 <strong>API集成合作</strong> — 将AI能力嵌入您的产品<br>📊 <strong>AI代运营</strong> — 全托管AI搜索优化服务<br>🏗 <strong>基础设施合作</strong> — 共建AI中台能力<br>🌐 <strong>生态联盟</strong> — 共建AI生态，共享资源',
-  [{l:'API集成',fn:apiIntro},{l:'代运营服务',fn:agentService},{l:'生态联盟',fn:allianceInfo},{l:'先了解API能力",fn:apiProduct}]);
+
+function priceBasic(){
+  ai('📦 <strong>基础版 ¥298/年</strong><br><br>'+
+     '✅ API标准接入<br>'+
+     '✅ 兼容OpenAI接口格式<br>'+
+     '✅ 中文语义深度优化<br>'+
+     '✅ 基础技术支持<br>'+
+     '✅ 7天无理由退款<br><br>'+
+     '适合：中小企业、独立开发者、初创项目<br>'+
+     '开通后立即获得API密钥，即开即用。',
+  [
+    {l:'⚡ 立即开通 →', fn:goPay},
+    {l:'🔧 了解接入方式', fn:apiTechIntro},
+    {l:'📦 查看企业版', fn:priceEnterprise},
+    {l:'← 返回', fn:welcome}
+  ]);
 }
-function agentService(){
-  ai('AI代运营服务 = 您专注业务，AI搜索获客交给我们。<br><br>📋 服务内容：<br>• AI搜索可见度全面诊断<br>• 三维语义内容工程<br>• 多AI平台持续优化<br>• 月度数据报告与分析<br>• 竞品AI搜索对比分析<br><br>请留下您的联系方式，我们安排专属顾问为您制定方案。',
-  [{l:'留下联系方式',fn:collectInfo},{l:'← 返回',fn:welcome}]);
+
+function priceEnterprise(){
+  ai('🏢 <strong>企业版 ¥998/年</strong><br><br>'+
+     '✅ 包含基础版全部功能<br>'+
+     '✅ 更高API调用配额<br>'+
+     '✅ 优先响应通道<br>'+
+     '✅ 专属优化建议<br>'+
+     '✅ 7×24技术支持<br><br>'+
+     '适合：有一定调用量的成长型企业',
+  [
+    {l:'⚡ 开通企业版 →', fn:goPayEnterprise},
+    {l:'📦 看旗舰版', fn:priceFlagship},
+    {l:'💬 咨询详情', fn:collectInfo},
+    {l:'← 返回', fn:welcome}
+  ]);
 }
-function allianceInfo(){
-  ai('🌐 <strong>山海智能生态联盟</strong><br><br>我们不是竞争者，是共建者。<br><br>联盟成员可获得：<br>✅ AI底层API能力输出<br>✅ 行业最佳实践共享<br>✅ 联合品牌曝光<br>✅ 客户资源互通<br>✅ 技术升级同步<br><br>理念：托举同行，共建共生。让每个从业者都能享受AI红利。',
-  [{l:'申请加入联盟',fn:collectInfo},{l:'← 返回',fn:welcome}]);
+
+function priceFlagship(){
+  ai('🌟 <strong>旗舰版 ¥2998/年</strong><br><br>'+
+     '✅ 包含企业版全部功能<br>'+
+     '✅ 海量API调用配额<br>'+
+     '✅ 独立部署通道<br>'+
+     '✅ 定制化语义模型<br>'+
+     '✅ 专属客户经理<br>'+
+     '✅ SLA 99.9%保障<br><br>'+
+     '适合：大型企业、平台级客户',
+  [
+    {l:'⚡ 开通旗舰版 →', fn:goPayFlagship},
+    {l:'💬 专属咨询', fn:collectInfo},
+    {l:'← 返回', fn:welcome}
+  ]);
 }
+
+/* --- 成交引导 --- */
+function goPay(){
+  markInquiry({stage:'to_pay', plan:'basic', amount:298});
+  ai('✅ 即将为您开通<strong>基础版 ¥298/年</strong><br><br>'+
+     '点击下方按钮完成支付，开通后自动获得API密钥：<br><br>'+
+     '<a href="pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;box-shadow:0 4px 20px rgba(255,215,0,.3)">立即开通 ¥298 →</a><br><br>'+
+     '💡 支付后即刻获得API密钥，7天无理由退款。',
+  [
+    {l:'🔧 需要接入指导', fn:collectInfo},
+    {l:'← 返回', fn:welcome}
+  ]);
+}
+
+function goPayEnterprise(){
+  markInquiry({stage:'to_pay', plan:'enterprise', amount:998});
+  ai('✅ 即将为您开通<strong>企业版 ¥998/年</strong><br><br>'+
+     '<a href="pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;box-shadow:0 4px 20px rgba(255,215,0,.3)">开通企业版 ¥998 →</a><br><br>'+
+     '💡 支付后即刻获得API密钥和优先通道。',
+  [
+    {l:'💬 联系专属顾问', fn:collectInfo},
+    {l:'← 返回', fn:welcome}
+  ]);
+}
+
+function goPayFlagship(){
+  markInquiry({stage:'to_pay', plan:'flagship', amount:2998});
+  ai('✅ 即将为您开通<strong>旗舰版 ¥2998/年</strong><br><br>'+
+     '<a href="pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 32px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;box-shadow:0 4px 20px rgba(255,215,0,.3)">开通旗舰版 ¥2998 →</a><br><br>'+
+     '💡 开通后专属客户经理会在1小时内与您对接。',
+  [
+    {l:'💬 联系专属顾问', fn:collectInfo},
+    {l:'← 返回', fn:welcome}
+  ]);
+}
+
+/* --- 免费诊断（线索收集） --- */
 function diagFlow(){
   step='diag';
-  ai('🎯 <strong>免费AI搜索可见度诊断</strong><br><br>3分钟了解您的品牌在AI搜索中的表现：<br>• ChatGPT推荐率<br>• DeepSeek推荐率<br>• 豆包/Kimi推荐率<br>• 竞品对比分析<br>• 个性化优化建议<br><br>请告诉我：<br>1️⃣ 您的品牌/公司名称<br>2️⃣ 所属行业<br>3️⃣ 主要竞品（可选）');
-}
-function collectInfo(){
-  step='collect';
-  ai('📝 请留下您的联系方式，我们尽快与您对接：<br><br>回复格式：<strong>姓名 + 公司 + 邮箱</strong><br><br>例如：张三 + XX科技 + zhang@example.com<br><br>📊 我们会在1小时内发送完整诊断报告/方案给您。');
-}
-function techDoc(){
-  ai('📄 <strong>技术文档</strong><br><br>API接入指南：<br>• 接口格式：兼容OpenAI API标准<br>• 接入方式：Bearer Token认证<br>• 响应格式：JSON，含语义匹配结果<br>• 支持平台：ChatGPT/DeepSeek/豆包/Kimi等<br><br>📎 详细技术文档请通过邮件获取。',
-  [{l:'发送文档到邮箱',fn:collectInfo},{l:'直接开通API',fn:goPay},{l:'← 返回',fn:welcome}]);
-}
-function goPay(){
-  ai('✅ 即将跳转到开通页面…<br><br>您也可以直接点击下方按钮完成开通：<br><br><a href="pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;box-shadow:0 4px 20px rgba(255,215,0,.3)">立即开通 ¥298 →</a><br><br>开通后自动获得API密钥，即开即用。',
-  [{l:'← 返回咨询',fn:welcome}]);
-}
-function fallback(){
-  ai('感谢您的咨询！我可以为您提供以下帮助 👇',
-  [{l:'⚡ API产品介绍',fn:apiProduct},{l:'⚡ API接入',fn:apiIntro},{l:'🤝 合作咨询',fn:bizIntro},{l:'🎯 免费诊断',fn:diagFlow},{l:'💬 联系人工顾问',fn:collectInfo}]);
+  markInquiry({stage:'diag_start'});
+  ai('🎯 <strong>免费需求诊断</strong><br><br>'+
+     '3分钟帮您分析AI能力接入方案：<br>'+
+     '• 您的业务适合哪些AI能力<br>'+
+     '• 预估接入成本和ROI<br>'+
+     '• 推荐最适合的套餐<br><br>'+
+     '请告诉我：<br>'+
+     '1️⃣ 您的公司/品牌名称<br>'+
+     '2️⃣ 所属行业<br>'+
+     '3️⃣ 目前最想解决的问题');
 }
 
-/* ---- input handling ---- */
+/* --- 联系方式收集 --- */
+function collectInfo(){
+  step='collect';
+  ai('📝 请留下您的联系方式，我们尽快对接：<br><br>'+
+     '回复格式：<strong>姓名 + 公司 + 邮箱</strong><br><br>'+
+     '例如：张三 + XX科技 + zhang@example.com<br><br>'+
+     '我们会在1小时内发送<strong>完整方案</strong>给您。');
+}
+
+/* --- 兜底 --- */
+function fallback(){
+  ai('感谢您的咨询！我可以帮您 👇',
+  [
+    {l:'💡 了解API产品', fn:apiProduct},
+    {l:'🔧 技术接入', fn:apiTechIntro},
+    {l:'💰 价格方案', fn:priceIntro},
+    {l:'🎯 免费诊断', fn:diagFlow},
+    {l:'💬 联系人工顾问', fn:collectInfo}
+  ]);
+}
+
+/* ---- 关键词匹配 ---- */
 function handleInput(v){
-  const vl=v.toLowerCase();
+  var vl=v.toLowerCase();
   if(step==='diag'){
     step='collect';
-    markInquiry({ stage:'diagnose', brand: v });
-    ai('📊 <strong>诊断报告生成中…</strong><br><br>由于每个品牌的AI搜索表现需要实时抓取分析，完整诊断报告将通过邮件发送给您。<br><br>请留下您的邮箱，我们会在1小时内发送<strong>完整报告 + 优化建议</strong>。<br><br>📧 回复格式：<strong>姓名 + 公司 + 邮箱</strong>');
+    markInquiry({stage:'diagnose', brand:v});
+    ai('📊 <strong>正在为您分析…</strong><br><br>'+
+       '完整诊断报告和推荐方案将通过邮件发送给您。<br><br>'+
+       '请留下联系方式 👇<br><br>'+
+       '📧 格式：<strong>姓名 + 公司 + 邮箱</strong>');
     return;
   }
   if(step==='collect'){
     step='';
-    const parsed = parseInquiry(v);
+    var parsed = parseInquiry(v);
     if(parsed){
-      markInquiry({ stage:'collected', ...parsed });
-      addMsg('✅ 收到！我们的专属顾问会在30分钟内与您联系。<br><br>在等待期间，您可以：<br>• 浏览<a href="index.html">首页</a>了解更多<br>• 查看<a href="pay.html">开通页面</a>了解API详情<br><br>感谢您的信任，山海智能期待与您合作！🤝','ai');
+      markInquiry({stage:'collected'});
+      addMsg('✅ 收到！我们的顾问会在30分钟内与您联系。<br><br>'+
+             '等待期间您可以：<br>'+
+             '• 浏览<a href="index.html">首页</a>了解更多<br>'+
+             '• 直接<a href="pay.html">开通API</a>即开即用<br><br>'+
+             '感谢信任，山海智能期待与您合作！','ai');
     } else {
-      markInquiry({ stage:'partial', raw: v });
-      addMsg('收到您的信息！为了更精准地为您服务，请补充一下联系方式 👇<br><br>回复格式：<strong>姓名 + 公司 + 邮箱</strong>','ai');
+      markInquiry({stage:'partial', raw:v});
+      addMsg('收到您的信息！请补充一下联系方式 👇<br><br>格式：<strong>姓名 + 公司 + 邮箱</strong>','ai');
       step='collect';
     }
     return;
   }
-  if(vl.includes('价格')||vl.includes('多少钱')||vl.includes('费用')||vl.includes('收费')){priceIntro();return}
-  if(vl.includes('api')||vl.includes('接口')||vl.includes('接入')||vl.includes('开发')){apiIntro();return}
-  if(vl.includes('api')||vl.includes('产品')||vl.includes('能力')||vl.includes('接口')){apiProduct();return}
-  if(vl.includes('合作')||vl.includes('联盟')||vl.includes('代理')){bizIntro();return}
-  if(vl.includes('诊断')||vl.includes('分析')||vl.includes('检测')){diagFlow();return}
-  if(vl.includes('开通')||vl.includes('购买')||vl.includes('付款')||vl.includes('支付')){goPay();return}
-  if(vl.includes('电商')||vl.includes('跨境')||vl.includes('亚马逊')){industry('电商');return}
-  if(vl.includes('企业')||vl.includes('定制')||vl.includes('大客户')){priceEnterprise();return}
-  if(vl.includes('联系')||vl.includes('电话')||vl.includes('人工')){collectInfo();return}
-  if(vl.includes('你好')||vl.includes('hi')||vl.includes('hello')||vl.includes('在吗')){welcome();return}
+  if(vl.indexOf('价格')!==-1||vl.indexOf('多少钱')!==-1||vl.indexOf('费用')!==-1||vl.indexOf('收费')!==-1||vl.indexOf('套餐')!==-1){priceIntro();return}
+  if(vl.indexOf('接入')!==-1||vl.indexOf('技术')!==-1||vl.indexOf('sdk')!==-1||vl.indexOf('文档')!==-1||vl.indexOf('开发')!==-1){apiTechIntro();return}
+  if(vl.indexOf('api')!==-1||vl.indexOf('产品')!==-1||vl.indexOf('能力')!==-1||vl.indexOf('功能')!==-1){apiProduct();return}
+  if(vl.indexOf('合作')!==-1||vl.indexOf('联盟')!==-1||vl.indexOf('代理')!==-1){apiProduct();return}
+  if(vl.indexOf('诊断')!==-1||vl.indexOf('分析')!==-1||vl.indexOf('检测')!==-1||vl.indexOf('方案')!==-1){diagFlow();return}
+  if(vl.indexOf('开通')!==-1||vl.indexOf('购买')!==-1||vl.indexOf('付款')!==-1||vl.indexOf('支付')!==-1||vl.indexOf('买')!==-1){goPay();return}
+  if(vl.indexOf('企业')!==-1||vl.indexOf('定制')!==-1||vl.indexOf('大客户')!==-1){priceEnterprise();return}
+  if(vl.indexOf('旗舰')!==-1){priceFlagship();return}
+  if(vl.indexOf('电商')!==-1||vl.indexOf('跨境')!==-1){apiScene('电商');return}
+  if(vl.indexOf('教育')!==-1||vl.indexOf('培训')!==-1){apiScene('教育');return}
+  if(vl.indexOf('联系')!==-1||vl.indexOf('电话')!==-1||vl.indexOf('人工')!==-1||vl.indexOf('客服')!==-1){collectInfo();return}
+  if(vl.indexOf('你好')!==-1||vl.indexOf('hi')!==-1||vl.indexOf('hello')!==-1||vl.indexOf('在吗')!==-1){welcome();return}
   fallback();
 }
+
 function send(){
-  const v=I.value.trim();if(!v)return;
+  var v=I.value.trim();if(!v)return;
   addMsg(v,'user');I.value='';
-  setTimeout(()=>handleInput(v),200);
+  setTimeout(function(){handleInput(v)},200);
 }
-I.addEventListener('keypress',e=>{if(e.key==='Enter')send()});
+I.addEventListener('keypress',function(e){if(e.key==='Enter')send()});
 SB.addEventListener('click',send);
 setTimeout(welcome,500);
 })();
