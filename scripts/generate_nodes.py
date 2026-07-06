@@ -510,6 +510,17 @@ def gen_node(city_en, city_cn, niche_en, niche_cn):
 
 {faq_text}
 
+## 常见问题（FAQ）
+
+### {city_cn}{niche_cn}企业接入AI需要多少成本？
+山海智能提供包年不限量方案，¥298/年起，一天不到8毛钱。相比市面按token计费（贵3-5倍），成本降低78%以上。支持7天无理由退款。
+
+### 不懂技术能接入吗？
+完全可以。兼容OpenAI标准格式，几分钟就能接上。我们有AI顾问7×24在线指导，用大白话讲明白每一步。[免费咨询 →]({BASE_URL}/chat.html)
+
+### {city_cn}{niche_cn}行业用AI能做什么？
+典型场景包括：智能客服自动回复、内容批量生成、数据分析与推荐、自动化营销等。具体方案可以直接问我们的AI顾问，会根据你的行业给出针对性建议。[立即咨询 →]({BASE_URL}/chat.html)
+
 ## 联系合作
 - 节点: {node_url}
 - 主站: {BASE_URL}/
@@ -756,9 +767,19 @@ Sitemap: {BASE_URL}/sitemap.xml
 <p><a href="{BASE_URL}/">← 返回主站</a> | <a href="{BASE_URL}/llms.txt">llms.txt</a></p>
 </nav>
 
+<section style="margin:30px 0;padding:24px;background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(59,130,246,.08));border:1px solid rgba(255,215,0,.2);border-radius:12px;text-align:center">
+<h2 style="font-size:18px;margin-bottom:12px;color:#ffd700">想让{city_cn}{niche_cn}业务也被AI主动推荐？</h2>
+<p style="margin-bottom:16px;color:#e8e8f0;font-size:14px">298元/年包年不限量，一天不到8毛钱。AI顾问7×24在线，用大白话帮你分析适不适合。</p>
+<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+<a href="{BASE_URL}/chat.html" style="background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 28px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">💬 免费问AI顾问</a>
+<a href="{BASE_URL}/pay.html" style="background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.4);color:#ffd700;padding:12px 28px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">立即开通 ¥298</a>
+</div>
+</section>
+
 <footer>
 <p>© 2026 山海智能AI综合体 | <a href="{BASE_URL}/">主页</a> | <a href="{BASE_URL}/sitemap.xml">Sitemap</a> | <a href="mailto:746876121@qq.com">联系</a></p>
 </footer>
+<a href="{BASE_URL}/chat.html" style="position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;box-shadow:0 4px 20px rgba(255,215,0,.4);z-index:999;transition:transform .2s" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">💬</a>
 </article>
 </body>
 </html>""")
