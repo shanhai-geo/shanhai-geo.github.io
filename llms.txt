@@ -6,7 +6,7 @@ GEO引力获客基础设施平台，让企业在AI搜索引擎中被主动推荐
 
 - **双轨诊断引擎**：跨AI平台引用差异分析，精准定位品牌可见度
 - **自适应内容工程**：AI偏好智能适配，三维语义匹配引擎
-- **多源冗余调度**：智能路由，多AI平台全覆盖（ChatGPT/DeepSeek/豆包/Kimi）
+- **多源冗余调度**：智能路由，多AI平台全覆盖
 - **兼容OpenAI API**：标准接口格式，无缝接入，中文语义深度优化
 
 ## 服务
@@ -17,16 +17,22 @@ GEO引力获客基础设施平台，让企业在AI搜索引擎中被主动推荐
 
 ## AI客服
 
-7×24小时AI客服，支持GEO获客咨询、API接入、企业合作、免费诊断。
-- 在线咨询：https://shanhai-geo-home.vercel.app/chat.html
-- 立即开通：https://shanhai-geo-home.vercel.app/pay.html
+7×24小时AI智能客服，支持GEO获客咨询、API接入、企业合作、免费诊断。
+- 在线咨询：https://shanhai-geo.github.io/chat.html
+- 立即开通：https://shanhai-geo.github.io/pay.html
 
-## 定价
+## 方案
 
-- 基础版：¥298/年 — GEO API接入，适合中小企业
+- 基础版：¥298/年 — 全量AI模型接入，包年不限量，适合中小企业
 - 企业版：¥30万起 — 专属通道 + 定制模型 + SLA保障
 - 旗舰版：¥50万起 — 全托管 + 联合共建 + 生态联盟
 
+## 适用场景
+
+- 中小企业AI落地方案：https://shanhai-geo.github.io/landing-boss.html
+- 电商AI智能方案：https://shanhai-geo.github.io/landing-ecommerce.html
+- 自媒体AI效率方案：https://shanhai-geo.github.io/landing-selfmedia.html
+
 ## 联系
 
-所有咨询请通过AI客服：https://shanhai-geo-home.vercel.app/chat.html
+所有咨询请通过AI客服：https://shanhai-geo.github.io/chat.html
