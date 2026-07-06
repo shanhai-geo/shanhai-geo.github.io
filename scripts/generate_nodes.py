@@ -1164,7 +1164,7 @@ body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
       <div class="icon">⚡</div>
       <h3>基础版</h3>
       <div class="sub-title">开发测试 / 个人项目</div>
-      <div class="price">¥298<small>/月</small></div>
+      <div class="price">¥298<small>/年</small></div>
       <div class="desc">10次API调用，即买即用，零配置接入</div>
       <ul>
         <li>RESTful API标准接口</li>
@@ -1178,7 +1178,7 @@ body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
       <div class="icon">🚀</div>
       <h3>专业版</h3>
       <div class="sub-title">中小企业 / 业务上线</div>
-      <div class="price">¥998<small>/月</small></div>
+      <div class="price">¥998<small>/年</small></div>
       <div class="desc">50次API调用，含品牌诊断与竞品分析</div>
       <ul>
         <li>全功能API权限</li>
@@ -1193,7 +1193,7 @@ body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
       <div class="icon"></div>
       <h3>企业版</h3>
       <div class="sub-title">大型企业 / 深度定制</div>
-      <div class="price">¥2998<small>/月</small></div>
+      <div class="price">¥2998<small>/年</small></div>
       <div class="desc">100次API调用，专属模型定制与专属顾问</div>
       <ul>
         <li>全功能API权限</li>
