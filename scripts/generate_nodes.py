@@ -1089,6 +1089,12 @@ body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
 /* Code Block */
 .code-section{max-width:700px;margin:40px auto 0;padding:0 20px}
 .code-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+/* Copy Button */
+.code-header{position:relative}
+.copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);color:#ffd700;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .3s;font-weight:600;z-index:10}
+.copy-btn:hover{background:rgba(255,215,0,.2);border-color:rgba(255,215,0,.4)}
+.copy-btn.copied{background:rgba(34,197,94,.2);border-color:rgba(34,197,94,.4);color:#22c55e}
+
 .code-dot{width:12px;height:12px;border-radius:50%}
 .code-dot:nth-child(1){background:#ff5f57}
 .code-dot:nth-child(2){background:#febc2e}
@@ -1257,7 +1263,8 @@ body::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:4px}
     <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
     <div class="code-title">3行代码接入示例</div>
   </div>
-  <div class="code-block"><span class="kw">import</span> openai
+  <button class="copy-btn" onclick="copyCode()">复制代码</button>
+  <div class="code-block" id="codeContent"><span class="kw">import</span> openai
 
 <span class="cm"># 3行代码，完成接入</span>
 client = openai.<span class="kw">OpenAI</span>(
@@ -1285,6 +1292,22 @@ response = client.chat.completions.create(
 <footer class="footer">
   <p>山海智能 · 高性能语义匹配API服务</p>
 </footer>
+
+
+<script>
+function copyCode() {
+  const codeContent = document.getElementById('codeContent').innerText;
+  navigator.clipboard.writeText(codeContent).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '已复制 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '复制代码';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
 
 <script src="widget.js"></script>
 </body>
