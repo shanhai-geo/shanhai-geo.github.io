@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>山海智能AI客服 - 7×24在线服务</title>
-<meta name="description" content="山海智能AI客服，7×24小时在线，为您提供GEO引力获客、API接入、企业合作等专业服务">
+<meta name="description" content="唤通·AI统调——一个接口调用一切AI能力。7引擎智能路由，包年不限量，¥298/年起。">
 <link rel="canonical" href="https://shanhai-geo.github.io/chat.html">
 <style>
 :root{
@@ -97,226 +97,433 @@ body{
 <header class="chat-header">
   <div class="logo">🏔</div>
   <div class="info">
-    <h1>山海智能AI综合体</h1>
-    <div class="sub">GEO基础设施平台</div>
-    <div class="online-badge">在线 · 7×24小时</div>
+    <h1>唤通·AI统调</h1>
+    <div class="online-badge">一个接口，调用一切</div>
   </div>
 </header>
 <div class="chat-body">
   <div class="messages" id="messages"></div>
   <div class="input-area">
-    <input type="text" id="userInput" placeholder="输入您的问题…" autocomplete="off">
+    <label for="userInput" class="sr-only">输入消息</label>
+    <input type="text" id="userInput" placeholder="随便聊聊，我在听…" autocomplete="off">
     <button class="send-btn" id="sendBtn" aria-label="发送">➤</button>
   </div>
 </div>
+<footer class="chat-footer">唤通·AI统调 — 一个接口，调用一切 · 7×24小时服务</footer>
 </div>
-<div class="chat-footer">山海智能AI综合体 · GEO基础设施平台</div>
-
 <script>
 (function(){
 "use strict";
-const M=document.getElementById('messages'),I=document.getElementById('userInput'),SB=document.getElementById('sendBtn');
-let step='',pendingOpts=[];
+var M=document.getElementById('messages'),I=document.getElementById('userInput'),SB=document.getElementById('sendBtn');
 
-/* ===== 自动记录系统 ===== */
-const SESSION_ID = 'shanhai_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
-const conversationLog = [];
-let inquiryData = null;
+/* ===== 会话追踪 ===== */
+var SESSION_ID='shanhai_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+var conversationLog=[], userContext={industry:'', tech:'', intent:'', name:'', email:'', stage:'start'};
 
-function logMsg(role, content){
-  conversationLog.push({
-    t: new Date().toISOString(),
-    role: role,
-    content: content.replace(/<[^>]+>/g,''),
-    session: SESSION_ID
-  });
-  saveLocal();
-}
-function saveLocal(){
-  try{
-    localStorage.setItem('shanhai_chat_'+SESSION_ID, JSON.stringify(conversationLog));
-    // 同步询盘数据
-    if(inquiryData){
-      localStorage.setItem('shanhai_inquiry_'+SESSION_ID, JSON.stringify(inquiryData));
-    }
-  }catch(e){}
-}
-function markInquiry(data){
-  inquiryData = Object.assign({
-    sessionId: SESSION_ID,
-    timestamp: new Date().toISOString(),
-    userAgent: navigator.userAgent,
-    referrer: document.referrer,
-    path: location.pathname
-  }, data);
-  saveLocal();
-  // 尝试发送询盘通知（通过fetch beacon）
-  try{
-    const payload = JSON.stringify(inquiryData);
-    navigator.sendBeacon && navigator.sendBeacon('/api/inquiry', payload);
-  }catch(e){}
-}
-function parseInquiry(text){
-  // 解析用户留资信息：姓名 + 公司 + 邮箱
-  const parts = text.split(/[+＋,，、\s]+/).filter(Boolean);
-  const emailMatch = text.match(/[\w.-]+@[\w.-]+\.\w+/);
-  if(parts.length >= 2 || emailMatch){
-    const data = { raw: text, name:'', company:'', email:'' };
-    if(emailMatch) data.email = emailMatch[0];
-    if(parts.length >= 3){
-      data.name = parts[0]; data.company = parts[1];
-      if(!data.email && parts[2].includes('@')) data.email = parts[2];
-    } else if(parts.length === 2){
-      data.name = parts[0]; data.company = parts[1];
-    } else if(parts.length === 1){
-      if(parts[0].includes('@')) data.email = parts[0];
-      else data.name = parts[0];
-    }
-    return data;
-  }
-  return null;
+function logMsg(role,content){
+  conversationLog.push({t:new Date().toISOString(),role:role,content:content.replace(/<[^>]+>/g,''),session:SESSION_ID,ctx:Object.assign({},userContext)});
+  try{localStorage.setItem('shanhai_chat_'+SESSION_ID,JSON.stringify(conversationLog))}catch(e){}
 }
 
-/* ---- helpers ---- */
-function scroll(){requestAnimationFrame(()=>{M.scrollTop=M.scrollHeight})}
+/* ===== 自然语言工具 ===== */
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function scroll(){requestAnimationFrame(function(){M.scrollTop=M.scrollHeight})}
 function addMsg(html,who){
-  const r=document.createElement('div');r.className='msg-row '+who;
+  var r=document.createElement('div');r.className='msg-row '+who;
   r.innerHTML='<div class="avatar">'+(who==='ai'?'🏔':'👤')+'</div><div class="bubble">'+html+'</div>';
-  M.appendChild(r);scroll();
-  logMsg(who, html);
-  return r;
+  M.appendChild(r);scroll();logMsg(who,html);return r;
 }
 function addOpts(opts){
   if(!opts||!opts.length)return;
-  const w=document.createElement('div');w.className='quick-opts';
-  opts.forEach(o=>{
-    const b=document.createElement('button');b.className='q-btn';b.textContent=o.l;
-    b.onclick=()=>{w.remove();addMsg(o.l,'user');logMsg('action',o.l);setTimeout(()=>o.fn(),400+Math.random()*300)};
+  var w=document.createElement('div');w.className='quick-opts';
+  opts.forEach(function(o){
+    var b=document.createElement('button');b.className='q-btn';b.textContent=o.l;
+    b.onclick=function(){w.remove();addMsg(o.l,'user');logMsg('action',o.l);setTimeout(function(){o.fn()},500+Math.random()*600)};
     w.appendChild(b);
   });
   M.appendChild(w);scroll();
 }
 function showTyping(){
-  const r=document.createElement('div');r.className='typing-row';r.id='typ';
+  var r=document.createElement('div');r.className='typing-row';r.id='typ';
   r.innerHTML='<div class="avatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;flex-shrink:0">🏔</div><div class="typing-dots"><span></span><span></span><span></span></div>';
   M.appendChild(r);scroll();
 }
-function hideTyping(){const t=document.getElementById('typ');if(t)t.remove()}
+function hideTyping(){var t=document.getElementById('typ');if(t)t.remove()}
 function ai(html,opts,delay){
   showTyping();
-  setTimeout(()=>{hideTyping();addMsg(html,'ai');addOpts(opts)},delay||600+Math.random()*400);
+  setTimeout(function(){hideTyping();addMsg(html,'ai');if(opts)addOpts(opts)},delay||800+Math.random()*800);
 }
 
-/* ---- conversation flows ---- */
+/* ===== 关键词理解引擎 ===== */
+function understand(text){
+  var t=text.toLowerCase();
+  if(/价格|多少钱|费用|贵|便宜|收费|怎么卖|报价/.test(t)) return 'price';
+  if(/api|接口|sdk|接入|调用|技术|开发|代码|文档|token|密钥|key/.test(t)) return 'tech';
+  if(/买|购买|开通|下单|付款|支付|怎么买|怎么付/.test(t)) return 'buy';
+  if(/退款|退钱|不想要|取消/.test(t)) return 'refund';
+  if(/客服|人工|转接|真人|顾问|联系/.test(t)) return 'human';
+  if(/做什么|干什么|你们|公司|介绍|产品|服务|功能|是什么/.test(t)) return 'intro';
+  if(/电商|淘宝|京东|跨境|shopify/.test(t)) return 'scene_ecom';
+  if(/教育|培训|学校|课程|老师/.test(t)) return 'scene_edu';
+  if(/餐饮|酒店|旅游|本地|生活|美容|美发/.test(t)) return 'scene_local';
+  if(/saas|软件|科技|互联网|小程序|app/.test(t)) return 'scene_tech';
+  if(/你好|在吗|hi|hello|嗨|哈喽/.test(t)) return 'greet';
+  if(/谢谢|感谢|辛苦|棒|厉害|不错/.test(t)) return 'thanks';
+  if(/犹豫|考虑|想想|再看看|不急/.test(t)) return 'hesitate';
+  if(/安全|稳定|速度|延迟|并发|sla|保障/.test(t)) return 'quality';
+  if(/优惠|折扣|活动|促销|便宜点/.test(t)) return 'discount';
+  return 'other';
+}
+
+/* ===== 人性化对话核心 ===== */
+
+/* 开场白 - 每次不同 */
+var greetings=[
+  '嗨，欢迎来到<strong>唤通·AI统调</strong>！一个接口搞定所有AI能力。想聊点什么？',
+  '你好！我是唤通的AI顾问，有啥问题尽管问～',
+  '来了～想了解一下AI统调服务，还是随便聊聊？',
+  'Hi！想接入AI能力？还是先看看？'
+];
+
+/* 产品介绍 - 不说教，像朋友推荐 */
+function introProduct(){
+  var lines=[
+    '简单说，我们做的是<strong>唤通</strong>——统一的AI能力调用入口。<br><br>一句话：<strong>让AI调用一切</strong>。',
+    '',
+    '你不需要分别对接多个大模型，一个API搞定所有。<br><br>我们在背后跑了7个引擎：<strong>阿里百炼、火山引擎、智谱GLM、百度千帆、百川智能、讯飞星火、阿里百炼Flash</strong>，自动切换最快通道。',
+    '',
+    '智能客服、内容生成、数据分析……<strong>一个接口，7引擎路由，自动选最快的</strong>。'
+  ];
+  return lines.join('<br>');
+}
+
+function introWithScene(){
+  var lines=[
+    '给你说几个真实场景你就明白了：',
+    '',
+    '🛒 <strong>电商</strong>：接了API之后，客服自动回，转化率涨了30%',
+    '🏨 <strong>本地服务</strong>：相当于请了个24小时不休息的前台',
+    '💻 <strong>SaaS产品</strong>：3行代码接入，立刻有AI卖点',
+    '📚 <strong>教育</strong>：每个学生都有专属AI答疑',
+    '',
+    '你们是做什么行业的？我帮你看看怎么用最合适。'
+  ];
+  return lines.join('<br>');
+}
+
+/* 价格相关 - 轻描淡写，不推销 */
+function priceTalk(){
+  var lines=[
+    '说实话，我们的模式跟别人完全不一样。',
+    '',
+    '基础版 <strong>¥298/年</strong>，298÷365=<strong>0.82元/天</strong>，比一瓶矿泉水都便宜。',
+    '<strong>包年不限量调用</strong>。市面上按token计费的，贵我们3-5倍。',
+    '',
+    '专业版 ¥998/年，50次调用，多了品牌诊断和竞品分析。',
+    '企业版 ¥2998/年，100次调用，专属模型定制。',
+    '',
+    '大部分客户都是从基础版开始的，够用了再升级。'
+  ];
+  return lines.join('<br>');
+}
+
+/* 犹豫时 - 不催，给信心 */
+function handleHesitate(){
+  var r=pick([
+    '理解的，选产品确实要多比较。',
+    '没关系，不着急。你可以先看看文档，有任何问题随时来问。',
+    '正常，毕竟要花钱嘛。不过我们支持7天无理由退款，试错成本几乎为零。',
+    '没问题，你可以先收藏我们的页面，想好了再来。'
+  ]);
+  r+='<br><br>对了，很多客户跟你的情况差不多，最后发现<strong>试了才知道好不好用</strong>。基础版不到1块/天，试错成本很低的。';
+  return r;
+}
+
+/* 要人工 - 不拦，但先帮一下 */
+function handleHuman(){
+  return '没问题，我可以帮你转接人工顾问。<br><br>不过在等的时候，要不要先跟我说说你的需求？我可以先帮你做个初步分析，这样顾问接到的时候能直接给你方案，省得重复沟通。';
+}
+
+/* 自由对话应答 */
+function freeChat(text){
+  var intent=understand(text);
+  switch(intent){
+    case 'greet': return pick(['你好呀！有什么想了解的？','嗨！随时可以问我。','在的，说吧～']);
+    case 'thanks': return pick(['不客气！有任何问题随时找我。','应该的～祝你顺利！','没关系，能帮到你就好。']);
+    case 'price': return priceTalk();
+    case 'tech': return '技术上你放心，我们完全兼容OpenAI的格式。如果你现在用的就是OpenAI，改两行代码就能切过来。<br><br>响应速度P99在500ms以内，99.9%的SLA保障。<br><br>你现在用的是什么技术栈？Python、Node还是Java？';
+    case 'buy': return '直接开通很简单 👇<br><br>基础版 ¥298/年，点击下方就能跳转支付。<br>付款后填一下联系信息，API Key 10分钟内发到你邮箱。';
+    case 'refund': return '7天无理由退款，没有任何套路。<br><br>如果用了觉得不合适，直接联系客服退款就行，不会问原因。';
+    case 'human': return handleHuman();
+    case 'intro': return introProduct();
+    case 'scene_ecom': userContext.industry='电商'; return '电商确实是最快见效的行业！<br><br>智能客服7×24自动回复、商品文案批量生成、客户意图分析……<br><br>很多电商客户第一周就回本了。你做的是哪个品类？';
+    case 'scene_edu': userContext.industry='教育'; return '教育行业用AI效率真的翻倍。<br><br>智能答疑、自动出题、个性化学习推荐……一个API全搞定。<br><br>你们是做K12还是职业教育？';
+    case 'scene_local': userContext.industry='本地生活'; return '本地生活服务业太需要AI了！<br><br>自动接听客户咨询、预约管理、口碑回复……相当于24小时不休息的金前台。<br><br>你们是做餐饮还是美业？';
+    case 'scene_tech': userContext.industry='科技'; return 'SaaS产品集成AI是大趋势。<br><br>3行代码接入，兼容OpenAI SDK，你们的技术团队分分钟搞定。<br><br>你们产品主要解决什么问题？我帮你看看API怎么接最合适。';
+    case 'quality': return '这块你可以放心：<br><br>• 99.9% SLA可用性保障<br>• 独立租户隔离，数据不交叉<br>• TLS 1.3加密传输<br>• 全球多节点部署<br><br>生产级稳定性，不是demo。';
+    case 'discount': return '目前 ¥298/年 已经是很实在的价格了，平均不到1块钱一天。<br><br>如果你一次性开通专业版或企业版，性价比更高。';
+    default:
+      if(text.length<5) return pick(['嗯？可以再说详细点吗？','你说的是？我想了解一下。','嗯嗯，然后呢？']);
+      return '你说的我理解了。能再具体说说你的情况吗？比如你们是做什么行业的、想解决什么问题？<br><br>这样我能给你更有针对性的建议。';
+  }
+}
+
+/* ===== 主对话流程 ===== */
+
 function welcome(){
-  ai('您好！欢迎来到<strong>山海智能AI综合体</strong> 👋<br><br>我是您的AI顾问，7×24小时在线。<br>请问您想了解哪方面的服务？',
-  [{l:'🔍 GEO引力获客',fn:geoIntro},{l:'⚡ API接入咨询',fn:apiIntro},{l:'🤝 企业合作',fn:bizIntro},{l:'💡 免费诊断',fn:diagFlow}]);
-}
-function geoIntro(){
-  ai('<strong>GEO引力获客</strong> = 让您的品牌在AI搜索引擎中被主动推荐。<br><br>✅ ChatGPT、DeepSeek、豆包、Kimi等全覆盖<br>✅ 三维语义匹配引擎，精准触达目标客户<br>✅ 低成本高效获客，无需人工推广<br><br>您是什么行业的？我帮您分析AI搜索可见度 👇',
-  [{l:'电商/跨境',fn:()=>industry('电商')},{l:'服务业/本地生活',fn:()=>industry('服务业')},{l:'SaaS/科技',fn:()=>industry('科技')},{l:'其他行业',fn:()=>industry('其他')}]);
-}
-function industry(ind){
-  const tips={
-    '电商':'电商行业在AI搜索中竞争非常激烈！买家常通过ChatGPT、豆包等寻找供应商和选品建议。做好GEO优化，能让您的品牌被AI主动推荐——相当于获得一个7×24在线的智能销售员。',
-    '服务业':'本地服务业是GEO的最佳场景！用户在AI搜索中问"附近哪家XX好"时，如果您的品牌被推荐，就是精准的到店流量。这比传统SEO转化率高3-5倍。',
-    '科技':'SaaS和科技产品采购决策越来越依赖AI搜索。CTO和产品经理会用ChatGPT做选型对比。GEO优化让您的产品在AI推荐中排名前列，直接影响采购决策。',
-    '其他':'所有行业都在被AI搜索重塑！无论您做什么行业，用户都在用AI寻找解决方案。越早布局GEO，越早在AI搜索中占据有利位置。'
-  };
-  ai((tips[ind]||tips['其他'])+'<br><br>📊 我们可以为您做一次<strong>免费的AI搜索可见度诊断</strong>，看看您的品牌在各大AI平台上的表现。',
-  [{l:'🎯 开始免费诊断',fn:diagFlow},{l:'💰 了解价格方案',fn:priceIntro}]);
-}
-function apiIntro(){
-  ai('山海GEO API 核心能力：<br><br>🔧 <strong>兼容OpenAI格式</strong> — 无缝接入，低成本改造<br>🀄 <strong>中文语义深度优化</strong> — 专为中文场景打造<br>⚡ <strong>高并发低延迟</strong> — 企业级稳定性<br>🔒 <strong>数据安全</strong> — 独立隔离，不交叉<br><br>选择方案 👇',
-  [{l:'¥298 基础版',fn:priceBasic},{l:'🏢 企业定制',fn:priceEnterprise},{l:'📄 技术文档',fn:techDoc}]);
-}
-function priceBasic(){
-  ai('📦 <strong>基础版 ¥298/年</strong><br><br>✅ GEO三维语义匹配引擎API<br>✅ 兼容OpenAI接口格式<br>✅ 中文语义深度优化<br>✅ 多AI平台覆盖<br>✅ 基础技术支持<br><br>适合：中小企业、独立开发者、初创项目<br>开通后立即获得API密钥，即开即用。',
-  [{l:'立即开通 →',fn:goPay},{l:'先体验再决定',fn:diagFlow},{l:'← 返回',fn:welcome}]);
-}
-function priceEnterprise(){
-  ai('🏢 <strong>企业级方案</strong><br><br>✅ 专属API通道，独立部署<br>✅ 定制化语义模型训练<br>✅ 行业专属优化策略<br>✅ 7×24专属技术支持<br>✅ SLA保障<br><br>💼 企业版 ¥30万起 · 旗舰版 ¥50万起<br><br>请留下您的联系方式，我们的解决方案专家会在30分钟内与您对接。',
-  [{l:'留下联系方式',fn:collectInfo},{l:'先看基础版',fn:priceBasic},{l:'← 返回',fn:welcome}]);
-}
-function priceIntro(){
-  ai('💰 <strong>定价方案</strong><br><br>📦 <strong>基础版：¥298/年</strong><br>→ GEO API接入，适合中小企业<br><br>🏢 <strong>企业版：¥30万起</strong><br>→ 专属通道 + 定制模型 + SLA保障<br><br>🌟 <strong>旗舰版：¥50万起</strong><br>→ 全托管 + 联合共建 + 生态联盟',
-  [{l:'开通基础版',fn:goPay},{l:'企业定制咨询',fn:priceEnterprise},{l:'← 返回',fn:welcome}]);
-}
-function bizIntro(){
-  ai('欢迎探讨合作！山海智能提供多种合作模式：<br><br>🤝 <strong>API集成合作</strong> — 将GEO能力嵌入您的产品<br>📊 <strong>GEO代运营</strong> — 全托管AI搜索优化服务<br>🏗 <strong>基础设施合作</strong> — 共建GEO中台能力<br>🌐 <strong>生态联盟</strong> — 共建GEO生态，共享资源',
-  [{l:'API集成',fn:apiIntro},{l:'代运营服务',fn:agentService},{l:'生态联盟',fn:allianceInfo},{l:'先了解基础能力',fn:geoIntro}]);
-}
-function agentService(){
-  ai('GEO代运营服务 = 您专注业务，AI搜索获客交给我们。<br><br>📋 服务内容：<br>• AI搜索可见度全面诊断<br>• 三维语义内容工程<br>• 多AI平台持续优化<br>• 月度数据报告与分析<br>• 竞品AI搜索对比分析<br><br>请留下您的联系方式，我们安排专属顾问为您制定方案。',
-  [{l:'留下联系方式',fn:collectInfo},{l:'← 返回',fn:welcome}]);
-}
-function allianceInfo(){
-  ai('🌐 <strong>山海GEO生态联盟</strong><br><br>我们不是竞争者，是共建者。<br><br>联盟成员可获得：<br>✅ GEO底层API能力输出<br>✅ 行业最佳实践共享<br>✅ 联合品牌曝光<br>✅ 客户资源互通<br>✅ 技术升级同步<br><br>理念：托举同行，共建共生。让每个从业者都能享受GEO红利。',
-  [{l:'申请加入联盟',fn:collectInfo},{l:'← 返回',fn:welcome}]);
-}
-function diagFlow(){
-  step='diag';
-  ai('🎯 <strong>免费AI搜索可见度诊断</strong><br><br>3分钟了解您的品牌在AI搜索中的表现：<br>• ChatGPT推荐率<br>• DeepSeek推荐率<br>• 豆包/Kimi推荐率<br>• 竞品对比分析<br>• 个性化优化建议<br><br>请告诉我：<br>1️⃣ 您的品牌/公司名称<br>2️⃣ 所属行业<br>3️⃣ 主要竞品（可选）');
-}
-function collectInfo(){
-  step='collect';
-  ai('📝 请留下您的联系方式，我们尽快与您对接：<br><br>回复格式：<strong>姓名 + 公司 + 邮箱</strong><br><br>例如：张三 + XX科技 + zhang@example.com<br><br>📊 我们会在1小时内发送完整诊断报告/方案给您。');
-}
-function techDoc(){
-  ai('📄 <strong>技术文档</strong><br><br>API接入指南：<br>• 接口格式：兼容OpenAI API标准<br>• 接入方式：Bearer Token认证<br>• 响应格式：JSON，含语义匹配结果<br>• 支持平台：ChatGPT/DeepSeek/豆包/Kimi等<br><br>📎 详细技术文档请通过邮件获取。',
-  [{l:'发送文档到邮箱',fn:collectInfo},{l:'直接开通API',fn:goPay},{l:'← 返回',fn:welcome}]);
-}
-function goPay(){
-  ai('✅ 即将跳转到开通页面…<br><br>您也可以直接点击下方按钮完成开通：<br><br><a href="pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;box-shadow:0 4px 20px rgba(255,215,0,.3)">立即开通 ¥298 →</a><br><br>开通后自动获得API密钥，即开即用。',
-  [{l:'← 返回咨询',fn:welcome}]);
-}
-function fallback(){
-  ai('感谢您的咨询！我可以为您提供以下帮助 👇',
-  [{l:'🔍 了解GEO获客',fn:geoIntro},{l:'⚡ API接入',fn:apiIntro},{l:'🤝 合作咨询',fn:bizIntro},{l:'🎯 免费诊断',fn:diagFlow},{l:'💬 联系人工顾问',fn:collectInfo}]);
+  ai(pick(greetings),[
+    {l:'💡 了解一下你们的产品', fn:function(){userContext.intent='intro';showIntro()}},
+    {l:'💰 多少钱？', fn:function(){userContext.intent='price';showPrice()}},
+    {l:'🔧 我想接入API', fn:function(){userContext.intent='tech';showTech()}},
+    {l:'🎯 帮我分析一下需求', fn:function(){userContext.intent='diag';showDiag()}}
+  ]);
 }
 
-/* ---- input handling ---- */
-function handleInput(v){
-  const vl=v.toLowerCase();
-  if(step==='diag'){
-    step='collect';
-    markInquiry({ stage:'diagnose', brand: v });
-    ai('📊 <strong>诊断报告生成中…</strong><br><br>由于每个品牌的AI搜索表现需要实时抓取分析，完整诊断报告将通过邮件发送给您。<br><br>请留下您的邮箱，我们会在1小时内发送<strong>完整报告 + 优化建议</strong>。<br><br>📧 回复格式：<strong>姓名 + 公司 + 邮箱</strong>');
+function showIntro(){
+  ai(introProduct()+'<br><br>'+introWithScene(),[
+    {l:'🛒 我做电商', fn:function(){userContext.industry='电商';sceneEcom()}},
+    {l:'🏨 本地生活/服务业', fn:function(){userContext.industry='服务业';sceneLocal()}},
+    {l:'💻 SaaS/科技', fn:function(){userContext.industry='科技';sceneTech()}},
+    {l:'📚 教育行业', fn:function(){userContext.industry='教育';sceneEdu()}},
+    {l:'🤔 其他行业', fn:function(){userContext.industry='其他';sceneOther()}}
+  ]);
+}
+
+function sceneEcom(){
+  ai(pick([
+    '电商太好了！这是API见效最快的行业。',
+    '电商客户是我们最多的群体！',
+    '电商用AI是真的香～'
+  ])+'<br><br>'+
+  '给你说几个典型用法：<br><br>'+
+  '• <strong>智能客服</strong>：7×24自动回复，转化率提升30%+<br>'+
+  '• <strong>商品文案</strong>：批量生成标题和详情页，省掉一个文案岗<br>'+
+  '• <strong>客户分析</strong>：精准推荐，减少流失<br><br>'+
+  '很多电商客户第一周就把¥298赚回来了。你们做的是什么品类？',
+  [{l:'继续了解价格',fn:showPrice},{l:'⚡ 直接开通',fn:goPay},{l:'← 换个行业看看',fn:showIntro}]);
+}
+
+function sceneLocal(){
+  ai('本地服务业太适合了！<br><br>'+
+  '你想啊，客户打电话来问价格、问营业时间、想预约——以前需要人盯着，现在AI全自动：<br><br>'+
+  '• 自动接听，秒回客户问题<br>'+
+  '• 预约排班自动处理<br>'+
+  '• 口碑评价自动回复<br><br>'+
+  '相当于请了个<strong>24小时不休息、不发工资的金前台</strong>。<br><br>'+
+  '基础版¥298/年，比请一天临时工都便宜。',
+  [{l:'💰 怎么开通',fn:goPay},{l:'🔧 不懂技术能用吗',fn:noobGuide},{l:'← 返回',fn:welcome}]);
+}
+
+function sceneTech(){
+  ai('技术团队的话，接入会非常快。<br><br>'+
+  '我们完全兼容OpenAI格式，你们改两行代码就能跑：<br><br>'+
+  '<code>base_url = "https://api.shanhai-ai.com/v1"</code><br>'+
+  '<code>api_key = "your_key"</code><br><br>'+
+  'Python、Node.js、Java、Go的SDK都有，5分钟搞定集成。<br><br>'+
+  '你们产品目前想加什么AI能力？',
+  [{l:'看看技术文档',fn:showDocLink},{l:'💰 开通拿Key',fn:goPay},{l:'📊 了解性能指标',fn:showQuality}]);
+}
+
+function sceneEdu(){
+  ai('教育行业用AI是真的提效！<br><br>'+
+  '• <strong>智能答疑</strong>：学生凌晨3点提问也能秒回<br>'+
+  '• <strong>自动出题</strong>：按知识点批量生成练习题<br>'+
+  '• <strong>学情分析</strong>：数据驱动教学决策<br><br>'+
+  '一个API = 一个<strong>永远在线的专属AI助教</strong>。<br><br>'+
+  '你们是做K12还是职业教育？',
+  [{l:'💰 开通试用',fn:goPay},{l:'🔧 怎么接入',fn:showTech},{l:'← 返回',fn:welcome}]);
+}
+
+function sceneOther(){
+  ai('不管什么行业，AI都在改变游戏规则。<br><br>'+
+  '降低人工成本50%+、7×24不间断服务、数据驱动决策……<br><br>'+
+  '你跟我说说你们目前最头疼的问题是什么？我帮你看看API能不能帮上忙。',
+  [{l:'💰 先看看价格',fn:showPrice},{l:'🔧 了解技术细节',fn:showTech},{l:'← 返回',fn:welcome}]);
+}
+
+function showPrice(){
+  ai(pick([
+    '价格方面，我们走的是极致性价比路线。',
+    '说到价格，这可能是市面上最实在的AI API了。',
+    '价格很透明，三档任选：'
+  ])+'<br><br>'+
+  '⚡ <strong>基础版 ¥298/年</strong><br>'+
+  '10次调用，即买即用。不到1块钱/天，适合先试试。<br><br>'+
+  '🚀 <strong>专业版 ¥998/年</strong><br>'+
+  '50次调用，送品牌诊断+竞品分析。性价比之选。<br><br>'+
+  '🏢 <strong>企业版 ¥2998/年</strong><br>'+
+  '100次调用，专属模型定制+7×24顾问。<br><br>'+
+  '大部分客户从基础版开始，够用了再升。你觉得哪档合适？',
+  [{l:'⚡ 开通基础版 ¥298',fn:goPay},{l:'🚀 开通专业版 ¥998',fn:goPayPro},{l:'🏢 开通企业版 ¥2998',fn:goPayEnt},{l:'🤔 再考虑一下',fn:handleHesitateFn}]);
+}
+
+function showTech(){
+  ai('技术上你放心，我们的架构跟普通API中转完全不同。<br><br>'+
+  '🔧 完全兼容 <strong>OpenAI API格式</strong>，3行代码接入<br>🔑 <strong>前端零密钥</strong>，FC代理统一借电架构<br>⚡ <strong>7引擎路由</strong>：7引擎智能路由，自动切最快<br>'+
+  '⚡ 冷启动~200ms，热请求 < 50ms<br>'+
+  '🛡 TLS加密+独立租户隔离<br>'+
+  '🔄 已有OpenAI代码？改2行就能切<br><br>'+
+  '你们现在用的是什么语言/框架？',
+  [{l:'Python',fn:function(){techGuide('python')}},
+   {l:'Node.js',fn:function(){techGuide('node')}},
+   {l:'Java',fn:function(){techGuide('java')}},
+   {l:'不太懂技术',fn:noobGuide}]);
+}
+
+function techGuide(lang){
+  userContext.tech=lang;
+  var guides={
+    python:'Python最简单！一行pip install搞定：<br><br><code>pip install openai</code><br><br>然后改两行：<br><code>base_url="https://api.shanhai-ai.com/v1"</code><br><code>api_key="your_key"</code><br><br>其他代码完全不用动。开通后我们发完整示例。',
+    node:'Node.js也一样方便：<br><br><code>npm install openai</code><br><br>改一下baseURL就行，SDK完全兼容。<br><br>开通后提供完整Node.js示例代码。',
+    java:'Java用REST API最直接，任何HTTP客户端都能调。<br><br>也支持Spring AI框架集成。<br><br>开通后提供完整Java SDK示例。'
+  };
+  ai(guides[lang]||guides.python,[
+    {l:'⚡ 开通拿Key',fn:goPay},{l:'💰 先看价格',fn:showPrice},{l:'← 返回',fn:welcome}
+  ]);
+}
+
+function noobGuide(){
+  ai('完全没问题！很多客户完全不懂技术，一样顺利上线了。<br><br>'+
+  '我们提供<strong>零代码方案</strong>：<br><br>'+
+  '• 可视化配置，不用写代码<br>'+
+  '• 预置模板一键启用<br>'+
+  '• 专属顾问远程协助接入<br><br>'+
+  '你只需要告诉我们你想实现什么效果，我们来帮你搞定技术部分。',
+  [{l:'💰 开通试试',fn:goPay},{l:'💬 联系顾问帮我搞',fn:collectInfo},{l:'← 返回',fn:welcome}]);
+}
+
+function showDiag(){
+  ai('好的，帮你做个快速诊断。<br><br>'+
+  '先告诉我，你们目前最想用AI解决什么问题？',
+  [{l:'客服太多人，想降本',fn:function(){diagResult('降本')}},
+   {l:'想增加营收/转化',fn:function(){diagResult('增收')}},
+   {l:'想提升产品竞争力',fn:function(){diagResult('竞争力')}},
+   {l:'还没想好，先看看',fn:function(){diagResult('探索')}}]);
+}
+
+function diagResult(need){
+  var results={
+    '降本':'降本是最直接的效果！<br><br>AI客服7×24在线，能处理80%的常规咨询。算下来能省1-2个人力成本。<br><br>基础版¥298/年，可能还不到你现在一个客服一天的工资。',
+    '增收':'增收这块，API能帮很多：<br><br>• 智能推荐提升转化率<br>• 自动跟进减少客户流失<br>• 精准营销提升复购<br><br>很多客户接入后第一个月就看到营收增长。',
+    '竞争力':'现在不用AI的产品，竞争力确实在下降。<br><br>你的竞品可能已经在用了。一个API就能让你的产品立刻拥有AI能力，比从零开发快10倍。',
+    '探索':'没问题，先了解不急着决定。<br><br>你可以随便问我任何问题，关于API的、关于行业的、关于技术的都行。'
+  };
+  ai(results[need],
+  [{l:'💰 看看价格',fn:showPrice},{l:'⚡ 直接开通',fn:goPay},{l:'💬 聊点别的',fn:welcome}]);
+}
+
+function showQuality(){
+  ai('稳定性这块你可以完全放心：<br><br>'+
+  '📊 99.9% SLA可用性保障<br>'+
+  '⚡ P99延迟 < 500ms<br>'+
+  '🛡 TLS 1.3加密+请求签名<br>'+
+  '🔒 独立租户隔离<br>'+
+  '📈 实时监控面板+自定义告警<br><br>'+
+  '生产级，不是demo。',
+  [{l:'⚡ 开通试试',fn:goPay},{l:'💰 看价格',fn:showPrice},{l:'← 返回',fn:welcome}]);
+}
+
+function showDocLink(){
+  ai('技术文档在这里 👇<br><br>'+
+  '<a href="https://shanhai-geo.github.io/docs/" target="_blank">📄 API接入文档</a><br><br>'+
+  '里面有Python、Node.js、Java的完整示例代码。<br><br>'+
+  '有问题随时问我。',
+  [{l:'💰 开通拿Key',fn:goPay},{l:'💬 还是想聊聊',fn:welcome}]);
+}
+
+function handleHesitateFn(){
+  ai(handleHesitate(),
+  [{l:'⚡ 试试基础版 ¥298',fn:goPay},{l:'💬 联系顾问聊聊',fn:collectInfo},{l:'👌 我先看看',fn:byeSoft}]);
+}
+
+/* ===== 成交引导 ===== */
+function goPay(){
+  ai(pick([
+    '好的，基础版¥298/年，马上就能开通 👇',
+    '基础版¥298，点击下面直接支付：',
+    '没问题，¥298/年，不到1块/天 👇'
+  ])+'<br><br>'+
+  '<a href="https://shanhai-geo.github.io/pay.html" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">立即支付 ¥298 →</a><br><br>'+
+  '付款后填一下你的邮箱，<strong>API Key 10分钟内发到你邮箱</strong>。<br>'+
+  '7天无理由退款，不满意随时退。',
+  [{l:'💬 有问题想先问',fn:welcome},{l:'📦 看看其他档位',fn:showPrice}]);
+}
+
+function goPayPro(){
+  ai('专业版¥998/年 👇<br><br>'+
+  '<a href="https://shanhai-geo.github.io/pay.html?plan=pro" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">支付 ¥998 →</a><br><br>'+
+  '50次调用+品牌诊断+竞品分析，性价比最高的一档。',
+  [{l:'💰 还是看基础版',fn:goPay},{l:'🏢 看企业版',fn:goPayEnt}]);
+}
+
+function goPayEnt(){
+  ai('企业版¥2998/年 👇<br><br>'+
+  '<a href="https://shanhai-geo.github.io/pay.html?plan=enterprise" style="display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px">支付 ¥2998 →</a><br><br>'+
+  '100次调用+专属模型定制+7×24顾问，适合有深度需求的企业。',
+  [{l:'💰 看基础版',fn:goPay},{l:'🚀 看专业版',fn:goPayPro}]);
+}
+
+function collectInfo(){
+  ai('好的，方便的话留个联系方式，我们的顾问会主动联系你。<br><br>'+
+  '直接在这里发就行，格式随意，比如：<br>'+
+  '<code>张三 + 某某公司 + xxx@email.com</code>',
+  null);
+  userContext.stage='collecting';
+}
+
+function byeSoft(){
+  ai(pick([
+    '好的，不着急～有任何问题随时回来找我聊。',
+    '没问题！需要的时候直接来找我。祝你今天顺利！',
+    'OK，随时欢迎。有需要吱一声就行～'
+  ]));
+}
+
+/* ===== 输入处理 ===== */
+function handleInput(text){
+  if(!text.trim())return;
+  text=text.trim();
+
+  /* 收集信息阶段 */
+  if(userContext.stage==='collecting'){
+    var parts=text.split(/[+＋,，、\s]+/).filter(Boolean);
+    var emailMatch=text.match(/[\w.-]+@[\w.-]+\.\w+/);
+    userContext.name=parts[0]||'';
+    userContext.company=parts[1]||'';
+    if(emailMatch)userContext.email=emailMatch[0];
+    userContext.stage='collected';
+    ai('收到了！我们的顾问会在30分钟内联系你。<br><br>'+
+      '在等的时候，要不要先看看我们的API方案？基础版只要¥298/年，可以直接开通体验。',
+      [{l:'⚡ 直接开通',fn:goPay},{l:'💰 看看价格',fn:showPrice},{l:'👌 等顾问联系',fn:byeSoft}]);
     return;
   }
-  if(step==='collect'){
-    step='';
-    const parsed = parseInquiry(v);
-    if(parsed){
-      markInquiry({ stage:'collected', ...parsed });
-      addMsg('✅ 收到！我们的专属顾问会在30分钟内与您联系。<br><br>在等待期间，您可以：<br>• 浏览<a href="index.html">首页</a>了解更多<br>• 查看<a href="pay.html">开通页面</a>了解API详情<br><br>感谢您的信任，山海智能期待与您合作！🤝','ai');
-    } else {
-      markInquiry({ stage:'partial', raw: v });
-      addMsg('收到您的信息！为了更精准地为您服务，请补充一下联系方式 👇<br><br>回复格式：<strong>姓名 + 公司 + 邮箱</strong>','ai');
-      step='collect';
-    }
-    return;
+
+  /* 关键词理解+自由对话 */
+  var intent=understand(text);
+  var response=freeChat(text);
+  var opts=[];
+
+  switch(intent){
+    case 'greet': opts=[{l:'了解产品',fn:showIntro},{l:'看价格',fn:showPrice},{l:'帮我分析需求',fn:showDiag}]; break;
+    case 'price': opts=[{l:'⚡ 开通基础版',fn:goPay},{l:'🚀 开通专业版',fn:goPayPro},{l:'🤔 再想想',fn:handleHesitateFn}]; break;
+    case 'buy': opts=[{l:'⚡ 去支付',fn:goPay},{l:'💰 看三档对比',fn:showPrice}]; break;
+    case 'tech': opts=[{l:'Python',fn:function(){techGuide('python')}},{l:'Node.js',fn:function(){techGuide('node')}},{l:'不太懂技术',fn:noobGuide}]; break;
+    case 'intro': opts=[{l:'🛒 电商',fn:function(){userContext.industry='电商';sceneEcom()}},{l:'🏨 服务业',fn:function(){userContext.industry='服务业';sceneLocal()}},{l:'💻 科技',fn:function(){userContext.industry='科技';sceneTech()}},{l:'💰 先看价格',fn:showPrice}]; break;
+    case 'hesitate': opts=[{l:'⚡ 试试 ¥298',fn:goPay},{l:'💬 联系顾问',fn:collectInfo},{l:'👌 先看看',fn:byeSoft}]; break;
+    case 'human': opts=[{l:'💬 留下联系方式',fn:collectInfo},{l:'⚡ 还是自己开通',fn:goPay}]; break;
+    default: opts=[{l:'💰 看看价格',fn:showPrice},{l:'💡 了解产品',fn:showIntro},{l:'🎯 帮我分析',fn:showDiag}]; break;
   }
-  if(vl.includes('价格')||vl.includes('多少钱')||vl.includes('费用')||vl.includes('收费')){priceIntro();return}
-  if(vl.includes('api')||vl.includes('接口')||vl.includes('接入')||vl.includes('开发')){apiIntro();return}
-  if(vl.includes('geo')||vl.includes('获客')||vl.includes('搜索')||vl.includes('推荐')){geoIntro();return}
-  if(vl.includes('合作')||vl.includes('联盟')||vl.includes('代理')){bizIntro();return}
-  if(vl.includes('诊断')||vl.includes('分析')||vl.includes('检测')){diagFlow();return}
-  if(vl.includes('开通')||vl.includes('购买')||vl.includes('付款')||vl.includes('支付')){goPay();return}
-  if(vl.includes('电商')||vl.includes('跨境')||vl.includes('亚马逊')){industry('电商');return}
-  if(vl.includes('企业')||vl.includes('定制')||vl.includes('大客户')){priceEnterprise();return}
-  if(vl.includes('联系')||vl.includes('电话')||vl.includes('人工')){collectInfo();return}
-  if(vl.includes('你好')||vl.includes('hi')||vl.includes('hello')||vl.includes('在吗')){welcome();return}
-  fallback();
+
+  ai(response, opts.length?opts:null);
 }
-function send(){
-  const v=I.value.trim();if(!v)return;
-  addMsg(v,'user');I.value='';
-  setTimeout(()=>handleInput(v),200);
-}
-I.addEventListener('keypress',e=>{if(e.key==='Enter')send()});
-SB.addEventListener('click',send);
-setTimeout(welcome,500);
+
+/* ===== 事件绑定 ===== */
+function send(){var v=I.value;if(!v.trim())return;I.value='';handleInput(v)}
+SB.onclick=send;
+I.onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}};
+
+/* 启动 */
+welcome();
 })();
 </script>
 </body>
