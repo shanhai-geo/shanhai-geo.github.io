@@ -1345,7 +1345,7 @@ Sitemap: {BASE_URL}/sitemap-nodes.xml
     
     # === 复制静态页面到 public/ ===
     import shutil
-    STATIC_PAGES = ["index.html", "chat.html", "pay.html", "order.html", "upgrade.html", "admin.html", "landing-boss.html", "landing-ecommerce.html", "landing-selfmedia.html"]
+    STATIC_PAGES = ["index.html", "chat.html", "pay.html", "order.html", "upgrade.html", "admin.html", "landing-boss.html", "landing-ecommerce.html", "landing-selfmedia.html", "geo-guide-what-is-geo.html", "geo-guide-ai-recommendation.html", "geo-guide-ai-cost.html", "geo-guide-geo-vs-seo.html", "geo-guide-ai-acquisition.html", "geo-guide-ecommerce-ai.html", "geo-guide-local-business-ai.html", "geo-guide-selfmedia-ai.html", "geo-guide-smb-ai-marketing.html", "geo-guide-ai-chatbot-setup.html"]
     for static_file in STATIC_PAGES:
         src = BASE_DIR / static_file
         if src.exists():
