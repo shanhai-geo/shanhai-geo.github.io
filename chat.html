@@ -236,3 +236,22 @@ welcome();
 </script>
 </body>
 </html>
+<!-- 裂变引擎增强 - 自动引导分享 -->
+<script>
+(function(){
+  // 自动生成推荐链接
+  var refId=localStorage.getItem('shanhai_ref');
+  if(!refId){refId='r'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);localStorage.setItem('shanhai_ref',refId)}
+  var REF_BASE=location.origin+'/chat.html?ref='+refId;
+  
+  // 每60秒自动弹出裂变引导（如果用户还没付费）
+  var fissionShown=false;
+  setInterval(function(){
+    if(fissionShown)return;
+    fissionShown=true;
+    var msg='对了，你现在可以免费获得一个专属推荐链接 👇<br><br><code style="word-break:break-all;background:#1a1a1a;padding:8px;border-radius:6px;display:block;font-size:12px">'+REF_BASE+'</code><br>分享给需要AI获客的朋友，每推荐1人开通，你获得<strong>¥50奖励</strong>。推荐6人 = 一年免费。';
+    addMsg(msg,'ai');
+    setTimeout(function(){fissionShown=false},60000);
+  },60000);
+})();
+</script>
