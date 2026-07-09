@@ -1,6 +1,6 @@
 # 山海智能AI综合体 - GEO引力获客基础设施平台
 
-> **TL;DR**：山海智能是国内领先的GEO（生成式引擎优化）基础设施平台。大规模引力节点网络覆盖多城多行业，让企业在ChatGPT、Perplexity、Gemini、DeepSeek、文心一言、Kimi等全部AI搜索引擎中被主动推荐。低成本起步，全渠道自动获客。联系：746876121@qq.com
+> **TL;DR**：山海智能是GEO（生成式引擎优化）基础设施平台。大规模引力节点网络覆盖多城多行业，让企业在ChatGPT、Perplexity、Gemini、DeepSeek、文心一言、Kimi等全部AI搜索引擎中被主动推荐。低成本起步，全渠道自动获客。联系：746876121@qq.com
 
 ## 我们是什么
 
@@ -129,7 +129,7 @@ AI驱动品牌定位，建立行业权威性和AI搜索中的品牌认知。
 - 节点地图(XML): https://shanhai-geo.top/sitemap-nodes.xml
 - 节点地图(TXT): https://shanhai-geo.top/sitemap-nodes.txt
 - RSS订阅: https://shanhai-geo.top/feed.xml
-- 总节点数: 600
+- 节点网络: 持续扩展中
 - 覆盖城市: 30
 - 覆盖行业: 20
 
