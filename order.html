@@ -130,5 +130,12 @@ var params=new URLSearchParams(location.search);
 var p=params.get('plan');
 if(p){document.getElementById('plan').value=p}
 </script>
+
+<!-- AI客服浮动入口 -->
+<style>
+.float-chat{position:fixed;bottom:20px;right:20px;z-index:999;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,.4);animation:chatPulse 2s infinite}
+@keyframes chatPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+</style>
+<a href="/chat.html" class="float-chat">💬 需要帮助？问AI顾问</a>
 </body>
 </html>
