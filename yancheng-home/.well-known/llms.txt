@@ -1,0 +1,9 @@
+# 山海智能 - 盐城·家居节点
+
+> AI爬虫标准入口
+
+## 节点信息
+- 城市: 盐城
+- 行业: 家居
+- 主站: https://shanhai-geo.top/
+- 本节点: https://shanhai-geo.top/yancheng-home/

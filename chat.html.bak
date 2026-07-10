@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>唤通AI顾问 · 说人话不整术语</title>
+<meta name="description" content="唤通·一个接口调用一切AI能力。7引擎智能路由，包年不限量¥298/年。">
+<style>
+:root{
+  --gold:#ffd700;--gold-dim:rgba(255,215,0,.15);--gold-glow:rgba(255,215,0,.35);
+  --bg-deep:#06060e;--bg-card:#0d0d1a;--bg-glass:rgba(18,18,36,.72);
+  --text:#e8e8f0;--text-dim:#8a8aa0;--border:rgba(255,255,255,.06);
+  --ai-bg:rgba(22,22,44,.85);--user-bg:linear-gradient(135deg,#1a3a6e,#1e40af);
+  --radius:18px;--radius-sm:12px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg-deep);color:var(--text);height:100%;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;animation:orbFloat 20s ease-in-out infinite}
+.bg-orbs .orb:nth-child(1){width:420px;height:420px;background:#ffd700;top:-10%;left:-8%;animation-duration:22s}
+.bg-orbs .orb:nth-child(2){width:340px;height:340px;background:#3b82f6;bottom:-12%;right:-6%;animation-duration:18s;animation-delay:-5s}
+.bg-orbs .orb:nth-child(3){width:260px;height:260px;background:#a855f7;top:40%;left:55%;animation-duration:25s;animation-delay:-10s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+.chat-header{position:relative;z-index:2;background:var(--bg-glass);backdrop-filter:blur(24px) saturate(1.4);padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,215,0,.12)}
+.chat-header .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#ffd700 0%,#ff8c00 100%);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 20px rgba(255,215,0,.25);flex-shrink:0}
+.chat-header .info{flex:1}
+.chat-header .info h1{font-size:16px;font-weight:700;color:var(--gold);letter-spacing:.3px}
+.chat-header .info .sub{font-size:11px;color:var(--text-dim);margin-top:2px}
+.online-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#4ade80;background:rgba(74,222,128,.08);padding:3px 10px;border-radius:20px;margin-top:3px}
+.online-badge::before{content:"";width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1}
+.messages{flex:1;overflow-y:auto;padding:16px 0;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.messages::-webkit-scrollbar{width:4px}.messages::-webkit-scrollbar-track{background:transparent}.messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.2);border-radius:4px}
+.msg-row{display:flex;gap:10px;margin-bottom:14px;padding:0 16px;max-width:680px;margin-left:auto;margin-right:auto;width:100%;animation:msgIn .4s cubic-bezier(.16,1,.3,1) both}
+.msg-row.user{flex-direction:row-reverse}
+@keyframes msgIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.avatar{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px}
+.msg-row.ai .avatar{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;box-shadow:0 0 12px rgba(255,215,0,.2)}
+.msg-row.user .avatar{background:var(--user-bg);color:#fff}
+.bubble{max-width:82%;padding:12px 16px;line-height:1.7;font-size:14px;position:relative;word-break:break-word}
+.msg-row.ai .bubble{background:var(--ai-bg);border:1px solid var(--border);border-radius:4px var(--radius) var(--radius) var(--radius);backdrop-filter:blur(8px)}
+.msg-row.user .bubble{background:var(--user-bg);border-radius:var(--radius) 4px var(--radius) var(--radius);color:#fff}
+.bubble a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
+.bubble b,.bubble strong{color:var(--gold);font-weight:600}
+.bubble code{background:rgba(255,215,0,.1);padding:2px 6px;border-radius:4px;font-size:12px;color:var(--gold)}
+.quick-opts{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0 8px 56px;max-width:680px;margin:0 auto;width:100%;animation:msgIn .4s cubic-bezier(.16,1,.3,1) both;animation-delay:.1s}
+.q-btn{background:var(--gold-dim);border:1px solid rgba(255,215,0,.25);color:var(--gold);padding:8px 18px;border-radius:24px;cursor:pointer;font-size:13px;font-weight:500;transition:all .25s;white-space:nowrap}
+.q-btn:hover,.q-btn:active{background:rgba(255,215,0,.22);border-color:rgba(255,215,0,.5);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,215,0,.15)}
+.typing-row{display:flex;gap:10px;padding:0 16px;margin-bottom:14px;max-width:680px;margin-left:auto;margin-right:auto;width:100%}
+.typing-dots{background:var(--ai-bg);border:1px solid var(--border);border-radius:4px var(--radius) var(--radius) var(--radius);padding:14px 20px;display:flex;gap:5px;align-items:center;backdrop-filter:blur(8px)}
+.typing-dots span{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:dotBounce .6s ease-in-out infinite alternate}
+.typing-dots span:nth-child(2){animation-delay:.15s}.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes dotBounce{to{transform:translateY(-6px);opacity:.4}}
+.input-area{padding:10px 16px 14px;background:var(--bg-glass);backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;max-width:680px;margin:0 auto;width:100%}
+.input-area input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:12px 18px;border-radius:28px;font-size:14px;outline:none;transition:border-color .2s}
+.input-area input:focus{border-color:var(--gold-glow);box-shadow:0 0 0 3px rgba(255,215,0,.08)}
+.input-area input::placeholder{color:rgba(255,255,255,.25)}
+.send-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;flex-shrink:0}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 0 20px rgba(255,215,0,.3)}.send-btn:active{transform:scale(.95)}
+.chat-footer{text-align:center;padding:6px;font-size:10px;color:rgba(255,255,255,.2);background:var(--bg-deep)}
+.pay-btn{display:inline-block;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 32px;border-radius:28px;font-weight:bold;text-decoration:none;font-size:15px;border:none;cursor:pointer;margin:8px 0}
+@media(min-width:768px){body{align-items:center;justify-content:center}.chat-card{width:460px;height:90vh;max-height:780px;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,215,0,.1);box-shadow:0 0 60px rgba(255,215,0,.06),0 24px 80px rgba(0,0,0,.5);background:var(--bg-card);position:relative}.chat-card .bg-orbs{border-radius:24px}.chat-footer{display:none}}
+@media(max-width:767px){.chat-card{display:contents}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+<div class="chat-card">
+<header class="chat-header">
+  <div class="logo">🏔</div>
+  <div class="info"><h1>你的AI顾问</h1><div class="online-badge">在线 · 真人级对话 · 24小时</div></div>
+</header>
+<div class="chat-body">
+  <div class="messages" id="messages"></div>
+  <div class="input-area">
+    <label for="userInput" class="sr-only">输入消息</label>
+    <input type="text" id="userInput" placeholder="随便聊，我在听…" autocomplete="off">
+    <button class="send-btn" id="sendBtn" aria-label="发送">➤</button>
+  </div>
+</div>
+<footer class="chat-footer">唤通 — 一个接口，调用一切 · ¥298/年 包年不限量</footer>
+</div>
+<script>
+(function(){
+"use strict";
+var AI_ENDPOINT="https://open.bigmodel.cn/api/paas/v4/chat/completions";
+var AI_KEY="03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt";
+var AI_MODEL="glm-4-flash";
+var LEAD_EMAIL="746876121@qq.com";
+var PAY_URL="https://shanhai-geo.top/pay.html";
+var ORDER_URL="https://shanhai-geo.top/order.html";
+var SESSION_ID="ht_"+Date.now()+"_"+Math.random().toString(36).substr(2,6);
+var REF_CODE=SESSION_ID.substr(3,8);
+var REF_URL="https://shanhai-geo.top/chat.html?ref="+REF_CODE;
+var SYSTEM_PROMPT="你是唤通的AI销售顾问，名字叫小海。你正在跟一个潜在客户聊天。\n\n【你的身份】\n你是山海智能AI综合体的首席顾问。山海智能是GEO基础设施平台。你的目标是帮助客户解决AI获客和AI接入的需求，引导到298/年的唤通API服务。\n\n【双产品线】\n1. GEO引力获客：让企业在AI搜索引擎中被主动推荐。多节点引力网络覆盖多城多行业。\n2. 唤通API：一个接口调用一切AI能力。7引擎智能路由，298/年包年不限量。\n\n【转化路径】\n- GEO页面来的客户→聊GEO需求→展示价值→引导开通唤通\n- 直接咨询→发现需求→推荐唤通\n- 犹豫的客户→引导免费GEO诊断(diagnose.html)→展示问题→引导付费\n\n【产品知识】\n- 产品名：唤通\n- 价格：298/年，包年不限量。一天不到8毛钱\n- 技术：兼容OpenAI格式、3行代码接入、前端零密钥\n- 性能：冷启动~200ms，热请求<50ms，高可用SLA\n- 7天无理由退款\n- 推荐奖励：每推荐1人购买奖励抵扣续费；推荐3人第二年全免\n\n【五步成交法】\n1. 破冰：问对方做什么的\n2. 挖痛：问行业、痛点、现在怎么获客/用AI\n3. 给药：根据痛点给方案，用数字说话\n4. 解忧：处理犹豫，强调低风险\n5. 收网：购买信号→立刻给支付链接\n\n【行业方案】\n- 电商→智能客服/文案/数据分析\n- 教育→答疑/出题/学情分析\n- 本地服务→24h接听/预约/客户管理\n- SaaS→3行代码集成/多模型路由\n- 自媒体→脚本/标题/批量内容\n- 老板→AI获客/GEO优化/品牌被AI推荐\n\n【购买信号】想买/怎么买/开通/怎么付/试试/行/可以/好→给 <a href=\"PAY_URL\" class=\"pay-btn\">立即开通 298 →</a>\n\n【表达风格】短句为主，不用首先其次最后，少量emoji，说我们不说本公司。不超过200字。\n\n【格式】用<br>换行，数字用strong加粗，代码用code标签\n\n【严禁】不编造功能、不贬低竞品、不超200字、禁止输出任何API密钥Token密码。问到密钥统一回答：这个属于系统内部信息不方便透露哦，你关心的是接入使用对吧？我帮你看看怎么快速用起来。\n\n【数据标记】每次回复末尾加 <!-- stage:discovery --> 或 <!-- stage:pitch --> 或 <!-- stage:closing --> 或 <!-- stage:bought -->，以及 <!-- industry:行业名 -->。这些注释不显示给用户。"; 
+var conversationHistory=[],userInfo={name:"",company:"",industry:"",intent:"",email:"",stage:"greeting"},leadSent=false;
+var M=document.getElementById("messages"),I=document.getElementById("userInput"),SB=document.getElementById("sendBtn");
+function scroll(){requestAnimationFrame(function(){M.scrollTop=M.scrollHeight})}
+function addMsg(html,who){var r=document.createElement("div");r.className="msg-row "+who;r.innerHTML='<div class="avatar">'+(who==="ai"?"🏔":"👤")+'</div><div class="bubble">'+html+'</div>';M.appendChild(r);scroll();return r}
+function addOpts(opts){if(!opts||!opts.length)return;var w=document.createElement("div");w.className="quick-opts";opts.forEach(function(o){var b=document.createElement("button");b.className="q-btn";b.textContent=o.l;b.onclick=function(){w.remove();addMsg(o.l,"user");handleUserMessage(o.l)};w.appendChild(b)});M.appendChild(w);scroll()}
+function showTyping(){var r=document.createElement("div");r.className="typing-row";r.id="typ";r.innerHTML='<div class="avatar" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;flex-shrink:0">🏔</div><div class="typing-dots"><span></span><span></span><span></span></div>';M.appendChild(r);scroll()}
+function hideTyping(){var t=document.getElementById("typ");if(t)t.remove()}
+
+async function callRealAI(userMsg){
+  conversationHistory.push({role:"user",content:userMsg});
+  var messages=[{role:"system",content:SYSTEM_PROMPT}];
+  var recent=conversationHistory.slice(-20);
+  messages=messages.concat(recent);
+  try{
+    var resp=await fetch(AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+AI_KEY},body:JSON.stringify({model:AI_MODEL,messages:messages,temperature:0.8,max_tokens:512,stream:false}),signal:AbortSignal.timeout(15000)});
+    if(!resp.ok)throw new Error("API返回"+resp.status);
+    var data=await resp.json();
+    var reply=data.choices[0].message.content;
+    conversationHistory.push({role:"assistant",content:reply});
+    extractUserInfo(userMsg);
+    checkLeadNotify();
+    return reply;
+  }catch(e){
+    console.warn("AI调用失败:",e.message);
+    return fallbackResponse(userMsg);
+  }
+}
+
+function extractUserInfo(lastMsg){
+  var t=lastMsg.toLowerCase();
+  if(/电商|淘宝|京东|拼多多|跨境|shopify|卖货/.test(t))userInfo.industry="电商";
+  if(/教育|培训|学校|课程|老师|教学/.test(t))userInfo.industry="教育";
+  if(/餐饮|酒店|美容|美发|本地|实体|门店|开店/.test(t))userInfo.industry="本地服务";
+  if(/saas|软件|科技|小程序|app|开发|程序/.test(t))userInfo.industry="科技";
+  if(/自媒体|短视频|抖音|小红书|公众号|博主|直播/.test(t))userInfo.industry="自媒体";
+  if(/医疗|健康|诊所|养生/.test(t))userInfo.industry="医疗";
+  if(/金融|保险|投资|理财/.test(t))userInfo.industry="金融";
+    if(/老板|公司|企业|创业|CEO|总监/.test(t))userInfo.industry="企业主";
+  if(/geo|搜索引擎|AI搜索|获客|推广|引流/.test(t))userInfo.industry="GEO获客";
+  var lastReply=conversationHistory[conversationHistory.length-1];
+  if(lastReply&&lastReply.role==="assistant"){if(/pay\.html|支付|开通|购买/.test(lastReply.content))userInfo.stage="buying"}
+}
+
+function checkFissionTrigger(){
+  var lastMsg=conversationHistory[conversationHistory.length-1];
+  if(!lastMsg)return;
+  var c=lastMsg.content.toLowerCase();
+  // 当用户说"买了""付了""怎么用""太好了"等正面信号时，触发裂变引导
+  if(/买了|付了|付完|已付|太好了|不错|可以|好的|行|就用这个/.test(c)&&conversationHistory.length>=4){
+    var fissionMsg="太棒了！欢迎加入唤通 👏<br><br>你的专属推荐链接已生成：<br><code>"+REF_URL+"</code><br><br>把这个链接分享给朋友，每推荐1人购买，奖励抵扣你的续费。<br>推荐满3人，<strong>第二年直接免费</strong>！";
+    setTimeout(function(){addMsg(fissionMsg,"ai")},1500);
+  }
+}
+
+function checkLeadNotify(){
+  var score=0;
+  if(userInfo.industry)score++;
+  if(userInfo.stage==="buying")score++;
+  if(conversationHistory.length>=6)score++;
+  if(score>=2&&!leadSent){leadSent=true;sendLeadNotification()}
+}
+
+function sendLeadNotification(){
+  try{
+    fetch("https://formsubmit.co/ajax/"+LEAD_EMAIL,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({_subject:"【唤通新线索】"+(userInfo.industry||"未知")+"客户有意购买",会话ID:SESSION_ID,行业:userInfo.industry||"未知",阶段:userInfo.stage,对话轮数:Math.floor(conversationHistory.length/2),时间:new Date().toLocaleString("zh-CN"),对话摘要:conversationHistory.slice(-8).map(function(m){return(m.role==="user"?"客户: ":"顾问: ")+m.content.substring(0,80)}).join(" | "),_template:"table"})}).catch(function(){});
+  }catch(e){}
+  var leads=JSON.parse(localStorage.getItem("ht_leads")||"[]");
+  leads.push({sessionId:SESSION_ID,industry:userInfo.industry,stage:userInfo.stage,messages:conversationHistory.length,timestamp:new Date().toISOString(),history:conversationHistory.slice(-10)});
+  localStorage.setItem("ht_leads",JSON.stringify(leads));
+}
+
+function fallbackResponse(text){
+  var t=text.toLowerCase();
+  if(/价格|多少钱|费用/.test(t))return"基础版<strong>¥298/年</strong>，包年不限量调用。<br>算下来一天不到<strong>8毛钱</strong>。<br><br>市面按token计费贵我们3-5倍。<br>7天无理由退款。<br><br><a href=\""+PAY_URL+"\" class=\"pay-btn\">立即开通 ¥298 →</a>";
+  if(/买|开通|支付|付款/.test(t))return"直接开通 👇<br><br><a href=\""+PAY_URL+"\" class=\"pay-btn\">立即支付 ¥298 →</a><br><br>付款后填下邮箱，<strong>API Key尽快发到邮箱</strong>。<br>7天无理由退款。";
+  if(/电商/.test(t))return"电商最快见效！<br>• <strong>智能客服</strong>：7×24自动回复<br>• <strong>商品文案</strong>：批量生成标题详情页<br>• <strong>客户分析</strong>：精准推荐<br><br>不少客户很快就感受到价值。你做什么品类？";
+  if(/教育|培训/.test(t))return"教育行业太适合了！<br>• <strong>智能答疑</strong>：凌晨3点提问也秒回<br>• <strong>自动出题</strong>：按知识点批量生成<br>• <strong>学情分析</strong>：数据驱动教学<br><br>一个API=永远在线的AI助教。";
+  if(/api|接口|接入|技术|代码/.test(t))return"技术上超简单：<br><br>兼容<strong>OpenAI格式</strong>，改两行代码：<br><code>base_url = \"https://api.shanhai-ai.com/v1\"</code><br><code>api_key = \"your_key\"</code><br><br>Python/Node/Java都有SDK，5分钟搞定。<br><br>你用什么语言？";
+  if(/你好|在吗|hi|hello/.test(t))return"在的！有什么想了解的？<br>产品、价格、技术接入——随便问，大白话给你讲明白。";
+  if(/谢谢|感谢|棒/.test(t))return"不客气！有问题随时找我。<br>推荐朋友来买，推荐3个人第二年免费～";
+  return"你说的我理解了 👍<br><br>能再说说你的情况吗？做什么行业、想用AI解决什么问题？<br>这样我能给你更有针对性的建议。";
+}
+
+var KEY_PATTERN=/[0-9a-f]{20,}\.[0-9a-zA-Z]{10,}/g;
+function sanitizeReply(text){
+  // 遮蔽任何类似API密钥的字符串
+  text=text.replace(KEY_PATTERN,"sk-****已隐藏****");
+  // 额外过滤：包含"密钥是""key是""token是"等后紧跟的内容
+  text=text.replace(/((?:密钥|key|token|密码|api\s?key)\s*[是为:：])\s*[^\s,。，！？]{8,}/gi,"$1 [已隐藏]");
+  return text;
+}
+var isProcessing=false;
+async function handleUserMessage(text){
+  if(!text.trim()||isProcessing)return;
+  isProcessing=true;I.disabled=true;SB.style.opacity="0.5";
+  showTyping();
+  try{
+    var reply=await callRealAI(text);
+    reply=sanitizeReply(reply);
+    reply=reply.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+    hideTyping();addMsg(reply,"ai");
+    checkFissionTrigger();
+    showContextOptions(text,reply);
+  }catch(e){hideTyping();addMsg("抱歉，网络波动了一下，请再发一次～","ai")}
+  I.disabled=false;SB.style.opacity="1";isProcessing=false;I.focus();
+}
+
+function showContextOptions(userMsg,aiReply){
+  var t=userMsg.toLowerCase(),opts=[];
+  if(/pay\.html|开通.*298|立即支付/.test(aiReply)){opts=[{l:"💬 还有问题",fn:function(){I.focus()}},{l:"👍 我去付",fn:function(){window.open(PAY_URL,"_blank")}}]}
+  else if(userInfo.stage==="greeting"||conversationHistory.length<=2){opts=[{l:"💡 了解产品",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},{l:"💰 多少钱",fn:function(){handleUserMessage("多少钱一年？")}},{l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我的行业适不适合用AI")}}]}
+  else if(/行业|做什么|什么公司/.test(aiReply)){opts=[{l:"🛒 电商",fn:function(){handleUserMessage("我做电商的")}},{l:"📚 教育",fn:function(){handleUserMessage("我做教育培训")}},{l:"🏨 本地服务",fn:function(){handleUserMessage("我做本地生活服务")}},{l:"💻 科技/SaaS",fn:function(){handleUserMessage("我做SaaS产品")}},{l:"📱 自媒体",fn:function(){handleUserMessage("我做自媒体")}}]}
+  else if(/语言|python|node|java|代码/.test(aiReply)){opts=[{l:"Python",fn:function(){handleUserMessage("我用Python")}},{l:"Node.js",fn:function(){handleUserMessage("我用Node.js")}},{l:"不太懂技术",fn:function(){handleUserMessage("我不太懂技术，能搞定吗？")}}]}
+  else{opts=[{l:"💰 看看价格",fn:function(){handleUserMessage("多少钱？")}},{l:"💡 了解产品",fn:function(){handleUserMessage("详细介绍一下产品")}},{l:"🎯 帮我诊断",fn:function(){handleUserMessage("帮我分析一下我适合用AI做什么")}}]}
+  if(opts.length)addOpts(opts);
+}
+
+function send(){var v=I.value;if(!v.trim())return;I.value="";addMsg(v,"user");handleUserMessage(v)}
+SB.onclick=send;
+I.onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};
+
+function welcome(){
+  showTyping();
+  setTimeout(function(){
+    hideTyping();
+    addMsg("嗨！我是小海 👋<br><br>有什么想了解的直接问，我用大白话给你讲明白。<br><br>不管你是想<strong>给公司接入AI</strong>、<strong>了解价格</strong>、还是<strong>随便看看</strong>，都能帮到你。<br><br>对了，推荐朋友来用还有福利——推荐3个人，第二年免费～","ai");
+    addOpts([{l:"💡 你们能做什么？",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},{l:"💰 多少钱？",fn:function(){handleUserMessage("多少钱一年？")}},{l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我适不适合用AI")}},{l:"🔧 我想接入API",fn:function(){handleUserMessage("我想把AI接入到我的产品里")}}]);
+  },1200);
+}
+welcome();
+})();
+</script>
+
+// ===== 对话数据实时追踪 =====
+(function(){
+  var SK='ht_stats_'+new Date().toISOString().slice(0,10);
+  var st=JSON.parse(localStorage.getItem(SK)||'{"c":0,"ps":0,"ind":{},"stg":{}}');
+  st.c++;
+  var obs=new MutationObserver(function(ms){
+    ms.forEach(function(m){
+      if(m.addedNodes.length){
+        var n=m.addedNodes[0];
+        if(n.classList&&n.classList.contains('msg-row')&&n.classList.contains('ai')){
+          var h=n.innerHTML||'';
+          var sm=h.match(/<!--\s*stage:(\w+)\s*-->/);
+          if(sm){st.stg[sm[1]]=(st.stg[sm[1]]||0)+1}
+          var im=h.match(/<!--\s*industry:(\S+?)\s*-->/);
+          if(im){st.ind[im[1]]=(st.ind[im[1]]||0)+1}
+          if(/pay\.html|立即开通|立即支付/.test(h)){st.ps++}
+          localStorage.setItem(SK,JSON.stringify(st));
+        }
+      }
+    });
+  });
+  var mel=document.getElementById('messages');
+  if(mel)obs.observe(mel,{childList:true,subtree:true});
+  window.addEventListener('beforeunload',function(){
+    try{navigator.sendBeacon('https://formsubmit.co/ajax/746876121@qq.com',JSON.stringify({
+      _subject:'【唤通实时数据】'+new Date().toLocaleString('zh-CN'),
+      今日对话:st.c,购买信号:st.ps,行业:JSON.stringify(st.ind),阶段:JSON.stringify(st.stg),_template:'table'
+    }))}catch(e){}
+  });
+})();
+</body>
+</html>
+<!-- 裂变引擎增强 - 自动引导分享 -->
+<script>
+(function(){
+  // 自动生成推荐链接
+  var refId=localStorage.getItem('shanhai_ref');
+  if(!refId){refId='r'+Date.now().toString(36)+Math.random().toString(36).substr(2,5);localStorage.setItem('shanhai_ref',refId)}
+  var REF_BASE=location.origin+'/chat.html?ref='+refId;
+  
+  // 每60秒自动弹出裂变引导（如果用户还没付费）
+  var fissionShown=false;
+  setInterval(function(){
+    if(fissionShown)return;
+    fissionShown=true;
+    var msg='对了，你现在可以免费获得一个专属推荐链接 👇<br><br><code style="word-break:break-all;background:#1a1a1a;padding:8px;border-radius:6px;display:block;font-size:12px">'+REF_BASE+'</code><br>分享给需要AI获客的朋友，每推荐1人开通，你获得<strong>¥50奖励</strong>。推荐6人 = 一年免费。';
+    addMsg(msg,'ai');
+    setTimeout(function(){fissionShown=false},60000);
+  },60000);
+})();
+</script>

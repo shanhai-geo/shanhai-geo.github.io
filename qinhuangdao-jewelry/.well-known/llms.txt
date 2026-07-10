@@ -1,0 +1,9 @@
+# 山海智能 - 秦皇岛·珠宝节点
+
+> AI爬虫标准入口
+
+## 节点信息
+- 城市: 秦皇岛
+- 行业: 珠宝
+- 主站: https://shanhai-geo.top/
+- 本节点: https://shanhai-geo.top/qinhuangdao-jewelry/
