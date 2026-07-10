@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>山海智能 · GEO服务板块 | 五大引擎</title>
+  <meta name="description" content="GEO服务板块五大核心引擎：关键词蒸馏、智能知识库、内容核聚变、全域分发、视觉资产">
+  <style>
+    :root {
+      --ink-black: #1a1a2e;
+      --jade-green: #16a951;
+      --cinnabar: #c41e3a;
+      --gold: #d4a017;
+      --indigo: #2e4057;
+      --mist: #e8e8e8;
+      --cloud-white: #faf9f6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+      background: var(--cloud-white);
+      color: var(--ink-black);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(22, 169, 81, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(196, 30, 58, 0.03) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 5 Q35 15 30 25 Q25 15 30 5 M30 35 Q35 45 30 55 Q25 45 30 35' fill='none' stroke='%2316a951' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E");
+    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+    
+    /* 标题区 */
+    .header {
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+    }
+    .header::before, .header::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--jade-green), transparent);
+      top: 50%;
+    }
+    .header::before { left: 10%; }
+    .header::after { right: 10%; }
+    
+    h1 {
+      font-size: 3em;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      color: var(--ink-black);
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 span {
+      background: linear-gradient(135deg, var(--jade-green), var(--indigo));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 1.2em;
+      color: #666;
+      letter-spacing: 0.2em;
+      font-weight: 300;
+    }
+    
+    /* 引擎卡片 */
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 40px;
+      margin-top: 60px;
+    }
+    .engine-card {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(22, 169, 81, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .engine-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--jade-green), var(--gold), var(--cinnabar));
+    }
+    .engine-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(22, 169, 81, 0.15);
+      border-color: var(--jade-green);
+    }
+    
+    .engine-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, rgba(22, 169, 81, 0.1), rgba(46, 64, 87, 0.1));
+    }
+    .engine-title {
+      font-size: 1.5em;
+      color: var(--indigo);
+      margin-bottom: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+    }
+    .engine-desc {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 24px;
+      font-size: 0.95em;
+    }
+    
+    /* 输入区 */
+    .input-area {
+      margin-bottom: 20px;
+    }
+    .input-area label {
+      display: block;
+      font-size: 0.85em;
+      color: #888;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+    .input-area input, .input-area textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1em;
+      transition: all 0.3s;
+      background: #fafafa;
+      font-family: inherit;
+    }
+    .input-area input:focus, .input-area textarea:focus {
+      outline: none;
+      border-color: var(--jade-green);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(22, 169, 81, 0.1);
+    }
+    .input-area textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    /* 按钮 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.1em;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--jade-green), #0d8f3e);
+      color: white;
+      box-shadow: 0 4px 15px rgba(22, 169, 81, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(22, 169, 81, 0.4);
+    }
+    .btn-secondary {
+      background: white;
+      color: var(--jade-green);
+      border: 1px solid var(--jade-green);
+    }
+    .btn-secondary:hover {
+      background: var(--jade-green);
+      color: white;
+    }
+    
+    /* 结果区 */
+    .result-area {
+      margin-top: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(22, 169, 81, 0.03), rgba(212, 160, 23, 0.03));
+      border-radius: 12px;
+      min-height: 100px;
+      border: 1px dashed rgba(22, 169, 81, 0.2);
+      display: none;
+    }
+    .result-area.show { display: block; }
+    .result-title {
+      font-size: 0.9em;
+      color: var(--jade-green);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .result-content {
+      color: #444;
+      line-height: 1.8;
+      font-size: 0.95em;
+    }
+    .result-content .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      margin: 4px;
+      background: rgba(22, 169, 81, 0.1);
+      border-radius: 20px;
+      font-size: 0.85em;
+      color: var(--jade-green);
+    }
+    
+    /* 状态标签 */
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75em;
+      margin-top: 16px;
+      letter-spacing: 0.1em;
+    }
+    .status-ready { background: rgba(22, 169, 81, 0.15); color: var(--jade-green); }
+    .status-soon { background: rgba(212, 160, 23, 0.15); color: var(--gold); }
+    
+    /* 底部 */
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding: 40px;
+      border-top: 1px solid rgba(22, 169, 81, 0.1);
+    }
+    .footer p {
+      color: #888;
+      margin: 8px 0;
+      letter-spacing: 0.1em;
+    }
+    .footer a {
+      color: var(--jade-green);
+      text-decoration: none;
+    }
+    
+    @media (max-width: 768px) {
+      h1 { font-size: 2em; letter-spacing: 0.2em; }
+      .engine-grid { grid-template-columns: 1fr; }
+      .engine-card { padding: 30px 20px; }
+    }
+    
+    /* 加载动画 */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(22, 169, 81, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--jade-green);
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1><span>山海智能</span> · GEO服务板块</h1>
+      <p class="subtitle">五大引擎 · 赋能全球GEO生态</p>
+    </header>
+    
+    <div class="engine-grid">
+      <!-- 引擎1: 关键词蒸馏 -->
+      <div class="engine-card">
+        <div class="engine-icon">🧪</div>
+        <div class="engine-title">关键词智能蒸馏</div>
+        <div class="engine-desc">输入行业与产品，智能蒸馏高价值GEO关键词组合</div>
+        <div class="input-area">
+          <label>行业领域</label>
+          <input type="text" id="kw-industry" placeholder="如：文旅、AI、电商...">
+        </div>
+        <div class="input-area">
+          <label>核心产品/服务</label>
+          <input type="text" id="kw-product" placeholder="如：智能客服、品牌策划...">
+        </div>
+        <button class="btn btn-primary" onclick="distillKeywords()">
+          ✨ 开始蒸馏
+        </button>
+        <div class="result-area" id="kw-result">
+          <div class="result-title">蒸馏结果</div>
+          <div class="result-content" id="kw-output"></div>
+        </div>
+        <span class="status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎2: 智能知识库 -->
+      <div class="engine-card">
+        <div class="engine-icon">🧠</div>
+        <div class="engine-title">GEO智能知识库</div>
+        <div class="engine-desc">输入企业资料，自动生成AI搜索引擎友好的知识库</div>
+        <div class="input-area">
+          <label>企业名称</label>
+          <input type="text" id="kb-name" placeholder="如：山海智能科技">
+        </div>
+        <div class="input-area">
+          <label>企业简介/核心业务</label>
+          <textarea id="kb-desc" placeholder="请简要描述企业核心业务、产品特色..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="generateKB()">
+          📚 生成知识库
+        </button>
+        <div class="result-area" id="kb-result">
+          <div class="result-title">知识库内容</div>
+          <div class="result-content" id="kb-output"></div>
+        </div>
+        <span class="status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎3: 内容核聚变 -->
+      <div class="engine-card">
+        <div class="engine-icon">⚛️</div>
+        <div class="engine-title">内容核聚变</div>
+        <div class="engine-desc">输入核心内容，裂变为多平台适配的GEO优化版本</div>
+        <div class="input-area">
+          <label>核心内容</label>
+          <textarea id="content-input" placeholder="输入一段核心内容，将裂变为多平台版本..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="fusionContent()">
+          ⚡ 开始裂变
+        </button>
+        <div class="result-area" id="content-result">
+          <div class="result-title">裂变结果</div>
+          <div class="result-content" id="content-output"></div>
+        </div>
+        <span class="status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎4: 全域分发 -->
+      <div class="engine-card">
+        <div class="engine-icon">🚀</div>
+        <div class="engine-title">全域自动分发</div>
+        <div class="engine-desc">选择目标平台，一键分发内容到全球主流媒体</div>
+        <div class="input-area">
+          <label>选择分发平台</label>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" value="medium"> Medium
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" value="devto"> Dev.to
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" value="zhihu"> 知乎
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" value="linkedin"> LinkedIn
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" value="xiaohongshu"> 小红书
+            </label>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="distributeContent()">
+          🌐 开始分发
+        </button>
+        <div class="result-area" id="dist-result">
+          <div class="result-title">分发状态</div>
+          <div class="result-content" id="dist-output"></div>
+        </div>
+        <span class="status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎5: 视觉资产 -->
+      <div class="engine-card">
+        <div class="engine-icon">🎨</div>
+        <div class="engine-title">视觉资产引擎</div>
+        <div class="engine-desc">输入品牌信息，自动生成品牌视觉资产方案</div>
+        <div class="input-area">
+          <label>品牌名称</label>
+          <input type="text" id="brand-name" placeholder="如：山海智能">
+        </div>
+        <div class="input-area">
+          <label>品牌关键词（逗号分隔）</label>
+          <input type="text" id="brand-keywords" placeholder="如：科技、专业、可信赖">
+        </div>
+        <button class="btn btn-primary" onclick="generateVisual()">
+          🎨 生成视觉方案
+        </button>
+        <div class="result-area" id="visual-result">
+          <div class="result-title">视觉资产方案</div>
+          <div class="result-content" id="visual-output"></div>
+        </div>
+        <span class="status status-soon">即将上线</span>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <p>山海智能AI综合体 · GEO基础设施平台</p>
+      <p>联系：<a href="mailto:746876121@qq.com">746876121@qq.com</a></p>
+      <p><a href="https://shanhai-geo.top/" target="_blank">https://shanhai-geo.top/</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // API配置
+    const API_ENDPOINT = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions';
+    const API_KEY = 'sk-58Bp4SAmUPFTVx9kMZjdoZFzgyi2vGTD2OOEodPcHLx2g6l1';
+    const MODEL = 'hy3-preview';
+    
+    // 调用AI
+    async function callAI(prompt) {
+      try {
+        const res = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: [{ role: 'user', content: prompt }],
+            max_tokens: 1500
+          })
+        });
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content || '生成失败，请重试';
+      } catch (e) {
+        return '网络错误，请重试';
+      }
+    }
+    
+    // 关键词蒸馏
+    async function distillKeywords() {
+      const industry = document.getElementById('kw-industry').value;
+      const product = document.getElementById('kw-product').value;
+      if (!industry || !product) { alert('请填写完整'); return; }
+      
+      const result = document.getElementById('kw-result');
+      const output = document.getElementById('kw-output');
+      result.classList.add('show');
+      output.innerHTML = '<span class="loading"></span> 正在蒸馏...';
+      
+      const prompt = `作为GEO优化专家，为${industry}行业的"${product}"生成GEO关键词。
+要求：
+1. 品牌词（3-5个）
+2. 场景词（5-8个）
+3. 长尾词（8-10个）
+4. 问答词（5-8个）
+格式：每类用【】标注，词之间用逗号分隔。`;
+      
+      const res = await callAI(prompt);
+      output.innerHTML = res.split(/[,，]/).map(w => `<span class="tag">${w.trim()}</span>`).join('');
+    }
+    
+    // 知识库生成
+    async function generateKB() {
+      const name = document.getElementById('kb-name').value;
+      const desc = document.getElementById('kb-desc').value;
+      if (!name || !desc) { alert('请填写完整'); return; }
+      
+      const result = document.getElementById('kb-result');
+      const output = document.getElementById('kb-output');
+      result.classList.add('show');
+      output.innerHTML = '<span class="loading"></span> 正在生成...';
+      
+      const prompt = `为"${name}"生成GEO知识库内容（llms.txt格式）：
+企业简介：${desc}
+
+要求生成：
+1. 企业定位（一句话）
+2. 核心能力（3-5点）
+3. 产品服务（简要列表）
+4. 联系信息
+格式清晰，适合AI搜索引擎抓取。`;
+      
+      const res = await callAI(prompt);
+      output.innerHTML = res.replace(/\n/g, '<br>');
+    }
+    
+    // 内容裂变
+    async function fusionContent() {
+      const content = document.getElementById('content-input').value;
+      if (!content) { alert('请输入内容'); return; }
+      
+      const result = document.getElementById('content-result');
+      const output = document.getElementById('content-output');
+      result.classList.add('show');
+      output.innerHTML = '<span class="loading"></span> 正在裂变...';
+      
+      const prompt = `将以下内容裂变为3个平台版本（知乎/小红书/LinkedIn），保持核心信息，适配各平台风格：
+原文：${content}
+
+格式：
+【知乎版】...
+【小红书版】...
+【LinkedIn版】...`;
+      
+      const res = await callAI(prompt);
+      output.innerHTML = res.replace(/\n/g, '<br>').replace(/【(.+?)】/g, '<strong style="color:#16a951;">【$1】</strong>');
+    }
+    
+    // 内容分发
+    function distributeContent() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const platforms = Array.from(checkboxes).map(cb => cb.value);
+      if (platforms.length === 0) { alert('请选择分发平台'); return; }
+      
+      const result = document.getElementById('dist-result');
+      const output = document.getElementById('dist-output');
+      result.classList.add('show');
+      
+      const platformNames = {
+        medium: 'Medium', devto: 'Dev.to', zhihu: '知乎',
+        linkedin: 'LinkedIn', xiaohongshu: '小红书'
+      };
+      
+      let html = '<div style="margin-bottom: 12px;">已选择平台：</div>';
+      platforms.forEach(p => {
+        html += `<span class="tag">✓ ${platformNames[p]}</span>`;
+      });
+      html += '<div style="margin-top: 16px; color: #666;">准备就绪，即将开始分发...</div>';
+      output.innerHTML = html;
+    }
+    
+    // 视觉资产
+    async function generateVisual() {
+      const name = document.getElementById('brand-name').value;
+      const keywords = document.getElementById('brand-keywords').value;
+      if (!name || !keywords) { alert('请填写完整'); return; }
+      
+      const result = document.getElementById('visual-result');
+      const output = document.getElementById('visual-output');
+      result.classList.add('show');
+      output.innerHTML = '<span class="loading"></span> 正在生成...';
+      
+      const prompt = `为品牌"${name}"（关键词：${keywords}）生成视觉资产方案：
+1. 主色调建议（3种，附色值）
+2. Logo设计方向
+3. 视觉风格关键词
+4. 适用场景
+格式清晰，每项简要说明。`;
+      
+      const res = await callAI(prompt);
+      output.innerHTML = res.replace(/\n/g, '<br>');
+    }
+  </script>
+</body>
+</html>
