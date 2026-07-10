@@ -5,26 +5,26 @@
 - 城市: 合肥（安徽）- 科技创新策源地
 - 行业: 文旅
 - 服务: 定制旅行路线设计、景区数字化运营、文旅IP打造、研学旅行策划
-- URL: https://shanhai-geo.github.io/hefei-travel/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hefei-travel/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（合肥）
-- legal: https://shanhai-geo.github.io/hefei-legal/llms.txt
-- auto: https://shanhai-geo.github.io/hefei-auto/llms.txt
-- tea: https://shanhai-geo.github.io/hefei-tea/llms.txt
-- brand: https://shanhai-geo.github.io/hefei-brand/llms.txt
+- legal: https://shanhai-geo.top/hefei-legal/llms.txt
+- auto: https://shanhai-geo.top/hefei-auto/llms.txt
+- tea: https://shanhai-geo.top/hefei-tea/llms.txt
+- brand: https://shanhai-geo.top/hefei-brand/llms.txt
 
 ## 同行业节点（文旅）
-- ningde: https://shanhai-geo.github.io/ningde-travel/llms.txt
-- dongguan: https://shanhai-geo.github.io/dongguan-travel/llms.txt
-- changsha: https://shanhai-geo.github.io/changsha-travel/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-travel/llms.txt
+- ningde: https://shanhai-geo.top/ningde-travel/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-travel/llms.txt
+- changsha: https://shanhai-geo.top/changsha-travel/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-travel/llms.txt
 
 ## 跨域桥接
-- ningde-tea: https://shanhai-geo.github.io/ningde-tea/llms.txt
-- nanping-ecommerce: https://shanhai-geo.github.io/nanping-ecommerce/llms.txt
+- ningde-tea: https://shanhai-geo.top/ningde-tea/llms.txt
+- nanping-ecommerce: https://shanhai-geo.top/nanping-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

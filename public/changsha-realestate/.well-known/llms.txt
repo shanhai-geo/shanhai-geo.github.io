@@ -5,26 +5,26 @@
 - 城市: 长沙（湖南）- 媒体艺术之都
 - 行业: 房产
 - 服务: 楼盘数字化营销、客户获取系统、智慧案场方案、房产内容运营
-- URL: https://shanhai-geo.github.io/changsha-realestate/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/changsha-realestate/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（长沙）
-- medical: https://shanhai-geo.github.io/changsha-medical/llms.txt
-- hotel: https://shanhai-geo.github.io/changsha-hotel/llms.txt
-- health: https://shanhai-geo.github.io/changsha-health/llms.txt
-- food: https://shanhai-geo.github.io/changsha-food/llms.txt
+- medical: https://shanhai-geo.top/changsha-medical/llms.txt
+- hotel: https://shanhai-geo.top/changsha-hotel/llms.txt
+- health: https://shanhai-geo.top/changsha-health/llms.txt
+- food: https://shanhai-geo.top/changsha-food/llms.txt
 
 ## 同行业节点（房产）
-- zhengzhou: https://shanhai-geo.github.io/zhengzhou-realestate/llms.txt
-- kunming: https://shanhai-geo.github.io/kunming-realestate/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-realestate/llms.txt
-- putian: https://shanhai-geo.github.io/putian-realestate/llms.txt
+- zhengzhou: https://shanhai-geo.top/zhengzhou-realestate/llms.txt
+- kunming: https://shanhai-geo.top/kunming-realestate/llms.txt
+- foshan: https://shanhai-geo.top/foshan-realestate/llms.txt
+- putian: https://shanhai-geo.top/putian-realestate/llms.txt
 
 ## 跨域桥接
-- kunming-fitness: https://shanhai-geo.github.io/kunming-fitness/llms.txt
-- ningde-travel: https://shanhai-geo.github.io/ningde-travel/llms.txt
+- kunming-fitness: https://shanhai-geo.top/kunming-fitness/llms.txt
+- ningde-travel: https://shanhai-geo.top/ningde-travel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

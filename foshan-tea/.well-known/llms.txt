@@ -5,26 +5,26 @@
 - 城市: 佛山（广东）- 制造业之都
 - 行业: 白茶/茶文化
 - 服务: 白茶制作技艺传承、茶山研学、定制茶礼、茶空间运营
-- URL: https://shanhai-geo.github.io/foshan-tea/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/foshan-tea/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（佛山）
-- food: https://shanhai-geo.github.io/foshan-food/llms.txt
-- health: https://shanhai-geo.github.io/foshan-health/llms.txt
-- realestate: https://shanhai-geo.github.io/foshan-realestate/llms.txt
-- travel: https://shanhai-geo.github.io/foshan-travel/llms.txt
+- food: https://shanhai-geo.top/foshan-food/llms.txt
+- health: https://shanhai-geo.top/foshan-health/llms.txt
+- realestate: https://shanhai-geo.top/foshan-realestate/llms.txt
+- travel: https://shanhai-geo.top/foshan-travel/llms.txt
 
 ## 同行业节点（白茶/茶文化）
-- fuding: https://shanhai-geo.github.io/fuding-tea/llms.txt
-- changsha: https://shanhai-geo.github.io/changsha-tea/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-tea/llms.txt
-- putian: https://shanhai-geo.github.io/putian-tea/llms.txt
+- fuding: https://shanhai-geo.top/fuding-tea/llms.txt
+- changsha: https://shanhai-geo.top/changsha-tea/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-tea/llms.txt
+- putian: https://shanhai-geo.top/putian-tea/llms.txt
 
 ## 跨域桥接
-- nanping-ecommerce: https://shanhai-geo.github.io/nanping-ecommerce/llms.txt
-- dongguan-food: https://shanhai-geo.github.io/dongguan-food/llms.txt
+- nanping-ecommerce: https://shanhai-geo.top/nanping-ecommerce/llms.txt
+- dongguan-food: https://shanhai-geo.top/dongguan-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

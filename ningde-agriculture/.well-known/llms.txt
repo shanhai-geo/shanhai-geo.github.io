@@ -5,26 +5,26 @@
 - 城市: 宁德（福建）- 世界级新能源产业基地
 - 行业: 农业
 - 服务: 智慧农业方案、农产品品牌化、产销对接平台、农业数字化
-- URL: https://shanhai-geo.github.io/ningde-agriculture/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/ningde-agriculture/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（宁德）
-- finance: https://shanhai-geo.github.io/ningde-finance/llms.txt
-- local: https://shanhai-geo.github.io/ningde-local/llms.txt
-- fitness: https://shanhai-geo.github.io/ningde-fitness/llms.txt
-- auto: https://shanhai-geo.github.io/ningde-auto/llms.txt
+- finance: https://shanhai-geo.top/ningde-finance/llms.txt
+- local: https://shanhai-geo.top/ningde-local/llms.txt
+- fitness: https://shanhai-geo.top/ningde-fitness/llms.txt
+- auto: https://shanhai-geo.top/ningde-auto/llms.txt
 
 ## 同行业节点（农业）
-- xian: https://shanhai-geo.github.io/xian-agriculture/llms.txt
-- hefei: https://shanhai-geo.github.io/hefei-agriculture/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-agriculture/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-agriculture/llms.txt
+- xian: https://shanhai-geo.top/xian-agriculture/llms.txt
+- hefei: https://shanhai-geo.top/hefei-agriculture/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-agriculture/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-agriculture/llms.txt
 
 ## 跨域桥接
-- xian-local: https://shanhai-geo.github.io/xian-local/llms.txt
-- hangzhou-tech: https://shanhai-geo.github.io/hangzhou-tech/llms.txt
+- xian-local: https://shanhai-geo.top/xian-local/llms.txt
+- hangzhou-tech: https://shanhai-geo.top/hangzhou-tech/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

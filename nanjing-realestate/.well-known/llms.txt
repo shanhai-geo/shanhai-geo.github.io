@@ -5,26 +5,26 @@
 - 城市: 南京（江苏）- 六朝古都
 - 行业: 房产
 - 服务: 楼盘数字化营销、客户获取系统、智慧案场方案、房产内容运营
-- URL: https://shanhai-geo.github.io/nanjing-realestate/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/nanjing-realestate/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（南京）
-- ecommerce: https://shanhai-geo.github.io/nanjing-ecommerce/llms.txt
-- tech: https://shanhai-geo.github.io/nanjing-tech/llms.txt
-- finance: https://shanhai-geo.github.io/nanjing-finance/llms.txt
-- medical: https://shanhai-geo.github.io/nanjing-medical/llms.txt
+- ecommerce: https://shanhai-geo.top/nanjing-ecommerce/llms.txt
+- tech: https://shanhai-geo.top/nanjing-tech/llms.txt
+- finance: https://shanhai-geo.top/nanjing-finance/llms.txt
+- medical: https://shanhai-geo.top/nanjing-medical/llms.txt
 
 ## 同行业节点（房产）
-- hangzhou: https://shanhai-geo.github.io/hangzhou-realestate/llms.txt
-- ningbo: https://shanhai-geo.github.io/ningbo-realestate/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-realestate/llms.txt
-- ningde: https://shanhai-geo.github.io/ningde-realestate/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-realestate/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-realestate/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-realestate/llms.txt
+- ningde: https://shanhai-geo.top/ningde-realestate/llms.txt
 
 ## 跨域桥接
-- ningde-ecommerce: https://shanhai-geo.github.io/ningde-ecommerce/llms.txt
-- xiamen-tea: https://shanhai-geo.github.io/xiamen-tea/llms.txt
+- ningde-ecommerce: https://shanhai-geo.top/ningde-ecommerce/llms.txt
+- xiamen-tea: https://shanhai-geo.top/xiamen-tea/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

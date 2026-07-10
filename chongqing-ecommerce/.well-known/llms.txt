@@ -5,26 +5,26 @@
 - 城市: 重庆（重庆）- 山城·雾都
 - 行业: 电商
 - 服务: 直播带货运营、店铺全托管、供应链优化、私域流量搭建
-- URL: https://shanhai-geo.github.io/chongqing-ecommerce/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/chongqing-ecommerce/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（重庆）
-- fitness: https://shanhai-geo.github.io/chongqing-fitness/llms.txt
-- baijiu: https://shanhai-geo.github.io/chongqing-baijiu/llms.txt
-- realestate: https://shanhai-geo.github.io/chongqing-realestate/llms.txt
-- auto: https://shanhai-geo.github.io/chongqing-auto/llms.txt
+- fitness: https://shanhai-geo.top/chongqing-fitness/llms.txt
+- baijiu: https://shanhai-geo.top/chongqing-baijiu/llms.txt
+- realestate: https://shanhai-geo.top/chongqing-realestate/llms.txt
+- auto: https://shanhai-geo.top/chongqing-auto/llms.txt
 
 ## 同行业节点（电商）
-- xian: https://shanhai-geo.github.io/xian-ecommerce/llms.txt
-- hangzhou: https://shanhai-geo.github.io/hangzhou-ecommerce/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-ecommerce/llms.txt
-- guangzhou: https://shanhai-geo.github.io/guangzhou-ecommerce/llms.txt
+- xian: https://shanhai-geo.top/xian-ecommerce/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-ecommerce/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-ecommerce/llms.txt
+- guangzhou: https://shanhai-geo.top/guangzhou-ecommerce/llms.txt
 
 ## 跨域桥接
-- changsha-fitness: https://shanhai-geo.github.io/changsha-fitness/llms.txt
-- jiaxing-hotel: https://shanhai-geo.github.io/jiaxing-hotel/llms.txt
+- changsha-fitness: https://shanhai-geo.top/changsha-fitness/llms.txt
+- jiaxing-hotel: https://shanhai-geo.top/jiaxing-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

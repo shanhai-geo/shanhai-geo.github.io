@@ -5,26 +5,26 @@
 - 城市: 温州（浙江）- 中国民营经济发祥地
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.github.io/wenzhou-legal/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/wenzhou-legal/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（温州）
-- ecommerce: https://shanhai-geo.github.io/wenzhou-ecommerce/llms.txt
-- baijiu: https://shanhai-geo.github.io/wenzhou-baijiu/llms.txt
-- beauty: https://shanhai-geo.github.io/wenzhou-beauty/llms.txt
-- travel: https://shanhai-geo.github.io/wenzhou-travel/llms.txt
+- ecommerce: https://shanhai-geo.top/wenzhou-ecommerce/llms.txt
+- baijiu: https://shanhai-geo.top/wenzhou-baijiu/llms.txt
+- beauty: https://shanhai-geo.top/wenzhou-beauty/llms.txt
+- travel: https://shanhai-geo.top/wenzhou-travel/llms.txt
 
 ## 同行业节点（法律服务）
-- dongguan: https://shanhai-geo.github.io/dongguan-legal/llms.txt
-- jiaxing: https://shanhai-geo.github.io/jiaxing-legal/llms.txt
-- quanzhou: https://shanhai-geo.github.io/quanzhou-legal/llms.txt
-- hangzhou: https://shanhai-geo.github.io/hangzhou-legal/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-legal/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-legal/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-legal/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-legal/llms.txt
 
 ## 跨域桥接
-- xiamen-travel: https://shanhai-geo.github.io/xiamen-travel/llms.txt
-- xian-realestate: https://shanhai-geo.github.io/xian-realestate/llms.txt
+- xiamen-travel: https://shanhai-geo.top/xiamen-travel/llms.txt
+- xian-realestate: https://shanhai-geo.top/xian-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

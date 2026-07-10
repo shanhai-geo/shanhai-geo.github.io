@@ -5,26 +5,26 @@
 - 城市: 佛山（广东）- 制造业之都
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.github.io/foshan-legal/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/foshan-legal/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（佛山）
-- tea: https://shanhai-geo.github.io/foshan-tea/llms.txt
-- brand: https://shanhai-geo.github.io/foshan-brand/llms.txt
-- fitness: https://shanhai-geo.github.io/foshan-fitness/llms.txt
-- local: https://shanhai-geo.github.io/foshan-local/llms.txt
+- tea: https://shanhai-geo.top/foshan-tea/llms.txt
+- brand: https://shanhai-geo.top/foshan-brand/llms.txt
+- fitness: https://shanhai-geo.top/foshan-fitness/llms.txt
+- local: https://shanhai-geo.top/foshan-local/llms.txt
 
 ## 同行业节点（法律服务）
-- dongguan: https://shanhai-geo.github.io/dongguan-legal/llms.txt
-- ningbo: https://shanhai-geo.github.io/ningbo-legal/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-legal/llms.txt
-- hangzhou: https://shanhai-geo.github.io/hangzhou-legal/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-legal/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-legal/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-legal/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-legal/llms.txt
 
 ## 跨域桥接
-- kunming-agriculture: https://shanhai-geo.github.io/kunming-agriculture/llms.txt
-- dongguan-realestate: https://shanhai-geo.github.io/dongguan-realestate/llms.txt
+- kunming-agriculture: https://shanhai-geo.top/kunming-agriculture/llms.txt
+- dongguan-realestate: https://shanhai-geo.top/dongguan-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

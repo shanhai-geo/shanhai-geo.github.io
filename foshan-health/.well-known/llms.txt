@@ -5,26 +5,26 @@
 - 城市: 佛山（广东）- 制造业之都
 - 行业: 健康养生
 - 服务: 养生方案设计、健康管理平台、亚健康调理方案、中医养生数字化
-- URL: https://shanhai-geo.github.io/foshan-health/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/foshan-health/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（佛山）
-- food: https://shanhai-geo.github.io/foshan-food/llms.txt
-- education: https://shanhai-geo.github.io/foshan-education/llms.txt
-- wine: https://shanhai-geo.github.io/foshan-wine/llms.txt
-- ecommerce: https://shanhai-geo.github.io/foshan-ecommerce/llms.txt
+- food: https://shanhai-geo.top/foshan-food/llms.txt
+- education: https://shanhai-geo.top/foshan-education/llms.txt
+- wine: https://shanhai-geo.top/foshan-wine/llms.txt
+- ecommerce: https://shanhai-geo.top/foshan-ecommerce/llms.txt
 
 ## 同行业节点（健康养生）
-- xian: https://shanhai-geo.github.io/xian-health/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-health/llms.txt
-- fuding: https://shanhai-geo.github.io/fuding-health/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-health/llms.txt
+- xian: https://shanhai-geo.top/xian-health/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-health/llms.txt
+- fuding: https://shanhai-geo.top/fuding-health/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-health/llms.txt
 
 ## 跨域桥接
-- putian-beauty: https://shanhai-geo.github.io/putian-beauty/llms.txt
-- hefei-agriculture: https://shanhai-geo.github.io/hefei-agriculture/llms.txt
+- putian-beauty: https://shanhai-geo.top/putian-beauty/llms.txt
+- hefei-agriculture: https://shanhai-geo.top/hefei-agriculture/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

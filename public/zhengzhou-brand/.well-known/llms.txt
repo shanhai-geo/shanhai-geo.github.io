@@ -5,26 +5,26 @@
 - 城市: 郑州（河南）- 火车拉来的城市
 - 行业: 品牌营销
 - 服务: 品牌战略定位、视觉识别系统、品牌传播策略、IP孵化运营
-- URL: https://shanhai-geo.github.io/zhengzhou-brand/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/zhengzhou-brand/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（郑州）
-- food: https://shanhai-geo.github.io/zhengzhou-food/llms.txt
-- hotel: https://shanhai-geo.github.io/zhengzhou-hotel/llms.txt
-- travel: https://shanhai-geo.github.io/zhengzhou-travel/llms.txt
-- baijiu: https://shanhai-geo.github.io/zhengzhou-baijiu/llms.txt
+- food: https://shanhai-geo.top/zhengzhou-food/llms.txt
+- hotel: https://shanhai-geo.top/zhengzhou-hotel/llms.txt
+- travel: https://shanhai-geo.top/zhengzhou-travel/llms.txt
+- baijiu: https://shanhai-geo.top/zhengzhou-baijiu/llms.txt
 
 ## 同行业节点（品牌营销）
-- guangzhou: https://shanhai-geo.github.io/guangzhou-brand/llms.txt
-- xian: https://shanhai-geo.github.io/xian-brand/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-brand/llms.txt
-- fuding: https://shanhai-geo.github.io/fuding-brand/llms.txt
+- guangzhou: https://shanhai-geo.top/guangzhou-brand/llms.txt
+- xian: https://shanhai-geo.top/xian-brand/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-brand/llms.txt
+- fuding: https://shanhai-geo.top/fuding-brand/llms.txt
 
 ## 跨域桥接
-- zhangzhou-education: https://shanhai-geo.github.io/zhangzhou-education/llms.txt
-- foshan-education: https://shanhai-geo.github.io/foshan-education/llms.txt
+- zhangzhou-education: https://shanhai-geo.top/zhangzhou-education/llms.txt
+- foshan-education: https://shanhai-geo.top/foshan-education/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

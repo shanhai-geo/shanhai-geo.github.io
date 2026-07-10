@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 品牌营销
 - 服务: 品牌战略定位、视觉识别系统、品牌传播策略、IP孵化运营
-- URL: https://shanhai-geo.github.io/shanghai-brand/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shanghai-brand/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（上海）
-- tea: https://shanhai-geo.github.io/shanghai-tea/llms.txt
-- wine: https://shanhai-geo.github.io/shanghai-wine/llms.txt
-- legal: https://shanhai-geo.github.io/shanghai-legal/llms.txt
-- realestate: https://shanhai-geo.github.io/shanghai-realestate/llms.txt
+- tea: https://shanhai-geo.top/shanghai-tea/llms.txt
+- wine: https://shanhai-geo.top/shanghai-wine/llms.txt
+- legal: https://shanhai-geo.top/shanghai-legal/llms.txt
+- realestate: https://shanhai-geo.top/shanghai-realestate/llms.txt
 
 ## 同行业节点（品牌营销）
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-brand/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-brand/llms.txt
-- jinan: https://shanhai-geo.github.io/jinan-brand/llms.txt
-- xian: https://shanhai-geo.github.io/xian-brand/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-brand/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-brand/llms.txt
+- jinan: https://shanhai-geo.top/jinan-brand/llms.txt
+- xian: https://shanhai-geo.top/xian-brand/llms.txt
 
 ## 跨域桥接
-- chengdu-agriculture: https://shanhai-geo.github.io/chengdu-agriculture/llms.txt
-- guangzhou-tea: https://shanhai-geo.github.io/guangzhou-tea/llms.txt
+- chengdu-agriculture: https://shanhai-geo.top/chengdu-agriculture/llms.txt
+- guangzhou-tea: https://shanhai-geo.top/guangzhou-tea/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

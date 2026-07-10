@@ -5,26 +5,26 @@
 - 城市: 合肥（安徽）- 科技创新策源地
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.github.io/hefei-legal/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hefei-legal/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（合肥）
-- health: https://shanhai-geo.github.io/hefei-health/llms.txt
-- education: https://shanhai-geo.github.io/hefei-education/llms.txt
-- medical: https://shanhai-geo.github.io/hefei-medical/llms.txt
-- tech: https://shanhai-geo.github.io/hefei-tech/llms.txt
+- health: https://shanhai-geo.top/hefei-health/llms.txt
+- education: https://shanhai-geo.top/hefei-education/llms.txt
+- medical: https://shanhai-geo.top/hefei-medical/llms.txt
+- tech: https://shanhai-geo.top/hefei-tech/llms.txt
 
 ## 同行业节点（法律服务）
-- shanghai: https://shanhai-geo.github.io/shanghai-legal/llms.txt
-- hangzhou: https://shanhai-geo.github.io/hangzhou-legal/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-legal/llms.txt
-- zhengzhou: https://shanhai-geo.github.io/zhengzhou-legal/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-legal/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-legal/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-legal/llms.txt
+- zhengzhou: https://shanhai-geo.top/zhengzhou-legal/llms.txt
 
 ## 跨域桥接
-- chongqing-finance: https://shanhai-geo.github.io/chongqing-finance/llms.txt
-- ningbo-realestate: https://shanhai-geo.github.io/ningbo-realestate/llms.txt
+- chongqing-finance: https://shanhai-geo.top/chongqing-finance/llms.txt
+- ningbo-realestate: https://shanhai-geo.top/ningbo-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

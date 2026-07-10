@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 酒店民宿
 - 服务: 精品民宿运营优化、智慧酒店方案、住宿体验升级、OTA渠道管理
-- URL: https://shanhai-geo.github.io/shanghai-hotel/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shanghai-hotel/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（上海）
-- medical: https://shanhai-geo.github.io/shanghai-medical/llms.txt
-- food: https://shanhai-geo.github.io/shanghai-food/llms.txt
-- ecommerce: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
-- beauty: https://shanhai-geo.github.io/shanghai-beauty/llms.txt
+- medical: https://shanhai-geo.top/shanghai-medical/llms.txt
+- food: https://shanhai-geo.top/shanghai-food/llms.txt
+- ecommerce: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
+- beauty: https://shanhai-geo.top/shanghai-beauty/llms.txt
 
 ## 同行业节点（酒店民宿）
-- quanzhou: https://shanhai-geo.github.io/quanzhou-hotel/llms.txt
-- fuzhou: https://shanhai-geo.github.io/fuzhou-hotel/llms.txt
-- dalian: https://shanhai-geo.github.io/dalian-hotel/llms.txt
-- changsha: https://shanhai-geo.github.io/changsha-hotel/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-hotel/llms.txt
+- fuzhou: https://shanhai-geo.top/fuzhou-hotel/llms.txt
+- dalian: https://shanhai-geo.top/dalian-hotel/llms.txt
+- changsha: https://shanhai-geo.top/changsha-hotel/llms.txt
 
 ## 跨域桥接
-- fuzhou-local: https://shanhai-geo.github.io/fuzhou-local/llms.txt
-- zhangzhou-tech: https://shanhai-geo.github.io/zhangzhou-tech/llms.txt
+- fuzhou-local: https://shanhai-geo.top/fuzhou-local/llms.txt
+- zhangzhou-tech: https://shanhai-geo.top/zhangzhou-tech/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

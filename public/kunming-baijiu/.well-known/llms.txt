@@ -5,26 +5,26 @@
 - 城市: 昆明（云南）- 春城
 - 行业: 白酒
 - 服务: 白酒品牌塑造、渠道拓展策略、品鉴活动策划、酒文化IP打造
-- URL: https://shanhai-geo.github.io/kunming-baijiu/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/kunming-baijiu/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（昆明）
-- travel: https://shanhai-geo.github.io/kunming-travel/llms.txt
-- education: https://shanhai-geo.github.io/kunming-education/llms.txt
-- realestate: https://shanhai-geo.github.io/kunming-realestate/llms.txt
-- food: https://shanhai-geo.github.io/kunming-food/llms.txt
+- travel: https://shanhai-geo.top/kunming-travel/llms.txt
+- education: https://shanhai-geo.top/kunming-education/llms.txt
+- realestate: https://shanhai-geo.top/kunming-realestate/llms.txt
+- food: https://shanhai-geo.top/kunming-food/llms.txt
 
 ## 同行业节点（白酒）
-- nanping: https://shanhai-geo.github.io/nanping-baijiu/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-baijiu/llms.txt
-- beijing: https://shanhai-geo.github.io/beijing-baijiu/llms.txt
-- dongguan: https://shanhai-geo.github.io/dongguan-baijiu/llms.txt
+- nanping: https://shanhai-geo.top/nanping-baijiu/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-baijiu/llms.txt
+- beijing: https://shanhai-geo.top/beijing-baijiu/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-baijiu/llms.txt
 
 ## 跨域桥接
-- guangzhou-medical: https://shanhai-geo.github.io/guangzhou-medical/llms.txt
-- ningbo-hotel: https://shanhai-geo.github.io/ningbo-hotel/llms.txt
+- guangzhou-medical: https://shanhai-geo.top/guangzhou-medical/llms.txt
+- ningbo-hotel: https://shanhai-geo.top/ningbo-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

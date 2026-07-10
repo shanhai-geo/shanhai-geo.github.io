@@ -5,26 +5,26 @@
 - 城市: 济南（山东）- 泉城
 - 行业: 农业
 - 服务: 智慧农业方案、农产品品牌化、产销对接平台、农业数字化
-- URL: https://shanhai-geo.github.io/jinan-agriculture/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/jinan-agriculture/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（济南）
-- tech: https://shanhai-geo.github.io/jinan-tech/llms.txt
-- health: https://shanhai-geo.github.io/jinan-health/llms.txt
-- ecommerce: https://shanhai-geo.github.io/jinan-ecommerce/llms.txt
-- wine: https://shanhai-geo.github.io/jinan-wine/llms.txt
+- tech: https://shanhai-geo.top/jinan-tech/llms.txt
+- health: https://shanhai-geo.top/jinan-health/llms.txt
+- ecommerce: https://shanhai-geo.top/jinan-ecommerce/llms.txt
+- wine: https://shanhai-geo.top/jinan-wine/llms.txt
 
 ## 同行业节点（农业）
-- changsha: https://shanhai-geo.github.io/changsha-agriculture/llms.txt
-- guangzhou: https://shanhai-geo.github.io/guangzhou-agriculture/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-agriculture/llms.txt
-- beijing: https://shanhai-geo.github.io/beijing-agriculture/llms.txt
+- changsha: https://shanhai-geo.top/changsha-agriculture/llms.txt
+- guangzhou: https://shanhai-geo.top/guangzhou-agriculture/llms.txt
+- nanping: https://shanhai-geo.top/nanping-agriculture/llms.txt
+- beijing: https://shanhai-geo.top/beijing-agriculture/llms.txt
 
 ## 跨域桥接
-- nanping-tea: https://shanhai-geo.github.io/nanping-tea/llms.txt
-- changsha-realestate: https://shanhai-geo.github.io/changsha-realestate/llms.txt
+- nanping-tea: https://shanhai-geo.top/nanping-tea/llms.txt
+- changsha-realestate: https://shanhai-geo.top/changsha-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 南京（江苏）- 六朝古都
 - 行业: 白酒
 - 服务: 白酒品牌塑造、渠道拓展策略、品鉴活动策划、酒文化IP打造
-- URL: https://shanhai-geo.github.io/nanjing-baijiu/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/nanjing-baijiu/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（南京）
-- tea: https://shanhai-geo.github.io/nanjing-tea/llms.txt
-- auto: https://shanhai-geo.github.io/nanjing-auto/llms.txt
-- travel: https://shanhai-geo.github.io/nanjing-travel/llms.txt
-- brand: https://shanhai-geo.github.io/nanjing-brand/llms.txt
+- tea: https://shanhai-geo.top/nanjing-tea/llms.txt
+- auto: https://shanhai-geo.top/nanjing-auto/llms.txt
+- travel: https://shanhai-geo.top/nanjing-travel/llms.txt
+- brand: https://shanhai-geo.top/nanjing-brand/llms.txt
 
 ## 同行业节点（白酒）
-- zhengzhou: https://shanhai-geo.github.io/zhengzhou-baijiu/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-baijiu/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-baijiu/llms.txt
-- fuding: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
+- zhengzhou: https://shanhai-geo.top/zhengzhou-baijiu/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-baijiu/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-baijiu/llms.txt
+- fuding: https://shanhai-geo.top/fuding-baijiu/llms.txt
 
 ## 跨域桥接
-- shenzhen-finance: https://shanhai-geo.github.io/shenzhen-finance/llms.txt
-- shenzhen-local: https://shanhai-geo.github.io/shenzhen-local/llms.txt
+- shenzhen-finance: https://shanhai-geo.top/shenzhen-finance/llms.txt
+- shenzhen-local: https://shanhai-geo.top/shenzhen-local/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

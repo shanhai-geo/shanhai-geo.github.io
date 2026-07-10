@@ -5,26 +5,26 @@
 - 城市: 武汉（湖北）- 九省通衢
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.github.io/wuhan-local/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/wuhan-local/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（武汉）
-- fitness: https://shanhai-geo.github.io/wuhan-fitness/llms.txt
-- ecommerce: https://shanhai-geo.github.io/wuhan-ecommerce/llms.txt
-- medical: https://shanhai-geo.github.io/wuhan-medical/llms.txt
-- tech: https://shanhai-geo.github.io/wuhan-tech/llms.txt
+- fitness: https://shanhai-geo.top/wuhan-fitness/llms.txt
+- ecommerce: https://shanhai-geo.top/wuhan-ecommerce/llms.txt
+- medical: https://shanhai-geo.top/wuhan-medical/llms.txt
+- tech: https://shanhai-geo.top/wuhan-tech/llms.txt
 
 ## 同行业节点（本地生活）
-- foshan: https://shanhai-geo.github.io/foshan-local/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-local/llms.txt
-- putian: https://shanhai-geo.github.io/putian-local/llms.txt
-- xian: https://shanhai-geo.github.io/xian-local/llms.txt
+- foshan: https://shanhai-geo.top/foshan-local/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-local/llms.txt
+- putian: https://shanhai-geo.top/putian-local/llms.txt
+- xian: https://shanhai-geo.top/xian-local/llms.txt
 
 ## 跨域桥接
-- beijing-medical: https://shanhai-geo.github.io/beijing-medical/llms.txt
-- zhengzhou-ecommerce: https://shanhai-geo.github.io/zhengzhou-ecommerce/llms.txt
+- beijing-medical: https://shanhai-geo.top/beijing-medical/llms.txt
+- zhengzhou-ecommerce: https://shanhai-geo.top/zhengzhou-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

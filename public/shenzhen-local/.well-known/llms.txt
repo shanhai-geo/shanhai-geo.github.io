@@ -5,26 +5,26 @@
 - 城市: 深圳（广东）- 中国硅谷
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.github.io/shenzhen-local/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shenzhen-local/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（深圳）
-- tech: https://shanhai-geo.github.io/shenzhen-tech/llms.txt
-- education: https://shanhai-geo.github.io/shenzhen-education/llms.txt
-- food: https://shanhai-geo.github.io/shenzhen-food/llms.txt
-- beauty: https://shanhai-geo.github.io/shenzhen-beauty/llms.txt
+- tech: https://shanhai-geo.top/shenzhen-tech/llms.txt
+- education: https://shanhai-geo.top/shenzhen-education/llms.txt
+- food: https://shanhai-geo.top/shenzhen-food/llms.txt
+- beauty: https://shanhai-geo.top/shenzhen-beauty/llms.txt
 
 ## 同行业节点（本地生活）
-- jinan: https://shanhai-geo.github.io/jinan-local/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-local/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-local/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-local/llms.txt
+- jinan: https://shanhai-geo.top/jinan-local/llms.txt
+- nanping: https://shanhai-geo.top/nanping-local/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-local/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-local/llms.txt
 
 ## 跨域桥接
-- changsha-agriculture: https://shanhai-geo.github.io/changsha-agriculture/llms.txt
-- chongqing-realestate: https://shanhai-geo.github.io/chongqing-realestate/llms.txt
+- changsha-agriculture: https://shanhai-geo.top/changsha-agriculture/llms.txt
+- chongqing-realestate: https://shanhai-geo.top/chongqing-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

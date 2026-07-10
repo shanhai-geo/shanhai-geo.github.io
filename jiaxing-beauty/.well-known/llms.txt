@@ -5,26 +5,26 @@
 - 城市: 嘉兴（浙江）- 接轨上海桥头堡
 - 行业: 美容
 - 服务: 美容院运营优化、皮肤管理方案、客户留存体系、美业数字化
-- URL: https://shanhai-geo.github.io/jiaxing-beauty/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/jiaxing-beauty/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（嘉兴）
-- education: https://shanhai-geo.github.io/jiaxing-education/llms.txt
-- travel: https://shanhai-geo.github.io/jiaxing-travel/llms.txt
-- auto: https://shanhai-geo.github.io/jiaxing-auto/llms.txt
-- fitness: https://shanhai-geo.github.io/jiaxing-fitness/llms.txt
+- education: https://shanhai-geo.top/jiaxing-education/llms.txt
+- travel: https://shanhai-geo.top/jiaxing-travel/llms.txt
+- auto: https://shanhai-geo.top/jiaxing-auto/llms.txt
+- fitness: https://shanhai-geo.top/jiaxing-fitness/llms.txt
 
 ## 同行业节点（美容）
-- shanghai: https://shanhai-geo.github.io/shanghai-beauty/llms.txt
-- chongqing: https://shanhai-geo.github.io/chongqing-beauty/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-beauty/llms.txt
-- jinan: https://shanhai-geo.github.io/jinan-beauty/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-beauty/llms.txt
+- chongqing: https://shanhai-geo.top/chongqing-beauty/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-beauty/llms.txt
+- jinan: https://shanhai-geo.top/jinan-beauty/llms.txt
 
 ## 跨域桥接
-- fuding-legal: https://shanhai-geo.github.io/fuding-legal/llms.txt
-- fuding-baijiu: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
+- fuding-legal: https://shanhai-geo.top/fuding-legal/llms.txt
+- fuding-baijiu: https://shanhai-geo.top/fuding-baijiu/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

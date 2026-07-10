@@ -5,26 +5,26 @@
 - 城市: 嘉兴（浙江）- 接轨上海桥头堡
 - 行业: 品牌营销
 - 服务: 品牌战略定位、视觉识别系统、品牌传播策略、IP孵化运营
-- URL: https://shanhai-geo.github.io/jiaxing-brand/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/jiaxing-brand/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（嘉兴）
-- agriculture: https://shanhai-geo.github.io/jiaxing-agriculture/llms.txt
-- wine: https://shanhai-geo.github.io/jiaxing-wine/llms.txt
-- travel: https://shanhai-geo.github.io/jiaxing-travel/llms.txt
-- local: https://shanhai-geo.github.io/jiaxing-local/llms.txt
+- agriculture: https://shanhai-geo.top/jiaxing-agriculture/llms.txt
+- wine: https://shanhai-geo.top/jiaxing-wine/llms.txt
+- travel: https://shanhai-geo.top/jiaxing-travel/llms.txt
+- local: https://shanhai-geo.top/jiaxing-local/llms.txt
 
 ## 同行业节点（品牌营销）
-- ningbo: https://shanhai-geo.github.io/ningbo-brand/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-brand/llms.txt
-- xian: https://shanhai-geo.github.io/xian-brand/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-brand/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-brand/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-brand/llms.txt
+- xian: https://shanhai-geo.top/xian-brand/llms.txt
+- nanping: https://shanhai-geo.top/nanping-brand/llms.txt
 
 ## 跨域桥接
-- quanzhou-auto: https://shanhai-geo.github.io/quanzhou-auto/llms.txt
-- shanghai-wine: https://shanhai-geo.github.io/shanghai-wine/llms.txt
+- quanzhou-auto: https://shanhai-geo.top/quanzhou-auto/llms.txt
+- shanghai-wine: https://shanhai-geo.top/shanghai-wine/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

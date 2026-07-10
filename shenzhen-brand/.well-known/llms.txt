@@ -5,26 +5,26 @@
 - 城市: 深圳（广东）- 中国硅谷
 - 行业: 品牌营销
 - 服务: 品牌战略定位、视觉识别系统、品牌传播策略、IP孵化运营
-- URL: https://shanhai-geo.github.io/shenzhen-brand/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shenzhen-brand/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（深圳）
-- tea: https://shanhai-geo.github.io/shenzhen-tea/llms.txt
-- agriculture: https://shanhai-geo.github.io/shenzhen-agriculture/llms.txt
-- auto: https://shanhai-geo.github.io/shenzhen-auto/llms.txt
-- legal: https://shanhai-geo.github.io/shenzhen-legal/llms.txt
+- tea: https://shanhai-geo.top/shenzhen-tea/llms.txt
+- agriculture: https://shanhai-geo.top/shenzhen-agriculture/llms.txt
+- auto: https://shanhai-geo.top/shenzhen-auto/llms.txt
+- legal: https://shanhai-geo.top/shenzhen-legal/llms.txt
 
 ## 同行业节点（品牌营销）
-- fuding: https://shanhai-geo.github.io/fuding-brand/llms.txt
-- changsha: https://shanhai-geo.github.io/changsha-brand/llms.txt
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-brand/llms.txt
-- jinan: https://shanhai-geo.github.io/jinan-brand/llms.txt
+- fuding: https://shanhai-geo.top/fuding-brand/llms.txt
+- changsha: https://shanhai-geo.top/changsha-brand/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-brand/llms.txt
+- jinan: https://shanhai-geo.top/jinan-brand/llms.txt
 
 ## 跨域桥接
-- hangzhou-agriculture: https://shanhai-geo.github.io/hangzhou-agriculture/llms.txt
-- hefei-tech: https://shanhai-geo.github.io/hefei-tech/llms.txt
+- hangzhou-agriculture: https://shanhai-geo.top/hangzhou-agriculture/llms.txt
+- hefei-tech: https://shanhai-geo.top/hefei-tech/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 郑州（河南）- 火车拉来的城市
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.github.io/zhengzhou-education/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/zhengzhou-education/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（郑州）
-- food: https://shanhai-geo.github.io/zhengzhou-food/llms.txt
-- ecommerce: https://shanhai-geo.github.io/zhengzhou-ecommerce/llms.txt
-- tech: https://shanhai-geo.github.io/zhengzhou-tech/llms.txt
-- finance: https://shanhai-geo.github.io/zhengzhou-finance/llms.txt
+- food: https://shanhai-geo.top/zhengzhou-food/llms.txt
+- ecommerce: https://shanhai-geo.top/zhengzhou-ecommerce/llms.txt
+- tech: https://shanhai-geo.top/zhengzhou-tech/llms.txt
+- finance: https://shanhai-geo.top/zhengzhou-finance/llms.txt
 
 ## 同行业节点（教育培训）
-- guangzhou: https://shanhai-geo.github.io/guangzhou-education/llms.txt
-- ningde: https://shanhai-geo.github.io/ningde-education/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-education/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-education/llms.txt
+- guangzhou: https://shanhai-geo.top/guangzhou-education/llms.txt
+- ningde: https://shanhai-geo.top/ningde-education/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-education/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-education/llms.txt
 
 ## 跨域桥接
-- xiamen-finance: https://shanhai-geo.github.io/xiamen-finance/llms.txt
-- guangzhou-fitness: https://shanhai-geo.github.io/guangzhou-fitness/llms.txt
+- xiamen-finance: https://shanhai-geo.top/xiamen-finance/llms.txt
+- guangzhou-fitness: https://shanhai-geo.top/guangzhou-fitness/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 深圳（广东）- 中国硅谷
 - 行业: 美食
 - 服务: 餐饮品牌打造、菜品研发咨询、外卖运营优化、餐饮供应链管理
-- URL: https://shanhai-geo.github.io/shenzhen-food/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shenzhen-food/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（深圳）
-- local: https://shanhai-geo.github.io/shenzhen-local/llms.txt
-- baijiu: https://shanhai-geo.github.io/shenzhen-baijiu/llms.txt
-- ecommerce: https://shanhai-geo.github.io/shenzhen-ecommerce/llms.txt
-- tech: https://shanhai-geo.github.io/shenzhen-tech/llms.txt
+- local: https://shanhai-geo.top/shenzhen-local/llms.txt
+- baijiu: https://shanhai-geo.top/shenzhen-baijiu/llms.txt
+- ecommerce: https://shanhai-geo.top/shenzhen-ecommerce/llms.txt
+- tech: https://shanhai-geo.top/shenzhen-tech/llms.txt
 
 ## 同行业节点（美食）
-- qingdao: https://shanhai-geo.github.io/qingdao-food/llms.txt
-- putian: https://shanhai-geo.github.io/putian-food/llms.txt
-- fuzhou: https://shanhai-geo.github.io/fuzhou-food/llms.txt
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-food/llms.txt
+- qingdao: https://shanhai-geo.top/qingdao-food/llms.txt
+- putian: https://shanhai-geo.top/putian-food/llms.txt
+- fuzhou: https://shanhai-geo.top/fuzhou-food/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-food/llms.txt
 
 ## 跨域桥接
-- quanzhou-beauty: https://shanhai-geo.github.io/quanzhou-beauty/llms.txt
-- nanping-beauty: https://shanhai-geo.github.io/nanping-beauty/llms.txt
+- quanzhou-beauty: https://shanhai-geo.top/quanzhou-beauty/llms.txt
+- nanping-beauty: https://shanhai-geo.top/nanping-beauty/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

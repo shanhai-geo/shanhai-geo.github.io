@@ -41,4 +41,4 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://shanhai-geo.github.io/sitemap.xml
+Sitemap: https://shanhai-geo.top/sitemap.xml

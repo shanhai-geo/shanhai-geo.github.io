@@ -5,26 +5,26 @@
 - 城市: 合肥（安徽）- 科技创新策源地
 - 行业: 健康养生
 - 服务: 养生方案设计、健康管理平台、亚健康调理方案、中医养生数字化
-- URL: https://shanhai-geo.github.io/hefei-health/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hefei-health/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（合肥）
-- local: https://shanhai-geo.github.io/hefei-local/llms.txt
-- food: https://shanhai-geo.github.io/hefei-food/llms.txt
-- tea: https://shanhai-geo.github.io/hefei-tea/llms.txt
-- travel: https://shanhai-geo.github.io/hefei-travel/llms.txt
+- local: https://shanhai-geo.top/hefei-local/llms.txt
+- food: https://shanhai-geo.top/hefei-food/llms.txt
+- tea: https://shanhai-geo.top/hefei-tea/llms.txt
+- travel: https://shanhai-geo.top/hefei-travel/llms.txt
 
 ## 同行业节点（健康养生）
-- qingdao: https://shanhai-geo.github.io/qingdao-health/llms.txt
-- jinan: https://shanhai-geo.github.io/jinan-health/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-health/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-health/llms.txt
+- qingdao: https://shanhai-geo.top/qingdao-health/llms.txt
+- jinan: https://shanhai-geo.top/jinan-health/llms.txt
+- foshan: https://shanhai-geo.top/foshan-health/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-health/llms.txt
 
 ## 跨域桥接
-- quanzhou-ecommerce: https://shanhai-geo.github.io/quanzhou-ecommerce/llms.txt
-- guangzhou-legal: https://shanhai-geo.github.io/guangzhou-legal/llms.txt
+- quanzhou-ecommerce: https://shanhai-geo.top/quanzhou-ecommerce/llms.txt
+- guangzhou-legal: https://shanhai-geo.top/guangzhou-legal/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

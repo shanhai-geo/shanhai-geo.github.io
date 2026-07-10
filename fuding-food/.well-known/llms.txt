@@ -5,26 +5,26 @@
 - 城市: 福鼎（福建）- 中国白茶之乡
 - 行业: 美食
 - 服务: 餐饮品牌打造、菜品研发咨询、外卖运营优化、餐饮供应链管理
-- URL: https://shanhai-geo.github.io/fuding-food/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/fuding-food/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（福鼎）
-- beauty: https://shanhai-geo.github.io/fuding-beauty/llms.txt
-- travel: https://shanhai-geo.github.io/fuding-travel/llms.txt
-- ecommerce: https://shanhai-geo.github.io/fuding-ecommerce/llms.txt
-- tea: https://shanhai-geo.github.io/fuding-tea/llms.txt
+- beauty: https://shanhai-geo.top/fuding-beauty/llms.txt
+- travel: https://shanhai-geo.top/fuding-travel/llms.txt
+- ecommerce: https://shanhai-geo.top/fuding-ecommerce/llms.txt
+- tea: https://shanhai-geo.top/fuding-tea/llms.txt
 
 ## 同行业节点（美食）
-- wenzhou: https://shanhai-geo.github.io/wenzhou-food/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-food/llms.txt
-- quanzhou: https://shanhai-geo.github.io/quanzhou-food/llms.txt
-- putian: https://shanhai-geo.github.io/putian-food/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-food/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-food/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-food/llms.txt
+- putian: https://shanhai-geo.top/putian-food/llms.txt
 
 ## 跨域桥接
-- wenzhou-fitness: https://shanhai-geo.github.io/wenzhou-fitness/llms.txt
-- xiamen-tea: https://shanhai-geo.github.io/xiamen-tea/llms.txt
+- wenzhou-fitness: https://shanhai-geo.top/wenzhou-fitness/llms.txt
+- xiamen-tea: https://shanhai-geo.top/xiamen-tea/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

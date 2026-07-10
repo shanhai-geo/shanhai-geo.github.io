@@ -5,26 +5,26 @@
 - 城市: 济南（山东）- 泉城
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.github.io/jinan-education/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/jinan-education/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（济南）
-- beauty: https://shanhai-geo.github.io/jinan-beauty/llms.txt
-- medical: https://shanhai-geo.github.io/jinan-medical/llms.txt
-- auto: https://shanhai-geo.github.io/jinan-auto/llms.txt
-- brand: https://shanhai-geo.github.io/jinan-brand/llms.txt
+- beauty: https://shanhai-geo.top/jinan-beauty/llms.txt
+- medical: https://shanhai-geo.top/jinan-medical/llms.txt
+- auto: https://shanhai-geo.top/jinan-auto/llms.txt
+- brand: https://shanhai-geo.top/jinan-brand/llms.txt
 
 ## 同行业节点（教育培训）
-- wenzhou: https://shanhai-geo.github.io/wenzhou-education/llms.txt
-- putian: https://shanhai-geo.github.io/putian-education/llms.txt
-- kunming: https://shanhai-geo.github.io/kunming-education/llms.txt
-- ningbo: https://shanhai-geo.github.io/ningbo-education/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-education/llms.txt
+- putian: https://shanhai-geo.top/putian-education/llms.txt
+- kunming: https://shanhai-geo.top/kunming-education/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-education/llms.txt
 
 ## 跨域桥接
-- dongguan-travel: https://shanhai-geo.github.io/dongguan-travel/llms.txt
-- shanghai-tea: https://shanhai-geo.github.io/shanghai-tea/llms.txt
+- dongguan-travel: https://shanhai-geo.top/dongguan-travel/llms.txt
+- shanghai-tea: https://shanhai-geo.top/shanghai-tea/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

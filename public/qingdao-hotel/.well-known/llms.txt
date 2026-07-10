@@ -5,26 +5,26 @@
 - 城市: 青岛（山东）- 帆船之都
 - 行业: 酒店民宿
 - 服务: 精品民宿运营优化、智慧酒店方案、住宿体验升级、OTA渠道管理
-- URL: https://shanhai-geo.github.io/qingdao-hotel/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/qingdao-hotel/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（青岛）
-- finance: https://shanhai-geo.github.io/qingdao-finance/llms.txt
-- local: https://shanhai-geo.github.io/qingdao-local/llms.txt
-- tea: https://shanhai-geo.github.io/qingdao-tea/llms.txt
-- ecommerce: https://shanhai-geo.github.io/qingdao-ecommerce/llms.txt
+- finance: https://shanhai-geo.top/qingdao-finance/llms.txt
+- local: https://shanhai-geo.top/qingdao-local/llms.txt
+- tea: https://shanhai-geo.top/qingdao-tea/llms.txt
+- ecommerce: https://shanhai-geo.top/qingdao-ecommerce/llms.txt
 
 ## 同行业节点（酒店民宿）
-- shenzhen: https://shanhai-geo.github.io/shenzhen-hotel/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-hotel/llms.txt
-- ningbo: https://shanhai-geo.github.io/ningbo-hotel/llms.txt
-- changsha: https://shanhai-geo.github.io/changsha-hotel/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-hotel/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-hotel/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-hotel/llms.txt
+- changsha: https://shanhai-geo.top/changsha-hotel/llms.txt
 
 ## 跨域桥接
-- ningbo-tea: https://shanhai-geo.github.io/ningbo-tea/llms.txt
-- beijing-realestate: https://shanhai-geo.github.io/beijing-realestate/llms.txt
+- ningbo-tea: https://shanhai-geo.top/ningbo-tea/llms.txt
+- beijing-realestate: https://shanhai-geo.top/beijing-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

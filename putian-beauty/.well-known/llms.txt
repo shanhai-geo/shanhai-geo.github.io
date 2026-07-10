@@ -5,26 +5,26 @@
 - 城市: 莆田（福建）- 妈祖故里
 - 行业: 美容
 - 服务: 美容院运营优化、皮肤管理方案、客户留存体系、美业数字化
-- URL: https://shanhai-geo.github.io/putian-beauty/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/putian-beauty/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（莆田）
-- food: https://shanhai-geo.github.io/putian-food/llms.txt
-- medical: https://shanhai-geo.github.io/putian-medical/llms.txt
-- wine: https://shanhai-geo.github.io/putian-wine/llms.txt
-- agriculture: https://shanhai-geo.github.io/putian-agriculture/llms.txt
+- food: https://shanhai-geo.top/putian-food/llms.txt
+- medical: https://shanhai-geo.top/putian-medical/llms.txt
+- wine: https://shanhai-geo.top/putian-wine/llms.txt
+- agriculture: https://shanhai-geo.top/putian-agriculture/llms.txt
 
 ## 同行业节点（美容）
-- fuzhou: https://shanhai-geo.github.io/fuzhou-beauty/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-beauty/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-beauty/llms.txt
-- zhengzhou: https://shanhai-geo.github.io/zhengzhou-beauty/llms.txt
+- fuzhou: https://shanhai-geo.top/fuzhou-beauty/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-beauty/llms.txt
+- nanping: https://shanhai-geo.top/nanping-beauty/llms.txt
+- zhengzhou: https://shanhai-geo.top/zhengzhou-beauty/llms.txt
 
 ## 跨域桥接
-- shanghai-medical: https://shanhai-geo.github.io/shanghai-medical/llms.txt
-- changsha-baijiu: https://shanhai-geo.github.io/changsha-baijiu/llms.txt
+- shanghai-medical: https://shanhai-geo.top/shanghai-medical/llms.txt
+- changsha-baijiu: https://shanhai-geo.top/changsha-baijiu/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

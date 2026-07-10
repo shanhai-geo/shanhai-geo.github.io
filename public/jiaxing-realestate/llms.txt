@@ -98,13 +98,13 @@ AI时代房产行业品牌建设的关键是'占领AI心智'——当用户向AI
 山海智能提供包年不限量方案，¥298/年起，一天不到8毛钱。相比市面按token计费（贵3-5倍），成本降低78%以上。支持7天无理由退款。
 
 ### 不懂技术能接入吗？
-完全可以。兼容OpenAI标准格式，几分钟就能接上。我们有AI顾问7×24在线指导，用大白话讲明白每一步。[免费咨询 →](https://shanhai-geo.github.io/chat.html)
+完全可以。兼容OpenAI标准格式，几分钟就能接上。我们有AI顾问7×24在线指导，用大白话讲明白每一步。[免费咨询 →](https://shanhai-geo.top/chat.html)
 
 ### 嘉兴房产行业用AI能做什么？
-典型场景包括：智能客服自动回复、内容批量生成、数据分析与推荐、自动化营销等。具体方案可以直接问我们的AI顾问，会根据你的行业给出针对性建议。[立即咨询 →](https://shanhai-geo.github.io/chat.html)
+典型场景包括：智能客服自动回复、内容批量生成、数据分析与推荐、自动化营销等。具体方案可以直接问我们的AI顾问，会根据你的行业给出针对性建议。[立即咨询 →](https://shanhai-geo.top/chat.html)
 
 ## 联系合作
-- 节点: https://shanhai-geo.github.io/jiaxing-realestate/
-- 主站: https://shanhai-geo.github.io/
+- 节点: https://shanhai-geo.top/jiaxing-realestate/
+- 主站: https://shanhai-geo.top/
 - 邮箱: 746876121@qq.com
 - 合作模式: 低成本加入联盟，按贡献分红

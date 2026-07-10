@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.github.io/shanghai-legal/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shanghai-legal/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（上海）
-- baijiu: https://shanhai-geo.github.io/shanghai-baijiu/llms.txt
-- tea: https://shanhai-geo.github.io/shanghai-tea/llms.txt
-- travel: https://shanhai-geo.github.io/shanghai-travel/llms.txt
-- health: https://shanhai-geo.github.io/shanghai-health/llms.txt
+- baijiu: https://shanhai-geo.top/shanghai-baijiu/llms.txt
+- tea: https://shanhai-geo.top/shanghai-tea/llms.txt
+- travel: https://shanhai-geo.top/shanghai-travel/llms.txt
+- health: https://shanhai-geo.top/shanghai-health/llms.txt
 
 ## 同行业节点（法律服务）
-- wenzhou: https://shanhai-geo.github.io/wenzhou-legal/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-legal/llms.txt
-- chongqing: https://shanhai-geo.github.io/chongqing-legal/llms.txt
-- changsha: https://shanhai-geo.github.io/changsha-legal/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-legal/llms.txt
+- foshan: https://shanhai-geo.top/foshan-legal/llms.txt
+- chongqing: https://shanhai-geo.top/chongqing-legal/llms.txt
+- changsha: https://shanhai-geo.top/changsha-legal/llms.txt
 
 ## 跨域桥接
-- beijing-brand: https://shanhai-geo.github.io/beijing-brand/llms.txt
-- chengdu-local: https://shanhai-geo.github.io/chengdu-local/llms.txt
+- beijing-brand: https://shanhai-geo.top/beijing-brand/llms.txt
+- chengdu-local: https://shanhai-geo.top/chengdu-local/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 杭州（浙江）- 数字经济第一城
 - 行业: 美容
 - 服务: 美容院运营优化、皮肤管理方案、客户留存体系、美业数字化
-- URL: https://shanhai-geo.github.io/hangzhou-beauty/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hangzhou-beauty/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（杭州）
-- ecommerce: https://shanhai-geo.github.io/hangzhou-ecommerce/llms.txt
-- realestate: https://shanhai-geo.github.io/hangzhou-realestate/llms.txt
-- baijiu: https://shanhai-geo.github.io/hangzhou-baijiu/llms.txt
-- finance: https://shanhai-geo.github.io/hangzhou-finance/llms.txt
+- ecommerce: https://shanhai-geo.top/hangzhou-ecommerce/llms.txt
+- realestate: https://shanhai-geo.top/hangzhou-realestate/llms.txt
+- baijiu: https://shanhai-geo.top/hangzhou-baijiu/llms.txt
+- finance: https://shanhai-geo.top/hangzhou-finance/llms.txt
 
 ## 同行业节点（美容）
-- wuhan: https://shanhai-geo.github.io/wuhan-beauty/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-beauty/llms.txt
-- shenzhen: https://shanhai-geo.github.io/shenzhen-beauty/llms.txt
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-beauty/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-beauty/llms.txt
+- nanping: https://shanhai-geo.top/nanping-beauty/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-beauty/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-beauty/llms.txt
 
 ## 跨域桥接
-- foshan-legal: https://shanhai-geo.github.io/foshan-legal/llms.txt
-- foshan-finance: https://shanhai-geo.github.io/foshan-finance/llms.txt
+- foshan-legal: https://shanhai-geo.top/foshan-legal/llms.txt
+- foshan-finance: https://shanhai-geo.top/foshan-finance/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

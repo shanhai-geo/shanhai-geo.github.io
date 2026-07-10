@@ -5,26 +5,26 @@
 - 城市: 广州（广东）- 千年商都
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.github.io/guangzhou-local/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/guangzhou-local/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（广州）
-- ecommerce: https://shanhai-geo.github.io/guangzhou-ecommerce/llms.txt
-- beauty: https://shanhai-geo.github.io/guangzhou-beauty/llms.txt
-- medical: https://shanhai-geo.github.io/guangzhou-medical/llms.txt
-- baijiu: https://shanhai-geo.github.io/guangzhou-baijiu/llms.txt
+- ecommerce: https://shanhai-geo.top/guangzhou-ecommerce/llms.txt
+- beauty: https://shanhai-geo.top/guangzhou-beauty/llms.txt
+- medical: https://shanhai-geo.top/guangzhou-medical/llms.txt
+- baijiu: https://shanhai-geo.top/guangzhou-baijiu/llms.txt
 
 ## 同行业节点（本地生活）
-- jiaxing: https://shanhai-geo.github.io/jiaxing-local/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-local/llms.txt
-- fuzhou: https://shanhai-geo.github.io/fuzhou-local/llms.txt
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-local/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-local/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-local/llms.txt
+- fuzhou: https://shanhai-geo.top/fuzhou-local/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-local/llms.txt
 
 ## 跨域桥接
-- wuhan-agriculture: https://shanhai-geo.github.io/wuhan-agriculture/llms.txt
-- nanping-medical: https://shanhai-geo.github.io/nanping-medical/llms.txt
+- wuhan-agriculture: https://shanhai-geo.top/wuhan-agriculture/llms.txt
+- nanping-medical: https://shanhai-geo.top/nanping-medical/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

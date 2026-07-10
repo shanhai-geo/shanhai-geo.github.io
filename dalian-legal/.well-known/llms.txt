@@ -5,26 +5,26 @@
 - 城市: 大连（辽宁）- 北方明珠
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.github.io/dalian-legal/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/dalian-legal/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（大连）
-- brand: https://shanhai-geo.github.io/dalian-brand/llms.txt
-- tea: https://shanhai-geo.github.io/dalian-tea/llms.txt
-- hotel: https://shanhai-geo.github.io/dalian-hotel/llms.txt
-- realestate: https://shanhai-geo.github.io/dalian-realestate/llms.txt
+- brand: https://shanhai-geo.top/dalian-brand/llms.txt
+- tea: https://shanhai-geo.top/dalian-tea/llms.txt
+- hotel: https://shanhai-geo.top/dalian-hotel/llms.txt
+- realestate: https://shanhai-geo.top/dalian-realestate/llms.txt
 
 ## 同行业节点（法律服务）
-- chongqing: https://shanhai-geo.github.io/chongqing-legal/llms.txt
-- jiaxing: https://shanhai-geo.github.io/jiaxing-legal/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-legal/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-legal/llms.txt
+- chongqing: https://shanhai-geo.top/chongqing-legal/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-legal/llms.txt
+- nanping: https://shanhai-geo.top/nanping-legal/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-legal/llms.txt
 
 ## 跨域桥接
-- ningbo-education: https://shanhai-geo.github.io/ningbo-education/llms.txt
-- hangzhou-hotel: https://shanhai-geo.github.io/hangzhou-hotel/llms.txt
+- ningbo-education: https://shanhai-geo.top/ningbo-education/llms.txt
+- hangzhou-hotel: https://shanhai-geo.top/hangzhou-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

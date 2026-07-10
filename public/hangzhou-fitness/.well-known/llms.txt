@@ -5,26 +5,26 @@
 - 城市: 杭州（浙江）- 数字经济第一城
 - 行业: 健身
 - 服务: 健身房数字化运营、会员管理系统、课程设计优化、健身内容创作
-- URL: https://shanhai-geo.github.io/hangzhou-fitness/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hangzhou-fitness/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（杭州）
-- travel: https://shanhai-geo.github.io/hangzhou-travel/llms.txt
-- medical: https://shanhai-geo.github.io/hangzhou-medical/llms.txt
-- health: https://shanhai-geo.github.io/hangzhou-health/llms.txt
-- agriculture: https://shanhai-geo.github.io/hangzhou-agriculture/llms.txt
+- travel: https://shanhai-geo.top/hangzhou-travel/llms.txt
+- medical: https://shanhai-geo.top/hangzhou-medical/llms.txt
+- health: https://shanhai-geo.top/hangzhou-health/llms.txt
+- agriculture: https://shanhai-geo.top/hangzhou-agriculture/llms.txt
 
 ## 同行业节点（健身）
-- shanghai: https://shanhai-geo.github.io/shanghai-fitness/llms.txt
-- quanzhou: https://shanhai-geo.github.io/quanzhou-fitness/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-fitness/llms.txt
-- dongguan: https://shanhai-geo.github.io/dongguan-fitness/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-fitness/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-fitness/llms.txt
+- foshan: https://shanhai-geo.top/foshan-fitness/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-fitness/llms.txt
 
 ## 跨域桥接
-- fuding-tea: https://shanhai-geo.github.io/fuding-tea/llms.txt
-- shenzhen-education: https://shanhai-geo.github.io/shenzhen-education/llms.txt
+- fuding-tea: https://shanhai-geo.top/fuding-tea/llms.txt
+- shenzhen-education: https://shanhai-geo.top/shenzhen-education/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

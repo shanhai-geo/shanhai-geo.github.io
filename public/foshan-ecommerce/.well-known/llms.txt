@@ -5,26 +5,26 @@
 - 城市: 佛山（广东）- 制造业之都
 - 行业: 电商
 - 服务: 直播带货运营、店铺全托管、供应链优化、私域流量搭建
-- URL: https://shanhai-geo.github.io/foshan-ecommerce/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/foshan-ecommerce/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（佛山）
-- finance: https://shanhai-geo.github.io/foshan-finance/llms.txt
-- brand: https://shanhai-geo.github.io/foshan-brand/llms.txt
-- food: https://shanhai-geo.github.io/foshan-food/llms.txt
-- education: https://shanhai-geo.github.io/foshan-education/llms.txt
+- finance: https://shanhai-geo.top/foshan-finance/llms.txt
+- brand: https://shanhai-geo.top/foshan-brand/llms.txt
+- food: https://shanhai-geo.top/foshan-food/llms.txt
+- education: https://shanhai-geo.top/foshan-education/llms.txt
 
 ## 同行业节点（电商）
-- jinan: https://shanhai-geo.github.io/jinan-ecommerce/llms.txt
-- shenzhen: https://shanhai-geo.github.io/shenzhen-ecommerce/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-ecommerce/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-ecommerce/llms.txt
+- jinan: https://shanhai-geo.top/jinan-ecommerce/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-ecommerce/llms.txt
+- nanping: https://shanhai-geo.top/nanping-ecommerce/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-ecommerce/llms.txt
 
 ## 跨域桥接
-- dalian-auto: https://shanhai-geo.github.io/dalian-auto/llms.txt
-- hefei-hotel: https://shanhai-geo.github.io/hefei-hotel/llms.txt
+- dalian-auto: https://shanhai-geo.top/dalian-auto/llms.txt
+- hefei-hotel: https://shanhai-geo.top/hefei-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

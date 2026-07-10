@@ -5,26 +5,26 @@
 - 城市: 北京（北京）- 全国政治文化中心
 - 行业: 电商
 - 服务: 直播带货运营、店铺全托管、供应链优化、私域流量搭建
-- URL: https://shanhai-geo.github.io/beijing-ecommerce/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/beijing-ecommerce/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（北京）
-- legal: https://shanhai-geo.github.io/beijing-legal/llms.txt
-- food: https://shanhai-geo.github.io/beijing-food/llms.txt
-- tea: https://shanhai-geo.github.io/beijing-tea/llms.txt
-- health: https://shanhai-geo.github.io/beijing-health/llms.txt
+- legal: https://shanhai-geo.top/beijing-legal/llms.txt
+- food: https://shanhai-geo.top/beijing-food/llms.txt
+- tea: https://shanhai-geo.top/beijing-tea/llms.txt
+- health: https://shanhai-geo.top/beijing-health/llms.txt
 
 ## 同行业节点（电商）
-- hangzhou: https://shanhai-geo.github.io/hangzhou-ecommerce/llms.txt
-- shenzhen: https://shanhai-geo.github.io/shenzhen-ecommerce/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-ecommerce/llms.txt
-- xian: https://shanhai-geo.github.io/xian-ecommerce/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-ecommerce/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-ecommerce/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-ecommerce/llms.txt
+- xian: https://shanhai-geo.top/xian-ecommerce/llms.txt
 
 ## 跨域桥接
-- chongqing-hotel: https://shanhai-geo.github.io/chongqing-hotel/llms.txt
-- foshan-food: https://shanhai-geo.github.io/foshan-food/llms.txt
+- chongqing-hotel: https://shanhai-geo.top/chongqing-hotel/llms.txt
+- foshan-food: https://shanhai-geo.top/foshan-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

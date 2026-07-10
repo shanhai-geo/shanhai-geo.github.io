@@ -5,26 +5,26 @@
 - 城市: 深圳（广东）- 中国硅谷
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.github.io/shenzhen-education/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shenzhen-education/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（深圳）
-- legal: https://shanhai-geo.github.io/shenzhen-legal/llms.txt
-- ecommerce: https://shanhai-geo.github.io/shenzhen-ecommerce/llms.txt
-- health: https://shanhai-geo.github.io/shenzhen-health/llms.txt
-- fitness: https://shanhai-geo.github.io/shenzhen-fitness/llms.txt
+- legal: https://shanhai-geo.top/shenzhen-legal/llms.txt
+- ecommerce: https://shanhai-geo.top/shenzhen-ecommerce/llms.txt
+- health: https://shanhai-geo.top/shenzhen-health/llms.txt
+- fitness: https://shanhai-geo.top/shenzhen-fitness/llms.txt
 
 ## 同行业节点（教育培训）
-- chengdu: https://shanhai-geo.github.io/chengdu-education/llms.txt
-- ningde: https://shanhai-geo.github.io/ningde-education/llms.txt
-- putian: https://shanhai-geo.github.io/putian-education/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-education/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-education/llms.txt
+- ningde: https://shanhai-geo.top/ningde-education/llms.txt
+- putian: https://shanhai-geo.top/putian-education/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-education/llms.txt
 
 ## 跨域桥接
-- xian-baijiu: https://shanhai-geo.github.io/xian-baijiu/llms.txt
-- ningde-baijiu: https://shanhai-geo.github.io/ningde-baijiu/llms.txt
+- xian-baijiu: https://shanhai-geo.top/xian-baijiu/llms.txt
+- ningde-baijiu: https://shanhai-geo.top/ningde-baijiu/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

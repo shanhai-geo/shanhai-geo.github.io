@@ -5,26 +5,26 @@
 - 城市: 合肥（安徽）- 科技创新策源地
 - 行业: 酒店民宿
 - 服务: 精品民宿运营优化、智慧酒店方案、住宿体验升级、OTA渠道管理
-- URL: https://shanhai-geo.github.io/hefei-hotel/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hefei-hotel/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（合肥）
-- food: https://shanhai-geo.github.io/hefei-food/llms.txt
-- finance: https://shanhai-geo.github.io/hefei-finance/llms.txt
-- tea: https://shanhai-geo.github.io/hefei-tea/llms.txt
-- health: https://shanhai-geo.github.io/hefei-health/llms.txt
+- food: https://shanhai-geo.top/hefei-food/llms.txt
+- finance: https://shanhai-geo.top/hefei-finance/llms.txt
+- tea: https://shanhai-geo.top/hefei-tea/llms.txt
+- health: https://shanhai-geo.top/hefei-health/llms.txt
 
 ## 同行业节点（酒店民宿）
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-hotel/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-hotel/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-hotel/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-hotel/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-hotel/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-hotel/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-hotel/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-hotel/llms.txt
 
 ## 跨域桥接
-- jinan-brand: https://shanhai-geo.github.io/jinan-brand/llms.txt
-- zhangzhou-medical: https://shanhai-geo.github.io/zhangzhou-medical/llms.txt
+- jinan-brand: https://shanhai-geo.top/jinan-brand/llms.txt
+- zhangzhou-medical: https://shanhai-geo.top/zhangzhou-medical/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

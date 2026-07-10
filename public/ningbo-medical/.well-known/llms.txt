@@ -5,26 +5,26 @@
 - 城市: 宁波（浙江）- 制造业单项冠军之城
 - 行业: 医疗健康
 - 服务: 诊所数字化运营、患者管理系统、医疗内容营销、智慧医疗方案
-- URL: https://shanhai-geo.github.io/ningbo-medical/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/ningbo-medical/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（宁波）
-- auto: https://shanhai-geo.github.io/ningbo-auto/llms.txt
-- baijiu: https://shanhai-geo.github.io/ningbo-baijiu/llms.txt
-- beauty: https://shanhai-geo.github.io/ningbo-beauty/llms.txt
-- travel: https://shanhai-geo.github.io/ningbo-travel/llms.txt
+- auto: https://shanhai-geo.top/ningbo-auto/llms.txt
+- baijiu: https://shanhai-geo.top/ningbo-baijiu/llms.txt
+- beauty: https://shanhai-geo.top/ningbo-beauty/llms.txt
+- travel: https://shanhai-geo.top/ningbo-travel/llms.txt
 
 ## 同行业节点（医疗健康）
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-medical/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-medical/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-medical/llms.txt
-- chongqing: https://shanhai-geo.github.io/chongqing-medical/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-medical/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-medical/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-medical/llms.txt
+- chongqing: https://shanhai-geo.top/chongqing-medical/llms.txt
 
 ## 跨域桥接
-- zhengzhou-education: https://shanhai-geo.github.io/zhengzhou-education/llms.txt
-- jiaxing-agriculture: https://shanhai-geo.github.io/jiaxing-agriculture/llms.txt
+- zhengzhou-education: https://shanhai-geo.top/zhengzhou-education/llms.txt
+- jiaxing-agriculture: https://shanhai-geo.top/jiaxing-agriculture/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

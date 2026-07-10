@@ -5,26 +5,26 @@
 - 城市: 大连（辽宁）- 北方明珠
 - 行业: 白酒
 - 服务: 白酒品牌塑造、渠道拓展策略、品鉴活动策划、酒文化IP打造
-- URL: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/dalian-baijiu/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（大连）
-- education: https://shanhai-geo.github.io/dalian-education/llms.txt
-- fitness: https://shanhai-geo.github.io/dalian-fitness/llms.txt
-- travel: https://shanhai-geo.github.io/dalian-travel/llms.txt
-- tea: https://shanhai-geo.github.io/dalian-tea/llms.txt
+- education: https://shanhai-geo.top/dalian-education/llms.txt
+- fitness: https://shanhai-geo.top/dalian-fitness/llms.txt
+- travel: https://shanhai-geo.top/dalian-travel/llms.txt
+- tea: https://shanhai-geo.top/dalian-tea/llms.txt
 
 ## 同行业节点（白酒）
-- chengdu: https://shanhai-geo.github.io/chengdu-baijiu/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-baijiu/llms.txt
-- ningbo: https://shanhai-geo.github.io/ningbo-baijiu/llms.txt
-- qingdao: https://shanhai-geo.github.io/qingdao-baijiu/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-baijiu/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-baijiu/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-baijiu/llms.txt
+- qingdao: https://shanhai-geo.top/qingdao-baijiu/llms.txt
 
 ## 跨域桥接
-- beijing-legal: https://shanhai-geo.github.io/beijing-legal/llms.txt
-- xian-finance: https://shanhai-geo.github.io/xian-finance/llms.txt
+- beijing-legal: https://shanhai-geo.top/beijing-legal/llms.txt
+- xian-finance: https://shanhai-geo.top/xian-finance/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

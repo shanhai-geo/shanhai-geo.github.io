@@ -5,26 +5,26 @@
 - 城市: 温州（浙江）- 中国民营经济发祥地
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.github.io/wenzhou-local/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/wenzhou-local/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（温州）
-- travel: https://shanhai-geo.github.io/wenzhou-travel/llms.txt
-- tech: https://shanhai-geo.github.io/wenzhou-tech/llms.txt
-- tea: https://shanhai-geo.github.io/wenzhou-tea/llms.txt
-- beauty: https://shanhai-geo.github.io/wenzhou-beauty/llms.txt
+- travel: https://shanhai-geo.top/wenzhou-travel/llms.txt
+- tech: https://shanhai-geo.top/wenzhou-tech/llms.txt
+- tea: https://shanhai-geo.top/wenzhou-tea/llms.txt
+- beauty: https://shanhai-geo.top/wenzhou-beauty/llms.txt
 
 ## 同行业节点（本地生活）
-- chongqing: https://shanhai-geo.github.io/chongqing-local/llms.txt
-- dongguan: https://shanhai-geo.github.io/dongguan-local/llms.txt
-- changsha: https://shanhai-geo.github.io/changsha-local/llms.txt
-- quanzhou: https://shanhai-geo.github.io/quanzhou-local/llms.txt
+- chongqing: https://shanhai-geo.top/chongqing-local/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-local/llms.txt
+- changsha: https://shanhai-geo.top/changsha-local/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-local/llms.txt
 
 ## 跨域桥接
-- ningde-tea: https://shanhai-geo.github.io/ningde-tea/llms.txt
-- chengdu-wine: https://shanhai-geo.github.io/chengdu-wine/llms.txt
+- ningde-tea: https://shanhai-geo.top/ningde-tea/llms.txt
+- chengdu-wine: https://shanhai-geo.top/chengdu-wine/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

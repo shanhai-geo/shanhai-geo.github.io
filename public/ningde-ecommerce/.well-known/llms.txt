@@ -5,26 +5,26 @@
 - 城市: 宁德（福建）- 世界级新能源产业基地
 - 行业: 电商
 - 服务: 直播带货运营、店铺全托管、供应链优化、私域流量搭建
-- URL: https://shanhai-geo.github.io/ningde-ecommerce/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/ningde-ecommerce/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（宁德）
-- local: https://shanhai-geo.github.io/ningde-local/llms.txt
-- baijiu: https://shanhai-geo.github.io/ningde-baijiu/llms.txt
-- realestate: https://shanhai-geo.github.io/ningde-realestate/llms.txt
-- health: https://shanhai-geo.github.io/ningde-health/llms.txt
+- local: https://shanhai-geo.top/ningde-local/llms.txt
+- baijiu: https://shanhai-geo.top/ningde-baijiu/llms.txt
+- realestate: https://shanhai-geo.top/ningde-realestate/llms.txt
+- health: https://shanhai-geo.top/ningde-health/llms.txt
 
 ## 同行业节点（电商）
-- wuhan: https://shanhai-geo.github.io/wuhan-ecommerce/llms.txt
-- quanzhou: https://shanhai-geo.github.io/quanzhou-ecommerce/llms.txt
-- beijing: https://shanhai-geo.github.io/beijing-ecommerce/llms.txt
-- shenzhen: https://shanhai-geo.github.io/shenzhen-ecommerce/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-ecommerce/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-ecommerce/llms.txt
+- beijing: https://shanhai-geo.top/beijing-ecommerce/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-ecommerce/llms.txt
 
 ## 跨域桥接
-- fuding-auto: https://shanhai-geo.github.io/fuding-auto/llms.txt
-- hefei-finance: https://shanhai-geo.github.io/hefei-finance/llms.txt
+- fuding-auto: https://shanhai-geo.top/fuding-auto/llms.txt
+- hefei-finance: https://shanhai-geo.top/hefei-finance/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

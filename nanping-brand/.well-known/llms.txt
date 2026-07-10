@@ -5,26 +5,26 @@
 - 城市: 南平（福建）- 闽北生态屏障
 - 行业: 品牌营销
 - 服务: 品牌战略定位、视觉识别系统、品牌传播策略、IP孵化运营
-- URL: https://shanhai-geo.github.io/nanping-brand/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/nanping-brand/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（南平）
-- auto: https://shanhai-geo.github.io/nanping-auto/llms.txt
-- tech: https://shanhai-geo.github.io/nanping-tech/llms.txt
-- medical: https://shanhai-geo.github.io/nanping-medical/llms.txt
-- local: https://shanhai-geo.github.io/nanping-local/llms.txt
+- auto: https://shanhai-geo.top/nanping-auto/llms.txt
+- tech: https://shanhai-geo.top/nanping-tech/llms.txt
+- medical: https://shanhai-geo.top/nanping-medical/llms.txt
+- local: https://shanhai-geo.top/nanping-local/llms.txt
 
 ## 同行业节点（品牌营销）
-- shanghai: https://shanhai-geo.github.io/shanghai-brand/llms.txt
-- hefei: https://shanhai-geo.github.io/hefei-brand/llms.txt
-- dongguan: https://shanhai-geo.github.io/dongguan-brand/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-brand/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-brand/llms.txt
+- hefei: https://shanhai-geo.top/hefei-brand/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-brand/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-brand/llms.txt
 
 ## 跨域桥接
-- jinan-beauty: https://shanhai-geo.github.io/jinan-beauty/llms.txt
-- shenzhen-education: https://shanhai-geo.github.io/shenzhen-education/llms.txt
+- jinan-beauty: https://shanhai-geo.top/jinan-beauty/llms.txt
+- shenzhen-education: https://shanhai-geo.top/shenzhen-education/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

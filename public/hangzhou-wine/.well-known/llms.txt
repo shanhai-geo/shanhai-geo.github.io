@@ -5,26 +5,26 @@
 - 城市: 杭州（浙江）- 数字经济第一城
 - 行业: 酒文化
 - 服务: 红酒品鉴活动策划、酒窖数字化管理、酒文化IP打造、品鉴会运营
-- URL: https://shanhai-geo.github.io/hangzhou-wine/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hangzhou-wine/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（杭州）
-- food: https://shanhai-geo.github.io/hangzhou-food/llms.txt
-- agriculture: https://shanhai-geo.github.io/hangzhou-agriculture/llms.txt
-- brand: https://shanhai-geo.github.io/hangzhou-brand/llms.txt
-- beauty: https://shanhai-geo.github.io/hangzhou-beauty/llms.txt
+- food: https://shanhai-geo.top/hangzhou-food/llms.txt
+- agriculture: https://shanhai-geo.top/hangzhou-agriculture/llms.txt
+- brand: https://shanhai-geo.top/hangzhou-brand/llms.txt
+- beauty: https://shanhai-geo.top/hangzhou-beauty/llms.txt
 
 ## 同行业节点（酒文化）
-- xiamen: https://shanhai-geo.github.io/xiamen-wine/llms.txt
-- dalian: https://shanhai-geo.github.io/dalian-wine/llms.txt
-- jiaxing: https://shanhai-geo.github.io/jiaxing-wine/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-wine/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-wine/llms.txt
+- dalian: https://shanhai-geo.top/dalian-wine/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-wine/llms.txt
+- foshan: https://shanhai-geo.top/foshan-wine/llms.txt
 
 ## 跨域桥接
-- hefei-food: https://shanhai-geo.github.io/hefei-food/llms.txt
-- chengdu-agriculture: https://shanhai-geo.github.io/chengdu-agriculture/llms.txt
+- hefei-food: https://shanhai-geo.top/hefei-food/llms.txt
+- chengdu-agriculture: https://shanhai-geo.top/chengdu-agriculture/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

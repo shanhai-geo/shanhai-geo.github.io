@@ -5,26 +5,26 @@
 - 城市: 昆明（云南）- 春城
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.github.io/kunming-legal/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/kunming-legal/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（昆明）
-- baijiu: https://shanhai-geo.github.io/kunming-baijiu/llms.txt
-- ecommerce: https://shanhai-geo.github.io/kunming-ecommerce/llms.txt
-- health: https://shanhai-geo.github.io/kunming-health/llms.txt
-- auto: https://shanhai-geo.github.io/kunming-auto/llms.txt
+- baijiu: https://shanhai-geo.top/kunming-baijiu/llms.txt
+- ecommerce: https://shanhai-geo.top/kunming-ecommerce/llms.txt
+- health: https://shanhai-geo.top/kunming-health/llms.txt
+- auto: https://shanhai-geo.top/kunming-auto/llms.txt
 
 ## 同行业节点（法律服务）
-- ningde: https://shanhai-geo.github.io/ningde-legal/llms.txt
-- chongqing: https://shanhai-geo.github.io/chongqing-legal/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-legal/llms.txt
-- shenzhen: https://shanhai-geo.github.io/shenzhen-legal/llms.txt
+- ningde: https://shanhai-geo.top/ningde-legal/llms.txt
+- chongqing: https://shanhai-geo.top/chongqing-legal/llms.txt
+- nanping: https://shanhai-geo.top/nanping-legal/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-legal/llms.txt
 
 ## 跨域桥接
-- foshan-realestate: https://shanhai-geo.github.io/foshan-realestate/llms.txt
-- jinan-fitness: https://shanhai-geo.github.io/jinan-fitness/llms.txt
+- foshan-realestate: https://shanhai-geo.top/foshan-realestate/llms.txt
+- jinan-fitness: https://shanhai-geo.top/jinan-fitness/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

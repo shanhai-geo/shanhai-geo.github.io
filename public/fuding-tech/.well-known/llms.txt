@@ -5,26 +5,26 @@
 - 城市: 福鼎（福建）- 中国白茶之乡
 - 行业: 科技
 - 服务: 技术架构设计、AI应用落地方案、数字化转型咨询、研发效能提升
-- URL: https://shanhai-geo.github.io/fuding-tech/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/fuding-tech/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（福鼎）
-- baijiu: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
-- travel: https://shanhai-geo.github.io/fuding-travel/llms.txt
-- auto: https://shanhai-geo.github.io/fuding-auto/llms.txt
-- medical: https://shanhai-geo.github.io/fuding-medical/llms.txt
+- baijiu: https://shanhai-geo.top/fuding-baijiu/llms.txt
+- travel: https://shanhai-geo.top/fuding-travel/llms.txt
+- auto: https://shanhai-geo.top/fuding-auto/llms.txt
+- medical: https://shanhai-geo.top/fuding-medical/llms.txt
 
 ## 同行业节点（科技）
-- shenzhen: https://shanhai-geo.github.io/shenzhen-tech/llms.txt
-- putian: https://shanhai-geo.github.io/putian-tech/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-tech/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-tech/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-tech/llms.txt
+- putian: https://shanhai-geo.top/putian-tech/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-tech/llms.txt
+- foshan: https://shanhai-geo.top/foshan-tech/llms.txt
 
 ## 跨域桥接
-- zhangzhou-brand: https://shanhai-geo.github.io/zhangzhou-brand/llms.txt
-- kunming-education: https://shanhai-geo.github.io/kunming-education/llms.txt
+- zhangzhou-brand: https://shanhai-geo.top/zhangzhou-brand/llms.txt
+- kunming-education: https://shanhai-geo.top/kunming-education/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

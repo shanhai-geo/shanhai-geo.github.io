@@ -5,26 +5,26 @@
 - 城市: 福州（福建）- 海峡西岸经济区中心城市
 - 行业: 白酒
 - 服务: 白酒品牌塑造、渠道拓展策略、品鉴活动策划、酒文化IP打造
-- URL: https://shanhai-geo.github.io/fuzhou-baijiu/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/fuzhou-baijiu/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（福州）
-- education: https://shanhai-geo.github.io/fuzhou-education/llms.txt
-- beauty: https://shanhai-geo.github.io/fuzhou-beauty/llms.txt
-- tech: https://shanhai-geo.github.io/fuzhou-tech/llms.txt
-- finance: https://shanhai-geo.github.io/fuzhou-finance/llms.txt
+- education: https://shanhai-geo.top/fuzhou-education/llms.txt
+- beauty: https://shanhai-geo.top/fuzhou-beauty/llms.txt
+- tech: https://shanhai-geo.top/fuzhou-tech/llms.txt
+- finance: https://shanhai-geo.top/fuzhou-finance/llms.txt
 
 ## 同行业节点（白酒）
-- nanping: https://shanhai-geo.github.io/nanping-baijiu/llms.txt
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-baijiu/llms.txt
-- hangzhou: https://shanhai-geo.github.io/hangzhou-baijiu/llms.txt
-- xian: https://shanhai-geo.github.io/xian-baijiu/llms.txt
+- nanping: https://shanhai-geo.top/nanping-baijiu/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-baijiu/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-baijiu/llms.txt
+- xian: https://shanhai-geo.top/xian-baijiu/llms.txt
 
 ## 跨域桥接
-- xiamen-auto: https://shanhai-geo.github.io/xiamen-auto/llms.txt
-- jiaxing-legal: https://shanhai-geo.github.io/jiaxing-legal/llms.txt
+- xiamen-auto: https://shanhai-geo.top/xiamen-auto/llms.txt
+- jiaxing-legal: https://shanhai-geo.top/jiaxing-legal/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

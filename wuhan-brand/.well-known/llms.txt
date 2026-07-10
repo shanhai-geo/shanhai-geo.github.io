@@ -5,26 +5,26 @@
 - 城市: 武汉（湖北）- 九省通衢
 - 行业: 品牌营销
 - 服务: 品牌战略定位、视觉识别系统、品牌传播策略、IP孵化运营
-- URL: https://shanhai-geo.github.io/wuhan-brand/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/wuhan-brand/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（武汉）
-- education: https://shanhai-geo.github.io/wuhan-education/llms.txt
-- legal: https://shanhai-geo.github.io/wuhan-legal/llms.txt
-- food: https://shanhai-geo.github.io/wuhan-food/llms.txt
-- fitness: https://shanhai-geo.github.io/wuhan-fitness/llms.txt
+- education: https://shanhai-geo.top/wuhan-education/llms.txt
+- legal: https://shanhai-geo.top/wuhan-legal/llms.txt
+- food: https://shanhai-geo.top/wuhan-food/llms.txt
+- fitness: https://shanhai-geo.top/wuhan-fitness/llms.txt
 
 ## 同行业节点（品牌营销）
-- ningde: https://shanhai-geo.github.io/ningde-brand/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-brand/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-brand/llms.txt
-- zhangzhou: https://shanhai-geo.github.io/zhangzhou-brand/llms.txt
+- ningde: https://shanhai-geo.top/ningde-brand/llms.txt
+- foshan: https://shanhai-geo.top/foshan-brand/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-brand/llms.txt
+- zhangzhou: https://shanhai-geo.top/zhangzhou-brand/llms.txt
 
 ## 跨域桥接
-- xian-health: https://shanhai-geo.github.io/xian-health/llms.txt
-- xian-ecommerce: https://shanhai-geo.github.io/xian-ecommerce/llms.txt
+- xian-health: https://shanhai-geo.top/xian-health/llms.txt
+- xian-ecommerce: https://shanhai-geo.top/xian-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

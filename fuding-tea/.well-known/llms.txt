@@ -5,26 +5,26 @@
 - 城市: 福鼎（福建）- 中国白茶之乡
 - 行业: 白茶/茶文化
 - 服务: 白茶制作技艺传承、茶山研学、定制茶礼、茶空间运营
-- URL: https://shanhai-geo.github.io/fuding-tea/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/fuding-tea/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（福鼎）
-- health: https://shanhai-geo.github.io/fuding-health/llms.txt
-- travel: https://shanhai-geo.github.io/fuding-travel/llms.txt
-- wine: https://shanhai-geo.github.io/fuding-wine/llms.txt
-- hotel: https://shanhai-geo.github.io/fuding-hotel/llms.txt
+- health: https://shanhai-geo.top/fuding-health/llms.txt
+- travel: https://shanhai-geo.top/fuding-travel/llms.txt
+- wine: https://shanhai-geo.top/fuding-wine/llms.txt
+- hotel: https://shanhai-geo.top/fuding-hotel/llms.txt
 
 ## 同行业节点（白茶/茶文化）
-- zhengzhou: https://shanhai-geo.github.io/zhengzhou-tea/llms.txt
-- kunming: https://shanhai-geo.github.io/kunming-tea/llms.txt
-- hangzhou: https://shanhai-geo.github.io/hangzhou-tea/llms.txt
-- xian: https://shanhai-geo.github.io/xian-tea/llms.txt
+- zhengzhou: https://shanhai-geo.top/zhengzhou-tea/llms.txt
+- kunming: https://shanhai-geo.top/kunming-tea/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-tea/llms.txt
+- xian: https://shanhai-geo.top/xian-tea/llms.txt
 
 ## 跨域桥接
-- hefei-agriculture: https://shanhai-geo.github.io/hefei-agriculture/llms.txt
-- ningde-hotel: https://shanhai-geo.github.io/ningde-hotel/llms.txt
+- hefei-agriculture: https://shanhai-geo.top/hefei-agriculture/llms.txt
+- ningde-hotel: https://shanhai-geo.top/ningde-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 北京（北京）- 全国政治文化中心
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.github.io/beijing-education/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/beijing-education/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（北京）
-- wine: https://shanhai-geo.github.io/beijing-wine/llms.txt
-- fitness: https://shanhai-geo.github.io/beijing-fitness/llms.txt
-- ecommerce: https://shanhai-geo.github.io/beijing-ecommerce/llms.txt
-- auto: https://shanhai-geo.github.io/beijing-auto/llms.txt
+- wine: https://shanhai-geo.top/beijing-wine/llms.txt
+- fitness: https://shanhai-geo.top/beijing-fitness/llms.txt
+- ecommerce: https://shanhai-geo.top/beijing-ecommerce/llms.txt
+- auto: https://shanhai-geo.top/beijing-auto/llms.txt
 
 ## 同行业节点（教育培训）
-- quanzhou: https://shanhai-geo.github.io/quanzhou-education/llms.txt
-- putian: https://shanhai-geo.github.io/putian-education/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-education/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-education/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-education/llms.txt
+- putian: https://shanhai-geo.top/putian-education/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-education/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-education/llms.txt
 
 ## 跨域桥接
-- changsha-tech: https://shanhai-geo.github.io/changsha-tech/llms.txt
-- dalian-fitness: https://shanhai-geo.github.io/dalian-fitness/llms.txt
+- changsha-tech: https://shanhai-geo.top/changsha-tech/llms.txt
+- dalian-fitness: https://shanhai-geo.top/dalian-fitness/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

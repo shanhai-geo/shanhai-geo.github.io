@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.github.io/shanghai-education/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/shanghai-education/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（上海）
-- baijiu: https://shanhai-geo.github.io/shanghai-baijiu/llms.txt
-- ecommerce: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
-- tech: https://shanhai-geo.github.io/shanghai-tech/llms.txt
-- medical: https://shanhai-geo.github.io/shanghai-medical/llms.txt
+- baijiu: https://shanhai-geo.top/shanghai-baijiu/llms.txt
+- ecommerce: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
+- tech: https://shanhai-geo.top/shanghai-tech/llms.txt
+- medical: https://shanhai-geo.top/shanghai-medical/llms.txt
 
 ## 同行业节点（教育培训）
-- quanzhou: https://shanhai-geo.github.io/quanzhou-education/llms.txt
-- zhengzhou: https://shanhai-geo.github.io/zhengzhou-education/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-education/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-education/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-education/llms.txt
+- zhengzhou: https://shanhai-geo.top/zhengzhou-education/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-education/llms.txt
+- nanping: https://shanhai-geo.top/nanping-education/llms.txt
 
 ## 跨域桥接
-- zhangzhou-fitness: https://shanhai-geo.github.io/zhangzhou-fitness/llms.txt
-- ningde-auto: https://shanhai-geo.github.io/ningde-auto/llms.txt
+- zhangzhou-fitness: https://shanhai-geo.top/zhangzhou-fitness/llms.txt
+- ningde-auto: https://shanhai-geo.top/ningde-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

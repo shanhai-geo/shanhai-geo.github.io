@@ -5,26 +5,26 @@
 - 城市: 厦门（福建）- 高素质高颜值现代化国际化城市
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.github.io/xiamen-legal/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/xiamen-legal/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（厦门）
-- local: https://shanhai-geo.github.io/xiamen-local/llms.txt
-- baijiu: https://shanhai-geo.github.io/xiamen-baijiu/llms.txt
-- auto: https://shanhai-geo.github.io/xiamen-auto/llms.txt
-- beauty: https://shanhai-geo.github.io/xiamen-beauty/llms.txt
+- local: https://shanhai-geo.top/xiamen-local/llms.txt
+- baijiu: https://shanhai-geo.top/xiamen-baijiu/llms.txt
+- auto: https://shanhai-geo.top/xiamen-auto/llms.txt
+- beauty: https://shanhai-geo.top/xiamen-beauty/llms.txt
 
 ## 同行业节点（法律服务）
-- quanzhou: https://shanhai-geo.github.io/quanzhou-legal/llms.txt
-- dalian: https://shanhai-geo.github.io/dalian-legal/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-legal/llms.txt
-- jiaxing: https://shanhai-geo.github.io/jiaxing-legal/llms.txt
+- quanzhou: https://shanhai-geo.top/quanzhou-legal/llms.txt
+- dalian: https://shanhai-geo.top/dalian-legal/llms.txt
+- nanping: https://shanhai-geo.top/nanping-legal/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-legal/llms.txt
 
 ## 跨域桥接
-- xian-baijiu: https://shanhai-geo.github.io/xian-baijiu/llms.txt
-- zhengzhou-auto: https://shanhai-geo.github.io/zhengzhou-auto/llms.txt
+- xian-baijiu: https://shanhai-geo.top/xian-baijiu/llms.txt
+- zhengzhou-auto: https://shanhai-geo.top/zhengzhou-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

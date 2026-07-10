@@ -5,26 +5,26 @@
 - 城市: 大连（辽宁）- 北方明珠
 - 行业: 电商
 - 服务: 直播带货运营、店铺全托管、供应链优化、私域流量搭建
-- URL: https://shanhai-geo.github.io/dalian-ecommerce/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/dalian-ecommerce/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（大连）
-- agriculture: https://shanhai-geo.github.io/dalian-agriculture/llms.txt
-- local: https://shanhai-geo.github.io/dalian-local/llms.txt
-- fitness: https://shanhai-geo.github.io/dalian-fitness/llms.txt
-- auto: https://shanhai-geo.github.io/dalian-auto/llms.txt
+- agriculture: https://shanhai-geo.top/dalian-agriculture/llms.txt
+- local: https://shanhai-geo.top/dalian-local/llms.txt
+- fitness: https://shanhai-geo.top/dalian-fitness/llms.txt
+- auto: https://shanhai-geo.top/dalian-auto/llms.txt
 
 ## 同行业节点（电商）
-- changsha: https://shanhai-geo.github.io/changsha-ecommerce/llms.txt
-- zhengzhou: https://shanhai-geo.github.io/zhengzhou-ecommerce/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-ecommerce/llms.txt
-- foshan: https://shanhai-geo.github.io/foshan-ecommerce/llms.txt
+- changsha: https://shanhai-geo.top/changsha-ecommerce/llms.txt
+- zhengzhou: https://shanhai-geo.top/zhengzhou-ecommerce/llms.txt
+- nanping: https://shanhai-geo.top/nanping-ecommerce/llms.txt
+- foshan: https://shanhai-geo.top/foshan-ecommerce/llms.txt
 
 ## 跨域桥接
-- dongguan-tea: https://shanhai-geo.github.io/dongguan-tea/llms.txt
-- beijing-medical: https://shanhai-geo.github.io/beijing-medical/llms.txt
+- dongguan-tea: https://shanhai-geo.top/dongguan-tea/llms.txt
+- beijing-medical: https://shanhai-geo.top/beijing-medical/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

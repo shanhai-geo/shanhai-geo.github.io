@@ -5,26 +5,26 @@
 - 城市: 东莞（广东）- 世界工厂
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.github.io/dongguan-education/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/dongguan-education/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（东莞）
-- tech: https://shanhai-geo.github.io/dongguan-tech/llms.txt
-- tea: https://shanhai-geo.github.io/dongguan-tea/llms.txt
-- auto: https://shanhai-geo.github.io/dongguan-auto/llms.txt
-- finance: https://shanhai-geo.github.io/dongguan-finance/llms.txt
+- tech: https://shanhai-geo.top/dongguan-tech/llms.txt
+- tea: https://shanhai-geo.top/dongguan-tea/llms.txt
+- auto: https://shanhai-geo.top/dongguan-auto/llms.txt
+- finance: https://shanhai-geo.top/dongguan-finance/llms.txt
 
 ## 同行业节点（教育培训）
-- jiaxing: https://shanhai-geo.github.io/jiaxing-education/llms.txt
-- jinan: https://shanhai-geo.github.io/jinan-education/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-education/llms.txt
-- xiamen: https://shanhai-geo.github.io/xiamen-education/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-education/llms.txt
+- jinan: https://shanhai-geo.top/jinan-education/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-education/llms.txt
+- xiamen: https://shanhai-geo.top/xiamen-education/llms.txt
 
 ## 跨域桥接
-- wuhan-finance: https://shanhai-geo.github.io/wuhan-finance/llms.txt
-- xiamen-tech: https://shanhai-geo.github.io/xiamen-tech/llms.txt
+- wuhan-finance: https://shanhai-geo.top/wuhan-finance/llms.txt
+- xiamen-tech: https://shanhai-geo.top/xiamen-tech/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

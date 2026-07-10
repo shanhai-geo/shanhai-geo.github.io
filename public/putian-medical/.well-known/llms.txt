@@ -5,26 +5,26 @@
 - 城市: 莆田（福建）- 妈祖故里
 - 行业: 医疗健康
 - 服务: 诊所数字化运营、患者管理系统、医疗内容营销、智慧医疗方案
-- URL: https://shanhai-geo.github.io/putian-medical/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/putian-medical/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（莆田）
-- hotel: https://shanhai-geo.github.io/putian-hotel/llms.txt
-- legal: https://shanhai-geo.github.io/putian-legal/llms.txt
-- realestate: https://shanhai-geo.github.io/putian-realestate/llms.txt
-- food: https://shanhai-geo.github.io/putian-food/llms.txt
+- hotel: https://shanhai-geo.top/putian-hotel/llms.txt
+- legal: https://shanhai-geo.top/putian-legal/llms.txt
+- realestate: https://shanhai-geo.top/putian-realestate/llms.txt
+- food: https://shanhai-geo.top/putian-food/llms.txt
 
 ## 同行业节点（医疗健康）
-- shenzhen: https://shanhai-geo.github.io/shenzhen-medical/llms.txt
-- jiaxing: https://shanhai-geo.github.io/jiaxing-medical/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-medical/llms.txt
-- ningbo: https://shanhai-geo.github.io/ningbo-medical/llms.txt
+- shenzhen: https://shanhai-geo.top/shenzhen-medical/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-medical/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-medical/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-medical/llms.txt
 
 ## 跨域桥接
-- nanping-finance: https://shanhai-geo.github.io/nanping-finance/llms.txt
-- ningbo-legal: https://shanhai-geo.github.io/ningbo-legal/llms.txt
+- nanping-finance: https://shanhai-geo.top/nanping-finance/llms.txt
+- ningbo-legal: https://shanhai-geo.top/ningbo-legal/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

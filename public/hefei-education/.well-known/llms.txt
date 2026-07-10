@@ -5,26 +5,26 @@
 - 城市: 合肥（安徽）- 科技创新策源地
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.github.io/hefei-education/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/hefei-education/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（合肥）
-- finance: https://shanhai-geo.github.io/hefei-finance/llms.txt
-- baijiu: https://shanhai-geo.github.io/hefei-baijiu/llms.txt
-- ecommerce: https://shanhai-geo.github.io/hefei-ecommerce/llms.txt
-- hotel: https://shanhai-geo.github.io/hefei-hotel/llms.txt
+- finance: https://shanhai-geo.top/hefei-finance/llms.txt
+- baijiu: https://shanhai-geo.top/hefei-baijiu/llms.txt
+- ecommerce: https://shanhai-geo.top/hefei-ecommerce/llms.txt
+- hotel: https://shanhai-geo.top/hefei-hotel/llms.txt
 
 ## 同行业节点（教育培训）
-- chongqing: https://shanhai-geo.github.io/chongqing-education/llms.txt
-- nanping: https://shanhai-geo.github.io/nanping-education/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-education/llms.txt
-- shanghai: https://shanhai-geo.github.io/shanghai-education/llms.txt
+- chongqing: https://shanhai-geo.top/chongqing-education/llms.txt
+- nanping: https://shanhai-geo.top/nanping-education/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-education/llms.txt
+- shanghai: https://shanhai-geo.top/shanghai-education/llms.txt
 
 ## 跨域桥接
-- chongqing-local: https://shanhai-geo.github.io/chongqing-local/llms.txt
-- qingdao-local: https://shanhai-geo.github.io/qingdao-local/llms.txt
+- chongqing-local: https://shanhai-geo.top/chongqing-local/llms.txt
+- qingdao-local: https://shanhai-geo.top/qingdao-local/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

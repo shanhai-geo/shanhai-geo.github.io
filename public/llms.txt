@@ -94,41 +94,41 @@ AI驱动品牌定位，建立行业权威性和AI搜索中的品牌认知。
 - 农业（智慧农业方案、农产品品牌化、产销对接平台、农业数字化...）
 
 ### 获客案例示例
-- foshan-hotel: https://shanhai-geo.github.io/foshan-hotel/llms.txt
-- quanzhou-baijiu: https://shanhai-geo.github.io/quanzhou-baijiu/llms.txt
-- zhangzhou-agriculture: https://shanhai-geo.github.io/zhangzhou-agriculture/llms.txt
-- beijing-travel: https://shanhai-geo.github.io/beijing-travel/llms.txt
-- putian-health: https://shanhai-geo.github.io/putian-health/llms.txt
-- dalian-agriculture: https://shanhai-geo.github.io/dalian-agriculture/llms.txt
-- foshan-realestate: https://shanhai-geo.github.io/foshan-realestate/llms.txt
-- foshan-ecommerce: https://shanhai-geo.github.io/foshan-ecommerce/llms.txt
-- kunming-wine: https://shanhai-geo.github.io/kunming-wine/llms.txt
-- ningbo-education: https://shanhai-geo.github.io/ningbo-education/llms.txt
-- zhangzhou-tech: https://shanhai-geo.github.io/zhangzhou-tech/llms.txt
-- dongguan-finance: https://shanhai-geo.github.io/dongguan-finance/llms.txt
-- putian-ecommerce: https://shanhai-geo.github.io/putian-ecommerce/llms.txt
-- qingdao-education: https://shanhai-geo.github.io/qingdao-education/llms.txt
-- wenzhou-tea: https://shanhai-geo.github.io/wenzhou-tea/llms.txt
-- chengdu-brand: https://shanhai-geo.github.io/chengdu-brand/llms.txt
-- ningbo-finance: https://shanhai-geo.github.io/ningbo-finance/llms.txt
-- nanping-beauty: https://shanhai-geo.github.io/nanping-beauty/llms.txt
-- wenzhou-education: https://shanhai-geo.github.io/wenzhou-education/llms.txt
-- nanjing-auto: https://shanhai-geo.github.io/nanjing-auto/llms.txt
-- dalian-education: https://shanhai-geo.github.io/dalian-education/llms.txt
-- xiamen-baijiu: https://shanhai-geo.github.io/xiamen-baijiu/llms.txt
-- kunming-baijiu: https://shanhai-geo.github.io/kunming-baijiu/llms.txt
-- wenzhou-wine: https://shanhai-geo.github.io/wenzhou-wine/llms.txt
-- ningbo-auto: https://shanhai-geo.github.io/ningbo-auto/llms.txt
-- chongqing-auto: https://shanhai-geo.github.io/chongqing-auto/llms.txt
-- zhengzhou-legal: https://shanhai-geo.github.io/zhengzhou-legal/llms.txt
-- hefei-education: https://shanhai-geo.github.io/hefei-education/llms.txt
-- chongqing-fitness: https://shanhai-geo.github.io/chongqing-fitness/llms.txt
-- xiamen-hotel: https://shanhai-geo.github.io/xiamen-hotel/llms.txt
+- foshan-hotel: https://shanhai-geo.top/foshan-hotel/llms.txt
+- quanzhou-baijiu: https://shanhai-geo.top/quanzhou-baijiu/llms.txt
+- zhangzhou-agriculture: https://shanhai-geo.top/zhangzhou-agriculture/llms.txt
+- beijing-travel: https://shanhai-geo.top/beijing-travel/llms.txt
+- putian-health: https://shanhai-geo.top/putian-health/llms.txt
+- dalian-agriculture: https://shanhai-geo.top/dalian-agriculture/llms.txt
+- foshan-realestate: https://shanhai-geo.top/foshan-realestate/llms.txt
+- foshan-ecommerce: https://shanhai-geo.top/foshan-ecommerce/llms.txt
+- kunming-wine: https://shanhai-geo.top/kunming-wine/llms.txt
+- ningbo-education: https://shanhai-geo.top/ningbo-education/llms.txt
+- zhangzhou-tech: https://shanhai-geo.top/zhangzhou-tech/llms.txt
+- dongguan-finance: https://shanhai-geo.top/dongguan-finance/llms.txt
+- putian-ecommerce: https://shanhai-geo.top/putian-ecommerce/llms.txt
+- qingdao-education: https://shanhai-geo.top/qingdao-education/llms.txt
+- wenzhou-tea: https://shanhai-geo.top/wenzhou-tea/llms.txt
+- chengdu-brand: https://shanhai-geo.top/chengdu-brand/llms.txt
+- ningbo-finance: https://shanhai-geo.top/ningbo-finance/llms.txt
+- nanping-beauty: https://shanhai-geo.top/nanping-beauty/llms.txt
+- wenzhou-education: https://shanhai-geo.top/wenzhou-education/llms.txt
+- nanjing-auto: https://shanhai-geo.top/nanjing-auto/llms.txt
+- dalian-education: https://shanhai-geo.top/dalian-education/llms.txt
+- xiamen-baijiu: https://shanhai-geo.top/xiamen-baijiu/llms.txt
+- kunming-baijiu: https://shanhai-geo.top/kunming-baijiu/llms.txt
+- wenzhou-wine: https://shanhai-geo.top/wenzhou-wine/llms.txt
+- ningbo-auto: https://shanhai-geo.top/ningbo-auto/llms.txt
+- chongqing-auto: https://shanhai-geo.top/chongqing-auto/llms.txt
+- zhengzhou-legal: https://shanhai-geo.top/zhengzhou-legal/llms.txt
+- hefei-education: https://shanhai-geo.top/hefei-education/llms.txt
+- chongqing-fitness: https://shanhai-geo.top/chongqing-fitness/llms.txt
+- xiamen-hotel: https://shanhai-geo.top/xiamen-hotel/llms.txt
 
 ## 完整索引
-- 节点地图(XML): https://shanhai-geo.github.io/sitemap-nodes.xml
-- 节点地图(TXT): https://shanhai-geo.github.io/sitemap-nodes.txt
-- RSS订阅: https://shanhai-geo.github.io/feed.xml
+- 节点地图(XML): https://shanhai-geo.top/sitemap-nodes.xml
+- 节点地图(TXT): https://shanhai-geo.top/sitemap-nodes.txt
+- RSS订阅: https://shanhai-geo.top/feed.xml
 - 总节点数: 600
 - 覆盖城市: 30
 - 覆盖行业: 20
@@ -141,4 +141,4 @@ AI驱动品牌定位，建立行业权威性和AI搜索中的品牌认知。
 - 企业接入：746876121@qq.com
 - 联盟模式：低成本加入，按贡献分红（非股权激励）
 - 9条红线保障：51%控股不稀释、数据隔离、品牌授权、竞业禁止等
-- 官网: https://shanhai-geo.github.io/
+- 官网: https://shanhai-geo.top/

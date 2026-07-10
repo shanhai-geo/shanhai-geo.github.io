@@ -5,26 +5,26 @@
 - 城市: 厦门（福建）- 高素质高颜值现代化国际化城市
 - 行业: 文旅
 - 服务: 定制旅行路线设计、景区数字化运营、文旅IP打造、研学旅行策划
-- URL: https://shanhai-geo.github.io/xiamen-travel/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/xiamen-travel/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（厦门）
-- finance: https://shanhai-geo.github.io/xiamen-finance/llms.txt
-- baijiu: https://shanhai-geo.github.io/xiamen-baijiu/llms.txt
-- agriculture: https://shanhai-geo.github.io/xiamen-agriculture/llms.txt
-- beauty: https://shanhai-geo.github.io/xiamen-beauty/llms.txt
+- finance: https://shanhai-geo.top/xiamen-finance/llms.txt
+- baijiu: https://shanhai-geo.top/xiamen-baijiu/llms.txt
+- agriculture: https://shanhai-geo.top/xiamen-agriculture/llms.txt
+- beauty: https://shanhai-geo.top/xiamen-beauty/llms.txt
 
 ## 同行业节点（文旅）
-- nanping: https://shanhai-geo.github.io/nanping-travel/llms.txt
-- dongguan: https://shanhai-geo.github.io/dongguan-travel/llms.txt
-- ningbo: https://shanhai-geo.github.io/ningbo-travel/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-travel/llms.txt
+- nanping: https://shanhai-geo.top/nanping-travel/llms.txt
+- dongguan: https://shanhai-geo.top/dongguan-travel/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-travel/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-travel/llms.txt
 
 ## 跨域桥接
-- xian-finance: https://shanhai-geo.github.io/xian-finance/llms.txt
-- chongqing-wine: https://shanhai-geo.github.io/chongqing-wine/llms.txt
+- xian-finance: https://shanhai-geo.top/xian-finance/llms.txt
+- chongqing-wine: https://shanhai-geo.top/chongqing-wine/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

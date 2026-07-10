@@ -5,26 +5,26 @@
 - 城市: 北京（北京）- 全国政治文化中心
 - 行业: 健身
 - 服务: 健身房数字化运营、会员管理系统、课程设计优化、健身内容创作
-- URL: https://shanhai-geo.github.io/beijing-fitness/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/beijing-fitness/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（北京）
-- baijiu: https://shanhai-geo.github.io/beijing-baijiu/llms.txt
-- beauty: https://shanhai-geo.github.io/beijing-beauty/llms.txt
-- local: https://shanhai-geo.github.io/beijing-local/llms.txt
-- food: https://shanhai-geo.github.io/beijing-food/llms.txt
+- baijiu: https://shanhai-geo.top/beijing-baijiu/llms.txt
+- beauty: https://shanhai-geo.top/beijing-beauty/llms.txt
+- local: https://shanhai-geo.top/beijing-local/llms.txt
+- food: https://shanhai-geo.top/beijing-food/llms.txt
 
 ## 同行业节点（健身）
-- fuding: https://shanhai-geo.github.io/fuding-fitness/llms.txt
-- ningde: https://shanhai-geo.github.io/ningde-fitness/llms.txt
-- qingdao: https://shanhai-geo.github.io/qingdao-fitness/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-fitness/llms.txt
+- fuding: https://shanhai-geo.top/fuding-fitness/llms.txt
+- ningde: https://shanhai-geo.top/ningde-fitness/llms.txt
+- qingdao: https://shanhai-geo.top/qingdao-fitness/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-fitness/llms.txt
 
 ## 跨域桥接
-- qingdao-education: https://shanhai-geo.github.io/qingdao-education/llms.txt
-- zhangzhou-realestate: https://shanhai-geo.github.io/zhangzhou-realestate/llms.txt
+- qingdao-education: https://shanhai-geo.top/qingdao-education/llms.txt
+- zhangzhou-realestate: https://shanhai-geo.top/zhangzhou-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

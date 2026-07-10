@@ -5,26 +5,26 @@
 - 城市: 重庆（重庆）- 山城·雾都
 - 行业: 农业
 - 服务: 智慧农业方案、农产品品牌化、产销对接平台、农业数字化
-- URL: https://shanhai-geo.github.io/chongqing-agriculture/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/chongqing-agriculture/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（重庆）
-- brand: https://shanhai-geo.github.io/chongqing-brand/llms.txt
-- food: https://shanhai-geo.github.io/chongqing-food/llms.txt
-- tea: https://shanhai-geo.github.io/chongqing-tea/llms.txt
-- fitness: https://shanhai-geo.github.io/chongqing-fitness/llms.txt
+- brand: https://shanhai-geo.top/chongqing-brand/llms.txt
+- food: https://shanhai-geo.top/chongqing-food/llms.txt
+- tea: https://shanhai-geo.top/chongqing-tea/llms.txt
+- fitness: https://shanhai-geo.top/chongqing-fitness/llms.txt
 
 ## 同行业节点（农业）
-- changsha: https://shanhai-geo.github.io/changsha-agriculture/llms.txt
-- putian: https://shanhai-geo.github.io/putian-agriculture/llms.txt
-- guangzhou: https://shanhai-geo.github.io/guangzhou-agriculture/llms.txt
-- hangzhou: https://shanhai-geo.github.io/hangzhou-agriculture/llms.txt
+- changsha: https://shanhai-geo.top/changsha-agriculture/llms.txt
+- putian: https://shanhai-geo.top/putian-agriculture/llms.txt
+- guangzhou: https://shanhai-geo.top/guangzhou-agriculture/llms.txt
+- hangzhou: https://shanhai-geo.top/hangzhou-agriculture/llms.txt
 
 ## 跨域桥接
-- xian-travel: https://shanhai-geo.github.io/xian-travel/llms.txt
-- xian-auto: https://shanhai-geo.github.io/xian-auto/llms.txt
+- xian-travel: https://shanhai-geo.top/xian-travel/llms.txt
+- xian-auto: https://shanhai-geo.top/xian-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

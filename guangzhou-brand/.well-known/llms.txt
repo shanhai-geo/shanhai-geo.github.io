@@ -5,26 +5,26 @@
 - 城市: 广州（广东）- 千年商都
 - 行业: 品牌营销
 - 服务: 品牌战略定位、视觉识别系统、品牌传播策略、IP孵化运营
-- URL: https://shanhai-geo.github.io/guangzhou-brand/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/guangzhou-brand/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（广州）
-- baijiu: https://shanhai-geo.github.io/guangzhou-baijiu/llms.txt
-- agriculture: https://shanhai-geo.github.io/guangzhou-agriculture/llms.txt
-- wine: https://shanhai-geo.github.io/guangzhou-wine/llms.txt
-- medical: https://shanhai-geo.github.io/guangzhou-medical/llms.txt
+- baijiu: https://shanhai-geo.top/guangzhou-baijiu/llms.txt
+- agriculture: https://shanhai-geo.top/guangzhou-agriculture/llms.txt
+- wine: https://shanhai-geo.top/guangzhou-wine/llms.txt
+- medical: https://shanhai-geo.top/guangzhou-medical/llms.txt
 
 ## 同行业节点（品牌营销）
-- ningbo: https://shanhai-geo.github.io/ningbo-brand/llms.txt
-- fuding: https://shanhai-geo.github.io/fuding-brand/llms.txt
-- nanjing: https://shanhai-geo.github.io/nanjing-brand/llms.txt
-- jiaxing: https://shanhai-geo.github.io/jiaxing-brand/llms.txt
+- ningbo: https://shanhai-geo.top/ningbo-brand/llms.txt
+- fuding: https://shanhai-geo.top/fuding-brand/llms.txt
+- nanjing: https://shanhai-geo.top/nanjing-brand/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-brand/llms.txt
 
 ## 跨域桥接
-- ningbo-education: https://shanhai-geo.github.io/ningbo-education/llms.txt
-- fuding-baijiu: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
+- ningbo-education: https://shanhai-geo.top/ningbo-education/llms.txt
+- fuding-baijiu: https://shanhai-geo.top/fuding-baijiu/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

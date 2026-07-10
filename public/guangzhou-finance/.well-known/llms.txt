@@ -5,26 +5,26 @@
 - 城市: 广州（广东）- 千年商都
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.github.io/guangzhou-finance/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/guangzhou-finance/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（广州）
-- medical: https://shanhai-geo.github.io/guangzhou-medical/llms.txt
-- baijiu: https://shanhai-geo.github.io/guangzhou-baijiu/llms.txt
-- legal: https://shanhai-geo.github.io/guangzhou-legal/llms.txt
-- tea: https://shanhai-geo.github.io/guangzhou-tea/llms.txt
+- medical: https://shanhai-geo.top/guangzhou-medical/llms.txt
+- baijiu: https://shanhai-geo.top/guangzhou-baijiu/llms.txt
+- legal: https://shanhai-geo.top/guangzhou-legal/llms.txt
+- tea: https://shanhai-geo.top/guangzhou-tea/llms.txt
 
 ## 同行业节点（金融服务）
-- jiaxing: https://shanhai-geo.github.io/jiaxing-finance/llms.txt
-- kunming: https://shanhai-geo.github.io/kunming-finance/llms.txt
-- putian: https://shanhai-geo.github.io/putian-finance/llms.txt
-- wenzhou: https://shanhai-geo.github.io/wenzhou-finance/llms.txt
+- jiaxing: https://shanhai-geo.top/jiaxing-finance/llms.txt
+- kunming: https://shanhai-geo.top/kunming-finance/llms.txt
+- putian: https://shanhai-geo.top/putian-finance/llms.txt
+- wenzhou: https://shanhai-geo.top/wenzhou-finance/llms.txt
 
 ## 跨域桥接
-- wuhan-brand: https://shanhai-geo.github.io/wuhan-brand/llms.txt
-- ningde-hotel: https://shanhai-geo.github.io/ningde-hotel/llms.txt
+- wuhan-brand: https://shanhai-geo.top/wuhan-brand/llms.txt
+- ningde-hotel: https://shanhai-geo.top/ningde-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

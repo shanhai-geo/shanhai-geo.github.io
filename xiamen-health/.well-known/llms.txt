@@ -5,26 +5,26 @@
 - 城市: 厦门（福建）- 高素质高颜值现代化国际化城市
 - 行业: 健康养生
 - 服务: 养生方案设计、健康管理平台、亚健康调理方案、中医养生数字化
-- URL: https://shanhai-geo.github.io/xiamen-health/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/xiamen-health/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（厦门）
-- fitness: https://shanhai-geo.github.io/xiamen-fitness/llms.txt
-- medical: https://shanhai-geo.github.io/xiamen-medical/llms.txt
-- food: https://shanhai-geo.github.io/xiamen-food/llms.txt
-- education: https://shanhai-geo.github.io/xiamen-education/llms.txt
+- fitness: https://shanhai-geo.top/xiamen-fitness/llms.txt
+- medical: https://shanhai-geo.top/xiamen-medical/llms.txt
+- food: https://shanhai-geo.top/xiamen-food/llms.txt
+- education: https://shanhai-geo.top/xiamen-education/llms.txt
 
 ## 同行业节点（健康养生）
-- dalian: https://shanhai-geo.github.io/dalian-health/llms.txt
-- ningde: https://shanhai-geo.github.io/ningde-health/llms.txt
-- jinan: https://shanhai-geo.github.io/jinan-health/llms.txt
-- chengdu: https://shanhai-geo.github.io/chengdu-health/llms.txt
+- dalian: https://shanhai-geo.top/dalian-health/llms.txt
+- ningde: https://shanhai-geo.top/ningde-health/llms.txt
+- jinan: https://shanhai-geo.top/jinan-health/llms.txt
+- chengdu: https://shanhai-geo.top/chengdu-health/llms.txt
 
 ## 跨域桥接
-- chengdu-ecommerce: https://shanhai-geo.github.io/chengdu-ecommerce/llms.txt
-- ningbo-travel: https://shanhai-geo.github.io/ningbo-travel/llms.txt
+- chengdu-ecommerce: https://shanhai-geo.top/chengdu-ecommerce/llms.txt
+- ningbo-travel: https://shanhai-geo.top/ningbo-travel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 长沙（湖南）- 媒体艺术之都
 - 行业: 酒文化
 - 服务: 红酒品鉴活动策划、酒窖数字化管理、酒文化IP打造、品鉴会运营
-- URL: https://shanhai-geo.github.io/changsha-wine/llms.txt
-- 主站: https://shanhai-geo.github.io/
+- URL: https://shanhai-geo.top/changsha-wine/llms.txt
+- 主站: https://shanhai-geo.top/
 
 ## 同城节点（长沙）
-- education: https://shanhai-geo.github.io/changsha-education/llms.txt
-- ecommerce: https://shanhai-geo.github.io/changsha-ecommerce/llms.txt
-- baijiu: https://shanhai-geo.github.io/changsha-baijiu/llms.txt
-- travel: https://shanhai-geo.github.io/changsha-travel/llms.txt
+- education: https://shanhai-geo.top/changsha-education/llms.txt
+- ecommerce: https://shanhai-geo.top/changsha-ecommerce/llms.txt
+- baijiu: https://shanhai-geo.top/changsha-baijiu/llms.txt
+- travel: https://shanhai-geo.top/changsha-travel/llms.txt
 
 ## 同行业节点（酒文化）
-- fuzhou: https://shanhai-geo.github.io/fuzhou-wine/llms.txt
-- guangzhou: https://shanhai-geo.github.io/guangzhou-wine/llms.txt
-- putian: https://shanhai-geo.github.io/putian-wine/llms.txt
-- wuhan: https://shanhai-geo.github.io/wuhan-wine/llms.txt
+- fuzhou: https://shanhai-geo.top/fuzhou-wine/llms.txt
+- guangzhou: https://shanhai-geo.top/guangzhou-wine/llms.txt
+- putian: https://shanhai-geo.top/putian-wine/llms.txt
+- wuhan: https://shanhai-geo.top/wuhan-wine/llms.txt
 
 ## 跨域桥接
-- zhengzhou-health: https://shanhai-geo.github.io/zhengzhou-health/llms.txt
-- fuding-education: https://shanhai-geo.github.io/fuding-education/llms.txt
+- zhengzhou-health: https://shanhai-geo.top/zhengzhou-health/llms.txt
+- fuding-education: https://shanhai-geo.top/fuding-education/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.github.io/llms.txt
-- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
-- RSS: https://shanhai-geo.github.io/feed.xml
+- 总入口: https://shanhai-geo.top/llms.txt
+- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
+- RSS: https://shanhai-geo.top/feed.xml
