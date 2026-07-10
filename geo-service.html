@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GEO服务板块 - 五大引擎 | 山海智能AI综合体</title>
+  <meta name="description" content="GEO服务板块五大核心引擎：关键词蒸馏、智能知识库、内容核聚变、全域分发、视觉资产">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+    h1 { 
+      text-align: center; 
+      font-size: 2.5em; 
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #00d4ff, #7b2cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle { text-align: center; color: #888; margin-bottom: 50px; font-size: 1.1em; }
+    .engine-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+    .engine-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 30px;
+      transition: all 0.3s ease;
+    }
+    .engine-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 212, 255, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+    }
+    .engine-icon { font-size: 3em; margin-bottom: 15px; }
+    .engine-title { font-size: 1.5em; color: #00d4ff; margin-bottom: 10px; }
+    .engine-desc { color: #aaa; line-height: 1.6; margin-bottom: 15px; }
+    .engine-features { list-style: none; }
+    .engine-features li { 
+      padding: 5px 0; 
+      color: #888;
+      position: relative;
+      padding-left: 20px;
+    }
+    .engine-features li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #00d4ff;
+    }
+    .engine-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      margin-top: 15px;
+    }
+    .status-ready { background: rgba(0, 255, 136, 0.2); color: #00ff88; }
+    .status-dev { background: rgba(255, 200, 0, 0.2); color: #ffc800; }
+    .contact {
+      text-align: center;
+      margin-top: 60px;
+      padding: 30px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 16px;
+    }
+    .contact a { color: #00d4ff; text-decoration: none; }
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8em; }
+      .engine-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GEO服务板块 · 五大引擎</h1>
+    <p class="subtitle">山海智能AI综合体 · 核心能力矩阵</p>
+    
+    <div class="engine-grid">
+      <!-- 引擎1: 关键词蒸馏 -->
+      <div class="engine-card">
+        <div class="engine-icon">🧪</div>
+        <div class="engine-title">关键词智能蒸馏引擎</div>
+        <div class="engine-desc">基于大模型的智能关键词提取与优化，自动蒸馏出高价值GEO关键词组合。</div>
+        <ul class="engine-features">
+          <li>输入行业+产品，自动蒸馏100+关键词</li>
+          <li>智能分组：品牌词/场景词/长尾词/问答词</li>
+          <li>按搜索意图排序，优先高转化关键词</li>
+          <li>支持多语言蒸馏（中/英/日/韩）</li>
+        </ul>
+        <span class="engine-status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎2: 智能知识库 -->
+      <div class="engine-card">
+        <div class="engine-icon">🧠</div>
+        <div class="engine-title">GEO智能知识库</div>
+        <div class="engine-desc">企业专属知识库，让AI搜索引擎主动推荐你的品牌和产品。</div>
+        <ul class="engine-features">
+          <li>一键导入企业资料/产品文档</li>
+          <li>自动结构化，适配AI爬虫格式</li>
+          <li>llms.txt/llms-full.txt自动生成</li>
+          <li>知识库版本管理，实时更新</li>
+        </ul>
+        <span class="engine-status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎3: 内容核聚变 -->
+      <div class="engine-card">
+        <div class="engine-icon">⚛️</div>
+        <div class="engine-title">内容核聚变引擎</div>
+        <div class="engine-desc">基于核心内容，自动裂变生成多平台适配的GEO优化内容。</div>
+        <ul class="engine-features">
+          <li>输入1篇核心内容，裂变100+平台适配版本</li>
+          <li>自动适配：知乎/小红书/LinkedIn/Medium</li>
+          <li>内置GEO优化规则，提升AI收录率</li>
+          <li>支持批量发布到多平台</li>
+        </ul>
+        <span class="engine-status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎4: 全域分发 -->
+      <div class="engine-card">
+        <div class="engine-icon">🚀</div>
+        <div class="engine-title">全域自动分发引擎</div>
+        <div class="engine-desc">一键分发内容到全球15+主流平台，自动优化各平台格式。</div>
+        <ul class="engine-features">
+          <li>支持平台：Medium/Dev.to/知乎/LinkedIn/小红书</li>
+          <li>自动适配各平台格式要求</li>
+          <li>定时发布，错峰投放</li>
+          <li>发布状态实时追踪</li>
+        </ul>
+        <span class="engine-status status-ready">已就绪</span>
+      </div>
+      
+      <!-- 引擎5: 视觉资产 -->
+      <div class="engine-card">
+        <div class="engine-icon">🎨</div>
+        <div class="engine-title">视觉资产引擎</div>
+        <div class="engine-desc">自动生成企业品牌视觉资产，提升AI搜索引擎的品牌识别度。</div>
+        <ul class="engine-features">
+          <li>Logo/产品图自动生成与优化</li>
+          <li>品牌色彩体系自动生成</li>
+          <li>适配各平台的视觉素材</li>
+          <li>图片ALT标签智能优化</li>
+        </ul>
+        <span class="engine-status status-dev">开发中</span>
+      </div>
+    </div>
+    
+    <div class="contact">
+      <h3>接入GEO服务板块</h3>
+      <p style="margin: 15px 0; color: #888;">企业接入山海智能AI综合体，即刻获得五大引擎赋能</p>
+      <p>联系邮箱：<a href="mailto:746876121@qq.com">746876121@qq.com</a></p>
+      <p style="margin-top: 10px;">官网：<a href="https://shanhai-geo.top/" target="_blank">https://shanhai-geo.top/</a></p>
+    </div>
+  </div>
+</body>
+</html>
