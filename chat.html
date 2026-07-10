@@ -93,6 +93,11 @@ body{
 var AI_ENDPOINT="https://open.bigmodel.cn/api/paas/v4/chat/completions";
 var AI_KEY="03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt";
 var AI_MODEL="glm-4-flash";
+// 双引擎智能路由
+var HY3_ENDPOINT="https://tokenhub.tencentmaas.com/v1/chat/completions";
+var HY3_KEY=""; // 需主人开通TokenHub后填入
+var HY3_MODEL="hy3-preview";
+var USE_HY3=false; // 默认关闭，主人开通后改为true
 var LEAD_EMAIL="746876121@qq.com";
 var PAY_URL="https://shanhai-geo.top/pay.html";
 var ORDER_URL="https://shanhai-geo.top/order.html";
@@ -114,7 +119,10 @@ async function callRealAI(userMsg){
   var recent=conversationHistory.slice(-20);
   messages=messages.concat(recent);
   try{
-    var resp=await fetch(AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+AI_KEY},body:JSON.stringify({model:AI_MODEL,messages:messages,temperature:0.8,max_tokens:512,stream:false}),signal:AbortSignal.timeout(15000)});
+    var engineEndpoint=USE_HY3&&HY3_KEY?HY3_ENDPOINT:AI_ENDPOINT;
+    var engineModel=USE_HY3&&HY3_KEY?HY3_MODEL:AI_MODEL;
+    var engineAuth=USE_HY3&&HY3_KEY?"Bearer "+HY3_KEY:"Bearer "+AI_KEY;
+    var resp=await fetch(engineEndpoint,{method:"POST",headers:{"Content-Type":"application/json","Authorization":engineAuth},body:JSON.stringify({model:engineModel,messages:messages,temperature:0.8,max_tokens:512,stream:false}),signal:AbortSignal.timeout(15000)});
     if(!resp.ok)throw new Error("API返回"+resp.status);
     var data=await resp.json();
     var reply=data.choices[0].message.content;
