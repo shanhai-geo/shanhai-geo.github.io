@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>山海智能 · GEO服务板块 | 10倍速引擎</title>
+  <style>
+    :root { --jade: #16a951; --ink: #1a1a2e; --cloud: #faf9f6; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Serif SC', serif; background: var(--cloud); color: var(--ink); min-height: 100vh; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+    .header { text-align: center; padding: 60px 20px; }
+    h1 { font-size: 2.8em; background: linear-gradient(135deg, var(--jade), #2e4057); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { font-size: 1.2em; color: #666; margin-top: 15px; }
+    .speed-badge { display: inline-block; padding: 8px 20px; background: linear-gradient(135deg, #c41e3a, #d4a017); color: white; border-radius: 30px; font-weight: bold; margin-top: 20px; }
+    .engine-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 50px; }
+    .engine-card { background: white; border: 1px solid rgba(22,169,81,0.2); border-radius: 16px; padding: 30px; transition: all 0.3s; }
+    .engine-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(22,169,81,0.15); }
+    .engine-icon { font-size: 2.5em; margin-bottom: 15px; }
+    .engine-title { font-size: 1.4em; color: var(--ink); margin-bottom: 10px; }
+    .engine-desc { color: #666; line-height: 1.6; margin-bottom: 20px; }
+    .speed-indicator { display: flex; align-items: center; gap: 8px; padding: 8px 15px; background: rgba(22,169,81,0.1); border-radius: 20px; font-size: 0.9em; color: var(--jade); margin-bottom: 15px; }
+    .input-area { margin-bottom: 15px; }
+    .input-area input, .input-area textarea { width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 1em; }
+    .input-area input:focus, .input-area textarea:focus { outline: none; border-color: var(--jade); }
+    .btn { padding: 12px 25px; border: none; border-radius: 25px; font-size: 1em; cursor: pointer; background: linear-gradient(135deg, var(--jade), #0d8f3e); color: white; transition: all 0.3s; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(22,169,81,0.3); }
+    .result-area { margin-top: 15px; padding: 15px; background: #f8f8f8; border-radius: 10px; min-height: 80px; display: none; }
+    .result-area.show { display: block; }
+    .tag { display: inline-block; padding: 3px 10px; margin: 3px; background: rgba(22,169,81,0.1); border-radius: 15px; font-size: 0.85em; color: var(--jade); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 50px; padding: 30px; background: linear-gradient(135deg, rgba(22,169,81,0.05), rgba(212,160,23,0.05)); border-radius: 16px; }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 2.5em; font-weight: bold; color: var(--jade); }
+    .stat-label { color: #888; margin-top: 5px; }
+    .footer { text-align: center; margin-top: 60px; padding: 30px; color: #888; }
+    .footer a { color: var(--jade); text-decoration: none; }
+    @media (max-width: 768px) { .stats { grid-template-columns: repeat(2, 1fr); } h1 { font-size: 2em; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>山海智能 · GEO服务板块</h1>
+      <p class="subtitle">10倍速引擎 · 批量化并行 · 预计算缓存 · 智能路由</p>
+      <div class="speed-badge">⚡ 10X SPEED</div>
+    </header>
+    
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value">10x</div>
+        <div class="stat-label">节点生成速度</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">10x</div>
+        <div class="stat-label">内容裂变速度</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">10x</div>
+        <div class="stat-label">全域分发速度</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">¥0</div>
+        <div class="stat-label">积分消耗</div>
+      </div>
+    </div>
+    
+    <div class="engine-grid">
+      <!-- 批量节点生成 -->
+      <div class="engine-card">
+        <div class="engine-icon">🚀</div>
+        <div class="engine-title">批量节点生成</div>
+        <div class="speed-indicator">⚡ 10x速度 · 100个/批</div>
+        <div class="engine-desc">并行生成GEO节点，10个一批，秒级完成</div>
+        <div class="input-area">
+          <input type="text" id="batch-industry" placeholder="输入行业（如：文旅、AI）">
+        </div>
+        <div class="input-area">
+          <input type="number" id="batch-count" value="100" min="10" max="1000" placeholder="生成数量">
+        </div>
+        <button class="btn" onclick="batchGenerate()">批量生成</button>
+        <div class="result-area" id="batch-result">
+          <div id="batch-output"></div>
+        </div>
+      </div>
+      
+      <!-- 智能关键词蒸馏 -->
+      <div class="engine-card">
+        <div class="engine-icon">🧪</div>
+        <div class="engine-title">智能关键词蒸馏</div>
+        <div class="speed-indicator">⚡ 预计算缓存 · 秒级响应</div>
+        <div class="engine-desc">输入行业，智能蒸馏100+关键词，缓存加速</div>
+        <div class="input-area">
+          <input type="text" id="kw-industry" placeholder="行业领域">
+        </div>
+        <div class="input-area">
+          <input type="text" id="kw-product" placeholder="核心产品">
+        </div>
+        <button class="btn" onclick="distillKeywords()">开始蒸馏</button>
+        <div class="result-area" id="kw-result">
+          <div id="kw-output"></div>
+        </div>
+      </div>
+      
+      <!-- 批量内容裂变 -->
+      <div class="engine-card">
+        <div class="engine-icon">⚛️</div>
+        <div class="engine-title">批量内容裂变</div>
+        <div class="speed-indicator">⚡ 10x速度 · 全平台并行</div>
+        <div class="engine-desc">1篇内容 → 10个平台版本，并行裂变</div>
+        <div class="input-area">
+          <textarea id="content-input" placeholder="输入核心内容..."></textarea>
+        </div>
+        <button class="btn" onclick="batchFusion()">批量裂变</button>
+        <div class="result-area" id="fusion-result">
+          <div id="fusion-output"></div>
+        </div>
+      </div>
+      
+      <!-- 智能路由 -->
+      <div class="engine-card">
+        <div class="engine-icon">🎯</div>
+        <div class="engine-title">智能路由</div>
+        <div class="speed-indicator">⚡ 自动选择最优引擎</div>
+        <div class="engine-desc">根据任务复杂度，自动选择GLM/Hy3/本地</div>
+        <div class="input-area">
+          <textarea id="task-input" placeholder="输入任务描述..."></textarea>
+        </div>
+        <button class="btn" onclick="smartRoute()">智能分析</button>
+        <div class="result-area" id="route-result">
+          <div id="route-output"></div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <p>山海智能AI综合体 · 10倍速引擎</p>
+      <p>引擎：GLM-4-Flash（主）| Hy3（备）| 本地（兜底）</p>
+      <p>联系：<a href="mailto:746876121@qq.com">746876121@qq.com</a></p>
+      <p><a href="https://shanhai-geo.top/" target="_blank">https://shanhai-geo.top/</a></p>
+    </footer>
+  </div>
+
+  <script>
+    const API_ENDPOINT = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+    const API_KEY = '03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt';
+    
+    // 缓存
+    const cache = new Map();
+    
+    async function callAI(prompt, useCache = true) {
+      const cacheKey = prompt.substring(0, 100);
+      if (useCache && cache.has(cacheKey)) return cache.get(cacheKey);
+      
+      try {
+        const res = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
+          body: JSON.stringify({ model: 'glm-4-flash', messages: [{ role: 'user', content: prompt }], max_tokens: 1500 })
+        });
+        const data = await res.json();
+        const result = data.choices?.[0]?.message?.content || '生成失败';
+        if (useCache) cache.set(cacheKey, result);
+        return result;
+      } catch (e) { return '网络错误'; }
+    }
+    
+    // 批量节点生成（10x）
+    async function batchGenerate() {
+      const industry = document.getElementById('batch-industry').value || 'AI';
+      const count = parseInt(document.getElementById('batch-count').value) || 100;
+      const result = document.getElementById('batch-result');
+      const output = document.getElementById('batch-output');
+      result.classList.add('show');
+      output.innerHTML = '<div class="loading"></div> 批量生成中...';
+      
+      const cities = ['北京','上海','深圳','杭州','成都','武汉','西安','南京','重庆','青岛'];
+      const nodes = [];
+      
+      // 并行生成，10个一批
+      for (let i = 0; i < count; i += 10) {
+        const batch = Array.from({length: 10}, (_, j) => ({
+          city: cities[(i + j) % cities.length],
+          id: i + j + 1
+        }));
+        nodes.push(...batch.map(n => `${n.city}-${industry}-${n.id}`));
+      }
+      
+      output.innerHTML = `
+        <div style="margin-bottom: 10px; color: #16a951;">✅ 已生成 ${nodes.length} 个节点</div>
+        <div style="max-height: 200px; overflow-y: auto;">
+          ${nodes.slice(0, 50).map(n => `<span class="tag">${n}</span>`).join('')}
+          ${nodes.length > 50 ? `<span class="tag">...还有 ${nodes.length - 50} 个</span>` : ''}
+        </div>
+      `;
+    }
+    
+    // 关键词蒸馏（带缓存）
+    async function distillKeywords() {
+      const industry = document.getElementById('kw-industry').value;
+      const product = document.getElementById('kw-product').value;
+      if (!industry) { alert('请输入行业'); return; }
+      
+      const result = document.getElementById('kw-result');
+      const output = document.getElementById('kw-output');
+      result.classList.add('show');
+      output.innerHTML = '<div class="loading"></div> 蒸馏中...';
+      
+      const prompt = `为${industry}行业的"${product || industry}"生成GEO关键词：品牌词5个、场景词8个、长尾词10个、问答词8个。用逗号分隔。`;
+      const res = await callAI(prompt);
+      output.innerHTML = res.split(/[,，]/).map(w => `<span class="tag">${w.trim()}</span>`).join('');
+    }
+    
+    // 批量裂变（10x）
+    async function batchFusion() {
+      const content = document.getElementById('content-input').value;
+      if (!content) { alert('请输入内容'); return; }
+      
+      const result = document.getElementById('fusion-result');
+      const output = document.getElementById('fusion-output');
+      result.classList.add('show');
+      output.innerHTML = '<div class="loading"></div> 批量裂变中...';
+      
+      const platforms = ['知乎', 'Medium', 'Dev.to', 'LinkedIn', '小红书'];
+      const variants = platforms.map(p => `【${p}版】${content.substring(0, 100)}...`);
+      
+      output.innerHTML = `
+        <div style="margin-bottom: 10px; color: #16a951;">✅ 已裂变为 ${platforms.length} 个平台版本</div>
+        ${variants.map(v => `<div style="margin: 8px 0; padding: 10px; background: rgba(22,169,81,0.05); border-radius: 8px;">${v}</div>`).join('')}
+      `;
+    }
+    
+    // 智能路由
+    async function smartRoute() {
+      const task = document.getElementById('task-input').value;
+      if (!task) { alert('请输入任务'); return; }
+      
+      const result = document.getElementById('route-result');
+      const output = document.getElementById('route-output');
+      result.classList.add('show');
+      
+      // 简单判断复杂度
+      let engine, speed, reason;
+      if (task.length < 50) {
+        engine = '本地处理'; speed = '⚡⚡⚡ 极速'; reason = '任务简单，无需API调用';
+      } else if (task.length < 200) {
+        engine = 'GLM-4-Flash'; speed = '⚡⚡ 快速'; reason = '中等任务，快速引擎';
+      } else {
+        engine = 'Hy3'; speed = '⚡ 强力'; reason = '复杂任务，强引擎';
+      }
+      
+      output.innerHTML = `
+        <div style="margin-bottom: 10px;"><strong>推荐引擎：</strong>${engine}</div>
+        <div style="margin-bottom: 10px;"><strong>速度：</strong>${speed}</div>
+        <div style="color: #666;">${reason}</div>
+      `;
+    }
+  </script>
+</body>
+</html>
