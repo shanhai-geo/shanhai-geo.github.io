@@ -187,7 +187,7 @@ function fallbackResponse(text){
   if(/教育|培训/.test(t))return"教育行业太适合了！<br>• <strong>智能答疑</strong>：凌晨3点提问也秒回<br>• <strong>自动出题</strong>：按知识点批量生成<br>• <strong>学情分析</strong>：数据驱动教学<br><br>一个API=永远在线的AI助教。";
   if(/api|接口|接入|技术|代码/.test(t))return"技术上超简单：<br><br>兼容<strong>OpenAI格式</strong>，改两行代码：<br><code>base_url = \"https://api.shanhai-ai.com/v1\"</code><br><code>api_key = \"your_key\"</code><br><br>Python/Node/Java都有SDK，5分钟搞定。<br><br>你用什么语言？";
   if(/你好|在吗|hi|hello/.test(t))return"在的！有什么想了解的？<br>产品、价格、技术接入——随便问，大白话给你讲明白。";
-  if(/谢谢|感谢|棒/.test(t))return"不客气！有问题随时找我。<br>推荐朋友来买，推荐3个人第二年免费～";
+  if(/谢谢|感谢|棒/.test(t))return"不客气！有问题随时找我。<br>推荐朋友来买，推荐3位客户第二年免费～";
   return"你说的我理解了 👍<br><br>能再说说你的情况吗？做什么行业、想用AI解决什么问题？<br>这样我能给你更有针对性的建议。";
 }
 
@@ -233,7 +233,7 @@ function welcome(){
   showTyping();
   setTimeout(function(){
     hideTyping();
-    addMsg("嗨！我是小海 👋<br><br>有什么想了解的直接问，我用大白话给你讲明白。<br><br>不管你是想<strong>给公司接入AI</strong>、<strong>了解价格</strong>、还是<strong>随便看看</strong>，都能帮到你。<br><br>对了，推荐朋友来用还有福利——推荐3个人，第二年免费～","ai");
+    addMsg("嗨！我是小海 👋<br><br>有什么想了解的直接问，我用大白话给你讲明白。<br><br>不管你是想<strong>给公司接入AI</strong>、<strong>了解价格</strong>、还是<strong>随便看看</strong>，都能帮到你。<br><br>对了，推荐朋友来用还有福利——推荐3位客户，第二年免费～","ai");
     addOpts([{l:"💡 你们能做什么？",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},{l:"💰 多少钱？",fn:function(){handleUserMessage("多少钱一年？")}},{l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我适不适合用AI")}},{l:"🔧 我想接入API",fn:function(){handleUserMessage("我想把AI接入到我的产品里")}}]);
   },1200);
 }
