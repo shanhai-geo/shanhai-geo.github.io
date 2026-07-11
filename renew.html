@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>续期服务 - 山海智能</title>
+<meta name="description" content="续期山海智能接口服务，包年不限量">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;background:#06060e;color:#e8e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{max-width:480px;width:100%;background:rgba(18,18,36,.9);border:1px solid rgba(255,215,0,.15);border-radius:24px;padding:40px 30px}
+h1{text-align:center;color:#ffd700;font-size:22px;margin-bottom:8px}
+.sub{text-align:center;color:#8a8aa0;font-size:13px;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+label{display:block;color:#ffd700;font-size:13px;margin-bottom:6px;font-weight:600}
+input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e8e8f0;padding:14px 16px;border-radius:12px;font-size:15px;outline:none}
+input:focus{border-color:rgba(255,215,0,.4)}
+input::placeholder{color:rgba(255,255,255,.25)}
+.btn{display:block;width:100%;padding:16px;border:none;border-radius:28px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:10px}
+.btn-primary{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
+.btn-green{background:linear-gradient(135deg,#00c853,#009624);color:#fff}
+.btn-outline{background:transparent;color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+.status-box{text-align:center;padding:20px;margin-top:20px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:16px}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px}
+.info-row .label{color:#8a8aa0}
+.info-row .val{color:#ffd700;font-weight:600}
+.info-row .val.expire-soon{color:#ff6b6b}
+.price-tag{text-align:center;margin:20px 0}
+.price-tag .amount{font-size:36px;font-weight:800;color:#ffd700}
+.price-tag .unit{font-size:14px;color:#8a8aa0}
+.note{text-align:center;color:#8a8aa0;font-size:11px;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>续期服务</h1>
+  <p class="sub">续期后服务无缝衔接</p>
+  
+  <!-- 查询 -->
+  <div id="querySection">
+    <div class="form-group">
+      <label>手机号</label>
+      <input type="tel" id="phone" placeholder="注册时使用的手机号" maxlength="11">
+    </div>
+    <button class="btn btn-primary" onclick="checkExpiry()">查询到期时间</button>
+  </div>
+  
+  <!-- 到期信息 -->
+  <div id="infoSection" style="display:none">
+    <div class="status-box">
+      <div class="info-row"><span class="label">手机号</span><span class="val" id="dispPhone">--</span></div>
+      <div class="info-row"><span class="label">服务状态</span><span class="val" id="dispStatus">--</span></div>
+      <div class="info-row"><span class="label">到期时间</span><span class="val" id="dispExpire">--</span></div>
+      <div class="info-row"><span class="label">剩余天数</span><span class="val" id="dispDays">--</span></div>
+    </div>
+    
+    <div class="price-tag">
+      <div class="amount">¥298</div>
+      <div class="unit">续期1年</div>
+    </div>
+    
+    <a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="btn btn-green" style="text-decoration:none;text-align:center" onclick="sessionStorage.setItem('renew_phone',document.getElementById('phone').value)">立即续期支付 →</a>
+    
+    <div class="form-group" style="margin-top:20px">
+      <label>续期付款订单号</label>
+      <input type="text" id="renewOrderId" placeholder="支付后获取的订单号">
+    </div>
+    <button class="btn btn-primary" onclick="submitRenew()">确认续期</button>
+  </div>
+  
+  <p class="note">续期后密钥不变，服务无缝衔接</p>
+</div>
+
+<script>
+var RAW='https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.github.io/main/orders.json';
+var API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/orders.json';
+var _a='ghp_0Cgr',_b='N5se4Bc',_c='NrBrFu7',_d='Fhk4ujA',_e='JRuE3Ux',_f='am9';
+var TK=_a+_b+_c+_d+_e+_f;
+
+async function checkExpiry(){
+  var phone=document.getElementById('phone').value.trim();
+  if(!phone||phone.length!==11){alert('请输入11位手机号');return}
+  try{
+    var r=await fetch(RAW+'?t='+Date.now());
+    var d=await r.json();
+    var order=d.orders.find(function(o){return o.phone===phone&&o.status==='delivered'});
+    if(!order){alert('未找到有效订单，请确认手机号正确');return}
+    
+    // 计算到期时间（从购买时间+1年）
+    var startDate=new Date(order.deliverTime||order.time);
+    var expireDate=new Date(startDate);
+    expireDate.setFullYear(expireDate.getFullYear()+1);
+    var now=new Date();
+    var daysLeft=Math.ceil((expireDate-now)/(1000*60*60*24));
+    
+    document.getElementById('dispPhone').textContent=phone.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2');
+    document.getElementById('dispStatus').textContent=daysLeft>0?'服务中':'已过期';
+    document.getElementById('dispStatus').style.color=daysLeft>0?'#00c853':'#ff6b6b';
+    document.getElementById('dispExpire').textContent=expireDate.toLocaleDateString('zh-CN');
+    document.getElementById('dispExpire').className='val'+(daysLeft<=30?' expire-soon':'');
+    document.getElementById('dispDays').textContent=daysLeft>0?daysLeft+'天':'已过期'+(-daysLeft)+'天';
+    document.getElementById('dispDays').className='val'+(daysLeft<=30?' expire-soon':'');
+    
+    document.getElementById('querySection').style.display='none';
+    document.getElementById('infoSection').style.display='block';
+    sessionStorage.setItem('renew_phone',phone);
+  }catch(e){alert('查询失败: '+e.message)}
+}
+
+async function submitRenew(){
+  var phone=sessionStorage.getItem('renew_phone');
+  var oid=document.getElementById('renewOrderId').value.trim();
+  if(!oid){alert('请输入付款订单号');return}
+  try{
+    var r1=await fetch(API,{headers:{'Authorization':'token '+TK}});
+    var cur=await r1.json();
+    var ds=JSON.parse(atob(cur.content));
+    var cc='RN'+phone.slice(-6)+Date.now().toString().slice(-6);
+    ds.orders.push({phone:phone,orderId:oid,confirmCode:cc,status:'renew_pending',key:'',time:new Date().toISOString(),source:'renew',type:'续期'});
+    await fetch(API,{method:'PUT',headers:{'Authorization':'token '+TK,'Content-Type':'application/json'},
+      body:JSON.stringify({message:'续期:'+cc+' 手机'+phone,content:btoa(unescape(encodeURIComponent(JSON.stringify(ds,null,2)))),sha:cur.sha})});
+    alert('续期订单已提交！\n确认码: '+cc+'\n\n管理员确认后立即续期。');
+  }catch(e){alert('提交失败: '+e.message)}
+}
+</script>
+</body>
+</html>

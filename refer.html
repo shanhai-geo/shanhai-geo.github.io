@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>推荐奖励 - 山海智能</title>
+<meta name="description" content="推荐3位好友开通，免费续期一年">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;background:#06060e;color:#e8e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{max-width:520px;width:100%;background:rgba(18,18,36,.9);border:1px solid rgba(255,215,0,.15);border-radius:24px;padding:40px 30px;text-align:center}
+h1{color:#ffd700;font-size:24px;margin-bottom:8px}
+.sub{color:#8a8aa0;font-size:14px;margin-bottom:30px}
+.reward-box{background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,140,0,.1));border:2px solid rgba(255,215,0,.3);border-radius:20px;padding:30px;margin:20px 0}
+.reward-box .big{font-size:36px;font-weight:800;color:#ffd700;margin:10px 0}
+.reward-box .desc{font-size:13px;color:#8a8aa0;line-height:1.8}
+.steps{display:flex;gap:12px;margin:30px 0;text-align:left}
+.step{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px}
+.step .num{width:28px;height:28px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:10px}
+.step .txt{font-size:12px;color:#8a8aa0;line-height:1.6}
+.step .txt strong{color:#ffd700;display:block;margin-bottom:4px;font-size:13px}
+.my-code{background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:20px;margin:20px 0}
+.my-code .label{font-size:12px;color:#8a8aa0;margin-bottom:8px}
+.my-code .code{font-size:20px;font-weight:800;color:#ffd700;font-family:monospace;letter-spacing:2px}
+.my-code .link{font-size:11px;color:#8a8aa0;margin-top:8px;word-break:break-all}
+.copy-btn{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 30px;border:none;border-radius:20px;font-size:14px;font-weight:bold;cursor:pointer;margin-top:16px}
+.progress{margin:20px 0}
+.progress .bar{height:12px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden}
+.progress .fill{height:100%;background:linear-gradient(90deg,#ffd700,#ff8c00);border-radius:6px;transition:width .5s}
+.progress .text{font-size:12px;color:#8a8aa0;margin-top:8px}
+@media(max-width:500px){.steps{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>推荐奖励计划</h1>
+  <p class="sub">推荐好友开通 · 免费续期一年</p>
+  
+  <div class="reward-box">
+    <div style="font-size:14px;color:#8a8aa0">推荐满3人开通</div>
+    <div class="big">免费续期1年</div>
+    <div class="desc">每推荐3位好友成功开通¥298/年服务<br>您自动获得1年免费续期<br>推荐6人=续期2年 · 推荐9人=续期3年</div>
+  </div>
+  
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="txt"><strong>分享链接</strong>复制您的专属推荐链接发给好友</div></div>
+    <div class="step"><div class="num">2</div><div class="txt"><strong>好友开通</strong>好友通过您的链接成功付费开通</div></div>
+    <div class="step"><div class="num">3</div><div class="txt"><strong>自动奖励</strong>每满3人自动续期1年，无上限</div></div>
+  </div>
+  
+  <div class="my-code">
+    <div class="label">您的专属推荐码</div>
+    <div class="code" id="myCode">--</div>
+    <div class="link" id="myLink"></div>
+    <button class="copy-btn" onclick="copyLink()">复制推荐链接</button>
+  </div>
+  
+  <div class="progress">
+    <div style="display:flex;justify-content:space-between;font-size:13px;color:#ffd700;margin-bottom:6px">
+      <span>已推荐: <span id="count">0</span>人</span>
+      <span>距免费续期还差 <span id="remain">3</span>人</span>
+    </div>
+    <div class="bar"><div class="fill" id="fill" style="width:0%"></div></div>
+    <div class="text" id="progressText">输入手机号查看您的推荐进度</div>
+  </div>
+  
+  <button class="copy-btn" style="background:transparent;color:#ffd700;border:1px solid rgba(255,215,0,.3);margin-top:12px" onclick="checkProgress()">查看我的推荐进度</button>
+</div>
+
+<script>
+var RAW='https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.github.io/main/orders.json';
+// 生成或恢复推荐码
+var code=sessionStorage.getItem('ref_code');
+if(!code){
+  code='RF'+Math.random().toString(36).substr(2,8).toUpperCase();
+  sessionStorage.setItem('ref_code',code);
+}
+document.getElementById('myCode').textContent=code;
+document.getElementById('myLink').textContent='https://shanhai-geo.top/pay.html?ref='+code;
+
+function copyLink(){
+  var link='https://shanhai-geo.top/pay.html?ref='+code;
+  if(navigator.clipboard){navigator.clipboard.writeText(link).then(function(){alert('推荐链接已复制')})}
+  else{var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('推荐链接已复制')}
+}
+
+async function checkProgress(){
+  var phone=prompt('输入您的手机号查看推荐进度:');
+  if(!phone)return;
+  try{
+    var r=await fetch(RAW+'?t='+Date.now());
+    var d=await r.json();
+    var refs=d.orders.filter(function(o){return o.ref===sessionStorage.getItem('ref_code')&&o.status==='delivered'});
+    var cnt=refs.length;
+    var freeYears=Math.floor(cnt/3);
+    var remain=cnt%3===0?3:3-(cnt%3);
+    document.getElementById('count').textContent=cnt;
+    document.getElementById('remain').textContent=remain;
+    document.getElementById('fill').style.width=Math.min(cnt/3*100,100)+'%';
+    document.getElementById('progressText').textContent=cnt+'人已开通 · 已获'+freeYears+'年免费续期'+(freeYears>0?' ✅':'');
+  }catch(e){alert('查询失败')}
+}
+
+// 检查URL参数
+var urlRef=new URLSearchParams(window.location.search).get('ref');
+if(urlRef){sessionStorage.setItem('referred_by',urlRef)}
+</script>
+</body>
+</html>
