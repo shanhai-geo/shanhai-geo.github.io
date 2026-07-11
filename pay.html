@@ -96,7 +96,7 @@ if(!o){alert('未找到订单');return false}
 if(o.status==='delivered'&&o.key){document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='none';document.getElementById('step3').style.display='block';document.getElementById('keyDisplay').textContent=o.key;return true}
 else{document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='block';document.getElementById('confirmCodeDisplay').textContent=o.confirmCode;document.getElementById('orderInfo').innerHTML='订单号: '+o.orderId+'<br>手机: '+o.phone+'<br>状态: <span style="color:#ffd700">等待确认</span>';return false}
 }catch(e){return false}}
-function startPolling(){var p=sessionStorage.getItem('order_phone');setInterval(async function(){if(await doQ(p))clearInterval(this);else document.getElementById('pollingStatus').textContent='等待确认中... '+new Date().toLocaleTimeString()},30000)}
+function startPolling(){var p=sessionStorage.getItem('order_phone');setInterval(async function(){if(await doQ(p))clearInterval(this);else document.getElementById('pollingStatus').innerHTML='🔄 实时检测中... '+new Date().toLocaleTimeString()},10000)}
 var sv=sessionStorage.getItem('order_phone');if(sv){doQ(sv);startPolling()}
 </script>
 </body>
