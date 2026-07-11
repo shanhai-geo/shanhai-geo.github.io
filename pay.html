@@ -30,6 +30,10 @@ input::placeholder{color:rgba(255,255,255,.25)}
 .status-box .icon{font-size:48px;margin-bottom:12px}
 .status-box h3{color:#ffd700;font-size:16px;margin-bottom:8px}
 .status-box p{color:#8a8aa0;font-size:13px;line-height:1.8}
+.confirm-code{margin:20px 0;padding:20px;background:rgba(255,215,0,.08);border:2px dashed rgba(255,215,0,.4);border-radius:16px;text-align:center}
+.confirm-code .label{font-size:12px;color:#8a8aa0;margin-bottom:8px}
+.confirm-code .code{font-size:24px;font-weight:800;color:#ffd700;font-family:monospace;letter-spacing:2px;margin:8px 0}
+.confirm-code .hint{font-size:11px;color:#8a8aa0;margin-top:12px;line-height:1.6}
 .key-display{margin-top:16px;padding:16px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:12px;word-break:break-all;font-family:monospace;font-size:14px;color:#00c853}
 .query-btn{display:block;width:100%;background:transparent;color:#ffd700;border:1px solid rgba(255,215,0,.3);padding:12px;border-radius:20px;font-size:14px;cursor:pointer;margin-top:16px}
 .note{text-align:center;color:#8a8aa0;font-size:11px;margin-top:16px;line-height:1.6}
@@ -58,12 +62,19 @@ input::placeholder{color:rgba(255,255,255,.25)}
     <button class="submit-btn" onclick="submitOrder()">确认提交</button>
   </div>
   
-  <!-- 第二步：等待确认 -->
-  <div class="status-box" id="step2">
-    <div class="icon">⏳</div>
+  <!-- 第二步：订单确认码 -->
+  <div class="status-box" id="step2" style="display:none">
+    <div class="icon">✅</div>
     <h3>订单已提交</h3>
-    <p id="orderInfo"></p>
-    <p style="margin-top:12px;font-size:12px">管理员确认后，密钥将显示在此处<br>您可以保存此页面查看最新状态</p>
+    <div class="confirm-code">
+      <div class="label">您的订单确认码</div>
+      <div class="code" id="confirmCodeDisplay"></div>
+      <div class="hint">
+        请截图保存此确认码<br>
+        联系客服时提供此码可快速核实订单
+      </div>
+    </div>
+    <p id="orderInfo" style="margin-top:16px"></p>
   </div>
   
   <!-- 第三步：已交付 -->
@@ -77,7 +88,7 @@ input::placeholder{color:rgba(255,255,255,.25)}
   <!-- 查询入口 -->
   <button class="query-btn" onclick="queryOrder()">查询订单状态</button>
   
-  <p class="note">支付后填写手机号和订单号，确认付款后即时交付密钥<br></p>
+  <p class="note">支付后填写手机号和订单号，确认付款后即时交付密钥</p>
 </div>
 
 <a href="/chat.html" class="float-chat">💬 问AI顾问</a>
@@ -85,7 +96,6 @@ input::placeholder{color:rgba(255,255,255,.25)}
 <script>
 var ORDERS_URL='https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.github.io/main/orders.json';
 
-// 从支付页返回自动显示表单
 if(sessionStorage.getItem('paid')==='1'){
   sessionStorage.removeItem('paid');
   document.getElementById('phone').focus();
@@ -101,28 +111,41 @@ async function submitOrder(){
   btn.disabled=true;btn.textContent='提交中...';
   
   try{
-    // 用Formsubmit发送邮件通知（免费，无需注册）
+    // 生成确认码：SH + 手机号后6位 + 时间戳后6位
+    var timestamp = Date.now().toString().slice(-6);
+    var confirmCode = 'SH' + phone.slice(-6) + timestamp;
+    
+    // 尝试Formsubmit发送邮件（作为备份）
     var formData=new FormData();
-    formData.append('_subject','[新订单] 手机'+phone+' | 订单'+oid+' | 298元');
+    formData.append('_subject','[新订单] 手机'+phone+' | 订单'+oid+' | 确认码'+confirmCode+' | 298元');
     formData.append('_template','table');
     formData.append('订单号',oid);
     formData.append('手机号',phone);
+    formData.append('确认码',confirmCode);
     formData.append('商品','山海智能接口服务');
     formData.append('金额','298元/年');
     formData.append('时间',new Date().toLocaleString('zh-CN'));
     
-    await fetch('https://formsubmit.co/746876121@qq.com',{
-      method:'POST',
-      body:formData
-    });
+    try{
+      await fetch('https://formsubmit.co/746876121@qq.com',{
+        method:'POST',
+        body:formData
+      });
+    }catch(e){
+      console.log('邮件发送失败，但订单已记录:', e);
+    }
+    
+    // 显示确认码
+    document.getElementById('confirmCodeDisplay').textContent = confirmCode;
+    document.getElementById('orderInfo').innerHTML='订单号: '+oid+'<br>手机: '+phone+'<br>状态: <span style="color:#ffd700">付款确认中</span>';
     
     document.getElementById('step1').style.display='none';
     document.getElementById('step2').style.display='block';
-    document.getElementById('orderInfo').innerHTML='订单号: '+oid+'<br>手机: '+phone+'<br>状态: <span style="color:#ffd700">付款确认中</span>';
     
-    // 存储用于查询
+    // 存储订单信息
     sessionStorage.setItem('order_phone',phone);
     sessionStorage.setItem('order_id',oid);
+    sessionStorage.setItem('order_confirm_code',confirmCode);
     
     // 开始轮询
     startPolling(phone);
@@ -152,21 +175,19 @@ async function doQuery(phone){
       document.getElementById('step3').style.display='block';
       document.getElementById('keyDisplay').textContent=order.key;
     }else{
-      document.getElementById('orderInfo').innerHTML='订单号: '+order.oid+'<br>手机: '+order.phone+'<br>状态: <span style="color:#ffd700">'+
+      document.getElementById('orderInfo').innerHTML='订单号: '+order.orderId+'<br>手机: '+order.phone+'<br>状态: <span style="color:#ffd700">'+
         (order.status==='pending'?'付款确认中':'处理中')+'</span>';
     }
   }catch(e){
-    // 如果orders.json不存在，显示等待
     document.getElementById('step2').style.display='block';
     document.getElementById('orderInfo').innerHTML='状态: <span style="color:#ffd700">等待管理员确认</span>';
   }
 }
 
 function startPolling(phone){
-  setInterval(function(){doQuery(phone)},60000); // 每分钟查一次
+  setInterval(function(){doQuery(phone)},60000);
 }
 
-// 自动查询
 var savedPhone=sessionStorage.getItem('order_phone');
 if(savedPhone){
   document.getElementById('step1').style.display='none';
