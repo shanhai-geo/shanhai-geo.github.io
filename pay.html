@@ -3,31 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>唤通API 开通 - 山海智能</title>
-<meta name="description" content="¥298开通唤通API，包年不限量">
+<title>开通接口服务 - 山海智能</title>
+<meta name="description" content="¥298开通山海智能接口服务，包年不限量">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:#0a0a1a; color:#fff; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.container { max-width:480px; width:100%; padding:20px; text-align:center; }
-h1 { font-size:2em; color:#ffd700; margin-bottom:20px; }
-.price { font-size:4em; font-weight:800; color:#ffd700; margin:30px 0; }
-.btn { display:inline-block; background:#ffd700; color:#000; padding:20px 40px; text-decoration:none; border-radius:12px; font-weight:bold; font-size:1.2em; margin-top:30px; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;background:#06060e;color:#e8e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{max-width:480px;width:100%;background:rgba(18,18,36,.9);border:1px solid rgba(255,215,0,.15);border-radius:24px;padding:40px 30px;backdrop-filter:blur(24px)}
+h1{text-align:center;color:#ffd700;font-size:22px;margin-bottom:8px}
+.sub{text-align:center;color:#8a8aa0;font-size:13px;margin-bottom:24px}
+.price{text-align:center;font-size:48px;font-weight:800;color:#ffd700;margin:20px 0}
+.price small{font-size:14px;color:#8a8aa0;font-weight:400}
+.pay-btn{display:block;width:100%;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:18px;border:none;border-radius:28px;font-size:18px;font-weight:bold;cursor:pointer;text-align:center;text-decoration:none;margin:20px 0;transition:all .2s}
+.pay-btn:hover{transform:scale(1.02);box-shadow:0 0 30px rgba(255,215,0,.3)}
+.divider{text-align:center;color:#8a8aa0;font-size:12px;margin:20px 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:35%;height:1px;background:rgba(255,255,255,.1)}
+.divider::before{left:0}
+.divider::after{right:0}
+.form-group{margin-bottom:16px}
+label{display:block;color:#ffd700;font-size:13px;margin-bottom:6px;font-weight:600}
+input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e8e8f0;padding:14px 16px;border-radius:12px;font-size:15px;outline:none}
+input:focus{border-color:rgba(255,215,0,.4)}
+input::placeholder{color:rgba(255,255,255,.25)}
+.submit-btn{display:block;width:100%;background:linear-gradient(135deg,#00c853,#009624);color:#fff;padding:16px;border:none;border-radius:28px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:20px}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.status-box{display:none;text-align:center;padding:20px;margin-top:20px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:16px}
+.status-box .icon{font-size:48px;margin-bottom:12px}
+.status-box h3{color:#ffd700;font-size:16px;margin-bottom:8px}
+.status-box p{color:#8a8aa0;font-size:13px;line-height:1.8}
+.key-display{margin-top:16px;padding:16px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:12px;word-break:break-all;font-family:monospace;font-size:14px;color:#00c853}
+.query-btn{display:block;width:100%;background:transparent;color:#ffd700;border:1px solid rgba(255,215,0,.3);padding:12px;border-radius:20px;font-size:14px;cursor:pointer;margin-top:16px}
+.note{text-align:center;color:#8a8aa0;font-size:11px;margin-top:16px;line-height:1.6}
+.float-chat{position:fixed;bottom:20px;right:20px;z-index:999;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,.4)}
 </style>
 </head>
 <body>
-<div class="container">
-<h1>唤通API 开通</h1>
-<p>10次API调用，数据可验证</p>
-<div class="price">¥298</div>
-<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="btn">立即支付 →</a>
-<p style="margin-top:20px;opacity:0.7;">扫码或点击支付</p>
+<div class="card">
+  <h1>山海智能接口服务</h1>
+  <p class="sub">包年不限量 · 10分钟接入 · 多模型路由</p>
+  
+  <div class="price">¥298<small>/年</small></div>
+  
+  <!-- 第一步：支付 -->
+  <div id="step1">
+    <a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="pay-btn" onclick="sessionStorage.setItem('paid','1')">立即支付 ¥298 →</a>
+    <div class="divider">支付后填写信息</div>
+    <div class="form-group">
+      <label>手机号（接收密钥）</label>
+      <input type="tel" id="phone" placeholder="11位手机号" maxlength="11">
+    </div>
+    <div class="form-group">
+      <label>付款订单号</label>
+      <input type="text" id="orderId" placeholder="支付完成后获取的订单号">
+    </div>
+    <button class="submit-btn" onclick="submitOrder()">确认提交</button>
+  </div>
+  
+  <!-- 第二步：等待确认 -->
+  <div class="status-box" id="step2">
+    <div class="icon">⏳</div>
+    <h3>订单已提交</h3>
+    <p id="orderInfo"></p>
+    <p style="margin-top:12px;font-size:12px">管理员确认后，密钥将显示在此处<br>您可以保存此页面查看最新状态</p>
+  </div>
+  
+  <!-- 第三步：已交付 -->
+  <div class="status-box" id="step3" style="display:none">
+    <div class="icon">✅</div>
+    <h3>密钥已交付</h3>
+    <div class="key-display" id="keyDisplay"></div>
+    <p style="margin-top:12px">复制密钥即可调用API</p>
+  </div>
+  
+  <!-- 查询入口 -->
+  <button class="query-btn" onclick="queryOrder()">查询订单状态</button>
+  
+  <p class="note">支付后填写手机号和订单号，确认付款后即时交付密钥<br>7天无理由退款</p>
 </div>
 
-<!-- AI客服浮动入口 -->
-<style>
-.float-chat{position:fixed;bottom:20px;right:20px;z-index:999;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,.4);animation:chatPulse 2s infinite}
-@keyframes chatPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-</style>
-<a href="/chat.html" class="float-chat">💬 有疑问？问AI顾问</a>
+<a href="/chat.html" class="float-chat">💬 问AI顾问</a>
+
+<script>
+var ORDERS_URL='https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.github.io/main/orders.json';
+
+// 从支付页返回自动显示表单
+if(sessionStorage.getItem('paid')==='1'){
+  sessionStorage.removeItem('paid');
+  document.getElementById('phone').focus();
+}
+
+async function submitOrder(){
+  var phone=document.getElementById('phone').value.trim();
+  var oid=document.getElementById('orderId').value.trim();
+  if(!phone||phone.length!==11){alert('请输入11位手机号');return}
+  if(!oid){alert('请输入付款订单号');return}
+  
+  var btn=document.querySelector('.submit-btn');
+  btn.disabled=true;btn.textContent='提交中...';
+  
+  try{
+    // 用Formsubmit发送邮件通知（免费，无需注册）
+    var formData=new FormData();
+    formData.append('_subject','[新订单] 手机'+phone+' | 订单'+oid+' | 298元');
+    formData.append('_template','table');
+    formData.append('订单号',oid);
+    formData.append('手机号',phone);
+    formData.append('商品','山海智能接口服务');
+    formData.append('金额','298元/年');
+    formData.append('时间',new Date().toLocaleString('zh-CN'));
+    
+    await fetch('https://formsubmit.co/746876121@qq.com',{
+      method:'POST',
+      body:formData
+    });
+    
+    document.getElementById('step1').style.display='none';
+    document.getElementById('step2').style.display='block';
+    document.getElementById('orderInfo').innerHTML='订单号: '+oid+'<br>手机: '+phone+'<br>状态: <span style="color:#ffd700">付款确认中</span>';
+    
+    // 存储用于查询
+    sessionStorage.setItem('order_phone',phone);
+    sessionStorage.setItem('order_id',oid);
+    
+    // 开始轮询
+    startPolling(phone);
+  }catch(e){
+    alert('提交失败: '+e.message);
+    btn.disabled=false;btn.textContent='确认提交';
+  }
+}
+
+async function queryOrder(){
+  var phone=prompt('请输入手机号查询订单:');
+  if(!phone) return;
+  await doQuery(phone);
+}
+
+async function doQuery(phone){
+  try{
+    var res=await fetch(ORDERS_URL+'?t='+Date.now());
+    if(!res.ok) throw new Error('查询失败');
+    var data=await res.json();
+    var order=data.orders.find(function(o){return o.phone===phone});
+    if(!order){alert('未找到订单');return}
+    
+    if(order.status==='delivered'&&order.key){
+      document.getElementById('step1').style.display='none';
+      document.getElementById('step2').style.display='none';
+      document.getElementById('step3').style.display='block';
+      document.getElementById('keyDisplay').textContent=order.key;
+    }else{
+      document.getElementById('orderInfo').innerHTML='订单号: '+order.oid+'<br>手机: '+order.phone+'<br>状态: <span style="color:#ffd700">'+
+        (order.status==='pending'?'付款确认中':'处理中')+'</span>';
+    }
+  }catch(e){
+    // 如果orders.json不存在，显示等待
+    document.getElementById('step2').style.display='block';
+    document.getElementById('orderInfo').innerHTML='状态: <span style="color:#ffd700">等待管理员确认</span>';
+  }
+}
+
+function startPolling(phone){
+  setInterval(function(){doQuery(phone)},60000); // 每分钟查一次
+}
+
+// 自动查询
+var savedPhone=sessionStorage.getItem('order_phone');
+if(savedPhone){
+  document.getElementById('step1').style.display='none';
+  doQuery(savedPhone);
+  startPolling(savedPhone);
+}
+</script>
 </body>
 </html>
