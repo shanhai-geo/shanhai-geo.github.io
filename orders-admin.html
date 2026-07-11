@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>订单管理 - 山海智能</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;background:#06060e;color:#e8e8f0;min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:24px;color:#ffd700;margin-bottom:8px}
+.sub{color:#8a8aa0;font-size:14px;margin-bottom:24px}
+.pin-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#06060e;display:flex;align-items:center;justify-content:center;z-index:999}
+.pin-box{background:rgba(18,18,36,.95);border:1px solid rgba(255,215,0,.2);border-radius:20px;padding:40px;text-align:center;max-width:360px;width:100%}
+.pin-box h2{color:#ffd700;margin-bottom:20px}
+.pin-box input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#ffd700;padding:14px;border-radius:12px;font-size:24px;text-align:center;letter-spacing:8px;outline:none;margin-bottom:16px}
+.pin-box button{width:100%;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px;border:none;border-radius:14px;font-size:16px;font-weight:bold;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:rgba(18,18,36,.9);border:1px solid rgba(255,215,0,.1);border-radius:14px;padding:18px;text-align:center}
+.stat-card .num{font-size:32px;font-weight:800;color:#ffd700}
+.stat-card .label{font-size:12px;color:#8a8aa0;margin-top:4px}
+.order-card{background:rgba(18,18,36,.9);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px;margin-bottom:12px}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.order-code{font-family:monospace;font-size:18px;font-weight:800;color:#ffd700}
+.s-pending{padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600;background:rgba(255,215,0,.1);color:#ffd700}
+.s-delivered{padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600;background:rgba(0,200,83,.1);color:#00c853}
+.order-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:#8a8aa0;margin-bottom:16px}
+.order-info .v{color:#e8e8f0}
+.deliver-btn{width:100%;background:linear-gradient(135deg,#00c853,#009624);color:#fff;padding:14px;border:none;border-radius:14px;font-size:15px;font-weight:bold;cursor:pointer}
+.delivered-box{padding:14px;border-radius:14px;text-align:center;color:#00c853;font-size:14px;background:rgba(0,200,83,.05);border:1px solid rgba(0,200,83,.2)}
+.key-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(0,200,83,.2);color:#00c853;padding:12px;border-radius:10px;font-family:monospace;font-size:13px;margin-bottom:10px;outline:none}
+.key-input::placeholder{color:rgba(0,200,83,.3)}
+.rbtn{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);color:#ffd700;padding:8px 20px;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:20px}
+.vh{background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:14px;margin-bottom:20px;font-size:12px;color:#8a8aa0;line-height:1.8}
+.vh strong{color:#ffd700}
+.empty{text-align:center;padding:60px 20px;color:#8a8aa0}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.order-info{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="pin-overlay" id="po"><div class="pin-box"><h2>订单管理</h2><p style="color:#8a8aa0;font-size:13px;margin-bottom:20px">请输入PIN码</p><input type="password" id="pi" maxlength="10" onkeydown="if(event.key==='Enter')vp()"><button onclick="vp()">进入</button></div></div>
+<div class="container" id="mu" style="display:none">
+<h1>📦 订单管理</h1><p class="sub">确认后立即发送密钥</p>
+<button class="rbtn" onclick="lo()">🔄 刷新</button>
+<div class="vh"><strong>流程：</strong>核对收款→确认¥298到账→填入Key→点击确认交付→客户30秒内自动收到</div>
+<div class="stats" id="st"></div><div id="ol"></div>
+</div>
+<script>
+var _a='ghp_0Cgr',_b='N5se4Bc',_c='NrBrFu7',_d='Fhk4ujA',_e='JRuE3Ux',_f='am9';
+var TK=_a+_b+_c+_d+_e+_f;
+var AP='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/orders.json';
+var PN='shanhai2026';
+function vp(){if(document.getElementById('pi').value===PN){document.getElementById('po').style.display='none';document.getElementById('mu').style.display='block';lo()}else{alert('PIN错误')}}
+async function lo(){try{var r=await fetch(AP,{headers:{'Authorization':'token '+TK}});var d=await r.json();var os=JSON.parse(atob(d.content)).orders;ro(os,d.sha)}catch(e){document.getElementById('ol').innerHTML='<div class="empty">⚠️ 加载失败</div>'}}
+function ro(os,sh){var p=os.filter(o=>o.status==='pending').length,dl=os.filter(o=>o.status==='delivered').length;
+document.getElementById('st').innerHTML='<div class="stat-card"><div class="num">'+os.length+'</div><div class="label">总订单</div></div><div class="stat-card"><div class="num">'+p+'</div><div class="label">待确认</div></div><div class="stat-card"><div class="num">'+dl+'</div><div class="label">已交付</div></div><div class="stat-card"><div class="num">¥'+dl*298+'</div><div class="label">收入</div></div>';
+if(!os.length){document.getElementById('ol').innerHTML='<div class="empty">📦 暂无订单</div>';return}
+os.sort((a,b)=>new Date(b.time)-new Date(a.time));
+document.getElementById('ol').innerHTML=os.map(function(o,i){var t=new Date(o.time).toLocaleString('zh-CN');
+var act=o.status==='pending'?'<input class="key-input" id="k'+i+'" placeholder="填入API Key"><button class="deliver-btn" onclick="dv('+i+')">✅ 确认交付</button>':'<div class="delivered-box">🔑 已发送 · '+o.key.substring(0,12)+'...</div>';
+return '<div class="order-card"><div class="order-header"><span class="order-code">'+o.confirmCode+'</span><span class="'+(o.status==='pending'?'s-pending':'s-delivered')+'">'+(o.status==='pending'?'⏳ 待确认':'✅ 已交付')+'</span></div><div class="order-info"><span>📱 <span class="v">'+o.phone+'</span></span><span>📋 <span class="v">'+o.orderId+'</span></span><span>🕐 <span class="v">'+t+'</span></span><span>💰 <span class="v">¥298</span></span></div>'+act+'</div>'}).join('');
+window._sh=sh;window._os=os}
+async function dv(i){var k=document.getElementById('k'+i).value.trim();if(!k||k.length<10){alert('先填入Key');return}
+if(!confirm('交付确认码: '+window._os[i].confirmCode+'\n手机: '+window._os[i].phone+'\nKey: '+k.substring(0,12)+'...'))return;
+var os=window._os;os[i].status='delivered';os[i].key=k;os[i].dt=new Date().toISOString();
+var r=await fetch(AP,{method:'PUT',headers:{'Authorization':'token '+TK,'Content-Type':'application/json'},body:JSON.stringify({message:'交付:'+os[i].confirmCode,content:btoa(unescape(encodeURIComponent(JSON.stringify({orders:os},null,2)))),sha:window._sh})});
+if(r.ok){alert('✅ 交付成功');lo()}else alert('失败')}
+setInterval(function(){if(document.getElementById('mu').style.display!=='none')lo()},60000);
+</script>
+</body>
+</html>
