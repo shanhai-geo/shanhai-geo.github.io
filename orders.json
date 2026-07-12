@@ -1,1 +1,12 @@
-{"orders":[]}
+{
+  "orders": [
+    {
+      "phone": "13800000000",
+      "confirmCode": "SH000000000000",
+      "amount": 298,
+      "timestamp": "2026-07-12T17:20:00+08:00",
+      "status": "test_verify",
+      "note": "山海系统验证-可删除"
+    }
+  ]
+}
