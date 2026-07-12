@@ -41,5 +41,5 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://shanhai-geo.top/sitemap.xml
-Sitemap: https://shanhai-geo.top/sitemap-nodes.xml
+Sitemap: https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/sitemap.xml
+Sitemap: https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/sitemap-nodes.xml
