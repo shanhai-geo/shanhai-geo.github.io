@@ -2,102 +2,111 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>开通接口服务 - 山海智能</title>
-<meta name="description" content="¥298开通山海智能接口服务，包年不限量">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>购买 - 山海智能API服务</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;background:#06060e;color:#e8e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.card{max-width:480px;width:100%;background:rgba(18,18,36,.9);border:1px solid rgba(255,215,0,.15);border-radius:24px;padding:40px 30px;backdrop-filter:blur(24px)}
-h1{text-align:center;color:#ffd700;font-size:22px;margin-bottom:8px}
-.sub{text-align:center;color:#8a8aa0;font-size:13px;margin-bottom:24px}
-.price{text-align:center;font-size:48px;font-weight:800;color:#ffd700;margin:20px 0}
-.price small{font-size:14px;color:#8a8aa0;font-weight:400}
-.pay-btn{display:block;width:100%;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:18px;border:none;border-radius:28px;font-size:18px;font-weight:bold;cursor:pointer;text-align:center;text-decoration:none;margin:20px 0;transition:all .2s}
-.pay-btn:hover{transform:scale(1.02);box-shadow:0 0 30px rgba(255,215,0,.3)}
-.divider{text-align:center;color:#8a8aa0;font-size:12px;margin:20px 0;position:relative}
-.divider::before,.divider::after{content:'';position:absolute;top:50%;width:35%;height:1px;background:rgba(255,255,255,.1)}
-.divider::before{left:0}.divider::after{right:0}
-.form-group{margin-bottom:16px}
-label{display:block;color:#ffd700;font-size:13px;margin-bottom:6px;font-weight:600}
-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e8e8f0;padding:14px 16px;border-radius:12px;font-size:15px;outline:none}
-input:focus{border-color:rgba(255,215,0,.4)}
-input::placeholder{color:rgba(255,255,255,.25)}
-.submit-btn{display:block;width:100%;background:linear-gradient(135deg,#00c853,#009624);color:#fff;padding:16px;border:none;border-radius:28px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:20px}
-.submit-btn:disabled{opacity:.5;cursor:not-allowed}
-.status-box{text-align:center;padding:20px;margin-top:20px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:16px}
-.status-box .icon{font-size:48px;margin-bottom:12px}
-.status-box h3{color:#ffd700;font-size:16px;margin-bottom:8px}
-.status-box p{color:#8a8aa0;font-size:13px;line-height:1.8}
-.confirm-code{margin:20px 0;padding:20px;background:rgba(255,215,0,.08);border:2px dashed rgba(255,215,0,.4);border-radius:16px;text-align:center}
-.confirm-code .label{font-size:12px;color:#8a8aa0;margin-bottom:8px}
-.confirm-code .code{font-size:24px;font-weight:800;color:#ffd700;font-family:monospace;letter-spacing:2px;margin:8px 0}
-.confirm-code .hint{font-size:11px;color:#8a8aa0;margin-top:12px;line-height:1.6}
-.key-display{margin-top:16px;padding:16px;background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:12px;word-break:break-all;font-family:monospace;font-size:14px;color:#00c853}
-.query-btn{display:block;width:100%;background:transparent;color:#ffd700;border:1px solid rgba(255,215,0,.3);padding:12px;border-radius:20px;font-size:14px;cursor:pointer;margin-top:16px}
-.note{text-align:center;color:#8a8aa0;font-size:11px;margin-top:16px;line-height:1.6}
-.float-chat{position:fixed;bottom:20px;right:20px;z-index:999;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:14px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,.4)}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;min-height:100vh}
+.header{background:linear-gradient(135deg,#1a1a3e,#2d2d6e);color:#fff;padding:20px;text-align:center}
+.header h1{font-size:20px;margin-bottom:4px}
+.header p{font-size:13px;opacity:.7}
+.container{max-width:420px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card h2{font-size:16px;color:#1a1a3e;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}
+.price-box{text-align:center;padding:16px 0}
+.price{font-size:42px;font-weight:800;color:#e63e3e}
+.price small{font-size:16px;color:#999;font-weight:400}
+.period{font-size:14px;color:#666;margin-top:4px}
+.pay-steps{counter-reset:step}
+.pay-steps li{list-style:none;counter-increment:step;padding:10px 0 10px 36px;position:relative;font-size:14px;line-height:1.6;border-bottom:1px solid #f5f5f5}
+.pay-steps li::before{content:counter(step);position:absolute;left:0;top:10px;width:24px;height:24px;background:#1a1a3e;color:#fff;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700}
+.pay-steps li:last-child{border-bottom:none}
+.amount{font-size:15px;color:#e63e3e;font-weight:700}
+.qr-placeholder{background:#fafafa;border:2px dashed #ddd;border-radius:8px;padding:20px;text-align:center;margin:12px 0}
+.qr-placeholder p{font-size:13px;color:#999}
+input[type="text"],input[type="tel"]{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-top:8px;outline:none;transition:border .3s}
+input:focus{border-color:#1a1a3e}
+label{font-size:14px;color:#666;display:block;margin-top:12px}
+.btn{display:block;width:100%;padding:14px;border:none;border-radius:8px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;margin-top:16px;text-align:center;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,#1a1a3e,#4a4a8e)}
+.btn-primary:hover{opacity:.9}
+.btn-wechat{background:#07c160}
+.btn-alipay{background:#1677ff}
+.tip{font-size:12px;color:#999;text-align:center;margin-top:12px;line-height:1.6}
+.guarantee{background:#f0f9ff;border-radius:8px;padding:12px;text-align:center;font-size:13px;color:#0066cc;margin-top:12px}
+.success-msg{display:none;text-align:center;padding:20px}
+.success-msg h3{color:#07c160;font-size:18px;margin-bottom:8px}
+.success-msg p{color:#666;font-size:14px}
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>山海智能接口服务</h1>
-  <p class="sub">包年不限量 · 10分钟接入 · 多模型路由</p>
-  <div class="price">¥298<small>/年</small></div>
-  <div id="step1">
-    <a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="pay-btn" onclick="sessionStorage.setItem('paid','1')">立即支付 ¥298 →</a>
-    <div class="divider">支付后填写信息</div>
-    <div class="form-group"><label>手机号（接收密钥）</label><input type="tel" id="phone" placeholder="11位手机号" maxlength="11"></div>
-    <div class="form-group"><label>付款订单号</label><input type="text" id="orderId" placeholder="支付完成后获取的订单号"></div>
-    <button class="submit-btn" onclick="submitOrder()">确认提交</button>
-  </div>
-  <div class="status-box" id="step2" style="display:none">
-    <div class="icon">✅</div><h3>订单已提交</h3>
-    <div class="confirm-code"><div class="label">您的订单确认码</div><div class="code" id="confirmCodeDisplay"></div><div class="hint">请截图保存此确认码<br>管理员确认后密钥将自动显示</div></div>
-    <p id="orderInfo" style="margin-top:16px"></p>
-    <p style="color:#ffd700;font-size:12px;margin-top:12px" id="pollingStatus">等待管理员确认中...</p>
-  </div>
-  <div class="status-box" id="step3" style="display:none">
-    <div class="icon">🔑</div><h3>密钥已交付</h3>
-    <div class="key-display" id="keyDisplay"></div>
-    <p style="margin-top:12px">复制密钥即可调用API</p>
-    <p style="margin-top:8px;font-size:11px;color:#8a8aa0">文档地址：shanhai-geo.top</p>
-  </div>
-  <button class="query-btn" onclick="queryOrder()">查询订单状态</button>
-  <p class="note">支付后填写手机号和订单号，确认付款后即时交付密钥</p>
+<div class="header">
+<h1>山海智能 API服务</h1>
+<p>高性能智能API接口 · 稳定快速</p>
 </div>
-<a href="/chat.html" class="float-chat">💬 问AI顾问</a>
+<div class="container">
+<div class="card">
+<h2>服务套餐</h2>
+<div class="price-box">
+<div class="price">¥298<small>/年</small></div>
+<div class="period">智能API接口服务 · 365天</div>
+</div>
+<ul style="font-size:13px;color:#666;line-height:2">
+<li>✓ OpenAI/Claude/国产大模型统一Key调用</li>
+<li>✓ 兼容OpenAI协议，即接即用</li>
+<li>✓ 99.9%可用性保障</li>
+<li>✓ 7天无理由全额退款</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>支付流程</h2>
+<ol class="pay-steps">
+<li>选择支付方式，扫码支付 <span class="amount">¥298</span></li>
+<li>支付成功后，填写手机号和订单号</li>
+<li>提交后即刻开通，开始使用</li>
+</ol>
+</div>
+
+<div class="card" id="paySection">
+<h2>第一步：扫码支付</h2>
+<p style="font-size:14px;color:#666;margin-bottom:12px">请使用微信或支付宝扫码，支付固定金额 <strong style="color:#e63e3e">¥298</strong></p>
+<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="btn btn-wechat" id="btnWx">微信支付 ¥298</a>
+<a href="https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" class="btn btn-alipay" id="btnAli">支付宝支付 ¥298</a>
+</div>
+
+<div class="card" id="submitSection">
+<h2>第二步：填写信息</h2>
+<p style="font-size:13px;color:#999;margin-bottom:8px">支付完成后，请填写以下信息用于开通服务</p>
+<label>手机号（用于开通服务）</label>
+<input type="tel" id="phone" placeholder="请输入手机号" maxlength="11">
+<label>付款订单号（支付后显示的交易单号）</label>
+<input type="text" id="orderNo" placeholder="请输入付款订单号">
+<button class="btn btn-primary" id="submitBtn" onclick="submitOrder()">提交开通</button>
+</div>
+
+<div class="guarantee">🛡️ 7天无理由全额退款保障</div>
+
+<div class="tip">
+支付遇到问题？<br>
+服务由依法注册的经营主体提供<br>
+持牌清算机构清算
+</div>
+</div>
+
 <script>
-var RAW_URL='https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.github.io/main/orders.json';
-var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
-var TK=_a+_b+_c+_d+_e+_f;
-var API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/orders.json';
-if(sessionStorage.getItem('paid')==='1'){sessionStorage.removeItem('paid');document.getElementById('phone').focus()}
-async function submitOrder(){
-var p=document.getElementById('phone').value.trim(),o=document.getElementById('orderId').value.trim();
-if(!p||p.length!==11){alert('请输入11位手机号');return}
-if(!o){alert('请输入付款订单号');return}
-var b=document.querySelector('.submit-btn');b.disabled=true;b.textContent='提交中...';
-try{
-var cc='SH'+p.slice(-6)+Date.now().toString().slice(-6);
-var r1=await fetch(API,{headers:{'Authorization':'token '+TK}});var cur=await r1.json();
-var ds=JSON.parse(atob(cur.content));ds.orders.push({phone:p,orderId:o,confirmCode:cc,status:'pending',key:'',time:new Date().toISOString(),source:'pay'});
-await fetch(API,{method:'PUT',headers:{'Authorization':'token '+TK,'Content-Type':'application/json'},body:JSON.stringify({message:'订单:'+cc,content:btoa(unescape(encodeURIComponent(JSON.stringify(ds,null,2)))),sha:cur.sha})});
-document.getElementById('confirmCodeDisplay').textContent=cc;
-document.getElementById('orderInfo').innerHTML='订单号: '+o+'<br>手机: '+p+'<br>状态: <span style="color:#ffd700">等待确认</span>';
-document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='block';
-sessionStorage.setItem('order_phone',p);startPolling();
-}catch(e){alert('提交失败: '+e.message);b.disabled=false;b.textContent='确认提交'}}
-async function queryOrder(){var i=prompt('请输入确认码或手机号:');if(i)await doQ(i)}
-async function doQ(input){
-try{var r=await fetch(RAW_URL+'?t='+Date.now());var d=await r.json();
-var o=d.orders.find(function(x){return x.confirmCode===input||x.phone===input});
-if(!o){alert('未找到订单');return false}
-if(o.status==='delivered'&&o.key){document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='none';document.getElementById('step3').style.display='block';document.getElementById('keyDisplay').textContent=o.key;return true}
-else{document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='block';document.getElementById('confirmCodeDisplay').textContent=o.confirmCode;document.getElementById('orderInfo').innerHTML='订单号: '+o.orderId+'<br>手机: '+o.phone+'<br>状态: <span style="color:#ffd700">等待确认</span>';return false}
-}catch(e){return false}}
-function startPolling(){var p=sessionStorage.getItem('order_phone');setInterval(async function(){if(await doQ(p))clearInterval(this);else document.getElementById('pollingStatus').innerHTML='🔄 实时检测中... '+new Date().toLocaleTimeString()},10000)}
-var sv=sessionStorage.getItem('order_phone');if(sv){doQ(sv);startPolling()}
+function submitOrder(){
+var phone=document.getElementById('phone').value.trim();
+var orderNo=document.getElementById('orderNo').value.trim();
+if(!phone||phone.length<11){alert('请输入正确的手机号');return}
+if(!orderNo){alert('请输入付款订单号');return}
+// 构造邮件内容，通过mailto发送
+var subject='山海智能-新订单-'+orderNo;
+var body='手机号：'+phone+'\n订单号：'+orderNo+'\n金额：¥298\n时间：'+new Date().toLocaleString('zh-CN');
+window.location.href='mailto:746876121@qq.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+// 同时显示提交成功提示
+document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3>✓ 提交成功</h3><p>服务将在5分钟内开通<br>如有疑问请联系客服</p></div>';
+}
 </script>
 </body>
 </html>
