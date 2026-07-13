@@ -89,17 +89,14 @@ if(!phone||phone.length<11){alert('请输入正确的手机号');return}
 if(!orderNo){alert('请输入付款订单号');return}
 document.getElementById('loading').style.display='block';
 document.getElementById('submitBtn').disabled=true;
-// 通过formsubmit.co直接发送，不依赖邮件客户端
-fetch('https://formsubmit.co/ajax/746876121@qq.com',{
+// 通过FC代理发送邮件
+fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{
 method:'POST',
-headers:{'Content-Type':'application/json','Accept':'application/json'},
+headers:{'Content-Type':'application/json'},
 body:JSON.stringify({
-_subject:'【唤通新订单】'+orderNo,
-手机号:phone,
-订单号:orderNo,
-金额:'¥298',
-时间:new Date().toLocaleString('zh-CN'),
-_template:'table'
+to:'746876121@qq.com',
+subject:'【唤通新订单】'+orderNo,
+body:'手机号:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 时间:'+new Date().toLocaleString('zh-CN')
 })
 }).then(function(r){return r.json()}).then(function(){
 document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3>✓ 提交成功</h3><p>服务将在5分钟内开通<br>如有疑问请联系客服</p></div>';
