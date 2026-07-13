@@ -96,10 +96,10 @@ body{
 <script>
 (function(){
 "use strict";
-var AI_ENDPOINT="https://open.bigmodel.cn/api/paas/v4/chat/completions";
+var AI_ENDPOINT="https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions";
 var AI_KEY="03daf1d1aef84c43bb36bc7d92678f0e.pZT5orK5lqkd4Vxt";
 var AI_MODEL="glm-4-flash";
-var HY3_ENDPOINT="https://api.hunyuan.cloud.tencent.com/v1/chat/completions";
+var HY3_ENDPOINT="https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions";
 var HY3_KEY="sk-58Bp4SAmUPFTVx9kMZjdoZFzgyi2vGTD2OOEodPcHLx2g6l1";
 var HY3_MODEL="hy3-preview";
 var USE_HY3=true;
@@ -162,16 +162,18 @@ async function callRealAI(userMsg){
   var auth=USE_HY3&&HY3_KEY?"Bearer "+HY3_KEY:"Bearer "+AI_KEY;
   
   try{
+    var timer=setTimeout(function(){throw new Error("timeout")},12000);
     var resp=await fetch(endpoint,{
       method:"POST",
       headers:{"Content-Type":"application/json","Authorization":auth},
       body:JSON.stringify({model:model,messages:messages,temperature:0.7,max_tokens:500,stream:false})
     });
-    var data=await resp.json();
+    var timer=setTimeout(function(){throw new Error("timeout")},12000);
+    clearTimeout(timer);var data=await resp.json();
     if(data.choices&&data.choices[0])return data.choices[0].message.content;
     throw new Error("No choices");
   }catch(e){
-    console.error("AI调用失败:",e);
+    clearTimeout(timer);console.error("AI调用失败:",e);
     if(USE_HY3&&HY3_KEY){USE_HY3=false;return callRealAI(userMsg)}
     return fallbackReply(userMsg);
   }
