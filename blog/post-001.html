@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3行代码集成智能客服</title>
+</head>
+<body>
+<h1>如何用3行代码集成智能客服到你的网站</h1>
+<p>2026-07-13</p>
+<h2>3行代码集成方案</h2>
+<pre><code>import requests
+resp = requests.post('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions', 
+                    json={'model': 'glm-4-flash', 'messages': [{'role': 'user', 'content': '你好'}]})
+print(resp.json()['choices'][0]['message']['content'])</code></pre>
+<h2>为什么选择山海AI接口？</h2>
+<ul>
+<li>7个大模型自动切换</li>
+<li>年费298元不限量</li>
+<li>3行代码集成</li>
+</ul>
+<p><a href="https://shanhai-geo.top/pay.html" style="background:#FFD700;padding:12px 24px;border-radius:8px;">立即开通 ¥298/年 →</a></p>
+<p><a href="index.html">返回博客</a> | <a href="https://shanhai-geo.top/chat.html">咨询客服</a></p>
+</body>
+</html>
