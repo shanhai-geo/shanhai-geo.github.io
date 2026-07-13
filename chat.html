@@ -270,10 +270,7 @@ addOpts([
   var mel=document.getElementById('messages');
   if(mel)obs.observe(mel,{childList:true,subtree:true});
   window.addEventListener('beforeunload',function(){
-    try{navigator.sendBeacon('https://formsubmit.co/ajax/746876121@qq.com',JSON.stringify({
-      _subject:'【唤通实时数据】'+new Date().toLocaleString('zh-CN'),
-      今日对话:st.c,购买信号:st.ps,行业:JSON.stringify(st.ind),阶段:JSON.stringify(st.stg),_template:'table'
-    }))}catch(e){}
+    try{fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【唤通实时数据】'+new Date().toLocaleString('zh-CN'),body:'今日对话:'+st.c+' 购买信号:'+st.ps+' 行业:'+JSON.stringify(st.ind)+' 阶段:'+JSON.stringify(st.stg)})})}catch(e){}
   });
 })();
 </script>
