@@ -1,1 +1,1 @@
-{"views": [{"page": "/test", "device": "test", "ref": "manual-test", "time": "2026-07-15T10:45:00Z"}], "conversions": [], "chats": [], "payments": []}
+{"views":[{"page":"/test","device":"test","ref":"manual-test","time":"2026-07-15T10:45:00Z"},{"page":"/","device":"desktop","ref":"direct","time":"2026-07-15T02:53:18.973Z"}],"conversions":[],"chats":[],"payments":[]}
