@@ -1,6 +1,1 @@
-{
-  "views": [],
-  "conversions": [],
-  "chats": [],
-  "payments": []
-}
+{"views": [{"page": "/test", "device": "test", "ref": "manual-test", "time": "2026-07-15T10:45:00Z"}], "conversions": [], "chats": [], "payments": []}
