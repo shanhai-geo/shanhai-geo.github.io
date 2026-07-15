@@ -83,10 +83,10 @@ if(!code){
   localStorage.setItem('ref_code',code);
 }
 document.getElementById('myCode').textContent=code;
-document.getElementById('myLink').textContent='https://shanhai-geo.top/pay.html?ref='+code;
+document.getElementById('myLink').textContent='https://shanhai-geo.surge.sh/pay.html?ref='+code;
 
 function copyLink(){
-  var link='https://shanhai-geo.top/pay.html?ref='+code;
+  var link='https://shanhai-geo.surge.sh/pay.html?ref='+code;
   if(navigator.clipboard){navigator.clipboard.writeText(link).then(function(){alert('推荐链接已复制')})}
   else{var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('推荐链接已复制')}
 }
@@ -115,7 +115,7 @@ if(urlRef){localStorage.setItem('referred_by',urlRef)}
 
 <!-- 山海智能客服入口 -->
 <div style="position:fixed;bottom:20px;right:20px;z-index:9999">
-<a href="https://shanhai-geo.top/chat.html" style="display:flex;align-items:center;gap:8px;background:-webkit-linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,0.4);transition:all 0.3s">
+<a href="https://shanhai-geo.surge.sh/chat.html" style="display:flex;align-items:center;gap:8px;background:-webkit-linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,0.4);transition:all 0.3s">
 <span style="font-size:20px">🏔</span> AI顾问 · 免费咨询
 </a>
 </div>
