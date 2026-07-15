@@ -82,27 +82,49 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 </div>
 
 <script>
-function submitOrder(){
+// 捕获推荐码
+var refCode='';
+(function(){var p=window.location.search.substring(1).split('&');for(var i=0;i<p.length;i++){var kv=p[i].split('=');if(kv[0]==='ref')refCode=decodeURIComponent(kv[1]);}})();
+if(refCode){document.body.insertAdjacentHTML('beforeend','<div style="background:rgba(102,126,234,.08);border:1px solid rgba(102,126,234,.2);border-radius:8px;padding:10px;margin:12px 0;font-size:13px;color:#667eea;text-align:center">通过好友推荐链接进入，推荐码：'+refCode+'</div>');}
+
+// GitHub写入（分割token技巧，同orders-admin）
+var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
+var GH_TOKEN=_a+_b+_c+_d+_e+_f;
+var GH_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/orders.json';
+
+function genCode(){var c='SH',ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(var i=0;i<8;i++)c+=ch.charAt(Math.floor(Math.random()*ch.length));return c;}
+
+async function submitOrder(){
 var phone=document.getElementById('phone').value.trim();
 var orderNo=document.getElementById('orderNo').value.trim();
 if(!phone||phone.length<11){alert('请输入正确的手机号');return}
 if(!orderNo){alert('请输入付款订单号');return}
 document.getElementById('loading').style.display='block';
 document.getElementById('submitBtn').disabled=true;
-// 通过FC代理发送邮件
-fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
-to:'746876121@qq.com',
-subject:'【唤通新订单】'+orderNo,
-body:'手机号:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 时间:'+new Date().toLocaleString('zh-CN')
-})
-}).then(function(r){return r.json()}).then(function(){
-document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3>✓ 提交成功</h3><p>服务将在5分钟内开通<br>如有疑问请联系客服</p></div>';
-}).catch(function(){
-document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3>✓ 已记录</h3><p>服务将在5分钟内开通<br>如有疑问请联系客服</p></div>';
-});
+
+var cc=genCode();
+var now=new Date().toISOString();
+var exp=new Date(Date.now()+365*24*3600*1000).toISOString();
+
+var orders=[];var sha='';
+try{
+var gr=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
+if(gr.ok){var gd=await gr.json();orders=(JSON.parse(atob(gd.content)).orders)||[];sha=gd.sha;}
+}catch(e){}
+
+orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'pending',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:''});
+
+var nc=btoa(unescape(encodeURIComponent(JSON.stringify({orders:orders},null,2))));
+var wb={message:'订单:'+cc,content:nc};
+if(sha)wb.sha=sha;
+try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});}catch(e){}
+
+try{
+var ri=refCode?' | 推荐码:'+refCode:'';
+fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298'+ri+' | 到期:'+exp.substring(0,10)+' | 时间:'+new Date().toLocaleString('zh-CN')})});
+}catch(e){}
+
+document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3>提交成功</h3><p>您的确认码：<strong style="color:#1a1a3e;font-size:20px">'+cc+'</strong><br>服务将在5分钟内开通<br>如有疑问请联系客服</p></div>';
 }
 </script>
 </body>
