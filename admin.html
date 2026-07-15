@@ -39,7 +39,7 @@ h1{font-size:24px;color:var(--gold);margin-bottom:8px}
 <body>
 <div class="container">
   <h1>📊 询盘汇总面板</h1>
-  <p class="subtitle">AI客服自动记录的询盘数据</p>
+  <p class="subtitle">智能顾问自动记录的询盘数据</p>
   
   <div style="display:flex;gap:10px;flex-wrap:wrap">
     <button class="refresh-btn" onclick="loadInquiries()">🔄 刷新数据</button>
@@ -86,7 +86,7 @@ function render(){
 
   // 列表
   if(!allInquiries.length){
-    document.getElementById('list').innerHTML = '<div class="empty"><div class="icon">💬</div><p>暂无询盘记录<br>等待客户通过AI客服咨询</p></div>';
+    document.getElementById('list').innerHTML = '<div class="empty"><div class="icon">💬</div><p>暂无询盘记录<br>等待客户通过智能顾问咨询</p></div>';
     return;
   }
 
