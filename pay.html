@@ -119,9 +119,8 @@ var gr=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'
 if(gr.ok){var gd=await gr.json();orders=(JSON.parse(atob(gd.content)).orders)||[];sha=gd.sha;}
 }catch(e){}
 
-// 自动生成API Key并即时交付
-var apiKey='sh-'+Math.random().toString(36).substring(2,8)+Math.random().toString(36).substring(2,18);
-orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'delivered',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:apiKey});
+
+orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'pending',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:''});
 
 var nc=btoa(unescape(encodeURIComponent(JSON.stringify({orders:orders},null,2))));
 var wb={message:'订单:'+cc,content:nc};
@@ -131,10 +130,10 @@ try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,
 try{
 var ri=refCode?' | 推荐码:'+refCode:'';
 // 通知主人：新订单+已自动交付
-fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·已交付】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | Key:'+apiKey+' | 到期:'+exp.substring(0,10)+' | 时间:'+new Date().toLocaleString('zh-CN')})});
+fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·待确认】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 状态:待确认收款 | 时间:'+new Date().toLocaleString('zh-CN')})});
 }catch(e){}
 
-document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3 style="color:#00c853">✅ 开通成功</h3><p>您的API Key：<br><code style="display:block;background:#1a1a3e;color:#ffd700;padding:14px;border-radius:10px;font-size:16px;margin:12px 0;word-break:break-all;user-select:all">'+apiKey+'</code></p><p style="font-size:13px;color:#888">确认码：<strong>'+cc+'</strong></p><p style="font-size:13px;color:#888">有效期至：'+exp.substring(0,10)+'</p><p style="font-size:12px;color:#666;margin-top:12px">请保存好您的Key，如有问题联系客服</p></div>';
+document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3 style="color:#ff9800">订单已提交</h3><p style="font-size:15px;color:#333;margin:12px 0">您的确认码：</p><p><code style="display:block;background:#1a1a3e;color:#ffd700;padding:14px;border-radius:10px;font-size:20px;margin:12px 0;word-break:break-all;user-select:all;font-weight:bold">'+cc+'</code></p><p style="font-size:14px;color:#666">我们核实收款后会立即为您开通服务</p><p style="font-size:13px;color:#999;margin-top:8px">通常在30分钟内完成，请保存好确认码</p><p style="font-size:12px;color:#999;margin-top:12px">如有疑问请联系客服</p></div>';
 }
 </script>
 <script>
