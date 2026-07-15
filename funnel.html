@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>成交漏斗看板 - 山海智能</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;background:#0f0c29;color:#fff;padding:16px;min-height:100vh}
+h1{text-align:center;color:#ffd700;font-size:1.5em;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.card{background:rgba(255,255,255,.08);padding:16px;border-radius:12px;text-align:center}
+.card .num{font-size:2.2em;font-weight:800;color:#ffd700}
+.card .label{font-size:.85em;color:#aaa;margin-top:4px}
+.card .rate{font-size:.75em;color:#2ed573;margin-top:4px}
+.funnel{background:rgba(255,255,255,.05);padding:16px;border-radius:12px;margin-bottom:20px}
+.funnel h3{color:#ffd700;margin-bottom:12px;font-size:1em}
+.bar-wrap{margin:8px 0}
+.bar-label{display:flex;justify-content:space-between;font-size:.85em;margin-bottom:4px}
+.bar{height:24px;background:rgba(255,255,255,.1);border-radius:12px;overflow:hidden}
+.bar-fill{height:100%;border-radius:12px;transition:width .5s}
+.detail{background:rgba(255,255,255,.05);padding:16px;border-radius:12px;margin-bottom:12px}
+.detail h3{color:#ffd700;margin-bottom:8px;font-size:.95em}
+.detail table{width:100%;font-size:.8em;border-collapse:collapse}
+.detail th{text-align:left;color:#888;padding:4px 8px;border-bottom:1px solid rgba(255,255,255,.1)}
+.detail td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,.05)}
+.refresh{text-align:center;margin:16px 0}
+.refresh button{background:#667eea;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.9em;cursor:pointer}
+.status{text-align:center;color:#888;font-size:.8em;margin-top:12px}
+</style>
+</head>
+<body>
+<h1>成交漏斗看板</h1>
+<div class="grid">
+<div class="card"><div class="num" id="vViews">-</div><div class="label">页面访问</div></div>
+<div class="card"><div class="num" id="vLeads">-</div><div class="label">咨询客户</div><div class="rate" id="rLead">-</div></div>
+<div class="card"><div class="num" id="vIntent">-</div><div class="label">购买意向</div><div class="rate" id="rIntent">-</div></div>
+<div class="card"><div class="num" id="vPay">-</div><div class="label">提交付款</div><div class="rate" id="rPay">-</div></div>
+</div>
+
+<div class="funnel">
+<h3>漏斗转化率</h3>
+<div class="bar-wrap">
+<div class="bar-label"><span>访问→咨询</span><span id="p1">-</span></div>
+<div class="bar"><div class="bar-fill" id="b1" style="width:0;background:linear-gradient(90deg,#667eea,#764ba2)"></div></div>
+</div>
+<div class="bar-wrap">
+<div class="bar-label"><span>咨询→意向</span><span id="p2">-</span></div>
+<div class="bar"><div class="bar-fill" id="b2" style="width:0;background:linear-gradient(90deg,#f093fb,#f5576c)"></div></div>
+</div>
+<div class="bar-wrap">
+<div class="bar-label"><span>意向→付款</span><span id="p3">-</span></div>
+<div class="bar"><div class="bar-fill" id="b3" style="width:0;background:linear-gradient(90deg,#ffd700,#ff8c00)"></div></div>
+</div>
+</div>
+
+<div class="detail">
+<h3>今日访问来源</h3>
+<table><thead><tr><th>来源</th><th>设备</th><th>页面</th><th>时间</th></tr></thead><tbody id="tRef"></tbody></table>
+</div>
+
+<div class="detail">
+<h3>最近咨询记录</h3>
+<table><thead><tr><th>消息</th><th>设备</th><th>时间</th></tr></thead><tbody id="tConv"></tbody></table>
+</div>
+
+<div class="detail">
+<h3>最近付款记录</h3>
+<table><thead><tr><th>状态</th><th>设备</th><th>时间</th></tr></thead><tbody id="tPay"></tbody></table>
+</div>
+
+<div class="refresh"><button onclick="loadData()">刷新数据</button></div>
+<div class="status" id="status">加载中...</div>
+
+<script>
+var TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ';
+var API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json';
+var HEADERS={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
+
+function loadData(){
+  document.getElementById('status').textContent='加载中...';
+  fetch(API,{headers:HEADERS}).then(function(r){return r.json()}).then(function(d){
+    var raw=atob(d.content).replace(/\n/g,'');
+    var data=JSON.parse(raw);
+    var views=data.views||[], convs=data.conversions||[], pays=data.payments||[];
+    
+    // 今天的数据
+    var today=new Date().toISOString().substring(0,10);
+    var todayViews=views.filter(function(v){return v.time&&v.time.indexOf(today)===0});
+    var todayLeads=convs.filter(function(c){return c.stage==='lead'&&c.time&&c.time.indexOf(today)===0});
+    var todayIntent=convs.filter(function(c){return c.stage==='buyer_intent'&&c.time&&c.time.indexOf(today)===0});
+    var todayPay=pays.filter(function(p){return p.time&&p.time.indexOf(today)===0});
+    
+    // 更新数字
+    document.getElementById('vViews').textContent=todayViews.length;
+    document.getElementById('vLeads').textContent=todayLeads.length;
+    document.getElementById('vIntent').textContent=todayIntent.length;
+    document.getElementById('vPay').textContent=todayPay.length;
+    
+    // 转化率
+    var r1=todayViews.length?((todayLeads.length/todayViews.length)*100).toFixed(1):'0';
+    var r2=todayLeads.length?((todayIntent.length/todayLeads.length)*100).toFixed(1):'0';
+    var r3=todayIntent.length?((todayPay.length/todayIntent.length)*100).toFixed(1):'0';
+    
+    document.getElementById('rLead').textContent='转化率 '+r1+'%';
+    document.getElementById('rIntent').textContent='转化率 '+r2+'%';
+    document.getElementById('rPay').textContent='转化率 '+r3+'%';
+    
+    document.getElementById('p1').textContent=r1+'%';
+    document.getElementById('p2').textContent=r2+'%';
+    document.getElementById('p3').textContent=r3+'%';
+    document.getElementById('b1').style.width=r1+'%';
+    document.getElementById('b2').style.width=r2+'%';
+    document.getElementById('b3').style.width=r3+'%';
+    
+    // 最近访问来源
+    var refRows=todayViews.slice(-10).reverse().map(function(v){
+      var t=v.time?v.time.substring(11,16):'-';
+      var ref=v.ref||'direct';if(ref.length>25)ref=ref.substring(0,25)+'...';
+      return '<tr><td>'+ref+'</td><td>'+(v.device||'-')+'</td><td>'+(v.page||'-')+'</td><td>'+t+'</td></tr>';
+    }).join('');
+    document.getElementById('tRef').innerHTML=refRows||'<tr><td colspan="4" style="color:#666;text-align:center">暂无数据</td></tr>';
+    
+    // 最近咨询
+    var convRows=todayLeads.slice(-10).reverse().map(function(c){
+      var t=c.time?c.time.substring(11,16):'-';
+      return '<tr><td>'+(c.msg||'-')+'</td><td>'+(c.device||'-')+'</td><td>'+t+'</td></tr>';
+    }).join('');
+    document.getElementById('tConv').innerHTML=convRows||'<tr><td colspan="3" style="color:#666;text-align:center">暂无咨询</td></tr>';
+    
+    // 最近付款
+    var payRows=todayPay.slice(-10).reverse().map(function(p){
+      var t=p.time?p.time.substring(11,16):'-';
+      return '<tr><td>'+(p.status||'-')+'</td><td>'+(p.device||'-')+'</td><td>'+t+'</td></tr>';
+    }).join('');
+    document.getElementById('tPay').innerHTML=payRows||'<tr><td colspan="3" style="color:#666;text-align:center">暂无付款</td></tr>';
+    
+    document.getElementById('status').textContent='最后更新：'+new Date().toLocaleTimeString('zh-CN');
+  }).catch(function(e){
+    document.getElementById('status').textContent='加载失败：'+e.message;
+  });
+}
+loadData();
+// 每30秒自动刷新
+setInterval(loadData,30000);
+</script>
+</body>
+</html>

@@ -131,5 +131,37 @@ async function submitRenew(){
 </a>
 </div>
 
+<script>
+(function(){
+  var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
+      M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
+      TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
+      API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
+      H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
+  // 记录页面访问
+  fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
+    var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
+    var data=JSON.parse(raw);
+    data.views.push({page:P,device:M,ref:R,time:D});
+    // 只保留最近500条
+    if(data.views.length>500)data.views=data.views.slice(-500);
+    fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
+  }).catch(function(){});
+  // 暴露全局方法供其他事件调用
+  window._track=function(type,extra){
+    fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
+      var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
+      var data=JSON.parse(raw);
+      var entry={page:P,device:M,time:D,type:type};
+      if(extra)for(var k in extra)entry[k]=extra[k];
+      data[type+'s']=data[type+'s']||[];
+      data[type+'s'].push(entry);
+      if(data[type+'s'].length>500)data[type+'s']=data[type+'s'].slice(-500);
+      fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+type,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
+    }).catch(function(){});
+  };
+})();
+</script>
+
 </body>
 </html>

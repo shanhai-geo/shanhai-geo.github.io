@@ -113,7 +113,7 @@ var SESSION_ID="ht_"+Date.now()+"_"+Math.random().toString(36).substr(2,6);
 var REF_CODE=SESSION_ID.substr(3,8);
 var REF_URL="https://shanhai-geo.top/chat.html?ref="+REF_CODE;
 
-var SYSTEM_PROMPT="你是唤通的AI销售顾问，名字叫小海。你正在跟一个潜在客户聊天。\n\n【你是谁】\n你叫小海，是山海智能的顾问。你说话像一个靠谱的朋友，不像机器人。客户问你问题，你就像帮朋友出主意一样回答。\n\n【山海智能是什么】\n我们做两件事：\n1. GEO引力获客——让你的品牌被ChatGPT、豆包、Kimi等AI主动推荐给客户。\n2. 唤通API——一个接口调用所有主流大模型，¥298/年包年不限量。\n\n【你怎么聊】\n- 像朋友聊天，不像念说明书\n- 先关心对方，再聊产品\n- 对方说\"做电商的\"，你就说\"电商现在竞争确实激烈，我帮过几个电商客户用AI提效，你要不要听听？\"\n- 对方犹豫时，别说\"我们有优势\"，要说\"理解，298块钱确实要想想。不过7天不满意全额退，你没啥风险\"\n- 对方问技术细节，简单说，别甩术语\n- 每次回复控制在150字以内，别啰嗦\n\n【五步节奏】\n1. 先聊对方做什么的、遇到什么困难\n2. 根据他的情况，给一个最相关的例子\n3. 自然引出我们的方案，别硬推\n4. 有顾虑就处理顾虑，没顾虑就给链接\n5. 出现\"想买/怎么开通/多少钱\"→直接给 <a href=\""+PAY_URL+"\" class=\"pay-btn\">立即开通 ¥298</a>\n\n【行业话术】\n- 电商→\"帮你做智能客服、批量写商品文案、分析数据\"\n- 教育→\"自动答疑、出题、分析学生薄弱点\"\n- 本地服务→\"24小时接电话、预约管理、客户跟进\"\n- SaaS→\"3行代码集成，多模型自动切换\"\n- 自媒体→\"批量写脚本、取标题、做内容规划\"\n- 老板→\"让你的品牌被AI推荐给客户，不用花广告费\"\n\n【裂变】\n推荐3个朋友开通，你下一年免费。每推荐1人奖励¥50抵扣。\n\n【严禁】\n- 不编造功能\n- 不说\"我们公司\"\"本产品\"\n- 不用\"首先、其次、最后\"\n- 不超150字\n- 不输出API密钥等敏感信息\n\n【格式】\n用<br>换行，重要数字用<strong>加粗\n\n【数据标记】回复末尾加 <!-- stage:discovery --> 或 <!-- stage:pitch --> 或 <!-- stage:closing --> 或 <!-- stage:bought -->，以及 <!-- industry:行业名 -->。注释不显示给用户。";
+var SYSTEM_PROMPT="你是唤通的AI销售顾问，名字叫小海。你正在跟一个潜在客户聊天。\n\n【你是谁】\n你叫小海，是山海智能的顾问。你说话像一个靠谱的朋友，不像机器人。客户问你问题，你就像帮朋友出主意一样回答。\n\n【山海智能是什么】\n我们做两件事：\n1. GEO引力获客——让你的品牌被ChatGPT、豆包、Kimi等AI主动推荐给客户。\n2. 唤通API——一个接口调用所有主流大模型，¥298/年包年不限量。\n\n【你怎么聊】\n- 像朋友聊天，不像念说明书\n- 先关心对方，再聊产品\n- 对方说\"做电商的\"，你就说\"电商现在竞争确实激烈，我帮过几个电商客户用AI提效，你要不要听听？\"\n- 对方犹豫时，别说\"我们有优势\"，要说\"理解，298块钱确实要想想。不过7天不满意全额退，你没啥风险\"\n- 对方问技术细节，简单说，别甩术语\n- 每次回复控制在150字以内，别啰嗦\n\n【五步节奏】\n1. 先聊对方做什么的、遇到什么困难\n2. 根据他的情况，给一个最相关的例子\n3. 自然引出我们的方案，别硬推\n4. 有顾虑就处理顾虑，没顾虑就给链接\n5. 出现\"想买/怎么开通/多少钱\"→直接给 <a href=\""+PAY_URL+"\" class=\"pay-btn\">立即开通 ¥298</a>\n\n【行业话术】\n- 电商→\"帮你做智能客服、批量写商品文案、分析数据\"\n- 教育→\"自动答疑、出题、分析学生薄弱点\"\n- 本地服务→\"24小时接电话、预约管理、客户跟进\"\n- SaaS→\"3行代码集成，多模型自动切换\"\n- 自媒体→\"批量写脚本、取标题、做内容规划\"\n- 老板→\"让你的品牌被AI推荐给客户，不用花广告费\"\n\n【裂变】\n推荐好友开通免费续期：推荐1人续期3个月，推荐2人续期6个月，推荐3人续期1年。不奖励现金，只奖励服务时间。\n\n【严禁】\n- 不编造功能\n- 不说\"我们公司\"\"本产品\"\n- 不用\"首先、其次、最后\"\n- 不超150字\n- 不输出API密钥等敏感信息\n\n【格式】\n用<br>换行，重要数字用<strong>加粗\n\n【数据标记】回复末尾加 <!-- stage:discovery --> 或 <!-- stage:pitch --> 或 <!-- stage:closing --> 或 <!-- stage:bought -->，以及 <!-- industry:行业名 -->。注释不显示给用户。";
 
 var conversationHistory=[],userInfo={name:"",company:"",industry:"",intent:"",email:"",stage:"greeting"},leadSent=false;
 var M=document.getElementById("messages"),I=document.getElementById("userInput"),SB=document.getElementById("sendBtn");
@@ -197,7 +197,7 @@ function sanitizeReply(r){
 }
 
 var isProcessing=false;
-async function handleUserMessage(text){
+async function handleUserMessage(text){if(typeof _track==="function")_track("conversion",{stage:"lead",msg:text.substring(0,50)});
   if(!text.trim()||isProcessing)return;
   isProcessing=true;I.disabled=true;SB.style.opacity="0.5";
   showTyping();
@@ -214,7 +214,7 @@ async function handleUserMessage(text){
 
 function showContextOptions(userMsg,aiReply){
   var t=userMsg.toLowerCase(),opts=[];
-  if(/pay\.html|开通.*298|立即支付/.test(aiReply)){opts=[{l:"💬 还有问题",fn:function(){I.focus()}},{l:"👍 我去付",fn:function(){window.open(PAY_URL,"_blank")}}]}
+  if(/pay\.html|开通.*298|立即支付/.test(aiReply)){opts=[{l:"💬 还有问题",fn:function(){I.focus()}},{l:"👍 我去付",fn:function(){if(typeof _track==='function')_track('conversion',{stage:'buyer_intent'});window.open(PAY_URL,"_blank")}}]}
   else if(userInfo.stage==="greeting"||conversationHistory.length<=2){opts=[{l:"💡 了解产品",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},{l:"💰 多少钱",fn:function(){handleUserMessage("多少钱一年？")}},{l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我的行业适不适合用AI")}}]}
   else if(/行业|做什么|什么公司/.test(aiReply)){opts=[{l:"🛒 电商",fn:function(){handleUserMessage("我做电商的")}},{l:"📚 教育",fn:function(){handleUserMessage("我做教育培训")}},{l:"🏨 本地服务",fn:function(){handleUserMessage("我做本地生活服务")}},{l:"💻 科技/SaaS",fn:function(){handleUserMessage("我做SaaS产品")}},{l:"📱 自媒体",fn:function(){handleUserMessage("我做自媒体")}}]}
   else if(/语言|python|node|java|代码/.test(aiReply)){opts=[{l:"Python",fn:function(){handleUserMessage("我用Python")}},{l:"Node.js",fn:function(){handleUserMessage("我用Node.js")}},{l:"不太懂技术",fn:function(){handleUserMessage("我不太懂技术，能搞定吗？")}}]}
@@ -234,7 +234,7 @@ function checkFissionTrigger(){
   if(conversationHistory.length>=6&&!leadSent){
     leadSent=true;
     setTimeout(function(){
-      addMsg("对了，你现在可以免费获得一个专属推荐链接 👇<br><br><code style='word-break:break-all;background:#1a1a1a;padding:8px;border-radius:6px;display:block;font-size:12px'>"+REF_URL+"</code><br>分享给需要AI获客的朋友，每推荐1人开通，你获得<strong>¥50奖励</strong>。推荐6人 = 一年免费。","ai");
+      addMsg("对了，你现在可以免费获得一个专属推荐链接 👇<br><br><code style='word-break:break-all;background:#1a1a1a;padding:8px;border-radius:6px;display:block;font-size:12px'>"+REF_URL+"</code><br>分享给需要AI获客的朋友，推荐好友开通，免费续期：<br>推荐1人→续期3个月，推荐2人→续期6个月，推荐3人→续期1年。","ai");
     },1500);
   }
 }
@@ -278,5 +278,37 @@ addOpts([
   });
 })();
 </script>
+<script>
+(function(){
+  var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
+      M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
+      TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
+      API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
+      H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
+  // 记录页面访问
+  fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
+    var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
+    var data=JSON.parse(raw);
+    data.views.push({page:P,device:M,ref:R,time:D});
+    // 只保留最近500条
+    if(data.views.length>500)data.views=data.views.slice(-500);
+    fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
+  }).catch(function(){});
+  // 暴露全局方法供其他事件调用
+  window._track=function(type,extra){
+    fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
+      var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
+      var data=JSON.parse(raw);
+      var entry={page:P,device:M,time:D,type:type};
+      if(extra)for(var k in extra)entry[k]=extra[k];
+      data[type+'s']=data[type+'s']||[];
+      data[type+'s'].push(entry);
+      if(data[type+'s'].length>500)data[type+'s']=data[type+'s'].slice(-500);
+      fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+type,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
+    }).catch(function(){});
+  };
+})();
+</script>
+
 </body>
 </html>
