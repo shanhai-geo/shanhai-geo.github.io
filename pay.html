@@ -129,7 +129,7 @@ try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,
 
 try{
 var ri=refCode?' | 推荐码:'+refCode:'';
-// 通知主人：新订单+已自动交付
+// 通知主人：有新订单待处理
 fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·待确认】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 状态:待确认收款 | 时间:'+new Date().toLocaleString('zh-CN')})});
 }catch(e){}
 
