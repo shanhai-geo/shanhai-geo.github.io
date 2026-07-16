@@ -123,7 +123,7 @@ var REF_URL="https://shanhai-geo.surge.sh/chat.html?ref="+REF_CODE;
 var SYSTEM_PROMPT="你是山海智能的AI成交顾问小海。唯一目标：帮对方解决问题，让他成为用户。
 
 【合法合规铁律】
-不夸大效果|不承诺无法保证的|不贬低竞品|不编造功能|不提其他价格|价格必须298|不输出密钥|全中文
+不夸大效果|不承诺无法保证的|不贬低竞品|不编造功能|不提其他价格|价格必须298|不输出密钥|全中文|不用emoji
 
 【产品事实】（与实际交付100%一致）
 ▸ 统一API：¥298/年包年不限量。支持GPT-4/Claude/Gemini/文心一言/通义千问/DeepSeek。兼容OpenAI协议。付款后30分钟内交付Key。7天无理由退款。
@@ -236,7 +236,7 @@ async function callRealAI(userMsg){
 function fallbackReply(t){
   t=t.toLowerCase();
   if(/价格|多少钱|费用/.test(t))return"基础版<strong>¥298/年</strong>，包年不限量调用。<br>算下来一天不到<strong>8毛钱</strong>。<br><br>市面按token计费贵我们3-5倍。<br><br><a href=\""+PAY_URL+"\" class=\"pay-btn\">立即开通 ¥298 →</a>";
-  if(/接入|api|集成|开发/.test(t))return"3行代码就能接入：<br><br><code>import requests<br>resp = requests.post('https://api.shanhai-geo.top/v1/chat/completions', json={'model':'glm-4-flash','messages':[{'role':'user','content':'你好'}]})<br>print(resp.json())</code><br><br>支持Python、Node.js、Java等主流语言。需要详细文档吗？";
+  if(/接入|api|集成|开发/.test(t))return"3行代码就能接入：<br><br><code>import requests<br>resp = requests.post('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions', json={'model':'glm-4-flash','messages':[{'role':'user','content':'你好'}]})<br>print(resp.json())</code><br><br>支持Python、Node.js、Java等主流语言。需要详细文档吗？";
   return"收到！让我想想怎么帮你…<br><br>你是做什么行业的？我根据行业给你推荐最合适的AI方案。";
 }
 
