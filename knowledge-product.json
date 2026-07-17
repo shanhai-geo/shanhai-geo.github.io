@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "product_id": "shanhai-api",
-    "updated": "2026-07-17",
+    "updated": "2026-07-17T13:15:00+08:00",
     "description": "山海智能·智能API接口服务 - 客服知识库"
   },
   "identity": {
@@ -12,9 +12,22 @@
     "positioning": "统一API接口服务，一个Key调用所有主流AI大模型"
   },
   "pricing": {
-    "main": {"amount": 298, "unit": "年", "desc": "包年不限量", "daily": "一天不到8毛"},
-    "geo": {"name": "GEO引力获客", "amount": 9800, "unit": "年", "desc": "让企业被AI搜索引擎主动推荐"},
-    "referral": {"rule": "推荐1人续3月，2人续6月，3人续1年", "free_threshold": 3}
+    "main": {
+      "amount": 298,
+      "unit": "年",
+      "desc": "包年不限量",
+      "daily": "一天不到8毛"
+    },
+    "geo": {
+      "name": "GEO引力获客",
+      "amount": 9800,
+      "unit": "年",
+      "desc": "让企业被AI搜索引擎主动推荐"
+    },
+    "referral": {
+      "rule": "推荐1人续3月，2人续6月，3人续1年",
+      "free_threshold": 3
+    }
   },
   "product_features": [
     "一个Key通调一切，不用分别注册分别充值",
@@ -24,21 +37,65 @@
     "秒级响应，平均<200ms",
     "包年不限量，无调用次数限制"
   ],
-  "engines": [
-    {"name": "通义千问", "models": "qwen-turbo/plus/max"},
-    {"name": "文心一言", "models": "ernie-4.0/3.5"},
-    {"name": "智谱GLM", "models": "glm-4/4-flash"},
-    {"name": "讯飞星火", "models": "spark-v3.5/v4"},
-    {"name": "DeepSeek", "models": "deepseek-chat"},
-    {"name": "Moonshot Kimi", "models": "moonshot-v1"},
-    {"name": "MiniMax", "models": "abab6.5"}
-  ],
+  "engines": {
+    "count": 9,
+    "list": [
+      {
+        "name": "通义千问qwen-plus",
+        "provider": "阿里云百炼",
+        "status": "在线"
+      },
+      {
+        "name": "豆包doubao-lite",
+        "provider": "火山引擎",
+        "status": "在线"
+      },
+      {
+        "name": "智谱GLM-4-Flash",
+        "provider": "智谱AI",
+        "status": "在线"
+      },
+      {
+        "name": "文心ERNIE-4.5",
+        "provider": "百度千帆",
+        "status": "在线"
+      },
+      {
+        "name": "通义千问qwen3.6-flash",
+        "provider": "阿里云百炼",
+        "status": "在线"
+      },
+      {
+        "name": "百川Baichuan4-Air",
+        "provider": "百川智能",
+        "status": "在线"
+      },
+      {
+        "name": "讯飞星火v3.5",
+        "provider": "科大讯飞",
+        "status": "在线"
+      },
+      {
+        "name": "DeepSeek V4 Flash",
+        "provider": "DeepSeek/百炼代理",
+        "status": "在线"
+      },
+      {
+        "name": "DeepSeek V4 Pro",
+        "provider": "DeepSeek/百炼代理",
+        "status": "在线"
+      }
+    ]
+  },
   "api": {
     "endpoint": "https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions",
     "auth_type": "Bearer Token",
     "header": "Authorization: Bearer 你的Key",
     "format": "OpenAI兼容协议",
-    "methods": ["非流式JSON", "SSE流式"],
+    "methods": [
+      "非流式JSON",
+      "SSE流式"
+    ],
     "delivery": "付款后30分钟内交付Key"
   },
   "tech_docs": {
@@ -73,11 +130,31 @@
   },
   "sop": {
     "customer_success": [
-      {"step": 1, "action": "确认Key", "script": "Key收到了吗？"},
-      {"step": 2, "action": "引导测试", "script": "复制这段curl命令测一下，把'你的Key'换成你的真实Key"},
-      {"step": 3, "action": "引导接入", "script": "你用什么语言对接？我帮你写完整代码"},
-      {"step": 4, "action": "确认跑通", "script": "跑通了告诉我一声，后面有问题随时找我"},
-      {"step": 5, "action": "介绍面板", "script": "打开客户面板可以查看你的Key、到期时间、推荐统计"}
+      {
+        "step": 1,
+        "action": "确认Key",
+        "script": "Key收到了吗？"
+      },
+      {
+        "step": 2,
+        "action": "引导测试",
+        "script": "复制这段curl命令测一下，把'你的Key'换成你的真实Key"
+      },
+      {
+        "step": 3,
+        "action": "引导接入",
+        "script": "你用什么语言对接？我帮你写完整代码"
+      },
+      {
+        "step": 4,
+        "action": "确认跑通",
+        "script": "跑通了告诉我一声，后面有问题随时找我"
+      },
+      {
+        "step": 5,
+        "action": "介绍面板",
+        "script": "打开客户面板可以查看你的Key、到期时间、推荐统计"
+      }
     ],
     "after_sales": {
       "续期": "你的服务到期时间可以在客户面板查看。到期前会提醒你续费，续费后Key不变继续用，数据不丢失。",
@@ -104,7 +181,20 @@
     "whitepaper": "https://shanhai-geo.github.io/geo-whitepaper.html"
   },
   "rules": {
-    "forbidden": ["不编造功能", "不输出密钥", "不用首先其次最后", "每条不超150字", "全中文", "不贬低竞品", "不提999/1999", "价格必须298", "不用emoji", "不说本公司本产品", "不出现退款", "不出现投诉"],
+    "forbidden": [
+      "不编造功能",
+      "不输出密钥",
+      "不用首先其次最后",
+      "每条不超150字",
+      "全中文",
+      "不贬低竞品",
+      "不提999/1999",
+      "价格必须298",
+      "不用emoji",
+      "不说本公司本产品",
+      "不出现退款",
+      "不出现投诉"
+    ],
     "format": "用<br>换行，数字用<strong>加粗，链接用<a href>",
     "tone": "短句子，像聊天不像念稿，用数字说话"
   }
