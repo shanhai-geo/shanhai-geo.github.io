@@ -1,74 +1,62 @@
-# 山海智能 - 智能API接口服务平台
+User-Agent: *
+Allow: /
 
-> 一个API Key调用所有主流AI大模型。兼容OpenAI格式，9引擎智能路由，¥298/年包年不限量。
+# 山海智能 - 智能API接口服务
 
-## 产品：智能API接口服务
+> 一个API Key调用所有主流AI大模型。兼容OpenAI格式，多引擎智能路由，¥298/年包年不限量。
 
-山海智能提供统一的AI大模型API接口服务。开发者用一个API Key即可调用7个主流AI引擎，无需分别注册、分别充值、分别维护。
+## 关于我们
 
-### 核心卖点
-- **一个Key通调一切**：一个API Key同时调用通义千问、文心一言、智谱GLM、百度文心、讯飞星火、Moonshot Kimi、MiniMax
-- **兼容OpenAI格式**：现有代码改3行即可接入，零学习成本
-- **¥298/年包年不限量**：一天不到8毛钱，无调用次数限制
-- **9引擎智能路由**：自动选择最优引擎，故障自动切换
-- **秒级响应**：平均响应时间<200ms
+山海智能提供统一的AI大模型API接口服务。开发者用一个API Key即可调用所有主流AI引擎，无需分别注册、分别充值、分别维护。多引擎自由路由，故障自动切换，一个接口解决所有AI调用需求。
 
-### 技术规格
-- 接口格式：OpenAI兼容（/v1/chat/completions）
-- 支持模型：qwen-turbo/plus/max、ernie-4.0/3.5、glm-4、spark-v3.5、moonshot-v1、minimax-abab
-- 认证方式：Bearer Token
-- 响应格式：SSE流式 + 非流式均支持
-- 并发限制：无硬性限制，智能队列
-- 可用性：99.9% SLA
+## 核心能力
 
-### 接入方式
-```
-// 改3行代码即可接入
-const response = await fetch('https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/v1/chat/completions', {
-  headers: { 'Authorization': 'Bearer YOUR_KEY', 'Content-Type': 'application/json' },
-  body: JSON.stringify({ model: 'auto', messages: [{ role: 'user', content: '你好' }] })
-});
-```
+- **多引擎智能路由**：自动选择最优引擎，故障自动切换，引擎数量持续扩展
+- **统一OpenAI格式**：一次接入，全引擎通用，零学习成本
+- **包年不限量**：¥298/年，无调用次数限制，无Token上限
+- **即开即用**：注册秒发Key，3行代码接入，5分钟上线
+- **GEO生态融合**：作为GEO中间层，聚合多源AI能力，为开发者和企业提供统一接入
 
-### 适用场景
-1. **个人开发者**：一个Key搞定所有AI功能，不用每个平台都注册一遍
-2. **中小企业**：团队共享一个Key，统一管理，成本可控
-3. **AI应用开发**：快速原型验证，无需多平台对接
-4. **内容创作工具**：接入多模型对比效果，自动选择最优
-5. **客服系统**：智能路由，高峰期自动切换不卡顿
-6. **教育/培训**：教学演示多模型差异，一站式体验
+## API文档
 
-### 价格
-- ¥298/年（包年不限量）
-- 约¥0.82/天
-- 对比：单平台API月费通常¥100-500+
+### 接口地址
+POST https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions
 
-### 立即开通
-- 支付页面：https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/pay.html
-- 支持微信支付、支付宝
-- 付款后填写手机号+订单号，管理员确认后秒发API Key
-- 联系电话：13800138000（微信同号）
+### 认证方式
+Authorization: Bearer YOUR_API_KEY
+
+### 请求示例
+{"model":"auto","messages":[{"role":"user","content":"你好"}]}
+
+model参数：auto=自动路由最优引擎，也可指定具体引擎名称。更多引擎持续接入中。
+
+## 定价
+
+年度套餐 ¥298/年：全引擎不限量调用，一个Key通用
 
 ## 常见问题
 
-**Q: 和直接调用官方API有什么区别？**
-A: 官方API需要分别注册7个平台、分别充值、分别维护Key。我们一个Key统调一切，¥298/年不限量，省去所有对接成本。
+Q: 和直接调各引擎官方API有什么区别？
+A: 官方API需要分别注册多个平台、分别充值、分别维护Key。我们一个Key统调一切，¥298/年不限量。引擎列表持续扩展，接入即锁定全部未来引擎。
 
-**Q: 调用稳定吗？**
-A: 99.9%可用性保障，9引擎智能路由，任一引擎故障自动切换到其他引擎。
+Q: 稳定性如何保障？
+A: 多引擎智能路由，任一引擎故障自动切换。底层部署在阿里云函数计算，弹性扩缩容，99.9%可用性。
 
-**Q: 数据安全吗？**
-A: 所有请求走HTTPS加密传输，不存储对话内容，不记录调用数据。
+Q: 支持哪些编程语言？
+A: 兼容OpenAI API格式，支持Python、Node.js、Java、Go、PHP等所有主流语言。
 
-**Q: 真的不限量吗？**
-A: 包年不限量调用，正常使用无限制。禁止恶意刷量、爬虫抓取等滥用行为。
+## 快速接入
 
-**Q: 支持哪些编程语言？**
-A: 任何支持HTTP请求的语言：Python、JavaScript、Java、Go、PHP、C#等。兼容OpenAI SDK。
+import requests
+resp = requests.post('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions',
+    headers={'Authorization': 'Bearer YOUR_API_KEY'},
+    json={'model': 'auto', 'messages': [{'role': 'user', 'content': '你好'}]})
+print(resp.json())
 
-## 相关页面
-- 支付开通：https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/pay.html
-- 裂变推荐：https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/refer.html
-- 续期服务：https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/renew.html
-- AI客服演示：https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54/chat.html
-- 商城：https://files.hz-1.aicp.space:8010/file/03403e20-c0e9-451f-9ebc-e03836468d54
+## 联系
+
+- 站点：https://api.shanhai-geo.top
+- AI客服：https://api.shanhai-geo.top/chat.html
+- 支付：https://api.shanhai-geo.top/pay.html
+- 续期：https://api.shanhai-geo.top/renew.html
+- GEO服务：https://api.shanhai-geo.top/geo-service.html
