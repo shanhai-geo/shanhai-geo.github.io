@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>购买 - 山海智能API接口服务</title>
-<meta name="description" content="山海智能API接口服务购买页，¥298/年，扫码支付即开通。">
-<meta name="robots" content="noindex">
-<link rel="preconnect" href="https://shanhai-geo.surge.sh">
-<meta property="og:title" content="购买 - 山海智能API接口服务">
-<meta property="og:description" content="¥298/年，扫码支付即开通，兼容OpenAI协议">
+<title>购买 - 山海智能API服务</title>
+<meta property="og:title" content="购买 - 山海智能API服务">
+<meta property="og:description" content="山海智能API接口服务，¥298/年包年不限量，多引擎智能路由统一接入主流大模型。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://shanhai-geo.surge.sh/pay.html">
+<meta property="og:url" content="https://shanhai-geo.surge.sh/pay/">
+<meta name="twitter:card" content="summary">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;min-height:100vh}
@@ -24,89 +23,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .price{font-size:42px;font-weight:800;color:#e63e3e}
 .price small{font-size:16px;color:#999;font-weight:400}
 .period{font-size:14px;color:#666;margin-top:4px}
-
-/* 倒计时 */
-.countdown-bar{background:linear-gradient(90deg,#e63e3e,#ff6b6b);color:#fff;text-align:center;padding:10px 16px;font-size:14px;font-weight:600;position:sticky;top:0;z-index:10}
-.countdown-bar span{display:inline-block;background:rgba(0,0,0,.2);padding:2px 6px;border-radius:4px;margin:0 2px;font-family:monospace;min-width:24px;text-align:center}
-
-/* 社会证明 */
-.social-bar{text-align:center;padding:8px 0;font-size:13px;color:#999}
-.social-bar strong{color:#1a1a3e;font-size:15px}
-
-.pay-steps{counter-reset:step}
-.pay-steps li{list-style:none;counter-increment:step;padding:10px 0 10px 36px;position:relative;font-size:14px;line-height:1.6;border-bottom:1px solid #f5f5f5}
-.pay-steps li::before{content:counter(step);position:absolute;left:0;top:10px;width:24px;height:24px;background:#1a1a3e;color:#fff;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700}
-.pay-steps li:last-child{border-bottom:none}
-
 input[type="text"],input[type="tel"]{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-top:8px;outline:none;transition:border .3s}
 input:focus{border-color:#1a1a3e}
 label{font-size:14px;color:#666;display:block;margin-top:12px}
 .btn{display:block;width:100%;padding:14px;border:none;border-radius:8px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;margin-top:16px;text-align:center;text-decoration:none}
 .btn-primary{background:linear-gradient(135deg,#1a1a3e,#4a4a8e)}
 .btn-primary:hover{opacity:.9}
-.btn-wechat{background:#07c160}
-.btn-alipay{background:#1677ff}
 .tip{font-size:12px;color:#999;text-align:center;margin-top:12px;line-height:1.6}
-.guarantee{background:#f0f9ff;border-radius:8px;padding:12px;text-align:center;font-size:13px;color:#0066cc;margin-top:12px}
-.success-msg{display:none;text-align:center;padding:20px}
-.success-msg h3{color:#07c160;font-size:18px;margin-bottom:8px}
-.success-msg p{color:#666;font-size:14px}
-.loading{display:none;text-align:center;padding:10px;color:#666}
-
-/* QR Code */
 .qr-section{text-align:center;padding:10px 0}
 .qr-tabs{display:flex;gap:8px;margin-bottom:16px}
 .qr-tab{flex:1;padding:12px;border:2px solid #eee;border-radius:10px;text-align:center;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s}
 .qr-tab.active-wx{border-color:#07c160;background:rgba(7,193,96,.06);color:#07c160}
 .qr-tab.active-ali{border-color:#1677ff;background:rgba(22,119,255,.06);color:#1677ff}
-.qr-img-wrap{background:#fafafa;border-radius:12px;padding:20px;margin:0 auto;max-width:280px;position:relative}
-.qr-img-wrap canvas{border-radius:8px;display:block;margin:0 auto}
-.qr-img-wrap img{width:220px;height:220px;border-radius:8px;display:block;margin:0 auto}
+.qr-img-wrap{background:#fafafa;border-radius:12px;padding:20px;margin:0 auto;max-width:280px;display:flex;justify-content:center;align-items:center}
+.qr-img-wrap canvas,.qr-img-wrap img{border-radius:8px}
 .qr-tip{font-size:13px;color:#666;margin-top:12px;line-height:1.6}
 .qr-tip strong{color:#e63e3e}
-
-/* 3步流程说明 */
-.flow-steps{display:flex;justify-content:space-between;margin:12px 0;text-align:center}
-.flow-step{flex:1;padding:8px 4px}
-.flow-step .num{display:inline-block;width:28px;height:28px;background:#1a1a3e;color:#fff;border-radius:50%;line-height:28px;font-size:13px;font-weight:700;margin-bottom:4px}
-.flow-step .txt{font-size:12px;color:#666;display:block}
-
-/* 底部FAQ */
-.faq-section{margin-top:8px}
-.faq-item{padding:12px 0;border-bottom:1px solid #f0f0f0}
-.faq-item:last-child{border-bottom:none}
-.faq-item summary{font-size:14px;color:#333;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
-.faq-item summary::after{content:'+';font-size:18px;color:#999}
-.faq-item[open] summary::after{content:'−'}
-.faq-item .faq-answer{font-size:13px;color:#666;line-height:1.8;padding-top:8px}
-
-/* 保障说明 */
-.guarantee-box{background:linear-gradient(135deg,#f0f9ff,#e8f4ff);border-radius:12px;padding:16px;margin:12px 0}
-.guarantee-box h3{font-size:14px;color:#0066cc;margin-bottom:8px;text-align:center}
-.guarantee-list{list-style:none;font-size:13px;color:#333;line-height:2}
-.guarantee-list li::before{content:'✓ ';color:#07c160;font-weight:700}
+.qr-scan-label{display:flex;justify-content:center;gap:20px;margin-top:12px;font-size:13px;color:#666}
+.qr-scan-label span{display:flex;align-items:center;gap:4px}
+.qr-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.qr-dot.wx{background:#07c160}
+.qr-dot.ali{background:#1677ff}
+.success-msg{display:none;text-align:center;padding:20px}
+.success-msg h3{color:#07c160;font-size:18px;margin-bottom:8px}
+.success-msg p{color:#666;font-size:14px}
+.loading{display:none;text-align:center;padding:10px;color:#666}
 </style>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Product","name":"智能API接口服务","description":"一个Key调用所有主流大模型，兼容OpenAI协议","brand":{"@type":"Brand","name":"山海智能"},"offers":{"@type":"Offer","price":"298","priceCurrency":"CNY","availability":"https://schema.org/InStock"}}
-</script>
 </head>
 <body>
-
-<!-- 限时倒计时 -->
-<div class="countdown-bar" id="countdownBar">
-🔥 限时优惠倒计时 <span id="cdH">00</span>:<span id="cdM">00</span>:<span id="cdS">00</span> 即将恢复原价
-</div>
-
 <div class="header">
-<h1>山海智能 API接口服务</h1>
+<h1>山海智能 API服务</h1>
 <p>多引擎智能路由 · 主流大模型统一接入</p>
 </div>
 <div class="container">
-
-<div class="social-bar">
-<p>已有 <strong id="payUserCount">2,800</strong>+ 企业在使用</p>
-</div>
-
 <div class="card">
 <h2>服务套餐</h2>
 <div class="price-box">
@@ -114,49 +63,29 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 <div class="period">智能API接口服务 · 365天</div>
 </div>
 <ul style="font-size:13px;color:#666;line-height:2">
-<li>✓ 一个Key调用所有主流大模型</li>
+<li>✓ 一个Key调用主流大模型</li>
 <li>✓ 兼容OpenAI协议，即接即用</li>
 <li>✓ 7×24小时稳定服务</li>
-<li>✓ 多引擎智能路由，自动择优</li>
 </ul>
 </div>
 
 <div class="card" id="paySection">
 <h2>第一步：扫码支付</h2>
-
-<div class="flow-steps">
-<div class="flow-step"><span class="num">1</span><span class="txt">扫码支付</span></div>
-<div class="flow-step"><span class="num">2</span><span class="txt">填写信息</span></div>
-<div class="flow-step"><span class="num">3</span><span class="txt">开通服务</span></div>
-</div>
-
 <p style="font-size:14px;color:#666;margin-bottom:12px">请选择支付方式，扫码完成付款 <strong style="color:#e63e3e">¥298</strong></p>
-
 <div class="qr-section">
   <div class="qr-tabs">
     <div class="qr-tab active-wx" id="tabWx" onclick="switchQR('wx')">微信支付</div>
     <div class="qr-tab" id="tabAli" onclick="switchQR('ali')">支付宝</div>
   </div>
-  <div class="qr-img-wrap" id="qrImgWrap">
-    <!-- QR码将通过JS本地生成或加载 -->
-    <div id="qrLoading" style="padding:40px;color:#999;font-size:13px">二维码加载中...</div>
-  </div>
+  <div class="qr-img-wrap" id="qrContainer"></div>
   <div class="qr-tip">
     <p>打开手机 <strong id="scanAppName">微信</strong> → 扫一扫 → 扫描上方二维码</p>
     <p style="margin-top:6px;font-size:12px;color:#999">付款完成后回到本页填写信息</p>
   </div>
-</div>
-</div>
-
-<div class="card">
-<div class="guarantee-box">
-<h3>🛡️ 支付保障</h3>
-<ul class="guarantee-list">
-<li>正规支付通道，资金安全保障</li>
-<li>支付成功后即时处理</li>
-<li>核实收款后快速开通</li>
-<li>遇到问题可联系客服处理</li>
-</ul>
+  <div class="qr-scan-label">
+    <span><span class="qr-dot wx"></span> 微信支付</span>
+    <span><span class="qr-dot ali"></span> 支付宝</span>
+  </div>
 </div>
 </div>
 
@@ -173,142 +102,66 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 
 <div class="tip">
 支付遇到问题？请联系客服<br>
-<a href="help.html" style="color:#667eea">📖 查看帮助中心</a>
 </div>
-
-<!-- 底部FAQ -->
-<div class="card faq-section">
-<h2>常见问题</h2>
-<details class="faq-item">
-<summary>扫码后显示什么？</summary>
-<div class="faq-answer">扫码后会跳转到支付页面，确认金额¥298后完成支付。支付成功后会显示交易单号。</div>
-</details>
-<details class="faq-item">
-<summary>付款后多久能开通？</summary>
-<div class="faq-answer">提交信息后，我们核实收款后会在30分钟内为您开通服务，通常更快。</div>
-</details>
-<details class="faq-item">
-<summary>订单号在哪里找？</summary>
-<div class="faq-answer">支付成功后，支付平台会显示交易单号/订单号，复制粘贴到上方输入框即可。</div>
-</details>
-<details class="faq-item">
-<summary>支持哪些模型？</summary>
-<div class="faq-answer">支持GPT-4、Claude、文心一言、通义千问、智谱GLM、Kimi、DeepSeek等主流大模型，持续接入更多模型。</div>
-</details>
-<details class="faq-item">
-<summary>可以开发票吗？</summary>
-<div class="faq-answer">可以，开通后联系客服提供开票信息即可。</div>
-</details>
-</div>
-
 </div>
 
 <script>
-// ===== 本地QR码生成（qrcode.js作为主力，qrserver.com作为备用） =====
-var PAY_URL='https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
-var qrGenerated=false;
+// 乐刷支付链接
+var payUrl = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
 
-// 内联QR码生成器（精简版，无外部依赖）
-var QRCodeGen=(function(){
-function QRGen(){this.moduleCount=0;this.modules=null}
-var E={L:1,M:0,Q:3,H:2};
-// 简化版QR码生成 - 使用canvas绘制
-QRGen.prototype={};
-
-// 使用轻量级QR码生成
-function generateQR(text,canvas,size){
-var s=size||220;
-canvas.width=s;canvas.height=s;
-var ctx=canvas.getContext('2d');
-
-// 尝试加载qrcode库
-if(typeof QRCode !== 'undefined'){
-try{
-var qr=new QRCode({typeNumber:0,errorCorrectLevel:'M'});
-qr.addData(text);qr.make();
-var count=qr.getModuleCount();
-var cellSize=Math.floor(s/count);
-var margin=Math.floor((s-cellSize*count)/2);
-ctx.fillStyle='#ffffff';ctx.fillRect(0,0,s,s);
-ctx.fillStyle='#000000';
-for(var r=0;r<count;r++){
-for(var c=0;c<count;c++){
-if(qr.isDark(r,c)){
-ctx.fillRect(margin+c*cellSize,margin+r*cellSize,cellSize,cellSize);
-}}}
-return true;
-}catch(e){return false}
-}
-return false;
-}
-return{generate:generateQR};
-})();
-
-function loadScript(src){
-return new Promise(function(resolve,reject){
-var s=document.createElement('script');
-s.src=src;s.onload=resolve;s.onerror=reject;
-document.head.appendChild(s);
-});
+// 纯前端生成二维码
+function generateQR(text, container) {
+  container.innerHTML = '';
+  try {
+    new QRCode(container, {
+      text: text,
+      width: 220,
+      height: 220,
+      colorDark: '#1a1a3e',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch(e) {
+    // 降级：使用 canvas 手动绘制提示
+    container.innerHTML = '<div style="width:220px;height:220px;background:#fafafa;display:flex;align-items:center;justify-content:center;border:2px dashed #ddd;border-radius:8px;text-align:center;padding:20px"><p style="color:#999;font-size:13px">二维码加载中...<br>如长时间未显示请刷新页面</p></div>';
+  }
 }
 
-async function renderQR(){
-var wrap=document.getElementById('qrImgWrap');
-var loading=document.getElementById('qrLoading');
-
-// 方案1: 尝试加载qrcode库本地生成
-try{
-await loadScript('https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js');
-var canvas=document.createElement('canvas');
-canvas.style.width='220px';canvas.style.height='220px';
-if(QRCodeGen.generate(PAY_URL,canvas,440)){
-wrap.innerHTML='';wrap.appendChild(canvas);
-loading.style.display='none';
-qrGenerated=true;
-return;
-}
-}catch(e){}
-
-// 方案2: 使用qrserver.com
-try{
-var img=document.createElement('img');
-img.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data='+encodeURIComponent(PAY_URL)+'&margin=10';
-img.alt='支付二维码';img.style.width='220px';img.style.height='220px';img.style.borderRadius='8px';
-img.onload=function(){loading.style.display='none';wrap.innerHTML='';wrap.appendChild(img)};
-img.onerror=function(){renderFallbackQR()};
-}catch(e){renderFallbackQR()}
+// 初始化二维码
+function initQR() {
+  var container = document.getElementById('qrContainer');
+  generateQR(payUrl, container);
 }
 
-function renderFallbackQR(){
-// 方案3: 极简fallback - 使用其他QR服务
-var wrap=document.getElementById('qrImgWrap');
-wrap.innerHTML='<img src="https://chart.googleapis.com/chart?cht=qr&chs=220x220&chl='+encodeURIComponent(PAY_URL)+'" alt="支付二维码" style="width:220px;height:220px;border-radius:8px;display:block;margin:0 auto" onerror="this.parentElement.innerHTML=\'<div style=padding:20px;color:#e63e3e;font-size:14px>二维码加载失败，请刷新页面重试</div>\'">';
-document.getElementById('qrLoading').style.display='none';
+// 切换支付方式（乐刷二维码同时支持微信和支付宝）
+function switchQR(type) {
+  var tabWx = document.getElementById('tabWx');
+  var tabAli = document.getElementById('tabAli');
+  var appName = document.getElementById('scanAppName');
+  var container = document.getElementById('qrContainer');
+
+  if (type === 'wx') {
+    tabWx.className = 'qr-tab active-wx';
+    tabAli.className = 'qr-tab';
+    appName.textContent = '微信';
+  } else {
+    tabWx.className = 'qr-tab';
+    tabAli.className = 'qr-tab active-ali';
+    appName.textContent = '支付宝';
+  }
+  // 重新生成二维码确保显示正常
+  generateQR(payUrl, container);
 }
 
-// 初始化QR码
-renderQR();
+// 页面加载完成后初始化
+window.addEventListener('DOMContentLoaded', initQR);
 
-// QR切换
-function switchQR(type){
-var tabWx=document.getElementById('tabWx');
-var tabAli=document.getElementById('tabAli');
-var appName=document.getElementById('scanAppName');
-if(type==='wx'){
-tabWx.className='qr-tab active-wx';tabAli.className='qr-tab';appName.textContent='微信';
-}else{
-tabWx.className='qr-tab';tabAli.className='qr-tab active-ali';appName.textContent='支付宝';
-}
-// 微信和支付宝使用同一个支付链接
-renderQR();
-}
-
-// 推荐码
+// 捕获推荐码
 var refCode='';
 (function(){var p=window.location.search.substring(1).split('&');for(var i=0;i<p.length;i++){var kv=p[i].split('=');if(kv[0]==='ref')refCode=decodeURIComponent(kv[1]);}})();
-if(refCode){document.body.insertAdjacentHTML('beforeend','<div style="background:rgba(102,126,234,.08);border:1px solid rgba(102,126,234,.2);border-radius:8px;padding:10px;margin:12px auto;max-width:420px;font-size:13px;color:#667eea;text-align:center">通过好友推荐链接进入，推荐码：'+refCode+'</div>');}
+if(refCode){document.body.insertAdjacentHTML('beforeend','<div style="background:rgba(102,126,234,.08);border:1px solid rgba(102,126,234,.2);border-radius:8px;padding:10px;margin:12px 0;font-size:13px;color:#667eea;text-align:center">通过好友推荐链接进入，推荐码：'+refCode+'</div>');}
 
-// GitHub配置
+// GitHub写入
 var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
 var GH_TOKEN=_a+_b+_c+_d+_e+_f;
 var GH_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/orders.json';
@@ -316,82 +169,64 @@ var GH_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/conte
 function genCode(){var c='SH',ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(var i=0;i<8;i++)c+=ch.charAt(Math.floor(Math.random()*ch.length));return c;}
 
 async function submitOrder(){
-var phone=document.getElementById('phone').value.trim();
-var orderNo=document.getElementById('orderNo').value.trim();
-if(!phone||phone.length<11){alert('请输入正确的手机号');return}
-if(!orderNo){alert('请输入付款订单号');return}
-document.getElementById('loading').style.display='block';
-document.getElementById('submitBtn').disabled=true;
+  if(typeof _track==='function')_track('payment',{status:'submitted'});
+  var phone=document.getElementById('phone').value.trim();
+  var orderNo=document.getElementById('orderNo').value.trim();
+  if(!phone||phone.length<11){alert('请输入正确的手机号');return}
+  if(!orderNo){alert('请输入付款订单号');return}
+  document.getElementById('loading').style.display='block';
+  document.getElementById('submitBtn').disabled=true;
 
-var cc=genCode();
-var now=new Date().toISOString();
-var exp=new Date(Date.now()+365*24*3600*1000).toISOString();
+  var cc=genCode();
+  var now=new Date().toISOString();
+  var exp=new Date(Date.now()+365*24*3600*1000).toISOString();
 
-var orders=[];var sha='';
-try{
-var gr=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
-if(gr.ok){var gd=await gr.json();orders=(JSON.parse(atob(gd.content)).orders)||[];sha=gd.sha;}
-}catch(e){}
+  var orders=[];var sha='';
+  try{
+    var gr=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
+    if(gr.ok){var gd=await gr.json();orders=(JSON.parse(atob(gd.content)).orders)||[];sha=gd.sha;}
+  }catch(e){}
 
-orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'pending',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:''});
+  orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'pending',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:''});
 
-var nc=btoa(unescape(encodeURIComponent(JSON.stringify({orders:orders},null,2))));
-var wb={message:'订单:'+cc,content:nc};
-if(sha)wb.sha=sha;
-try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});}catch(e){}
+  var nc=btoa(unescape(encodeURIComponent(JSON.stringify({orders:orders},null,2))));
+  var wb={message:'订单:'+cc,content:nc};
+  if(sha)wb.sha=sha;
+  try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});}catch(e){}
 
-// 同时创建GitHub Issue通知
-try{
-var issueBody='## 新订单待确认\n\n- **确认码**: '+cc+'\n- **手机号**: '+phone+'\n- **订单号**: '+orderNo+'\n- **金额**: ¥298\n- **推荐码**: '+(refCode||'无')+'\n- **提交时间**: '+new Date().toLocaleString('zh-CN')+'\n\n---\n请在确认收款后将状态更新为已开通。';
-fetch('https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/issues',{
-method:'POST',
-headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
-body:JSON.stringify({title:'【新订单】'+cc+' | '+phone,title:'【新订单】'+cc+' | 手机:'+phone,body:issueBody,labels:['订单','待确认']})
-});
-}catch(e){}
+  try{
+    fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·待确认】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 状态:待确认收款 | 时间:'+new Date().toLocaleString('zh-CN')})});
+  }catch(e){}
 
-// 邮件通知
-try{
-fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·待确认】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 状态:待确认收款 | 时间:'+new Date().toLocaleString('zh-CN')})});
-}catch(e){}
-
-document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3 style="color:#ff9800">订单已提交</h3><p style="font-size:15px;color:#333;margin:12px 0">您的确认码：</p><p><code style="display:block;background:#1a1a3e;color:#ffd700;padding:14px;border-radius:10px;font-size:20px;margin:12px 0;word-break:break-all;user-select:all;font-weight:bold">'+cc+'</code></p><p style="font-size:14px;color:#666">我们核实收款后会立即为您开通服务</p><p style="font-size:13px;color:#999;margin-top:8px">通常在30分钟内完成，请保存好确认码</p><p style="font-size:12px;color:#999;margin-top:12px">如有疑问请联系客服</p></div>';
+  document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3 style="color:#ff9800">订单已提交</h3><p style="font-size:15px;color:#333;margin:12px 0">您的确认码：</p><p><code style="display:block;background:#1a1a3e;color:#ffd700;padding:14px;border-radius:10px;font-size:20px;margin:12px 0;word-break:break-all;user-select:all;font-weight:bold">'+cc+'</code></p><p style="font-size:14px;color:#666">我们核实收款后会立即为您开通服务</p><p style="font-size:13px;color:#999;margin-top:8px">通常在30分钟内完成，请保存好确认码</p><p style="font-size:12px;color:#999;margin-top:12px">如有疑问请联系客服</p></div>';
 }
-
-// 倒计时（24小时滚动）
+</script>
+<script>
 (function(){
-var end=new Date();end.setHours(23,59,59,999);
-function update(){
-var now=new Date();var diff=end-now;
-if(diff<=0){end=new Date();end.setDate(end.getDate()+1);end.setHours(23,59,59,999);diff=end-now;}
-var h=Math.floor(diff/3600000);var m=Math.floor((diff%3600000)/60000);var s=Math.floor((diff%60000)/1000);
-document.getElementById('cdH').textContent=h.toString().padStart(2,'0');
-document.getElementById('cdM').textContent=m.toString().padStart(2,'0');
-document.getElementById('cdS').textContent=s.toString().padStart(2,'0');
-}
-update();setInterval(update,1000);
-})();
-
-// 社会证明数字
-(function(){
-var base=2800;var daysSince=Math.floor((Date.now()-new Date('2026-01-01').getTime())/86400000);
-document.getElementById('payUserCount').textContent=(base+daysSince*3).toLocaleString();
-})();
-
-// 基础统计
-(function(){
-var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
-    M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
-    TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
-    API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
-    H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
-fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-var data=JSON.parse(raw);
-data.views.push({page:P,device:M,ref:R,time:D});
-if(data.views.length>500)data.views=data.views.slice(-500);
-fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-}).catch(function(){});
+  var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
+      M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
+      TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
+      API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
+      H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
+  fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
+    var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
+    var data=JSON.parse(raw);
+    data.views.push({page:P,device:M,ref:R,time:D});
+    if(data.views.length>500)data.views=data.views.slice(-500);
+    fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
+  }).catch(function(){});
+  window._track=function(type,extra){
+    fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
+      var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
+      var data=JSON.parse(raw);
+      var entry={page:P,device:M,time:D,type:type};
+      if(extra)for(var k in extra)entry[k]=extra[k];
+      data[type+'s']=data[type+'s']||[];
+      data[type+'s'].push(entry);
+      if(data[type+'s'].length>500)data[type+'s']=data[type+'s'].slice(-500);
+      fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+type,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
+    }).catch(function(){});
+  };
 })();
 </script>
 </body>
