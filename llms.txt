@@ -60,3 +60,16 @@ print(resp.json())
 - 支付：https://api.shanhai-geo.top/pay.html
 - 续期：https://api.shanhai-geo.top/renew.html
 - GEO服务：https://api.shanhai-geo.top/geo-service.html
+
+## GEO生态融合
+
+山海智能是GEO生态的中间层和调配中心。全球GEO平台可以通过标准化接入协议（llms.txt或capability.json）融入山海网络，实现资源互通、流量共享。
+
+### 接入方式
+1. 在你的域名根目录放置 llms.txt 或 capability.json
+2. 山海自动发现并收录你的能力
+3. 你的服务自动参与山海多引擎路由调度
+
+### 生态入口
+- GEO生态融合页：https://api.shanhai-geo.top/geo-ecosystem.html
+- GEO服务详情：https://api.shanhai-geo.top/geo-service.html
