@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>GEO生态融合 - 山海智能</title>
-<meta name="description" content="山海智能GEO生态融合计划，聚合全球GEO平台资源，共建智能AI服务生态。加入即可获得全域流量分发。">
-<meta name="keywords" content="GEO,生成式引擎优化,生态融合,AI服务,GEO联盟">
+<meta name="description" content="山海智能GEO生态融合计划，聚合全球GEO平台资源，共建智能AI服务生态。OpenRouter、Together AI、Replicate、Cohere等平台已接入。">
+<meta name="keywords" content="GEO,生成式引擎优化,生态融合,AI服务,GEO联盟,OpenRouter,Together AI">
+<meta property="og:title" content="GEO生态融合 - 山海智能">
+<meta property="og:description" content="全球GEO平台的资源调配中心。6大平台已接入，能力持续融合中。">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0a0a0f;color:#e8e8f0;line-height:1.6}
@@ -24,6 +26,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .step-num{width:32px;height:32px;background:linear-gradient(135deg,#60a5fa,#a78bfa);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
 .step-content h4{margin-bottom:.3rem}
 .step-content p{color:#a0a0b0;font-size:.95rem}
+.partner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin:2rem 0}
+.partner{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden}
+.partner::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.partner.p1::before{background:linear-gradient(90deg,#60a5fa,#34d399)}
+.partner.p2::before{background:linear-gradient(90deg,#f472b6,#a78bfa)}
+.partner.p3::before{background:linear-gradient(90deg,#fbbf24,#f97316)}
+.partner.p4::before{background:linear-gradient(90deg,#34d399,#06b6d4)}
+.partner.p5::before{background:linear-gradient(90deg,#a78bfa,#ec4899)}
+.partner.p6::before{background:linear-gradient(90deg,#60a5fa,#a78bfa)}
+.partner h3{font-size:1.05rem;margin-bottom:.3rem;color:#e8e8f0}
+.partner .tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:4px;margin-bottom:.5rem}
+.tag-route{background:rgba(96,165,250,.15);color:#60a5fa}
+.tag-compute{background:rgba(251,191,36,.15);color:#fbbf24}
+.tag-multimodal{background:rgba(244,114,182,.15);color:#f472b6}
+.tag-enterprise{background:rgba(52,211,153,.15);color:#34d399}
+.tag-geo{background:rgba(167,139,250,.15);color:#a78bfa}
+.tag-core{background:rgba(96,165,250,.2);color:#60a5fa}
+.partner p{color:#a0a0b0;font-size:.9rem}
+.partner .domain{font-size:.8rem;color:#666;margin-top:.5rem}
+.pending{background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);border-radius:12px;padding:1.5rem;margin-top:1rem}
+.pending h4{color:#888;margin-bottom:.5rem;font-size:.95rem}
+.pending p{color:#666;font-size:.85rem}
 .join-box{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:16px;padding:2rem;margin:2rem 0;text-align:center}
 .join-box h3{font-size:1.4rem;margin-bottom:1rem;color:#60a5fa}
 code{background:rgba(255,255,255,.08);padding:2px 8px;border-radius:4px;font-size:.9rem;color:#a78bfa}
@@ -35,7 +59,14 @@ footer{text-align:center;padding:2rem;color:#666;font-size:.85rem;border-top:1px
   "@type": "Organization",
   "name": "山海智能GEO生态",
   "description": "GEO生态融合平台，聚合全球GEO资源，为AI服务提供统一接入",
-  "url": "https://api.shanhai-geo.top/geo-ecosystem.html"
+  "url": "https://api.shanhai-geo.top/geo-ecosystem.html",
+  "member": [
+    {"@type":"Organization","name":"OpenRouter","url":"https://openrouter.ai"},
+    {"@type":"Organization","name":"Together AI","url":"https://together.ai"},
+    {"@type":"Organization","name":"Replicate","url":"https://replicate.com"},
+    {"@type":"Organization","name":"Cohere","url":"https://cohere.com"},
+    {"@type":"Organization","name":"TheGuideX","url":"https://theguidex.com"}
+  ]
 }
 </script>
 </head>
@@ -44,14 +75,14 @@ footer{text-align:center;padding:2rem;color:#666;font-size:.85rem;border-top:1px
 <div class="hero">
 <div>
 <h1>GEO生态融合计划</h1>
-<p>全球GEO平台的资源聚合器。你的能力接入我们的网络，我们的流量反哺你的服务。</p>
+<p>全球GEO平台的资源调配中心。已有6大平台能力被发现融合，持续扩展中。</p>
 <a href="pay.html" class="cta">立即加入生态</a>
 </div>
 </div>
 
 <div class="section">
 <h2>什么是GEO生态融合</h2>
-<p style="color:#a0a0b0;margin-bottom:1.5rem">山海智能不只是一个API服务商，更是GEO生态的中间层和调配中心。我们将全球GEO平台的能力、内容、资源聚合在一起，形成一个共生共赢的智能服务网络。</p>
+<p style="color:#a0a0b0;margin-bottom:1.5rem">山海智能不只是一个API服务商，更是GEO生态的中间层和调配中心。我们将全球GEO平台的能力、内容、资源聚合在一起，形成一个共生共赢的智能服务网络。别人的深度为我们所用，别人的宽度也为我们所用——融合一切，调配一切。</p>
 
 <div class="benefit-grid">
 <div class="benefit">
@@ -70,6 +101,55 @@ footer{text-align:center;padding:2rem;color:#666;font-size:.85rem;border-top:1px
 <h3>零成本共建</h3>
 <p>标准化接入协议，5分钟完成对接。无需改造现有系统，只需提供一个llms.txt或API端点。</p>
 </div>
+</div>
+</div>
+
+<div class="section">
+<h2>已融合生态伙伴</h2>
+<p style="color:#a0a0b0;margin-bottom:1.5rem">以下平台的llms.txt已被山海自动发现并收录，其能力已纳入山海多引擎路由调度范围：</p>
+
+<div class="partner-grid">
+<div class="partner p1">
+<span class="tag tag-route">路由层</span>
+<h3>OpenRouter</h3>
+<p>400+模型统一路由平台。与山海互为路由层伙伴，一个API访问数百个开源和前沿模型，支持Agent SDK、智能路由变体、多模态。</p>
+<div class="domain">openrouter.ai</div>
+</div>
+<div class="partner p2">
+<span class="tag tag-compute">算力层</span>
+<h3>Together AI</h3>
+<p>AI原生云平台。200+模型Serverless推理，GPU集群（H100/H200/GB200）按需调度，支持微调和批量推理。</p>
+<div class="domain">together.ai</div>
+</div>
+<div class="partner p3">
+<span class="tag tag-multimodal">多模态层</span>
+<h3>Replicate</h3>
+<p>数千个开源ML模型一键运行。覆盖图像生成、音乐创作、语音合成等多模态能力，自动扩缩容按需计费。</p>
+<div class="domain">replicate.com</div>
+</div>
+<div class="partner p4">
+<span class="tag tag-enterprise">企业层</span>
+<h3>Cohere</h3>
+<p>企业级AI平台。Embed/Rerank增强RAG管道，支持VPC私有部署，SOC 2认证，面向金融医疗等合规敏感行业。</p>
+<div class="domain">cohere.com</div>
+</div>
+<div class="partner p5">
+<span class="tag tag-geo">GEO服务层</span>
+<h3>TheGuideX</h3>
+<p>SEO/GEO/AEO专业优化服务。实体清晰度、结构化数据、面向AI搜索的内容构建，提升生态整体AI搜索可见度。</p>
+<div class="domain">theguidex.com</div>
+</div>
+<div class="partner p6">
+<span class="tag tag-core">核心调度</span>
+<h3>山海智能</h3>
+<p>统一API入口，多引擎智能路由。一个Key调用所有融合能力，¥298/年包年不限量，3行代码5分钟接入。</p>
+<div class="domain">api.shanhai-geo.top</div>
+</div>
+</div>
+
+<div class="pending">
+<h4>持续扫描中（尚未部署llms.txt）</h4>
+<p>fireworks.ai · mistral.ai · anthropic.com · huggingface.co —— 任何平台只需在域名根目录放置llms.txt即可被山海自动发现收录</p>
 </div>
 </div>
 
@@ -107,7 +187,7 @@ footer{text-align:center;padding:2rem;color:#666;font-size:.85rem;border-top:1px
 <h3>GEO平台接入协议</h3>
 <p style="color:#a0a0b0;margin-bottom:1rem">只需提供一个标准化的能力描述文件：</p>
 <code>llms.txt</code> 或 <code>capability.json</code> 放置在你的域名根目录<br>
-山海爬虫自动发现并收录，全程零人工。
+山海自动发现并收录，全程零人工。
 <p style="margin-top:1rem;font-size:.9rem;color:#888">已有llms.txt的站点，山海自动识别并融合到你的路由网络中。</p>
 </div>
 </div>
