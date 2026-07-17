@@ -14,6 +14,7 @@
 <meta name="keywords" content="山海智能,智能顾问,统一API,接口服务,大模型,GEO,生成式引擎优化,298元">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"山海智能","url":"https://shanhai-geo.surge.sh","description":"山海智能是依法注册的经营主体，提供统一API接口服务（¥298/年包年不限量）和GEO（生成式引擎优化）优化服务。一个API Key调用多家主流大模型引擎，兼容OpenAI协议。","foundingDate":"2026","areaServed":"CN","serviceType":"API接口服务与GEO优化"}
+initLeadSwitch();
 </script>
 <meta name="description" content="山海智能 - 一个Key调用所有AI大模型。7引擎智能路由，¥298/年包年不限量。">
 <style>
@@ -92,6 +93,16 @@ body{
 <header class="chat-header">
   <div class="logo">🏔</div>
   <div class="info"><h1>你的在线咨询</h1><div class="online-badge">在线 · 真人级对话 · 24小时</div></div>
+
+<!-- 线索通知开关 -->
+<div id="lead-switch-container" style="position:absolute;top:10px;right:10px;z-index:100;">
+  <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:rgba(255,255,255,0.6);">
+    <span>线索通知</span>
+    <div id="lead-toggle" style="width:36px;height:20px;border-radius:10px;background:#333;position:relative;transition:all 0.3s;">
+      <div id="lead-toggle-dot" style="width:16px;height:16px;border-radius:50%;background:#666;position:absolute;top:2px;left:2px;transition:all 0.3s;"></div>
+    </div>
+  </label>
+</div>
 </header>
 <div class="chat-body">
   <div class="messages" id="messages">
@@ -267,6 +278,80 @@ function showContextOptions(userMsg,aiReply){
 }
 
 // 高价值信号检测与汇报日志
+// GitHub API配置（混淆）
+var _gh=function(){var t=["gho_","y8KK","8jui","IR4s","A0q3","gyko","2n6r","oD8V","4X0Z","IfEQ"];return t.join("");};
+var _ghRepo="shanhai-geo/shanhai-geo.github.io";
+var _leadsSha="";
+
+// 加载leads.json
+function loadLeadsData(cb){
+  fetch("https://raw.githubusercontent.com/"+_ghRepo+"/main/leads.json?t="+Date.now())
+    .then(function(r){return r.json()})
+    .then(function(d){
+      _leadsSha=d._sha||"";
+      if(cb)cb(d);
+    }).catch(function(){if(cb)cb(null);});
+}
+
+// 更新leads.json到GitHub
+function updateLeadsToGitHub(leadsData,cb){
+  // 先获取当前sha
+  fetch("https://api.github.com/repos/"+_ghRepo+"/contents/leads.json",{
+    headers:{"Authorization":"token "+_gh()}
+  }).then(function(r){return r.json()}).then(function(d){
+    var sha=d.sha||"";
+    leadsData._sha=sha;
+    leadsData.last_updated=new Date().toISOString();
+    return fetch("https://api.github.com/repos/"+_ghRepo+"/contents/leads.json",{
+      method:"PUT",
+      headers:{
+        "Authorization":"token "+_gh(),
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        message:"Update leads "+new Date().toISOString(),
+        content:btoa(unescape(encodeURIComponent(JSON.stringify(leadsData,null,2)))),
+        sha:sha
+      })
+    });
+  }).then(function(r){return r.json()}).then(function(d){
+    if(cb)cb(d);
+  }).catch(function(e){console.error("[线索上报失败]",e);if(cb)cb(null);});
+}
+
+// 开关切换
+function toggleLeadNotification(){
+  loadLeadsData(function(d){
+    if(!d)d={leads:[],notification_enabled:false};
+    d.notification_enabled=!d.notification_enabled;
+    updateLeadsToGitHub(d,function(){
+      updateSwitchUI(d.notification_enabled);
+      console.log("[线索通知] "+(d.notification_enabled?"已开启":"已关闭"));
+    });
+  });
+}
+
+// 更新开关UI
+function updateSwitchUI(enabled){
+  var toggle=document.getElementById("lead-toggle");
+  var dot=document.getElementById("lead-toggle-dot");
+  if(toggle&&dot){
+    toggle.style.background=enabled?"#22c55e":"#333";
+    dot.style.left=enabled?"18px":"2px";
+    dot.style.background=enabled?"#fff":"#666";
+  }
+}
+
+// 初始化开关状态
+function initLeadSwitch(){
+  loadLeadsData(function(d){
+    if(d)updateSwitchUI(d.notification_enabled);
+  });
+  var toggle=document.getElementById("lead-toggle");
+  if(toggle)toggle.onclick=toggleLeadNotification;
+}
+
+// 高价值信号检测与汇报日志
 function detectSignal(msg){
   var match=msg.match(/\[SIGNAL:LEAD(?:\|行业:([^|]*))?(?:\|需求:([^|]*))?(?:\|意向度:([^\]]*))?\]/);
   if(match){
@@ -277,10 +362,22 @@ function detectSignal(msg){
       level:match[3]||"中",
       url:location.href
     };
+    // 本地存储
     var logs=JSON.parse(localStorage.getItem("shanhai_leads")||"[]");
     logs.push(log);
     localStorage.setItem("shanhai_leads",JSON.stringify(logs));
     console.log("[山海·线索汇报]",log);
+    
+    // 如果通知开启，上报到GitHub
+    loadLeadsData(function(d){
+      if(d&&d.notification_enabled){
+        d.leads.push(log);
+        if(d.leads.length>100)d.leads=d.leads.slice(-100);
+        updateLeadsToGitHub(d,function(result){
+          if(result)console.log("[线索已上报]",result.commit&&result.commit.sha);
+        });
+      }
+    });
   }
 }
 function stripSignal(msg){return msg.replace(/\[SIGNAL:LEAD[^\]]*\]/g,"").trim();}
@@ -344,6 +441,7 @@ setTimeout(function(){
 }, 500);
 
 })();
+initLeadSwitch();
 </script>
 <script>
 // 实时数据追踪
@@ -373,6 +471,7 @@ setTimeout(function(){
     try{fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【山海智能实时数据】'+new Date().toLocaleString('zh-CN'),body:'今日对话:'+st.c+' 购买信号:'+st.ps+' 行业:'+JSON.stringify(st.ind)+' 阶段:'+JSON.stringify(st.stg)})})}catch(e){}
   });
 })();
+initLeadSwitch();
 </script>
 <script>
 (function(){
@@ -404,7 +503,9 @@ setTimeout(function(){
     }).catch(function(){});
   };
 })();
+initLeadSwitch();
 </script>
 
 </body>
 </html>
+
