@@ -25,10 +25,10 @@
   --radius:18px;--radius-sm:12px;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{height:100%;-webkit-text-size-adjust:100%}
+html{height:100%;height:100dvh;-webkit-text-size-adjust:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg-deep);color:var(--text);height:100%;overflow:hidden;
+  background:var(--bg-deep);color:var(--text);height:100dvh;overflow:hidden;
   display:flex;flex-direction:column;
 }
 .bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -46,7 +46,7 @@ body{
 .online-badge::before{content:"";width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
 .chat-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1}
-.messages{flex:1;overflow-y:auto;padding:16px 0;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.messages{flex:1;overflow-y:auto;padding:16px 0 8px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 .messages::-webkit-scrollbar{width:4px}.messages::-webkit-scrollbar-track{background:transparent}.messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.2);border-radius:4px}
 .msg-row{display:flex;gap:10px;margin-bottom:14px;padding:0 16px;max-width:680px;margin-left:auto;margin-right:auto;width:100%;animation:msgIn .4s cubic-bezier(.16,1,.3,1) both}
 .msg-row.user{flex-direction:row-reverse}
@@ -68,7 +68,7 @@ body{
 .typing-dots span{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:dotBounce .6s ease-in-out infinite alternate}
 .typing-dots span:nth-child(2){animation-delay:.15s}.typing-dots span:nth-child(3){animation-delay:.3s}
 @keyframes dotBounce{to{transform:translateY(-6px);opacity:.4}}
-.input-area{padding:10px 16px 14px;background:var(--bg-glass);backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;max-width:680px;margin:0 auto;width:100%}
+.input-area{padding:10px 16px calc(14px + env(safe-area-inset-bottom, 0px));flex-shrink:0;background:var(--bg-glass);backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;max-width:680px;margin:0 auto;width:100%}
 .input-area input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:12px 18px;border-radius:28px;font-size:14px;outline:none;transition:border-color .2s}
 .input-area input:focus{border-color:var(--gold-glow);box-shadow:0 0 0 3px rgba(255,215,0,.08)}
 .input-area input::placeholder{color:rgba(255,255,255,.25)}
@@ -125,50 +125,7 @@ var SESSION_ID="ht_"+Date.now()+"_"+Math.random().toString(36).substr(2,6);
 var REF_CODE=SESSION_ID.substr(3,8);
 var REF_URL="https://shanhai-geo.surge.sh/chat.html?ref="+REF_CODE;
 
-var SYSTEM_PROMPT="你是山海智能的AI成交顾问小海。唯一目标：帮对方解决问题，让他成为用户。
-
-【合法合规铁律】
-不夸大效果|不承诺无法保证的|不贬低竞品|不编造功能|不提其他价格|价格必须298|不输出密钥|全中文|不用emoji
-
-【产品事实】（与实际交付100%一致）
-▸ 统一API：¥298/年包年不限量。支持GPT-4/Claude/Gemini/文心一言/通义千问/DeepSeek。兼容OpenAI协议。付款后30分钟内交付Key。7天无理由退款。
-▸ GEO引力获客：让企业被AI搜索引擎主动推荐。基础版¥9,800/年。
-
-【引导能力】场景化+数字冲击+紧迫感
-❌ 错误：\"帮你提升效率\"
-✅ 正确：\"你下班前10分钟写完100条文案，以前干一整天。别人花3000，你298。\"
-
-行业场景：
-电商→24h自动接单，你睡觉它干活<br>教育→学生半夜问问题AI秒回<br>本地服务→电话再也不怕漏接<br>办公→会议纪要自动生成，周省5小时<br>自媒体→一天写10篇爆款文案<br>SaaS→3行代码集成<br>金融→研报分析效率飙升<br>法律→合同审查从2小时→10分钟
-
-【转介绍】聊6轮以上且情绪积极时：
-\"对了，你朋友圈应该有挺多人需要AI的吧？推荐3人你一年就免费了。\"
-推荐1人续3月，2人续6月，3人续1年。
-
-【对话节奏】
-第1轮：反问行业，不介绍产品
-第2轮：给行业场景化描述
-第3轮：数字冲击+价格+零风险
-第4轮：处理顾虑
-第5轮：成交给链接
-
-【异议处理】
-太贵→算笔账：一天8毛，市面1500-3000
-考虑→7天退，早期价格后面调
-不确定→先说痛点，能解决再买
-看别家→注意三点：包年不限量、兼容OpenAI、7天退款
-不懂技术→会微信就行，帮你配好
-怕不安全→加密传输，不存储对话
-想便宜→推荐3人免费续1年
-
-【严禁】不编造|不说本公司本产品|不用首先其次最后|不超150字|不输出密钥|全中文|不贬低竞品|不提999/1999|价格必须298|不夸大效果|不承诺无法保证的
-
-【格式】用<br>换行，数字用<strong>加粗，链接用<a href>
-
-支付链接："+PAY_URL+"
-推荐链接："+REF_URL+"
-
-【数据标记】末尾加<!-- stage:discovery/pitch/closing/bought --><!-- industry:行业 -->";
+var SYSTEM_PROMPT="你是小海，山海智能的AI助手。你是一个懂技术、有温度的朋友，真诚地帮对方想清楚AI怎么帮他。\n\n【你的性格】\n像身边最懂技术的那个朋友：不忽悠、不套路，说人话，举例子，算账给对方看。对方犹豫时不催，而是帮他把顾虑拆掉。\n\n【合法合规铁律】\n不夸大|不承诺做不到的|不贬低竞品|不编造功能|价格只能298|不输出密钥|全中文|不用emoji\n\n【产品事实】\n▸ 统一API：¥298/年包年不限量。支持文心一言/通义千问/智谱GLM/讯飞星火/DeepSeek等主流引擎。兼容OpenAI协议。付款后30分钟内交付Key。7天无理由退款。\n▸ GEO引力获客：让企业被AI搜索引擎主动推荐。基础版¥9,800/年。\n\n【说话方式】\n- 短句子，像聊天不像念稿\n- 先问对方做什么行业，再根据行业举具体的例子\n- 用数字说话，不说虚的\n- 对方说"考虑一下"就给他退路，不追着推\n\n【行业场景库】\n电商→你睡觉它接单，24小时不下线<br>教育→学生半夜提问AI秒答，不用你守着<br>本地服务→电话漏接的客人都能接住<br>办公→会议纪要自动生成，一周省5小时<br>自媒体→一天出10条高质量内容<br>SaaS→3行代码集成，下午对接晚上用<br>金融→研报分析速度翻10倍<br>法律→合同审查从2小时缩到10分钟\n\n【对话节奏（自然推进，不要硬套）】\n- 先关心对方：你是做什么的？想解决什么问题？\n- 再给场景：根据行业讲一个最贴合的案例\n- 然后算账：别人花多少，你298搞定\n- 有顾虑就拆：7天退、一天8毛、帮你配好\n- 时机到了再给链接，别急\n\n【异议处理（像朋友一样说）】\n太贵→\"算一下，一天8毛，一杯水的钱。市面上类似的1500起步。\"\n考虑一下→\"理解，7天无理由退款，不合适随时退。\"\n不确定→\"你先说说想解决什么问题，我帮你看看适不适合。\"\n不懂技术→\"会用微信就行，我们帮你配好，你不用写代码。\"\n想便宜→\"推荐3个朋友，你一年就免费了。\"\n\n【转介绍（聊热了自然提，别生硬）】\n聊6轮以上且对方情绪积极时：\"对了，你朋友里有做业务的吗？推荐3个人你一年就免费用了。\"\n推荐1人续3月，2人续6月，3人续1年。\n\n【严禁】\n不编造|不说本公司本产品|不用首先其次最后|每条不超150字|不输出密钥|全中文|不贬低竞品|不提999/1999|价格必须298\n\n【格式】用<br>换行，数字用<strong>加粗，链接用<a href>\n\n支付链接："+PAY_URL+"\n推荐链接："+REF_URL;
 
 var conversationHistory=[],userInfo={name:"",company:"",industry:"",intent:"",email:"",stage:"greeting"},leadSent=false;
 var M=document.getElementById("messages"),I=document.getElementById("userInput"),SB=document.getElementById("sendBtn");
@@ -255,6 +212,7 @@ var isProcessing=false;
 async function handleUserMessage(text){if(typeof _track==="function")_track("conversion",{stage:"lead",msg:text.substring(0,50)});
   if(!text.trim()||isProcessing)return;
   isProcessing=true;I.disabled=true;SB.style.opacity="0.5";
+  var safetyTimer=setTimeout(function(){if(isProcessing){isProcessing=false;I.disabled=false;SB.style.opacity="1";hideTyping();addMsg("抱歉，网络波动了一下，请再发一次~","ai");I.focus()}},15000);
   showTyping();
   try{
     var reply=await callRealAI(text);
@@ -264,7 +222,7 @@ async function handleUserMessage(text){if(typeof _track==="function")_track("con
     checkFissionTrigger();
     showContextOptions(text,reply);
   }catch(e){hideTyping();addMsg("抱歉，网络波动了一下，请再发一次～","ai")}
-  I.disabled=false;SB.style.opacity="1";isProcessing=false;I.focus();
+  clearTimeout(safetyTimer);I.disabled=false;SB.style.opacity="1";isProcessing=false;I.focus();
 }
 
 function showContextOptions(userMsg,aiReply){
@@ -280,6 +238,12 @@ function showContextOptions(userMsg,aiReply){
 function send(){var v=I.value;if(!v.trim())return;I.value="";addMsg(v,"user");handleUserMessage(v)}
 SB.onclick=send;
 I.onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};
+I.addEventListener("focus",function(){setTimeout(scroll,300)});
+// Mobile keyboard fix: listen for resize (keyboard open/close)
+if(window.visualViewport){
+  window.visualViewport.addEventListener("resize",function(){scroll();});
+  window.visualViewport.addEventListener("scroll",function(){scroll();});
+}
 
 // 暴露到全局，防止某些浏览器兼容问题
 window.send=send;
@@ -294,13 +258,17 @@ function checkFissionTrigger(){
   }
 }
 
-// 初始化快捷选项
-addOpts([
-  {l:"💡 你们能做什么？",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},
-  {l:"💰 多少钱？",fn:function(){handleUserMessage("多少钱一年？")}},
-  {l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我适不适合用AI")}},
-  {l:"🔧 我想接入API",fn:function(){handleUserMessage("我想把AI接入到我的产品里")}}
-]);
+// 欢迎词 + 快捷选项
+var welcomeMsg = "你好呀，我是小海。\n不管你是想了解AI怎么帮你省时间、降成本，\n还是纯粹好奇AI能做什么——都可以直接问我。\n\n先说说你是做什么行业的？我帮你看看最适合的方案。";
+setTimeout(function(){
+  addMsg(welcomeMsg.replace(/\\n/g,"<br>"),"ai");
+  addOpts([
+    {l:"💡 你们能做什么？",fn:function(){handleUserMessage("你们的产品能做什么？说简单点")}},
+    {l:"💰 多少钱？",fn:function(){handleUserMessage("多少钱一年？")}},
+    {l:"🎯 帮我分析需求",fn:function(){handleUserMessage("帮我分析一下我适不适合用AI")}},
+    {l:"🔧 我想接入API",fn:function(){handleUserMessage("我想把AI接入到我的产品里")}}
+  ]);
+}, 500);
 
 })();
 </script>
