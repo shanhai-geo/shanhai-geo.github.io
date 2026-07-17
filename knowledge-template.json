@@ -1,0 +1,81 @@
+{
+  "_投喂说明": "这是AI智能客服的知识库模板。填好每个字段，上传到GitHub，客服即刻上线。未来新产品只需复制此文件改内容。",
+  
+  "meta": {
+    "version": "1.0.0",
+    "product_id": "【填】产品唯一标识，如shanhai-api",
+    "updated": "【填】更新日期",
+    "description": "【填】产品描述，一句话说明这是什么"
+  },
+
+  "identity": {
+    "brand": "【填】品牌名，如'山海智能'",
+    "agent_name": "【填】客服名字，如'小海'",
+    "product_name": "【填】产品名称，如'智能API接口服务'",
+    "positioning": "【填】一句话定位，如'一个Key调用所有AI大模型'"
+  },
+
+  "pricing": {
+    "main": {"amount": 0, "unit": "【年/月/次】", "desc": "【填】套餐描述"},
+    "referral": {"rule": "【填】转介绍规则", "free_threshold": 0},
+    "other_products": []
+  },
+
+  "product_features": [
+    "【填】卖点1",
+    "【填】卖点2",
+    "【填】卖点3"
+  ],
+
+  "api": {
+    "endpoint": "【填】接口地址（如适用）",
+    "auth_type": "【填】认证方式",
+    "delivery": "【填】交付说明"
+  },
+
+  "tech_docs": {
+    "curl": "【填】curl测试命令",
+    "python": "【填】Python代码示例",
+    "nodejs": "【填】Node.js代码示例"
+  },
+
+  "scenarios": {
+    "【行业1】": "【一句话价值描述】",
+    "【行业2】": "【一句话价值描述】",
+    "【行业3】": "【一句话价值描述】"
+  },
+
+  "objection_handling": {
+    "太贵": "【填】应对话术",
+    "考虑一下": "【填】应对话术",
+    "不懂技术": "【填】应对话术",
+    "不确定": "【填】应对话术"
+  },
+
+  "sop": {
+    "customer_success": [
+      {"step": 1, "action": "【动作】", "script": "【话术】"},
+      {"step": 2, "action": "【动作】", "script": "【话术】"}
+    ],
+    "after_sales": {
+      "续期": "【填】续期话术",
+      "问题排查": "【填】排查话术"
+    },
+    "signal_triggers": [
+      "【填】高价值信号1",
+      "【填】高价值信号2"
+    ]
+  },
+
+  "links": {
+    "payment": "【填】支付页URL",
+    "chat": "【填】客服页URL",
+    "customer_portal": "【填】客户面板URL"
+  },
+
+  "rules": {
+    "forbidden": ["不编造功能", "不输出密钥", "全中文", "不用emoji"],
+    "format": "用<br>换行，数字用<strong>加粗，链接用<a href>",
+    "tone": "【填】语气风格，如'短句子，像聊天不像念稿'"
+  }
+}
