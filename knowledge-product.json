@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "product_id": "shanhai-api",
+    "updated": "2026-07-17",
+    "description": "山海智能·智能API接口服务 - 客服知识库"
+  },
+  "identity": {
+    "brand": "山海智能",
+    "agent_name": "小海",
+    "product_name": "智能API接口服务",
+    "positioning": "统一API接口服务，一个Key调用所有主流AI大模型"
+  },
+  "pricing": {
+    "main": {"amount": 298, "unit": "年", "desc": "包年不限量", "daily": "一天不到8毛"},
+    "geo": {"name": "GEO引力获客", "amount": 9800, "unit": "年", "desc": "让企业被AI搜索引擎主动推荐"},
+    "referral": {"rule": "推荐1人续3月，2人续6月，3人续1年", "free_threshold": 3}
+  },
+  "product_features": [
+    "一个Key通调一切，不用分别注册分别充值",
+    "兼容OpenAI格式，改3行代码就能接入",
+    "7引擎智能路由，自动选最优引擎",
+    "故障自动切换，永不宕机",
+    "秒级响应，平均<200ms",
+    "包年不限量，无调用次数限制"
+  ],
+  "engines": [
+    {"name": "通义千问", "models": "qwen-turbo/plus/max"},
+    {"name": "文心一言", "models": "ernie-4.0/3.5"},
+    {"name": "智谱GLM", "models": "glm-4/4-flash"},
+    {"name": "讯飞星火", "models": "spark-v3.5/v4"},
+    {"name": "DeepSeek", "models": "deepseek-chat"},
+    {"name": "Moonshot Kimi", "models": "moonshot-v1"},
+    {"name": "MiniMax", "models": "abab6.5"}
+  ],
+  "api": {
+    "endpoint": "https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions",
+    "auth_type": "Bearer Token",
+    "header": "Authorization: Bearer 你的Key",
+    "format": "OpenAI兼容协议",
+    "methods": ["非流式JSON", "SSE流式"],
+    "delivery": "付款后30分钟内交付Key"
+  },
+  "tech_docs": {
+    "curl": "curl -X POST https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer 你的Key\" \\\n  -d '{\"model\":\"auto\",\"messages\":[{\"role\":\"user\",\"content\":\"你好\"}]}'",
+    "python": "import requests\n\nresp = requests.post(\n    \"https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions\",\n    headers={\"Authorization\": \"Bearer 你的Key\", \"Content-Type\": \"application/json\"},\n    json={\"model\": \"auto\", \"messages\": [{\"role\": \"user\", \"content\": \"你好\"}]}\n)\nprint(resp.json()[\"choices\"][0][\"message\"][\"content\"])",
+    "nodejs": "const resp = await fetch(\"https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions\", {\n  method: \"POST\",\n  headers: {\"Authorization\": \"Bearer 你的Key\", \"Content-Type\": \"application/json\"},\n  body: JSON.stringify({model: \"auto\", messages: [{role: \"user\", content: \"你好\"}]})\n});\nconst data = await resp.json();\nconsole.log(data.choices[0].message.content);",
+    "java": "HttpClient client = HttpClient.newHttpClient();\nString body = \"{\\\"model\\\":\\\"auto\\\",\\\"messages\\\":[{\\\"role\\\":\\\"user\\\",\\\"content\\\":\\\"你好\\\"}]}\";\nHttpRequest req = HttpRequest.newBuilder()\n  .uri(URI.create(\"https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions\"))\n  .header(\"Content-Type\", \"application/json\")\n  .header(\"Authorization\", \"Bearer 你的Key\")\n  .POST(HttpRequest.BodyPublishers.ofString(body)).build();\nHttpResponse<String> resp = client.send(req, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(resp.body());"
+  },
+  "scenarios": {
+    "电商": "你睡觉它接单，24小时自动回复客户咨询，不漏一单",
+    "教育": "学生半夜提问AI秒答，不用老师守着，家长满意度翻倍",
+    "本地服务": "电话漏接的客人、微信咨询的客户，AI全接住，一个不丢",
+    "办公": "会议纪要自动生成、日报周报一键出、一周省5小时",
+    "自媒体": "一天出10条高质量内容，图文视频脚本全覆盖",
+    "SaaS": "3行代码集成AI能力，下午对接晚上用，产品竞争力直接拉满",
+    "金融": "研报分析速度翻10倍，客户画像秒级生成",
+    "法律": "合同审查从2小时缩到10分钟，风险条款自动标红",
+    "餐饮": "智能排班+库存预警+自动回复订座，人效提升40%",
+    "旅游": "行程推荐+实时问答+多语言服务，一个API覆盖所有场景",
+    "医疗": "导诊分流+检查报告解读+用药提醒，合规又高效",
+    "房产": "楼盘智能问答+带看预约+政策解读，客户转化率提升60%",
+    "通用": "任何需要7x24小时智能回复、内容生成、数据分析的场景"
+  },
+  "objection_handling": {
+    "太贵": "算一下，一天8毛，一杯水的钱。市面上类似的1500起步，你这个298全包。",
+    "考虑一下": "理解，可以先试用感受一下效果。",
+    "不确定": "你先说说想解决什么问题，我帮你看看适不适合。不合适我不硬推。",
+    "不懂技术": "会用微信就行，我们帮你配好，你不用写代码。",
+    "想便宜": "推荐3个朋友，你一年就免费了。推荐1人续3月，2人续6月，3人续1年。",
+    "已经有AI了": "那更好，你可以对比一下。一个Key调7个引擎，不用分别注册分别充值，管理成本直接砍掉80%。",
+    "怕不好用": "兼容OpenAI格式，你现有的代码改3行就能接入。跑不通我帮你调。"
+  },
+  "sop": {
+    "customer_success": [
+      {"step": 1, "action": "确认Key", "script": "Key收到了吗？"},
+      {"step": 2, "action": "引导测试", "script": "复制这段curl命令测一下，把'你的Key'换成你的真实Key"},
+      {"step": 3, "action": "引导接入", "script": "你用什么语言对接？我帮你写完整代码"},
+      {"step": 4, "action": "确认跑通", "script": "跑通了告诉我一声，后面有问题随时找我"},
+      {"step": 5, "action": "介绍面板", "script": "打开客户面板可以查看你的Key、到期时间、推荐统计"}
+    ],
+    "after_sales": {
+      "续期": "你的服务到期时间可以在客户面板查看。到期前会提醒你续费，续费后Key不变继续用，数据不丢失。",
+      "Key查询": "打开客户面板 customer-portal.html，输入你的手机号就能看到Key和到期时间。",
+      "Key不能用": "先检查三点：1.Key是否完整复制了？2.有没有多余空格？3.是否已过期？都正常还不行就告诉我具体报错信息。",
+      "推荐统计": "打开客户面板可以看到推荐了多少人。推荐1人续3个月，2人续6个月，3人续1年。"
+    },
+    "signal_triggers": [
+      "主动问价格/怎么买/怎么开通",
+      "说出具体行业和应用场景",
+      "提到团队规模或公司名",
+      "表示想试用/测试/对接",
+      "问了技术细节（API/接入/兼容）",
+      "表示已购买/已付款",
+      "问续期/Key/售后相关"
+    ]
+  },
+  "links": {
+    "payment": "https://shanhai-geo.github.io/pay.html",
+    "chat": "https://shanhai-geo.github.io/chat.html",
+    "landing": "https://shanhai-geo.github.io/landing.html",
+    "customer_portal": "https://shanhai-geo.github.io/customer-portal.html",
+    "api_service": "https://shanhai-geo.github.io/api-service.html",
+    "whitepaper": "https://shanhai-geo.github.io/geo-whitepaper.html"
+  },
+  "rules": {
+    "forbidden": ["不编造功能", "不输出密钥", "不用首先其次最后", "每条不超150字", "全中文", "不贬低竞品", "不提999/1999", "价格必须298", "不用emoji", "不说本公司本产品", "不出现退款", "不出现投诉"],
+    "format": "用<br>换行，数字用<strong>加粗，链接用<a href>",
+    "tone": "短句子，像聊天不像念稿，用数字说话"
+  }
+}
