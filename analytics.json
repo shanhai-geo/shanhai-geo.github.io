@@ -13,7 +13,7 @@
     "delivered": 1,
     "pending": 1,
     "revenue": 298,
-    "last_check": "2026-07-17T08:06:00+08:00"
+    "last_check": "2026-07-17T17:55:00+08:00"
   },
   "notes": "Analytics tracking via GitHub Pages client-side. Visits recorded by index.html counter. Revenue tracked via orders.json."
 }
