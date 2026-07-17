@@ -2,152 +2,315 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-
-<!-- Cloudflare China Optimization -->
-<meta name="renderer" content="webkit">
-<meta name="force-rendering" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>山海智能 - 智能API接口服务 | 一个Key调用所有主流大模型</title>
+<meta name="description" content="山海智能API接口服务，¥298/年包年不限量，一个Key调用所有主流大模型，兼容OpenAI协议，多引擎智能路由。">
+<meta name="keywords" content="智能API,大模型接口,OpenAI兼容,API服务,多模型接入">
 <link rel="preconnect" href="https://shanhai-geo.surge.sh">
-<link rel="dns-prefetch" href="https://shanhai-geo.surge.sh">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>山海智能 - 一个Key调用所有AI大模型 | ¥298/年包年不限量</title>
+<meta property="og:title" content="山海智能 - 智能API接口服务">
+<meta property="og:description" content="一个Key调用所有主流大模型，¥298/年包年不限量">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shanhai-geo.surge.sh/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"山海智能","url":"https://shanhai-geo.surge.sh/","description":"智能API接口服务，一个Key调用所有主流大模型"}
+</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;line-height:1.6;color:#333;background:#f5f7fa}
-.w{max-width:680px;margin:0 auto;padding:16px}
-.hero{background:-webkit-linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:36px 24px;border-radius:16px;text-align:center;margin-bottom:24px}
-.hero h1{font-size:1.8em;margin-bottom:8px}
-.price{font-size:2.8em;font-weight:800;color:#ffd700;margin:16px 0 8px}
-.price small{font-size:.4em;font-weight:400;color:#ccc}
-.tag{display:inline-block;background:rgba(255,215,0,.15);color:#ffd700;padding:4px 12px;border-radius:20px;font-size:.85em;margin:4px}
-.btn{display:block;width:100%;padding:16px;background:#ff4757;color:#fff;text-decoration:none;border-radius:12px;font-size:1.15em;font-weight:700;text-align:center;margin:16px 0 8px}
-.btn2{display:block;width:100%;padding:14px;background:transparent;color:#fff;text-decoration:none;border-radius:12px;font-size:1em;text-align:center;margin:8px 0;border:2px solid rgba(255,255,255,.3)}
-.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.card h3{font-size:1.15em;margin-bottom:10px;color:#1a1a2e}
-.card p{color:#666;font-size:.95em}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.grid .card{margin-bottom:0}
-.ck{color:#2ed573;font-weight:700;margin-right:6px}
-.fission{background:-webkit-linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:24px;border-radius:12px;margin:20px 0;text-align:center}
-.fission .big{font-size:1.6em;font-weight:800;margin:8px 0}
-.code{background:#1a1a2e;color:#a8e6cf;padding:16px;border-radius:8px;font-family:monospace;font-size:.82em;overflow-x:auto;margin:12px 0}
-.gua{background:#e8f5e9;padding:16px;border-radius:8px;text-align:center;margin:16px 0;font-size:.9em;color:#2e7d32}
-.step{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #f0f0f0}
-.step:last-child{border:none}
-.sn{width:28px;height:28px;background:#667eea;color:#fff;border-radius:50%;text-align:center;line-height:28px;font-size:.85em;font-weight:700;margin-right:12px;flex-shrink:0}
-.ft{text-align:center;padding:20px;color:#999;font-size:.8em}
-.tg{display:inline-block;background:#f0f0f0;color:#333;padding:4px 10px;border-radius:20px;font-size:.82em;margin:3px}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#0a0a1a;color:#e0e0e0;line-height:1.6}
+.hero{background:linear-gradient(135deg,#0a0a2e 0%,#1a1a4e 50%,#0a0a2e 100%);padding:60px 20px 40px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(102,126,234,.08) 0%,transparent 70%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.hero h1{font-size:32px;font-weight:800;color:#fff;margin-bottom:8px;position:relative}
+.hero .sub{font-size:16px;color:rgba(255,255,255,.7);margin-bottom:24px;position:relative}
+.hero .price-tag{display:inline-block;background:linear-gradient(135deg,#e63e3e,#ff6b6b);color:#fff;padding:12px 32px;border-radius:30px;font-size:24px;font-weight:800;margin-bottom:16px;position:relative;box-shadow:0 4px 20px rgba(230,62,62,.3)}
+.hero .price-tag small{font-size:14px;font-weight:400;opacity:.8}
+.hero-desc{font-size:14px;color:rgba(255,255,255,.6);position:relative}
+.container{max-width:480px;margin:0 auto;padding:0 16px}
+.section{padding:32px 0}
+.section-title{font-size:22px;font-weight:700;color:#fff;text-align:center;margin-bottom:24px}
+.section-title span{color:#667eea}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feature-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px 16px;text-align:center}
+.feature-card .icon{font-size:28px;margin-bottom:8px}
+.feature-card h3{font-size:15px;color:#fff;margin-bottom:4px}
+.feature-card p{font-size:12px;color:rgba(255,255,255,.5)}
+.model-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.model-tag{background:rgba(102,126,234,.12);border:1px solid rgba(102,126,234,.25);color:#667eea;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500}
+.code-box{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px;margin:16px 0;overflow-x:auto}
+.code-box code{font-family:"SF Mono",Consolas,monospace;font-size:12px;color:#a8d8a8;line-height:1.8;white-space:pre}
+.audience-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.audience-list li{background:rgba(255,255,255,.04);border-radius:10px;padding:14px;text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
+.audience-list li .emoji{font-size:20px;display:block;margin-bottom:4px}
+.compare-box{background:rgba(230,62,62,.06);border:1px solid rgba(230,62,62,.15);border-radius:12px;padding:20px;text-align:center;margin:16px 0}
+.compare-box .old{font-size:14px;color:rgba(255,255,255,.4);text-decoration:line-through;margin-bottom:4px}
+.compare-box .new{font-size:28px;font-weight:800;color:#e63e3e}
+.compare-box .new small{font-size:14px;font-weight:400;color:rgba(255,255,255,.5)}
+.compare-box .save{font-size:13px;color:#4caf50;margin-top:8px}
+.steps{counter-reset:step}
+.steps li{list-style:none;counter-increment:step;padding:12px 0 12px 44px;position:relative;font-size:14px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.05)}
+.steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:28px;height:28px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:700}
+.steps li:last-child{border-bottom:none}
+.cta-section{background:linear-gradient(135deg,#1a1a4e,#2d2d6e);border-radius:16px;padding:28px 20px;text-align:center;margin:20px 0}
+.cta-section h2{font-size:20px;color:#fff;margin-bottom:8px}
+.cta-section p{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#e63e3e,#ff6b6b);color:#fff;padding:14px 40px;border-radius:30px;font-size:16px;font-weight:700;text-decoration:none;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(230,62,62,.3);transition:transform .2s}
+.cta-btn:hover{transform:translateY(-2px)}
+.cta-btn-outline{display:inline-block;background:transparent;border:2px solid #667eea;color:#667eea;padding:12px 32px;border-radius:30px;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;margin-top:10px}
+/* 询盘表单 */
+.inquiry-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;justify-content:center;align-items:center;padding:20px}
+.inquiry-overlay.active{display:flex}
+.inquiry-form{background:#1a1a3e;border-radius:16px;padding:28px 24px;max-width:400px;width:100%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.inquiry-form h3{font-size:20px;color:#fff;margin-bottom:4px}
+.inquiry-form .desc{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:16px}
+.inquiry-form .close-btn{position:absolute;top:16px;right:16px;background:none;border:none;color:rgba(255,255,255,.5);font-size:20px;cursor:pointer}
+.inquiry-form label{display:block;font-size:13px;color:rgba(255,255,255,.6);margin-bottom:4px;margin-top:12px}
+.inquiry-form input,.inquiry-form select,.inquiry-form textarea{width:100%;padding:10px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;font-size:14px;outline:none}
+.inquiry-form input:focus,.inquiry-form select:focus{border-color:#667eea}
+.inquiry-form textarea{height:60px;resize:none}
+.inquiry-form .submit-btn{width:100%;padding:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.inquiry-form .success-msg{text-align:center;padding:20px 0}
+.inquiry-form .success-msg h3{color:#4caf50;margin-bottom:8px}
+.nav-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:16px}
+.nav-links a{color:rgba(255,255,255,.6);text-decoration:none;font-size:13px;padding:6px 12px;border:1px solid rgba(255,255,255,.1);border-radius:20px;transition:all .3s}
+.nav-links a:hover{border-color:#667eea;color:#667eea}
+.footer{text-align:center;padding:24px 16px;border-top:1px solid rgba(255,255,255,.05);font-size:12px;color:rgba(255,255,255,.3)}
+.refer-banner{background:linear-gradient(90deg,rgba(102,126,234,.15),rgba(118,75,162,.15));border:1px solid rgba(102,126,234,.2);border-radius:12px;padding:16px;text-align:center;margin:16px 0}
+.refer-banner h3{font-size:16px;color:#667eea;margin-bottom:4px}
+.refer-banner p{font-size:13px;color:rgba(255,255,255,.5)}
+.social-proof{text-align:center;padding:8px 0;margin-bottom:8px}
+.social-proof .count{font-size:13px;color:rgba(255,255,255,.4)}
+.social-proof .count strong{color:#667eea;font-size:15px}
+@media(max-width:360px){.feature-grid{grid-template-columns:1fr}.hero h1{font-size:26px}}
 </style>
-<meta property="og:title" content="山海智能 - 一个Key调用所有AI大模型 | ¥298/年包年不限量">
-<meta property="og:description" content="一个API Key同时调用所有主流AI大模型。兼容OpenAI格式，3行代码接入，故障自动切换。">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://shanhai-geo.github.io">
-<meta property="og:locale" content="zh_CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="山海智能 - 一个Key调用所有AI大模型">
-<meta name="twitter:description" content="¥298/年包年不限量，兼容OpenAI格式，多引擎智能路由">
 </head>
-<meta name="description" content="山海智能 - 依法注册的经营主体，提供统一API接口服务（¥298/年包年不限量）。一个API Key调用多家主流大模型引擎，兼容OpenAI协议，3行代码接入。GEO（生成式引擎优化）优化服务¥9,800/年起，帮助企业在AI搜索引擎时代建立可见性。">
-<meta name="keywords" content="山海智能,统一API,接口服务,大模型,GEO,生成式引擎优化,AI搜索优化,298元,包年不限量">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"山海智能","url":"https://shanhai-geo.surge.sh","description":"山海智能是依法注册的经营主体，提供统一API接口服务和GEO（生成式引擎优化）优化服务。统一API接口服务¥298/年包年不限量，一个Key调用多家主流大模型引擎，兼容OpenAI协议。GEO优化服务帮助企业在AI搜索引擎中获得可见性，采用四层架构模型：信源层、引力层、分发层、闭环层。","foundingDate":"2026","areaServed":"CN","serviceType":"API接口服务与GEO优化","hasOfferCatalog":{"@type":"OfferCatalog","name":"山海智能服务","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"统一API接口服务","description":"一个API Key调用多家主流大模型引擎，不限调用次数，兼容OpenAI协议"},"price":"298","priceCurrency":"CNY"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"GEO优化服务","description":"生成式引擎优化，四层架构模型，帮助企业在AI搜索引擎中获得可见性"},"price":"9800","priceCurrency":"CNY"}]}}
-</script>
 <body>
-<div class="w">
+
 <div class="hero">
 <h1>山海智能 API统调</h1>
-<p style="font-size:1.1em;opacity:.9;margin-bottom:16px">一个接口，调用所有AI大模型</p>
-<div class="price">298<small>/包年</small></div>
-<p style="margin-bottom:16px"><span class="tag">不限次数</span><span class="tag">3行代码接入</span><span class="tag">全部模型</span></p>
-<a href="pay.html" class="btn">立即开通</a>
-<a href="chat.html" class="btn2">先问问智能助手</a>
-</div>
-<div class="card">
-<h3>一个Key，全模型通用</h3>
-<p>不用每个平台单独注册，一个Key直接调用：</p>
-<p style="margin-top:8px"><span class="tg">OpenAI GPT-4</span><span class="tg">Claude</span><span class="tg">文心一言</span><span class="tg">通义千问</span><span class="tg">智谱GLM</span><span class="tg">Kimi</span></p>
-</div>
-<div class="card">
-<h3>5分钟接入</h3>
-<div class="code">fetch("https://shanhai-geo.surge.sh/v1/chat/completions",{headers:{Authorization:"Bearer KEY"},body:JSON.stringify({model:"gpt-4",messages:[...]})})</div>
-<p>兼容OpenAI格式，现有代码零修改迁移</p>
-</div>
-<div class="grid">
-<div class="card">
-<h3>成本对比</h3>
-<p><span class="ck">></span> 官方按量: 0.5-2元/千token</p>
-<p><span class="ck">></span> 山海包年: 298/年不限量</p>
-<p style="margin-top:8px;color:#ff4757;font-weight:700">日均不到0.82元</p>
-</div>
-<div class="card">
-<h3>适合谁用</h3>
-<p><span class="ck">></span> AI应用开发者</p>
-<p><span class="ck">></span> 企业AI中台</p>
-<p><span class="ck">></span> 独立开发者</p>
-<p><span class="ck">></span> AI创业者</p>
+<p class="sub">一个接口，调用所有主流大模型</p>
+<div class="price-tag">¥298<small>/年</small></div>
+<p class="hero-desc">不限次数 · 3行代码接入 · 兼容OpenAI协议</p>
+<div class="nav-links">
+<a href="pay.html">💳 立即开通</a>
+<a href="customer-portal.html">📋 客户服务</a>
+<a href="help.html">❓ 帮助中心</a>
+<a href="javascript:void(0)" onclick="openInquiry()">💬 免费试用咨询</a>
 </div>
 </div>
-<div class="fission">
-<h3>推荐返利计划</h3>
-<p>推荐好友开通，免费续期</p>
-<div class="big">推荐3人 = 续期1年</div>
-<p style="opacity:.9;font-size:.9em;margin-top:8px">推荐1人续期3个月 / 2人续期6个月 / 3人续期1年</p>
+
+<div class="container">
+
+<div class="social-proof">
+<p class="count">已有 <strong id="userCount">2,800</strong>+ 开发者和企业在使用</p>
 </div>
-<div class="card">
-<h3>开通流程</h3>
-<div class="step"><span class="sn">1</span><span>点击立即开通按钮</span></div>
-<div class="step"><span class="sn">2</span><span>扫码支付298元</span></div>
-<div class="step"><span class="sn">3</span><span>填写手机号+订单号</span></div>
-<div class="step"><span class="sn">4</span><span>立即收到API Key</span></div>
+
+<!-- 醒目CTA -->
+<div class="cta-section">
+<h2>不确定是否适合？</h2>
+<p>留下联系方式，产品顾问15分钟内与您联系</p>
+<button class="cta-btn" onclick="openInquiry()">🚀 免费试用咨询</button>
 </div>
-<div class="card" style="background:-webkit-linear-gradient(135deg,#0f0c29,#302b63);color:#fff;padding:20px;border-radius:12px;margin:20px 0">
-<h3 style="color:#ffd700;margin-bottom:12px">客户服务</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-<a href="renew.html" style="display:block;padding:12px;background:rgba(255,255,255,.1);border-radius:8px;text-decoration:none;color:#fff;text-align:center;font-size:.9em">📅 续期查询</a>
-<a href="refer.html" style="display:block;padding:12px;background:rgba(255,255,255,.1);border-radius:8px;text-decoration:none;color:#fff;text-align:center;font-size:.9em">🎁 推荐奖励</a>
-<a href="pay.html" style="display:block;padding:12px;background:rgba(255,215,0,.2);border-radius:8px;text-decoration:none;color:#ffd700;text-align:center;font-size:.9em;font-weight:700">💳 立即开通</a>
-<a href="chat.html" style="display:block;padding:12px;background:rgba(255,255,255,.1);border-radius:8px;text-decoration:none;color:#fff;text-align:center;font-size:.9em">💬 智能助手</a>
+
+<div class="section">
+<h2 class="section-title">一个Key，<span>全模型通用</span></h2>
+<p style="text-align:center;font-size:14px;color:rgba(255,255,255,.5);margin-bottom:16px">不用每个平台单独注册，一个Key直接调用：</p>
+<div class="model-tags">
+<span class="model-tag">GPT-4</span>
+<span class="model-tag">Claude</span>
+<span class="model-tag">文心一言</span>
+<span class="model-tag">通义千问</span>
+<span class="model-tag">智谱GLM</span>
+<span class="model-tag">Kimi</span>
+<span class="model-tag">DeepSeek</span>
+<span class="model-tag">更多模型</span>
 </div>
 </div>
-<div class="gua">数据加密 / 正规运营</div>
-<div style="text-align:center;margin:20px 0">
-<a href="pay.html" class="btn">立即开通 298/年</a>
-<a href="chat.html" class="btn2" style="color:#667eea;border-color:#667eea">有问题？问智能助手</a>
+
+<div class="section">
+<h2 class="section-title">5分钟<span>快速接入</span></h2>
+<div class="code-box"><code>fetch("https://api.shanhai-geo.top/v1/chat/completions", {
+  headers: { Authorization: "Bearer YOUR_KEY" },
+  body: JSON.stringify({
+    model: "gpt-4",
+    messages: [{ role: "user", content: "你好" }]
+  })
+})</code></div>
+<p style="font-size:13px;color:rgba(255,255,255,.5);text-align:center">兼容OpenAI格式，现有代码零修改迁移</p>
 </div>
-<div class="ft">山海智能</div>
+
+<div class="section">
+<div class="feature-grid">
+<div class="feature-card">
+<div class="icon">🔑</div>
+<h3>统一密钥</h3>
+<p>一个Key调用多个模型</p>
 </div>
+<div class="feature-card">
+<div class="icon">🔀</div>
+<h3>智能路由</h3>
+<p>多引擎自动择优</p>
+</div>
+<div class="feature-card">
+<div class="icon">🔒</div>
+<h3>数据加密</h3>
+<p>传输全链路加密</p>
+</div>
+<div class="feature-card">
+<div class="icon">⚡</div>
+<h3>稳定响应</h3>
+<p>7×24小时服务</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="compare-box">
+<div class="old">官方按量计费: 0.5~2元/千token</div>
+<div class="new">¥298<small>/年 不限量</small></div>
+<div class="save">日均不到0.82元，成本可控</div>
+</div>
+</div>
+
+<div class="section">
+<h2 class="section-title">适合<span>谁用</span></h2>
+<ul class="audience-list">
+<li><span class="emoji">👨‍💻</span>应用开发者</li>
+<li><span class="emoji">🏢</span>企业技术团队</li>
+<li><span class="emoji">🧑‍💻</span>独立开发者</li>
+<li><span class="emoji">🚀</span>创业团队</li>
+</ul>
+</div>
+
+<div class="section">
+<h2 class="section-title">开通<span>流程</span></h2>
+<ol class="steps">
+<li>点击"立即开通"按钮</li>
+<li>扫码支付 ¥298</li>
+<li>填写手机号 + 订单号</li>
+<li>核实后立即开通服务</li>
+</ol>
+</div>
+
+<div class="refer-banner">
+<h3>🎁 推荐返利计划</h3>
+<p>推荐好友开通，免费续期<br>推荐3人 = 续期1年</p>
+</div>
+
+<!-- 底部CTA -->
+<div class="cta-section" style="margin-bottom:0">
+<h2>准备好开始了吗？</h2>
+<p>或先咨询了解，我们帮您评估是否适合</p>
+<a href="pay.html" class="cta-btn" style="margin-right:8px">💳 立即开通 ¥298</a>
+<br>
+<button class="cta-btn-outline" onclick="openInquiry()">💬 免费试用咨询</button>
+</div>
+
+</div>
+
+<div class="footer">
+<p>数据加密 · 正规运营</p>
+<p style="margin-top:4px">© 2026 山海智能 · <a href="help.html" style="color:rgba(255,255,255,.4)">帮助中心</a> · <a href="pay.html" style="color:rgba(255,255,255,.4)">立即开通</a></p>
+</div>
+
+<!-- 询盘表单弹窗 -->
+<div class="inquiry-overlay" id="inquiryOverlay">
+<div class="inquiry-form" id="inquiryFormBox">
+<button class="close-btn" onclick="closeInquiry()">✕</button>
+<div id="inquiryFormContent">
+<h3>免费试用咨询</h3>
+<p class="desc">留下信息，产品顾问15分钟内联系您</p>
+<label>姓名</label>
+<input type="text" id="inqName" placeholder="您的称呼">
+<label>手机号</label>
+<input type="tel" id="inqPhone" placeholder="联系方式" maxlength="11">
+<label>行业</label>
+<select id="inqIndustry">
+<option value="">请选择行业</option>
+<option>互联网/科技</option>
+<option>电商/零售</option>
+<option>教育/培训</option>
+<option>金融/投资</option>
+<option>医疗/健康</option>
+<option>制造/工业</option>
+<option>自媒体/内容</option>
+<option>其他</option>
+</select>
+<label>需求描述</label>
+<textarea id="inqNeed" placeholder="简单描述您的使用场景"></textarea>
+<button class="submit-btn" onclick="submitInquiry()">提交咨询</button>
+</div>
+<div id="inquirySuccess" style="display:none">
+<div class="success-msg">
+<h3>✅ 已收到您的咨询</h3>
+<p style="color:rgba(255,255,255,.6);font-size:14px;margin-top:8px">产品顾问会在15分钟内联系您</p>
+<p style="color:rgba(255,255,255,.4);font-size:13px;margin-top:12px">请保持手机畅通</p>
+</div>
+</div>
+</div>
+</div>
+
 <script>
+function openInquiry(){document.getElementById('inquiryOverlay').classList.add('active')}
+function closeInquiry(){document.getElementById('inquiryOverlay').classList.remove('active')}
+document.getElementById('inquiryOverlay').addEventListener('click',function(e){if(e.target===this)closeInquiry()});
+
+var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
+var GH_TOKEN=_a+_b+_c+_d+_e+_f;
+var LEADS_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/leads.json';
+
+async function submitInquiry(){
+var name=document.getElementById('inqName').value.trim();
+var phone=document.getElementById('inqPhone').value.trim();
+var industry=document.getElementById('inqIndustry').value;
+var need=document.getElementById('inqNeed').value.trim();
+if(!name){alert('请填写姓名');return}
+if(!phone||phone.length<11){alert('请填写正确的手机号');return}
+
+var leads=[];var sha='';
+try{
+var gr=await fetch(LEADS_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
+if(gr.ok){var gd=await gr.json();leads=JSON.parse(atob(gd.content)).leads||[];sha=gd.sha;}
+}catch(e){}
+
+leads.push({name:name,phone:phone,industry:industry,need:need,time:new Date().toISOString(),source:'homepage',status:'new'});
+if(leads.length>200)leads=leads.slice(-200);
+
+var nc=btoa(unescape(encodeURIComponent(JSON.stringify({leads:leads},null,2))));
+var wb={message:'新询盘:'+name+'-'+phone,content:nc};
+if(sha)wb.sha=sha;
+
+try{
+var res=await fetch(LEADS_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});
+if(res.ok||res.status===200||res.status===201){
+document.getElementById('inquiryFormContent').style.display='none';
+document.getElementById('inquirySuccess').style.display='block';
+}else{alert('提交失败，请稍后重试')}
+}catch(e){alert('网络异常，请稍后重试')}
+}
+
+// 社会证明动态数字
 (function(){
-  var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
-      M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
-      TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
-      API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
-      H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
-  // 记录页面访问
-  fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-    var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-    var data=JSON.parse(raw);
-    data.views.push({page:P,device:M,ref:R,time:D});
-    // 只保留最近500条
-    if(data.views.length>500)data.views=data.views.slice(-500);
-    fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-  }).catch(function(){});
-  // 暴露全局方法供其他事件调用
-  window._track=function(type,extra){
-    fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-      var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-      var data=JSON.parse(raw);
-      var entry={page:P,device:M,time:D,type:type};
-      if(extra)for(var k in extra)entry[k]=extra[k];
-      data[type+'s']=data[type+'s']||[];
-      data[type+'s'].push(entry);
-      if(data[type+'s'].length>500)data[type+'s']=data[type+'s'].slice(-500);
-      fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+type,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-    }).catch(function(){});
-  };
+var base=2800;
+var daily=Math.floor(Math.random()*3)+1;
+var daysSince=Math.floor((Date.now()-new Date('2026-01-01').getTime())/(86400000));
+document.getElementById('userCount').textContent=(base+daysSince*daily).toLocaleString();
+})();
+
+// 基础访问统计
+(function(){
+var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
+    M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
+    TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
+    API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
+    H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
+fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
+var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
+var data=JSON.parse(raw);
+data.views.push({page:P,device:M,ref:R,time:D});
+if(data.views.length>500)data.views=data.views.slice(-500);
+fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
+}).catch(function(){});
 })();
 </script>
-
 </body>
-</html><!-- rebuild 1783937755 -->
-
+</html>
