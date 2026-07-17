@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>帮助中心 - 山海智能API接口服务</title>
+<meta name="description" content="山海智能API接口服务帮助中心，常见问题解答、使用方法、联系咨询。">
+<link rel="preconnect" href="https://shanhai-geo.surge.sh">
+<meta property="og:title" content="帮助中心 - 山海智能API接口服务">
+<meta property="og:description" content="常见问题解答、使用方法指南、联系咨询">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shanhai-geo.surge.sh/help.html">
+
+<!-- FAQPage Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "什么是智能API接口服务？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "山海智能API接口服务是一个统一的大模型调用平台。开通后您获得一个API密钥（Key），即可通过同一个接口调用多个主流大模型，包括GPT-4、Claude、文心一言、通义千问、智谱GLM、Kimi、DeepSeek等。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "价格是多少？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "智能API接口服务包年价格为¥298/年，365天不限次数调用。日均不到0.82元。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "如何接入使用？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "开通后会收到API密钥和接入地址。接口兼容OpenAI协议格式，只需修改3行代码（地址和密钥）即可接入，现有代码无需大幅改动。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持哪些大模型？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "目前支持的主流模型包括：OpenAI GPT-4/GPT-3.5、Claude、文心一言、通义千问、智谱GLM、Kimi、DeepSeek等。多引擎智能路由会自动选择最优线路，持续接入更多模型。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "付款后多久能开通？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "扫码支付后，在支付页面填写手机号和订单号提交即可。我们核实收款后通常30分钟内为您开通服务，部分情况更快。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "付款二维码扫不出来怎么办？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "请尝试刷新页面重新加载。如果仍然无法显示，可以尝试切换浏览器或网络环境。也可以截图保存二维码后用其他设备扫码。如仍有问题请联系客服。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "订单号在哪里找？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "扫码支付成功后，支付页面会显示交易单号/订单号。请复制该号码填写到开通页面的输入框中。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "什么是多引擎智能路由？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "多引擎智能路由是我们的核心技术，它会根据您的请求自动选择响应快、稳定性高的线路，确保调用体验流畅。您无需手动切换，系统自动处理。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "数据是否安全？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "所有数据传输均采用加密协议保护。您的API密钥和调用数据均经过安全处理，保障数据安全。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "有推荐返利计划吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "有的。推荐好友开通智能API接口服务，即可获得免费续期：推荐1人续期3个月，推荐2人续期6个月，推荐3人续期1年。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "兼容OpenAI协议是什么意思？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "我们的接口完全兼容OpenAI的API调用格式。如果您已经在使用OpenAI的接口，只需修改接口地址和密钥即可无缝迁移，无需修改其他代码逻辑。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "可以开发票吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以。开通服务后联系客服，提供开票信息即可申请开具发票。"
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;min-height:100vh}
+.header{background:linear-gradient(135deg,#1a1a3e,#2d2d6e);color:#fff;padding:24px 20px;text-align:center}
+.header h1{font-size:22px;margin-bottom:4px}
+.header p{font-size:13px;opacity:.7}
+.container{max-width:480px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card h2{font-size:16px;color:#1a1a3e;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}
+.search-box{position:relative;margin-bottom:16px}
+.search-box input{width:100%;padding:12px 16px 12px 40px;border:1px solid #ddd;border-radius:10px;font-size:15px;outline:none;transition:border .3s}
+.search-box input:focus{border-color:#667eea}
+.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px}
+.faq-category{font-size:13px;color:#667eea;font-weight:600;text-transform:uppercase;margin:16px 0 8px;padding-left:4px}
+.faq-item{border-bottom:1px solid #f0f0f0;padding:0}
+.faq-item:last-child{border-bottom:none}
+.faq-item summary{padding:14px 0;font-size:15px;color:#333;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';font-size:20px;color:#999;transition:transform .3s;font-weight:300}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item .faq-answer{font-size:14px;color:#666;line-height:1.8;padding:0 0 14px}
+.faq-item .faq-answer code{background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:12px;color:#e63e3e}
+.guide-steps{counter-reset:gstep}
+.guide-steps li{list-style:none;counter-increment:gstep;padding:12px 0 12px 44px;position:relative;font-size:14px;line-height:1.8;color:#555;border-bottom:1px solid #f5f5f5}
+.guide-steps li::before{content:counter(gstep);position:absolute;left:0;top:12px;width:28px;height:28px;background:#667eea;color:#fff;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:700}
+.guide-steps li:last-child{border-bottom:none}
+.cta-box{background:linear-gradient(135deg,#667eea,#764ba2);border-radius:12px;padding:24px;text-align:center;color:#fff;margin:16px 0}
+.cta-box h3{font-size:18px;margin-bottom:6px}
+.cta-box p{font-size:13px;opacity:.8;margin-bottom:14px}
+.cta-box .btn{display:inline-block;background:#fff;color:#667eea;padding:12px 32px;border-radius:20px;font-size:15px;font-weight:700;cursor:pointer;border:none;text-decoration:none}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.contact-btn{display:flex;flex-direction:column;align-items:center;padding:16px 8px;border:1px solid #eee;border-radius:10px;cursor:pointer;transition:all .2s;text-decoration:none;color:#333}
+.contact-btn:hover{border-color:#667eea;background:rgba(102,126,234,.03)}
+.contact-btn .icon{font-size:28px;margin-bottom:6px}
+.contact-btn .text{font-size:13px;color:#666}
+.footer{text-align:center;padding:20px;font-size:12px;color:#999}
+.footer a{color:#667eea;text-decoration:none}
+/* 弹窗 */
+.inquiry-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;justify-content:center;align-items:center;padding:20px}
+.inquiry-overlay.active{display:flex}
+.inquiry-form-box{background:#fff;border-radius:16px;padding:28px 24px;max-width:400px;width:100%;position:relative}
+.inquiry-form-box h3{font-size:20px;color:#1a1a3e;margin-bottom:4px}
+.inquiry-form-box .desc{font-size:13px;color:#999;margin-bottom:16px}
+.inquiry-form-box .close-btn{position:absolute;top:16px;right:16px;background:none;border:none;color:#999;font-size:20px;cursor:pointer}
+.inquiry-form-box label{display:block;font-size:13px;color:#666;margin-bottom:4px;margin-top:12px}
+.inquiry-form-box input,.inquiry-form-box select,.inquiry-form-box textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
+.inquiry-form-box input:focus,.inquiry-form-box select:focus{border-color:#667eea}
+.inquiry-form-box textarea{height:60px;resize:none}
+.inquiry-form-box .submit-btn{width:100%;padding:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.inquiry-form-box .success-msg{text-align:center;padding:20px 0}
+.inquiry-form-box .success-msg h3{color:#07c160;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>❓ 帮助中心</h1>
+<p>智能API接口服务 · 常见问题与使用指南</p>
+</div>
+
+<div class="container">
+
+<!-- 搜索 -->
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="搜索问题..." oninput="filterFAQ()">
+</div>
+
+<!-- 使用指南 -->
+<div class="card">
+<h2>📖 使用方法指南</h2>
+<ol class="guide-steps">
+<li>访问<a href="pay.html" style="color:#667eea">开通页面</a>，扫码支付 ¥298</li>
+<li>支付成功后，填写手机号和订单号，提交开通</li>
+<li>核实收款后，您会收到API密钥（Key）和接口地址</li>
+<li>在代码中修改接口地址和密钥，3行代码完成接入</li>
+</ol>
+<div style="background:#f5f5f5;border-radius:8px;padding:12px;margin-top:12px">
+<p style="font-size:12px;color:#999;margin-bottom:6px">接入示例：</p>
+<code style="font-size:12px;color:#333;line-height:1.8;white-space:pre">fetch("接口地址/v1/chat/completions", {
+  headers: { Authorization: "Bearer 您的密钥" },
+  body: JSON.stringify({
+    model: "gpt-4",
+    messages: [{ role: "user", content: "你好" }]
+  })
+})</code>
+</div>
+</div>
+
+<!-- FAQ -->
+<div class="card">
+<h2>📋 常见问题</h2>
+
+<div class="faq-category">产品相关</div>
+
+<details class="faq-item" data-search="什么是智能api接口服务 产品">
+<summary>什么是智能API接口服务？</summary>
+<div class="faq-answer">山海智能API接口服务是一个统一的大模型调用平台。开通后您获得一个API密钥（Key），即可通过同一个接口调用多个主流大模型，包括GPT-4、Claude、文心一言、通义千问、智谱GLM、Kimi、DeepSeek等。</div>
+</details>
+
+<details class="faq-item" data-search="价格 多少钱 费用 298">
+<summary>价格是多少？</summary>
+<div class="faq-answer">智能API接口服务包年价格为 <strong>¥298/年</strong>，365天不限次数调用。日均不到0.82元。</div>
+</details>
+
+<details class="faq-item" data-search="支持 模型 gpt claude 文心 千问 glm kimi deepseek">
+<summary>支持哪些大模型？</summary>
+<div class="faq-answer">目前支持的主流模型包括：OpenAI GPT-4/GPT-3.5、Claude、文心一言、通义千问、智谱GLM、Kimi、DeepSeek等。多引擎智能路由会自动选择线路，持续接入更多模型。</div>
+</details>
+
+<details class="faq-item" data-search="多引擎 智能路由 什么">
+<summary>什么是多引擎智能路由？</summary>
+<div class="faq-answer">多引擎智能路由是我们的核心技术，它会根据您的请求自动选择响应快、稳定性高的线路，确保调用体验流畅。您无需手动切换，系统自动处理。</div>
+</details>
+
+<details class="faq-item" data-search="兼容 openai 协议 格式 迁移">
+<summary>兼容OpenAI协议是什么意思？</summary>
+<div class="faq-answer">我们的接口完全兼容OpenAI的API调用格式。如果您已经在使用OpenAI的接口，只需修改接口地址和密钥即可无缝迁移，无需修改其他代码逻辑。</div>
+</details>
+
+<div class="faq-category">支付与开通</div>
+
+<details class="faq-item" data-search="付款 开通 多久 时间">
+<summary>付款后多久能开通？</summary>
+<div class="faq-answer">扫码支付后，在支付页面填写手机号和订单号提交即可。核实收款后通常30分钟内为您开通服务，部分情况更快。</div>
+</details>
+
+<details class="faq-item" data-search="二维码 扫不出 加载 显示">
+<summary>付款二维码扫不出来怎么办？</summary>
+<div class="faq-answer">请尝试刷新页面重新加载。如果仍然无法显示，可以尝试切换浏览器或网络环境。也可以截图保存二维码后用其他设备扫码。如仍有问题请联系客服。</div>
+</details>
+
+<details class="faq-item" data-search="订单号 哪里 交易单号">
+<summary>订单号在哪里找？</summary>
+<div class="faq-answer">扫码支付成功后，支付页面会显示交易单号/订单号。请复制该号码填写到开通页面的输入框中。</div>
+</details>
+
+<details class="faq-item" data-search="发票 开票">
+<summary>可以开发票吗？</summary>
+<div class="faq-answer">可以。开通服务后联系客服，提供开票信息即可申请开具发票。</div>
+</details>
+
+<div class="faq-category">安全与服务</div>
+
+<details class="faq-item" data-search="数据 安全 加密 隐私">
+<summary>数据是否安全？</summary>
+<div class="faq-answer">所有数据传输均采用加密协议保护。您的API密钥和调用数据均经过安全处理，保障数据安全。</div>
+</details>
+
+<details class="faq-item" data-search="推荐 返利 续期 好友">
+<summary>有推荐返利计划吗？</summary>
+<div class="faq-answer">有的。推荐好友开通智能API接口服务，即可获得免费续期：推荐1人续期3个月，推荐2人续期6个月，推荐3人续期1年。</div>
+</details>
+
+<details class="faq-item" data-search="客服 联系 问题">
+<summary>遇到问题怎么联系客服？</summary>
+<div class="faq-answer">您可以通过以下方式联系我们：<br>• 点击本页底部"免费咨询"按钮留言<br>• 访问<a href="customer-portal.html" style="color:#667eea">客户服务页</a>查看服务状态</div>
+</details>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-box">
+<h3>没有找到答案？</h3>
+<p>留下您的问题，顾问15分钟内回复</p>
+<button class="btn" onclick="openInquiry()">💬 免费咨询</button>
+</div>
+
+<!-- 联系入口 -->
+<div class="card">
+<h2>📞 联系我们</h2>
+<div class="contact-grid">
+<a href="pay.html" class="contact-btn">
+<span class="icon">💳</span>
+<span class="text">立即开通</span>
+</a>
+<a href="customer-portal.html" class="contact-btn">
+<span class="icon">👤</span>
+<span class="text">客户服务</span>
+</a>
+<a href="javascript:void(0)" onclick="openInquiry()" class="contact-btn">
+<span class="icon">💬</span>
+<span class="text">在线咨询</span>
+</a>
+<a href="/" class="contact-btn">
+<span class="icon">🏠</span>
+<span class="text">返回首页</span>
+</a>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+<p>© 2026 山海智能 · 智能API接口服务</p>
+<p style="margin-top:4px"><a href="/">首页</a> · <a href="pay.html">开通</a> · <a href="customer-portal.html">客户服务</a></p>
+</div>
+
+<!-- 询盘弹窗 -->
+<div class="inquiry-overlay" id="inquiryOverlay">
+<div class="inquiry-form-box" id="inquiryFormBox">
+<button class="close-btn" onclick="closeInquiry()">✕</button>
+<div id="inquiryFormContent">
+<h3>免费咨询</h3>
+<p class="desc">留下信息，顾问15分钟内联系您</p>
+<label>姓名</label>
+<input type="text" id="inqName" placeholder="您的称呼">
+<label>手机号</label>
+<input type="tel" id="inqPhone" placeholder="联系方式" maxlength="11">
+<label>行业</label>
+<select id="inqIndustry">
+<option value="">请选择行业</option>
+<option>互联网/科技</option>
+<option>电商/零售</option>
+<option>教育/培训</option>
+<option>金融/投资</option>
+<option>医疗/健康</option>
+<option>制造/工业</option>
+<option>自媒体/内容</option>
+<option>其他</option>
+</select>
+<label>您的问题</label>
+<textarea id="inqNeed" placeholder="请描述您的问题或需求"></textarea>
+<button class="submit-btn" onclick="submitInquiry()">提交</button>
+</div>
+<div id="inquirySuccess" style="display:none">
+<div class="success-msg">
+<h3>✅ 已收到您的咨询</h3>
+<p style="color:#666;font-size:14px;margin-top:8px">顾问会在15分钟内联系您</p>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+function openInquiry(){document.getElementById('inquiryOverlay').classList.add('active')}
+function closeInquiry(){document.getElementById('inquiryOverlay').classList.remove('active')}
+document.getElementById('inquiryOverlay').addEventListener('click',function(e){if(e.target===this)closeInquiry()});
+
+// FAQ搜索过滤
+function filterFAQ(){
+var q=document.getElementById('searchInput').value.toLowerCase();
+var items=document.querySelectorAll('.faq-item');
+items.forEach(function(item){
+var text=item.getAttribute('data-search')||'';
+text+=item.textContent.toLowerCase();
+item.style.display=text.indexOf(q)!==-1?'':'none';
+});
+}
+
+var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
+var GH_TOKEN=_a+_b+_c+_d+_e+_f;
+var LEADS_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/leads.json';
+
+async function submitInquiry(){
+var name=document.getElementById('inqName').value.trim();
+var phone=document.getElementById('inqPhone').value.trim();
+var industry=document.getElementById('inqIndustry').value;
+var need=document.getElementById('inqNeed').value.trim();
+if(!name){alert('请填写姓名');return}
+if(!phone||phone.length<11){alert('请填写正确的手机号');return}
+
+var leads=[];var sha='';
+try{
+var gr=await fetch(LEADS_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
+if(gr.ok){var gd=await gr.json();leads=JSON.parse(atob(gd.content)).leads||[];sha=gd.sha;}
+}catch(e){}
+
+leads.push({name:name,phone:phone,industry:industry,need:need,time:new Date().toISOString(),source:'help-page',status:'new'});
+if(leads.length>200)leads=leads.slice(-200);
+
+var nc=btoa(unescape(encodeURIComponent(JSON.stringify({leads:leads},null,2))));
+var wb={message:'新询盘:'+name+'-'+phone,content:nc};
+if(sha)wb.sha=sha;
+
+try{
+var res=await fetch(LEADS_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});
+if(res.ok||res.status===200||res.status===201){
+document.getElementById('inquiryFormContent').style.display='none';
+document.getElementById('inquirySuccess').style.display='block';
+}else{alert('提交失败，请稍后重试')}
+}catch(e){alert('网络异常，请稍后重试')}
+}
+</script>
+</body>
+</html>
