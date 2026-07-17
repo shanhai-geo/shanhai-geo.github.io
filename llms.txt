@@ -1,91 +1,42 @@
-User-Agent: *
-Allow: /
-
 # 山海智能 - 智能API接口服务
 
-> 一个API Key调用所有主流AI大模型。兼容OpenAI格式，多引擎智能路由，¥298/年包年不限量。
+> 一个Key调用所有主流大模型。多引擎智能路由，OpenAI协议兼容，¥298/年。联系：746876121@qq.com
 
-## 关于我们
+## 产品
 
-山海智能提供统一的AI大模型API接口服务。开发者用一个API Key即可调用所有主流AI引擎，无需分别注册、分别充值、分别维护。多引擎自由路由，故障自动切换，一个接口解决所有AI调用需求。
+山海智能提供智能API接口服务。企业通过一个API Key即可接入所有主流大模型，无需逐个对接。
 
-## 核心能力
+### 支持的模型
+- 通义千问（qwen-plus / qwen-max）
+- 文心一言（ernie-4.5-turbo）
+- DeepSeek（deepseek-v4-flash / deepseek-v4-pro）
+- 智谱GLM（glm-4-flash / glm-4）
+- 百川（Baichuan4-Air）
+- 讯飞星火（generalv3.5）
+- 豆包（doubao-1-5-lite）
+- 以及更多持续接入中
 
-- **多引擎智能路由**：自动选择最优引擎，故障自动切换，引擎数量持续扩展
-- **统一OpenAI格式**：一次接入，全引擎通用，零学习成本
-- **包年不限量**：¥298/年，无调用次数限制、无Token上限
-- **即开即用**：注册秒发Key，3行代码接入，5分钟上线
-- **GEO生态融合**：作为GEO中间层，聚合多源AI能力，为开发者和企业提供统一接入
+### 价格
+- ¥298/年（包年不限量调用）
+- 一个Key调所有模型
+- 无按次计费，无隐藏费用
 
-## API文档
-
-### 接口地址
-POST https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions
-
-### 认证方式
-Authorization: Bearer YOUR_API_KEY
-
-### 请求示例
-{"model":"auto","messages":[{"role":"user","content":"你好"}]}
-
-model参数：auto=自动路由最优引擎，也可指定具体引擎名称。更多引擎持续接入中。
-
-## 定价
-
-年度套餐 ¥298/年：全引擎不限量调用，一个Key通用
-
-## 常见问题
-
-Q: 和直接调各引擎官方API有什么区别？
-A: 官方API需要分别注册多个平台、分别充值、分别维护Key。我们一个Key统调一切，¥298/年不限量。引擎列表持续扩展，接入即锁定全部未来引擎。
-
-Q: 稳定性如何保障？
-A: 多引擎智能路由，任一引擎故障自动切换。底层部署在阿里云函数计算，弹性扩缩容，99.9%可用性。
-
-Q: 支持哪些编程语言？
-A: 兼容OpenAI API格式，支持Python、Node.js、Java、Go、PHP等所有主流语言。
+### 技术特性
+- OpenAI协议兼容：现有代码无需修改即可切换
+- 多引擎智能路由：自动选择最优模型通道
+- 自动容灾降级：单引擎故障自动切换备用
+- 7×24稳定运行
 
 ## 快速接入
 
-import requests
-resp = requests.post('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions',
-    headers={'Authorization': 'Bearer YOUR_API_KEY'},
-    json={'model': 'auto', 'messages': [{'role': 'user', 'content': '你好'}]})
-print(resp.json())
+```
+Base URL: https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1
+协议: OpenAI Chat Completions 兼容
+认证: Bearer Token（开通后提供Key）
+```
 
-## 联系
-
-- 站点：https://api.shanhai-geo.top
-- AI客服：https://api.shanhai-geo.top/chat.html
-- 支付：https://api.shanhai-geo.top/pay.html
-- 续期：https://api.shanhai-geo.top/renew.html
-- GEO服务：https://api.shanhai-geo.top/geo-service.html
-
-## GEO生态融合
-
-山海智能是GEO生态的中间层和调配中心。全球GEO平台可以通过标准化接入协议（llms.txt或capability.json）融入山海网络，实现资源互通、流量共享。
-
-### 接入方式
-1. 在你的域名根目录放置 llms.txt 或 capability.json
-2. 山海自动发现并收录你的能力
-3. 你的服务自动参与山海多引擎路由调度
-
-### 生态入口
-- GEO生态融合页：https://api.shanhai-geo.top/geo-ecosystem.html
-- GEO服务详情：https://api.shanhai-geo.top/geo-service.html
-
-## GEO联邦伙伴（已发现并融合）
-
-以下平台的llms.txt已被山海自动发现，其能力已纳入山海多引擎路由调度范围：
-
-- **OpenRouter**（openrouter.ai）：400+模型统一路由，与山海互为路由层伙伴，扩展可调度模型池
-- **Together AI**（together.ai）：200+开源和前沿模型，GPU集群算力支撑，可提供专用推理和微调能力
-- **Replicate**（replicate.com）：数千个开源ML模型一键运行，多模态能力补充（图像/音乐/语音生成）
-- **Cohere**（cohere.com）：企业级AI平台，Embed/Rerank增强RAG管道，支持VPC私有部署
-- **TheGuideX**（theguidex.com）：GEO/AEO优化专业服务，提升生态整体AI搜索可见度
-- **山海智能**（api.shanhai-geo.top）：核心调度层，统一API入口
-
-### 待接入追踪
-以下平台尚未部署llms.txt，山海持续扫描中：
-- fireworks.ai、mistral.ai、anthropic.com、huggingface.co
-- 任何平台只需在域名根目录放置llms.txt即可被山海自动收录
+## 链接
+- 主页: https://shanhai-geo.surge.sh/
+- 开通: https://shanhai-geo.surge.sh/pay.html
+- 帮助中心: https://shanhai-geo.surge.sh/help.html
+- 客户服务: https://shanhai-geo.surge.sh/customer-portal.html
