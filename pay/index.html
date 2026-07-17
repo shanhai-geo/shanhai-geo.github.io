@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-
-<!-- Cloudflare China Optimization -->
-<meta name="renderer" content="webkit">
-<meta name="force-rendering" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<link rel="preconnect" href="https://shanhai-geo.surge.sh">
-<link rel="dns-prefetch" href="https://shanhai-geo.surge.sh">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>购买 - 山海智能API服务</title>
+<meta property="og:title" content="购买 - 山海智能API服务">
+<meta property="og:description" content="山海智能API接口服务，¥298/年包年不限量，多引擎智能路由统一接入主流大模型。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shanhai-geo.surge.sh/pay/">
+<meta name="twitter:card" content="summary">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;min-height:100vh}
@@ -24,33 +23,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .price{font-size:42px;font-weight:800;color:#e63e3e}
 .price small{font-size:16px;color:#999;font-weight:400}
 .period{font-size:14px;color:#666;margin-top:4px}
-.pay-steps{counter-reset:step}
-.pay-steps li{list-style:none;counter-increment:step;padding:10px 0 10px 36px;position:relative;font-size:14px;line-height:1.6;border-bottom:1px solid #f5f5f5}
-.pay-steps li::before{content:counter(step);position:absolute;left:0;top:10px;width:24px;height:24px;background:#1a1a3e;color:#fff;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700}
-.pay-steps li:last-child{border-bottom:none}
-.amount{font-size:15px;color:#e63e3e;font-weight:700}
 input[type="text"],input[type="tel"]{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-top:8px;outline:none;transition:border .3s}
 input:focus{border-color:#1a1a3e}
 label{font-size:14px;color:#666;display:block;margin-top:12px}
 .btn{display:block;width:100%;padding:14px;border:none;border-radius:8px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;margin-top:16px;text-align:center;text-decoration:none}
 .btn-primary{background:linear-gradient(135deg,#1a1a3e,#4a4a8e)}
 .btn-primary:hover{opacity:.9}
-.btn-wechat{background:#07c160}
-.btn-alipay{background:#1677ff}
 .tip{font-size:12px;color:#999;text-align:center;margin-top:12px;line-height:1.6}
-.guarantee{background:#f0f9ff;border-radius:8px;padding:12px;text-align:center;font-size:13px;color:#0066cc;margin-top:12px}
-.success-msg{display:none;text-align:center;padding:20px}
-.success-msg h3{color:#07c160;font-size:18px;margin-bottom:8px}
-.success-msg p{color:#666;font-size:14px}
-.loading{display:none;text-align:center;padding:10px;color:#666}
-/* QR Code styles */
 .qr-section{text-align:center;padding:10px 0}
 .qr-tabs{display:flex;gap:8px;margin-bottom:16px}
 .qr-tab{flex:1;padding:12px;border:2px solid #eee;border-radius:10px;text-align:center;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s}
 .qr-tab.active-wx{border-color:#07c160;background:rgba(7,193,96,.06);color:#07c160}
 .qr-tab.active-ali{border-color:#1677ff;background:rgba(22,119,255,.06);color:#1677ff}
-.qr-img-wrap{background:#fafafa;border-radius:12px;padding:20px;margin:0 auto;max-width:280px}
-.qr-img-wrap img{width:220px;height:220px;border-radius:8px}
+.qr-img-wrap{background:#fafafa;border-radius:12px;padding:20px;margin:0 auto;max-width:280px;display:flex;justify-content:center;align-items:center}
+.qr-img-wrap canvas,.qr-img-wrap img{border-radius:8px}
 .qr-tip{font-size:13px;color:#666;margin-top:12px;line-height:1.6}
 .qr-tip strong{color:#e63e3e}
 .qr-scan-label{display:flex;justify-content:center;gap:20px;margin-top:12px;font-size:13px;color:#666}
@@ -58,17 +44,16 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 .qr-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .qr-dot.wx{background:#07c160}
 .qr-dot.ali{background:#1677ff}
+.success-msg{display:none;text-align:center;padding:20px}
+.success-msg h3{color:#07c160;font-size:18px;margin-bottom:8px}
+.success-msg p{color:#666;font-size:14px}
+.loading{display:none;text-align:center;padding:10px;color:#666}
 </style>
-<meta property="og:title" content="购买 - 山海智能API服务">
-<meta property="og:description" content="山海智能API接口服务，¥298/年包年不限量，多引擎智能路由统一接入主流大模型。">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://shanhai-geo.surge.sh/pay.html">
-<meta name="twitter:card" content="summary">
 </head>
 <body>
 <div class="header">
 <h1>山海智能 API服务</h1>
-<p>多引擎智能路由·主流大模型统一接入</p>
+<p>多引擎智能路由 · 主流大模型统一接入</p>
 </div>
 <div class="container">
 <div class="card">
@@ -78,7 +63,7 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 <div class="period">智能API接口服务 · 365天</div>
 </div>
 <ul style="font-size:13px;color:#666;line-height:2">
-<li>✓ 一个Key调用所有主流大模型</li>
+<li>✓ 一个Key调用主流大模型</li>
 <li>✓ 兼容OpenAI协议，即接即用</li>
 <li>✓ 7×24小时稳定服务</li>
 </ul>
@@ -87,16 +72,12 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 <div class="card" id="paySection">
 <h2>第一步：扫码支付</h2>
 <p style="font-size:14px;color:#666;margin-bottom:12px">请选择支付方式，扫码完成付款 <strong style="color:#e63e3e">¥298</strong></p>
-
-<!-- QR Code Payment Area -->
 <div class="qr-section">
   <div class="qr-tabs">
     <div class="qr-tab active-wx" id="tabWx" onclick="switchQR('wx')">微信支付</div>
     <div class="qr-tab" id="tabAli" onclick="switchQR('ali')">支付宝</div>
   </div>
-  <div class="qr-img-wrap">
-    <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333" alt="微信支付二维码">
-  </div>
+  <div class="qr-img-wrap" id="qrContainer"></div>
   <div class="qr-tip">
     <p>打开手机 <strong id="scanAppName">微信</strong> → 扫一扫 → 扫描上方二维码</p>
     <p style="margin-top:6px;font-size:12px;color:#999">付款完成后回到本页填写信息</p>
@@ -119,23 +100,46 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 <div class="loading" id="loading">提交中...</div>
 </div>
 
-
 <div class="tip">
 支付遇到问题？请联系客服<br>
 </div>
 </div>
 
 <script>
-// QR Code switching
+// 乐刷支付链接
+var payUrl = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
+
+// 纯前端生成二维码
+function generateQR(text, container) {
+  container.innerHTML = '';
+  try {
+    new QRCode(container, {
+      text: text,
+      width: 220,
+      height: 220,
+      colorDark: '#1a1a3e',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch(e) {
+    // 降级：使用 canvas 手动绘制提示
+    container.innerHTML = '<div style="width:220px;height:220px;background:#fafafa;display:flex;align-items:center;justify-content:center;border:2px dashed #ddd;border-radius:8px;text-align:center;padding:20px"><p style="color:#999;font-size:13px">二维码加载中...<br>如长时间未显示请刷新页面</p></div>';
+  }
+}
+
+// 初始化二维码
+function initQR() {
+  var container = document.getElementById('qrContainer');
+  generateQR(payUrl, container);
+}
+
+// 切换支付方式（乐刷二维码同时支持微信和支付宝）
 function switchQR(type) {
-  var qrUrl = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
-  var qrImg = document.getElementById('qrImage');
   var tabWx = document.getElementById('tabWx');
   var tabAli = document.getElementById('tabAli');
   var appName = document.getElementById('scanAppName');
-  
-  qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(qrUrl) + '&margin=10';
-  
+  var container = document.getElementById('qrContainer');
+
   if (type === 'wx') {
     tabWx.className = 'qr-tab active-wx';
     tabAli.className = 'qr-tab';
@@ -145,53 +149,56 @@ function switchQR(type) {
     tabAli.className = 'qr-tab active-ali';
     appName.textContent = '支付宝';
   }
+  // 重新生成二维码确保显示正常
+  generateQR(payUrl, container);
 }
+
+// 页面加载完成后初始化
+window.addEventListener('DOMContentLoaded', initQR);
 
 // 捕获推荐码
 var refCode='';
 (function(){var p=window.location.search.substring(1).split('&');for(var i=0;i<p.length;i++){var kv=p[i].split('=');if(kv[0]==='ref')refCode=decodeURIComponent(kv[1]);}})();
 if(refCode){document.body.insertAdjacentHTML('beforeend','<div style="background:rgba(102,126,234,.08);border:1px solid rgba(102,126,234,.2);border-radius:8px;padding:10px;margin:12px 0;font-size:13px;color:#667eea;text-align:center">通过好友推荐链接进入，推荐码：'+refCode+'</div>');}
 
-// GitHub写入（分割token技巧，同orders-admin）
+// GitHub写入
 var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
 var GH_TOKEN=_a+_b+_c+_d+_e+_f;
 var GH_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/orders.json';
 
 function genCode(){var c='SH',ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(var i=0;i<8;i++)c+=ch.charAt(Math.floor(Math.random()*ch.length));return c;}
 
-async function submitOrder(){if(typeof _track==='function')_track('payment',{status:'submitted'});
-var phone=document.getElementById('phone').value.trim();
-var orderNo=document.getElementById('orderNo').value.trim();
-if(!phone||phone.length<11){alert('请输入正确的手机号');return}
-if(!orderNo){alert('请输入付款订单号');return}
-document.getElementById('loading').style.display='block';
-document.getElementById('submitBtn').disabled=true;
+async function submitOrder(){
+  if(typeof _track==='function')_track('payment',{status:'submitted'});
+  var phone=document.getElementById('phone').value.trim();
+  var orderNo=document.getElementById('orderNo').value.trim();
+  if(!phone||phone.length<11){alert('请输入正确的手机号');return}
+  if(!orderNo){alert('请输入付款订单号');return}
+  document.getElementById('loading').style.display='block';
+  document.getElementById('submitBtn').disabled=true;
 
-var cc=genCode();
-var now=new Date().toISOString();
-var exp=new Date(Date.now()+365*24*3600*1000).toISOString();
+  var cc=genCode();
+  var now=new Date().toISOString();
+  var exp=new Date(Date.now()+365*24*3600*1000).toISOString();
 
-var orders=[];var sha='';
-try{
-var gr=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
-if(gr.ok){var gd=await gr.json();orders=(JSON.parse(atob(gd.content)).orders)||[];sha=gd.sha;}
-}catch(e){}
+  var orders=[];var sha='';
+  try{
+    var gr=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
+    if(gr.ok){var gd=await gr.json();orders=(JSON.parse(atob(gd.content)).orders)||[];sha=gd.sha;}
+  }catch(e){}
 
+  orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'pending',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:''});
 
-orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'pending',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:''});
+  var nc=btoa(unescape(encodeURIComponent(JSON.stringify({orders:orders},null,2))));
+  var wb={message:'订单:'+cc,content:nc};
+  if(sha)wb.sha=sha;
+  try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});}catch(e){}
 
-var nc=btoa(unescape(encodeURIComponent(JSON.stringify({orders:orders},null,2))));
-var wb={message:'订单:'+cc,content:nc};
-if(sha)wb.sha=sha;
-try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});}catch(e){}
+  try{
+    fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·待确认】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 状态:待确认收款 | 时间:'+new Date().toLocaleString('zh-CN')})});
+  }catch(e){}
 
-try{
-var ri=refCode?' | 推荐码:'+refCode:'';
-// 通知主人：有新订单待处理
-fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·待确认】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 状态:待确认收款 | 时间:'+new Date().toLocaleString('zh-CN')})});
-}catch(e){}
-
-document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3 style="color:#ff9800">订单已提交</h3><p style="font-size:15px;color:#333;margin:12px 0">您的确认码：</p><p><code style="display:block;background:#1a1a3e;color:#ffd700;padding:14px;border-radius:10px;font-size:20px;margin:12px 0;word-break:break-all;user-select:all;font-weight:bold">'+cc+'</code></p><p style="font-size:14px;color:#666">我们核实收款后会立即为您开通服务</p><p style="font-size:13px;color:#999;margin-top:8px">通常在30分钟内完成，请保存好确认码</p><p style="font-size:12px;color:#999;margin-top:12px">如有疑问请联系客服</p></div>';
+  document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3 style="color:#ff9800">订单已提交</h3><p style="font-size:15px;color:#333;margin:12px 0">您的确认码：</p><p><code style="display:block;background:#1a1a3e;color:#ffd700;padding:14px;border-radius:10px;font-size:20px;margin:12px 0;word-break:break-all;user-select:all;font-weight:bold">'+cc+'</code></p><p style="font-size:14px;color:#666">我们核实收款后会立即为您开通服务</p><p style="font-size:13px;color:#999;margin-top:8px">通常在30分钟内完成，请保存好确认码</p><p style="font-size:12px;color:#999;margin-top:12px">如有疑问请联系客服</p></div>';
 }
 </script>
 <script>
@@ -201,16 +208,13 @@ document.getElementById('submitSection').innerHTML='<div class="success-msg" sty
       TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
       API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
       H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
-  // 记录页面访问
   fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
     var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
     var data=JSON.parse(raw);
     data.views.push({page:P,device:M,ref:R,time:D});
-    // 只保留最近500条
     if(data.views.length>500)data.views=data.views.slice(-500);
     fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
   }).catch(function(){});
-  // 暴露全局方法供其他事件调用
   window._track=function(type,extra){
     fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
       var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
@@ -225,6 +229,5 @@ document.getElementById('submitSection').innerHTML='<div class="success-msg" sty
   };
 })();
 </script>
-
 </body>
 </html>
