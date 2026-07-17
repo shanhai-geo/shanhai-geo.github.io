@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>开发者必看：如何用一个API Key调用多个大模型</title>
+<meta name="description" content="开发者实用指南：通过智能API接口服务，一个Key即可调用多个主流大模型，告别多平台分别对接的烦恼。¥298/年包年不限量。">
+<meta name="keywords" content="一个Key调用多个大模型,统一API,智能路由,开发者工具,山海智能">
+<meta property="og:title" content="开发者必看：如何用一个API Key调用多个大模型">
+<meta property="og:description" content="一个Key统一接入多个主流大模型的实用方案。">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://shanhai-geo.github.io/blog/one-key-multi-models.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#fff;color:#333;line-height:1.8}
+.header{background:linear-gradient(135deg,#1a1a3e,#2d2d6e);color:#fff;padding:40px 20px;text-align:center}
+.header h1{font-size:28px;margin-bottom:8px;max-width:700px;margin-left:auto;margin-right:auto}
+.header .meta{font-size:14px;opacity:.7}
+.content{max-width:720px;margin:0 auto;padding:30px 20px}
+.content h2{font-size:22px;color:#1a1a3e;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #f0f0f0}
+.content h3{font-size:18px;color:#2d2d6e;margin:20px 0 10px}
+.content p{margin-bottom:16px;font-size:16px}
+.content ul{margin:16px 0;padding-left:24px}
+.content li{margin-bottom:8px}
+.code-block{background:#1a1a3e;color:#e0e0e0;padding:20px;border-radius:8px;overflow-x:auto;font-family:monospace;font-size:14px;line-height:1.6;margin:16px 0}
+.tip-box{background:#f0f9ff;border:1px solid #d0e8ff;border-radius:12px;padding:20px;margin:20px 0}
+.tip-box h3{color:#0066cc;margin-bottom:8px}
+.benefit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0}
+.benefit-card{background:#f8f8ff;border-radius:12px;padding:20px;text-align:center}
+.benefit-card .icon{font-size:32px;margin-bottom:8px}
+.benefit-card h3{font-size:15px;color:#1a1a3e;margin-bottom:4px}
+.benefit-card p{font-size:13px;color:#666;margin:0}
+.price-card{background:linear-gradient(135deg,#1a1a3e,#4a4a8e);color:#fff;border-radius:16px;padding:30px;text-align:center;margin:24px 0}
+.price-card .price{font-size:48px;font-weight:800}
+.price-card .price small{font-size:18px;opacity:.7}
+.price-card .cta{display:inline-block;background:#fff;color:#1a1a3e;padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:16px}
+.cta-section{text-align:center;padding:30px;background:#f8f8ff;border-radius:12px;margin:30px 0}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,#1a1a3e,#4a4a8e);color:#fff;padding:14px 40px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px}
+.nav{max-width:720px;margin:0 auto;padding:16px 20px;font-size:14px}
+.nav a{color:#1a1a3e;text-decoration:none}
+.footer{text-align:center;padding:30px 20px;color:#999;font-size:13px;border-top:1px solid #f0f0f0;margin-top:40px}
+.faq-item{border-bottom:1px solid #f0f0f0;padding:16px 0}
+.faq-item h3{font-size:16px;color:#1a1a3e;margin-bottom:8px}
+.faq-item p{font-size:15px;color:#666;margin-bottom:0}
+</style>
+</head>
+<body>
+<nav class="nav"><a href="/blog/">← 返回博客首页</a></nav>
+<div class="header">
+<h1>开发者必看：如何用一个API Key调用多个大模型</h1>
+<p class="meta">发布于 2026年7月 · 阅读约7分钟</p>
+</div>
+<div class="content">
+
+<p>作为开发者，你可能已经遇到过这样的场景：项目需要同时使用多个大模型的能力，但每个平台的API接口都不一样，注册、对接、计费、维护……工作量成倍增加。有没有一种方法，<strong>只需要一个API Key就能调用多个主流大模型</strong>？</p>
+
+<h2>多模型调用的痛点</h2>
+
+<p>如果你曾经分别对接过多个大模型平台，以下场景应该不陌生：</p>
+<ul>
+<li>项目A用甲平台做文本生成，项目B用乙平台做对话机器人</li>
+<li>每换一家模型服务商，就要重新注册账号、阅读文档、编写适配代码</li>
+<li>不同平台的API Key需要分别保管，容易混乱</li>
+<li>计费方式各异，月底对账时一头雾水</li>
+<li>某家模型临时不可用时，代码里要写一堆重试和切换逻辑</li>
+</ul>
+
+<p>这些问题的本质是：<strong>各家平台之间的接口缺乏统一标准</strong>。</p>
+
+<h2>解决方案：统一接入的智能路由</h2>
+
+<p>山海智能API接口服务提供了一套优雅的解决方案。它的核心思路是：</p>
+
+<div class="tip-box">
+<h3>💡 统一接入，智能路由</h3>
+<p>你只需要对接一个API地址，使用一个Key，系统会自动将请求路由到最合适的模型通道。无需关心底层调用了哪个模型，专注业务逻辑即可。</p>
+</div>
+
+<div class="benefit-grid">
+<div class="benefit-card">
+<div class="icon">🔑</div>
+<h3>一个Key</h3>
+<p>只需管理一个API Key</p>
+</div>
+<div class="benefit-card">
+<div class="icon">🔀</div>
+<h3>智能路由</h3>
+<p>自动选择最优模型通道</p>
+</div>
+<div class="benefit-card">
+<div class="icon">📐</div>
+<h3>统一协议</h3>
+<p>兼容OpenAI接口规范</p>
+</div>
+<div class="benefit-card">
+<div class="icon">💰</div>
+<h3>固定年费</h3>
+<p>¥298/年，成本可预测</p>
+</div>
+</div>
+
+<h2>快速上手</h2>
+
+<h3>1. 开通服务</h3>
+<p>访问 <a href="https://shanhai-geo.surge.sh/pay/">支付页面</a>，通过微信或支付宝扫码支付¥298，填写手机号和订单号后即可获得专属API Key。</p>
+
+<h3>2. 发送第一个请求</h3>
+
+<p>以下是Python的调用示例：</p>
+
+<div class="code-block">
+import requests<br><br>
+# 调用智能路由（自动选择模型）<br>
+resp = requests.post(<br>
+&nbsp;&nbsp;"https://api.shanhai-geo.top/v1/chat/completions",<br>
+&nbsp;&nbsp;headers={<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"Authorization": "Bearer sh-你的Key",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"Content-Type": "application/json"<br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;json={<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"model": "auto",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"messages": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"role": "system", "content": "你是一个有帮助的助手"},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"role": "user", "content": "解释什么是智能路由"}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;}<br>
+)<br><br>
+print(resp.json()["choices"][0]["message"]["content"])
+</div>
+
+<h3>3. JavaScript调用示例</h3>
+
+<div class="code-block">
+const response = await fetch(<br>
+&nbsp;&nbsp;"https://api.shanhai-geo.top/v1/chat/completions", {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;method: "POST",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Authorization": "Bearer sh-你的Key",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Content-Type": "application/json"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;body: JSON.stringify({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model: "auto",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;messages: [{role: "user", content: "写一首诗"}]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+&nbsp;&nbsp;}<br>
+);<br><br>
+const data = await response.json();<br>
+console.log(data.choices[0].message.content);
+</div>
+
+<h2>智能路由的实际价值</h2>
+
+<h3>场景一：多模型A/B测试</h3>
+<p>无需修改代码，通过调整请求参数即可在不同模型间切换对比输出效果。</p>
+
+<h3>场景二：故障自动容错</h3>
+<p>当某个模型通道出现异常时，智能路由自动切换到备用通道，你的代码无需任何修改。</p>
+
+<h3>场景三：成本优化</h3>
+<p>系统会根据请求的复杂度自动选择性价比最高的模型通道，避免不必要的资源浪费。</p>
+
+<div class="price-card">
+<p style="font-size:14px;opacity:.8;margin-bottom:8px">智能API接口服务</p>
+<div class="price">¥298<small>/年</small></div>
+<p style="font-size:14px;opacity:.8;margin-top:8px">一个Key · 多模型接入 · 365天服务</p>
+<a class="cta" href="https://shanhai-geo.surge.sh/pay/">立即开通 →</a>
+</div>
+
+<h2>常见问题解答</h2>
+<div class="faq-item">
+<h3>Q：model参数填什么？</h3>
+<p>A：填"auto"即可启用智能路由自动选择模型，也可以指定具体模型名称。</p>
+</div>
+<div class="faq-item">
+<h3>Q：支持流式输出吗？</h3>
+<p>A：支持。在请求中添加"stream": true即可启用流式输出（Server-Sent Events）。</p>
+</div>
+<div class="faq-item">
+<h3>Q：和直接使用OpenAI的接口有什么区别？</h3>
+<p>A>接口协议完全兼容，代码几乎无需修改。区别在于：山海智能提供了多模型路由能力，一个Key可以调用多个模型，且采用包年固定费用。</p>
+</div>
+<div class="faq-item">
+<h3>Q：响应速度怎么样？</h3>
+<p>A：系统部署了多节点负载均衡，智能路由会优先选择响应速度快且负载低的通道。</p>
+</div>
+
+<div class="cta-section">
+<h2 style="border:none;margin-top:0">告别多Key管理的烦恼</h2>
+<p style="margin-bottom:20px">一个Key调用多个主流大模型，¥298/年即享全年服务</p>
+<a class="cta-btn" href="https://shanhai-geo.surge.sh/pay/">立即开通 →</a>
+</div>
+
+</div>
+<div class="footer">
+<p>© 2026 山海智能 · 智能API接口服务</p>
+<p><a href="/blog/">博客首页</a> | <a href="https://shanhai-geo.surge.sh/pay/">购买服务</a></p>
+</div>
+</body>
+</html>
