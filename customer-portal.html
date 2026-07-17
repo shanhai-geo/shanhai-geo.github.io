@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>客户中心 - 山海智能</title>
+<meta name="description" content="山海智能客户自助中心 - 查看密钥、到期时间、推荐统计、续期管理">
+<meta property="og:title" content="客户中心 - 山海智能">
+<meta property="og:description" content="查看您的API密钥、服务到期时间、推荐统计">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"山海智能客户中心","description":"客户自助查询面板","url":"https://shanhai-geo.github.io/customer-portal.html"}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#0a0a1a;color:#e0e0e0;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.header{width:100%;padding:20px;text-align:center;background:linear-gradient(135deg,#0a0a1a,#1a1a3a);border-bottom:1px solid rgba(255,215,0,.15)}
+.header h1{font-size:22px;color:#ffd700;margin-bottom:4px}
+.header p{font-size:13px;color:#888}
+.container{width:100%;max-width:500px;padding:20px}
+.card{background:#141428;border:1px solid rgba(255,215,0,.1);border-radius:12px;padding:20px;margin-bottom:16px}
+.card h2{font-size:16px;color:#ffd700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.input-group{margin-bottom:12px}
+.input-group label{display:block;font-size:13px;color:#999;margin-bottom:4px}
+.input-group input{width:100%;padding:10px 14px;border:1px solid rgba(255,215,0,.2);border-radius:8px;background:#0a0a1a;color:#fff;font-size:15px;outline:none}
+.input-group input:focus{border-color:#ffd700}
+.btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:rgba(255,215,0,.1);color:#ffd700;border:1px solid rgba(255,215,0,.3);margin-top:8px}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.info-row:last-child{border:none}
+.info-label{color:#888;font-size:13px}
+.info-value{color:#fff;font-size:14px;font-weight:500;word-break:break-all}
+.status-active{color:#4caf50}
+.status-pending{color:#ff9800}
+.status-expired{color:#f44346}
+.key-box{background:#0a0a1a;border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#ffd700;word-break:break-all;position:relative;margin:8px 0}
+.copy-btn{position:absolute;top:8px;right:8px;padding:4px 10px;border:1px solid rgba(255,215,0,.3);border-radius:4px;background:transparent;color:#ffd700;font-size:12px;cursor:pointer}
+.copy-btn:active{background:rgba(255,215,0,.2)}
+.hidden{display:none}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#4caf50;color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:999;opacity:0;transition:opacity .3s}
+.toast.show{opacity:1}
+.renew-banner{background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,140,0,.1));border:1px solid rgba(255,215,0,.3);border-radius:8px;padding:14px;margin-top:12px;text-align:center}
+.renew-banner a{color:#ffd700;font-weight:600}
+.ref-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.ref-stat{text-align:center;padding:10px;background:#0a0a1a;border-radius:8px}
+.ref-stat .num{font-size:24px;color:#ffd700;font-weight:700}
+.ref-stat .label{font-size:11px;color:#888;margin-top:2px}
+.footer{text-align:center;padding:20px;font-size:12px;color:#555}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>山海智能 · 客户中心</h1>
+<p>查看密钥 / 到期时间 / 推荐统计 / 续期管理</p>
+</div>
+
+<div class="container">
+<!-- 查询区域 -->
+<div class="card" id="queryCard">
+<h2>查询我的服务</h2>
+<div class="input-group">
+<label>手机号</label>
+<input type="tel" id="phoneInput" placeholder="输入下单时的手机号" maxlength="11">
+</div>
+<div class="input-group">
+<label>确认码（可选）</label>
+<input type="text" id="codeInput" placeholder="输入确认码验证身份" maxlength="20">
+</div>
+<button class="btn btn-primary" onclick="queryOrder()">查询</button>
+<p style="font-size:12px;color:#666;margin-top:8px;text-align:center">付款后30分钟内交付密钥，如有疑问联系AI客服</p>
+</div>
+
+<!-- 结果展示 -->
+<div class="card hidden" id="resultCard">
+<h2>我的服务信息</h2>
+<div class="info-row">
+<span class="info-label">订单号</span>
+<span class="info-value" id="rOrderId">-</span>
+</div>
+<div class="info-row">
+<span class="info-label">状态</span>
+<span class="info-value" id="rStatus">-</span>
+</div>
+<div class="info-row">
+<span class="info-label">金额</span>
+<span class="info-value" id="rAmount">-</span>
+</div>
+<div class="info-row">
+<span class="info-label">开通时间</span>
+<span class="info-value" id="rCreated">-</span>
+</div>
+<div class="info-row">
+<span class="info-label">到期时间</span>
+<span class="info-value" id="rExpire">-</span>
+</div>
+
+<!-- Key展示 -->
+<div id="keySection" class="hidden">
+<h2 style="margin-top:16px">我的API密钥</h2>
+<div class="key-box" id="keyBox">
+<span id="keyValue">-</span>
+<button class="copy-btn" onclick="copyKey()">复制</button>
+</div>
+<div style="margin-top:8px">
+<p style="font-size:12px;color:#888">接口地址：</p>
+<div class="key-box" style="font-size:11px;color:#aaa">
+https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions
+<button class="copy-btn" onclick="copyEndpoint()">复制</button>
+</div>
+</div>
+</div>
+
+<!-- 续期 -->
+<div id="renewSection" class="hidden">
+<div class="renew-banner">
+<p style="font-size:14px;color:#ffd700;margin-bottom:4px">服务即将到期或已到期</p>
+<p style="font-size:13px;color:#ccc">续费¥298/年，Key不变继续用</p>
+<a href="pay.html" style="display:inline-block;margin-top:8px;padding:8px 20px;background:#ffd700;color:#000;border-radius:6px;text-decoration:none;font-weight:600">立即续费</a>
+</div>
+</div>
+</div>
+
+<!-- 推荐统计 -->
+<div class="card hidden" id="refCard">
+<h2>推荐统计</h2>
+<p style="font-size:13px;color:#999;margin-bottom:8px">推荐好友使用，你的服务自动延期</p>
+<div class="ref-stats">
+<div class="ref-stat">
+<div class="num" id="refCount">0</div>
+<div class="label">已推荐人数</div>
+</div>
+<div class="ref-stat">
+<div class="num" id="refMonths">0</div>
+<div class="label">已延期月数</div>
+</div>
+<div class="ref-stat">
+<div class="num" id="refGoal">3</div>
+<div class="label">免费用1年还需</div>
+</div>
+</div>
+<div style="margin-top:12px;text-align:center">
+<p style="font-size:12px;color:#888">推荐1人续3月 · 2人续6月 · 3人续1年</p>
+<div class="key-box" style="font-size:12px;margin-top:8px" id="refLinkBox">
+<span id="refLinkValue">-</span>
+<button class="copy-btn" onclick="copyRefLink()">复制推荐链接</button>
+</div>
+</div>
+</div>
+
+<!-- 技术支持 -->
+<div class="card">
+<h2>技术支持</h2>
+<p style="font-size:13px;color:#ccc;margin-bottom:12px">需要接入帮助或有问题？</p>
+<a href="chat.html" class="btn btn-secondary" style="display:block;text-align:center;text-decoration:none">联系AI客服小海</a>
+</div>
+</div>
+
+<div class="footer">
+山海智能 · 智能API接口服务<br>
+¥298/年包年不限量 · 7引擎智能路由
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var ORDERS_URL="https://shanhai-geo.github.io/orders.json";
+// 公开仓库，无需token
+
+function queryOrder(){
+  var phone=document.getElementById("phoneInput").value.trim();
+  var code=document.getElementById("codeInput").value.trim();
+  if(!phone){showToast("请输入手机号");return;}
+  if(!/^\d{11}$/.test(phone)){showToast("请输入正确的11位手机号");return;}
+
+  fetch(ORDERS_URL)
+  .then(function(r){return r.json()})
+  .then(function(content){
+    var order=null;
+    for(var i=0;i<content.orders.length;i++){
+      var o=content.orders[i];
+      if(o.phone===phone && (!code || o.confirmCode===code)){
+        order=o;break;
+      }
+    }
+    if(!order){showToast("未找到订单，请检查手机号");return;}
+    showResult(order);
+  })
+  .catch(function(e){showToast("查询失败，请重试");});
+}
+
+function showResult(o){
+  document.getElementById("queryCard").classList.add("hidden");
+  document.getElementById("resultCard").classList.remove("hidden");
+  document.getElementById("rOrderId").textContent=o.orderId||"-";
+  
+  var statusEl=document.getElementById("rStatus");
+  if(o.status==="delivered"){statusEl.textContent="已开通";statusEl.className="info-value status-active";}
+  else if(o.status==="pending"){statusEl.textContent="待确认";statusEl.className="info-value status-pending";}
+  else{statusEl.textContent=o.status;statusEl.className="info-value";}
+
+  document.getElementById("rAmount").textContent="¥"+o.amount;
+  document.getElementById("rCreated").textContent=o.createdAt?new Date(o.createdAt).toLocaleDateString("zh-CN"):"-";
+  
+  var expDate=o.expireAt?new Date(o.expireAt):null;
+  var expEl=document.getElementById("rExpire");
+  if(expDate){
+    expEl.textContent=expDate.toLocaleDateString("zh-CN");
+    var daysLeft=Math.ceil((expDate-new Date())/(1000*60*60*24));
+    if(daysLeft<=30 && o.status==="delivered"){
+      expEl.textContent+=" (剩余"+daysLeft+"天)";
+      expEl.className="info-value status-expired";
+      document.getElementById("renewSection").classList.remove("hidden");
+    } else if(daysLeft<=0 && o.status==="delivered"){
+      expEl.textContent+=" (已到期)";
+      expEl.className="info-value status-expired";
+      document.getElementById("renewSection").classList.remove("hidden");
+    } else {
+      expEl.className="info-value status-active";
+    }
+  }
+
+  if(o.key && o.status==="delivered"){
+    document.getElementById("keySection").classList.remove("hidden");
+    document.getElementById("keyValue").textContent=o.key;
+  } else if(o.status==="pending"){
+    document.getElementById("keySection").classList.add("hidden");
+  }
+
+  // 推荐统计
+  document.getElementById("refCard").classList.remove("hidden");
+  var refCount=o.refCount||0;
+  document.getElementById("refCount").textContent=refCount;
+  document.getElementById("refMonths").textContent=refCount*3;
+  document.getElementById("refGoal").textContent=Math.max(0,3-refCount);
+  var refCode=o.confirmCode||"";
+  var refLink="https://shanhai-geo.github.io/chat.html?ref="+refCode;
+  document.getElementById("refLinkValue").textContent=refLink;
+}
+
+function copyKey(){
+  var key=document.getElementById("keyValue").textContent;
+  navigator.clipboard.writeText(key).then(function(){showToast("密钥已复制");});
+}
+function copyEndpoint(){
+  navigator.clipboard.writeText("https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1/chat/completions").then(function(){showToast("接口地址已复制");});
+}
+function copyRefLink(){
+  var link=document.getElementById("refLinkValue").textContent;
+  navigator.clipboard.writeText(link).then(function(){showToast("推荐链接已复制");});
+}
+function showToast(msg){
+  var t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(function(){t.classList.remove("show");},2000);
+}
+</script>
+</body>
+</html>
