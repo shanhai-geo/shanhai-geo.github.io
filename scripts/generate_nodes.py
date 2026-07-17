@@ -1353,6 +1353,25 @@ Sitemap: {BASE_URL}/sitemap-nodes.xml
             shutil.copy2(src, PUBLIC / static_file)
             print(f"  📄 已复制 {static_file} → public/")
     
+    # === 复制博客目录到 public/blog/ ===
+    blog_src = BASE_DIR / "blog"
+    blog_dst = PUBLIC / "blog"
+    if blog_src.exists():
+        if blog_dst.exists():
+            shutil.rmtree(blog_dst)
+        shutil.copytree(blog_src, blog_dst)
+        blog_count = sum(1 for _ in blog_dst.rglob('*') if _.is_file())
+        print(f"  📄 已复制 blog/ → public/blog/ ({blog_count}个文件)")
+    
+    # === 复制支付目录到 public/pay/ ===
+    pay_src = BASE_DIR / "pay"
+    pay_dst = PUBLIC / "pay"
+    if pay_src.exists():
+        if pay_dst.exists():
+            shutil.rmtree(pay_dst)
+        shutil.copytree(pay_src, pay_dst)
+        print(f"  📄 已复制 pay/ → public/pay/")
+    
     total_files = sum(1 for _ in PUBLIC.rglob('*') if _.is_file())
     print(f"📦 public/共 {total_files} 个文件")
     print(f"🔑 IndexNow Key: {key}")
