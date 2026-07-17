@@ -1345,8 +1345,16 @@ Sitemap: {BASE_URL}/sitemap-nodes.xml
     
     # === 复制静态页面到 public/ ===
     import shutil
-    STATIC_PAGES = ["index.html", "chat.html", "pay.html", "order.html", "upgrade.html", "admin.html", "landing-boss.html", "landing-ecommerce.html", "landing-selfmedia.html", "geo-guide-what-is-geo.html", "geo-guide-ai-recommendation.html", "geo-guide-ai-cost.html", "geo-guide-geo-vs-seo.html", "geo-guide-ai-acquisition.html", "geo-guide-ecommerce-ai.html", "geo-guide-local-business-ai.html", "geo-guide-selfmedia-ai.html", "geo-guide-smb-ai-marketing.html", "geo-guide-ai-chatbot-setup.html",
+    STATIC_PAGES = ["index.html", "chat.html", "pay.html", "order.html", "upgrade.html", "admin.html", "landing.html", "landing-boss.html", "landing-ecommerce.html", "landing-selfmedia.html", "help.html", "customer-portal.html", "orders-admin.html", "geo-ecosystem.html", "geo-speed.html", "geo-engines.html", "geo-engines-v2.html", "geo-service.html", "geo-guide-what-is-geo.html", "geo-guide-ai-recommendation.html", "geo-guide-ai-cost.html", "geo-guide-geo-vs-seo.html", "geo-guide-ai-acquisition.html", "geo-guide-ecommerce-ai.html", "geo-guide-local-business-ai.html", "geo-guide-selfmedia-ai.html", "geo-guide-smb-ai-marketing.html", "geo-guide-ai-chatbot-setup.html",
     "diagnose.html"]
+    # JSON数据文件
+    JSON_FILES = ["analytics.json", "leads.json", "knowledge-product.json", "knowledge-template.json"]
+    for json_file in JSON_FILES:
+        src = BASE_DIR / json_file
+        if src.exists():
+            shutil.copy2(src, PUBLIC / json_file)
+            print(f"  📄 已复制 {json_file} → public/")
+    
     for static_file in STATIC_PAGES:
         src = BASE_DIR / static_file
         if src.exists():
