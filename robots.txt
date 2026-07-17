@@ -1,15 +1,3 @@
 User-agent: *
-Allow: /$
-Allow: /index.html
-Allow: /pay.html
-Allow: /customer-portal.html
-Allow: /help.html
-Allow: /pay/
-Allow: /pay/index.html
-Allow: /sitemap.xml
-Allow: /feed.xml
-Allow: /robots.txt
-Disallow: /blog/
-Disallow: /public/
-
+Allow: /
 Sitemap: https://shanhai-geo.surge.sh/sitemap.xml
