@@ -1,29 +1,15 @@
 User-agent: *
-Allow: /
+Allow: /$
+Allow: /index.html
+Allow: /pay.html
+Allow: /customer-portal.html
+Allow: /help.html
+Allow: /pay/
+Allow: /pay/index.html
+Allow: /sitemap.xml
+Allow: /feed.xml
+Allow: /robots.txt
+Disallow: /blog/
+Disallow: /public/
 
-# AI Search Crawlers - Welcome
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: BingBot
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-User-agent: cohere-ai
-Allow: /
-
-Sitemap: https://shanhai-geo.github.io/sitemap.xml
+Sitemap: https://shanhai-geo.surge.sh/sitemap.xml
