@@ -16,5 +16,11 @@ Allow: /
 User-agent: BingBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
 Sitemap: https://shanhai-geo.surge.sh/sitemap.xml
 Sitemap: https://shanhai-geo.github.io/sitemap.xml
