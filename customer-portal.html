@@ -176,11 +176,12 @@ function openInquiry(){document.getElementById('inquiryOverlay').classList.add('
 function closeInquiry(){document.getElementById('inquiryOverlay').classList.remove('active')}
 document.getElementById('inquiryOverlay').addEventListener('click',function(e){if(e.target===this)closeInquiry()});
 
-var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
-var GH_TOKEN=_a+_b+_c+_d+_e+_f;
-var LEADS_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/leads.json';
+// token removed
+var GH_TOKEN='';
+var LEADS_API='';
 
 async function submitInquiry(){
+alert('客服邮箱：746876121@qq.com，请邮件联系。');return;
 var name=document.getElementById('inqName').value.trim();
 var phone=document.getElementById('inqPhone').value.trim();
 var industry=document.getElementById('inqIndustry').value;
