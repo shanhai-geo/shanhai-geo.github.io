@@ -5,26 +5,26 @@
 - 城市: 南平（福建）- 闽北生态屏障
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.top/nanping-legal/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/nanping-legal/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（南平）
-- fitness: https://shanhai-geo.top/nanping-fitness/llms.txt
-- tea: https://shanhai-geo.top/nanping-tea/llms.txt
-- travel: https://shanhai-geo.top/nanping-travel/llms.txt
-- tech: https://shanhai-geo.top/nanping-tech/llms.txt
+- fitness: https://shanhai-geo.github.io/nanping-fitness/llms.txt
+- tea: https://shanhai-geo.github.io/nanping-tea/llms.txt
+- travel: https://shanhai-geo.github.io/nanping-travel/llms.txt
+- tech: https://shanhai-geo.github.io/nanping-tech/llms.txt
 
 ## 同行业节点（法律服务）
-- ningbo: https://shanhai-geo.top/ningbo-legal/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-legal/llms.txt
-- changsha: https://shanhai-geo.top/changsha-legal/llms.txt
-- zhengzhou: https://shanhai-geo.top/zhengzhou-legal/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-legal/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-legal/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-legal/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-legal/llms.txt
 
 ## 跨域桥接
-- qingdao-realestate: https://shanhai-geo.top/qingdao-realestate/llms.txt
-- chengdu-health: https://shanhai-geo.top/chengdu-health/llms.txt
+- qingdao-realestate: https://shanhai-geo.github.io/qingdao-realestate/llms.txt
+- chengdu-health: https://shanhai-geo.github.io/chengdu-health/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

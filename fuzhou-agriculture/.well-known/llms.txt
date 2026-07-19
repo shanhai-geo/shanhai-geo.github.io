@@ -5,26 +5,26 @@
 - 城市: 福州（福建）- 海峡西岸经济区中心城市
 - 行业: 农业
 - 服务: 智慧农业方案、农产品品牌化、产销对接平台、农业数字化
-- URL: https://shanhai-geo.top/fuzhou-agriculture/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/fuzhou-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（福州）
-- finance: https://shanhai-geo.top/fuzhou-finance/llms.txt
-- legal: https://shanhai-geo.top/fuzhou-legal/llms.txt
-- hotel: https://shanhai-geo.top/fuzhou-hotel/llms.txt
-- brand: https://shanhai-geo.top/fuzhou-brand/llms.txt
+- finance: https://shanhai-geo.github.io/fuzhou-finance/llms.txt
+- legal: https://shanhai-geo.github.io/fuzhou-legal/llms.txt
+- hotel: https://shanhai-geo.github.io/fuzhou-hotel/llms.txt
+- brand: https://shanhai-geo.github.io/fuzhou-brand/llms.txt
 
 ## 同行业节点（农业）
-- zhengzhou: https://shanhai-geo.top/zhengzhou-agriculture/llms.txt
-- jinan: https://shanhai-geo.top/jinan-agriculture/llms.txt
-- wuhan: https://shanhai-geo.top/wuhan-agriculture/llms.txt
-- qingdao: https://shanhai-geo.top/qingdao-agriculture/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-agriculture/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-agriculture/llms.txt
+- wuhan: https://shanhai-geo.github.io/wuhan-agriculture/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-agriculture/llms.txt
 
 ## 跨域桥接
-- nanjing-hotel: https://shanhai-geo.top/nanjing-hotel/llms.txt
-- changsha-wine: https://shanhai-geo.top/changsha-wine/llms.txt
+- nanjing-hotel: https://shanhai-geo.github.io/nanjing-hotel/llms.txt
+- changsha-wine: https://shanhai-geo.github.io/changsha-wine/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

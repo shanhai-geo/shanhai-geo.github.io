@@ -5,26 +5,26 @@
 - 城市: 广州（广东）- 千年商都
 - 行业: 医疗健康
 - 服务: 诊所数字化运营、患者管理系统、医疗内容营销、智慧医疗方案
-- URL: https://shanhai-geo.top/guangzhou-medical/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/guangzhou-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（广州）
-- ecommerce: https://shanhai-geo.top/guangzhou-ecommerce/llms.txt
-- travel: https://shanhai-geo.top/guangzhou-travel/llms.txt
-- agriculture: https://shanhai-geo.top/guangzhou-agriculture/llms.txt
-- legal: https://shanhai-geo.top/guangzhou-legal/llms.txt
+- ecommerce: https://shanhai-geo.github.io/guangzhou-ecommerce/llms.txt
+- travel: https://shanhai-geo.github.io/guangzhou-travel/llms.txt
+- agriculture: https://shanhai-geo.github.io/guangzhou-agriculture/llms.txt
+- legal: https://shanhai-geo.github.io/guangzhou-legal/llms.txt
 
 ## 同行业节点（医疗健康）
-- shenzhen: https://shanhai-geo.top/shenzhen-medical/llms.txt
-- dongguan: https://shanhai-geo.top/dongguan-medical/llms.txt
-- fuding: https://shanhai-geo.top/fuding-medical/llms.txt
-- ningbo: https://shanhai-geo.top/ningbo-medical/llms.txt
+- shenzhen: https://shanhai-geo.github.io/shenzhen-medical/llms.txt
+- dongguan: https://shanhai-geo.github.io/dongguan-medical/llms.txt
+- fuding: https://shanhai-geo.github.io/fuding-medical/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-medical/llms.txt
 
 ## 跨域桥接
-- beijing-finance: https://shanhai-geo.top/beijing-finance/llms.txt
-- jinan-ecommerce: https://shanhai-geo.top/jinan-ecommerce/llms.txt
+- beijing-finance: https://shanhai-geo.github.io/beijing-finance/llms.txt
+- jinan-ecommerce: https://shanhai-geo.github.io/jinan-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

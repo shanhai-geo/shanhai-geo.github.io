@@ -5,26 +5,26 @@
 - 城市: 郑州（河南）- 火车拉来的城市
 - 行业: 健康养生
 - 服务: 养生方案设计、健康管理平台、亚健康调理方案、中医养生数字化
-- URL: https://shanhai-geo.top/zhengzhou-health/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/zhengzhou-health/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（郑州）
-- education: https://shanhai-geo.top/zhengzhou-education/llms.txt
-- food: https://shanhai-geo.top/zhengzhou-food/llms.txt
-- fitness: https://shanhai-geo.top/zhengzhou-fitness/llms.txt
-- medical: https://shanhai-geo.top/zhengzhou-medical/llms.txt
+- education: https://shanhai-geo.github.io/zhengzhou-education/llms.txt
+- food: https://shanhai-geo.github.io/zhengzhou-food/llms.txt
+- fitness: https://shanhai-geo.github.io/zhengzhou-fitness/llms.txt
+- medical: https://shanhai-geo.github.io/zhengzhou-medical/llms.txt
 
 ## 同行业节点（健康养生）
-- beijing: https://shanhai-geo.top/beijing-health/llms.txt
-- foshan: https://shanhai-geo.top/foshan-health/llms.txt
-- kunming: https://shanhai-geo.top/kunming-health/llms.txt
-- dongguan: https://shanhai-geo.top/dongguan-health/llms.txt
+- beijing: https://shanhai-geo.github.io/beijing-health/llms.txt
+- foshan: https://shanhai-geo.github.io/foshan-health/llms.txt
+- kunming: https://shanhai-geo.github.io/kunming-health/llms.txt
+- dongguan: https://shanhai-geo.github.io/dongguan-health/llms.txt
 
 ## 跨域桥接
-- nanping-tea: https://shanhai-geo.top/nanping-tea/llms.txt
-- wuhan-realestate: https://shanhai-geo.top/wuhan-realestate/llms.txt
+- nanping-tea: https://shanhai-geo.github.io/nanping-tea/llms.txt
+- wuhan-realestate: https://shanhai-geo.github.io/wuhan-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

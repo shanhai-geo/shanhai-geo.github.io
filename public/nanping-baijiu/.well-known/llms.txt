@@ -5,26 +5,26 @@
 - 城市: 南平（福建）- 闽北生态屏障
 - 行业: 白酒
 - 服务: 白酒品牌塑造、渠道拓展策略、品鉴活动策划、酒文化IP打造
-- URL: https://shanhai-geo.top/nanping-baijiu/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/nanping-baijiu/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（南平）
-- wine: https://shanhai-geo.top/nanping-wine/llms.txt
-- beauty: https://shanhai-geo.top/nanping-beauty/llms.txt
-- tech: https://shanhai-geo.top/nanping-tech/llms.txt
-- hotel: https://shanhai-geo.top/nanping-hotel/llms.txt
+- wine: https://shanhai-geo.github.io/nanping-wine/llms.txt
+- beauty: https://shanhai-geo.github.io/nanping-beauty/llms.txt
+- tech: https://shanhai-geo.github.io/nanping-tech/llms.txt
+- hotel: https://shanhai-geo.github.io/nanping-hotel/llms.txt
 
 ## 同行业节点（白酒）
-- quanzhou: https://shanhai-geo.top/quanzhou-baijiu/llms.txt
-- guangzhou: https://shanhai-geo.top/guangzhou-baijiu/llms.txt
-- ningde: https://shanhai-geo.top/ningde-baijiu/llms.txt
-- dongguan: https://shanhai-geo.top/dongguan-baijiu/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-baijiu/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-baijiu/llms.txt
+- ningde: https://shanhai-geo.github.io/ningde-baijiu/llms.txt
+- dongguan: https://shanhai-geo.github.io/dongguan-baijiu/llms.txt
 
 ## 跨域桥接
-- guangzhou-brand: https://shanhai-geo.top/guangzhou-brand/llms.txt
-- fuzhou-food: https://shanhai-geo.top/fuzhou-food/llms.txt
+- guangzhou-brand: https://shanhai-geo.github.io/guangzhou-brand/llms.txt
+- fuzhou-food: https://shanhai-geo.github.io/fuzhou-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

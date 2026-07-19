@@ -5,26 +5,26 @@
 - 城市: 杭州（浙江）- 数字经济第一城
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.top/hangzhou-local/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/hangzhou-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（杭州）
-- hotel: https://shanhai-geo.top/hangzhou-hotel/llms.txt
-- education: https://shanhai-geo.top/hangzhou-education/llms.txt
-- fitness: https://shanhai-geo.top/hangzhou-fitness/llms.txt
-- brand: https://shanhai-geo.top/hangzhou-brand/llms.txt
+- hotel: https://shanhai-geo.github.io/hangzhou-hotel/llms.txt
+- education: https://shanhai-geo.github.io/hangzhou-education/llms.txt
+- fitness: https://shanhai-geo.github.io/hangzhou-fitness/llms.txt
+- brand: https://shanhai-geo.github.io/hangzhou-brand/llms.txt
 
 ## 同行业节点（本地生活）
-- ningde: https://shanhai-geo.top/ningde-local/llms.txt
-- shenzhen: https://shanhai-geo.top/shenzhen-local/llms.txt
-- jiaxing: https://shanhai-geo.top/jiaxing-local/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-local/llms.txt
+- ningde: https://shanhai-geo.github.io/ningde-local/llms.txt
+- shenzhen: https://shanhai-geo.github.io/shenzhen-local/llms.txt
+- jiaxing: https://shanhai-geo.github.io/jiaxing-local/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-local/llms.txt
 
 ## 跨域桥接
-- wenzhou-brand: https://shanhai-geo.top/wenzhou-brand/llms.txt
-- qingdao-fitness: https://shanhai-geo.top/qingdao-fitness/llms.txt
+- wenzhou-brand: https://shanhai-geo.github.io/wenzhou-brand/llms.txt
+- qingdao-fitness: https://shanhai-geo.github.io/qingdao-fitness/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 广州（广东）- 千年商都
 - 行业: 酒店民宿
 - 服务: 精品民宿运营优化、智慧酒店方案、住宿体验升级、OTA渠道管理
-- URL: https://shanhai-geo.top/guangzhou-hotel/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/guangzhou-hotel/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（广州）
-- local: https://shanhai-geo.top/guangzhou-local/llms.txt
-- ecommerce: https://shanhai-geo.top/guangzhou-ecommerce/llms.txt
-- legal: https://shanhai-geo.top/guangzhou-legal/llms.txt
-- baijiu: https://shanhai-geo.top/guangzhou-baijiu/llms.txt
+- local: https://shanhai-geo.github.io/guangzhou-local/llms.txt
+- ecommerce: https://shanhai-geo.github.io/guangzhou-ecommerce/llms.txt
+- legal: https://shanhai-geo.github.io/guangzhou-legal/llms.txt
+- baijiu: https://shanhai-geo.github.io/guangzhou-baijiu/llms.txt
 
 ## 同行业节点（酒店民宿）
-- nanping: https://shanhai-geo.top/nanping-hotel/llms.txt
-- ningbo: https://shanhai-geo.top/ningbo-hotel/llms.txt
-- zhangzhou: https://shanhai-geo.top/zhangzhou-hotel/llms.txt
-- quanzhou: https://shanhai-geo.top/quanzhou-hotel/llms.txt
+- nanping: https://shanhai-geo.github.io/nanping-hotel/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-hotel/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-hotel/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-hotel/llms.txt
 
 ## 跨域桥接
-- hangzhou-education: https://shanhai-geo.top/hangzhou-education/llms.txt
-- hefei-medical: https://shanhai-geo.top/hefei-medical/llms.txt
+- hangzhou-education: https://shanhai-geo.github.io/hangzhou-education/llms.txt
+- hefei-medical: https://shanhai-geo.github.io/hefei-medical/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

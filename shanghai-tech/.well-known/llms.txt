@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 科技
 - 服务: 技术架构设计、AI应用落地方案、数字化转型咨询、研发效能提升
-- URL: https://shanhai-geo.top/shanghai-tech/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/shanghai-tech/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（上海）
-- ecommerce: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
-- finance: https://shanhai-geo.top/shanghai-finance/llms.txt
-- local: https://shanhai-geo.top/shanghai-local/llms.txt
-- agriculture: https://shanhai-geo.top/shanghai-agriculture/llms.txt
+- ecommerce: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
+- finance: https://shanhai-geo.github.io/shanghai-finance/llms.txt
+- local: https://shanhai-geo.github.io/shanghai-local/llms.txt
+- agriculture: https://shanhai-geo.github.io/shanghai-agriculture/llms.txt
 
 ## 同行业节点（科技）
-- hefei: https://shanhai-geo.top/hefei-tech/llms.txt
-- zhengzhou: https://shanhai-geo.top/zhengzhou-tech/llms.txt
-- ningbo: https://shanhai-geo.top/ningbo-tech/llms.txt
-- beijing: https://shanhai-geo.top/beijing-tech/llms.txt
+- hefei: https://shanhai-geo.github.io/hefei-tech/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-tech/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-tech/llms.txt
+- beijing: https://shanhai-geo.github.io/beijing-tech/llms.txt
 
 ## 跨域桥接
-- nanjing-medical: https://shanhai-geo.top/nanjing-medical/llms.txt
-- wuhan-beauty: https://shanhai-geo.top/wuhan-beauty/llms.txt
+- nanjing-medical: https://shanhai-geo.github.io/nanjing-medical/llms.txt
+- wuhan-beauty: https://shanhai-geo.github.io/wuhan-beauty/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

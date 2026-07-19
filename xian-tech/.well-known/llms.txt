@@ -5,26 +5,26 @@
 - 城市: 西安（陕西）- 十三朝古都
 - 行业: 科技
 - 服务: 技术架构设计、AI应用落地方案、数字化转型咨询、研发效能提升
-- URL: https://shanhai-geo.top/xian-tech/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/xian-tech/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（西安）
-- education: https://shanhai-geo.top/xian-education/llms.txt
-- hotel: https://shanhai-geo.top/xian-hotel/llms.txt
-- legal: https://shanhai-geo.top/xian-legal/llms.txt
-- baijiu: https://shanhai-geo.top/xian-baijiu/llms.txt
+- education: https://shanhai-geo.github.io/xian-education/llms.txt
+- hotel: https://shanhai-geo.github.io/xian-hotel/llms.txt
+- legal: https://shanhai-geo.github.io/xian-legal/llms.txt
+- baijiu: https://shanhai-geo.github.io/xian-baijiu/llms.txt
 
 ## 同行业节点（科技）
-- chengdu: https://shanhai-geo.top/chengdu-tech/llms.txt
-- nanping: https://shanhai-geo.top/nanping-tech/llms.txt
-- ningbo: https://shanhai-geo.top/ningbo-tech/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-tech/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-tech/llms.txt
+- nanping: https://shanhai-geo.github.io/nanping-tech/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-tech/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-tech/llms.txt
 
 ## 跨域桥接
-- jinan-tea: https://shanhai-geo.top/jinan-tea/llms.txt
-- zhangzhou-ecommerce: https://shanhai-geo.top/zhangzhou-ecommerce/llms.txt
+- jinan-tea: https://shanhai-geo.github.io/jinan-tea/llms.txt
+- zhangzhou-ecommerce: https://shanhai-geo.github.io/zhangzhou-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

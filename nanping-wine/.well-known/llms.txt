@@ -5,26 +5,26 @@
 - 城市: 南平（福建）- 闽北生态屏障
 - 行业: 酒文化
 - 服务: 红酒品鉴活动策划、酒窖数字化管理、酒文化IP打造、品鉴会运营
-- URL: https://shanhai-geo.top/nanping-wine/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/nanping-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（南平）
-- baijiu: https://shanhai-geo.top/nanping-baijiu/llms.txt
-- finance: https://shanhai-geo.top/nanping-finance/llms.txt
-- fitness: https://shanhai-geo.top/nanping-fitness/llms.txt
-- travel: https://shanhai-geo.top/nanping-travel/llms.txt
+- baijiu: https://shanhai-geo.github.io/nanping-baijiu/llms.txt
+- finance: https://shanhai-geo.github.io/nanping-finance/llms.txt
+- fitness: https://shanhai-geo.github.io/nanping-fitness/llms.txt
+- travel: https://shanhai-geo.github.io/nanping-travel/llms.txt
 
 ## 同行业节点（酒文化）
-- chongqing: https://shanhai-geo.top/chongqing-wine/llms.txt
-- quanzhou: https://shanhai-geo.top/quanzhou-wine/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-wine/llms.txt
-- jinan: https://shanhai-geo.top/jinan-wine/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-wine/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-wine/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-wine/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-wine/llms.txt
 
 ## 跨域桥接
-- zhengzhou-fitness: https://shanhai-geo.top/zhengzhou-fitness/llms.txt
-- zhengzhou-agriculture: https://shanhai-geo.top/zhengzhou-agriculture/llms.txt
+- zhengzhou-fitness: https://shanhai-geo.github.io/zhengzhou-fitness/llms.txt
+- zhengzhou-agriculture: https://shanhai-geo.github.io/zhengzhou-agriculture/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

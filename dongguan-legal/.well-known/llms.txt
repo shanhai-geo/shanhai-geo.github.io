@@ -5,26 +5,26 @@
 - 城市: 东莞（广东）- 世界工厂
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.top/dongguan-legal/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/dongguan-legal/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（东莞）
-- finance: https://shanhai-geo.top/dongguan-finance/llms.txt
-- ecommerce: https://shanhai-geo.top/dongguan-ecommerce/llms.txt
-- tea: https://shanhai-geo.top/dongguan-tea/llms.txt
-- beauty: https://shanhai-geo.top/dongguan-beauty/llms.txt
+- finance: https://shanhai-geo.github.io/dongguan-finance/llms.txt
+- ecommerce: https://shanhai-geo.github.io/dongguan-ecommerce/llms.txt
+- tea: https://shanhai-geo.github.io/dongguan-tea/llms.txt
+- beauty: https://shanhai-geo.github.io/dongguan-beauty/llms.txt
 
 ## 同行业节点（法律服务）
-- shanghai: https://shanhai-geo.top/shanghai-legal/llms.txt
-- ningbo: https://shanhai-geo.top/ningbo-legal/llms.txt
-- hangzhou: https://shanhai-geo.top/hangzhou-legal/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-legal/llms.txt
+- shanghai: https://shanhai-geo.github.io/shanghai-legal/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-legal/llms.txt
+- hangzhou: https://shanhai-geo.github.io/hangzhou-legal/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-legal/llms.txt
 
 ## 跨域桥接
-- qingdao-auto: https://shanhai-geo.top/qingdao-auto/llms.txt
-- ningbo-food: https://shanhai-geo.top/ningbo-food/llms.txt
+- qingdao-auto: https://shanhai-geo.github.io/qingdao-auto/llms.txt
+- ningbo-food: https://shanhai-geo.github.io/ningbo-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

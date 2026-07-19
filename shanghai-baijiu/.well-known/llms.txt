@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 白酒
 - 服务: 白酒品牌塑造、渠道拓展策略、品鉴活动策划、酒文化IP打造
-- URL: https://shanhai-geo.top/shanghai-baijiu/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/shanghai-baijiu/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（上海）
-- brand: https://shanhai-geo.top/shanghai-brand/llms.txt
-- auto: https://shanhai-geo.top/shanghai-auto/llms.txt
-- travel: https://shanhai-geo.top/shanghai-travel/llms.txt
-- ecommerce: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
+- brand: https://shanhai-geo.github.io/shanghai-brand/llms.txt
+- auto: https://shanhai-geo.github.io/shanghai-auto/llms.txt
+- travel: https://shanhai-geo.github.io/shanghai-travel/llms.txt
+- ecommerce: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
 
 ## 同行业节点（白酒）
-- ningde: https://shanhai-geo.top/ningde-baijiu/llms.txt
-- hangzhou: https://shanhai-geo.top/hangzhou-baijiu/llms.txt
-- zhangzhou: https://shanhai-geo.top/zhangzhou-baijiu/llms.txt
-- foshan: https://shanhai-geo.top/foshan-baijiu/llms.txt
+- ningde: https://shanhai-geo.github.io/ningde-baijiu/llms.txt
+- hangzhou: https://shanhai-geo.github.io/hangzhou-baijiu/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-baijiu/llms.txt
+- foshan: https://shanhai-geo.github.io/foshan-baijiu/llms.txt
 
 ## 跨域桥接
-- hefei-wine: https://shanhai-geo.top/hefei-wine/llms.txt
-- nanping-hotel: https://shanhai-geo.top/nanping-hotel/llms.txt
+- hefei-wine: https://shanhai-geo.github.io/hefei-wine/llms.txt
+- nanping-hotel: https://shanhai-geo.github.io/nanping-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

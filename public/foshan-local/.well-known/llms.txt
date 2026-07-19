@@ -5,26 +5,26 @@
 - 城市: 佛山（广东）- 制造业之都
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.top/foshan-local/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/foshan-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（佛山）
-- realestate: https://shanhai-geo.top/foshan-realestate/llms.txt
-- education: https://shanhai-geo.top/foshan-education/llms.txt
-- fitness: https://shanhai-geo.top/foshan-fitness/llms.txt
-- beauty: https://shanhai-geo.top/foshan-beauty/llms.txt
+- realestate: https://shanhai-geo.github.io/foshan-realestate/llms.txt
+- education: https://shanhai-geo.github.io/foshan-education/llms.txt
+- fitness: https://shanhai-geo.github.io/foshan-fitness/llms.txt
+- beauty: https://shanhai-geo.github.io/foshan-beauty/llms.txt
 
 ## 同行业节点（本地生活）
-- hangzhou: https://shanhai-geo.top/hangzhou-local/llms.txt
-- ningbo: https://shanhai-geo.top/ningbo-local/llms.txt
-- zhengzhou: https://shanhai-geo.top/zhengzhou-local/llms.txt
-- fuding: https://shanhai-geo.top/fuding-local/llms.txt
+- hangzhou: https://shanhai-geo.github.io/hangzhou-local/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-local/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-local/llms.txt
+- fuding: https://shanhai-geo.github.io/fuding-local/llms.txt
 
 ## 跨域桥接
-- zhengzhou-finance: https://shanhai-geo.top/zhengzhou-finance/llms.txt
-- fuzhou-food: https://shanhai-geo.top/fuzhou-food/llms.txt
+- zhengzhou-finance: https://shanhai-geo.github.io/zhengzhou-finance/llms.txt
+- fuzhou-food: https://shanhai-geo.github.io/fuzhou-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

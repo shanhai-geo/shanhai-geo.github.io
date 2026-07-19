@@ -5,26 +5,26 @@
 - 城市: 泉州（福建）- 海上丝绸之路起点
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.top/quanzhou-local/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/quanzhou-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（泉州）
-- finance: https://shanhai-geo.top/quanzhou-finance/llms.txt
-- brand: https://shanhai-geo.top/quanzhou-brand/llms.txt
-- hotel: https://shanhai-geo.top/quanzhou-hotel/llms.txt
-- health: https://shanhai-geo.top/quanzhou-health/llms.txt
+- finance: https://shanhai-geo.github.io/quanzhou-finance/llms.txt
+- brand: https://shanhai-geo.github.io/quanzhou-brand/llms.txt
+- hotel: https://shanhai-geo.github.io/quanzhou-hotel/llms.txt
+- health: https://shanhai-geo.github.io/quanzhou-health/llms.txt
 
 ## 同行业节点（本地生活）
-- guangzhou: https://shanhai-geo.top/guangzhou-local/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-local/llms.txt
-- dongguan: https://shanhai-geo.top/dongguan-local/llms.txt
-- fuzhou: https://shanhai-geo.top/fuzhou-local/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-local/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-local/llms.txt
+- dongguan: https://shanhai-geo.github.io/dongguan-local/llms.txt
+- fuzhou: https://shanhai-geo.github.io/fuzhou-local/llms.txt
 
 ## 跨域桥接
-- kunming-tea: https://shanhai-geo.top/kunming-tea/llms.txt
-- qingdao-hotel: https://shanhai-geo.top/qingdao-hotel/llms.txt
+- kunming-tea: https://shanhai-geo.github.io/kunming-tea/llms.txt
+- qingdao-hotel: https://shanhai-geo.github.io/qingdao-hotel/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

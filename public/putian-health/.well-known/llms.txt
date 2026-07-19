@@ -5,26 +5,26 @@
 - 城市: 莆田（福建）- 妈祖故里
 - 行业: 健康养生
 - 服务: 养生方案设计、健康管理平台、亚健康调理方案、中医养生数字化
-- URL: https://shanhai-geo.top/putian-health/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/putian-health/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（莆田）
-- finance: https://shanhai-geo.top/putian-finance/llms.txt
-- auto: https://shanhai-geo.top/putian-auto/llms.txt
-- hotel: https://shanhai-geo.top/putian-hotel/llms.txt
-- local: https://shanhai-geo.top/putian-local/llms.txt
+- finance: https://shanhai-geo.github.io/putian-finance/llms.txt
+- auto: https://shanhai-geo.github.io/putian-auto/llms.txt
+- hotel: https://shanhai-geo.github.io/putian-hotel/llms.txt
+- local: https://shanhai-geo.github.io/putian-local/llms.txt
 
 ## 同行业节点（健康养生）
-- wenzhou: https://shanhai-geo.top/wenzhou-health/llms.txt
-- xian: https://shanhai-geo.top/xian-health/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-health/llms.txt
-- dalian: https://shanhai-geo.top/dalian-health/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-health/llms.txt
+- xian: https://shanhai-geo.github.io/xian-health/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-health/llms.txt
+- dalian: https://shanhai-geo.github.io/dalian-health/llms.txt
 
 ## 跨域桥接
-- nanping-auto: https://shanhai-geo.top/nanping-auto/llms.txt
-- xian-finance: https://shanhai-geo.top/xian-finance/llms.txt
+- nanping-auto: https://shanhai-geo.github.io/nanping-auto/llms.txt
+- xian-finance: https://shanhai-geo.github.io/xian-finance/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

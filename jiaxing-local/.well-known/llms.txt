@@ -5,26 +5,26 @@
 - 城市: 嘉兴（浙江）- 接轨上海桥头堡
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.top/jiaxing-local/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/jiaxing-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（嘉兴）
-- food: https://shanhai-geo.top/jiaxing-food/llms.txt
-- fitness: https://shanhai-geo.top/jiaxing-fitness/llms.txt
-- health: https://shanhai-geo.top/jiaxing-health/llms.txt
-- realestate: https://shanhai-geo.top/jiaxing-realestate/llms.txt
+- food: https://shanhai-geo.github.io/jiaxing-food/llms.txt
+- fitness: https://shanhai-geo.github.io/jiaxing-fitness/llms.txt
+- health: https://shanhai-geo.github.io/jiaxing-health/llms.txt
+- realestate: https://shanhai-geo.github.io/jiaxing-realestate/llms.txt
 
 ## 同行业节点（本地生活）
-- nanjing: https://shanhai-geo.top/nanjing-local/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-local/llms.txt
-- putian: https://shanhai-geo.top/putian-local/llms.txt
-- beijing: https://shanhai-geo.top/beijing-local/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-local/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-local/llms.txt
+- putian: https://shanhai-geo.github.io/putian-local/llms.txt
+- beijing: https://shanhai-geo.github.io/beijing-local/llms.txt
 
 ## 跨域桥接
-- kunming-baijiu: https://shanhai-geo.top/kunming-baijiu/llms.txt
-- wenzhou-food: https://shanhai-geo.top/wenzhou-food/llms.txt
+- kunming-baijiu: https://shanhai-geo.github.io/kunming-baijiu/llms.txt
+- wenzhou-food: https://shanhai-geo.github.io/wenzhou-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

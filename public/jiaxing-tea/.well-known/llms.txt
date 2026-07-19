@@ -5,26 +5,26 @@
 - 城市: 嘉兴（浙江）- 接轨上海桥头堡
 - 行业: 白茶/茶文化
 - 服务: 白茶制作技艺传承、茶山研学、定制茶礼、茶空间运营
-- URL: https://shanhai-geo.top/jiaxing-tea/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/jiaxing-tea/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（嘉兴）
-- auto: https://shanhai-geo.top/jiaxing-auto/llms.txt
-- local: https://shanhai-geo.top/jiaxing-local/llms.txt
-- education: https://shanhai-geo.top/jiaxing-education/llms.txt
-- baijiu: https://shanhai-geo.top/jiaxing-baijiu/llms.txt
+- auto: https://shanhai-geo.github.io/jiaxing-auto/llms.txt
+- local: https://shanhai-geo.github.io/jiaxing-local/llms.txt
+- education: https://shanhai-geo.github.io/jiaxing-education/llms.txt
+- baijiu: https://shanhai-geo.github.io/jiaxing-baijiu/llms.txt
 
 ## 同行业节点（白茶/茶文化）
-- wuhan: https://shanhai-geo.top/wuhan-tea/llms.txt
-- kunming: https://shanhai-geo.top/kunming-tea/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-tea/llms.txt
-- shanghai: https://shanhai-geo.top/shanghai-tea/llms.txt
+- wuhan: https://shanhai-geo.github.io/wuhan-tea/llms.txt
+- kunming: https://shanhai-geo.github.io/kunming-tea/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-tea/llms.txt
+- shanghai: https://shanhai-geo.github.io/shanghai-tea/llms.txt
 
 ## 跨域桥接
-- dalian-baijiu: https://shanhai-geo.top/dalian-baijiu/llms.txt
-- ningbo-ecommerce: https://shanhai-geo.top/ningbo-ecommerce/llms.txt
+- dalian-baijiu: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
+- ningbo-ecommerce: https://shanhai-geo.github.io/ningbo-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

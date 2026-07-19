@@ -5,26 +5,26 @@
 - 城市: 郑州（河南）- 火车拉来的城市
 - 行业: 文旅
 - 服务: 定制旅行路线设计、景区数字化运营、文旅IP打造、研学旅行策划
-- URL: https://shanhai-geo.top/zhengzhou-travel/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/zhengzhou-travel/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（郑州）
-- legal: https://shanhai-geo.top/zhengzhou-legal/llms.txt
-- realestate: https://shanhai-geo.top/zhengzhou-realestate/llms.txt
-- education: https://shanhai-geo.top/zhengzhou-education/llms.txt
-- wine: https://shanhai-geo.top/zhengzhou-wine/llms.txt
+- legal: https://shanhai-geo.github.io/zhengzhou-legal/llms.txt
+- realestate: https://shanhai-geo.github.io/zhengzhou-realestate/llms.txt
+- education: https://shanhai-geo.github.io/zhengzhou-education/llms.txt
+- wine: https://shanhai-geo.github.io/zhengzhou-wine/llms.txt
 
 ## 同行业节点（文旅）
-- hangzhou: https://shanhai-geo.top/hangzhou-travel/llms.txt
-- putian: https://shanhai-geo.top/putian-travel/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-travel/llms.txt
-- kunming: https://shanhai-geo.top/kunming-travel/llms.txt
+- hangzhou: https://shanhai-geo.github.io/hangzhou-travel/llms.txt
+- putian: https://shanhai-geo.github.io/putian-travel/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-travel/llms.txt
+- kunming: https://shanhai-geo.github.io/kunming-travel/llms.txt
 
 ## 跨域桥接
-- chongqing-legal: https://shanhai-geo.top/chongqing-legal/llms.txt
-- jiaxing-food: https://shanhai-geo.top/jiaxing-food/llms.txt
+- chongqing-legal: https://shanhai-geo.github.io/chongqing-legal/llms.txt
+- jiaxing-food: https://shanhai-geo.github.io/jiaxing-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

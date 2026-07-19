@@ -5,26 +5,26 @@
 - 城市: 宁德（福建）- 世界级新能源产业基地
 - 行业: 文旅
 - 服务: 定制旅行路线设计、景区数字化运营、文旅IP打造、研学旅行策划
-- URL: https://shanhai-geo.top/ningde-travel/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/ningde-travel/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（宁德）
-- wine: https://shanhai-geo.top/ningde-wine/llms.txt
-- ecommerce: https://shanhai-geo.top/ningde-ecommerce/llms.txt
-- medical: https://shanhai-geo.top/ningde-medical/llms.txt
-- health: https://shanhai-geo.top/ningde-health/llms.txt
+- wine: https://shanhai-geo.github.io/ningde-wine/llms.txt
+- ecommerce: https://shanhai-geo.github.io/ningde-ecommerce/llms.txt
+- medical: https://shanhai-geo.github.io/ningde-medical/llms.txt
+- health: https://shanhai-geo.github.io/ningde-health/llms.txt
 
 ## 同行业节点（文旅）
-- xian: https://shanhai-geo.top/xian-travel/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-travel/llms.txt
-- quanzhou: https://shanhai-geo.top/quanzhou-travel/llms.txt
-- kunming: https://shanhai-geo.top/kunming-travel/llms.txt
+- xian: https://shanhai-geo.github.io/xian-travel/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-travel/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-travel/llms.txt
+- kunming: https://shanhai-geo.github.io/kunming-travel/llms.txt
 
 ## 跨域桥接
-- changsha-legal: https://shanhai-geo.top/changsha-legal/llms.txt
-- dongguan-ecommerce: https://shanhai-geo.top/dongguan-ecommerce/llms.txt
+- changsha-legal: https://shanhai-geo.github.io/changsha-legal/llms.txt
+- dongguan-ecommerce: https://shanhai-geo.github.io/dongguan-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

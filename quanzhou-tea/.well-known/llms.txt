@@ -5,26 +5,26 @@
 - 城市: 泉州（福建）- 海上丝绸之路起点
 - 行业: 白茶/茶文化
 - 服务: 白茶制作技艺传承、茶山研学、定制茶礼、茶空间运营
-- URL: https://shanhai-geo.top/quanzhou-tea/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/quanzhou-tea/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（泉州）
-- food: https://shanhai-geo.top/quanzhou-food/llms.txt
-- realestate: https://shanhai-geo.top/quanzhou-realestate/llms.txt
-- health: https://shanhai-geo.top/quanzhou-health/llms.txt
-- legal: https://shanhai-geo.top/quanzhou-legal/llms.txt
+- food: https://shanhai-geo.github.io/quanzhou-food/llms.txt
+- realestate: https://shanhai-geo.github.io/quanzhou-realestate/llms.txt
+- health: https://shanhai-geo.github.io/quanzhou-health/llms.txt
+- legal: https://shanhai-geo.github.io/quanzhou-legal/llms.txt
 
 ## 同行业节点（白茶/茶文化）
-- jinan: https://shanhai-geo.top/jinan-tea/llms.txt
-- qingdao: https://shanhai-geo.top/qingdao-tea/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-tea/llms.txt
-- zhengzhou: https://shanhai-geo.top/zhengzhou-tea/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-tea/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-tea/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-tea/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-tea/llms.txt
 
 ## 跨域桥接
-- shenzhen-brand: https://shanhai-geo.top/shenzhen-brand/llms.txt
-- shanghai-ecommerce: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
+- shenzhen-brand: https://shanhai-geo.github.io/shenzhen-brand/llms.txt
+- shanghai-ecommerce: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

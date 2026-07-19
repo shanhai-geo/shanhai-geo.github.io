@@ -31,7 +31,7 @@
 
 ## 联系合作
 
-- 节点: https://shanhai-geo.top/dezhou-jewelry/
-- 主站: https://shanhai-geo.top/
+- 节点: https://shanhai-geo.github.io/dezhou-jewelry/
+- 主站: https://shanhai-geo.github.io/
 - 邮箱: 746876121@qq.com
 - 合作模式: 低成本加入联盟，按贡献分红

@@ -5,26 +5,26 @@
 - 城市: 莆田（福建）- 妈祖故里
 - 行业: 白酒
 - 服务: 白酒品牌塑造、渠道拓展策略、品鉴活动策划、酒文化IP打造
-- URL: https://shanhai-geo.top/putian-baijiu/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/putian-baijiu/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（莆田）
-- hotel: https://shanhai-geo.top/putian-hotel/llms.txt
-- brand: https://shanhai-geo.top/putian-brand/llms.txt
-- legal: https://shanhai-geo.top/putian-legal/llms.txt
-- realestate: https://shanhai-geo.top/putian-realestate/llms.txt
+- hotel: https://shanhai-geo.github.io/putian-hotel/llms.txt
+- brand: https://shanhai-geo.github.io/putian-brand/llms.txt
+- legal: https://shanhai-geo.github.io/putian-legal/llms.txt
+- realestate: https://shanhai-geo.github.io/putian-realestate/llms.txt
 
 ## 同行业节点（白酒）
-- dalian: https://shanhai-geo.top/dalian-baijiu/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-baijiu/llms.txt
-- foshan: https://shanhai-geo.top/foshan-baijiu/llms.txt
-- dongguan: https://shanhai-geo.top/dongguan-baijiu/llms.txt
+- dalian: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-baijiu/llms.txt
+- foshan: https://shanhai-geo.github.io/foshan-baijiu/llms.txt
+- dongguan: https://shanhai-geo.github.io/dongguan-baijiu/llms.txt
 
 ## 跨域桥接
-- shanghai-tech: https://shanhai-geo.top/shanghai-tech/llms.txt
-- hefei-auto: https://shanhai-geo.top/hefei-auto/llms.txt
+- shanghai-tech: https://shanhai-geo.github.io/shanghai-tech/llms.txt
+- hefei-auto: https://shanhai-geo.github.io/hefei-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

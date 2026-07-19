@@ -5,26 +5,26 @@
 - 城市: 佛山（广东）- 制造业之都
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/foshan-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/foshan-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（佛山）
-- brand: https://shanhai-geo.top/foshan-brand/llms.txt
-- auto: https://shanhai-geo.top/foshan-auto/llms.txt
-- tech: https://shanhai-geo.top/foshan-tech/llms.txt
-- realestate: https://shanhai-geo.top/foshan-realestate/llms.txt
+- brand: https://shanhai-geo.github.io/foshan-brand/llms.txt
+- auto: https://shanhai-geo.github.io/foshan-auto/llms.txt
+- tech: https://shanhai-geo.github.io/foshan-tech/llms.txt
+- realestate: https://shanhai-geo.github.io/foshan-realestate/llms.txt
 
 ## 同行业节点（金融服务）
-- beijing: https://shanhai-geo.top/beijing-finance/llms.txt
-- fuzhou: https://shanhai-geo.top/fuzhou-finance/llms.txt
-- kunming: https://shanhai-geo.top/kunming-finance/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-finance/llms.txt
+- beijing: https://shanhai-geo.github.io/beijing-finance/llms.txt
+- fuzhou: https://shanhai-geo.github.io/fuzhou-finance/llms.txt
+- kunming: https://shanhai-geo.github.io/kunming-finance/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-finance/llms.txt
 
 ## 跨域桥接
-- dongguan-fitness: https://shanhai-geo.top/dongguan-fitness/llms.txt
-- shenzhen-auto: https://shanhai-geo.top/shenzhen-auto/llms.txt
+- dongguan-fitness: https://shanhai-geo.github.io/dongguan-fitness/llms.txt
+- shenzhen-auto: https://shanhai-geo.github.io/shenzhen-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

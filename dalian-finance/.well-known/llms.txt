@@ -5,26 +5,26 @@
 - 城市: 大连（辽宁）- 北方明珠
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/dalian-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/dalian-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（大连）
-- baijiu: https://shanhai-geo.top/dalian-baijiu/llms.txt
-- medical: https://shanhai-geo.top/dalian-medical/llms.txt
-- food: https://shanhai-geo.top/dalian-food/llms.txt
-- tech: https://shanhai-geo.top/dalian-tech/llms.txt
+- baijiu: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
+- medical: https://shanhai-geo.github.io/dalian-medical/llms.txt
+- food: https://shanhai-geo.github.io/dalian-food/llms.txt
+- tech: https://shanhai-geo.github.io/dalian-tech/llms.txt
 
 ## 同行业节点（金融服务）
-- zhangzhou: https://shanhai-geo.top/zhangzhou-finance/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-finance/llms.txt
-- guangzhou: https://shanhai-geo.top/guangzhou-finance/llms.txt
-- jiaxing: https://shanhai-geo.top/jiaxing-finance/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-finance/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-finance/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-finance/llms.txt
+- jiaxing: https://shanhai-geo.github.io/jiaxing-finance/llms.txt
 
 ## 跨域桥接
-- zhengzhou-health: https://shanhai-geo.top/zhengzhou-health/llms.txt
-- qingdao-food: https://shanhai-geo.top/qingdao-food/llms.txt
+- zhengzhou-health: https://shanhai-geo.github.io/zhengzhou-health/llms.txt
+- qingdao-food: https://shanhai-geo.github.io/qingdao-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

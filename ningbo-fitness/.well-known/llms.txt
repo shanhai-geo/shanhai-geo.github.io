@@ -5,26 +5,26 @@
 - 城市: 宁波（浙江）- 制造业单项冠军之城
 - 行业: 健身
 - 服务: 健身房数字化运营、会员管理系统、课程设计优化、健身内容创作
-- URL: https://shanhai-geo.top/ningbo-fitness/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/ningbo-fitness/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（宁波）
-- beauty: https://shanhai-geo.top/ningbo-beauty/llms.txt
-- tech: https://shanhai-geo.top/ningbo-tech/llms.txt
-- medical: https://shanhai-geo.top/ningbo-medical/llms.txt
-- health: https://shanhai-geo.top/ningbo-health/llms.txt
+- beauty: https://shanhai-geo.github.io/ningbo-beauty/llms.txt
+- tech: https://shanhai-geo.github.io/ningbo-tech/llms.txt
+- medical: https://shanhai-geo.github.io/ningbo-medical/llms.txt
+- health: https://shanhai-geo.github.io/ningbo-health/llms.txt
 
 ## 同行业节点（健身）
-- wuhan: https://shanhai-geo.top/wuhan-fitness/llms.txt
-- hefei: https://shanhai-geo.top/hefei-fitness/llms.txt
-- putian: https://shanhai-geo.top/putian-fitness/llms.txt
-- jinan: https://shanhai-geo.top/jinan-fitness/llms.txt
+- wuhan: https://shanhai-geo.github.io/wuhan-fitness/llms.txt
+- hefei: https://shanhai-geo.github.io/hefei-fitness/llms.txt
+- putian: https://shanhai-geo.github.io/putian-fitness/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-fitness/llms.txt
 
 ## 跨域桥接
-- changsha-auto: https://shanhai-geo.top/changsha-auto/llms.txt
-- wuhan-medical: https://shanhai-geo.top/wuhan-medical/llms.txt
+- changsha-auto: https://shanhai-geo.github.io/changsha-auto/llms.txt
+- wuhan-medical: https://shanhai-geo.github.io/wuhan-medical/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

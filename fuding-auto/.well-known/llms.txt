@@ -5,26 +5,26 @@
 - 城市: 福鼎（福建）- 中国白茶之乡
 - 行业: 汽车
 - 服务: 汽车品牌营销、新能源转型方案、售后服务数字化、车主社区运营
-- URL: https://shanhai-geo.top/fuding-auto/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/fuding-auto/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（福鼎）
-- local: https://shanhai-geo.top/fuding-local/llms.txt
-- baijiu: https://shanhai-geo.top/fuding-baijiu/llms.txt
-- agriculture: https://shanhai-geo.top/fuding-agriculture/llms.txt
-- tea: https://shanhai-geo.top/fuding-tea/llms.txt
+- local: https://shanhai-geo.github.io/fuding-local/llms.txt
+- baijiu: https://shanhai-geo.github.io/fuding-baijiu/llms.txt
+- agriculture: https://shanhai-geo.github.io/fuding-agriculture/llms.txt
+- tea: https://shanhai-geo.github.io/fuding-tea/llms.txt
 
 ## 同行业节点（汽车）
-- jinan: https://shanhai-geo.top/jinan-auto/llms.txt
-- dalian: https://shanhai-geo.top/dalian-auto/llms.txt
-- nanping: https://shanhai-geo.top/nanping-auto/llms.txt
-- shenzhen: https://shanhai-geo.top/shenzhen-auto/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-auto/llms.txt
+- dalian: https://shanhai-geo.github.io/dalian-auto/llms.txt
+- nanping: https://shanhai-geo.github.io/nanping-auto/llms.txt
+- shenzhen: https://shanhai-geo.github.io/shenzhen-auto/llms.txt
 
 ## 跨域桥接
-- zhangzhou-agriculture: https://shanhai-geo.top/zhangzhou-agriculture/llms.txt
-- xiamen-wine: https://shanhai-geo.top/xiamen-wine/llms.txt
+- zhangzhou-agriculture: https://shanhai-geo.github.io/zhangzhou-agriculture/llms.txt
+- xiamen-wine: https://shanhai-geo.github.io/xiamen-wine/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

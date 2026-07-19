@@ -5,26 +5,26 @@
 - 城市: 成都（四川）- 公园城市示范区
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.top/chengdu-legal/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/chengdu-legal/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（成都）
-- medical: https://shanhai-geo.top/chengdu-medical/llms.txt
-- hotel: https://shanhai-geo.top/chengdu-hotel/llms.txt
-- travel: https://shanhai-geo.top/chengdu-travel/llms.txt
-- realestate: https://shanhai-geo.top/chengdu-realestate/llms.txt
+- medical: https://shanhai-geo.github.io/chengdu-medical/llms.txt
+- hotel: https://shanhai-geo.github.io/chengdu-hotel/llms.txt
+- travel: https://shanhai-geo.github.io/chengdu-travel/llms.txt
+- realestate: https://shanhai-geo.github.io/chengdu-realestate/llms.txt
 
 ## 同行业节点（法律服务）
-- chongqing: https://shanhai-geo.top/chongqing-legal/llms.txt
-- quanzhou: https://shanhai-geo.top/quanzhou-legal/llms.txt
-- changsha: https://shanhai-geo.top/changsha-legal/llms.txt
-- zhangzhou: https://shanhai-geo.top/zhangzhou-legal/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-legal/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-legal/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-legal/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-legal/llms.txt
 
 ## 跨域桥接
-- qingdao-health: https://shanhai-geo.top/qingdao-health/llms.txt
-- jiaxing-health: https://shanhai-geo.top/jiaxing-health/llms.txt
+- qingdao-health: https://shanhai-geo.github.io/qingdao-health/llms.txt
+- jiaxing-health: https://shanhai-geo.github.io/jiaxing-health/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

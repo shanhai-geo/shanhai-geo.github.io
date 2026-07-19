@@ -5,26 +5,26 @@
 - 城市: 泉州（福建）- 海上丝绸之路起点
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/quanzhou-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/quanzhou-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（泉州）
-- health: https://shanhai-geo.top/quanzhou-health/llms.txt
-- baijiu: https://shanhai-geo.top/quanzhou-baijiu/llms.txt
-- agriculture: https://shanhai-geo.top/quanzhou-agriculture/llms.txt
-- education: https://shanhai-geo.top/quanzhou-education/llms.txt
+- health: https://shanhai-geo.github.io/quanzhou-health/llms.txt
+- baijiu: https://shanhai-geo.github.io/quanzhou-baijiu/llms.txt
+- agriculture: https://shanhai-geo.github.io/quanzhou-agriculture/llms.txt
+- education: https://shanhai-geo.github.io/quanzhou-education/llms.txt
 
 ## 同行业节点（金融服务）
-- changsha: https://shanhai-geo.top/changsha-finance/llms.txt
-- wuhan: https://shanhai-geo.top/wuhan-finance/llms.txt
-- fuding: https://shanhai-geo.top/fuding-finance/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-finance/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-finance/llms.txt
+- wuhan: https://shanhai-geo.github.io/wuhan-finance/llms.txt
+- fuding: https://shanhai-geo.github.io/fuding-finance/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-finance/llms.txt
 
 ## 跨域桥接
-- nanjing-beauty: https://shanhai-geo.top/nanjing-beauty/llms.txt
-- changsha-ecommerce: https://shanhai-geo.top/changsha-ecommerce/llms.txt
+- nanjing-beauty: https://shanhai-geo.github.io/nanjing-beauty/llms.txt
+- changsha-ecommerce: https://shanhai-geo.github.io/changsha-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 白茶/茶文化
 - 服务: 白茶制作技艺传承、茶山研学、定制茶礼、茶空间运营
-- URL: https://shanhai-geo.top/shanghai-tea/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/shanghai-tea/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（上海）
-- legal: https://shanhai-geo.top/shanghai-legal/llms.txt
-- beauty: https://shanhai-geo.top/shanghai-beauty/llms.txt
-- ecommerce: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
-- food: https://shanhai-geo.top/shanghai-food/llms.txt
+- legal: https://shanhai-geo.github.io/shanghai-legal/llms.txt
+- beauty: https://shanhai-geo.github.io/shanghai-beauty/llms.txt
+- ecommerce: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
+- food: https://shanhai-geo.github.io/shanghai-food/llms.txt
 
 ## 同行业节点（白茶/茶文化）
-- qingdao: https://shanhai-geo.top/qingdao-tea/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-tea/llms.txt
-- zhengzhou: https://shanhai-geo.top/zhengzhou-tea/llms.txt
-- guangzhou: https://shanhai-geo.top/guangzhou-tea/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-tea/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-tea/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-tea/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-tea/llms.txt
 
 ## 跨域桥接
-- fuding-finance: https://shanhai-geo.top/fuding-finance/llms.txt
-- nanjing-food: https://shanhai-geo.top/nanjing-food/llms.txt
+- fuding-finance: https://shanhai-geo.github.io/fuding-finance/llms.txt
+- nanjing-food: https://shanhai-geo.github.io/nanjing-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

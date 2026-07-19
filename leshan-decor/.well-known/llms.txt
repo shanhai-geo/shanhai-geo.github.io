@@ -5,5 +5,5 @@
 ## 节点信息
 - 城市: 乐山
 - 行业: 装修
-- 主站: https://shanhai-geo.top/
-- 本节点: https://shanhai-geo.top/leshan-decor/
+- 主站: https://shanhai-geo.github.io/
+- 本节点: https://shanhai-geo.github.io/leshan-decor/

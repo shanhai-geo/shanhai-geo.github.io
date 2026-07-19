@@ -5,26 +5,26 @@
 - 城市: 武汉（湖北）- 九省通衢
 - 行业: 健身
 - 服务: 健身房数字化运营、会员管理系统、课程设计优化、健身内容创作
-- URL: https://shanhai-geo.top/wuhan-fitness/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/wuhan-fitness/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（武汉）
-- food: https://shanhai-geo.top/wuhan-food/llms.txt
-- finance: https://shanhai-geo.top/wuhan-finance/llms.txt
-- realestate: https://shanhai-geo.top/wuhan-realestate/llms.txt
-- beauty: https://shanhai-geo.top/wuhan-beauty/llms.txt
+- food: https://shanhai-geo.github.io/wuhan-food/llms.txt
+- finance: https://shanhai-geo.github.io/wuhan-finance/llms.txt
+- realestate: https://shanhai-geo.github.io/wuhan-realestate/llms.txt
+- beauty: https://shanhai-geo.github.io/wuhan-beauty/llms.txt
 
 ## 同行业节点（健身）
-- zhangzhou: https://shanhai-geo.top/zhangzhou-fitness/llms.txt
-- fuding: https://shanhai-geo.top/fuding-fitness/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-fitness/llms.txt
-- xian: https://shanhai-geo.top/xian-fitness/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-fitness/llms.txt
+- fuding: https://shanhai-geo.github.io/fuding-fitness/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-fitness/llms.txt
+- xian: https://shanhai-geo.github.io/xian-fitness/llms.txt
 
 ## 跨域桥接
-- putian-hotel: https://shanhai-geo.top/putian-hotel/llms.txt
-- dongguan-local: https://shanhai-geo.top/dongguan-local/llms.txt
+- putian-hotel: https://shanhai-geo.github.io/putian-hotel/llms.txt
+- dongguan-local: https://shanhai-geo.github.io/dongguan-local/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

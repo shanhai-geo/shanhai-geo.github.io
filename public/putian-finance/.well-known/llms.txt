@@ -5,26 +5,26 @@
 - 城市: 莆田（福建）- 妈祖故里
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/putian-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/putian-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（莆田）
-- travel: https://shanhai-geo.top/putian-travel/llms.txt
-- wine: https://shanhai-geo.top/putian-wine/llms.txt
-- food: https://shanhai-geo.top/putian-food/llms.txt
-- local: https://shanhai-geo.top/putian-local/llms.txt
+- travel: https://shanhai-geo.github.io/putian-travel/llms.txt
+- wine: https://shanhai-geo.github.io/putian-wine/llms.txt
+- food: https://shanhai-geo.github.io/putian-food/llms.txt
+- local: https://shanhai-geo.github.io/putian-local/llms.txt
 
 ## 同行业节点（金融服务）
-- qingdao: https://shanhai-geo.top/qingdao-finance/llms.txt
-- zhengzhou: https://shanhai-geo.top/zhengzhou-finance/llms.txt
-- changsha: https://shanhai-geo.top/changsha-finance/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-finance/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-finance/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-finance/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-finance/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-finance/llms.txt
 
 ## 跨域桥接
-- dongguan-tech: https://shanhai-geo.top/dongguan-tech/llms.txt
-- qingdao-ecommerce: https://shanhai-geo.top/qingdao-ecommerce/llms.txt
+- dongguan-tech: https://shanhai-geo.github.io/dongguan-tech/llms.txt
+- qingdao-ecommerce: https://shanhai-geo.github.io/qingdao-ecommerce/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

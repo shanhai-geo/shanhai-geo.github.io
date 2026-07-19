@@ -5,26 +5,26 @@
 - 城市: 长沙（湖南）- 媒体艺术之都
 - 行业: 科技
 - 服务: 技术架构设计、AI应用落地方案、数字化转型咨询、研发效能提升
-- URL: https://shanhai-geo.top/changsha-tech/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/changsha-tech/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（长沙）
-- realestate: https://shanhai-geo.top/changsha-realestate/llms.txt
-- ecommerce: https://shanhai-geo.top/changsha-ecommerce/llms.txt
-- beauty: https://shanhai-geo.top/changsha-beauty/llms.txt
-- medical: https://shanhai-geo.top/changsha-medical/llms.txt
+- realestate: https://shanhai-geo.github.io/changsha-realestate/llms.txt
+- ecommerce: https://shanhai-geo.github.io/changsha-ecommerce/llms.txt
+- beauty: https://shanhai-geo.github.io/changsha-beauty/llms.txt
+- medical: https://shanhai-geo.github.io/changsha-medical/llms.txt
 
 ## 同行业节点（科技）
-- putian: https://shanhai-geo.top/putian-tech/llms.txt
-- xian: https://shanhai-geo.top/xian-tech/llms.txt
-- shenzhen: https://shanhai-geo.top/shenzhen-tech/llms.txt
-- qingdao: https://shanhai-geo.top/qingdao-tech/llms.txt
+- putian: https://shanhai-geo.github.io/putian-tech/llms.txt
+- xian: https://shanhai-geo.github.io/xian-tech/llms.txt
+- shenzhen: https://shanhai-geo.github.io/shenzhen-tech/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-tech/llms.txt
 
 ## 跨域桥接
-- shanghai-education: https://shanhai-geo.top/shanghai-education/llms.txt
-- xian-auto: https://shanhai-geo.top/xian-auto/llms.txt
+- shanghai-education: https://shanhai-geo.github.io/shanghai-education/llms.txt
+- xian-auto: https://shanhai-geo.github.io/xian-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

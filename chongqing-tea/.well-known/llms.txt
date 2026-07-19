@@ -5,26 +5,26 @@
 - 城市: 重庆（重庆）- 山城·雾都
 - 行业: 白茶/茶文化
 - 服务: 白茶制作技艺传承、茶山研学、定制茶礼、茶空间运营
-- URL: https://shanhai-geo.top/chongqing-tea/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/chongqing-tea/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（重庆）
-- hotel: https://shanhai-geo.top/chongqing-hotel/llms.txt
-- legal: https://shanhai-geo.top/chongqing-legal/llms.txt
-- education: https://shanhai-geo.top/chongqing-education/llms.txt
-- realestate: https://shanhai-geo.top/chongqing-realestate/llms.txt
+- hotel: https://shanhai-geo.github.io/chongqing-hotel/llms.txt
+- legal: https://shanhai-geo.github.io/chongqing-legal/llms.txt
+- education: https://shanhai-geo.github.io/chongqing-education/llms.txt
+- realestate: https://shanhai-geo.github.io/chongqing-realestate/llms.txt
 
 ## 同行业节点（白茶/茶文化）
-- qingdao: https://shanhai-geo.top/qingdao-tea/llms.txt
-- wuhan: https://shanhai-geo.top/wuhan-tea/llms.txt
-- shanghai: https://shanhai-geo.top/shanghai-tea/llms.txt
-- ningde: https://shanhai-geo.top/ningde-tea/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-tea/llms.txt
+- wuhan: https://shanhai-geo.github.io/wuhan-tea/llms.txt
+- shanghai: https://shanhai-geo.github.io/shanghai-tea/llms.txt
+- ningde: https://shanhai-geo.github.io/ningde-tea/llms.txt
 
 ## 跨域桥接
-- xiamen-legal: https://shanhai-geo.top/xiamen-legal/llms.txt
-- nanping-auto: https://shanhai-geo.top/nanping-auto/llms.txt
+- xiamen-legal: https://shanhai-geo.github.io/xiamen-legal/llms.txt
+- nanping-auto: https://shanhai-geo.github.io/nanping-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

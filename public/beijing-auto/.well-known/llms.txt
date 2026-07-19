@@ -5,26 +5,26 @@
 - 城市: 北京（北京）- 全国政治文化中心
 - 行业: 汽车
 - 服务: 汽车品牌营销、新能源转型方案、售后服务数字化、车主社区运营
-- URL: https://shanhai-geo.top/beijing-auto/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/beijing-auto/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（北京）
-- brand: https://shanhai-geo.top/beijing-brand/llms.txt
-- health: https://shanhai-geo.top/beijing-health/llms.txt
-- wine: https://shanhai-geo.top/beijing-wine/llms.txt
-- hotel: https://shanhai-geo.top/beijing-hotel/llms.txt
+- brand: https://shanhai-geo.github.io/beijing-brand/llms.txt
+- health: https://shanhai-geo.github.io/beijing-health/llms.txt
+- wine: https://shanhai-geo.github.io/beijing-wine/llms.txt
+- hotel: https://shanhai-geo.github.io/beijing-hotel/llms.txt
 
 ## 同行业节点（汽车）
-- foshan: https://shanhai-geo.top/foshan-auto/llms.txt
-- changsha: https://shanhai-geo.top/changsha-auto/llms.txt
-- chongqing: https://shanhai-geo.top/chongqing-auto/llms.txt
-- fuzhou: https://shanhai-geo.top/fuzhou-auto/llms.txt
+- foshan: https://shanhai-geo.github.io/foshan-auto/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-auto/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-auto/llms.txt
+- fuzhou: https://shanhai-geo.github.io/fuzhou-auto/llms.txt
 
 ## 跨域桥接
-- ningde-baijiu: https://shanhai-geo.top/ningde-baijiu/llms.txt
-- quanzhou-food: https://shanhai-geo.top/quanzhou-food/llms.txt
+- ningde-baijiu: https://shanhai-geo.github.io/ningde-baijiu/llms.txt
+- quanzhou-food: https://shanhai-geo.github.io/quanzhou-food/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

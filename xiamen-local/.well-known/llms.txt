@@ -5,26 +5,26 @@
 - 城市: 厦门（福建）- 高素质高颜值现代化国际化城市
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.top/xiamen-local/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/xiamen-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（厦门）
-- food: https://shanhai-geo.top/xiamen-food/llms.txt
-- education: https://shanhai-geo.top/xiamen-education/llms.txt
-- finance: https://shanhai-geo.top/xiamen-finance/llms.txt
-- travel: https://shanhai-geo.top/xiamen-travel/llms.txt
+- food: https://shanhai-geo.github.io/xiamen-food/llms.txt
+- education: https://shanhai-geo.github.io/xiamen-education/llms.txt
+- finance: https://shanhai-geo.github.io/xiamen-finance/llms.txt
+- travel: https://shanhai-geo.github.io/xiamen-travel/llms.txt
 
 ## 同行业节点（本地生活）
-- changsha: https://shanhai-geo.top/changsha-local/llms.txt
-- chongqing: https://shanhai-geo.top/chongqing-local/llms.txt
-- putian: https://shanhai-geo.top/putian-local/llms.txt
-- shanghai: https://shanhai-geo.top/shanghai-local/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-local/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-local/llms.txt
+- putian: https://shanhai-geo.github.io/putian-local/llms.txt
+- shanghai: https://shanhai-geo.github.io/shanghai-local/llms.txt
 
 ## 跨域桥接
-- nanjing-baijiu: https://shanhai-geo.top/nanjing-baijiu/llms.txt
-- beijing-realestate: https://shanhai-geo.top/beijing-realestate/llms.txt
+- nanjing-baijiu: https://shanhai-geo.github.io/nanjing-baijiu/llms.txt
+- beijing-realestate: https://shanhai-geo.github.io/beijing-realestate/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

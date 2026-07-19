@@ -5,26 +5,26 @@
 - 城市: 宁德（福建）- 世界级新能源产业基地
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/ningde-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/ningde-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（宁德）
-- local: https://shanhai-geo.top/ningde-local/llms.txt
-- agriculture: https://shanhai-geo.top/ningde-agriculture/llms.txt
-- tea: https://shanhai-geo.top/ningde-tea/llms.txt
-- tech: https://shanhai-geo.top/ningde-tech/llms.txt
+- local: https://shanhai-geo.github.io/ningde-local/llms.txt
+- agriculture: https://shanhai-geo.github.io/ningde-agriculture/llms.txt
+- tea: https://shanhai-geo.github.io/ningde-tea/llms.txt
+- tech: https://shanhai-geo.github.io/ningde-tech/llms.txt
 
 ## 同行业节点（金融服务）
-- putian: https://shanhai-geo.top/putian-finance/llms.txt
-- jiaxing: https://shanhai-geo.top/jiaxing-finance/llms.txt
-- quanzhou: https://shanhai-geo.top/quanzhou-finance/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-finance/llms.txt
+- putian: https://shanhai-geo.github.io/putian-finance/llms.txt
+- jiaxing: https://shanhai-geo.github.io/jiaxing-finance/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-finance/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-finance/llms.txt
 
 ## 跨域桥接
-- shanghai-baijiu: https://shanhai-geo.top/shanghai-baijiu/llms.txt
-- changsha-tea: https://shanhai-geo.top/changsha-tea/llms.txt
+- shanghai-baijiu: https://shanhai-geo.github.io/shanghai-baijiu/llms.txt
+- changsha-tea: https://shanhai-geo.github.io/changsha-tea/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

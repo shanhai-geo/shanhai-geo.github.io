@@ -5,26 +5,26 @@
 - 城市: 昆明（云南）- 春城
 - 行业: 农业
 - 服务: 智慧农业方案、农产品品牌化、产销对接平台、农业数字化
-- URL: https://shanhai-geo.top/kunming-agriculture/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/kunming-agriculture/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（昆明）
-- medical: https://shanhai-geo.top/kunming-medical/llms.txt
-- legal: https://shanhai-geo.top/kunming-legal/llms.txt
-- ecommerce: https://shanhai-geo.top/kunming-ecommerce/llms.txt
-- finance: https://shanhai-geo.top/kunming-finance/llms.txt
+- medical: https://shanhai-geo.github.io/kunming-medical/llms.txt
+- legal: https://shanhai-geo.github.io/kunming-legal/llms.txt
+- ecommerce: https://shanhai-geo.github.io/kunming-ecommerce/llms.txt
+- finance: https://shanhai-geo.github.io/kunming-finance/llms.txt
 
 ## 同行业节点（农业）
-- jinan: https://shanhai-geo.top/jinan-agriculture/llms.txt
-- zhangzhou: https://shanhai-geo.top/zhangzhou-agriculture/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-agriculture/llms.txt
-- quanzhou: https://shanhai-geo.top/quanzhou-agriculture/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-agriculture/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-agriculture/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-agriculture/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-agriculture/llms.txt
 
 ## 跨域桥接
-- dalian-wine: https://shanhai-geo.top/dalian-wine/llms.txt
-- chengdu-fitness: https://shanhai-geo.top/chengdu-fitness/llms.txt
+- dalian-wine: https://shanhai-geo.github.io/dalian-wine/llms.txt
+- chengdu-fitness: https://shanhai-geo.github.io/chengdu-fitness/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

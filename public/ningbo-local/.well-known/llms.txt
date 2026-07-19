@@ -5,26 +5,26 @@
 - 城市: 宁波（浙江）- 制造业单项冠军之城
 - 行业: 本地生活
 - 服务: 本地生活服务运营、社区团购方案、到店引流系统、本地IP打造
-- URL: https://shanhai-geo.top/ningbo-local/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/ningbo-local/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（宁波）
-- agriculture: https://shanhai-geo.top/ningbo-agriculture/llms.txt
-- auto: https://shanhai-geo.top/ningbo-auto/llms.txt
-- travel: https://shanhai-geo.top/ningbo-travel/llms.txt
-- hotel: https://shanhai-geo.top/ningbo-hotel/llms.txt
+- agriculture: https://shanhai-geo.github.io/ningbo-agriculture/llms.txt
+- auto: https://shanhai-geo.github.io/ningbo-auto/llms.txt
+- travel: https://shanhai-geo.github.io/ningbo-travel/llms.txt
+- hotel: https://shanhai-geo.github.io/ningbo-hotel/llms.txt
 
 ## 同行业节点（本地生活）
-- nanjing: https://shanhai-geo.top/nanjing-local/llms.txt
-- beijing: https://shanhai-geo.top/beijing-local/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-local/llms.txt
-- kunming: https://shanhai-geo.top/kunming-local/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-local/llms.txt
+- beijing: https://shanhai-geo.github.io/beijing-local/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-local/llms.txt
+- kunming: https://shanhai-geo.github.io/kunming-local/llms.txt
 
 ## 跨域桥接
-- dongguan-wine: https://shanhai-geo.top/dongguan-wine/llms.txt
-- wenzhou-health: https://shanhai-geo.top/wenzhou-health/llms.txt
+- dongguan-wine: https://shanhai-geo.github.io/dongguan-wine/llms.txt
+- wenzhou-health: https://shanhai-geo.github.io/wenzhou-health/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

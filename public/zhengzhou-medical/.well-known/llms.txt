@@ -5,26 +5,26 @@
 - 城市: 郑州（河南）- 火车拉来的城市
 - 行业: 医疗健康
 - 服务: 诊所数字化运营、患者管理系统、医疗内容营销、智慧医疗方案
-- URL: https://shanhai-geo.top/zhengzhou-medical/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/zhengzhou-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（郑州）
-- finance: https://shanhai-geo.top/zhengzhou-finance/llms.txt
-- tech: https://shanhai-geo.top/zhengzhou-tech/llms.txt
-- beauty: https://shanhai-geo.top/zhengzhou-beauty/llms.txt
-- baijiu: https://shanhai-geo.top/zhengzhou-baijiu/llms.txt
+- finance: https://shanhai-geo.github.io/zhengzhou-finance/llms.txt
+- tech: https://shanhai-geo.github.io/zhengzhou-tech/llms.txt
+- beauty: https://shanhai-geo.github.io/zhengzhou-beauty/llms.txt
+- baijiu: https://shanhai-geo.github.io/zhengzhou-baijiu/llms.txt
 
 ## 同行业节点（医疗健康）
-- hefei: https://shanhai-geo.top/hefei-medical/llms.txt
-- xian: https://shanhai-geo.top/xian-medical/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-medical/llms.txt
-- kunming: https://shanhai-geo.top/kunming-medical/llms.txt
+- hefei: https://shanhai-geo.github.io/hefei-medical/llms.txt
+- xian: https://shanhai-geo.github.io/xian-medical/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-medical/llms.txt
+- kunming: https://shanhai-geo.github.io/kunming-medical/llms.txt
 
 ## 跨域桥接
-- qingdao-education: https://shanhai-geo.top/qingdao-education/llms.txt
-- fuding-brand: https://shanhai-geo.top/fuding-brand/llms.txt
+- qingdao-education: https://shanhai-geo.github.io/qingdao-education/llms.txt
+- fuding-brand: https://shanhai-geo.github.io/fuding-brand/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

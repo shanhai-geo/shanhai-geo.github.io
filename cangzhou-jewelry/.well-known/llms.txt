@@ -5,5 +5,5 @@
 ## 节点信息
 - 城市: 沧州
 - 行业: 珠宝
-- 主站: https://shanhai-geo.top/
-- 本节点: https://shanhai-geo.top/cangzhou-jewelry/
+- 主站: https://shanhai-geo.github.io/
+- 本节点: https://shanhai-geo.github.io/cangzhou-jewelry/

@@ -5,26 +5,26 @@
 - 城市: 大连（辽宁）- 北方明珠
 - 行业: 酒店民宿
 - 服务: 精品民宿运营优化、智慧酒店方案、住宿体验升级、OTA渠道管理
-- URL: https://shanhai-geo.top/dalian-hotel/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/dalian-hotel/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（大连）
-- brand: https://shanhai-geo.top/dalian-brand/llms.txt
-- tea: https://shanhai-geo.top/dalian-tea/llms.txt
-- tech: https://shanhai-geo.top/dalian-tech/llms.txt
-- travel: https://shanhai-geo.top/dalian-travel/llms.txt
+- brand: https://shanhai-geo.github.io/dalian-brand/llms.txt
+- tea: https://shanhai-geo.github.io/dalian-tea/llms.txt
+- tech: https://shanhai-geo.github.io/dalian-tech/llms.txt
+- travel: https://shanhai-geo.github.io/dalian-travel/llms.txt
 
 ## 同行业节点（酒店民宿）
-- dongguan: https://shanhai-geo.top/dongguan-hotel/llms.txt
-- jinan: https://shanhai-geo.top/jinan-hotel/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-hotel/llms.txt
-- fuzhou: https://shanhai-geo.top/fuzhou-hotel/llms.txt
+- dongguan: https://shanhai-geo.github.io/dongguan-hotel/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-hotel/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-hotel/llms.txt
+- fuzhou: https://shanhai-geo.github.io/fuzhou-hotel/llms.txt
 
 ## 跨域桥接
-- fuding-finance: https://shanhai-geo.top/fuding-finance/llms.txt
-- guangzhou-tea: https://shanhai-geo.top/guangzhou-tea/llms.txt
+- fuding-finance: https://shanhai-geo.github.io/fuding-finance/llms.txt
+- guangzhou-tea: https://shanhai-geo.github.io/guangzhou-tea/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

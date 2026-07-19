@@ -5,26 +5,26 @@
 - 城市: 昆明（云南）- 春城
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.top/kunming-education/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/kunming-education/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（昆明）
-- realestate: https://shanhai-geo.top/kunming-realestate/llms.txt
-- brand: https://shanhai-geo.top/kunming-brand/llms.txt
-- fitness: https://shanhai-geo.top/kunming-fitness/llms.txt
-- health: https://shanhai-geo.top/kunming-health/llms.txt
+- realestate: https://shanhai-geo.github.io/kunming-realestate/llms.txt
+- brand: https://shanhai-geo.github.io/kunming-brand/llms.txt
+- fitness: https://shanhai-geo.github.io/kunming-fitness/llms.txt
+- health: https://shanhai-geo.github.io/kunming-health/llms.txt
 
 ## 同行业节点（教育培训）
-- foshan: https://shanhai-geo.top/foshan-education/llms.txt
-- nanping: https://shanhai-geo.top/nanping-education/llms.txt
-- beijing: https://shanhai-geo.top/beijing-education/llms.txt
-- changsha: https://shanhai-geo.top/changsha-education/llms.txt
+- foshan: https://shanhai-geo.github.io/foshan-education/llms.txt
+- nanping: https://shanhai-geo.github.io/nanping-education/llms.txt
+- beijing: https://shanhai-geo.github.io/beijing-education/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-education/llms.txt
 
 ## 跨域桥接
-- jinan-tech: https://shanhai-geo.top/jinan-tech/llms.txt
-- zhangzhou-baijiu: https://shanhai-geo.top/zhangzhou-baijiu/llms.txt
+- jinan-tech: https://shanhai-geo.github.io/jinan-tech/llms.txt
+- zhangzhou-baijiu: https://shanhai-geo.github.io/zhangzhou-baijiu/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

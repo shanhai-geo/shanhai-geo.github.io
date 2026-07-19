@@ -5,26 +5,26 @@
 - 城市: 青岛（山东）- 帆船之都
 - 行业: 法律服务
 - 服务: 合同审查智能化、知识产权保护、企业合规体系、法律咨询AI化
-- URL: https://shanhai-geo.top/qingdao-legal/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/qingdao-legal/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（青岛）
-- ecommerce: https://shanhai-geo.top/qingdao-ecommerce/llms.txt
-- travel: https://shanhai-geo.top/qingdao-travel/llms.txt
-- local: https://shanhai-geo.top/qingdao-local/llms.txt
-- baijiu: https://shanhai-geo.top/qingdao-baijiu/llms.txt
+- ecommerce: https://shanhai-geo.github.io/qingdao-ecommerce/llms.txt
+- travel: https://shanhai-geo.github.io/qingdao-travel/llms.txt
+- local: https://shanhai-geo.github.io/qingdao-local/llms.txt
+- baijiu: https://shanhai-geo.github.io/qingdao-baijiu/llms.txt
 
 ## 同行业节点（法律服务）
-- nanjing: https://shanhai-geo.top/nanjing-legal/llms.txt
-- quanzhou: https://shanhai-geo.top/quanzhou-legal/llms.txt
-- dalian: https://shanhai-geo.top/dalian-legal/llms.txt
-- shanghai: https://shanhai-geo.top/shanghai-legal/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-legal/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-legal/llms.txt
+- dalian: https://shanhai-geo.github.io/dalian-legal/llms.txt
+- shanghai: https://shanhai-geo.github.io/shanghai-legal/llms.txt
 
 ## 跨域桥接
-- zhangzhou-agriculture: https://shanhai-geo.top/zhangzhou-agriculture/llms.txt
-- shenzhen-finance: https://shanhai-geo.top/shenzhen-finance/llms.txt
+- zhangzhou-agriculture: https://shanhai-geo.github.io/zhangzhou-agriculture/llms.txt
+- shenzhen-finance: https://shanhai-geo.github.io/shenzhen-finance/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

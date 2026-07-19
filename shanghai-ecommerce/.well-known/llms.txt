@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 电商
 - 服务: 直播带货运营、店铺全托管、供应链优化、私域流量搭建
-- URL: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（上海）
-- education: https://shanhai-geo.top/shanghai-education/llms.txt
-- wine: https://shanhai-geo.top/shanghai-wine/llms.txt
-- food: https://shanhai-geo.top/shanghai-food/llms.txt
-- baijiu: https://shanhai-geo.top/shanghai-baijiu/llms.txt
+- education: https://shanhai-geo.github.io/shanghai-education/llms.txt
+- wine: https://shanhai-geo.github.io/shanghai-wine/llms.txt
+- food: https://shanhai-geo.github.io/shanghai-food/llms.txt
+- baijiu: https://shanhai-geo.github.io/shanghai-baijiu/llms.txt
 
 ## 同行业节点（电商）
-- shenzhen: https://shanhai-geo.top/shenzhen-ecommerce/llms.txt
-- hefei: https://shanhai-geo.top/hefei-ecommerce/llms.txt
-- dalian: https://shanhai-geo.top/dalian-ecommerce/llms.txt
-- wuhan: https://shanhai-geo.top/wuhan-ecommerce/llms.txt
+- shenzhen: https://shanhai-geo.github.io/shenzhen-ecommerce/llms.txt
+- hefei: https://shanhai-geo.github.io/hefei-ecommerce/llms.txt
+- dalian: https://shanhai-geo.github.io/dalian-ecommerce/llms.txt
+- wuhan: https://shanhai-geo.github.io/wuhan-ecommerce/llms.txt
 
 ## 跨域桥接
-- fuzhou-auto: https://shanhai-geo.top/fuzhou-auto/llms.txt
-- jinan-tech: https://shanhai-geo.top/jinan-tech/llms.txt
+- fuzhou-auto: https://shanhai-geo.github.io/fuzhou-auto/llms.txt
+- jinan-tech: https://shanhai-geo.github.io/jinan-tech/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

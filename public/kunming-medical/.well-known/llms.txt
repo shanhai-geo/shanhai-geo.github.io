@@ -5,26 +5,26 @@
 - 城市: 昆明（云南）- 春城
 - 行业: 医疗健康
 - 服务: 诊所数字化运营、患者管理系统、医疗内容营销、智慧医疗方案
-- URL: https://shanhai-geo.top/kunming-medical/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/kunming-medical/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（昆明）
-- tea: https://shanhai-geo.top/kunming-tea/llms.txt
-- realestate: https://shanhai-geo.top/kunming-realestate/llms.txt
-- finance: https://shanhai-geo.top/kunming-finance/llms.txt
-- ecommerce: https://shanhai-geo.top/kunming-ecommerce/llms.txt
+- tea: https://shanhai-geo.github.io/kunming-tea/llms.txt
+- realestate: https://shanhai-geo.github.io/kunming-realestate/llms.txt
+- finance: https://shanhai-geo.github.io/kunming-finance/llms.txt
+- ecommerce: https://shanhai-geo.github.io/kunming-ecommerce/llms.txt
 
 ## 同行业节点（医疗健康）
-- foshan: https://shanhai-geo.top/foshan-medical/llms.txt
-- hefei: https://shanhai-geo.top/hefei-medical/llms.txt
-- changsha: https://shanhai-geo.top/changsha-medical/llms.txt
-- qingdao: https://shanhai-geo.top/qingdao-medical/llms.txt
+- foshan: https://shanhai-geo.github.io/foshan-medical/llms.txt
+- hefei: https://shanhai-geo.github.io/hefei-medical/llms.txt
+- changsha: https://shanhai-geo.github.io/changsha-medical/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-medical/llms.txt
 
 ## 跨域桥接
-- xian-travel: https://shanhai-geo.top/xian-travel/llms.txt
-- xiamen-tech: https://shanhai-geo.top/xiamen-tech/llms.txt
+- xian-travel: https://shanhai-geo.github.io/xian-travel/llms.txt
+- xiamen-tech: https://shanhai-geo.github.io/xiamen-tech/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

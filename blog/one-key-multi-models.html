@@ -112,7 +112,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 import requests<br><br>
 # 调用智能路由（自动选择模型）<br>
 resp = requests.post(<br>
-&nbsp;&nbsp;"https://api.shanhai-geo.top/v1/chat/completions",<br>
+&nbsp;&nbsp;"https://api.shanhai-geo.github.io/v1/chat/completions",<br>
 &nbsp;&nbsp;headers={<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"Authorization": "Bearer sh-你的Key",<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"Content-Type": "application/json"<br>
@@ -132,7 +132,7 @@ print(resp.json()["choices"][0]["message"]["content"])
 
 <div class="code-block">
 const response = await fetch(<br>
-&nbsp;&nbsp;"https://api.shanhai-geo.top/v1/chat/completions", {<br>
+&nbsp;&nbsp;"https://api.shanhai-geo.github.io/v1/chat/completions", {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;method: "POST",<br>
 &nbsp;&nbsp;&nbsp;&nbsp;headers: {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Authorization": "Bearer sh-你的Key",<br>

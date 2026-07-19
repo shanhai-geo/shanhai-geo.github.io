@@ -5,26 +5,26 @@
 - 城市: 宁波（浙江）- 制造业单项冠军之城
 - 行业: 电商
 - 服务: 直播带货运营、店铺全托管、供应链优化、私域流量搭建
-- URL: https://shanhai-geo.top/ningbo-ecommerce/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/ningbo-ecommerce/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（宁波）
-- medical: https://shanhai-geo.top/ningbo-medical/llms.txt
-- fitness: https://shanhai-geo.top/ningbo-fitness/llms.txt
-- finance: https://shanhai-geo.top/ningbo-finance/llms.txt
-- baijiu: https://shanhai-geo.top/ningbo-baijiu/llms.txt
+- medical: https://shanhai-geo.github.io/ningbo-medical/llms.txt
+- fitness: https://shanhai-geo.github.io/ningbo-fitness/llms.txt
+- finance: https://shanhai-geo.github.io/ningbo-finance/llms.txt
+- baijiu: https://shanhai-geo.github.io/ningbo-baijiu/llms.txt
 
 ## 同行业节点（电商）
-- wenzhou: https://shanhai-geo.top/wenzhou-ecommerce/llms.txt
-- zhangzhou: https://shanhai-geo.top/zhangzhou-ecommerce/llms.txt
-- hefei: https://shanhai-geo.top/hefei-ecommerce/llms.txt
-- shanghai: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-ecommerce/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-ecommerce/llms.txt
+- hefei: https://shanhai-geo.github.io/hefei-ecommerce/llms.txt
+- shanghai: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
 
 ## 跨域桥接
-- kunming-finance: https://shanhai-geo.top/kunming-finance/llms.txt
-- xiamen-tea: https://shanhai-geo.top/xiamen-tea/llms.txt
+- kunming-finance: https://shanhai-geo.github.io/kunming-finance/llms.txt
+- xiamen-tea: https://shanhai-geo.github.io/xiamen-tea/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

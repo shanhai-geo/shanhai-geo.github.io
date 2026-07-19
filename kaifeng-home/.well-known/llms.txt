@@ -5,5 +5,5 @@
 ## 节点信息
 - 城市: 开封
 - 行业: 家居
-- 主站: https://shanhai-geo.top/
-- 本节点: https://shanhai-geo.top/kaifeng-home/
+- 主站: https://shanhai-geo.github.io/
+- 本节点: https://shanhai-geo.github.io/kaifeng-home/

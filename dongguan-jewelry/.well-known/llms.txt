@@ -5,5 +5,5 @@
 ## 节点信息
 - 城市: 东莞
 - 行业: 珠宝
-- 主站: https://shanhai-geo.top/
-- 本节点: https://shanhai-geo.top/dongguan-jewelry/
+- 主站: https://shanhai-geo.github.io/
+- 本节点: https://shanhai-geo.github.io/dongguan-jewelry/

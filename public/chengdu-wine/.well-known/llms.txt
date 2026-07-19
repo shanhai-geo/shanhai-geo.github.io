@@ -5,26 +5,26 @@
 - 城市: 成都（四川）- 公园城市示范区
 - 行业: 酒文化
 - 服务: 红酒品鉴活动策划、酒窖数字化管理、酒文化IP打造、品鉴会运营
-- URL: https://shanhai-geo.top/chengdu-wine/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/chengdu-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（成都）
-- education: https://shanhai-geo.top/chengdu-education/llms.txt
-- tech: https://shanhai-geo.top/chengdu-tech/llms.txt
-- ecommerce: https://shanhai-geo.top/chengdu-ecommerce/llms.txt
-- finance: https://shanhai-geo.top/chengdu-finance/llms.txt
+- education: https://shanhai-geo.github.io/chengdu-education/llms.txt
+- tech: https://shanhai-geo.github.io/chengdu-tech/llms.txt
+- ecommerce: https://shanhai-geo.github.io/chengdu-ecommerce/llms.txt
+- finance: https://shanhai-geo.github.io/chengdu-finance/llms.txt
 
 ## 同行业节点（酒文化）
-- quanzhou: https://shanhai-geo.top/quanzhou-wine/llms.txt
-- guangzhou: https://shanhai-geo.top/guangzhou-wine/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-wine/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-wine/llms.txt
+- quanzhou: https://shanhai-geo.github.io/quanzhou-wine/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-wine/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-wine/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-wine/llms.txt
 
 ## 跨域桥接
-- zhengzhou-realestate: https://shanhai-geo.top/zhengzhou-realestate/llms.txt
-- fuzhou-brand: https://shanhai-geo.top/fuzhou-brand/llms.txt
+- zhengzhou-realestate: https://shanhai-geo.github.io/zhengzhou-realestate/llms.txt
+- fuzhou-brand: https://shanhai-geo.github.io/fuzhou-brand/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

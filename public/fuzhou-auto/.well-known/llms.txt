@@ -5,26 +5,26 @@
 - 城市: 福州（福建）- 海峡西岸经济区中心城市
 - 行业: 汽车
 - 服务: 汽车品牌营销、新能源转型方案、售后服务数字化、车主社区运营
-- URL: https://shanhai-geo.top/fuzhou-auto/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/fuzhou-auto/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（福州）
-- food: https://shanhai-geo.top/fuzhou-food/llms.txt
-- legal: https://shanhai-geo.top/fuzhou-legal/llms.txt
-- ecommerce: https://shanhai-geo.top/fuzhou-ecommerce/llms.txt
-- medical: https://shanhai-geo.top/fuzhou-medical/llms.txt
+- food: https://shanhai-geo.github.io/fuzhou-food/llms.txt
+- legal: https://shanhai-geo.github.io/fuzhou-legal/llms.txt
+- ecommerce: https://shanhai-geo.github.io/fuzhou-ecommerce/llms.txt
+- medical: https://shanhai-geo.github.io/fuzhou-medical/llms.txt
 
 ## 同行业节点（汽车）
-- zhangzhou: https://shanhai-geo.top/zhangzhou-auto/llms.txt
-- guangzhou: https://shanhai-geo.top/guangzhou-auto/llms.txt
-- shanghai: https://shanhai-geo.top/shanghai-auto/llms.txt
-- jinan: https://shanhai-geo.top/jinan-auto/llms.txt
+- zhangzhou: https://shanhai-geo.github.io/zhangzhou-auto/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-auto/llms.txt
+- shanghai: https://shanhai-geo.github.io/shanghai-auto/llms.txt
+- jinan: https://shanhai-geo.github.io/jinan-auto/llms.txt
 
 ## 跨域桥接
-- dalian-health: https://shanhai-geo.top/dalian-health/llms.txt
-- guangzhou-baijiu: https://shanhai-geo.top/guangzhou-baijiu/llms.txt
+- dalian-health: https://shanhai-geo.github.io/dalian-health/llms.txt
+- guangzhou-baijiu: https://shanhai-geo.github.io/guangzhou-baijiu/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

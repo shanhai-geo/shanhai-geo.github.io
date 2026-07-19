@@ -5,26 +5,26 @@
 - 城市: 西安（陕西）- 十三朝古都
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/xian-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/xian-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（西安）
-- wine: https://shanhai-geo.top/xian-wine/llms.txt
-- tech: https://shanhai-geo.top/xian-tech/llms.txt
-- food: https://shanhai-geo.top/xian-food/llms.txt
-- tea: https://shanhai-geo.top/xian-tea/llms.txt
+- wine: https://shanhai-geo.github.io/xian-wine/llms.txt
+- tech: https://shanhai-geo.github.io/xian-tech/llms.txt
+- food: https://shanhai-geo.github.io/xian-food/llms.txt
+- tea: https://shanhai-geo.github.io/xian-tea/llms.txt
 
 ## 同行业节点（金融服务）
-- guangzhou: https://shanhai-geo.top/guangzhou-finance/llms.txt
-- chongqing: https://shanhai-geo.top/chongqing-finance/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-finance/llms.txt
-- fuzhou: https://shanhai-geo.top/fuzhou-finance/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-finance/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-finance/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-finance/llms.txt
+- fuzhou: https://shanhai-geo.github.io/fuzhou-finance/llms.txt
 
 ## 跨域桥接
-- quanzhou-wine: https://shanhai-geo.top/quanzhou-wine/llms.txt
-- putian-health: https://shanhai-geo.top/putian-health/llms.txt
+- quanzhou-wine: https://shanhai-geo.github.io/quanzhou-wine/llms.txt
+- putian-health: https://shanhai-geo.github.io/putian-health/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

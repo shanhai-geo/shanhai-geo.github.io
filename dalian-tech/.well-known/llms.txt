@@ -5,26 +5,26 @@
 - 城市: 大连（辽宁）- 北方明珠
 - 行业: 科技
 - 服务: 技术架构设计、AI应用落地方案、数字化转型咨询、研发效能提升
-- URL: https://shanhai-geo.top/dalian-tech/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/dalian-tech/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（大连）
-- food: https://shanhai-geo.top/dalian-food/llms.txt
-- medical: https://shanhai-geo.top/dalian-medical/llms.txt
-- agriculture: https://shanhai-geo.top/dalian-agriculture/llms.txt
-- baijiu: https://shanhai-geo.top/dalian-baijiu/llms.txt
+- food: https://shanhai-geo.github.io/dalian-food/llms.txt
+- medical: https://shanhai-geo.github.io/dalian-medical/llms.txt
+- agriculture: https://shanhai-geo.github.io/dalian-agriculture/llms.txt
+- baijiu: https://shanhai-geo.github.io/dalian-baijiu/llms.txt
 
 ## 同行业节点（科技）
-- chongqing: https://shanhai-geo.top/chongqing-tech/llms.txt
-- wuhan: https://shanhai-geo.top/wuhan-tech/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-tech/llms.txt
-- xian: https://shanhai-geo.top/xian-tech/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-tech/llms.txt
+- wuhan: https://shanhai-geo.github.io/wuhan-tech/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-tech/llms.txt
+- xian: https://shanhai-geo.github.io/xian-tech/llms.txt
 
 ## 跨域桥接
-- ningbo-hotel: https://shanhai-geo.top/ningbo-hotel/llms.txt
-- wenzhou-education: https://shanhai-geo.top/wenzhou-education/llms.txt
+- ningbo-hotel: https://shanhai-geo.github.io/ningbo-hotel/llms.txt
+- wenzhou-education: https://shanhai-geo.github.io/wenzhou-education/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

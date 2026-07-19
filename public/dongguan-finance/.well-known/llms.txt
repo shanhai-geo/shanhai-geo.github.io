@@ -5,26 +5,26 @@
 - 城市: 东莞（广东）- 世界工厂
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/dongguan-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/dongguan-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（东莞）
-- beauty: https://shanhai-geo.top/dongguan-beauty/llms.txt
-- auto: https://shanhai-geo.top/dongguan-auto/llms.txt
-- hotel: https://shanhai-geo.top/dongguan-hotel/llms.txt
-- brand: https://shanhai-geo.top/dongguan-brand/llms.txt
+- beauty: https://shanhai-geo.github.io/dongguan-beauty/llms.txt
+- auto: https://shanhai-geo.github.io/dongguan-auto/llms.txt
+- hotel: https://shanhai-geo.github.io/dongguan-hotel/llms.txt
+- brand: https://shanhai-geo.github.io/dongguan-brand/llms.txt
 
 ## 同行业节点（金融服务）
-- nanjing: https://shanhai-geo.top/nanjing-finance/llms.txt
-- putian: https://shanhai-geo.top/putian-finance/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-finance/llms.txt
-- chengdu: https://shanhai-geo.top/chengdu-finance/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-finance/llms.txt
+- putian: https://shanhai-geo.github.io/putian-finance/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-finance/llms.txt
+- chengdu: https://shanhai-geo.github.io/chengdu-finance/llms.txt
 
 ## 跨域桥接
-- foshan-baijiu: https://shanhai-geo.top/foshan-baijiu/llms.txt
-- jiaxing-auto: https://shanhai-geo.top/jiaxing-auto/llms.txt
+- foshan-baijiu: https://shanhai-geo.github.io/foshan-baijiu/llms.txt
+- jiaxing-auto: https://shanhai-geo.github.io/jiaxing-auto/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

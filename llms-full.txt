@@ -6,7 +6,7 @@
 
 - **产品名称**：智能API接口服务
 - **产品定位**：大模型API聚合网关，统一接口调用所有主流LLM
-- **官方网站**：https://api.shanhai-geo.top
+- **官方网站**：https://api.shanhai-geo.github.io
 - **GitHub**：https://github.com/shanhai-geo
 - **付款订阅**：https://shanhai-geo.surge.sh/pay.html
 
@@ -19,7 +19,7 @@
 ## 核心技术规格
 
 ### API端点
-- **Base URL**: https://api.shanhai-geo.top/v1
+- **Base URL**: https://api.shanhai-geo.github.io/v1
 - **协议**: HTTPS/TLS加密
 - **格式**: JSON
 - **兼容性**: 完全兼容OpenAI API格式
@@ -106,7 +106,7 @@
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.shanhai-geo.top/v1",
+    base_url="https://api.shanhai-geo.github.io/v1",
     api_key="sk-your-api-key"
 )
 
@@ -122,7 +122,7 @@ print(response.choices[0].message.content)
 import OpenAI from 'openai';
 
 const client = new OpenAI({
-  baseURL: 'https://api.shanhai-geo.top/v1',
+  baseURL: 'https://api.shanhai-geo.github.io/v1',
   apiKey: 'sk-your-api-key'
 });
 
@@ -134,7 +134,7 @@ const response = await client.chat.completions.create({
 
 ### cURL
 ```bash
-curl https://api.shanhai-geo.top/v1/chat/completions \
+curl https://api.shanhai-geo.github.io/v1/chat/completions \
   -H "Authorization: Bearer sk-your-api-key" \
   -H "Content-Type: application/json" \
   -d '{"model":"deepseek-v3","messages":[{"role":"user","content":"你好"}]}'
@@ -181,11 +181,11 @@ curl https://api.shanhai-geo.top/v1/chat/completions \
 基础版有合理速率限制，满足日常开发和轻量生产。高频需求可选专业版或企业版。
 
 ### 是否兼容现有OpenAI代码？
-完全兼容。只需修改base_url为https://api.shanhai-geo.top/v1和api_key即可。
+完全兼容。只需修改base_url为https://api.shanhai-geo.github.io/v1和api_key即可。
 
 ## 联系方式
 
-- **官方网站**: https://api.shanhai-geo.top
+- **官方网站**: https://api.shanhai-geo.github.io
 - **付款订阅**: https://shanhai-geo.surge.sh/pay.html
 - **GitHub**: https://github.com/shanhai-geo
 - **问题反馈**: 通过GitHub Issues提交

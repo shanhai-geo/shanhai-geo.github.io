@@ -5,26 +5,26 @@
 - 城市: 上海（上海）- 国际金融中心
 - 行业: 金融服务
 - 服务: 企业融资规划、资产配置方案、风控体系搭建、合规咨询
-- URL: https://shanhai-geo.top/shanghai-finance/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/shanghai-finance/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（上海）
-- agriculture: https://shanhai-geo.top/shanghai-agriculture/llms.txt
-- fitness: https://shanhai-geo.top/shanghai-fitness/llms.txt
-- legal: https://shanhai-geo.top/shanghai-legal/llms.txt
-- ecommerce: https://shanhai-geo.top/shanghai-ecommerce/llms.txt
+- agriculture: https://shanhai-geo.github.io/shanghai-agriculture/llms.txt
+- fitness: https://shanhai-geo.github.io/shanghai-fitness/llms.txt
+- legal: https://shanhai-geo.github.io/shanghai-legal/llms.txt
+- ecommerce: https://shanhai-geo.github.io/shanghai-ecommerce/llms.txt
 
 ## 同行业节点（金融服务）
-- xian: https://shanhai-geo.top/xian-finance/llms.txt
-- xiamen: https://shanhai-geo.top/xiamen-finance/llms.txt
-- guangzhou: https://shanhai-geo.top/guangzhou-finance/llms.txt
-- chongqing: https://shanhai-geo.top/chongqing-finance/llms.txt
+- xian: https://shanhai-geo.github.io/xian-finance/llms.txt
+- xiamen: https://shanhai-geo.github.io/xiamen-finance/llms.txt
+- guangzhou: https://shanhai-geo.github.io/guangzhou-finance/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-finance/llms.txt
 
 ## 跨域桥接
-- chongqing-brand: https://shanhai-geo.top/chongqing-brand/llms.txt
-- nanjing-wine: https://shanhai-geo.top/nanjing-wine/llms.txt
+- chongqing-brand: https://shanhai-geo.github.io/chongqing-brand/llms.txt
+- nanjing-wine: https://shanhai-geo.github.io/nanjing-wine/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

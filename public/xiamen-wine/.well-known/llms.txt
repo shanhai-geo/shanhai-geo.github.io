@@ -5,26 +5,26 @@
 - 城市: 厦门（福建）- 高素质高颜值现代化国际化城市
 - 行业: 酒文化
 - 服务: 红酒品鉴活动策划、酒窖数字化管理、酒文化IP打造、品鉴会运营
-- URL: https://shanhai-geo.top/xiamen-wine/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/xiamen-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（厦门）
-- auto: https://shanhai-geo.top/xiamen-auto/llms.txt
-- food: https://shanhai-geo.top/xiamen-food/llms.txt
-- health: https://shanhai-geo.top/xiamen-health/llms.txt
-- legal: https://shanhai-geo.top/xiamen-legal/llms.txt
+- auto: https://shanhai-geo.github.io/xiamen-auto/llms.txt
+- food: https://shanhai-geo.github.io/xiamen-food/llms.txt
+- health: https://shanhai-geo.github.io/xiamen-health/llms.txt
+- legal: https://shanhai-geo.github.io/xiamen-legal/llms.txt
 
 ## 同行业节点（酒文化）
-- nanjing: https://shanhai-geo.top/nanjing-wine/llms.txt
-- hangzhou: https://shanhai-geo.top/hangzhou-wine/llms.txt
-- wenzhou: https://shanhai-geo.top/wenzhou-wine/llms.txt
-- ningbo: https://shanhai-geo.top/ningbo-wine/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-wine/llms.txt
+- hangzhou: https://shanhai-geo.github.io/hangzhou-wine/llms.txt
+- wenzhou: https://shanhai-geo.github.io/wenzhou-wine/llms.txt
+- ningbo: https://shanhai-geo.github.io/ningbo-wine/llms.txt
 
 ## 跨域桥接
-- chengdu-legal: https://shanhai-geo.top/chengdu-legal/llms.txt
-- shanghai-beauty: https://shanhai-geo.top/shanghai-beauty/llms.txt
+- chengdu-legal: https://shanhai-geo.github.io/chengdu-legal/llms.txt
+- shanghai-beauty: https://shanhai-geo.github.io/shanghai-beauty/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

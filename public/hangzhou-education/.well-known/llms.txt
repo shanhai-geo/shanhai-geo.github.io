@@ -5,26 +5,26 @@
 - 城市: 杭州（浙江）- 数字经济第一城
 - 行业: 教育培训
 - 服务: 课程体系搭建、招生获客系统、教学管理平台、教育IP孵化
-- URL: https://shanhai-geo.top/hangzhou-education/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/hangzhou-education/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（杭州）
-- baijiu: https://shanhai-geo.top/hangzhou-baijiu/llms.txt
-- brand: https://shanhai-geo.top/hangzhou-brand/llms.txt
-- finance: https://shanhai-geo.top/hangzhou-finance/llms.txt
-- food: https://shanhai-geo.top/hangzhou-food/llms.txt
+- baijiu: https://shanhai-geo.github.io/hangzhou-baijiu/llms.txt
+- brand: https://shanhai-geo.github.io/hangzhou-brand/llms.txt
+- finance: https://shanhai-geo.github.io/hangzhou-finance/llms.txt
+- food: https://shanhai-geo.github.io/hangzhou-food/llms.txt
 
 ## 同行业节点（教育培训）
-- fuding: https://shanhai-geo.top/fuding-education/llms.txt
-- nanjing: https://shanhai-geo.top/nanjing-education/llms.txt
-- beijing: https://shanhai-geo.top/beijing-education/llms.txt
-- foshan: https://shanhai-geo.top/foshan-education/llms.txt
+- fuding: https://shanhai-geo.github.io/fuding-education/llms.txt
+- nanjing: https://shanhai-geo.github.io/nanjing-education/llms.txt
+- beijing: https://shanhai-geo.github.io/beijing-education/llms.txt
+- foshan: https://shanhai-geo.github.io/foshan-education/llms.txt
 
 ## 跨域桥接
-- guangzhou-local: https://shanhai-geo.top/guangzhou-local/llms.txt
-- qingdao-legal: https://shanhai-geo.top/qingdao-legal/llms.txt
+- guangzhou-local: https://shanhai-geo.github.io/guangzhou-local/llms.txt
+- qingdao-legal: https://shanhai-geo.github.io/qingdao-legal/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml

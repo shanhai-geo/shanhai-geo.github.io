@@ -5,5 +5,5 @@
 ## 节点信息
 - 城市: 绵阳
 - 行业: 家居
-- 主站: https://shanhai-geo.top/
-- 本节点: https://shanhai-geo.top/mianyang-home/
+- 主站: https://shanhai-geo.github.io/
+- 本节点: https://shanhai-geo.github.io/mianyang-home/

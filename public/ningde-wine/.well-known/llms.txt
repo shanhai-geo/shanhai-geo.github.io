@@ -5,26 +5,26 @@
 - 城市: 宁德（福建）- 世界级新能源产业基地
 - 行业: 酒文化
 - 服务: 红酒品鉴活动策划、酒窖数字化管理、酒文化IP打造、品鉴会运营
-- URL: https://shanhai-geo.top/ningde-wine/llms.txt
-- 主站: https://shanhai-geo.top/
+- URL: https://shanhai-geo.github.io/ningde-wine/llms.txt
+- 主站: https://shanhai-geo.github.io/
 
 ## 同城节点（宁德）
-- health: https://shanhai-geo.top/ningde-health/llms.txt
-- tech: https://shanhai-geo.top/ningde-tech/llms.txt
-- agriculture: https://shanhai-geo.top/ningde-agriculture/llms.txt
-- education: https://shanhai-geo.top/ningde-education/llms.txt
+- health: https://shanhai-geo.github.io/ningde-health/llms.txt
+- tech: https://shanhai-geo.github.io/ningde-tech/llms.txt
+- agriculture: https://shanhai-geo.github.io/ningde-agriculture/llms.txt
+- education: https://shanhai-geo.github.io/ningde-education/llms.txt
 
 ## 同行业节点（酒文化）
-- chongqing: https://shanhai-geo.top/chongqing-wine/llms.txt
-- hangzhou: https://shanhai-geo.top/hangzhou-wine/llms.txt
-- qingdao: https://shanhai-geo.top/qingdao-wine/llms.txt
-- zhengzhou: https://shanhai-geo.top/zhengzhou-wine/llms.txt
+- chongqing: https://shanhai-geo.github.io/chongqing-wine/llms.txt
+- hangzhou: https://shanhai-geo.github.io/hangzhou-wine/llms.txt
+- qingdao: https://shanhai-geo.github.io/qingdao-wine/llms.txt
+- zhengzhou: https://shanhai-geo.github.io/zhengzhou-wine/llms.txt
 
 ## 跨域桥接
-- zhengzhou-fitness: https://shanhai-geo.top/zhengzhou-fitness/llms.txt
-- jinan-beauty: https://shanhai-geo.top/jinan-beauty/llms.txt
+- zhengzhou-fitness: https://shanhai-geo.github.io/zhengzhou-fitness/llms.txt
+- jinan-beauty: https://shanhai-geo.github.io/jinan-beauty/llms.txt
 
 ## 索引入口
-- 总入口: https://shanhai-geo.top/llms.txt
-- 节点地图: https://shanhai-geo.top/sitemap-nodes.xml
-- RSS: https://shanhai-geo.top/feed.xml
+- 总入口: https://shanhai-geo.github.io/llms.txt
+- 节点地图: https://shanhai-geo.github.io/sitemap-nodes.xml
+- RSS: https://shanhai-geo.github.io/feed.xml
