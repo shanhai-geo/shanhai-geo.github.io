@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- GitHub Pages主站 -->
   <url><loc>https://shanhai-geo.github.io/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
   <url><loc>https://shanhai-geo.github.io/pay.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://shanhai-geo.github.io/chat.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
@@ -7,13 +8,17 @@
   <url><loc>https://shanhai-geo.github.io/customer-portal.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://shanhai-geo.github.io/landing.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://shanhai-geo.github.io/llms.txt</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <!-- 跳代仓库Pages -->
+  <url><loc>https://shanhai-geo.github.io/ai-api-gateway/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://shanhai-geo.github.io/llm-cost-calculator/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://shanhai-geo.github.io/ai-api-best-practices/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://shanhai-geo.github.io/multi-model-routing/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://shanhai-geo.github.io/awesome-chinese-llm-api/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <!-- Surge镜像 -->
   <url><loc>https://shanhai-geo.surge.sh/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pay.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/chat.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/help.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/customer-portal.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/landing.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/llms.txt</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/damoxing-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/gpt-api-china/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/claude-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -21,14 +26,6 @@
   <url><loc>https://shanhai-geo.surge.sh/pages/tongyi-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/wenxin-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/zhipu-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/baichuan-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/doubao-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/xunfei-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/api-aggregation/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/multi-model-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/unified-api/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/ai-api-gateway/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://shanhai-geo.surge.sh/pages/llm-routing/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/canyin-ai/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/jiudian-ai/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://shanhai-geo.surge.sh/pages/lvyou-ai/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
