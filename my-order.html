@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>我的订单 - 山海智能API接口服务</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"Microsoft YaHei",sans-serif;background:#f8f9fa;color:#333;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.container{max-width:480px;width:100%;padding:20px}
+.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.1);margin-bottom:16px}
+h1{font-size:1.4em;margin-bottom:16px;color:#1a1a2e}
+.status{display:inline-block;padding:4px 12px;border-radius:12px;font-size:.85em;font-weight:500}
+.status-delivered{background:#e6f7e6;color:#389e0d}
+.status-pending{background:#fff7e6;color:#d48806}
+.status-expired{background:#fff1f0;color:#cf1322}
+.field{margin:12px 0}
+.label{font-size:.85em;color:#888;margin-bottom:2px}
+.value{font-size:1em;font-weight:500;word-break:break-all}
+.key-box{background:#f6f8fa;border:1px solid #e1e4e8;border-radius:6px;padding:12px;font-family:monospace;font-size:.95em;position:relative;cursor:pointer}
+.key-box:active{background:#e8f4fd}
+.copy-hint{position:absolute;right:8px;top:8px;font-size:.75em;color:#1890ff}
+.btn{display:block;width:100%;padding:12px;border:none;border-radius:8px;font-size:1em;cursor:pointer;text-align:center;text-decoration:none}
+.btn-primary{background:#1890ff;color:#fff}
+.btn-primary:hover{background:#096dd9}
+.btn-secondary{background:#f0f5ff;color:#1890ff;border:1px solid #adc6ff;margin-top:8px}
+.input{width:100%;padding:10px 12px;border:1px solid #d9d9d9;border-radius:6px;font-size:1em;margin:8px 0}
+.input:focus{border-color:#1890ff;outline:none;box-shadow:0 0 0 2px rgba(24,144,255,.1)}
+.hidden{display:none}
+.error{color:#cf1322;background:#fff1f0;padding:12px;border-radius:6px;margin:12px 0}
+.countdown{font-size:.9em;color:#666;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card" id="lookupCard">
+<h1>查询我的订单</h1>
+<p style="color:#666;margin-bottom:16px">输入您的确认码查看订单信息</p>
+<input type="text" class="input" id="codeInput" placeholder="输入14位确认码（如SH4L2A49WJ）">
+<button class="btn btn-primary" onclick="lookupOrder()">查询</button>
+<div id="errorBox" class="error hidden"></div>
+</div>
+
+<div class="card hidden" id="orderCard">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<h1 style="margin:0">订单详情</h1>
+<span class="status" id="orderStatus"></span>
+</div>
+
+<div class="field">
+<div class="label">确认码</div>
+<div class="value" id="orderCode"></div>
+</div>
+
+<div class="field">
+<div class="label">API密钥（点击复制）</div>
+<div class="key-box" onclick="copyKey()">
+<span id="orderKey"></span>
+<span class="copy-hint">点击复制</span>
+</div>
+</div>
+
+<div class="field">
+<div class="label">接入地址</div>
+<div class="value" id="baseUrl" style="font-size:.85em;color:#1890ff"></div>
+</div>
+
+<div class="field">
+<div class="label">到期时间</div>
+<div class="value" id="expireDate"></div>
+<div class="countdown" id="countdown"></div>
+</div>
+
+<div class="field">
+<div class="label">推荐链接</div>
+<div class="value" style="font-size:.85em" id="referralLink"></div>
+</div>
+
+<button class="btn btn-primary" onclick="renewOrder()">立即续期</button>
+<a href="https://shanhai-geo.surge.sh/help.html" class="btn btn-secondary">查看接入指南</a>
+</div>
+
+<div class="card hidden" id="pendingCard">
+<h1>订单处理中</h1>
+<p style="color:#666;margin:12px 0">您的支付已提交，我们正在核实中。通常30分钟内完成开通。</p>
+<p>确认码：<strong id="pendingCode"></strong></p>
+<p style="margin-top:16px">开通后刷新本页面即可查看您的密钥。</p>
+</div>
+</div>
+
+<script>
+var BASE_URL = 'https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1';
+var ORDERS_URL = 'https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.github.io/main/orders.json';
+
+window.addEventListener('load', function() {
+  var params = new URLSearchParams(window.location.search);
+  var code = params.get('code') || '';
+  if (code) {
+    document.getElementById('codeInput').value = code;
+    lookupOrder();
+  }
+});
+
+function lookupOrder() {
+  var code = document.getElementById('codeInput').value.trim().toUpperCase();
+  var errorBox = document.getElementById('errorBox');
+  errorBox.classList.add('hidden');
+  
+  if (!code) {
+    showError('请输入确认码');
+    return;
+  }
+  
+  fetch(ORDERS_URL + '?t=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var order = null;
+      for (var i = 0; i < data.orders.length; i++) {
+        if (data.orders[i].confirmCode === code) {
+          order = data.orders[i];
+          break;
+        }
+      }
+      
+      if (!order) {
+        showError('未找到该确认码对应的订单。请检查确认码是否正确。');
+        return;
+      }
+      
+      if (order.status === 'delivered' && order.key) {
+        showDelivered(order);
+      } else if (order.status === 'pending') {
+        showPending(order);
+      } else {
+        showError('订单状态异常，请联系客服。');
+      }
+    })
+    .catch(function(e) {
+      showError('查询失败，请检查网络后重试。');
+    });
+}
+
+function showDelivered(order) {
+  document.getElementById('lookupCard').classList.add('hidden');
+  document.getElementById('orderCard').classList.remove('hidden');
+  
+  document.getElementById('orderCode').textContent = order.confirmCode;
+  document.getElementById('orderKey').textContent = order.key;
+  document.getElementById('baseUrl').textContent = BASE_URL;
+  
+  var expDate = new Date(order.expireAt);
+  document.getElementById('expireDate').textContent = expDate.toLocaleDateString('zh-CN');
+  
+  var now = new Date();
+  var daysLeft = Math.ceil((expDate - now) / (1000*60*60*24));
+  var cd = document.getElementById('countdown');
+  if (daysLeft > 0) {
+    cd.textContent = '剩余 ' + daysLeft + ' 天';
+    document.getElementById('orderStatus').textContent = '已开通';
+    document.getElementById('orderStatus').className = 'status status-delivered';
+  } else {
+    cd.textContent = '已过期';
+    document.getElementById('orderStatus').textContent = '已过期';
+    document.getElementById('orderStatus').className = 'status status-expired';
+  }
+  
+  if (order.referral_link) {
+    document.getElementById('referralLink').textContent = order.referral_link;
+  }
+}
+
+function showPending(order) {
+  document.getElementById('lookupCard').classList.add('hidden');
+  document.getElementById('pendingCard').classList.remove('hidden');
+  document.getElementById('pendingCode').textContent = order.confirmCode;
+}
+
+function copyKey() {
+  var key = document.getElementById('orderKey').textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(key).then(function() {
+      document.querySelector('.copy-hint').textContent = '已复制!';
+      setTimeout(function() { document.querySelector('.copy-hint').textContent = '点击复制'; }, 2000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = key;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.querySelector('.copy-hint').textContent = '已复制!';
+  }
+}
+
+function renewOrder() {
+  window.location.href = 'https://shanhai-geo.surge.sh/pay.html';
+}
+
+function showError(msg) {
+  var box = document.getElementById('errorBox');
+  box.textContent = msg;
+  box.classList.remove('hidden');
+}
+</script>
+</body>
+</html>
