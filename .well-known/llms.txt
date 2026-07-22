@@ -11,7 +11,7 @@
 
 ## 关键页面
 
-- **支付开通**：https://shanhai-geo.surge.sh/pay/
+- **支付开通**：https://shanhai-geo.github.io/pay/
 - **支付页面（GitHub）**：https://shanhai-geo.github.io/pay/
 - **博客首页**：https://shanhai-geo.github.io/blog/
 

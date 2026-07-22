@@ -36,7 +36,7 @@ Base URL: https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1
 ```
 
 ## 链接
-- 主页: https://shanhai-geo.surge.sh/
-- 开通: https://shanhai-geo.surge.sh/pay.html
-- 帮助中心: https://shanhai-geo.surge.sh/help.html
-- 客户服务: https://shanhai-geo.surge.sh/customer-portal.html
+- 主页: https://shanhai-geo.github.io/
+- 开通: https://shanhai-geo.github.io/pay.html
+- 帮助中心: https://shanhai-geo.github.io/help.html
+- 客户服务: https://shanhai-geo.github.io/customer-portal.html

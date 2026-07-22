@@ -7,8 +7,8 @@
 <meta name="renderer" content="webkit">
 <meta name="force-rendering" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<link rel="preconnect" href="https://shanhai-geo.surge.sh">
-<link rel="dns-prefetch" href="https://shanhai-geo.surge.sh">
+<link rel="preconnect" href="https://shanhai-geo.github.io">
+<link rel="dns-prefetch" href="https://shanhai-geo.github.io">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>订单管理 - 山海智能</title>
 <style>
@@ -55,7 +55,7 @@ h1{font-size:24px;color:#ffd700;margin-bottom:8px}
 <script>
 var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
 var TK=_a+_b+_c+_d+_e+_f;
-var AP='https://shanhai-geo.surge.sh/orders.json';
+var AP='https://shanhai-geo.github.io/orders.json';
 var PN='shanhai2026';
 function vp(){if(document.getElementById('pi').value===PN){document.getElementById('po').style.display='none';document.getElementById('mu').style.display='block';lo()}else{alert('PIN错误')}}
 async function lo(){try{var r=await fetch(AP,{headers:{'Authorization':'token '+TK}});var d=await r.json();var os=JSON.parse(atob(d.content)).orders;ro(os,d.sha)}catch(e){document.getElementById('ol').innerHTML='<div class="empty">⚠️ 加载失败</div>'}}

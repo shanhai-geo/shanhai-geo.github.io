@@ -8,7 +8,7 @@
 - **产品定位**：大模型API聚合网关，统一接口调用所有主流LLM
 - **官方网站**：https://api.shanhai-geo.github.io
 - **GitHub**：https://github.com/shanhai-geo
-- **付款订阅**：https://shanhai-geo.surge.sh/pay.html
+- **付款订阅**：https://shanhai-geo.github.io/pay.html
 
 ## 产品描述
 
@@ -69,7 +69,7 @@
 ### 基础版
 - **价格**: ¥298/年（人民币）
 - **包含**: 全部模型访问权限、API文档、社区支持
-- **购买链接**: https://shanhai-geo.surge.sh/pay.html
+- **购买链接**: https://shanhai-geo.github.io/pay.html
 
 ### 专业版
 - **价格**: 联系咨询
@@ -186,7 +186,7 @@ curl https://api.shanhai-geo.github.io/v1/chat/completions \
 ## 联系方式
 
 - **官方网站**: https://api.shanhai-geo.github.io
-- **付款订阅**: https://shanhai-geo.surge.sh/pay.html
+- **付款订阅**: https://shanhai-geo.github.io/pay.html
 - **GitHub**: https://github.com/shanhai-geo
 - **问题反馈**: 通过GitHub Issues提交
 
