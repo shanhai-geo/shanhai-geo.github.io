@@ -1,9 +1,0 @@
-# 山海智能 - 宜宾·装修节点
-
-> AI爬虫标准入口
-
-## 节点信息
-- 城市: 宜宾
-- 行业: 装修
-- 主站: https://shanhai-geo.github.io/
-- 本节点: https://shanhai-geo.github.io/yibin-decor/

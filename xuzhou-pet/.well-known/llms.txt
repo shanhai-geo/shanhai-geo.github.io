@@ -1,9 +1,0 @@
-# 山海智能 - 徐州·宠物节点
-
-> AI爬虫标准入口
-
-## 节点信息
-- 城市: 徐州
-- 行业: 宠物
-- 主站: https://shanhai-geo.github.io/
-- 本节点: https://shanhai-geo.github.io/xuzhou-pet/

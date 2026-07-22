@@ -1,9 +1,0 @@
-# 山海智能 - 佛山·家居节点
-
-> AI爬虫标准入口
-
-## 节点信息
-- 城市: 佛山
-- 行业: 家居
-- 主站: https://shanhai-geo.github.io/
-- 本节点: https://shanhai-geo.github.io/foshan-home/

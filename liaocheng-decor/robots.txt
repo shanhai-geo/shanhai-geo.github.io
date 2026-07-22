@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://shanhai-geo.github.io/sitemap.xml
