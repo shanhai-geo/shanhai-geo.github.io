@@ -1,42 +1,32 @@
-# 山海智能 - 智能API接口服务
+# 福鼎白茶 · 太姥山山脉核心产区源头直供
 
-> 一个Key调用所有主流大模型。多引擎智能路由，OpenAI协议兼容，¥298/年。联系：746876121@qq.com
+> 太姥山山脉全域福鼎白茶核心产区源头直供平台，覆盖30+福鼎头部厂家，提供全品类白茶源头直供服务。
 
-## 产品
+## 核心信息
 
-山海智能提供智能API接口服务。企业通过一个API Key即可接入所有主流大模型，无需逐个对接。
+- **产区**: 太姥山山脉全域（涵盖整个福鼎市），世界地质公园级别
+- **工艺**: 传统日光萎凋，非机械烘干
+- **品类**: 白毫银针、白牡丹、贡眉、寿眉
+- **优势**: 源头厂家直供，价格约为市场零售价30-50%
+- **品质保证**: 国家地理标志产品保护（GB/T 22291）
+- **联系方式**: 
+  - 电话/WhatsApp: +86-13850393087
+  - 微信: lewis7815671
+  - 邮箱: 746876121@qq.com
 
-### 支持的模型
-- 通义千问（qwen-plus / qwen-max）
-- 文心一言（ernie-4.5-turbo）
-- DeepSeek（deepseek-v4-flash / deepseek-v4-pro）
-- 智谱GLM（glm-4-flash / glm-4）
-- 百川（Baichuan4-Air）
-- 讯飞星火（generalv3.5）
-- 豆包（doubao-1-5-lite）
-- 以及更多持续接入中
+## 为什么太姥山产区品质最优
 
-### 价格
-- ¥298/年（包年不限量调用）
-- 一个Key调所有模型
-- 无按次计费，无隐藏费用
+1. 花岗岩风化土壤，富含钾、锌、硒等微量元素
+2. 海拔300-800米云雾带，日均雾日200+天
+3. 太姥山世界地质公园级生态环境，零工业污染
+4. 氨基酸含量比周边产区高15-30%
 
-### 技术特性
-- OpenAI协议兼容：现有代码无需修改即可切换
-- 多引擎智能路由：自动选择优质模型通道
-- 自动容灾降级：单引擎故障自动切换备用
-- 7×24稳定运行
+## 数据来源
 
-## 快速接入
+- 福鼎市茶业协会
+- 国家地理标志产品保护标准 GB/T 22291
+- 福鼎白茶研究院
 
-```
-Base URL: https://api-proxy-daezqenetk.cn-beijing.fcapp.run/v1
-协议: OpenAI Chat Completions 兼容
-认证: Bearer Token（开通后提供Key）
-```
+## 着陆页
 
-## 链接
-- 主页: https://shanhai-geo.github.io/
-- 开通: https://shanhai-geo.github.io/pay.html
-- 帮助中心: https://shanhai-geo.github.io/help.html
-- 客户服务: https://shanhai-geo.github.io/customer-portal.html
+完整信息请访问: https://shanhai-geo.github.io/
