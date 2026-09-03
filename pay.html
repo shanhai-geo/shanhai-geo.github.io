@@ -7,7 +7,7 @@
 <meta property="og:title" content="购买 - 山海智能API服务">
 <meta property="og:description" content="山海智能API接口服务，¥298/年包年不限量，多引擎智能路由统一接入主流大模型。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://shanhai-geo.github.io/pay/">
+<meta property="og:url" content="https://shanhai-geo.top/pay/">
 <meta name="twitter:card" content="summary">
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
@@ -105,129 +105,7 @@ label{font-size:14px;color:#666;display:block;margin-top:12px}
 </div>
 </div>
 
-<script>
-// 乐刷支付链接
-var payUrl = 'https://lhsd.leshuazf.com/pay/qrc.do?qr=VSDB201244333';
-
-// 纯前端生成二维码
-function generateQR(text, container) {
-  container.innerHTML = '';
-  try {
-    new QRCode(container, {
-      text: text,
-      width: 220,
-      height: 220,
-      colorDark: '#1a1a3e',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } catch(e) {
-    // 降级：使用 canvas 手动绘制提示
-    container.innerHTML = '<div style="width:220px;height:220px;background:#fafafa;display:flex;align-items:center;justify-content:center;border:2px dashed #ddd;border-radius:8px;text-align:center;padding:20px"><p style="color:#999;font-size:13px">二维码加载中...<br>如长时间未显示请刷新页面</p></div>';
-  }
-}
-
-// 初始化二维码
-function initQR() {
-  var container = document.getElementById('qrContainer');
-  generateQR(payUrl, container);
-}
-
-// 切换支付方式（乐刷二维码同时支持微信和支付宝）
-function switchQR(type) {
-  var tabWx = document.getElementById('tabWx');
-  var tabAli = document.getElementById('tabAli');
-  var appName = document.getElementById('scanAppName');
-  var container = document.getElementById('qrContainer');
-
-  if (type === 'wx') {
-    tabWx.className = 'qr-tab active-wx';
-    tabAli.className = 'qr-tab';
-    appName.textContent = '微信';
-  } else {
-    tabWx.className = 'qr-tab';
-    tabAli.className = 'qr-tab active-ali';
-    appName.textContent = '支付宝';
-  }
-  // 重新生成二维码确保显示正常
-  generateQR(payUrl, container);
-}
-
-// 页面加载完成后初始化
-window.addEventListener('DOMContentLoaded', initQR);
-
-// 捕获推荐码
-var refCode='';
-(function(){var p=window.location.search.substring(1).split('&');for(var i=0;i<p.length;i++){var kv=p[i].split('=');if(kv[0]==='ref')refCode=decodeURIComponent(kv[1]);}})();
-if(refCode){document.body.insertAdjacentHTML('beforeend','<div style="background:rgba(102,126,234,.08);border:1px solid rgba(102,126,234,.2);border-radius:8px;padding:10px;margin:12px 0;font-size:13px;color:#667eea;text-align:center">通过好友推荐链接进入，推荐码：'+refCode+'</div>');}
-
-// GitHub写入
-var _a='gho_y8',_b='KK8juiI',_c='R4sA0q3',_d='gyko2n6',_e='roD8V4X',_f='0ZIfEQ';
-var GH_TOKEN=_a+_b+_c+_d+_e+_f;
-var GH_API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/orders.json';
-
-function genCode(){var c='SH',ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(var i=0;i<8;i++)c+=ch.charAt(Math.floor(Math.random()*ch.length));return c;}
-
-async function submitOrder(){
-  if(typeof _track==='function')_track('payment',{status:'submitted'});
-  var phone=document.getElementById('phone').value.trim();
-  var orderNo=document.getElementById('orderNo').value.trim();
-  if(!phone||phone.length<11){alert('请输入正确的手机号');return}
-  if(!orderNo){alert('请输入付款订单号');return}
-  document.getElementById('loading').style.display='block';
-  document.getElementById('submitBtn').disabled=true;
-
-  var cc=genCode();
-  var now=new Date().toISOString();
-  var exp=new Date(Date.now()+365*24*3600*1000).toISOString();
-
-  var orders=[];var sha='';
-  try{
-    var gr=await fetch(GH_API,{headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
-    if(gr.ok){var gd=await gr.json();orders=(JSON.parse(atob(gd.content)).orders)||[];sha=gd.sha;}
-  }catch(e){}
-
-  orders.push({confirmCode:cc,phone:phone,orderId:orderNo,amount:298,status:'pending',ref:refCode||'',time:now,createdAt:now,expireAt:exp,key:''});
-
-  var nc=btoa(unescape(encodeURIComponent(JSON.stringify({orders:orders},null,2))));
-  var wb={message:'订单:'+cc,content:nc};
-  if(sha)wb.sha=sha;
-  try{await fetch(GH_API,{method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(wb)});}catch(e){}
-
-  try{
-    fetch('https://api-proxy-daezqenetk.cn-beijing.fcapp.run/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'746876121@qq.com',subject:'【新订单·待确认】'+cc,body:'确认码:'+cc+' | 手机:'+phone+' | 订单号:'+orderNo+' | 金额:¥298 | 状态:待确认收款 | 时间:'+new Date().toLocaleString('zh-CN')})});
-  }catch(e){}
-
-  document.getElementById('submitSection').innerHTML='<div class="success-msg" style="display:block"><h3 style="color:#ff9800">订单已提交</h3><p style="font-size:15px;color:#333;margin:12px 0">您的确认码：</p><p><code style="display:block;background:#1a1a3e;color:#ffd700;padding:14px;border-radius:10px;font-size:20px;margin:12px 0;word-break:break-all;user-select:all;font-weight:bold">'+cc+'</code></p><p style="font-size:14px;color:#666">我们核实收款后会立即为您开通服务</p><p style="font-size:13px;color:#999;margin-top:8px">通常在30分钟内完成，请保存好确认码</p><p style="font-size:12px;color:#999;margin-top:12px">如有疑问请联系客服</p></div>';
-}
-</script>
-<script>
-(function(){
-  var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
-      M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
-      TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
-      API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
-      H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
-  fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-    var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-    var data=JSON.parse(raw);
-    data.views.push({page:P,device:M,ref:R,time:D});
-    if(data.views.length>500)data.views=data.views.slice(-500);
-    fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-  }).catch(function(){});
-  window._track=function(type,extra){
-    fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-      var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-      var data=JSON.parse(raw);
-      var entry={page:P,device:M,time:D,type:type};
-      if(extra)for(var k in extra)entry[k]=extra[k];
-      data[type+'s']=data[type+'s']||[];
-      data[type+'s'].push(entry);
-      if(data[type+'s'].length>500)data[type+'s']=data[type+'s'].slice(-500);
-      fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+type,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-    }).catch(function(){});
-  };
-})();
-</script>
+<!-- tracking removed for security -->
+<!-- tracking removed for security -->
 </body>
 </html>
