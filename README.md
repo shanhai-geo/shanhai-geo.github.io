@@ -10,7 +10,7 @@
 [![200 Knowledge Atoms](https://img.shields.io/badge/200-Atoms-green)](https://shanhai-geo.top/knowledge/)
 [![Schema.org](https://img.shields.io/badge/Schema.org-JSON--LD-orange)](https://shanhai-geo.top/api/schema-org.json)
 
-**📱 微信: `lewis7815671`** · **📧 contact@shanhai-geo.top**
+**📱 微信: `lewis7815671`** · **📧 746876121@qq.com**
 
 <img src="https://shanhai-geo.top/wechat-qrcode.jpg" alt="微信二维码" width="160"/>
 
@@ -23,7 +23,7 @@ This repository hosts the GitHub Pages sites for the GeoMind ecosystem.
 
 ## 📱 Contact
 
-WeChat: `lewis7815671` | Email: contact@shanhai-geo.top | Site: https://shanhai-geo.top
+WeChat: `lewis7815671` | Email: 746876121@qq.com | Site: https://shanhai-geo.top
 
 <div align="center">
 <img src="https://shanhai-geo.top/wechat-qrcode.jpg" alt="微信二维码" width="200"/>
