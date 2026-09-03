@@ -173,12 +173,12 @@
     ]
   },
   "links": {
-    "payment": "https://shanhai-geo.github.io/pay.html",
-    "chat": "https://shanhai-geo.github.io/chat.html",
-    "landing": "https://shanhai-geo.github.io/landing.html",
-    "customer_portal": "https://shanhai-geo.github.io/customer-portal.html",
-    "api_service": "https://shanhai-geo.github.io/api-service.html",
-    "whitepaper": "https://shanhai-geo.github.io/geo-whitepaper.html"
+    "payment": "https://shanhai-geo.top/pay.html",
+    "chat": "https://shanhai-geo.top/chat.html",
+    "landing": "https://shanhai-geo.top/landing.html",
+    "customer_portal": "https://shanhai-geo.top/customer-portal.html",
+    "api_service": "https://shanhai-geo.top/api-service.html",
+    "whitepaper": "https://shanhai-geo.top/geo-whitepaper.html"
   },
   "rules": {
     "forbidden": [
