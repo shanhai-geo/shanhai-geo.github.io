@@ -22,4 +22,4 @@ Allow: /
 User-agent: YandexBot
 Allow: /
 
-Sitemap: https://shanhai-geo.github.io/sitemap.xml
+Sitemap: https://shanhai-geo.top/sitemap.xml
