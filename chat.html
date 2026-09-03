@@ -7,13 +7,13 @@
 <meta name="renderer" content="webkit">
 <meta name="force-rendering" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<link rel="preconnect" href="https://shanhai-geo.github.io">
-<link rel="dns-prefetch" href="https://shanhai-geo.github.io">
+<link rel="preconnect" href="https://shanhai-geo.top">
+<link rel="dns-prefetch" href="https://shanhai-geo.top">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>山海智能在线咨询 - 随时解答</title>
 <meta name="keywords" content="山海智能,智能顾问,统一API,接口服务,大模型,GEO,生成式引擎优化,298元">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"山海智能","url":"https://shanhai-geo.github.io","description":"山海智能是依法注册的经营主体，提供智能API接口服务（¥298/年包年不限量），一个Key调用所有主流大模型。一个API Key调用多家主流大模型引擎，兼容OpenAI协议。","foundingDate":"2026","areaServed":"CN","serviceType":"智能API接口服务"}
+{"@context":"https://schema.org","@type":"Organization","name":"山海智能","url":"https://shanhai-geo.top","description":"山海智能是依法注册的经营主体，提供智能API接口服务（¥298/年包年不限量），一个Key调用所有主流大模型。一个API Key调用多家主流大模型引擎，兼容OpenAI协议。","foundingDate":"2026","areaServed":"CN","serviceType":"智能API接口服务"}
 initLeadSwitch();
 </script>
 <meta name="description" content="山海智能 - 一个Key调用所有AI大模型。多引擎智能路由，¥298/年包年不限量。">
@@ -84,7 +84,7 @@ body{
 <meta property="og:title" content="山海智能在线咨询 - 随时解答">
 <meta property="og:description" content="山海智能在线客服，为您解答智能API接口服务相关问题。¥298/年包年不限量，一个Key调用所有AI大模型。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://shanhai-geo.github.io/chat.html">
+<meta property="og:url" content="https://shanhai-geo.top/chat.html">
 <meta name="twitter:card" content="summary">
 </head>
 <body>
@@ -131,10 +131,10 @@ var HY3_KEY="sk-58Bp4SAmUPFTVx9kMZjdoZFzgyi2vGTD2OOEodPcHLx2g6l1";
 var HY3_MODEL="hy3-preview";
 var USE_HY3=true;
 var LEAD_EMAIL="746876121@qq.com";
-var PAY_URL="https://shanhai-geo.github.io/pay.html";
+var PAY_URL="https://shanhai-geo.top/pay.html";
 var SESSION_ID="ht_"+Date.now()+"_"+Math.random().toString(36).substr(2,6);
 var REF_CODE=SESSION_ID.substr(3,8);
-var REF_URL="https://shanhai-geo.github.io/chat.html?ref="+REF_CODE;
+var REF_URL="https://shanhai-geo.top/chat.html?ref="+REF_CODE;
 
 var SYSTEM_PROMPT="";var KNOWLEDGE_LOADED=false;
 // === 客服模块V2·知识库动态加载 ===
@@ -177,7 +177,7 @@ var DEFAULT_SCRIPTS = {personality:"你是一个懂技术、有温度的朋友�
 
 // 加载知识库
 (function loadKnowledge(){
-  fetch("https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.github.io/main/knowledge-product.json")
+  fetch("https://raw.githubusercontent.com/shanhai-geo/shanhai-geo.top/main/knowledge-product.json")
   .then(function(r){return r.json()})
   .then(function(k){
     KNOWLEDGE_LOADED=true;
@@ -280,7 +280,7 @@ function showContextOptions(userMsg,aiReply){
 // 高价值信号检测与汇报日志
 // GitHub API配置（混淆）
 var _gh=function(){var t=["gho_","y8KK","8jui","IR4s","A0q3","gyko","2n6r","oD8V","4X0Z","IfEQ"];return t.join("");};
-var _ghRepo="shanhai-geo/shanhai-geo.github.io";
+var _ghRepo="shanhai-geo/shanhai-geo.top";
 var _leadsSha="";
 
 // 加载leads.json
@@ -473,38 +473,7 @@ initLeadSwitch();
 })();
 initLeadSwitch();
 </script>
-<script>
-(function(){
-  var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
-      M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
-      TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
-      API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
-      H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
-  // 记录页面访问
-  fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-    var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-    var data=JSON.parse(raw);
-    data.views.push({page:P,device:M,ref:R,time:D});
-    // 只保留最近500条
-    if(data.views.length>500)data.views=data.views.slice(-500);
-    fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-  }).catch(function(){});
-  // 暴露全局方法供其他事件调用
-  window._track=function(type,extra){
-    fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-      var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-      var data=JSON.parse(raw);
-      var entry={page:P,device:M,time:D,type:type};
-      if(extra)for(var k in extra)entry[k]=extra[k];
-      data[type+'s']=data[type+'s']||[];
-      data[type+'s'].push(entry);
-      if(data[type+'s'].length>500)data[type+'s']=data[type+'s'].slice(-500);
-      fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+type,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-    }).catch(function(){});
-  };
-})();
-initLeadSwitch();
-</script>
+
 
 </body>
 </html>
