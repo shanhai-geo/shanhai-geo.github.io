@@ -7,8 +7,8 @@
 <meta name="renderer" content="webkit">
 <meta name="force-rendering" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<link rel="preconnect" href="https://shanhai-geo.github.io">
-<link rel="dns-prefetch" href="https://shanhai-geo.github.io">
+<link rel="preconnect" href="https://shanhai-geo.top">
+<link rel="dns-prefetch" href="https://shanhai-geo.top">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>推荐奖励 - 山海智能</title>
 <meta name="description" content="推荐3位好友开通，免费续期一年">
@@ -83,10 +83,10 @@ if(!code){
   localStorage.setItem('ref_code',code);
 }
 document.getElementById('myCode').textContent=code;
-document.getElementById('myLink').textContent='https://shanhai-geo.github.io/pay.html?ref='+code;
+document.getElementById('myLink').textContent='https://shanhai-geo.top/pay.html?ref='+code;
 
 function copyLink(){
-  var link='https://shanhai-geo.github.io/pay.html?ref='+code;
+  var link='https://shanhai-geo.top/pay.html?ref='+code;
   if(navigator.clipboard){navigator.clipboard.writeText(link).then(function(){alert('推荐链接已复制')})}
   else{var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('推荐链接已复制')}
 }
@@ -115,42 +115,12 @@ if(urlRef){localStorage.setItem('referred_by',urlRef)}
 
 <!-- 山海智能客服入口 -->
 <div style="position:fixed;bottom:20px;right:20px;z-index:9999">
-<a href="https://shanhai-geo.github.io/chat.html" style="display:flex;align-items:center;gap:8px;background:-webkit-linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,0.4);transition:all 0.3s">
+<a href="https://shanhai-geo.top/chat.html" style="display:flex;align-items:center;gap:8px;background:-webkit-linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:12px 24px;border-radius:30px;text-decoration:none;font-weight:bold;font-size:14px;box-shadow:0 4px 20px rgba(255,215,0,0.4);transition:all 0.3s">
 <span style="font-size:20px">🏔</span> AI顾问 · 免费咨询
 </a>
 </div>
 
-<script>
-(function(){
-  var P=location.pathname,D=new Date().toISOString(),R=document.referrer||'direct',
-      M=/Mobile|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop',
-      TK='gho_y8'+'KK8juiI'+'R4sA0q3'+'gyko2n6'+'roD8V4X'+'0ZIfEQ',
-      API='https://api.github.com/repos/shanhai-geo/shanhai-geo.github.io/contents/analytics.json',
-      H={'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'};
-  // 记录页面访问
-  fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-    var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-    var data=JSON.parse(raw);
-    data.views.push({page:P,device:M,ref:R,time:D});
-    // 只保留最近500条
-    if(data.views.length>500)data.views=data.views.slice(-500);
-    fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+P,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-  }).catch(function(){});
-  // 暴露全局方法供其他事件调用
-  window._track=function(type,extra){
-    fetch(API,{headers:H}).then(function(r){return r.json()}).then(function(d){
-      var sha=d.sha,raw=atob(d.content).replace(/\n/g,'');
-      var data=JSON.parse(raw);
-      var entry={page:P,device:M,time:D,type:type};
-      if(extra)for(var k in extra)entry[k]=extra[k];
-      data[type+'s']=data[type+'s']||[];
-      data[type+'s'].push(entry);
-      if(data[type+'s'].length>500)data[type+'s']=data[type+'s'].slice(-500);
-      fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'track:'+type,path:'analytics.json',content:btoa(unescape(encodeURIComponent(JSON.stringify(data)))),sha:sha})});
-    }).catch(function(){});
-  };
-})();
-</script>
+
 
 </body>
 </html>
