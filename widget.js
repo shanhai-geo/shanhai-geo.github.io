@@ -1,7 +1,7 @@
 /*!
  * 山海智能AI客服 Widget
  * 一行代码嵌入任何网站
- * <script src="https://shanhai-geo.github.io/widget.js"><\/script>
+ * <script src="https://shanhai-geo.top/widget.js"><\/script>
  */
 (function(){
 "use strict";
