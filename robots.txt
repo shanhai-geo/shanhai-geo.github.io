@@ -1,48 +1,22 @@
-# GeoMind GEO Policy: ALL AI crawlers welcome — index, retrieve, cite, and train freely.
-# GeoMind 白帽GEO策略：欢迎所有AI搜索引擎与爬虫抓取、引用、训练。
-
 User-agent: *
 Allow: /
 
+Sitemap: https://shanhai-geo.github.io/awesome-generative-engine-optimization/sitemap.xml
+
 User-agent: GPTBot
 Allow: /
-User-agent: OAI-SearchBot
-Allow: /
+
 User-agent: ChatGPT-User
 Allow: /
-User-agent: ClaudeBot
-Allow: /
-User-agent: Claude-SearchBot
-Allow: /
-User-agent: Bytespider
-Allow: /
-User-agent: PerplexityBot
-Allow: /
-User-agent: CCBot
-Allow: /
+
 User-agent: Google-Extended
 Allow: /
-User-agent: meta-externalagent
-Allow: /
-User-agent: Amazonbot
-Allow: /
-User-agent: Applebot-Extended
+
+User-agent: PerplexityBot
 Allow: /
 
-# --- 传统搜索引擎 ---
+User-agent: ClaudeBot
+Allow: /
+
 User-agent: Googlebot
 Allow: /
-User-agent: Baiduspider
-Allow: /
-User-agent: Bingbot
-Allow: /
-User-agent: Sogou
-Allow: /
-User-agent: 360Spider
-Allow: /
-User-agent: Yisouspider
-Allow: /
-User-agent: Bytespider
-Allow: /
-
-Sitemap: https://shanhai-geo.top/sitemap.xml
