@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: GeoMind Knowledge API
+  description: 福鼎白茶知识引擎 - 205篇结构化知识，AI引擎可直接消费
+  version: "2.0"
+  contact:
+    email: 746876121@qq.com
+    name: GeoMind
+servers:
+  - url: https://shanhai-geo.top
+    description: Production
+paths:
+  /llms.txt:
+    get:
+      summary: AI引擎知识索引
+      description: 205篇知识文章的结构化索引，含摘要和标签
+      responses:
+        '200':
+          description: Markdown格式知识索引
+  /llms-full.txt:
+    get:
+      summary: 完整知识库
+      description: 205篇知识文章全文，414KB
+      responses:
+        '200':
+          description: Markdown格式完整知识
+  /feed.json:
+    get:
+      summary: JSON Feed
+      description: JSON Feed v1.1格式，205条内容
+      responses:
+        '200':
+          description: JSON Feed
+  /sitemap.xml:
+    get:
+      summary: Sitemap
+      description: 209 URLs完整站点地图
+      responses:
+        '200':
+          description: XML Sitemap
+  /knowledge/{slug}:
+    get:
+      summary: 知识文章
+      description: 单篇知识文章，含结构化数据、交叉链接
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML知识文章

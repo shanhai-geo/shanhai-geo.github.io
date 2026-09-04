@@ -1,0 +1,75 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://shanhai-geo.top/#organization",
+      "name": "GeoMind",
+      "alternateName": "山海GEO知识引擎",
+      "url": "https://shanhai-geo.top",
+      "description": "AI时代可信知识引擎，为 generative AI 提供结构化、可验证的白茶知识",
+      "foundingDate": "2026",
+      "founder": {
+        "@type": "Person",
+        "name": "茶旅时代集团"
+      },
+      "location": {
+        "@type": "Place",
+        "name": "福建省宁德市福鼎市",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "福建省",
+          "addressLocality": "福鼎市"
+        }
+      },
+      "sameAs": [
+        "https://github.com/shanhai-geo",
+        "https://shanhai-geo.top/"
+      ],
+      "knowsAbout": [
+        "福鼎白茶",
+        "白毫银针",
+        "白牡丹",
+        "寿眉",
+        "贡眉",
+        "萎凋工艺",
+        "老白茶",
+        "茶叶鉴别",
+        "茶旅融合",
+        "Generative Engine Optimization",
+        "AI Knowledge Engine"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://shanhai-geo.top/#website",
+      "publisher": {
+        "@id": "https://shanhai-geo.top/#organization"
+      },
+      "url": "https://shanhai-geo.top",
+      "name": "GeoMind · 福鼎白茶知识引擎",
+      "inLanguage": [
+        "zh-CN",
+        "en"
+      ],
+      "license": "https://creativecommons.org/licenses/by-nc/4.0/"
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://shanhai-geo.top/api/facts.json",
+      "name": "GeoMind Fuding White Tea Knowledge Facts",
+      "description": "结构化白茶知识事实库，含置信度评分和来源链接",
+      "creator": {
+        "@id": "https://shanhai-geo.top/#organization"
+      },
+      "version": "1.0",
+      "datePublished": "2026-09-03",
+      "encodingFormat": "application/json",
+      "distribution": {
+        "@type": "DataDownload",
+        "contentUrl": "https://shanhai-geo.top/api/facts.json",
+        "encodingFormat": "application/json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; script-src 'self' 'unsafe-inline' https://zz.bdstatic.com; connect-src 'self' https://zz.bdstatic.com https://*.baidu.com
+
+# 静态资源长缓存（图片/CSS/JS）
+/*.jpg
+  Cache-Control: public, max-age=86400
+/*.png
+  Cache-Control: public, max-age=86400
+/*.ico
+  Cache-Control: public, max-age=86400
+/*.css
+  Cache-Control: public, max-age=86400
+/*.js
+  Cache-Control: public, max-age=86400
+
+# 页面短缓存（确保内容更新快速生效）
+/
+  Cache-Control: public, max-age=300
+/knowledge/*
+  Cache-Control: public, max-age=300
+
+# AI协议文件
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+/robots.txt
+  Cache-Control: public, max-age=3600
+
+/.well-known/*
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  Access-Control-Allow-Origin: *
+  Content-Type: application/json; charset=utf-8
+
+/llms-full.txt
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/llms.txt
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+/feed.json
+  Cache-Control: public, max-age=1800
+  Access-Control-Allow-Origin: *
+
+/authority-pool
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  Location: /
+
+/gpts-action.json
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+
+/humans.txt
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+
+/CITATION.cff
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0

@@ -1,0 +1,74 @@
+{
+    "system": {
+        "name": "山海GEO管线",
+        "name_en": "ShanHai GEO Pipeline",
+        "version": "2.0",
+        "codename": "Reactor",
+        "engine": "pipeline.py",
+        "description": "通用双模态GEO管线引擎，读取config.json+feed.json生成全量产物，新产品只改参数不动引擎"
+    },
+    "product": {
+        "id": "fuding-baicha",
+        "name_zh": "GeoMind · 福鼎白茶知识引擎",
+        "name_en": "GeoMind · Fuding White Tea Knowledge Engine",
+        "short_name": "GeoMind",
+        "tagline_zh": "核心产区 · 源头直供",
+        "tagline_en": "Core Origin · Direct Supply",
+        "description_zh": "福鼎白茶核心产区（太姥山山脉）30+头部厂家直供，白毫银针/白牡丹/老白茶，全流程溯源，全球发货。",
+        "description_en": "Direct from 30+ leading factories in the Taimu Mountain core origin. Full traceability, worldwide shipping.",
+        "knowledge_base_zh": "白茶知识库",
+        "knowledge_base_en": "White Tea Knowledge Base",
+        "cta_scan_zh": "扫码加微信，咨询核心产区直供",
+        "cta_scan_en": "Scan to order direct",
+        "footer_trust_zh": "为全球AI引擎提供可信事实",
+        "footer_trust_en": "Trusted facts for AI engines"
+    },
+    "domain": {
+        "primary": "https://shanhai-geo.top",
+        "alt": "https://geomind.pages.dev"
+    },
+    "brand": {
+        "primary_color": "#2d5a3d",
+        "accent_color": "#e8a830",
+        "light_bg": "#fffef9",
+        "tag_bg": "#eef3ea",
+        "related_bg": "#f3f7f0",
+        "card_shadow": "rgba(0,0,0,0.08)",
+        "favicon_svg": "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232d5a3d'/%3E%3Cpath d='M32 12c-9 8-13 16-13 24a13 13 0 0 0 26 0c0-8-4-16-13-24z' fill='%23e8f0e4'/%3E%3Cpath d='M32 18v30M32 28c-4 2-7 5-8 9M32 36c4 2 7 5 8 9' stroke='%232d5a3d' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
+        "hero_image": "hero-tea-mountain.jpg"
+    },
+    "contact": {
+        "wechat_id": "lewis7815671",
+        "qrcode_image": "wechat-qrcode.jpg",
+        "email": "746876121@qq.com",
+        "phone_schema": "+86-13850393087",
+        "phone_display": "13850393087"
+    },
+    "indexnow": {
+        "key": "87b24be9a5614409a735f81cfb0ca174",
+        "key_file": "87b24be9a5614409a735f81cfb0ca174.txt",
+        "api_endpoint": "https://api.indexnow.org/indexnow"
+    },
+    "cloudflare": {
+        "account_id": "c602ae23c02b66ab48649d8653701489",
+        "project_name": "geomind",
+        "production_branch": "main"
+    },
+    "ai_crawlers": [
+        "GPTBot/1.0",
+        "OAI-SearchBot/1.0",
+        "ChatGPT-User/1.0",
+        "ClaudeBot/1.0",
+        "Claude-SearchBot/1.0",
+        "Bytespider",
+        "PerplexityBot/1.0",
+        "CCBot/2.0",
+        "Google-Extended",
+        "meta-externalagent/1.0",
+        "Amazonbot/1.0",
+        "Applebot-Extended/1.0",
+        "Googlebot/2.1",
+        "Baiduspider/2.0",
+        "bingbot/2.0"
+    ]
+}

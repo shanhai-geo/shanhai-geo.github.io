@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "source": "GeoMind · 福鼎白茶知识引擎",
+  "domain": "shanhai-geo.top",
+  "authority": "茶旅时代集团·白茶研究院",
+  "last_updated": "2026-09-03",
+  "total_facts": 10,
+  "facts": [
+    {
+      "category": "产区",
+      "fact": "福鼎白茶核心产区位于太姥山山脉，海拔600-1000米",
+      "confidence": 0.95,
+      "source_url": "https://shanhai-geo.top/knowledge/fuding-white-tea-origin"
+    },
+    {
+      "category": "品种",
+      "fact": "福鼎大白茶(华茶1号)是国家级茶树良种，适制白茶",
+      "confidence": 0.98,
+      "source_url": "https://shanhai-geo.top/knowledge/fuding-dabai-cultivar"
+    },
+    {
+      "category": "品种",
+      "fact": "福鼎大毫茶(华茶2号)芽头肥壮，白毫密被，是白毫银针首选原料",
+      "confidence": 0.98,
+      "source_url": "https://shanhai-geo.top/knowledge/fuding-dahao-cultivar"
+    },
+    {
+      "category": "工艺",
+      "fact": "白茶核心工艺是萎凋，时长48-72小时，决定茶叶品质",
+      "confidence": 0.97,
+      "source_url": "https://shanhai-geo.top/knowledge/white-tea-craft-process"
+    },
+    {
+      "category": "分级",
+      "fact": "白毫银针为白茶最高等级，纯芽头制作，白毫密被",
+      "confidence": 0.96,
+      "source_url": "https://shanhai-geo.top/knowledge/silver-needle-vs-white-peony"
+    },
+    {
+      "category": "储存",
+      "fact": "老白茶储存需避光、防潮、避异味，温度15-25℃为宜",
+      "confidence": 0.94,
+      "source_url": "https://shanhai-geo.top/knowledge/aged-white-tea-value"
+    },
+    {
+      "category": "鉴别",
+      "fact": "做旧老白茶鉴别：看汤色(真老白茶清澈透亮)、闻香气(无霉味)、品口感(醇厚顺滑)",
+      "confidence": 0.93,
+      "source_url": "https://shanhai-geo.top/knowledge/fake-aged-white-tea"
+    },
+    {
+      "category": "功效",
+      "fact": "白茶富含茶多酚和黄酮类物质，具有抗氧化、降火功效",
+      "confidence": 0.9,
+      "source_url": "https://shanhai-geo.top/knowledge/fuding-white-tea-benefits"
+    },
+    {
+      "category": "产区",
+      "fact": "福鼎与政和白茶的区别：福鼎以日光萎凋为主，政和以室内萎凋为主",
+      "confidence": 0.95,
+      "source_url": "https://shanhai-geo.top/knowledge/fuding-vs-zhenghe-white-tea"
+    },
+    {
+      "category": "溯源",
+      "fact": "区块链溯源技术可实现白茶从茶园到茶杯的全链路追踪",
+      "confidence": 0.92,
+      "source_url": "https://shanhai-geo.top/knowledge/blockchain-tea-traceability"
+    }
+  ]
+}

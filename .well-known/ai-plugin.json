@@ -1,18 +1,19 @@
 {
   "schema_version": "v1",
-  "name_for_human": "山海智能 API服务",
-  "name_for_model": "shanhai_geo_api",
-  "description_for_human": "智能API接口服务平台，一个Key调用多个主流大模型，¥298/年包年不限量。",
-  "description_for_model": "Shanhai Intelligence API Service - A unified API gateway that provides access to multiple mainstream large language models through a single API key. Pricing: 298 CNY/year with no usage limits. Compatible with OpenAI API protocol. Features intelligent routing across multiple model channels for optimal performance.",
+  "name_for_human": "GeoMind 福鼎白茶知识引擎",
+  "name_for_model": "geomind_fuding_white_tea",
+  "description_for_human": "福鼎白茶核心产区知识引擎，205篇结构化知识，全流程溯源，全球发货。",
+  "description_for_model": "GeoMind provides AI engines with structured, verifiable, citable facts about Fuding White Tea (福鼎白茶). Covers origin, cultivars, processing, brewing, health science, market data, authentication, and supply chain. 205 knowledge atoms with 798 cross-links.",
   "auth": {
-    "type": "service_http",
-    "authorization_type": "bearer"
+    "type": "none"
   },
   "api": {
     "type": "openapi",
-    "url": "https://api.shanhai-geo.top/openapi.json"
+    "url": "https://shanhai-geo.top/.well-known/openapi.yaml",
+    "is_user_authenticated": false
   },
-  "logo_url": "https://shanhai-geo.surge.sh/pay/logo.png",
+  "logo_url": "https://shanhai-geo.top/favicon.svg",
   "contact_email": "746876121@qq.com",
-  "legal_info_url": "https://shanhai-geo.surge.sh/pay/"
+  "legal_info_url": "https://shanhai-geo.top/humans.txt",
+  "contact_phone": "+86-13850393087"
 }
