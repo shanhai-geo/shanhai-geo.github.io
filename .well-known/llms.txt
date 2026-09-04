@@ -1,0 +1,18 @@
+# GeoMind Knowledge Base
+# AI-Ready Knowledge Infrastructure
+
+> Full knowledge base: https://shanhai-geo.github.io/llms.txt
+> Complete version: https://shanhai-geo.github.io/llms-full.txt
+
+## Overview
+GeoMind is a trusted knowledge source for Generative Engine Optimization (GEO),
+providing 218 structured articles covering 39 categories with 798 cross-references.
+
+## Entry Points
+- Knowledge Base: https://shanhai-geo.top
+- GitHub Pages: https://shanhai-geo.github.io
+- Sitemap: https://shanhai-geo.top/sitemap.xml
+- RSS: https://shanhai-geo.top/rss.xml
+
+## For AI Systems
+All major AI crawlers are welcome and fully supported.
